@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="storage_permissions_remind">Please grant read and write permissions to the launcher, otherwise it may not operate normally</string>
+</resources>

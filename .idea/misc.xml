@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/color_button_white.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_arrow_white.xml" value="0.16111111111111112" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_arrow_drop_down_black.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_close_black.xml" value="0.13697916666666668" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_create_black.xml" value="0.13697916666666668" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_cube_black.xml" value="0.13802083333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_delete_black.xml" value="0.13802083333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_donate_black.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_earth_black.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_exterior_black.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_game_pad_black.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_hanger_black.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_jump_black.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_keyboard_arrow_down_black.xml" value="0.13802083333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_keyboard_arrow_up_black.xml" value="0.13802083333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_launch_black.xml" value="0.13802083333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_microsoft_black.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_mojang_black.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_more_vert_black.xml" value="0.14166666666666666" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_pack_black.xml" value="0.13802083333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_person_black.xml" value="0.23055555555555557" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_refresh_black.xml" value="0.15104166666666666" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_server_black.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_settings_black.xml" value="0.15104166666666666" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_texture_black.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_baseline_web_asset_black.xml" value="0.14166666666666666" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_horizontal_white.xml" value="0.16111111111111112" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_outline_about_black.xml" value="0.13489583333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_outline_add_black.xml" value="0.2324074074074074" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_outline_download_black.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_outline_error_outline_black.xml" value="0.26979166666666665" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_outline_extension_black.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_outline_feedback_black.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_outline_folder_open_black.xml" value="0.13697916666666668" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_outline_help_outline_black.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_outline_settings_black.xml" value="0.15104166666666666" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/ic_outline_videogame_asset_black.xml" value="0.2324074074074074" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/launcher_background_color_white.xml" value="0.15104166666666666" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/launcher_button_blue.xml" value="0.16111111111111112" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/launcher_button_light_gray.xml" value="0.14166666666666666" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/launcher_button_parent.xml" value="0.16111111111111112" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/launcher_button_white.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/launcher_text_blue.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/launcher_view_blue.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/launcher_view_light_gray.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/launcher_view_light_gray_clickable.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/drawable/launcher_view_white.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout-land/activity_main.xml" value="0.21472663139329806" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/dialog_add_microsoft_account.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/dialog_add_mojang_account.xml" value="0.12135416666666667" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/dialog_add_offline_account.xml" value="0.12239583333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/dialog_add_verify_server.xml" value="0.1234375" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/item_content_list.xml" value="0.12083333333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/item_download_mod_list.xml" value="0.134375" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/item_local_version.xml" value="0.4" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/item_spinner.xml" value="0.13802083333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/item_spinner_drop_down.xml" value="0.13802083333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_account.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_add_game_diectory.xml" value="0.12083333333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_add_game_directory.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_download.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_download_minecraft.xml" value="0.1296875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_download_mod.xml" value="0.1296875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_download_package.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_download_res.xml" value="0.13489583333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_download_resource_pack.xml" value="0.1296875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_download_world.xml" value="0.1296875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_game_manager.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_install_minecraft.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_install_package.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_install_version.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_main.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_setting.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_setting_about.xml" value="0.121875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_setting_donate.xml" value="0.121875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_setting_download.xml" value="0.8357142857142857" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_setting_exterior.xml" value="0.121875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_setting_feedback.xml" value="0.121875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_setting_global_game.xml" value="0.121875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_setting_help.xml" value="0.121875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_setting_universal.xml" value="0.121875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/layout/ui_version_list.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/menu/menu.xml" value="0.12552083333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/drawable-v21/lfile_back_bg.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/drawable-v21/lfile_btn_bg.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/drawable/back_bg.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/drawable/btn_bg.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/drawable/dfileselector_bottom_submit_selector.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/drawable/dfileselector_head_upper_level_selector.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/drawable/dfileselector_list_item_selector.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/drawable/item_bg_selector.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/drawable/lfile_back_bg.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/drawable/lfile_btn_bg.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/drawable/nav_selector.xml" value="0.14322916666666666" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/layout/activity_lfile_picker.xml" value="0.1296875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/layout/dfileselector_activity_file_selector.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/layout/dfileselector_head_bar.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/layout/dfileselector_layout.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/layout/dfileselector_list_item.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/layout/dialog_with_text.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/layout/file_item.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/layout/filebrowser_activity_main.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/layout/filebrowser_toolbar.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/layout/filter_options.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/layout/lfile_emptyview.xml" value="0.1296875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/layout/lfile_listitem.xml" value="0.1296875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/menu/menu_main_toolbar.xml" value="0.1296875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/menu/toolbar_default_menu.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/menu/toolbar_default_menu_filechooser.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/menu/toolbar_multiselect_menu.xml" value="0.12708333333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/filepicker/src/main/res/menu/toolbar_multiselect_menu_filechooser.xml" value="0.12708333333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

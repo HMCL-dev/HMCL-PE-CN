@@ -1,0 +1,271 @@
+<resources>
+    <string name="app_name" translatable="false">Hello Minecraft! Launcher Pocket Edition</string>
+    <string name="version_name" translatable="false">v1.0.0</string>
+    <string name="app_bar_title" translatable="false">Hello Minecraft! Launcher Pocket Edition v1.0.0</string>
+
+    <string name="storage_permissions_remind">请授予启动器读写权限，否则可能无法正常运行</string>
+
+    <string name="launcher_scroll_text_account">账户</string>
+    <string name="launcher_scroll_account_name">没有游戏账户</string>
+    <string name="launcher_scroll_account_state">点击此处添加账户</string>
+    <string name="launcher_scroll_text_game">游戏</string>
+    <string name="launcher_scroll_game_manager">没有游戏版本</string>
+    <string name="launcher_scroll_game_none">进入下载页安装游戏</string>
+    <string name="launcher_scroll_version_list">版本列表</string>
+    <string name="launcher_scroll_download">下载</string>
+    <string name="launcher_scroll_text_universal">通用</string>
+    <string name="launcher_scroll_multi_player">多人联机</string>
+    <string name="launcher_scroll_setting">设置</string>
+    <string name="launcher_button_launch">启动游戏</string>
+    <string name="launcher_button_current_version">没有游戏版本</string>
+    <string name="launcher_spinner_text">▲</string>
+
+    <string name="account_ui_title">账户列表</string>
+    <string name="account_scroll_add_account">添加账户</string>
+    <string name="account_offline_login">离线模式</string>
+    <string name="account_mojang_login">Mojang 账号</string>
+    <string name="account_microsoft_login">微软账户</string>
+    <string name="account_external_login">添加认证服务器</string>
+    <string name="account_auth_lib_injector">外置登录(authlib-injector)</string>
+
+    <string name="dialog_add_offline_account_title">添加离线模式账户</string>
+    <string name="dialog_add_offline_account_name">用户名</string>
+    <string name="dialog_add_offline_account_purchase"><a href='https://www.minecraft.net/zh-hans/store/minecraft-java-edition'>购买 Minecraft</a></string>
+    <string name="dialog_add_offline_account_advance">高级设置</string>
+    <string name="dialog_add_offline_account_uuid">UUID</string>
+    <string name="dialog_add_offline_account_hint">提示</string>
+    <string name="dialog_add_offline_account_hint_text">UUID 是 Minecraft 对玩家角色的唯一标识符，每个启动器生成 UUID 的方式可能不同。通过修改 UUID 选项至原启动器所生成的 UUID，你可以保证在切换启动器后，游戏还能将你的游戏角色识别为给定 UUID 所对应的角色，从而保留原来角色的背包物品。UUID 选项为高级选项，除非你知道你在做什么，否则你不需要调整该选项。</string>
+    <string name="dialog_add_offline_account_login">登录</string>
+    <string name="dialog_add_offline_account_cancel">取消</string>
+
+    <string name="dialog_add_mojang_account_title">添加 Mojang 账户</string>
+    <string name="dialog_add_mojang_account_email">用户名</string>
+    <string name="dialog_add_mojang_account_password">密码</string>
+    <string name="dialog_add_mojang_account_purchase"><a href='https://www.minecraft.net/zh-hans/store/minecraft-java-edition'>购买 Minecraft</a></string>
+    <string name="dialog_add_mojang_account_help"><a href='https://help.minecraft.net/hc/en-us/articles/360050865492-JAVA-Account-Migration-FAQ'>迁移至微软账户</a></string>
+    <string name="dialog_add_mojang_account_migrate"><a href='https://www.minecraft.net/zh-hans/login?return_url=/zh-hans/profile'>迁移至微软账户</a></string>
+    <string name="dialog_add_mojang_account_login">登录</string>
+    <string name="dialog_add_mojang_account_cancel">取消</string>
+
+    <string name="dialog_add_microsoft_account_title">添加微软账户</string>
+    <string name="dialog_add_microsoft_account_hint">提示</string>
+    <string name="dialog_add_microsoft_account_hint_text">您需要点击登录按钮，并在新打开的浏览器窗口中完成登录。</string>
+    <string name="dialog_add_microsoft_account_purchase"><a href='https://www.minecraft.net/zh-hans/store/minecraft-java-edition'>购买 Minecraft</a></string>
+    <string name="dialog_add_microsoft_account_help"><a href='https://support.microsoft.com/zh-cn/account-billing/%E5%A6%82%E4%BD%95%E6%9B%B4%E6%94%B9-microsoft-%E5%B8%90%E6%88%B7%E4%B8%8A%E7%9A%84%E5%87%BA%E7%94%9F%E6%97%A5%E6%9C%9F-837badbc-999e-54d2-2617-d19206b9540a'>如何修改账户出生日期</a></string>
+    <string name="dialog_add_microsoft_account_setting"><a href='https://account.live.com/editprof.aspx'>账户设置页</a></string>
+    <string name="dialog_add_microsoft_account_login">登录</string>
+    <string name="dialog_add_microsoft_account_cancel">取消</string>
+
+    <string name="dialog_add_verify_server_title">添加认证服务器</string>
+    <string name="dialog_add_verify_server_hint">服务器地址</string>
+    <string name="dialog_add_verify_server_cancel">取消</string>
+    <string name="dialog_add_verify_server_next">下一步 ></string>
+
+    <string name="version_list_ui_title">版本列表</string>
+    <string name="version_list_ui_add_dir">添加游戏目录</string>
+    <string name="version_list_ui_download_new_version">安装新游戏版本</string>
+    <string name="version_list_ui_install_package">安装整合包</string>
+    <string name="version_list_ui_refresh">刷新</string>
+    <string name="version_list_ui_global_setting">全局游戏设置</string>
+    <string name="version_list_ui_none">没有已安装的游戏，你可以切换其他游戏目录，或者点击此处进入游戏下载页面</string>
+    
+    <string name="default_game_file_directory_list_pri">公有目录</string>
+    <string name="default_game_file_directory_list_pri_path">/storage/emulated/0/HMCLPE/.minecraft</string>
+    <string name="default_game_file_directory_list_sec">私有目录</string>
+    <string name="default_game_file_directory_list_sec_path">/storage/emulated/0/Android/data/com.tungsten.hmclpe/files/.minecraft</string>
+    
+    <string name="add_game_dir_ui_title">添加游戏目录</string>
+    <string name="add_game_dir_ui_name">名称</string>
+    <string name="add_game_dir_ui_path">游戏路径</string>
+    <string name="add_game_dir_ui_save">保存</string>
+    <string name="add_game_dir_ui_alert">该名称已存在</string>
+
+    <string name="download_ui_title">下载</string>
+    <string name="download_ui_game">游戏</string>
+    <string name="download_ui_mod">模组</string>
+    <string name="download_ui_package">整合包</string>
+    <string name="download_ui_resource_pack">资源包</string>
+    <string name="download_ui_world">世界</string>
+
+    <string name="download_minecraft_ui_hint">提示</string>
+    <string name="download_minecraft_ui_hint_text">国内下载源由 BMCLAPI和我的世界中文论坛（MCBBS）提供高速下载服务。BMCLAPI 是公益服务，请赞助 BMCLAPI 以获得稳定高速的下载服务，点击此处查阅详细信息。</string>
+    <string name="download_minecraft_ui_release">正式版</string>
+    <string name="download_minecraft_ui_snapshot">测试版</string>
+    <string name="download_minecraft_ui_old">远古版</string>
+
+    <string name="download_mod_ui_game">游戏</string>
+    <string name="download_mod_ui_source">下载源</string>
+    <string name="download_mod_ui_name">名称</string>
+    <string name="download_mod_ui_name_hint">支持中英文搜索</string>
+    <string name="download_mod_ui_version">游戏版本</string>
+    <string name="download_mod_ui_type">类别</string>
+    <string name="download_mod_ui_sort">排序</string>
+    <string name="download_mod_ui_search">搜索</string>
+
+    <string name="download_package_ui_name">名称</string>
+    <string name="download_package_ui_version">游戏版本</string>
+    <string name="download_package_ui_type">类别</string>
+    <string name="download_package_ui_sort">排序</string>
+    <string name="download_package_ui_name_hint">仅支持英文搜索</string>
+    <string name="download_package_ui_install">安装整合包</string>
+    <string name="download_package_ui_search">搜索</string>
+    
+    <string name="download_mod_sort_date">创建日期</string>
+    <string name="download_mod_sort_heat">热度</string>
+    <string name="download_mod_sort_recent">最近更新</string>
+    <string name="download_mod_sort_name">名称</string>
+    <string name="download_mod_sort_author">作者</string>
+    <string name="download_mod_sort_downloads">下载量</string>
+
+    <string-array name="download_mod_categories">
+        <item>全部</item>
+        <item>信息展示</item>
+        <item>模组扩展</item>
+        <item>血魔法</item>
+        <item>工业 (Industrialcraft)</item>
+        <item>匠魂</item>
+        <item>幸运方块 (Lucky Blocks)</item>
+        <item>建筑 (Buildcraft)</item>
+        <item>CraftTweaker</item>
+        <item>神秘 (Thaumcraft)</item>
+        <item>林业 (Forestry)</item>
+        <item>应用能源 2 (Applied Energistics 2)</item>
+        <item>热力膨胀 (Thermal Expansion)</item>
+        <item>装备武器</item>
+        <item>存储</item>
+        <item>魔法</item>
+        <item>科技</item>
+        <item>交通运输</item>
+        <item>物流运输</item>
+        <item>基因</item>
+        <item>机器处理</item>
+        <item>农业</item>
+        <item>能源</item>
+        <item>自动化</item>
+        <item>Twitch</item>
+        <item>冒险 RPG</item>
+        <item>其他</item>
+        <item>支持库</item>
+        <item>装饰</item>
+        <item>红石</item>
+        <item>世界生成</item>
+        <item>自然生成</item>
+        <item>矿物资源</item>
+        <item>生物</item>
+        <item>生物群系</item>
+        <item>维度</item>
+        <item>服务器</item>
+        <item>食物</item>
+        <item>MCreator</item>
+        <item>Fabric</item>
+    </string-array>
+
+    <string name="download_mod_source_curse_forge">CurseForge</string>
+    <string name="download_mod_source_modrinth">Modrinth</string>
+
+    <string name="download_mod_version_1171">1.17.1</string>
+    <string name="download_mod_version_117">1.17</string>
+    <string name="download_mod_version_1165">1.16.5</string>
+    <string name="download_mod_version_1164">1.16.4</string>
+    <string name="download_mod_version_1163">1.16.3</string>
+    <string name="download_mod_version_1162">1.16.2</string>
+    <string name="download_mod_version_1161">1.16.1</string>
+    <string name="download_mod_version_116">1.16</string>
+    <string name="download_mod_version_1152">1.15.2</string>
+    <string name="download_mod_version_1151">1.15.1</string>
+    <string name="download_mod_version_115">1.15</string>
+    <string name="download_mod_version_1144">1.14.4</string>
+    <string name="download_mod_version_1143">1.14.3</string>
+    <string name="download_mod_version_1142">1.14.2</string>
+    <string name="download_mod_version_1141">1.14.1</string>
+    <string name="download_mod_version_114">1.14</string>
+    <string name="download_mod_version_1132">1.13.2</string>
+    <string name="download_mod_version_1131">1.13.1</string>
+    <string name="download_mod_version_113">1.13</string>
+    <string name="download_mod_version_1122">1.12.2</string>
+    <string name="download_mod_version_1121">1.12.1</string>
+    <string name="download_mod_version_112">1.12</string>
+    <string name="download_mod_version_1112">1.11.2</string>
+    <string name="download_mod_version_1111">1.11.1</string>
+    <string name="download_mod_version_111">1.11</string>
+    <string name="download_mod_version_1102">1.10.2</string>
+    <string name="download_mod_version_1101">1.10.1</string>
+    <string name="download_mod_version_110">1.10</string>
+    <string name="download_mod_version_194">1.9.4</string>
+    <string name="download_mod_version_193">1.9.3</string>
+    <string name="download_mod_version_192">1.9.2</string>
+    <string name="download_mod_version_191">1.9.1</string>
+    <string name="download_mod_version_19">1.9</string>
+    <string name="download_mod_version_189">1.8.9</string>
+    <string name="download_mod_version_188">1.8.8</string>
+    <string name="download_mod_version_187">1.8.7</string>
+    <string name="download_mod_version_186">1.8.6</string>
+    <string name="download_mod_version_185">1.8.5</string>
+    <string name="download_mod_version_184">1.8.4</string>
+    <string name="download_mod_version_183">1.8.3</string>
+    <string name="download_mod_version_182">1.8.2</string>
+    <string name="download_mod_version_181">1.8.1</string>
+    <string name="download_mod_version_18">1.8</string>
+    <string name="download_mod_version_1710">1.7.10</string>
+    <string name="download_mod_version_179">1.7.9</string>
+    <string name="download_mod_version_178">1.7.8</string>
+    <string name="download_mod_version_177">1.7.7</string>
+    <string name="download_mod_version_176">1.7.6</string>
+    <string name="download_mod_version_175">1.7.5</string>
+    <string name="download_mod_version_174">1.7.4</string>
+    <string name="download_mod_version_173">1.7.3</string>
+    <string name="download_mod_version_172">1.7.2</string>
+    <string name="download_mod_version_164">1.6.4</string>
+    <string name="download_mod_version_162">1.6.2</string>
+    <string name="download_mod_version_161">1.6.1</string>
+    <string name="download_mod_version_152">1.5.2</string>
+    <string name="download_mod_version_151">1.5.1</string>
+    <string name="download_mod_version_147">1.4.7</string>
+    <string name="download_mod_version_146">1.4.6</string>
+    <string name="download_mod_version_145">1.4.5</string>
+    <string name="download_mod_version_144">1.4.4</string>
+    <string name="download_mod_version_142">1.4.2</string>
+    <string name="download_mod_version_132">1.3.2</string>
+    <string name="download_mod_version_131">1.3.1</string>
+    <string name="download_mod_version_125">1.2.5</string>
+    <string name="download_mod_version_124">1.2.4</string>
+    <string name="download_mod_version_123">1.2.3</string>
+    <string name="download_mod_version_122">1.2.2</string>
+    <string name="download_mod_version_121">1.2.1</string>
+    <string name="download_mod_version_11">1.1</string>
+    <string name="download_mod_version_10">1.0</string>
+
+    <string name="setting_ui_title">设置</string>
+    <string name="setting_ui_public_game_setting">全局游戏设置</string>
+    <string name="setting_ui_launcher">启动器</string>
+    <string name="setting_ui_universal">通用</string>
+    <string name="setting_ui_exterior">外观</string>
+    <string name="setting_ui_download">下载</string>
+    <string name="setting_ui_help">帮助</string>
+    <string name="setting_ui_feedback">反馈</string>
+    <string name="setting_ui_donate">赞助</string>
+    <string name="setting_ui_about">关于</string>
+    
+    <string name="game_setting_ui_java_path">Java 路径</string>
+    <string name="game_setting_ui_version_isolation">版本隔离（修改后请自行移动相关游戏文件，如存档模组配置等）</string>
+    <string name="game_setting_ui_game_ram">游戏内存</string>
+    <string name="game_setting_ui_auto_ram">自动分配</string>
+    <string name="game_setting_ui_min_ram">最低分配</string>
+    <string name="game_setting_ui_ram">MB</string>
+    <string name="game_setting_ui_used_ram">已使用</string>
+    <string name="game_setting_ui_total_ram">总内存</string>
+    <string name="game_setting_ui_actual_distribution">实际分配</string>
+    <string name="game_setting_ui_resolution">游戏窗口分辨率</string>
+    <string name="game_setting_ui_full_screen">全屏</string>
+    <string name="game_setting_ui_log">查看日志</string>
+    <string name="game_setting_ui_server">服务器地址</string>
+    <string name="game_setting_ui_server_hint">默认，启动游戏后可以直接进入对应服务器</string>
+    <string name="game_setting_ui_advance_setting">高级设置</string>
+    <string name="game_setting_ui_debug_setting">调试选项</string>
+    <string name="game_setting_ui_check_game">不检查游戏完整性</string>
+    <string name="game_setting_ui_check_runtime">不检查运行库完整性</string>
+    <string name="game_setting_ui_check_forge">不检查Forge动画禁用情况</string>
+    <string name="game_setting_ui_gl4es">游戏渲染</string>
+    <string name="game_setting_ui_gl4es_114">GL4ES-1.1.4</string>
+    <string name="game_setting_ui_gl4es_115">GL4ES-1.1.5</string>
+</resources>
