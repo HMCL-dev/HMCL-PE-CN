@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Hello Minecraft! Launcher Pocket Edition</string>
+    <string name="app_name" translatable="false">HMCL-PE</string>
     <string name="version_name" translatable="false">v1.0.0</string>
     <string name="app_bar_title" translatable="false">Hello Minecraft! Launcher Pocket Edition v1.0.0</string>
 
