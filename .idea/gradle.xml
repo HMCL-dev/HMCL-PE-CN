@@ -11,8 +11,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/FilePicker" />
+            <option value="$PROJECT_DIR$/HMCLPE" />
             <option value="$PROJECT_DIR$/PojavCore" />
-            <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

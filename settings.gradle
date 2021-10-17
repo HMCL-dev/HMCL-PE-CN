@@ -8,6 +8,6 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Hello Minecraft Launcher Pocket Edition"
-include ':app'
+include ':HMCLPE'
 include ':FilePicker'
 include ':PojavCore'

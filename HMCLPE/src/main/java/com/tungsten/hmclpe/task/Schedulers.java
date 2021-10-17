@@ -51,8 +51,8 @@ public final class Schedulers {
         Logging.LOG.info("Shutting down executor services.");
 
         // shutdownNow will interrupt all threads.
-        // So when we want to close the app, no threads need to be waited for finish.
-        // Sometimes it resolves the problem that the app does not exit.
+        // So when we want to close the HMCLPE, no threads need to be waited for finish.
+        // Sometimes it resolves the problem that the HMCLPE does not exit.
 
         if (IO_EXECUTOR != null)
             IO_EXECUTOR.shutdownNow();
