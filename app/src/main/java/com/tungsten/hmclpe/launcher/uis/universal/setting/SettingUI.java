@@ -74,7 +74,7 @@ public class SettingUI extends BaseUI implements View.OnClickListener {
             settingUIManager.switchSettingUIs(settingUIManager.universalGameSettingUI);
         }
         if (v == startUniversalSettingUI){
-
+            settingUIManager.switchSettingUIs(settingUIManager.universalSettingUI);
         }
         if (v == startExteriorSettingUI){
 
