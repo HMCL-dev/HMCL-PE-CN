@@ -15,11 +15,6 @@ public class BaseActivity extends AppCompatActivity
         Tools.setFullscreen(this);
         Tools.updateWindowSize(this);
     }
-    
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(LocaleUtils.setLocale(base));
-    }
 
     @Override
     public void startActivity(Intent i) {

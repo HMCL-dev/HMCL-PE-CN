@@ -10,6 +10,8 @@ import android.graphics.*;
 import android.os.*;
 import android.view.*;
 
+import androidx.preference.PreferenceManager;
+
 import java.io.File;
 import java.io.PrintStream;
 import java.util.*;
@@ -56,6 +58,7 @@ public class BaseMainActivity extends LoggableActivity {
                     private boolean isCalled = false;
                     @Override
                     public void onSurfaceTextureAvailable(SurfaceTexture texture, int width, int height) {
+                        LauncherPreferences.DEFAULT_PREF = PreferenceManager.getDefaultSharedPreferences(BaseMainActivity.this);
                         scaleFactor = (LauncherPreferences.DEFAULT_PREF.getInt("resolutionRatio",100)/100f);
                         windowWidth = Tools.getDisplayFriendlyRes(width, scaleFactor);
                         windowHeight = Tools.getDisplayFriendlyRes(height, scaleFactor);
