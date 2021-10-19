@@ -44,6 +44,12 @@
                     android:host="auth"/>
             </intent-filter>
         </activity>
+        <activity
+            android:launchMode="standard"
+            android:multiprocess="true"
+            android:screenOrientation="sensorLandscape"
+            android:name=".launcher.launch.MinecraftActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"/>
     </application>
 
 </manifest>

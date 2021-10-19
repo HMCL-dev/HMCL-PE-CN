@@ -11,6 +11,7 @@ import android.os.*;
 import android.view.*;
 
 import java.io.File;
+import java.io.PrintStream;
 import java.util.*;
 
 import net.kdt.pojavlaunch.prefs.*;
@@ -27,6 +28,9 @@ public class BaseMainActivity extends LoggableActivity {
     private MinecraftGLView minecraftGLView;
     private int guiScale;
 
+    private File logFile;
+    private PrintStream logStream;
+
     private GameSetting gameSetting;
 
     // @Override
@@ -40,6 +44,11 @@ public class BaseMainActivity extends LoggableActivity {
         this.gameSetting = gameSetting;
 
         try {
+            logFile = new File(gameSetting.gameFileDirectory, "latestlog.txt");
+            logFile.delete();
+            logFile.createNewFile();
+            logStream = new PrintStream(logFile.getAbsolutePath());
+
             this.minecraftGLView = findViewById(R.id.main_game_render_view);
 
             minecraftGLView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener(){
@@ -234,6 +243,6 @@ public class BaseMainActivity extends LoggableActivity {
 
     @Override
     public void appendToLog(String text, boolean checkAllow) {
-
+        logStream.print(text);
     }
 }
