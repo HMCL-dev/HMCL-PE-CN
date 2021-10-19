@@ -10,11 +10,11 @@ public class PrivateGameSetting {
     public String extraJavaFlags;
     public String extraMinecraftFlags;
     public String game_directory;
-    public String width;
-    public String height;
-    public String serverIP;
+    public String renderer;
+    public int width;
+    public int height;
 
-    public PrivateGameSetting (boolean enable,boolean notCheckJvm,boolean notCheckMinecraft,boolean notCheckForge,String runtimePath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,String width,String height,String serverIP){
+    public PrivateGameSetting (boolean enable,boolean notCheckJvm,boolean notCheckMinecraft,boolean notCheckForge,String runtimePath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,String renderer,int width,int height){
         this.enable = enable;
         this.notCheckJvm = notCheckJvm;
         this.notCheckMinecraft = notCheckMinecraft;
@@ -23,9 +23,9 @@ public class PrivateGameSetting {
         this.extraJavaFlags = extraJavaFlags;
         this.extraMinecraftFlags = extraMinecraftFlags;
         this.game_directory = game_directory;
+        this.renderer = renderer;
         this.width = width;
         this.height = height;
-        this.serverIP = serverIP;
     }
 
 }

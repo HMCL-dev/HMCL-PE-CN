@@ -55,7 +55,7 @@ public class InitializeSetting {
             else {
                 currentVersion = "";
             }
-            Account account = new Account(0,"","","","","","","","");
+            Account account = new Account(0,"","","","","","","","","");
             publicGameSetting = new PublicGameSetting(account,AppManifest.LAUNCHER_DIR,currentVersion);
             GsonUtils.savePublicGameSetting(publicGameSetting,AppManifest.SETTING_DIR + "/public_game_setting.json");
         }
@@ -68,7 +68,7 @@ public class InitializeSetting {
             privateGameSetting = GsonUtils.getPrivateGameSettingFromFile(AppManifest.SETTING_DIR + "/private_game_setting.json");
         }
         else {
-            privateGameSetting = new PrivateGameSetting(false,false,false,false,AppManifest.DEFAULT_RUNTIME_DIR,"-client -Xms4096M -Xmx4096M","",AppManifest.DEFAULT_GAME_DIR,Integer.toString(context.getResources().getDisplayMetrics().widthPixels),Integer.toString(context.getResources().getDisplayMetrics().heightPixels),"");
+            privateGameSetting = new PrivateGameSetting(false,false,false,false,AppManifest.DEFAULT_RUNTIME_DIR,"-client -Xms4096M -Xmx4096M","",AppManifest.DEFAULT_GAME_DIR,"GL4ES-1.1.4",context.getResources().getDisplayMetrics().widthPixels,context.getResources().getDisplayMetrics().heightPixels);
             GsonUtils.savePrivateGameSetting(privateGameSetting,AppManifest.SETTING_DIR + "/private_game_setting.json");
         }
         return privateGameSetting;

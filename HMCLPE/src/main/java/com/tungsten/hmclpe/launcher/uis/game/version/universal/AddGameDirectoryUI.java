@@ -28,7 +28,7 @@ import java.io.File;
 
 public class AddGameDirectoryUI extends BaseUI implements View.OnClickListener {
 
-    public static final int PICK_GAME_FILE_FOLDER_REQUEST = 1000;
+    public static final int PICK_GAME_FILE_FOLDER_REQUEST = 1001;
 
     public LinearLayout addGameDirUI;
 

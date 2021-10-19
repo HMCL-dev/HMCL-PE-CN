@@ -9,9 +9,10 @@ public class Account {
     public String auth_player_name;
     public String auth_uuid;
     public String auth_access_token;
+    public String auth_client_token;
     public String loginServer;
 
-    public Account (int loginType,String email,String password,String user_type,String auth_session,String auth_player_name,String auth_uuid,String auth_access_token,String loginServer){
+    public Account (int loginType,String email,String password,String user_type,String auth_session,String auth_player_name,String auth_uuid,String auth_access_token,String auth_client_token,String loginServer){
         this.loginType = loginType;
         this.email = email;
         this.password = password;
@@ -20,6 +21,7 @@ public class Account {
         this.auth_player_name = auth_player_name;
         this.auth_uuid = auth_uuid;
         this.auth_access_token = auth_access_token;
+        this.auth_client_token = auth_client_token;
         this.loginServer = loginServer;
     }
 }
