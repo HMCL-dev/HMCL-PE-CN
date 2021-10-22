@@ -4,19 +4,37 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 
+import androidx.annotation.RequiresApi;
+
+import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
+import com.tungsten.hmclpe.utils.io.NetworkUtils;
 
-public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener {
+import java.io.IOException;
+
+public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     public LinearLayout downloadMinecraftUI;
 
     private LinearLayout hintLayout;
+
+    private CheckBox checkRelease;
+    private CheckBox checkSnapshot;
+    private CheckBox checkOld;
+
+    private ProgressBar loadingProgress;
+    private ListView mcList;
 
     public DownloadMinecraftUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -29,8 +47,20 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener 
 
         hintLayout = activity.findViewById(R.id.download_minecraft_hint_layout);
         hintLayout.setOnClickListener(this);
+
+        checkRelease = activity.findViewById(R.id.checkbox_release);
+        checkSnapshot = activity.findViewById(R.id.checkbox_snapshot);
+        checkOld = activity.findViewById(R.id.checkbox_old);
+
+        checkRelease.setOnCheckedChangeListener(this);
+        checkSnapshot.setOnCheckedChangeListener(this);
+        checkOld.setOnCheckedChangeListener(this);
+
+        loadingProgress = activity.findViewById(R.id.loading_minecraft_list_progress);
+        mcList = activity.findViewById(R.id.download_minecraft_version_list);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onStart() {
@@ -39,7 +69,11 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener 
         if (activity.isLoaded){
             activity.uiManager.downloadUI.startDownloadGameUI.setBackground(context.getResources().getDrawable(R.drawable.launcher_button_white));
         }
-        init();
+        try {
+            init();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -52,8 +86,10 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener 
         }
     }
 
-    private void init(){
-
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void init() throws IOException {
+        String response = NetworkUtils.doGet(NetworkUtils.toURL(""));
+        Gson gson = new Gson();
     }
 
     @Override
@@ -69,5 +105,18 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener 
     @Override
     public void onLoaded() {
         activity.uiManager.downloadUI.startDownloadGameUI.setBackground(context.getResources().getDrawable(R.drawable.launcher_button_white));
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (buttonView == checkRelease){
+
+        }
+        if (buttonView == checkSnapshot){
+
+        }
+        if (buttonView == checkOld){
+
+        }
     }
 }
