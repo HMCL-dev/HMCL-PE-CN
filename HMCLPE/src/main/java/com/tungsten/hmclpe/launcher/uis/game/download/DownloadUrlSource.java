@@ -2,9 +2,9 @@ package com.tungsten.hmclpe.launcher.uis.game.download;
 
 public class DownloadUrlSource {
 
-    public static String DOWNLOAD_URL_SOURCE_OFFICIAL = "official";
-    public static String DOWNLOAD_URL_SOURCE_BMCLAPI = "bmclapi";
-    public static String DOWNLOAD_URL_SOURCE_MCBBS = "mcbbs";
+    public static int DOWNLOAD_URL_SOURCE_OFFICIAL = 0;
+    public static int DOWNLOAD_URL_SOURCE_BMCLAPI = 1;
+    public static int DOWNLOAD_URL_SOURCE_MCBBS = 2;
 
     public static int VERSION_MANIFEST = 0;
     public static int VERSION_JSON = 1;
@@ -40,16 +40,16 @@ public class DownloadUrlSource {
             "https://download.mcbbs.net/maven"
     };
 
-    public static String replaceUrlTitle(String url,String source , int type){
+    public static String replaceSubUrl(String url , int source , int type){
         StringBuilder stringBuilder = new StringBuilder(url);
-        return stringBuilder.replace(0,getUrlTitle(DOWNLOAD_URL_SOURCE_OFFICIAL,type).length(),getUrlTitle(source,type)).toString();
+        return stringBuilder.replace(0,getSubUrl(DOWNLOAD_URL_SOURCE_OFFICIAL,type).length(),getSubUrl(source,type)).toString();
     }
 
-    public static String getUrlTitle(String source , int type){
-        if (source.equals(DOWNLOAD_URL_SOURCE_OFFICIAL)){
+    public static String getSubUrl(int source , int type){
+        if (source == DOWNLOAD_URL_SOURCE_OFFICIAL){
             return OFFICIAL_URLS[type];
         }
-        else if (source.equals(DOWNLOAD_URL_SOURCE_BMCLAPI)){
+        else if (source == DOWNLOAD_URL_SOURCE_BMCLAPI){
             return BMCLAPI_URLS[type];
         }
         else {

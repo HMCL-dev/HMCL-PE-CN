@@ -11,12 +11,15 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.download.minecraft.game.VersionManifest;
+import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.io.NetworkUtils;
@@ -52,6 +55,8 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
         checkSnapshot = activity.findViewById(R.id.checkbox_snapshot);
         checkOld = activity.findViewById(R.id.checkbox_old);
 
+        checkRelease.setChecked(true);
+
         checkRelease.setOnCheckedChangeListener(this);
         checkSnapshot.setOnCheckedChangeListener(this);
         checkOld.setOnCheckedChangeListener(this);
@@ -69,11 +74,7 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
         if (activity.isLoaded){
             activity.uiManager.downloadUI.startDownloadGameUI.setBackground(context.getResources().getDrawable(R.drawable.launcher_button_white));
         }
-        try {
-            init();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        init();
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -87,9 +88,19 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void init() throws IOException {
-        String response = NetworkUtils.doGet(NetworkUtils.toURL(""));
-        Gson gson = new Gson();
+    private void init(){
+        new Thread(){
+            @Override
+            public void run(){
+                try {
+                    String response = NetworkUtils.doGet(NetworkUtils.toURL(DownloadUrlSource.getSubUrl(activity.launcherSetting.downloadUrlSource,DownloadUrlSource.VERSION_MANIFEST)));
+                    Gson gson = new Gson();
+                    VersionManifest versionManifest = gson.fromJson(response,VersionManifest.class);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 
     @Override
@@ -110,7 +121,7 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (buttonView == checkRelease){
-
+            Toast.makeText(context,"afa",Toast.LENGTH_SHORT).show();
         }
         if (buttonView == checkSnapshot){
 
