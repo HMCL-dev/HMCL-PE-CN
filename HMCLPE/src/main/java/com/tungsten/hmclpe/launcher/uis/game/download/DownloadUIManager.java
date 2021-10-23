@@ -3,7 +3,7 @@ package com.tungsten.hmclpe.launcher.uis.game.download;
 import android.content.Context;
 
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.uis.game.download.right.DownloadMinecraftUI;
+import com.tungsten.hmclpe.launcher.uis.game.download.right.game.DownloadMinecraftUI;
 import com.tungsten.hmclpe.launcher.uis.game.download.right.DownloadModUI;
 import com.tungsten.hmclpe.launcher.uis.game.download.right.DownloadPackageUI;
 import com.tungsten.hmclpe.launcher.uis.game.download.right.DownloadResourcePackUI;

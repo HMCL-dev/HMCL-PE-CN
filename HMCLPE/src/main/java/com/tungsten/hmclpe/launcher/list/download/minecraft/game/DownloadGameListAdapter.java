@@ -1,6 +1,8 @@
 package com.tungsten.hmclpe.launcher.list.download.minecraft.game;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.minecraft.game.VersionManifest;
+import com.tungsten.hmclpe.utils.string.StringUtils;
 
 import java.util.ArrayList;
 
@@ -19,7 +22,7 @@ public class DownloadGameListAdapter extends BaseAdapter {
 
     private Context context;
     private MainActivity activity;
-    private ArrayList<VersionManifest.AllVersions> versions;
+    private ArrayList<VersionManifest.Versions> versions;
 
     private class ViewHolder{
         LinearLayout item;
@@ -29,7 +32,42 @@ public class DownloadGameListAdapter extends BaseAdapter {
         TextView releaseTime;
     }
 
-    public DownloadGameListAdapter(Context context, MainActivity activity, ArrayList<VersionManifest.AllVersions> versions){
+    private String getType(String type){
+        if (type.equals("release")){
+            return context.getString(R.string.download_minecraft_ui_release);
+        }
+        else if (type.equals("snapshot")){
+            return context.getString(R.string.download_minecraft_ui_snapshot);
+        }
+        else {
+            return context.getString(R.string.download_minecraft_ui_old);
+        }
+    }
+
+    private String getReleaseTime(String time){
+        int p1 = time.indexOf("-",0);
+        String str1 = StringUtils.substringBefore(time,"-") + " " + context.getString(R.string.download_minecraft_item_year) + " " + time.substring(p1 + 1);
+        int p2 = str1.indexOf("-",0);
+        String str2 = StringUtils.substringBefore(str1,"-") + " " + context.getString(R.string.download_minecraft_item_month) + " " + str1.substring(p2 + 1);
+        int p3 = str2.indexOf("T",0);
+        String str3 = StringUtils.substringBefore(str2,"T") + " " + context.getString(R.string.download_minecraft_item_day) + " " + str2.substring(p3 + 1);
+        return StringUtils.substringBefore(str3,"+");
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private Drawable getIcon(String type){
+        if (type.equals("release")){
+            return context.getDrawable(R.drawable.ic_grass);
+        }
+        else if (type.equals("snapshot")){
+            return context.getDrawable(R.drawable.ic_command);
+        }
+        else {
+            return context.getDrawable(R.drawable.ic_craft_table);
+        }
+    }
+
+    public DownloadGameListAdapter(Context context, MainActivity activity, ArrayList<VersionManifest.Versions> versions){
         this.context = context;
         this.activity = activity;
         this.versions = versions;
@@ -66,7 +104,17 @@ public class DownloadGameListAdapter extends BaseAdapter {
         else {
             viewHolder = (ViewHolder)convertView.getTag();
         }
-        
+        VersionManifest.Versions version = versions.get(position);
+        viewHolder.icon.setImageDrawable(getIcon(version.type));
+        viewHolder.mcId.setText(version.id);
+        viewHolder.type.setText(getType(version.type));
+        viewHolder.releaseTime.setText(getReleaseTime(version.releaseTime));
+        viewHolder.item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         return convertView;
     }
 }

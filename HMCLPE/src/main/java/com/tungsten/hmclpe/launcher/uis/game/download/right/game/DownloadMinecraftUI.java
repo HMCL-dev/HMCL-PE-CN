@@ -1,30 +1,34 @@
-package com.tungsten.hmclpe.launcher.uis.game.download.right;
+package com.tungsten.hmclpe.launcher.uis.game.download.right.game;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.minecraft.game.VersionManifest;
+import com.tungsten.hmclpe.launcher.list.download.minecraft.game.DownloadGameListAdapter;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.io.NetworkUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -92,13 +96,34 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
         new Thread(){
             @Override
             public void run(){
+                loadingHandler.sendEmptyMessage(0);
                 try {
                     String response = NetworkUtils.doGet(NetworkUtils.toURL(DownloadUrlSource.getSubUrl(activity.launcherSetting.downloadUrlSource,DownloadUrlSource.VERSION_MANIFEST)));
                     Gson gson = new Gson();
                     VersionManifest versionManifest = gson.fromJson(response,VersionManifest.class);
+                    ArrayList<VersionManifest.Versions> list = new ArrayList<>();
+                    for (VersionManifest.Versions versions : versionManifest.versions){
+                        if (checkRelease.isChecked() && versions.type.equals("release")){
+                            list.add(versions);
+                        }
+                        if (checkSnapshot.isChecked() && versions.type.equals("snapshot")){
+                            list.add(versions);
+                        }
+                        if (checkOld.isChecked() && (versions.type.equals("old_alpha") || versions.type.equals("old_beta"))){
+                            list.add(versions);
+                        }
+                    }
+                    DownloadGameListAdapter downloadGameListAdapter = new DownloadGameListAdapter(context,activity,list);
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mcList.setAdapter(downloadGameListAdapter);
+                        }
+                    });
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                loadingHandler.sendEmptyMessage(1);
             }
         }.start();
     }
@@ -118,16 +143,25 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
         activity.uiManager.downloadUI.startDownloadGameUI.setBackground(context.getResources().getDrawable(R.drawable.launcher_button_white));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (buttonView == checkRelease){
-            Toast.makeText(context,"afa",Toast.LENGTH_SHORT).show();
-        }
-        if (buttonView == checkSnapshot){
-
-        }
-        if (buttonView == checkOld){
-
-        }
+        init();
     }
+
+    @SuppressLint("HandlerLeak")
+    private final Handler loadingHandler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 0){
+                mcList.setVisibility(View.GONE);
+                loadingProgress.setVisibility(View.VISIBLE);
+            }
+            if (msg.what == 1){
+                mcList.setVisibility(View.VISIBLE);
+                loadingProgress.setVisibility(View.GONE);
+            }
+        }
+    };
 }
