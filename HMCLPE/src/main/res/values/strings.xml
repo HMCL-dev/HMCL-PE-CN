@@ -103,6 +103,11 @@
     <string name="install_game_ui_forge_not_compatible">与 Forge 不兼容</string>
     <string name="install_game_ui_fabric_not_compatible">与 Fabric 不兼容</string>
     <string name="install_game_ui_install">安装</string>
+    <string name="install_game_ui_minecraft">Minecraft</string>
+    <string name="install_game_ui_forge">Forge</string>
+    <string name="install_game_ui_liteloader">LiteLoader</string>
+    <string name="install_game_ui_optifine">OptiFine</string>
+    <string name="install_game_ui_fabric">Fabric</string>
 
     <string name="download_mod_ui_game">游戏</string>
     <string name="download_mod_ui_source">下载源</string>

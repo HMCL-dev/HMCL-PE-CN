@@ -173,21 +173,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (uiManager.currentUI == uiManager.mainUI){
                 backToDeskTop();
             }
-            else if (uiManager.currentUI == uiManager.versionListUI){
-                uiManager.switchMainUI(uiManager.mainUI);
-            }
             else {
-                uiManager.switchMainUI(uiManager.previousUI);
+                uiManager.uis.get(uiManager.uis.size() - 1).onStop();
+                uiManager.uis.remove(uiManager.uis.size() - 1);
+                uiManager.currentUI = uiManager.uis.get(uiManager.uis.size() - 1);
+                uiManager.uis.get(uiManager.uis.size() - 1).onStart();
             }
         }
     }
 
     public void backToHome(){
         uiManager.switchMainUI(uiManager.mainUI);
+        uiManager.uis.clear();
+        uiManager.uis.add(uiManager.mainUI);
     }
 
     public void closeCurrentUI(){
-
+        for (int i = 0;i < uiManager.uis.size();i++){
+            if (uiManager.uis.get(i) == uiManager.installGameUI){
+                uiManager.uis.remove(i);
+            }
+        }
+        uiManager.downloadUI.onStart();
+        uiManager.installGameUI.onStop();
     }
 
     public void backToDeskTop(){

@@ -6,12 +6,15 @@ import android.content.Intent;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.uis.account.AccountUI;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUI;
+import com.tungsten.hmclpe.launcher.uis.game.download.right.game.InstallGameUI;
 import com.tungsten.hmclpe.launcher.uis.game.manager.GameManagerUI;
 import com.tungsten.hmclpe.launcher.uis.game.version.VersionListUI;
 import com.tungsten.hmclpe.launcher.uis.game.version.universal.AddGameDirectoryUI;
 import com.tungsten.hmclpe.launcher.uis.game.version.universal.InstallPackageUI;
 import com.tungsten.hmclpe.launcher.uis.main.MainUI;
 import com.tungsten.hmclpe.launcher.uis.universal.setting.SettingUI;
+
+import java.util.ArrayList;
 
 public class UIManager {
 
@@ -25,9 +28,11 @@ public class UIManager {
     public AddGameDirectoryUI addGameDirectoryUI;
     public InstallPackageUI installPackageUI;
 
+    public InstallGameUI installGameUI;
+
     public BaseUI[] mainUIs;
+    public ArrayList<BaseUI> uis;
     public BaseUI currentUI;
-    public BaseUI previousUI;
 
     public UIManager (Context context, MainActivity activity){
         mainUI = new MainUI(context,activity);
@@ -40,6 +45,8 @@ public class UIManager {
         addGameDirectoryUI = new AddGameDirectoryUI(context,activity);
         installPackageUI = new InstallPackageUI(context,activity);
 
+        installGameUI = new InstallGameUI(context,activity);
+
         mainUI.onCreate();
         accountUI.onCreate();
         gameManagerUI.onCreate();
@@ -50,21 +57,20 @@ public class UIManager {
         addGameDirectoryUI.onCreate();
         installPackageUI.onCreate();
 
-        mainUIs = new BaseUI[]{mainUI,addGameDirectoryUI,installPackageUI,accountUI,gameManagerUI,versionListUI,downloadUI,settingUI};
+        installGameUI.onCreate();
+
+        mainUIs = new BaseUI[]{mainUI,addGameDirectoryUI,installPackageUI,accountUI,gameManagerUI,versionListUI,downloadUI,settingUI,installGameUI};
+        uis = new ArrayList<>();
         switchMainUI(mainUI);
     }
 
     public void switchMainUI(BaseUI ui){
-        previousUI = currentUI;
         currentUI = ui;
-        for (int i = 0;i < mainUIs.length;i++){
-            if (mainUIs[i] == currentUI){
-                mainUIs[i].onStart();
-            }
-            else if (mainUIs[i] == previousUI) {
-                mainUIs[i].onStop();
-            }
+        ui.onStart();
+        if (uis.size() > 0){
+            uis.get(uis.size() - 1).onStop();
         }
+        uis.add(ui);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data){

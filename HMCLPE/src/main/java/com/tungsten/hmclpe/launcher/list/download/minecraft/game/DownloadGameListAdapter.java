@@ -112,7 +112,8 @@ public class DownloadGameListAdapter extends BaseAdapter {
         viewHolder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                activity.uiManager.installGameUI.version = version;
+                activity.uiManager.switchMainUI(activity.uiManager.installGameUI);
             }
         });
         return convertView;
