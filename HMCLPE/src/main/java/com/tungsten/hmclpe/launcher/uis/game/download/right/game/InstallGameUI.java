@@ -61,8 +61,22 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener {
         deleteLiteLoaderVersion = activity.findViewById(R.id.call_off_install_liteloader);
         deleteOptiFineVersion = activity.findViewById(R.id.call_off_install_optifine);
         deleteFabricVersion = activity.findViewById(R.id.call_off_install_fabric);
+        deleteForgeVersion.setOnClickListener(this);
+        deleteLiteLoaderVersion.setOnClickListener(this);
+        deleteOptiFineVersion.setOnClickListener(this);
+        deleteOptiFineVersion.setOnClickListener(this);
 
         selectForgeVersion = activity.findViewById(R.id.select_forge_version);
+        selectLiteLoaderVersion = activity.findViewById(R.id.select_liteloader_version);
+        selectOptiFineVersion = activity.findViewById(R.id.select_optifine_version);
+        selectFabricVersion = activity.findViewById(R.id.select_fabric_version);
+        selectForgeVersion.setOnClickListener(this);
+        selectLiteLoaderVersion.setOnClickListener(this);
+        selectOptiFineVersion.setOnClickListener(this);
+        selectFabricVersion.setOnClickListener(this);
+
+        install = activity.findViewById(R.id.install_game);
+        install.setOnClickListener(this);
     }
 
     @Override
@@ -70,6 +84,7 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener {
         super.onStart();
         activity.showBarTitle(context.getResources().getString(R.string.install_game_ui_title),false,true);
         CustomAnimationUtils.showViewFromLeft(installGameUI,activity,context,true);
+        init();
     }
 
     @Override
@@ -80,6 +95,37 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        if (v == deleteForgeVersion){
 
+        }
+        if (v == deleteLiteLoaderVersion){
+
+        }
+        if (v == deleteOptiFineVersion){
+
+        }
+        if (v == deleteFabricVersion){
+
+        }
+        if (v == selectForgeVersion){
+
+        }
+        if (v == selectLiteLoaderVersion){
+
+        }
+        if (v == selectOptiFineVersion){
+
+        }
+        if (v == selectFabricVersion){
+
+        }
+        if (v == install){
+
+        }
+    }
+
+    private void init(){
+        editName.setText(version.id);
+        gameVersionText.setText(version.id);
     }
 }

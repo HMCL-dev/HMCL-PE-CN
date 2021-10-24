@@ -81,6 +81,8 @@
     <string name="add_game_dir_ui_alert">该名称已存在</string>
 
     <string name="download_ui_title">下载</string>
+    <string name="download_ui_new_game">新游戏</string>
+    <string name="download_ui_content">游戏内容</string>
     <string name="download_ui_game">游戏</string>
     <string name="download_ui_mod">模组</string>
     <string name="download_ui_package">整合包</string>
