@@ -94,12 +94,11 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"/>
 
-                    <ImageButton
+                    <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/ic_baseline_close_black"
-                        android:id="@+id/call_off_install_minecraft"/>
+                        android:background="@drawable/ic_baseline_close_black" />
 
                 </LinearLayout>
 
@@ -152,16 +151,16 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
+                        android:visibility="gone"
                         android:background="@drawable/ic_baseline_close_black"
                         android:id="@+id/call_off_install_forge"/>
 
-                    <ImageButton
+                    <ImageView
                         android:layout_marginLeft="12dp"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/ic_baseline_arrow_forward_black"
-                        android:id="@+id/select_forge_version_button"/>
+                        android:background="@drawable/ic_baseline_arrow_forward_black" />
 
                 </LinearLayout>
 
@@ -214,16 +213,16 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
+                        android:visibility="gone"
                         android:background="@drawable/ic_baseline_close_black"
                         android:id="@+id/call_off_install_liteloader"/>
 
-                    <ImageButton
+                    <ImageView
                         android:layout_marginLeft="12dp"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/ic_baseline_arrow_forward_black"
-                        android:id="@+id/select_liteloader_version_button"/>
+                        android:background="@drawable/ic_baseline_arrow_forward_black" />
 
                 </LinearLayout>
 
@@ -276,16 +275,16 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
+                        android:visibility="gone"
                         android:background="@drawable/ic_baseline_close_black"
                         android:id="@+id/call_off_install_optifine"/>
 
-                    <ImageButton
+                    <ImageView
                         android:layout_marginLeft="12dp"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/ic_baseline_arrow_forward_black"
-                        android:id="@+id/select_optifine_version_button"/>
+                        android:background="@drawable/ic_baseline_arrow_forward_black" />
 
                 </LinearLayout>
 
@@ -338,16 +337,16 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
+                        android:visibility="gone"
                         android:background="@drawable/ic_baseline_close_black"
                         android:id="@+id/call_off_install_fabric"/>
 
-                    <ImageButton
+                    <ImageView
                         android:layout_marginLeft="12dp"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/ic_baseline_arrow_forward_black"
-                        android:id="@+id/select_fabric_version_button"/>
+                        android:background="@drawable/ic_baseline_arrow_forward_black" />
 
                 </LinearLayout>
 
