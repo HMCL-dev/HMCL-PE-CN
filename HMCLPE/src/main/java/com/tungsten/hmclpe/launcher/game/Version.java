@@ -5,17 +5,14 @@ import java.util.List;
 public class Version {
     /*
     public String id;
-    public String version;
-    public Integer priority;
     public String minecraftArguments;
     public Arguments arguments;
     public String mainClass;
-    public String inheritsFrom;
     public String jar;
-    public AssetIndexInfo assetIndex;
+    public AssetIndex assetIndex;
     public String assets;
     public Integer complianceLevel;
-    public GameJavaVersion javaVersion;
+    public JavaVersion javaVersion;
     public List<Library> libraries;
     public List<CompatibilityRule> compatibilityRules;
     public JsonMap<DownloadType, DownloadInfo> downloads;
@@ -27,6 +24,6 @@ public class Version {
     public Boolean root;
     public Boolean hidden;
     public List<Version> patches;
-
+    
      */
 }
