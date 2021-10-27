@@ -111,6 +111,9 @@
     <string name="install_game_ui_optifine">OptiFine</string>
     <string name="install_game_ui_fabric">Fabric</string>
 
+    <string name="dialog_install_game_title">安装新游戏版本</string>
+    <string name="dialog_install_game_exit">取消</string>
+
     <string name="download_mod_ui_game">游戏</string>
     <string name="download_mod_ui_source">下载源</string>
     <string name="download_mod_ui_name">名称</string>

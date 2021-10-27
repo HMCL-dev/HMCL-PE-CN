@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.dialogs.install.DownloadDialog;
 import com.tungsten.hmclpe.launcher.download.minecraft.game.VersionManifest;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
@@ -18,7 +19,7 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener {
 
     public LinearLayout installGameUI;
 
-    public VersionManifest.Versions version;
+    public VersionManifest.Version version;
 
     private EditText editName;
 
@@ -120,7 +121,8 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener {
 
         }
         if (v == install){
-
+            DownloadDialog downloadDialog = new DownloadDialog(context,editName.getText().toString(),version);
+            downloadDialog.show();
         }
     }
 

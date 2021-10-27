@@ -22,7 +22,7 @@ public class DownloadGameListAdapter extends BaseAdapter {
 
     private Context context;
     private MainActivity activity;
-    private ArrayList<VersionManifest.Versions> versions;
+    private ArrayList<VersionManifest.Version> versions;
 
     private class ViewHolder{
         LinearLayout item;
@@ -67,7 +67,7 @@ public class DownloadGameListAdapter extends BaseAdapter {
         }
     }
 
-    public DownloadGameListAdapter(Context context, MainActivity activity, ArrayList<VersionManifest.Versions> versions){
+    public DownloadGameListAdapter(Context context, MainActivity activity, ArrayList<VersionManifest.Version> versions){
         this.context = context;
         this.activity = activity;
         this.versions = versions;
@@ -104,7 +104,7 @@ public class DownloadGameListAdapter extends BaseAdapter {
         else {
             viewHolder = (ViewHolder)convertView.getTag();
         }
-        VersionManifest.Versions version = versions.get(position);
+        VersionManifest.Version version = versions.get(position);
         viewHolder.icon.setImageDrawable(getIcon(version.type));
         viewHolder.mcId.setText(version.id);
         viewHolder.type.setText(getType(version.type));

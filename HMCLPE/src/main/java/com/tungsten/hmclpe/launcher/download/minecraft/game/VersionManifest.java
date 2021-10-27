@@ -3,9 +3,9 @@ package com.tungsten.hmclpe.launcher.download.minecraft.game;
 public class VersionManifest {
 
     public LatestVersion latest;
-    public Versions[] versions;
+    public Version[] versions;
 
-    public VersionManifest (LatestVersion latest,Versions[] versions){
+    public VersionManifest (LatestVersion latest, Version[] versions){
         this.latest = latest;
         this.versions = versions;
     }
@@ -20,14 +20,14 @@ public class VersionManifest {
         }
     }
 
-    public class Versions{
+    public class Version {
         public String id;
         public String type;
         public String url;
         public String time;
         public String releaseTime;
 
-        public Versions(String id,String type,String url,String time,String releaseTime){
+        public Version(String id, String type, String url, String time, String releaseTime){
             this.id = id;
             this.type = type;
             this.url = url;

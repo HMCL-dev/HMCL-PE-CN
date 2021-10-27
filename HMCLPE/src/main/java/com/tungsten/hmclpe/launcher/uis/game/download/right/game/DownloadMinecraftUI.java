@@ -101,8 +101,8 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
                     String response = NetworkUtils.doGet(NetworkUtils.toURL(DownloadUrlSource.getSubUrl(activity.launcherSetting.downloadUrlSource,DownloadUrlSource.VERSION_MANIFEST)));
                     Gson gson = new Gson();
                     VersionManifest versionManifest = gson.fromJson(response,VersionManifest.class);
-                    ArrayList<VersionManifest.Versions> list = new ArrayList<>();
-                    for (VersionManifest.Versions versions : versionManifest.versions){
+                    ArrayList<VersionManifest.Version> list = new ArrayList<>();
+                    for (VersionManifest.Version versions : versionManifest.versions){
                         if (checkRelease.isChecked() && versions.type.equals("release")){
                             list.add(versions);
                         }

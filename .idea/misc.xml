@@ -5,8 +5,11 @@
       <map>
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/ic_baseline_arrow_forward_black.xml" value="0.20462962962962963" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/dialog_add_microsoft_account.xml" value="0.11822916666666666" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/dialog_install_game.xml" value="0.11822916666666666" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/item_download_game_list.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/item_download_mod_list.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/item_download_task.xml" value="0.13072916666666667" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/main_with_customctrl.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/ui_add_game_directory.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/ui_download.xml" value="0.25364583333333335" />
@@ -16,6 +19,7 @@
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/ui_main.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/ui_setting.xml" value="0.12552083333333333" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/ui_setting_donate.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/ui_setting_global_game.xml" value="0.1" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/PojavCore/src/main/res/drawable/no_focus_shown.xml" value="0.128125" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/PojavCore/src/main/res/layout/activity_minecraft.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/PojavCore/src/main/res/layout/control_action_popup_text.xml" value="0.11197916666666667" />
