@@ -110,6 +110,7 @@
     <string name="install_game_ui_liteloader">LiteLoader</string>
     <string name="install_game_ui_optifine">OptiFine</string>
     <string name="install_game_ui_fabric">Fabric</string>
+    <string name="install_game_ui_exist">此版本已经存在，请换一个名字</string>
 
     <string name="dialog_install_game_title">安装新游戏版本</string>
     <string name="dialog_install_game_exit">取消</string>

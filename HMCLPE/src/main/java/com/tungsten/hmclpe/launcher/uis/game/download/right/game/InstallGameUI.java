@@ -7,11 +7,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.install.DownloadDialog;
 import com.tungsten.hmclpe.launcher.download.minecraft.game.VersionManifest;
+import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
@@ -121,8 +123,19 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener {
 
         }
         if (v == install){
-            DownloadDialog downloadDialog = new DownloadDialog(context,editName.getText().toString(),version);
-            downloadDialog.show();
+            boolean exist = false;
+            for (int i = 0;i < SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory).size();i++){
+                if (editName.getText().toString().equals(SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory).get(i).name)){
+                    exist = true;
+                }
+            }
+            if (exist){
+                Toast.makeText(context,context.getString(R.string.install_game_ui_exist),Toast.LENGTH_SHORT).show();
+            }
+            else {
+                DownloadDialog downloadDialog = new DownloadDialog(context,editName.getText().toString(),version);
+                downloadDialog.show();
+            }
         }
     }
 
