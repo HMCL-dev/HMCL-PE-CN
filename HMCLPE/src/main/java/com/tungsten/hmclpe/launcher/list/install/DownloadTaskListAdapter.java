@@ -79,9 +79,9 @@ public class DownloadTaskListAdapter extends BaseAdapter {
                     protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
                         long soFar = soFarBytes;
                         long total = totalBytes;
-                        int progress = (int) (100 * soFar / total);
+                        long progress = 100 * soFar / total;
                         if (viewHolder.progressBar.getTag().equals(position)){
-                            viewHolder.progressBar.setProgress(progress);
+                            viewHolder.progressBar.setProgress((int) progress);
                         }
                     }
 

@@ -23,6 +23,8 @@ public class FileStringUtils {
 
     public static void writeFile(String path,String string){
         try {
+            String parent = new File(path).getParent();
+            FileUtils.createDirectory(parent);
             FileUtils.createFile(path);
             FileWriter fileWriter = new FileWriter(new File(path));
             fileWriter.write(string);
