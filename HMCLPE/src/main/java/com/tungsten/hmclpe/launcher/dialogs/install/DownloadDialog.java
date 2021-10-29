@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.minecraft.game.VersionManifest;
+import com.tungsten.hmclpe.launcher.game.ClassicVersion;
 import com.tungsten.hmclpe.launcher.game.Version;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListAdapter;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
@@ -92,7 +93,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
                     String response = NetworkUtils.doGet(NetworkUtils.toURL(versionJsonUrl));
                     FileStringUtils.writeFile(gameFilePath + "/versions/" + name + "/" + name + ".json",response);
                     Gson gson = new Gson();
-                    Version version = gson.fromJson(response,Version.class);
+                    Version version = gson.fromJson(response, Version.class);
 
                 } catch (IOException e) {
                     e.printStackTrace();

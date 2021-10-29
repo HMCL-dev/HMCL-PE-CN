@@ -2,7 +2,7 @@ package com.tungsten.hmclpe.launcher.game;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Logging {
+public class LoggingInfo {
 
     @SerializedName("file")
     public IdDownloadInfo file;
@@ -11,19 +11,19 @@ public class Logging {
     @SerializedName("type")
     public String type;
 
-    public Logging() {
+    public LoggingInfo() {
         this(new IdDownloadInfo());
     }
 
-    public Logging(IdDownloadInfo file) {
+    public LoggingInfo(IdDownloadInfo file) {
         this(file, "");
     }
 
-    public Logging(IdDownloadInfo file, String argument) {
+    public LoggingInfo(IdDownloadInfo file, String argument) {
         this(file, argument, "");
     }
 
-    public Logging(IdDownloadInfo file, String argument, String type) {
+    public LoggingInfo(IdDownloadInfo file, String argument, String type) {
         this.file = file;
         this.argument = argument;
         this.type = type;

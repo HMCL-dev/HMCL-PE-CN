@@ -5,7 +5,7 @@ import android.os.Build;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.google.gson.JsonParseException;
+import com.google.gson.*;
 import com.google.gson.annotations.SerializedName;
 import com.tungsten.hmclpe.utils.gson.tools.TolerableValidationException;
 import com.tungsten.hmclpe.utils.gson.tools.Validation;
@@ -18,6 +18,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * A class that describes a Minecraft dependency.
+ *
+ * @author huangyuhui
+ */
 public class Library implements Comparable<Library>, Validation {
 
     @SerializedName("name")
