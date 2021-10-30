@@ -13,13 +13,13 @@
         android:textSize="@dimen/text_size_middle"/>
     
     <ListView
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="170dp"
         android:id="@+id/download_task_list"/>
     
     <LinearLayout
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

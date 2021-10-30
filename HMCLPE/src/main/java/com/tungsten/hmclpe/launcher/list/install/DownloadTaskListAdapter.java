@@ -12,6 +12,7 @@ import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.launcher.dialogs.install.DownloadDialog;
 
 import java.util.ArrayList;
 
@@ -19,10 +20,14 @@ public class DownloadTaskListAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<DownloadTaskListBean> list;
+    private DownloadDialog dialog;
+    private ArrayList<DownloadTaskListBean> failedList;
 
-    public DownloadTaskListAdapter (Context context, ArrayList<DownloadTaskListBean> list){
+    public DownloadTaskListAdapter (Context context, ArrayList<DownloadTaskListBean> list, DownloadDialog dialog){
         this.context = context;
         this.list = list;
+        this.dialog = dialog;
+        this.failedList = new ArrayList<>();
     }
 
     private class ViewHolder{
@@ -95,7 +100,12 @@ public class DownloadTaskListAdapter extends BaseAdapter {
 
                     @Override
                     protected void completed(BaseDownloadTask task) {
-
+                        if (viewHolder.progressBar.getTag().equals(position)){
+                            viewHolder.progressBar.setProgress(100);
+                        }
+                        if (getCount() == 0){
+                            dialog.onDownloadFinished(failedList);
+                        }
                     }
 
                     @Override
@@ -104,6 +114,7 @@ public class DownloadTaskListAdapter extends BaseAdapter {
 
                     @Override
                     protected void error(BaseDownloadTask task, Throwable e) {
+                        failedList.add(bean);
                     }
 
                     @Override

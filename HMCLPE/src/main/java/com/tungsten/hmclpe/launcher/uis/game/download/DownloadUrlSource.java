@@ -18,7 +18,7 @@ public class DownloadUrlSource {
             "https://launchermeta.mojang.com",
             "https://launcher.mojang.com",
             "https://launchermeta.mojang.com",
-            "http://resources.download.minecraft.net",
+            "https://resources.download.minecraft.net",
             "https://libraries.minecraft.net"
     };
 

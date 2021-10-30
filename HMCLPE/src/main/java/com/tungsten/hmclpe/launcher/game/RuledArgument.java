@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * @author huangyuhui
  */
 @JsonAdapter(RuledArgument.Serializer.class)
-class RuledArgument implements Argument {
+public class RuledArgument implements Argument {
 
     private final List<CompatibilityRule> rules;
     private final List<String> value;

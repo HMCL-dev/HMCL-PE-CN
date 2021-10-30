@@ -68,6 +68,10 @@ public class Library implements Comparable<Library>, Validation {
         return artifact.getName();
     }
 
+    public String getArtifactFileName() {
+        return artifact.getFileName();
+    }
+
     public String getName() {
         return artifact.toString();
     }

@@ -4,7 +4,7 @@ package com.tungsten.hmclpe.launcher.game;
  *
  * @author huangyuhui
  */
-class AssetIndexInfo extends IdDownloadInfo {
+public class AssetIndexInfo extends IdDownloadInfo {
 
     private final long totalSize;
 

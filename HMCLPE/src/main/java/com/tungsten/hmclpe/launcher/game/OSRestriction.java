@@ -10,7 +10,7 @@ import com.tungsten.hmclpe.utils.platform.OperatingSystem;
 
 import java.util.regex.Pattern;
 
-final class OSRestriction {
+public final class OSRestriction {
 
     private final OperatingSystem name;
     private final String version;
