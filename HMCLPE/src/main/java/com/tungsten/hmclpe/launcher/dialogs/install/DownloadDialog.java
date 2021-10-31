@@ -50,6 +50,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     private ListView taskListView;
     private ArrayList<DownloadTaskListBean> allTaskList;
     private ArrayList<DownloadTaskListBean> taskList;
+    private ArrayList<DownloadTaskListBean> finishedTaskList;
     private DownloadTaskListAdapter downloadTaskListAdapter;
 
     private NetSpeedTimer netSpeedTimer;
@@ -80,6 +81,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
         taskListView = findViewById(R.id.download_task_list);
         allTaskList = new ArrayList<>();
         taskList = new ArrayList<>();
+        finishedTaskList = new ArrayList<>();
         downloadTaskListAdapter = new DownloadTaskListAdapter(context,taskList,this);
         taskListView.setAdapter(downloadTaskListAdapter);
 
@@ -97,7 +99,6 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     private void startDownloadTasks(){
         String versionJsonUrl = version.url;
         String gameFilePath = activity.launcherSetting.gameFileDirectory;
-
         new Thread(new Runnable() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -146,12 +147,21 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
                                 object.getHash());
                         allTaskList.add(bean);
                     }
+                    for (int i = 0;i < maxDownloadTask;i++){
+                        if (allTaskList.size() > i) {
+                            taskList.add(allTaskList.get(i));
+                        }
+                    }
                     downloadHandler.sendEmptyMessage(0);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
+    }
+
+    public void onTaskFinished(int position){
+
     }
 
     public void onDownloadFinished(ArrayList<DownloadTaskListBean> failedList){

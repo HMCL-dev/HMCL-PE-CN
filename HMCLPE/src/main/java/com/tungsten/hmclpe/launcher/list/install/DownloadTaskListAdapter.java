@@ -1,5 +1,6 @@
 package com.tungsten.hmclpe.launcher.list.install;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,16 +24,14 @@ public class DownloadTaskListAdapter extends BaseAdapter {
     private DownloadDialog dialog;
     private ArrayList<DownloadTaskListBean> failedList;
 
+    private TextView name;
+    private ProgressBar progressBar;
+
     public DownloadTaskListAdapter (Context context, ArrayList<DownloadTaskListBean> list, DownloadDialog dialog){
         this.context = context;
         this.list = list;
         this.dialog = dialog;
         this.failedList = new ArrayList<>();
-    }
-
-    private class ViewHolder{
-        TextView name;
-        ProgressBar progressBar;
     }
 
     @Override
@@ -50,23 +49,18 @@ public class DownloadTaskListAdapter extends BaseAdapter {
         return 0;
     }
 
+    //@SuppressLint("ViewHolder")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        final ViewHolder viewHolder;
-        if (convertView == null){
-            viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_download_task,null);
-            viewHolder.name = convertView.findViewById(R.id.download_task_name);
-            viewHolder.progressBar = convertView.findViewById(R.id.download_task_progress);
-            convertView.setTag(viewHolder);
-        }
-        else {
-            viewHolder = (ViewHolder)convertView.getTag();
-        }
-        viewHolder.name.setTag(position);
-        viewHolder.progressBar.setTag(position);
+        convertView = LayoutInflater.from(context).inflate(R.layout.item_download_task,null);
+        name = convertView.findViewById(R.id.download_task_name);
+        name.setTag(position);
+        progressBar = convertView.findViewById(R.id.download_task_progress);
+        progressBar.setTag(position);
         final DownloadTaskListBean bean = list.get(position);
-        viewHolder.name.setText(bean.name);
+        if (name.getTag().equals(position)){
+            name.setText(bean.name);
+        }
         FileDownloader.setup(context);
         FileDownloader.getImpl().create(bean.url)
                 .setPath(bean.path)
@@ -85,9 +79,7 @@ public class DownloadTaskListAdapter extends BaseAdapter {
                         long soFar = soFarBytes;
                         long total = totalBytes;
                         long progress = 100 * soFar / total;
-                        if (viewHolder.progressBar.getTag().equals(position)){
-                            viewHolder.progressBar.setProgress((int) progress);
-                        }
+                        progressBar.setProgress((int) progress);
                     }
 
                     @Override
@@ -100,8 +92,11 @@ public class DownloadTaskListAdapter extends BaseAdapter {
 
                     @Override
                     protected void completed(BaseDownloadTask task) {
-                        if (viewHolder.progressBar.getTag().equals(position)){
-                            viewHolder.progressBar.setProgress(100);
+                        if (progressBar.getTag().equals(position)){
+                            progressBar.setProgress(100);
+                        }
+                        if (getCount() != 0){
+                            dialog.onTaskFinished(position);
                         }
                         if (getCount() == 0){
                             dialog.onDownloadFinished(failedList);
