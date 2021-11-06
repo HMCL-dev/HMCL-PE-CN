@@ -136,10 +136,6 @@ public class BaseMainActivity extends LoggableActivity {
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
-    public static boolean isAndroid8OrHigher() {
-        return Build.VERSION.SDK_INT >= 26; 
-    }
-
     private void runCraft() throws Throwable {
         if (gameSetting.renderer.equals("ZINK")){
             checkVulkanZinkIsSupported();
