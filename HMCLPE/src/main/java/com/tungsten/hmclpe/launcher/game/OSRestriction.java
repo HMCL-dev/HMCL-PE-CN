@@ -16,7 +16,6 @@ public final class OSRestriction {
     private final String version;
     private final String arch;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public OSRestriction() {
         this(OperatingSystem.UNKNOWN);
     }
@@ -47,7 +46,6 @@ public final class OSRestriction {
         return arch;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public boolean allow() {
         if (name != OperatingSystem.UNKNOWN && name != OperatingSystem.CURRENT_OS)
             return false;

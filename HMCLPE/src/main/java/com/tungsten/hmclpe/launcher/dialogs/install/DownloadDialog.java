@@ -15,6 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.google.gson.Gson;
+import com.liulishuo.filedownloader.BaseDownloadTask;
+import com.liulishuo.filedownloader.FileDownloadListener;
+import com.liulishuo.filedownloader.FileDownloadQueueSet;
+import com.liulishuo.filedownloader.FileDownloader;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.minecraft.game.VersionManifest;
@@ -50,7 +54,6 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     private ListView taskListView;
     private ArrayList<DownloadTaskListBean> allTaskList;
     private ArrayList<DownloadTaskListBean> taskList;
-    private ArrayList<DownloadTaskListBean> finishedTaskList;
     private DownloadTaskListAdapter downloadTaskListAdapter;
 
     private NetSpeedTimer netSpeedTimer;
@@ -81,7 +84,6 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
         taskListView = findViewById(R.id.download_task_list);
         allTaskList = new ArrayList<>();
         taskList = new ArrayList<>();
-        finishedTaskList = new ArrayList<>();
         downloadTaskListAdapter = new DownloadTaskListAdapter(context,taskList,this);
         taskListView.setAdapter(downloadTaskListAdapter);
 
@@ -147,25 +149,73 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
                                 object.getHash());
                         allTaskList.add(bean);
                     }
-                    for (int i = 0;i < maxDownloadTask;i++){
-                        if (allTaskList.size() > i) {
-                            taskList.add(allTaskList.get(i));
+                    FileDownloader fileDownloader = new FileDownloader();
+                    fileDownloader.setup(context);
+                    fileDownloader.setMaxNetworkThreadCount(12);
+                    final FileDownloadListener downloadListener = new FileDownloadListener() {
+                        @Override
+                        protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                            taskList.add((DownloadTaskListBean) task.getTag());
+                            downloadHandler.sendEmptyMessage(0);
                         }
+
+                        @Override
+                        protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
+                        }
+
+                        @Override
+                        protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                            long soFar = soFarBytes;
+                            long total = totalBytes;
+                            long progress = 100 * soFar / total;
+                            for (DownloadTaskListBean bean : taskList){
+                                if (((DownloadTaskListBean) task.getTag()).name.equals(bean.name)){
+                                    bean.progress = (int) progress;
+                                }
+                            }
+                            downloadHandler.sendEmptyMessage(0);
+                        }
+
+                        @Override
+                        protected void blockComplete(BaseDownloadTask task) {
+                        }
+
+                        @Override
+                        protected void retry(final BaseDownloadTask task, final Throwable ex, final int retryingTimes, final int soFarBytes) {
+                        }
+
+                        @Override
+                        protected void completed(BaseDownloadTask task) {
+                            taskList.remove((DownloadTaskListBean) task.getTag());
+                            downloadHandler.sendEmptyMessage(0);
+                        }
+
+                        @Override
+                        protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                        }
+
+                        @Override
+                        protected void error(BaseDownloadTask task, Throwable e) {
+                        }
+
+                        @Override
+                        protected void warn(BaseDownloadTask task) {
+                        }
+                    };
+                    final FileDownloadQueueSet queueSet = new FileDownloadQueueSet(downloadListener);
+                    final ArrayList<BaseDownloadTask> tasks = new ArrayList<>();
+                    for (int i = 0; i < allTaskList.size(); i++) {
+                        tasks.add(fileDownloader.getImpl().create(allTaskList.get(i).url).setTag(allTaskList.get(i)).setPath(allTaskList.get(i).path));
                     }
-                    downloadHandler.sendEmptyMessage(0);
+                    queueSet.disableCallbackProgressTimes();
+                    queueSet.setAutoRetryTimes(1);
+                    queueSet.downloadTogether(tasks);
+                    queueSet.start();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
-    }
-
-    public void onTaskFinished(int position){
-
-    }
-
-    public void onDownloadFinished(ArrayList<DownloadTaskListBean> failedList){
-        this.dismiss();
     }
 
     @Override
@@ -188,6 +238,9 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
             super.handleMessage(msg);
             if (msg.what == 0){
                 downloadTaskListAdapter.notifyDataSetChanged();
+            }
+            if (msg.what == 1){
+                dismiss();
             }
         }
     };
