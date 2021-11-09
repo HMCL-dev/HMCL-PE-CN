@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/Boat/src/main/res/layout/activity_boat.xml" value="0.11875" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/ic_baseline_arrow_forward_black.xml" value="0.20462962962962963" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/activity_minecraft.xml" value="0.10052910052910052" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/dialog_add_microsoft_account.xml" value="0.11822916666666666" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/dialog_install_game.xml" value="0.11822916666666666" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/item_download_game_list.xml" value="0.25364583333333335" />
@@ -14,6 +16,7 @@
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/ui_add_game_directory.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/ui_download.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/ui_download_minecraft.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/ui_download_world.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/ui_install_game.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/ui_install_package.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/ui_main.xml" value="0.25364583333333335" />
@@ -150,7 +153,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
