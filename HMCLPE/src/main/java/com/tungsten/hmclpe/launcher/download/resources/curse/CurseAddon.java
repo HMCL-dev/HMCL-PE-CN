@@ -4,7 +4,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.tungsten.hmclpe.launcher.download.resources.DownloadModManager;
+import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -15,7 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class CurseAddon implements DownloadModManager.IMod {
+public class CurseAddon implements ModListBean.IMod {
     private final int id;
     private final String name;
     private final List<Author> authors;
@@ -148,13 +148,13 @@ public class CurseAddon implements DownloadModManager.IMod {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public List<DownloadModManager.Mod> loadDependencies() throws IOException {
+    public List<ModListBean.Mod> loadDependencies() throws IOException {
         Set<Integer> dependencies = latestFiles.stream()
                 .flatMap(latestFile -> latestFile.getDependencies().stream())
                 .filter(dep -> dep.getType() == 3)
                 .map(Dependency::getAddonId)
                 .collect(Collectors.toSet());
-        List<DownloadModManager.Mod> mods = new ArrayList<>();
+        List<ModListBean.Mod> mods = new ArrayList<>();
         for (int dependencyId : dependencies) {
             mods.add(CurseModManager.getAddon(dependencyId).toMod());
         }
@@ -162,13 +162,13 @@ public class CurseAddon implements DownloadModManager.IMod {
     }
 
     @Override
-    public Stream<DownloadModManager.Version> loadVersions() throws IOException {
+    public Stream<ModListBean.Version> loadVersions() throws IOException {
         return CurseModManager.getFiles(this).stream()
                 .map(CurseAddon.LatestFile::toVersion);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public DownloadModManager.Mod toMod() {
+    public ModListBean.Mod toMod() {
         String iconUrl = null;
         for (CurseAddon.Attachment attachment : attachments) {
             if (attachment.isDefault()) {
@@ -176,7 +176,7 @@ public class CurseAddon implements DownloadModManager.IMod {
             }
         }
 
-        return new DownloadModManager.Mod(
+        return new ModListBean.Mod(
                 slug,
                 "",
                 name,
@@ -460,31 +460,31 @@ public class CurseAddon implements DownloadModManager.IMod {
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public DownloadModManager.Version toVersion() {
-            DownloadModManager.VersionType versionType;
+        public ModListBean.Version toVersion() {
+            ModListBean.VersionType versionType;
             switch (getReleaseType()) {
                 case 1:
-                    versionType = DownloadModManager.VersionType.Release;
+                    versionType = ModListBean.VersionType.Release;
                     break;
                 case 2:
-                    versionType = DownloadModManager.VersionType.Beta;
+                    versionType = ModListBean.VersionType.Beta;
                     break;
                 case 3:
-                    versionType = DownloadModManager.VersionType.Alpha;
+                    versionType = ModListBean.VersionType.Alpha;
                     break;
                 default:
-                    versionType = DownloadModManager.VersionType.Release;
+                    versionType = ModListBean.VersionType.Release;
                     break;
             }
 
-            return new DownloadModManager.Version(
+            return new ModListBean.Version(
                     this,
                     getDisplayName(),
                     null,
                     null,
                     getParsedFileDate(),
                     versionType,
-                    new DownloadModManager.File(Collections.emptyMap(), getDownloadUrl(), getFileName()),
+                    new ModListBean.File(Collections.emptyMap(), getDownloadUrl(), getFileName()),
                     Collections.emptyList(),
                     gameVersion.stream().filter(ver -> ver.startsWith("1.") || ver.contains("w")).collect(Collectors.toList()),
                     Collections.emptyList()

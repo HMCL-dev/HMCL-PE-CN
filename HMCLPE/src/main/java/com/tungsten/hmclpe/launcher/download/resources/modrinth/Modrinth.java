@@ -2,7 +2,7 @@ package com.tungsten.hmclpe.launcher.download.resources.modrinth;
 
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
-import com.tungsten.hmclpe.launcher.download.resources.DownloadModManager;
+import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
 import com.tungsten.hmclpe.utils.Lang;
 import com.tungsten.hmclpe.utils.io.HttpRequest;
 import com.tungsten.hmclpe.utils.io.NetworkUtils;
@@ -240,23 +240,23 @@ public final class Modrinth {
         }
 
         @RequiresApi(api = Build.VERSION_CODES.N)
-        public Optional<DownloadModManager.Version> toVersion() {
-            DownloadModManager.VersionType type;
+        public Optional<ModListBean.Version> toVersion() {
+            ModListBean.VersionType type;
             if ("release".equals(versionType)) {
-                type = DownloadModManager.VersionType.Release;
+                type = ModListBean.VersionType.Release;
             } else if ("beta".equals(versionType)) {
-                type = DownloadModManager.VersionType.Beta;
+                type = ModListBean.VersionType.Beta;
             } else if ("alpha".equals(versionType)) {
-                type = DownloadModManager.VersionType.Alpha;
+                type = ModListBean.VersionType.Alpha;
             } else {
-                type = DownloadModManager.VersionType.Release;
+                type = ModListBean.VersionType.Release;
             }
 
             if (files.size() == 0) {
                 return Optional.empty();
             }
 
-            return Optional.of(new DownloadModManager.Version(
+            return Optional.of(new ModListBean.Version(
                     this,
                     name,
                     versionNumber,
@@ -294,12 +294,12 @@ public final class Modrinth {
             return filename;
         }
 
-        public DownloadModManager.File toFile() {
-            return new DownloadModManager.File(hashes, url, filename);
+        public ModListBean.File toFile() {
+            return new ModListBean.File(hashes, url, filename);
         }
     }
 
-    public static class ModResult implements DownloadModManager.IMod {
+    public static class ModResult implements ModListBean.IMod {
         @SerializedName("mod_id")
         private final String modId;
 
@@ -408,19 +408,19 @@ public final class Modrinth {
             return latestVersion;
         }
 
-        public List<DownloadModManager.Mod> loadDependencies() throws IOException {
+        public List<ModListBean.Mod> loadDependencies() throws IOException {
             return Collections.emptyList();
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        public Stream<DownloadModManager.Version> loadVersions() throws IOException {
+        public Stream<ModListBean.Version> loadVersions() throws IOException {
             return Modrinth.getFiles(this).stream()
                     .map(ModVersion::toVersion)
                     .flatMap(Lang::toStream);
         }
 
-        public DownloadModManager.Mod toMod() {
-            return new DownloadModManager.Mod(
+        public ModListBean.Mod toMod() {
+            return new ModListBean.Mod(
                     slug,
                     author,
                     title,
@@ -428,7 +428,7 @@ public final class Modrinth {
                     categories,
                     pageUrl,
                     iconUrl,
-                    (DownloadModManager.IMod) this
+                    (ModListBean.IMod) this
             );
         }
     }

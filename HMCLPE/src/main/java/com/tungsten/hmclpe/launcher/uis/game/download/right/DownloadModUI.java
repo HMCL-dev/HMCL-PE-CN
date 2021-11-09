@@ -24,19 +24,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.liulishuo.filedownloader.BaseDownloadTask;
-import com.liulishuo.filedownloader.FileDownloadListener;
-import com.liulishuo.filedownloader.FileDownloader;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.download.resources.DownloadModManager;
+import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
 import com.tungsten.hmclpe.launcher.download.resources.SearchTools;
 import com.tungsten.hmclpe.launcher.list.download.mod.DownloadModListAdapter;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -64,7 +59,7 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
     private ArrayAdapter<String> sortListAdapter;
 
     private ListView modListView;
-    private ArrayList<DownloadModManager.Mod> modList;
+    private ArrayList<ModListBean.Mod> modList;
     private DownloadModListAdapter modListAdapter;
     private ProgressBar progressBar;
     private boolean isSearching = false;
@@ -267,8 +262,8 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
                 public void run() {
                     try {
                         searchHandler.sendEmptyMessage(0);
-                        Stream<DownloadModManager.Mod> stream = SearchTools.searchImpl(downloadSourceSpinner.getSelectedItem().toString(), editVersion.getText().toString(), SearchTools.getCategoryID(typeSpinner.getSelectedItemPosition()), SearchTools.SECTION_MOD, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), sortSpinner.getSelectedItemPosition());
-                        List<DownloadModManager.Mod> list = stream.collect(toList());
+                        Stream<ModListBean.Mod> stream = SearchTools.searchImpl(downloadSourceSpinner.getSelectedItem().toString(), editVersion.getText().toString(), SearchTools.getCategoryID(typeSpinner.getSelectedItemPosition()), SearchTools.SECTION_MOD, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), sortSpinner.getSelectedItemPosition());
+                        List<ModListBean.Mod> list = stream.collect(toList());
                         modList.clear();
                         for (int i = 0; i < list.size(); i++) {
                             modList.add(list.get(i));
@@ -296,7 +291,6 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
                 modListView.setVisibility(View.GONE);
             }
             if (msg.what == 1) {
-                modListAdapter.currentSelected = -1;
                 modListAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
                 modListView.setVisibility(View.VISIBLE);

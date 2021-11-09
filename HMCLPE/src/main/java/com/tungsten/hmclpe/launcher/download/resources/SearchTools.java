@@ -10,6 +10,7 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.download.resources.curse.CurseAddon;
 import com.tungsten.hmclpe.launcher.download.resources.curse.CurseModManager;
 import com.tungsten.hmclpe.launcher.download.resources.modrinth.Modrinth;
+import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
 import com.tungsten.hmclpe.utils.string.ModTranslations;
 import com.tungsten.hmclpe.utils.string.StringUtils;
 
@@ -31,7 +32,7 @@ public class SearchTools {
 
     @SuppressLint("NewApi")
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static Stream<DownloadModManager.Mod> searchImpl(String source, String gameVersion, int category, int section, int pageOffset, String searchFilter, int sort) throws Exception {
+    public static Stream<ModListBean.Mod> searchImpl(String source, String gameVersion, int category, int section, int pageOffset, String searchFilter, int sort) throws Exception {
         if (StringUtils.CHINESE_PATTERN.matcher(searchFilter).find()) {
             List<ModTranslations.Mod> mods = ModTranslations.searchMod(searchFilter);
             List<String> searchFilters = new ArrayList<>();
@@ -52,7 +53,7 @@ public class SearchTools {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static Stream<DownloadModManager.Mod> search(String source, String gameVersion, int category, int section, int pageOffset, String searchFilter, int sort) throws Exception {
+    public static Stream<ModListBean.Mod> search(String source, String gameVersion, int category, int section, int pageOffset, String searchFilter, int sort) throws Exception {
         if (source.equals("Modrinth")) {
             return Modrinth.searchPaginated(gameVersion, pageOffset, searchFilter).stream().map(Modrinth.ModResult::toMod);
         } else {

@@ -1,8 +1,7 @@
-package com.tungsten.hmclpe.launcher.list.download.mod;
+package com.tungsten.hmclpe.launcher.list.download.world;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,76 +10,73 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
-
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.tungsten.hmclpe.R;
-import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
 import com.tungsten.hmclpe.launcher.download.resources.SearchTools;
+import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.utils.resources.DrawableUtils;
 import com.tungsten.hmclpe.utils.string.ModTranslations;
 
 import java.util.ArrayList;
 
-public class DownloadModListAdapter extends BaseAdapter {
+public class DownloadWorldListAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<ModListBean.Mod> modList;
+    private ArrayList<ModListBean.Mod> worldList;
 
     private class ViewHolder{
-        LinearLayout modItem;
-        ImageView modIcon;
-        TextView modName;
-        TextView modCategories;
-        TextView modIntroduction;
+        LinearLayout worldItem;
+        ImageView worldIcon;
+        TextView worldName;
+        TextView worldCategories;
+        TextView worldIntroduction;
     }
 
-    public DownloadModListAdapter (Context context, ArrayList<ModListBean.Mod> modList){
+    public DownloadWorldListAdapter (Context context, ArrayList<ModListBean.Mod> worldList){
         this.context = context;
-        this.modList = modList;
+        this.worldList = worldList;
     }
 
     @Override
     public int getCount() {
-        return modList.size();
+        return worldList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return modList.get(position);
+        return worldList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return 0;
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder viewHolder;
         if (convertView == null){
             viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_download_mod_list,null);
-            viewHolder.modItem = convertView.findViewById(R.id.item);
-            viewHolder.modIcon = convertView.findViewById(R.id.mod_icon);
-            viewHolder.modName = convertView.findViewById(R.id.mod_name);
-            viewHolder.modCategories = convertView.findViewById(R.id.mod_categories);
-            viewHolder.modIntroduction = convertView.findViewById(R.id.mod_introduction);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_download_world_list,null);
+            viewHolder.worldItem = convertView.findViewById(R.id.item);
+            viewHolder.worldIcon = convertView.findViewById(R.id.world_icon);
+            viewHolder.worldName = convertView.findViewById(R.id.world_name);
+            viewHolder.worldCategories = convertView.findViewById(R.id.world_categories);
+            viewHolder.worldIntroduction = convertView.findViewById(R.id.world_introduction);
             convertView.setTag(viewHolder);
         }
         else {
             viewHolder = (ViewHolder)convertView.getTag();
         }
-        viewHolder.modIcon.setImageDrawable(context.getDrawable(R.drawable.launcher_background_color_white));
-        viewHolder.modIcon.setTag(position);
+        viewHolder.worldIcon.setImageDrawable(context.getDrawable(R.drawable.launcher_background_color_white));
+        viewHolder.worldIcon.setTag(position);
         FileDownloader.setup(context);
-        FileDownloader.getImpl().create(modList.get(position).getIconUrl())
-                .setPath(AppManifest.DEFAULT_CACHE_DIR + "/icon_" + modList.get(position).getTitle().replace(" ","_") + ".png")
+        FileDownloader.getImpl().create(worldList.get(position).getIconUrl())
+                .setPath(AppManifest.DEFAULT_CACHE_DIR + "/icon_" + worldList.get(position).getTitle().replace(" ","_") + ".png")
                 .setTag(position)
                 .setListener(new FileDownloadListener() {
                     @Override
@@ -105,8 +101,8 @@ public class DownloadModListAdapter extends BaseAdapter {
 
                     @Override
                     protected void completed(BaseDownloadTask task) {
-                        if (viewHolder.modIcon.getTag().equals(position)){
-                            viewHolder.modIcon.setImageDrawable(DrawableUtils.getDrawableFromFile(AppManifest.DEFAULT_CACHE_DIR + "/icon_" + modList.get(position).getTitle().replace(" ","_") + ".png"));
+                        if (viewHolder.worldIcon.getTag().equals(position)){
+                            viewHolder.worldIcon.setImageDrawable(DrawableUtils.getDrawableFromFile(AppManifest.DEFAULT_CACHE_DIR + "/icon_" + worldList.get(position).getTitle().replace(" ","_") + ".png"));
                         }
                     }
 
@@ -123,16 +119,16 @@ public class DownloadModListAdapter extends BaseAdapter {
                     }
                 }).start();
         String categories = "";
-        for (int i = 0;i < modList.get(position).getCategories().size();i++){
-            categories = categories + SearchTools.getCategoryFromID(context,modList.get(position).getCategories().get(i)) + "  ";
+        for (int i = 0;i < worldList.get(position).getCategories().size();i++){
+            //categories = categories + SearchTools.getCategoryFromID(context,worldList.get(position).getCategories().get(i)) + "  ";
         }
-        viewHolder.modCategories.setText(categories);
-        viewHolder.modName.setText(ModTranslations.getDisplayName(modList.get(position).getTitle(),modList.get(position).getSlug()));
-        viewHolder.modIntroduction.setText(modList.get(position).getDescription());
-        viewHolder.modItem.setOnClickListener(new View.OnClickListener() {
+        viewHolder.worldCategories.setText(categories);
+        viewHolder.worldName.setText(worldList.get(position).getTitle());
+        viewHolder.worldIntroduction.setText(worldList.get(position).getDescription());
+        viewHolder.worldItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
             }
         });
         return convertView;

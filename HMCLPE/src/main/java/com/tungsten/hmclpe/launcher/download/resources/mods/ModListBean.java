@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.launcher.download.resources;
+package com.tungsten.hmclpe.launcher.download.resources.mods;
 
 import com.tungsten.hmclpe.launcher.download.resources.modrinth.Modrinth;
 
@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
-public final class DownloadModManager {
-    private DownloadModManager() {
+public final class ModListBean {
+    private ModListBean() {
     }
 
     public interface IMod {
