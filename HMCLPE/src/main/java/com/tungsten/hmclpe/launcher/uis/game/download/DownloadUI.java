@@ -72,10 +72,10 @@ public class DownloadUI extends BaseUI implements View.OnClickListener {
             downloadUIManager.switchDownloadUI(downloadUIManager.downloadModUI);
         }
         if (v == startDownloadPackageUI){
-
+            downloadUIManager.switchDownloadUI(downloadUIManager.downloadPackageUI);
         }
         if (v == startDownloadResourcePackUI){
-
+            downloadUIManager.switchDownloadUI(downloadUIManager.downloadResourcePackUI);
         }
         if (v == startDownloadWorldUI){
             downloadUIManager.switchDownloadUI(downloadUIManager.downloadWorldUI);

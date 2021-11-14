@@ -132,6 +132,14 @@
     <string name="download_package_ui_install">安装整合包</string>
     <string name="download_package_ui_search">搜索</string>
 
+    <string name="download_resource_pack_ui_game">游戏</string>
+    <string name="download_resource_pack_ui_name">名称</string>
+    <string name="download_resource_pack_ui_version">游戏版本</string>
+    <string name="download_resource_pack_ui_type">类别</string>
+    <string name="download_resource_pack_ui_sort">排序</string>
+    <string name="download_resource_pack_ui_name_hint">仅支持英文搜索</string>
+    <string name="download_resource_pack_ui_search">搜索</string>
+
     <string name="download_world_ui_name">名称</string>
     <string name="download_world_ui_version">游戏版本</string>
     <string name="download_world_ui_type">类别</string>
