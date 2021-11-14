@@ -200,77 +200,79 @@
     <string name="download_mod_source_curse_forge" translatable="false">CurseForge</string>
     <string name="download_mod_source_modrinth" translatable="false">Modrinth</string>
 
-    <string name="download_mod_version_1171" translatable="false">1.17.1</string>
-    <string name="download_mod_version_117" translatable="false">1.17</string>
-    <string name="download_mod_version_1165" translatable="false">1.16.5</string>
-    <string name="download_mod_version_1164" translatable="false">1.16.4</string>
-    <string name="download_mod_version_1163" translatable="false">1.16.3</string>
-    <string name="download_mod_version_1162" translatable="false">1.16.2</string>
-    <string name="download_mod_version_1161" translatable="false">1.16.1</string>
-    <string name="download_mod_version_116" translatable="false">1.16</string>
-    <string name="download_mod_version_1152" translatable="false">1.15.2</string>
-    <string name="download_mod_version_1151" translatable="false">1.15.1</string>
-    <string name="download_mod_version_115" translatable="false">1.15</string>
-    <string name="download_mod_version_1144" translatable="false">1.14.4</string>
-    <string name="download_mod_version_1143" translatable="false">1.14.3</string>
-    <string name="download_mod_version_1142" translatable="false">1.14.2</string>
-    <string name="download_mod_version_1141" translatable="false">1.14.1</string>
-    <string name="download_mod_version_114" translatable="false">1.14</string>
-    <string name="download_mod_version_1132" translatable="false">1.13.2</string>
-    <string name="download_mod_version_1131" translatable="false">1.13.1</string>
-    <string name="download_mod_version_113" translatable="false">1.13</string>
-    <string name="download_mod_version_1122" translatable="false">1.12.2</string>
-    <string name="download_mod_version_1121" translatable="false">1.12.1</string>
-    <string name="download_mod_version_112" translatable="false">1.12</string>
-    <string name="download_mod_version_1112" translatable="false">1.11.2</string>
-    <string name="download_mod_version_1111" translatable="false">1.11.1</string>
-    <string name="download_mod_version_111" translatable="false">1.11</string>
-    <string name="download_mod_version_1102" translatable="false">1.10.2</string>
-    <string name="download_mod_version_1101" translatable="false">1.10.1</string>
-    <string name="download_mod_version_110" translatable="false">1.10</string>
-    <string name="download_mod_version_194" translatable="false">1.9.4</string>
-    <string name="download_mod_version_193" translatable="false">1.9.3</string>
-    <string name="download_mod_version_192" translatable="false">1.9.2</string>
-    <string name="download_mod_version_191" translatable="false">1.9.1</string>
-    <string name="download_mod_version_19" translatable="false">1.9</string>
-    <string name="download_mod_version_189" translatable="false">1.8.9</string>
-    <string name="download_mod_version_188" translatable="false">1.8.8</string>
-    <string name="download_mod_version_187" translatable="false">1.8.7</string>
-    <string name="download_mod_version_186" translatable="false">1.8.6</string>
-    <string name="download_mod_version_185" translatable="false">1.8.5</string>
-    <string name="download_mod_version_184" translatable="false">1.8.4</string>
-    <string name="download_mod_version_183" translatable="false">1.8.3</string>
-    <string name="download_mod_version_182" translatable="false">1.8.2</string>
-    <string name="download_mod_version_181" translatable="false">1.8.1</string>
-    <string name="download_mod_version_18" translatable="false">1.8</string>
-    <string name="download_mod_version_1710" translatable="false">1.7.10</string>
-    <string name="download_mod_version_179" translatable="false">1.7.9</string>
-    <string name="download_mod_version_178" translatable="false">1.7.8</string>
-    <string name="download_mod_version_177" translatable="false">1.7.7</string>
-    <string name="download_mod_version_176" translatable="false">1.7.6</string>
-    <string name="download_mod_version_175" translatable="false">1.7.5</string>
-    <string name="download_mod_version_174" translatable="false">1.7.4</string>
-    <string name="download_mod_version_173" translatable="false">1.7.3</string>
-    <string name="download_mod_version_172" translatable="false">1.7.2</string>
-    <string name="download_mod_version_164" translatable="false">1.6.4</string>
-    <string name="download_mod_version_162" translatable="false">1.6.2</string>
-    <string name="download_mod_version_161" translatable="false">1.6.1</string>
-    <string name="download_mod_version_152" translatable="false">1.5.2</string>
-    <string name="download_mod_version_151" translatable="false">1.5.1</string>
-    <string name="download_mod_version_147" translatable="false">1.4.7</string>
-    <string name="download_mod_version_146" translatable="false">1.4.6</string>
-    <string name="download_mod_version_145" translatable="false">1.4.5</string>
-    <string name="download_mod_version_144" translatable="false">1.4.4</string>
-    <string name="download_mod_version_142" translatable="false">1.4.2</string>
-    <string name="download_mod_version_132" translatable="false">1.3.2</string>
-    <string name="download_mod_version_131" translatable="false">1.3.1</string>
-    <string name="download_mod_version_125" translatable="false">1.2.5</string>
-    <string name="download_mod_version_124" translatable="false">1.2.4</string>
-    <string name="download_mod_version_123" translatable="false">1.2.3</string>
-    <string name="download_mod_version_122" translatable="false">1.2.2</string>
-    <string name="download_mod_version_121" translatable="false">1.2.1</string>
-    <string name="download_mod_version_11" translatable="false">1.1</string>
-    <string name="download_mod_version_10" translatable="false">1.0</string>
+    <string-array name="download_resource_version">
+        <item>1.17.1</item>
+        <item>1.17</item>
+        <item>1.16.5</item>
+        <item>1.16.4</item>
+        <item>1.16.3</item>
+        <item>1.16.2</item>
+        <item>1.16.1</item>
+        <item>1.16</item>
+        <item>1.15.2</item>
+        <item>1.15.1</item>
+        <item>1.15</item>
+        <item>1.14.4</item>
+        <item>1.14.3</item>
+        <item>1.14.2</item>
+        <item>1.14.1</item>
+        <item>1.14</item>
+        <item>1.13.2</item>
+        <item>1.13.1</item>
+        <item>1.13</item>
+        <item>1.12.2</item>
+        <item>1.12.1</item>
+        <item>1.12</item>
+        <item>1.11.2</item>
+        <item>1.11.1</item>
+        <item>1.11</item>
+        <item>1.10.2</item>
+        <item>1.10.1</item>
+        <item>1.10</item>
+        <item>1.9.4</item>
+        <item>1.9.3</item>
+        <item>1.9.2</item>
+        <item>1.9.1</item>
+        <item>1.9</item>
+        <item>1.8.9</item>
+        <item>1.8.8</item>
+        <item>1.8.7</item>
+        <item>1.8.6</item>
+        <item>1.8.5</item>
+        <item>1.8.4</item>
+        <item>1.8.3</item>
+        <item>1.8.2</item>
+        <item>1.8.1</item>
+        <item>1.8</item>
+        <item>1.7.10</item>
+        <item>1.7.9</item>
+        <item>1.7.8</item>
+        <item>1.7.7</item>
+        <item>1.7.6</item>
+        <item>1.7.5</item>
+        <item>1.7.4</item>
+        <item>1.7.3</item>
+        <item>1.7.2</item>
+        <item>1.6.4</item>
+        <item>1.6.2</item>
+        <item>1.6.1</item>
+        <item>1.5.2</item>
+        <item>1.5.1</item>
+        <item>1.4.7</item>
+        <item>1.4.6</item>
+        <item>1.4.5</item>
+        <item>1.4.4</item>
+        <item>1.4.2</item>
+        <item>1.3.2</item>
+        <item>1.3.1</item>
+        <item>1.2.5</item>
+        <item>1.2.4</item>
+        <item>1.2.3</item>
+        <item>1.2.2</item>
+        <item>1.2.1</item>
+        <item>1.1</item>
+        <item>1.0</item>
+    </string-array>
 
     <string name="setting_ui_title">设置</string>
     <string name="setting_ui_public_game_setting">全局游戏设置</string>

@@ -33,6 +33,7 @@ import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -88,85 +89,17 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
         sourceListAdapter.setDropDownViewResource(R.layout.item_spinner_drop_down);
         downloadSourceSpinner.setAdapter(sourceListAdapter);
 
+        String[] versionArray = context.getResources().getStringArray(R.array.download_resource_version);
         versionList = new ArrayList<>();
         versionList.add("");
-        versionList.add(context.getString(R.string.download_mod_version_1171));
-        versionList.add(context.getString(R.string.download_mod_version_117));
-        versionList.add(context.getString(R.string.download_mod_version_1165));
-        versionList.add(context.getString(R.string.download_mod_version_1164));
-        versionList.add(context.getString(R.string.download_mod_version_1163));
-        versionList.add(context.getString(R.string.download_mod_version_1162));
-        versionList.add(context.getString(R.string.download_mod_version_1161));
-        versionList.add(context.getString(R.string.download_mod_version_116));
-        versionList.add(context.getString(R.string.download_mod_version_1144));
-        versionList.add(context.getString(R.string.download_mod_version_1143));
-        versionList.add(context.getString(R.string.download_mod_version_1142));
-        versionList.add(context.getString(R.string.download_mod_version_1141));
-        versionList.add(context.getString(R.string.download_mod_version_114));
-        versionList.add(context.getString(R.string.download_mod_version_1132));
-        versionList.add(context.getString(R.string.download_mod_version_1131));
-        versionList.add(context.getString(R.string.download_mod_version_113));
-        versionList.add(context.getString(R.string.download_mod_version_1122));
-        versionList.add(context.getString(R.string.download_mod_version_1121));
-        versionList.add(context.getString(R.string.download_mod_version_112));
-        versionList.add(context.getString(R.string.download_mod_version_1112));
-        versionList.add(context.getString(R.string.download_mod_version_1111));
-        versionList.add(context.getString(R.string.download_mod_version_111));
-        versionList.add(context.getString(R.string.download_mod_version_1102));
-        versionList.add(context.getString(R.string.download_mod_version_1101));
-        versionList.add(context.getString(R.string.download_mod_version_110));
-        versionList.add(context.getString(R.string.download_mod_version_194));
-        versionList.add(context.getString(R.string.download_mod_version_193));
-        versionList.add(context.getString(R.string.download_mod_version_192));
-        versionList.add(context.getString(R.string.download_mod_version_191));
-        versionList.add(context.getString(R.string.download_mod_version_19));
-        versionList.add(context.getString(R.string.download_mod_version_189));
-        versionList.add(context.getString(R.string.download_mod_version_188));
-        versionList.add(context.getString(R.string.download_mod_version_187));
-        versionList.add(context.getString(R.string.download_mod_version_186));
-        versionList.add(context.getString(R.string.download_mod_version_185));
-        versionList.add(context.getString(R.string.download_mod_version_184));
-        versionList.add(context.getString(R.string.download_mod_version_183));
-        versionList.add(context.getString(R.string.download_mod_version_182));
-        versionList.add(context.getString(R.string.download_mod_version_181));
-        versionList.add(context.getString(R.string.download_mod_version_18));
-        versionList.add(context.getString(R.string.download_mod_version_1710));
-        versionList.add(context.getString(R.string.download_mod_version_179));
-        versionList.add(context.getString(R.string.download_mod_version_178));
-        versionList.add(context.getString(R.string.download_mod_version_177));
-        versionList.add(context.getString(R.string.download_mod_version_176));
-        versionList.add(context.getString(R.string.download_mod_version_175));
-        versionList.add(context.getString(R.string.download_mod_version_174));
-        versionList.add(context.getString(R.string.download_mod_version_173));
-        versionList.add(context.getString(R.string.download_mod_version_172));
-        versionList.add(context.getString(R.string.download_mod_version_164));
-        versionList.add(context.getString(R.string.download_mod_version_162));
-        versionList.add(context.getString(R.string.download_mod_version_161));
-        versionList.add(context.getString(R.string.download_mod_version_152));
-        versionList.add(context.getString(R.string.download_mod_version_151));
-        versionList.add(context.getString(R.string.download_mod_version_147));
-        versionList.add(context.getString(R.string.download_mod_version_146));
-        versionList.add(context.getString(R.string.download_mod_version_145));
-        versionList.add(context.getString(R.string.download_mod_version_144));
-        versionList.add(context.getString(R.string.download_mod_version_142));
-        versionList.add(context.getString(R.string.download_mod_version_132));
-        versionList.add(context.getString(R.string.download_mod_version_131));
-        versionList.add(context.getString(R.string.download_mod_version_125));
-        versionList.add(context.getString(R.string.download_mod_version_124));
-        versionList.add(context.getString(R.string.download_mod_version_123));
-        versionList.add(context.getString(R.string.download_mod_version_122));
-        versionList.add(context.getString(R.string.download_mod_version_121));
-        versionList.add(context.getString(R.string.download_mod_version_11));
-        versionList.add(context.getString(R.string.download_mod_version_10));
+        versionList.addAll(Arrays.asList(versionArray));
         versionListAdapter = new ArrayAdapter<String>(context,R.layout.item_spinner,versionList);
         versionListAdapter.setDropDownViewResource(R.layout.item_spinner_drop_down);
         versionSpinner.setAdapter(versionListAdapter);
 
         String[] categoryArray = context.getResources().getStringArray(R.array.download_mod_categories);
         categoryList = new ArrayList<>();
-        for (int i = 0;i < categoryArray.length;i++){
-            categoryList.add(categoryArray[i]);
-        }
+        categoryList.addAll(Arrays.asList(categoryArray));
         categoryListAdapter = new ArrayAdapter<String>(context,R.layout.item_spinner,categoryList);
         categoryListAdapter.setDropDownViewResource(R.layout.item_spinner_drop_down);
         typeSpinner.setAdapter(categoryListAdapter);
@@ -193,6 +126,7 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
         search.setOnClickListener(this);
 
         editName.setOnEditorActionListener(this);
+        editVersion.setOnEditorActionListener(this);
         editVersion.addTextChangedListener(this);
 
         modListView = activity.findViewById(R.id.download_mod_list);

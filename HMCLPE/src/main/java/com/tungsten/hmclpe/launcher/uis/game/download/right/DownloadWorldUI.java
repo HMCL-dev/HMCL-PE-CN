@@ -6,6 +6,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -27,10 +31,11 @@ import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class DownloadWorldUI extends BaseUI implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class DownloadWorldUI extends BaseUI implements View.OnClickListener, AdapterView.OnItemSelectedListener, TextWatcher, TextView.OnEditorActionListener {
 
     public LinearLayout downloadWorldUI;
 
@@ -43,6 +48,8 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
 
     private ArrayList<String> sortList;
     private ArrayAdapter<String> sortListAdapter;
+    private ArrayList<String> versionList;
+    private ArrayAdapter<String> versionListAdapter;
 
     private boolean isSearching = false;
 
@@ -67,7 +74,7 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
         editCategory = activity.findViewById(R.id.download_world_arg_type);
         editSort = activity.findViewById(R.id.download_world_arg_sort);
 
-        search = activity.findViewById(R.id.search_world);
+        search = activity.findViewById(R.id.search_world_list);
         search.setOnClickListener(this);
 
         sortList = new ArrayList<>();
@@ -81,9 +88,21 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
         sortListAdapter.setDropDownViewResource(R.layout.item_spinner_drop_down);
         editSort.setAdapter(sortListAdapter);
 
+        String[] versionArray = context.getResources().getStringArray(R.array.download_resource_version);
+        versionList = new ArrayList<>();
+        versionList.add("");
+        versionList.addAll(Arrays.asList(versionArray));
+        versionListAdapter = new ArrayAdapter<String>(context,R.layout.item_spinner,versionList);
+        versionListAdapter.setDropDownViewResource(R.layout.item_spinner_drop_down);
+        editVersionSpinner.setAdapter(versionListAdapter);
+
         editVersionSpinner.setOnItemSelectedListener(this);
         editCategory.setOnItemSelectedListener(this);
         editSort.setOnItemSelectedListener(this);
+
+        editName.setOnEditorActionListener(this);
+        editVersion.setOnEditorActionListener(this);
+        editVersion.addTextChangedListener(this);
 
         progressBar = activity.findViewById(R.id.loading_download_world_list_progress);
 
@@ -125,7 +144,7 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
                 public void run() {
                     try {
                         searchHandler.sendEmptyMessage(0);
-                        Stream<ModListBean.Mod> stream = SearchTools.search("", editVersion.getText().toString(), 0, SearchTools.SECTION_WORLD, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), 0);
+                        Stream<ModListBean.Mod> stream = SearchTools.search("", editVersion.getText().toString(), 0, SearchTools.SECTION_WORLD, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), editSort.getSelectedItemPosition());
                         List<ModListBean.Mod> list = stream.collect(toList());
                         worldList.clear();
                         worldList.addAll(list);
@@ -169,19 +188,39 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (parent == editVersionSpinner){
-
-        }
-        if (parent == editCategory){
-
-        }
-        if (parent == editSort){
-
+        if (parent == editCategory || parent == editSort || parent == editVersionSpinner){
+            search();
+            if (parent == editVersionSpinner){
+                editVersion.setText((String) parent.getItemAtPosition(position));
+            }
         }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        search();
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (v == editName || v == editVersion){
+            search();
+        }
+        return false;
     }
 }

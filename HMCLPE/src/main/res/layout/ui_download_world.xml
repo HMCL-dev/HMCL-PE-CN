@@ -190,7 +190,7 @@
                 android:textColor="@color/colorPureWhite"
                 android:textSize="15sp"
                 android:gravity="center"
-                android:id="@+id/search_world"/>
+                android:id="@+id/search_world_list"/>
 
         </LinearLayout>
 
