@@ -7,9 +7,14 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 
@@ -25,9 +30,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class DownloadWorldUI extends BaseUI {
+public class DownloadWorldUI extends BaseUI implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     public LinearLayout downloadWorldUI;
+
+    private EditText editName;
+    private EditText editVersion;
+    private Spinner editVersionSpinner;
+    private Spinner editCategory;
+    private Spinner editSort;
+    private Button search;
+
+    private ArrayList<String> sortList;
+    private ArrayAdapter<String> sortListAdapter;
 
     private boolean isSearching = false;
 
@@ -45,6 +60,30 @@ public class DownloadWorldUI extends BaseUI {
     public void onCreate() {
         super.onCreate();
         downloadWorldUI = activity.findViewById(R.id.ui_download_world);
+
+        editName = activity.findViewById(R.id.download_world_arg_name);
+        editVersion = activity.findViewById(R.id.edit_download_world_arg_version);
+        editVersionSpinner = activity.findViewById(R.id.download_world_arg_version);
+        editCategory = activity.findViewById(R.id.download_world_arg_type);
+        editSort = activity.findViewById(R.id.download_world_arg_sort);
+
+        search = activity.findViewById(R.id.search_world);
+        search.setOnClickListener(this);
+
+        sortList = new ArrayList<>();
+        sortList.add(context.getString(R.string.download_mod_sort_date));
+        sortList.add(context.getString(R.string.download_mod_sort_heat));
+        sortList.add(context.getString(R.string.download_mod_sort_recent));
+        sortList.add(context.getString(R.string.download_mod_sort_name));
+        sortList.add(context.getString(R.string.download_mod_sort_author));
+        sortList.add(context.getString(R.string.download_mod_sort_downloads));
+        sortListAdapter = new ArrayAdapter<String>(context,R.layout.item_spinner,sortList);
+        sortListAdapter.setDropDownViewResource(R.layout.item_spinner_drop_down);
+        editSort.setAdapter(sortListAdapter);
+
+        editVersionSpinner.setOnItemSelectedListener(this);
+        editCategory.setOnItemSelectedListener(this);
+        editSort.setOnItemSelectedListener(this);
 
         progressBar = activity.findViewById(R.id.loading_download_world_list_progress);
 
@@ -74,7 +113,9 @@ public class DownloadWorldUI extends BaseUI {
     }
 
     private void init(){
-        search();
+        if (worldList.size() == 0 && editName.getText().toString().equals("")){
+            search();
+        }
     }
 
     private void search(){
@@ -84,12 +125,10 @@ public class DownloadWorldUI extends BaseUI {
                 public void run() {
                     try {
                         searchHandler.sendEmptyMessage(0);
-                        Stream<ModListBean.Mod> stream = SearchTools.search("", "", 0, SearchTools.SECTION_WORLD, SearchTools.DEFAULT_PAGE_OFFSET, "", 0);
+                        Stream<ModListBean.Mod> stream = SearchTools.search("", editVersion.getText().toString(), 0, SearchTools.SECTION_WORLD, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), 0);
                         List<ModListBean.Mod> list = stream.collect(toList());
                         worldList.clear();
-                        for (int i = 0; i < list.size(); i++) {
-                            worldList.add(list.get(i));
-                        }
+                        worldList.addAll(list);
                         searchHandler.sendEmptyMessage(1);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -120,4 +159,29 @@ public class DownloadWorldUI extends BaseUI {
             }
         }
     };
+
+    @Override
+    public void onClick(View v) {
+        if (v == search){
+            search();
+        }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (parent == editVersionSpinner){
+
+        }
+        if (parent == editCategory){
+
+        }
+        if (parent == editSort){
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }

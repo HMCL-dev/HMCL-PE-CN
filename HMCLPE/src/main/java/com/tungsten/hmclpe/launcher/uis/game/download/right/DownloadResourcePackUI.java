@@ -87,9 +87,7 @@ public class DownloadResourcePackUI extends BaseUI {
                         Stream<ModListBean.Mod> stream = SearchTools.search("", "", 0, SearchTools.SECTION_RESOURCE_PACK, SearchTools.DEFAULT_PAGE_OFFSET, "", 0);
                         List<ModListBean.Mod> list = stream.collect(toList());
                         resourcePackList.clear();
-                        for (int i = 0; i < list.size(); i++) {
-                            resourcePackList.add(list.get(i));
-                        }
+                        resourcePackList.addAll(list);
                         searchHandler.sendEmptyMessage(1);
                     } catch (Exception e) {
                         e.printStackTrace();

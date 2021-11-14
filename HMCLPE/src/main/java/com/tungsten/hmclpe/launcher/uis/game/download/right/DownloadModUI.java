@@ -204,7 +204,6 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onStart() {
         super.onStart();
@@ -223,7 +222,6 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View v) {
         if (v == search){
@@ -231,14 +229,12 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void init(){
         if (modList.size() == 0 && editName.getText().toString().equals("")){
             search();
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent == typeSpinner || parent == sortSpinner || parent == versionSpinner){
@@ -265,9 +261,7 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
                         Stream<ModListBean.Mod> stream = SearchTools.searchImpl(downloadSourceSpinner.getSelectedItem().toString(), editVersion.getText().toString(), SearchTools.getCategoryID(typeSpinner.getSelectedItemPosition()), SearchTools.SECTION_MOD, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), sortSpinner.getSelectedItemPosition());
                         List<ModListBean.Mod> list = stream.collect(toList());
                         modList.clear();
-                        for (int i = 0; i < list.size(); i++) {
-                            modList.add(list.get(i));
-                        }
+                        modList.addAll(list);
                         searchHandler.sendEmptyMessage(1);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -309,13 +303,11 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void afterTextChanged(Editable s) {
         search();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (v == editName || v == editVersion){

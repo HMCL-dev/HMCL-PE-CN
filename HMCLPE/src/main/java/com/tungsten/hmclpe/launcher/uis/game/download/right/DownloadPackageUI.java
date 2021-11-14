@@ -87,9 +87,7 @@ public class DownloadPackageUI extends BaseUI {
                         Stream<ModListBean.Mod> stream = SearchTools.search("", "", 0, SearchTools.SECTION_PACKAGE, SearchTools.DEFAULT_PAGE_OFFSET, "", 0);
                         List<ModListBean.Mod> list = stream.collect(toList());
                         packageList.clear();
-                        for (int i = 0; i < list.size(); i++) {
-                            packageList.add(list.get(i));
-                        }
+                        packageList.addAll(list);
                         searchHandler.sendEmptyMessage(1);
                     } catch (Exception e) {
                         e.printStackTrace();
