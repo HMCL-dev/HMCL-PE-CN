@@ -124,7 +124,7 @@ public class DownloadModListAdapter extends BaseAdapter {
                 }).start();
         String categories = "";
         for (int i = 0;i < modList.get(position).getCategories().size();i++){
-            categories = categories + SearchTools.getCategoryFromID(context,modList.get(position).getCategories().get(i)) + "  ";
+            //categories = categories + SearchTools.getCategoryFromID(context,modList.get(position).getCategories().get(i)) + "  ";
         }
         viewHolder.modCategories.setText(categories);
         viewHolder.modName.setText(ModTranslations.getDisplayName(modList.get(position).getTitle(),modList.get(position).getSlug()));

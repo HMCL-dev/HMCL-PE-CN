@@ -26,12 +26,15 @@ import androidx.annotation.RequiresApi;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.download.resources.curse.CurseModManager;
 import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
 import com.tungsten.hmclpe.launcher.download.resources.SearchTools;
 import com.tungsten.hmclpe.launcher.list.download.mod.DownloadModListAdapter;
+import com.tungsten.hmclpe.launcher.list.view.spinner.SpinnerAdapter;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -54,8 +57,8 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
     private ArrayAdapter<String> sourceListAdapter;
     private ArrayList<String> versionList;
     private ArrayAdapter<String> versionListAdapter;
-    private ArrayList<String> categoryList;
-    private ArrayAdapter<String> categoryListAdapter;
+    private ArrayList<CurseModManager.Category> categoryList;
+    private SpinnerAdapter categoryListAdapter;
     private ArrayList<String> sortList;
     private ArrayAdapter<String> sortListAdapter;
 
@@ -97,11 +100,9 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
         versionListAdapter.setDropDownViewResource(R.layout.item_spinner_drop_down);
         versionSpinner.setAdapter(versionListAdapter);
 
-        String[] categoryArray = context.getResources().getStringArray(R.array.download_mod_categories);
         categoryList = new ArrayList<>();
-        categoryList.addAll(Arrays.asList(categoryArray));
-        categoryListAdapter = new ArrayAdapter<String>(context,R.layout.item_spinner,categoryList);
-        categoryListAdapter.setDropDownViewResource(R.layout.item_spinner_drop_down);
+        categoryList.add(new CurseModManager.Category(0, "All", "", "", 6, 6, 432, new ArrayList<>()));
+        categoryListAdapter = new SpinnerAdapter(context,categoryList,6);
         typeSpinner.setAdapter(categoryListAdapter);
 
         sortList = new ArrayList<>();
@@ -192,10 +193,22 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
                 public void run() {
                     try {
                         searchHandler.sendEmptyMessage(0);
-                        Stream<ModListBean.Mod> stream = SearchTools.searchImpl(downloadSourceSpinner.getSelectedItem().toString(), editVersion.getText().toString(), SearchTools.getCategoryID(typeSpinner.getSelectedItemPosition()), SearchTools.SECTION_MOD, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), sortSpinner.getSelectedItemPosition());
+                        List<CurseModManager.Category> categories = new ArrayList<>();
+                        try {
+                            categories = CurseModManager.getCategories(SearchTools.SECTION_MOD);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Stream<ModListBean.Mod> stream = SearchTools.searchImpl(downloadSourceSpinner.getSelectedItem().toString(), editVersion.getText().toString(), ((CurseModManager.Category) typeSpinner.getSelectedItem()).getId(), SearchTools.SECTION_MOD, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), sortSpinner.getSelectedItemPosition());
                         List<ModListBean.Mod> list = stream.collect(toList());
                         modList.clear();
                         modList.addAll(list);
+                        categoryList.clear();
+                        categoryList.add(new CurseModManager.Category(0, "All", "", "", 6, 6, 432, new ArrayList<>()));
+                        for (int i = 0;i < categories.size();i++){
+                            categoryList.add(categories.get(i));
+                            categoryList.addAll(categories.get(i).getSubcategories());
+                        }
                         searchHandler.sendEmptyMessage(1);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -220,6 +233,7 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
             }
             if (msg.what == 1) {
                 modListAdapter.notifyDataSetChanged();
+                categoryListAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
                 modListView.setVisibility(View.VISIBLE);
                 isSearching = false;

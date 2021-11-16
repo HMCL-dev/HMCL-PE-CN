@@ -24,12 +24,15 @@ import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.download.resources.curse.CurseModManager;
 import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
 import com.tungsten.hmclpe.launcher.download.resources.SearchTools;
 import com.tungsten.hmclpe.launcher.list.download.world.DownloadWorldListAdapter;
+import com.tungsten.hmclpe.launcher.list.view.spinner.SpinnerAdapter;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,6 +53,8 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
     private ArrayAdapter<String> sortListAdapter;
     private ArrayList<String> versionList;
     private ArrayAdapter<String> versionListAdapter;
+    private ArrayList<CurseModManager.Category> categoryList;
+    private SpinnerAdapter categoryListAdapter;
 
     private boolean isSearching = false;
 
@@ -95,6 +100,11 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
         versionListAdapter = new ArrayAdapter<String>(context,R.layout.item_spinner,versionList);
         versionListAdapter.setDropDownViewResource(R.layout.item_spinner_drop_down);
         editVersionSpinner.setAdapter(versionListAdapter);
+
+        categoryList = new ArrayList<>();
+        categoryList.add(new CurseModManager.Category(0, "All", "", "", 17, 17, 432, new ArrayList<>()));
+        categoryListAdapter = new SpinnerAdapter(context,categoryList,17);
+        editCategory.setAdapter(categoryListAdapter);
 
         editVersionSpinner.setOnItemSelectedListener(this);
         editCategory.setOnItemSelectedListener(this);
@@ -144,10 +154,22 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
                 public void run() {
                     try {
                         searchHandler.sendEmptyMessage(0);
-                        Stream<ModListBean.Mod> stream = SearchTools.search("", editVersion.getText().toString(), 0, SearchTools.SECTION_WORLD, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), editSort.getSelectedItemPosition());
+                        List<CurseModManager.Category> categories = new ArrayList<>();
+                        try {
+                            categories = CurseModManager.getCategories(SearchTools.SECTION_WORLD);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Stream<ModListBean.Mod> stream = SearchTools.search("", editVersion.getText().toString(), ((CurseModManager.Category) editCategory.getSelectedItem()).getId(), SearchTools.SECTION_WORLD, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), editSort.getSelectedItemPosition());
                         List<ModListBean.Mod> list = stream.collect(toList());
                         worldList.clear();
                         worldList.addAll(list);
+                        categoryList.clear();
+                        categoryList.add(new CurseModManager.Category(0, "All", "", "", 17, 17, 432, new ArrayList<>()));
+                        for (int i = 0;i < categories.size();i++){
+                            categoryList.add(categories.get(i));
+                            categoryList.addAll(categories.get(i).getSubcategories());
+                        }
                         searchHandler.sendEmptyMessage(1);
                     } catch (Exception e) {
                         e.printStackTrace();
