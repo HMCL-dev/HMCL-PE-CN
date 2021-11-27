@@ -17,7 +17,6 @@ import androidx.annotation.RequiresApi;
 import com.google.gson.Gson;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
-import com.liulishuo.filedownloader.FileDownloadQueueSet;
 import com.liulishuo.filedownloader.FileDownloader;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
@@ -53,7 +52,6 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
 
     private ListView taskListView;
     private ArrayList<DownloadTaskListBean> allTaskList;
-    private ArrayList<DownloadTaskListBean> taskList;
     private DownloadTaskListAdapter downloadTaskListAdapter;
 
     private NetSpeedTimer netSpeedTimer;
@@ -83,8 +81,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     private void init(){
         taskListView = findViewById(R.id.download_task_list);
         allTaskList = new ArrayList<>();
-        taskList = new ArrayList<>();
-        downloadTaskListAdapter = new DownloadTaskListAdapter(context,taskList,this);
+        downloadTaskListAdapter = new DownloadTaskListAdapter(context,allTaskList,this);
         taskListView.setAdapter(downloadTaskListAdapter);
 
         speedText = findViewById(R.id.download_speed_text);
@@ -135,11 +132,13 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
                             version.getDownloadInfo().getSha1()));
                     //libraries
                     for (Library library : version.getLibraries()){
-                        DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
-                                library.getDownload().getUrl(),
-                                activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath(),
-                                library.getDownload().getSha1());
-                        allTaskList.add(bean);
+                        if (library.getDownload().getUrl() != null && !library.getDownload().getUrl().equals("")) {
+                            DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
+                                    library.getDownload().getUrl(),
+                                    activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath(),
+                                    library.getDownload().getSha1());
+                            allTaskList.add(bean);
+                        }
                     }
                     //assets
                     for (AssetObject object : assetIndex.getObjects().values()){
@@ -155,8 +154,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
                     final FileDownloadListener downloadListener = new FileDownloadListener() {
                         @Override
                         protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-                            taskList.add((DownloadTaskListBean) task.getTag());
-                            downloadHandler.sendEmptyMessage(0);
+
                         }
 
                         @Override
@@ -168,7 +166,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
                             long soFar = soFarBytes;
                             long total = totalBytes;
                             long progress = 100 * soFar / total;
-                            for (DownloadTaskListBean bean : taskList){
+                            for (DownloadTaskListBean bean : allTaskList){
                                 if (((DownloadTaskListBean) task.getTag()).name.equals(bean.name)){
                                     bean.progress = (int) progress;
                                 }
@@ -186,7 +184,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
 
                         @Override
                         protected void completed(BaseDownloadTask task) {
-                            taskList.remove((DownloadTaskListBean) task.getTag());
+                            allTaskList.remove((DownloadTaskListBean) task.getTag());
                             downloadHandler.sendEmptyMessage(0);
                         }
 
@@ -202,15 +200,14 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
                         protected void warn(BaseDownloadTask task) {
                         }
                     };
-                    final FileDownloadQueueSet queueSet = new FileDownloadQueueSet(downloadListener);
                     final ArrayList<BaseDownloadTask> tasks = new ArrayList<>();
                     for (int i = 0; i < allTaskList.size(); i++) {
-                        tasks.add(fileDownloader.getImpl().create(allTaskList.get(i).url).setTag(allTaskList.get(i)).setPath(allTaskList.get(i).path));
+                        tasks.add(fileDownloader.getImpl().create(allTaskList.get(i).url).setTag(allTaskList.get(i)).setPath(allTaskList.get(i).path).setListener(downloadListener).setAutoRetryTimes(2));
                     }
-                    queueSet.disableCallbackProgressTimes();
-                    queueSet.setAutoRetryTimes(1);
-                    queueSet.downloadTogether(tasks);
-                    queueSet.start();
+                    for (int i = 0; i < tasks.size(); i++){
+                        tasks.get(i).start();
+                    }
+                    downloadHandler.sendEmptyMessage(0);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

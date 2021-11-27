@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
@@ -12,10 +13,12 @@ import com.tungsten.hmclpe.launcher.list.info.contents.ContentListAdapter;
 import com.tungsten.hmclpe.launcher.list.info.contents.ContentListBean;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListAdapter;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
+import com.tungsten.hmclpe.launcher.list.view.listview.ContentListView;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
+import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
 import java.util.ArrayList;
 
@@ -23,7 +26,8 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
 
     public LinearLayout versionListUI;
 
-    private ListView gameDirList;
+    private LinearLayout contentListParent;
+    private ContentListView gameDirList;
     private ListView versionList;
 
     public ArrayList<ContentListBean> contentList;
@@ -61,6 +65,9 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
         startDownloadMcUI.setOnClickListener(this);
         refresh = activity.findViewById(R.id.refresh_local_version_list);
         refresh.setOnClickListener(this);
+
+        contentListParent = activity.findViewById(R.id.content_list_parent);
+        gameDirList.setMaxHeight(contentListParent.getHeight() - startAddGameDirUI.getHeight() - ConvertUtils.dip2px(context,10));
     }
 
     @Override

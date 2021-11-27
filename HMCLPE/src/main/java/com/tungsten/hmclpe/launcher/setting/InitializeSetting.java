@@ -36,7 +36,7 @@ public class InitializeSetting {
             launcherSetting = GsonUtils.getLauncherSettingFromFile(AppManifest.SETTING_DIR + "/launcher_setting.json");
         }
         else {
-            launcherSetting = new LauncherSetting(AppManifest.DEFAULT_GAME_DIR,0,0,64,true,false,false,"DEFAULT","DEFAULT");
+            launcherSetting = new LauncherSetting(AppManifest.DEFAULT_GAME_DIR,0,0,64,true,false,false,"DEFAULT","DEFAULT",AppManifest.DEFAULT_CACHE_DIR);
             GsonUtils.saveLauncherSetting(launcherSetting,AppManifest.SETTING_DIR + "/launcher_setting.json");
         }
         return launcherSetting;

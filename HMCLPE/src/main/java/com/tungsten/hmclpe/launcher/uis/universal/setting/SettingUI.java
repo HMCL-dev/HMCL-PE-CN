@@ -1,6 +1,7 @@
 package com.tungsten.hmclpe.launcher.uis.universal.setting;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -66,6 +67,12 @@ public class SettingUI extends BaseUI implements View.OnClickListener {
     public void onStop() {
         super.onStop();
         CustomAnimationUtils.hideViewToLeft(settingUI,activity,context,true);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        settingUIManager.onActivityResult(requestCode,resultCode,data);
     }
 
     @Override

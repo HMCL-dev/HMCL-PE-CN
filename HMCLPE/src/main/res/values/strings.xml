@@ -314,10 +314,18 @@
     <string name="universal_setting_ui_update_state_update"></string>
     <string name="universal_setting_ui_update_rec">推荐版本</string>
     <string name="universal_setting_ui_update_beta">测试版</string>
-    <string name="universal_setting_ui_beta_describe">开发版包含更多的功能以及错误修复，但也可能会包含其他的问题</string>
+    <string name="universal_setting_ui_beta_describe">开发版包含更多的功能以及错误修复，但也可能会包含其他的问题。</string>
     <string name="universal_setting_ui_cache">文件下载缓存目录</string>
     <string name="universal_setting_ui_clear_cache">清理</string>
+    <string name="universal_setting_ui_cache_default">默认</string>
+    <string name="universal_setting_ui_cache_custom">自定义</string>
     <string name="universal_setting_ui_lang">语言</string>
+    <string name="universal_setting_ui_lang_sys">跟随系统语言</string>
     <string name="universal_setting_ui_log">调试</string>
     <string name="universal_setting_ui_export_log">导出启动器日志</string>
+
+    <string-array name="launcher_languages">
+        <item>English</item>
+        <item>简体中文</item>
+    </string-array>
 </resources>

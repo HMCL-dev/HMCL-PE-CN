@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="1.8">
-      <module name="Hello_Minecraft_Launcher_Pocket_Edition.Boat" target="11" />
-      <module name="Hello_Minecraft_Launcher_Pocket_Edition.FilePicker" target="11" />
-      <module name="Hello_Minecraft_Launcher_Pocket_Edition.HMCLPE" target="11" />
+    <bytecodeTargetLevel target="11">
       <module name="Hello_Minecraft_Launcher_Pocket_Edition.PojavCore" target="11" />
     </bytecodeTargetLevel>
   </component>

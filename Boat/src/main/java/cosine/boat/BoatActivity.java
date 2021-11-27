@@ -1,53 +1,90 @@
 package cosine.boat;
 
+import android.view.TextureView;
 import android.graphics.SurfaceTexture;
 import android.view.Surface;
-import android.view.TextureView;
+import android.view.Window;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class BoatActivity extends AppCompatActivity implements TextureView.SurfaceTextureListener{
+import java.util.Vector;
 
-    private TextureView mainTextureView;
 
-    public static native void setBoatNativeWindow(Surface surface);
+public class BoatActivity extends AppCompatActivity implements TextureView.SurfaceTextureListener
+{
 
-    static {
-        System.loadLibrary("boat");
-    }
+	private TextureView mainTextureView;
+	public OnActivityChangeListener activityChangeListener;
 
-    public void initLayout(){
-        setContentView(R.layout.activity_boat);
-        mainTextureView = findViewById(R.id.main_texture_view);
-        mainTextureView.setSurfaceTextureListener(this);
-    }
+	public void initLayout(int resId){
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-    @Override
-    public void onSurfaceTextureAvailable(@NonNull SurfaceTexture surface, int width, int height) {
-        System.out.println("SurfaceTexture is available!");
-        BoatActivity.setBoatNativeWindow(new Surface(surface));
-        new Thread() {
-            @Override
-            public void run() {
-                LauncherConfig config = LauncherConfig.fromFile(getIntent().getExtras().getString("config"));
-                LoadMe.exec(config);
-            }
-        }.start();
-    }
+		nOnCreate();
 
-    @Override
-    public void onSurfaceTextureSizeChanged(@NonNull SurfaceTexture surface, int width, int height) {
+		setContentView(resId);
 
-    }
+		mainTextureView = new TextureView(this);
+		mainTextureView.setSurfaceTextureListener(this);
+	}
+	
+	public static native void setBoatNativeWindow(Surface surface);
 
-    @Override
-    public boolean onSurfaceTextureDestroyed(@NonNull SurfaceTexture surface) {
-        return false;
-    }
+	public native void nOnCreate();
+	
+	static {
+		System.loadLibrary("boat");
+	}
+	
+	public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
 
-    @Override
-    public void onSurfaceTextureUpdated(@NonNull SurfaceTexture surface) {
+		// TODO: Implement this method
+		System.out.println("SurfaceTexture is available!");
+		BoatActivity.setBoatNativeWindow(new Surface(surface));
 
-    }
+		activityChangeListener.onSurfaceTextureAvailable();
+	}
+
+	@Override
+	public void onSurfaceTextureSizeChanged(SurfaceTexture p1, int p2, int p3)
+	{
+		// TODO: Implement this method
+	}
+
+	@Override
+	public boolean onSurfaceTextureDestroyed(SurfaceTexture p1)
+	{
+		// TODO: Implement this method
+		return false;
+	}
+
+	@Override
+	public void onSurfaceTextureUpdated(SurfaceTexture p1)
+	{
+		// TODO: Implement this method
+	}
+
+	public void startGame(final String runtimePath,final String home,final boolean highVersion,final Vector<String> args){
+		new Thread(){
+			@Override
+			public void run(){
+				LoadMe.execMc(runtimePath,home,highVersion,args);
+			}
+		}.start();
+	}
+
+	public void setCursorMode(int mode){
+		activityChangeListener.onCursorModeChange(mode);
+	}
+
+	public interface OnActivityChangeListener{
+		void onSurfaceTextureAvailable();
+		void onCursorModeChange(int mode);
+	}
+
+	public void setOnCursorChangeListener(OnActivityChangeListener listener){
+		this.activityChangeListener=listener;
+	}
 }
+
+
+

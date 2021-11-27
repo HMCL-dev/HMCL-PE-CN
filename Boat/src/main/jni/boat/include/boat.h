@@ -183,6 +183,9 @@ typedef struct {
 	
         JavaVM* android_jvm;
         jclass class_BoatInput;
+        jclass class_BoatActivity;
+        jobject boatActivity;
+        jmethodID setCursorMode;
 	
         BoatEventProcessor current_event_processor;
         BoatInputEvent current_event;

@@ -1,6 +1,7 @@
 package com.tungsten.hmclpe.launcher.uis.universal.setting;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
@@ -57,6 +58,12 @@ public class SettingUIManager {
             else {
                 settingUIs[i].onStop();
             }
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        for (BaseUI ui : settingUIs){
+            ui.onActivityResult(requestCode,resultCode,data);
         }
     }
 }

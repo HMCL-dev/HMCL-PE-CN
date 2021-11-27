@@ -74,8 +74,8 @@ public class UIManager {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data){
-        if (requestCode == AddGameDirectoryUI.PICK_GAME_FILE_FOLDER_REQUEST){
-            addGameDirectoryUI.onActivityResult(requestCode,resultCode,data);
+        for (BaseUI ui : mainUIs){
+            ui.onActivityResult(requestCode,resultCode,data);
         }
     }
 }
