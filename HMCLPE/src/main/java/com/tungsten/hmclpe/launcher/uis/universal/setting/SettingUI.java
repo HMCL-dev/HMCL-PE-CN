@@ -84,22 +84,22 @@ public class SettingUI extends BaseUI implements View.OnClickListener {
             settingUIManager.switchSettingUIs(settingUIManager.universalSettingUI);
         }
         if (v == startExteriorSettingUI){
-
+            settingUIManager.switchSettingUIs(settingUIManager.exteriorSettingUI);
         }
         if (v == startDownloadSettingUI){
-
+            settingUIManager.switchSettingUIs(settingUIManager.downloadSettingUI);
         }
         if (v == startHelpUI){
-
+            settingUIManager.switchSettingUIs(settingUIManager.helpUI);
         }
         if (v == startFeedbackUI){
-
+            settingUIManager.switchSettingUIs(settingUIManager.feedbackUI);
         }
         if (v == startDonateUI){
-
+            settingUIManager.switchSettingUIs(settingUIManager.donateUI);
         }
         if (v == startAboutUsUI){
-
+            settingUIManager.switchSettingUIs(settingUIManager.aboutUsUI);
         }
     }
 

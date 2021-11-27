@@ -328,4 +328,13 @@
         <item>English</item>
         <item>简体中文</item>
     </string-array>
+
+    <string name="exterior_setting_ui_theme_title">外观</string>
+    <string name="exterior_setting_ui_theme">主题</string>
+    <string name="exterior_setting_ui_bar_trans">标题栏透明</string>
+    <string name="exterior_setting_ui_bg_title">背景地址</string>
+    <string name="exterior_setting_ui_bg_default">默认</string>
+    <string name="exterior_setting_ui_bg_classic">经典</string>
+    <string name="exterior_setting_ui_bg_custom">自定义</string>
+    <string name="exterior_setting_ui_bg_online">网络</string>
 </resources>
