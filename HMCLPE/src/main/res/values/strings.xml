@@ -337,4 +337,9 @@
     <string name="exterior_setting_ui_bg_classic">经典</string>
     <string name="exterior_setting_ui_bg_custom">自定义</string>
     <string name="exterior_setting_ui_bg_online">网络</string>
+
+    <string name="dialog_color_selector_title">选择颜色</string>
+    <string name="dialog_color_selector_arrow">→</string>
+    <string name="dialog_color_selector_positive">确认</string>
+    <string name="dialog_color_selector_negative">取消</string>
 </resources>
