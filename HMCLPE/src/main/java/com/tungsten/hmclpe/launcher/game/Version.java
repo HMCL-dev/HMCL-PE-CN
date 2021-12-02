@@ -267,7 +267,6 @@ public class Version implements Comparable<Version>, Validation {
                 isPatch ? parent.patches : Lang.merge(Lang.merge(parent.patches, Collections.singleton(toPatch())), patches));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     protected Version resolve(VersionProvider provider, Set<String> resolvedSoFar) throws VersionNotFoundException {
         Version thisVersion;
 

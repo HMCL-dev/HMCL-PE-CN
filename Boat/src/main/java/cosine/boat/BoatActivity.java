@@ -67,7 +67,7 @@ public class BoatActivity extends AppCompatActivity implements TextureView.Surfa
 		new Thread(){
 			@Override
 			public void run(){
-				LoadMe.execMc(runtimePath,home,highVersion,args);
+				LoadMe.launchMinecraft(runtimePath,home,highVersion,args);
 			}
 		}.start();
 	}
