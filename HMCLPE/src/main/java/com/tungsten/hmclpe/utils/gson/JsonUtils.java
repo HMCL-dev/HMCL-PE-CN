@@ -18,7 +18,6 @@ import java.util.UUID;
 /**
  * @author yushijinhun
  */
-@RequiresApi(api = Build.VERSION_CODES.O)
 public final class JsonUtils {
 
     public static final Gson GSON = defaultGsonBuilder().create();
@@ -54,7 +53,14 @@ public final class JsonUtils {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static <T> T fromMaybeMalformedJson(String json, Type type) throws JsonParseException {
+        try {
+            return GSON.fromJson(json, type);
+        } catch (JsonSyntaxException e) {
+            return null;
+        }
+    }
+
     public static GsonBuilder defaultGsonBuilder() {
         return new GsonBuilder()
                 .enableComplexMapKeySerialization()
