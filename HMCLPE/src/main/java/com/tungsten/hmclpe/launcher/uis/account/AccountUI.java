@@ -5,12 +5,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.jfoenix.controls.JFXDialog;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddMicrosoftAccountDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddMojangAccountDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddOfflineAccountDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddVerifyServerDialog;
+import com.tungsten.hmclpe.launcher.dialogs.account.OfflineAccountSkinDialog;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
@@ -72,6 +74,8 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
         if (v == addOfflineAccount){
             AddOfflineAccountDialog addOfflineAccountDialog = new AddOfflineAccountDialog(context);
             addOfflineAccountDialog.show();
+            //OfflineAccountSkinDialog offlineAccountSkinDialog = new OfflineAccountSkinDialog(context);
+            //offlineAccountSkinDialog.show();
         }
         if (v == addMojangAccount){
             AddMojangAccountDialog addMojangAccountDialog = new AddMojangAccountDialog(context);
