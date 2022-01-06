@@ -5,16 +5,19 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.jfoenix.controls.JFXDialog;
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.auth.Account;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddMicrosoftAccountDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddMojangAccountDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddOfflineAccountDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddVerifyServerDialog;
-import com.tungsten.hmclpe.launcher.dialogs.account.OfflineAccountSkinDialog;
+import com.tungsten.hmclpe.launcher.list.account.AccountListAdapter;
+import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
+
+import java.util.ArrayList;
 
 public class AccountUI extends BaseUI implements View.OnClickListener {
 
@@ -27,6 +30,9 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
 
     private ListView externalServerList;
     private ListView accountList;
+
+    private ArrayList<Account> accounts;
+    private AccountListAdapter accountListAdapter;
 
     public AccountUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -66,7 +72,9 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
     }
 
     private void init(){
-
+        accounts = InitializeSetting.initializeAccounts(context);
+        accountListAdapter = new AccountListAdapter(context,accounts);
+        accountList.setAdapter(accountListAdapter);
     }
 
     @Override
@@ -74,8 +82,6 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
         if (v == addOfflineAccount){
             AddOfflineAccountDialog addOfflineAccountDialog = new AddOfflineAccountDialog(context);
             addOfflineAccountDialog.show();
-            //OfflineAccountSkinDialog offlineAccountSkinDialog = new OfflineAccountSkinDialog(context);
-            //offlineAccountSkinDialog.show();
         }
         if (v == addMojangAccount){
             AddMojangAccountDialog addMojangAccountDialog = new AddMojangAccountDialog(context);

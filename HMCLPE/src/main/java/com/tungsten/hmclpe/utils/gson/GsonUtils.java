@@ -2,6 +2,7 @@ package com.tungsten.hmclpe.utils.gson;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tungsten.hmclpe.auth.Account;
 import com.tungsten.hmclpe.launcher.list.info.contents.ContentListBean;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.setting.game.PublicGameSetting;
@@ -42,6 +43,14 @@ public class GsonUtils {
         return list;
     }
 
+    public static ArrayList<Account> getAccountListFromFile(String path){
+        String string = FileStringUtils.getStringFromFile(path);
+        Gson gson = new Gson();
+        Type accountListType =new TypeToken<ArrayList<Account>>(){}.getType();
+        ArrayList<Account> list = gson.fromJson(string,accountListType);
+        return list;
+    }
+
     public static void saveLauncherSetting(LauncherSetting launcherSetting,String path){
         Gson gson = new Gson();
         String string = gson.toJson(launcherSetting);
@@ -61,6 +70,12 @@ public class GsonUtils {
     }
 
     public static void saveContents(ArrayList<ContentListBean> list,String path){
+        Gson gson = new Gson();
+        String string = gson.toJson(list);
+        FileStringUtils.writeFile(path,string);
+    }
+
+    public static void saveAccounts(ArrayList<Account> list,String path){
         Gson gson = new Gson();
         String string = gson.toJson(list);
         FileStringUtils.writeFile(path,string);

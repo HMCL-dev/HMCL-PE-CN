@@ -35,6 +35,7 @@
             android:layout_weight="1"/>
 
         <EditText
+            android:paddingLeft="8dp"
             android:background="@color/colorLightGray"
             android:singleLine="true"
             android:layout_width="390dp"
@@ -64,6 +65,7 @@
             android:layout_weight="1"/>
 
         <EditText
+            android:paddingLeft="8dp"
             android:inputType="textPassword"
             android:background="@color/colorLightGray"
             android:singleLine="true"

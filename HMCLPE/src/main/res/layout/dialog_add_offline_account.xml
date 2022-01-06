@@ -45,6 +45,7 @@
                     android:layout_weight="1"/>
 
                 <EditText
+                    android:paddingLeft="8dp"
                     android:background="@color/colorLightGray"
                     android:singleLine="true"
                     android:layout_width="390dp"
@@ -130,6 +131,7 @@
                     android:layout_weight="1"/>
 
                 <EditText
+                    android:paddingLeft="8dp"
                     android:hint="fc5bc365-aedf-30a8-8b89-04e462e29bde"
                     android:textSize="@dimen/text_size_middle"
                     android:background="@color/colorLightGray"

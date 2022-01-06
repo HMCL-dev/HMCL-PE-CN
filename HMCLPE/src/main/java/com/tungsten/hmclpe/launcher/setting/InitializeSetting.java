@@ -17,6 +17,17 @@ import java.util.ArrayList;
 
 public class InitializeSetting {
 
+    public static ArrayList<Account> initializeAccounts(Context context){
+        ArrayList<Account> accountList = new ArrayList<>();
+        if (new File(AppManifest.ACCOUNT_DIR + "/accounts.json").exists() && GsonUtils.getContentListFromFile(AppManifest.ACCOUNT_DIR + "/accounts.json").size() != 0){
+            accountList = GsonUtils.getAccountListFromFile(AppManifest.ACCOUNT_DIR + "/accounts.json");
+        }
+        else {
+            GsonUtils.saveAccounts(accountList,AppManifest.ACCOUNT_DIR + "/accounts.json");
+        }
+        return accountList;
+    }
+
     public static ArrayList<ContentListBean> initializeContents(Context context){
         ArrayList<ContentListBean> contentList = new ArrayList<>();
         if (new File(AppManifest.GAME_FILE_DIRECTORY_DIR + "/game_file_directories.json").exists() && GsonUtils.getContentListFromFile(AppManifest.GAME_FILE_DIRECTORY_DIR + "/game_file_directories.json").size() != 0){
