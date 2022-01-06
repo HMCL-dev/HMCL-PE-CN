@@ -1,75 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:background="@drawable/launcher_button_light_gray"
-    android:padding="10dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RadioButton
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/select_account"/>
-
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:id="@+id/skin_face"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_steve"/>
-
     <LinearLayout
-        android:layout_marginStart="8dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:layout_weight="1"
-        android:weightSum="2">
+        android:orientation="horizontal"
+        android:background="@drawable/launcher_button_light_gray"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:singleLine="true"
-            android:textColor="@color/colorPureBlack"
-            android:id="@+id/name"
+        <RadioButton
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="@dimen/text_size_middle"/>
+            android:id="@+id/select_account"/>
 
-        <TextView
-            android:singleLine="true"
-            android:textColor="@color/colorPureBlack"
-            android:id="@+id/type"
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/skin_face"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_steve"/>
+
+        <LinearLayout
+            android:layout_marginStart="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
             android:layout_weight="1"
-            android:textSize="@dimen/text_size_middle"/>
+            android:weightSum="2">
+
+            <TextView
+                android:singleLine="true"
+                android:textColor="@color/colorPureBlack"
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/text_size_middle"/>
+
+            <TextView
+                android:singleLine="true"
+                android:textColor="@color/colorPureBlack"
+                android:id="@+id/type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/text_size_middle"/>
+
+        </LinearLayout>
+
+        <ImageButton
+            android:layout_marginStart="10dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_baseline_refresh_black"
+            android:layout_gravity="center"
+            android:id="@+id/refresh"/>
+
+        <ImageButton
+            android:layout_marginStart="10dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_baseline_hanger_black"
+            android:layout_gravity="center"
+            android:id="@+id/skin"/>
+
+        <ImageButton
+            android:layout_marginStart="10dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_baseline_delete_black"
+            android:layout_gravity="center"
+            android:id="@+id/delete"/>
 
     </LinearLayout>
-
-    <ImageButton
-        android:layout_marginStart="10dp"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:background="@drawable/ic_baseline_refresh_black"
-        android:layout_gravity="center"
-        android:id="@+id/refresh"/>
-
-    <ImageButton
-        android:layout_marginStart="10dp"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:background="@drawable/ic_baseline_hanger_black"
-        android:layout_gravity="center"
-        android:id="@+id/skin"/>
-
-    <ImageButton
-        android:layout_marginStart="10dp"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:background="@drawable/ic_baseline_delete_black"
-        android:layout_gravity="center"
-        android:id="@+id/delete"/>
 
 </LinearLayout>

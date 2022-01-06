@@ -2,8 +2,6 @@ package com.tungsten.hmclpe.launcher.dialogs.account;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.animation.Animation;
@@ -14,12 +12,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.auth.Account;
 
-public class AddOfflineAccountDialog extends Dialog implements View.OnClickListener, TextWatcher {
+import java.util.ArrayList;
+
+public class AddOfflineAccountDialog extends Dialog implements View.OnClickListener {
+
+    private Context context;
+    private ArrayList<Account> accounts;
+    private OnOfflineAccountAddListener onOfflineAccountAddListener;
 
     private EditText editName;
     private EditText editUUID;
@@ -34,8 +40,11 @@ public class AddOfflineAccountDialog extends Dialog implements View.OnClickListe
     private Button login;
     private Button cancel;
     
-    public AddOfflineAccountDialog(@NonNull Context context) {
+    public AddOfflineAccountDialog(@NonNull Context context,ArrayList<Account> accounts,OnOfflineAccountAddListener onOfflineAccountAddListener) {
         super(context);
+        this.context = context;
+        this.accounts = accounts;
+        this.onOfflineAccountAddListener = onOfflineAccountAddListener;
         setContentView(R.layout.dialog_add_offline_account);
         setCancelable(false);
         init();
@@ -44,9 +53,6 @@ public class AddOfflineAccountDialog extends Dialog implements View.OnClickListe
     private void init(){
         editName = findViewById(R.id.edit_user_name);
         editUUID = findViewById(R.id.edit_uuid);
-
-        editName.addTextChangedListener(this);
-        editUUID.addTextChangedListener(this);
 
         purchaseLink = findViewById(R.id.purchase_link);
         purchaseLink.setMovementMethod(LinkMovementMethod.getInstance());
@@ -87,25 +93,39 @@ public class AddOfflineAccountDialog extends Dialog implements View.OnClickListe
             }
         }
         if (v == login){
-
+            ArrayList<String> names = new ArrayList<>();
+            for (Account account : accounts){
+                if (account.loginType == 0){
+                    names.add(account.auth_player_name);
+                }
+            }
+            if (editName.getText().toString().equals("")){
+                Toast.makeText(context,context.getString(R.string.dialog_add_offline_account_empty_warn),Toast.LENGTH_SHORT).show();
+            }
+            else if (names.contains(editName.getText().toString())){
+                Toast.makeText(context,context.getString(R.string.dialog_add_offline_account_exist_warn),Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Account account = new Account(0,
+                        "",
+                        "",
+                        "mojang",
+                        "0",
+                        editName.getText().toString(),
+                        editUUID.getText().toString().equals("") ? "fc5bc365-aedf-30a8-8b89-04e462e29bde" : editUUID.getText().toString(),
+                        "",
+                        "",
+                        "");
+                onOfflineAccountAddListener.onPositive(account);
+                this.dismiss();
+            }
         }
         if (v == cancel){
             this.dismiss();
         }
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
+    public interface OnOfflineAccountAddListener{
+        void onPositive(Account account);
     }
 }

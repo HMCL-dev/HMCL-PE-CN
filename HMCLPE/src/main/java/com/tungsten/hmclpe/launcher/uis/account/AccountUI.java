@@ -13,9 +13,11 @@ import com.tungsten.hmclpe.launcher.dialogs.account.AddMojangAccountDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddOfflineAccountDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddVerifyServerDialog;
 import com.tungsten.hmclpe.launcher.list.account.AccountListAdapter;
+import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
+import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
 import java.util.ArrayList;
 
@@ -73,14 +75,23 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
 
     private void init(){
         accounts = InitializeSetting.initializeAccounts(context);
-        accountListAdapter = new AccountListAdapter(context,accounts);
+        accountListAdapter = new AccountListAdapter(context,activity,accounts);
         accountList.setAdapter(accountListAdapter);
     }
 
     @Override
     public void onClick(View v) {
         if (v == addOfflineAccount){
-            AddOfflineAccountDialog addOfflineAccountDialog = new AddOfflineAccountDialog(context);
+            AddOfflineAccountDialog addOfflineAccountDialog = new AddOfflineAccountDialog(context, accounts, new AddOfflineAccountDialog.OnOfflineAccountAddListener() {
+                @Override
+                public void onPositive(Account account) {
+                    activity.publicGameSetting.account = account;
+                    GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");
+                    accounts.add(account);
+                    accountListAdapter.notifyDataSetChanged();
+                    GsonUtils.saveAccounts(accounts,AppManifest.ACCOUNT_DIR + "/accounts.json");
+                }
+            });
             addOfflineAccountDialog.show();
         }
         if (v == addMojangAccount){

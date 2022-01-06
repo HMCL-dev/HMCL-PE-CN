@@ -12,16 +12,19 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.Account;
+import com.tungsten.hmclpe.launcher.MainActivity;
 
 import java.util.ArrayList;
 
 public class AccountListAdapter extends BaseAdapter {
 
     private Context context;
+    private MainActivity activity;
     private ArrayList<Account> accounts;
 
-    public AccountListAdapter (Context context, ArrayList<Account> accounts){
+    public AccountListAdapter (Context context, MainActivity activity, ArrayList<Account> accounts){
         this.context = context;
+        this.activity = activity;
         this.accounts = accounts;
     }
 
@@ -68,6 +71,39 @@ public class AccountListAdapter extends BaseAdapter {
         else {
             viewHolder = (ViewHolder)convertView.getTag();
         }
+        Account account = accounts.get(position);
+        if (account.loginType == 0){
+            viewHolder.name.setText(account.auth_player_name);
+            viewHolder.type.setText(context.getString(R.string.item_account_type_offline));
+        }
+        if (account.loginType == 1){
+
+        }
+        if (account.loginType == 2){
+
+        }
+        if (account.loginType == 3){
+
+        }
+        viewHolder.check.setChecked(account.email.equals(activity.publicGameSetting.account.email) && account.auth_player_name.equals(activity.publicGameSetting.account.auth_player_name) && account.auth_uuid.equals(activity.publicGameSetting.account.auth_uuid) && account.loginServer.equals(activity.publicGameSetting.account.loginServer));
+        viewHolder.refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        viewHolder.skin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        viewHolder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         return convertView;
     }
 }

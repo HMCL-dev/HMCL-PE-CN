@@ -37,6 +37,8 @@
     <string name="dialog_add_offline_account_hint_text">UUID 是 Minecraft 对玩家角色的唯一标识符，每个启动器生成 UUID 的方式可能不同。通过修改 UUID 选项至原启动器所生成的 UUID，你可以保证在切换启动器后，游戏还能将你的游戏角色识别为给定 UUID 所对应的角色，从而保留原来角色的背包物品。UUID 选项为高级选项，除非你知道你在做什么，否则你不需要调整该选项。</string>
     <string name="dialog_add_offline_account_login">登录</string>
     <string name="dialog_add_offline_account_cancel">取消</string>
+    <string name="dialog_add_offline_account_empty_warn">用户名不得为空</string>
+    <string name="dialog_add_offline_account_exist_warn">当前用户已存在，无法重复添加</string>
 
     <string name="dialog_add_mojang_account_title">添加 Mojang 账户</string>
     <string name="dialog_add_mojang_account_email">用户名</string>
@@ -60,6 +62,12 @@
     <string name="dialog_add_verify_server_hint">服务器地址</string>
     <string name="dialog_add_verify_server_cancel">取消</string>
     <string name="dialog_add_verify_server_next">下一步 ></string>
+
+    <string name="item_account_type_offline">离线模式</string>
+    <string name="item_account_type_mojang">Mojang 账户</string>
+    <string name="item_account_type_microsoft">微软登录</string>
+    <string name="item_account_type_auth_lib">外置登录 (authlib-injector)</string>
+    <string name="item_account_login_server">认证服务器:</string>
 
     <string name="version_list_ui_title">版本列表</string>
     <string name="version_list_ui_add_dir">添加游戏目录</string>
