@@ -60,8 +60,8 @@ public class InitializeSetting {
         }
         else {
             String currentVersion;
-            if (SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory).size() != 0){
-                currentVersion = SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory).get(0).name;
+            if (SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory,"").size() != 0){
+                currentVersion = SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory,"").get(0).name;
             }
             else {
                 currentVersion = "";

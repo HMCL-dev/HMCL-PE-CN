@@ -106,7 +106,7 @@ public class AddOfflineAccountDialog extends Dialog implements View.OnClickListe
                 Toast.makeText(context,context.getString(R.string.dialog_add_offline_account_exist_warn),Toast.LENGTH_SHORT).show();
             }
             else {
-                Account account = new Account(0,
+                Account account = new Account(1,
                         "",
                         "",
                         "mojang",

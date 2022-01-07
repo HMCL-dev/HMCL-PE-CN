@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class SettingUtils {
 
-    public static ArrayList<GameListBean> getLocalVersionInfo(String path){
+    public static ArrayList<GameListBean> getLocalVersionInfo(String path,String currentVersion){
         ArrayList<GameListBean> list = new ArrayList<>();
         String[] string = new File(path + "/versions/").list();
         if (new File(path + "/versions/").exists()){
@@ -35,6 +35,7 @@ public class SettingUtils {
                 else {
                     bean.version = "unknown";
                 }
+                bean.isSelected = currentVersion.equals(bean.name);
                 list.add(bean);
             }
             return list;

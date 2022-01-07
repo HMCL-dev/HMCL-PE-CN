@@ -124,8 +124,8 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener {
         }
         if (v == install){
             boolean exist = false;
-            for (int i = 0;i < SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory).size();i++){
-                if (editName.getText().toString().equals(SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory).get(i).name)){
+            for (int i = 0;i < SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory,activity.publicGameSetting.currentVersion).size();i++){
+                if (editName.getText().toString().equals(SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory,activity.publicGameSetting.currentVersion).get(i).name)){
                     exist = true;
                 }
             }

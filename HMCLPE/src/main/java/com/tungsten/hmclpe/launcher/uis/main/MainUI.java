@@ -3,8 +3,10 @@ package com.tungsten.hmclpe.launcher.uis.main;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
@@ -25,6 +27,10 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
     private LinearLayout startGame;
     private Spinner gameVersionSpinner;
 
+    private ImageView accountSkinFace;
+    private TextView accountName;
+    private TextView accountType;
+
     public MainUI(Context context, MainActivity activity) {
         super(context, activity);
     }
@@ -44,6 +50,10 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         startGame = activity.findViewById(R.id.launcher_play_button);
         gameVersionSpinner = activity.findViewById(R.id.launcher_spinner_version);
 
+        accountSkinFace = activity.findViewById(R.id.account_skin_face);
+        accountName = activity.findViewById(R.id.account_name_text);
+        accountType = activity.findViewById(R.id.account_state_text);
+
         startAccountUI.setOnClickListener(this);
         startGameManagerUI.setOnClickListener(this);
         startVersionListUI.setOnClickListener(this);
@@ -60,6 +70,29 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         super.onStart();
         CustomAnimationUtils.showViewFromLeft(mainUI,activity,context,true);
         activity.hideBarTitle();
+
+        switch (activity.publicGameSetting.account.loginType){
+            case 1:
+                accountName.setText(activity.publicGameSetting.account.auth_player_name);
+                accountType.setText(context.getString(R.string.item_account_type_offline));
+                break;
+            case 2:
+                accountName.setText(activity.publicGameSetting.account.auth_player_name);
+                accountType.setText(context.getString(R.string.item_account_type_mojang));
+                break;
+            case 3:
+                accountName.setText(activity.publicGameSetting.account.auth_player_name);
+                accountType.setText(context.getString(R.string.item_account_type_microsoft));
+                break;
+            case 4:
+                accountName.setText(activity.publicGameSetting.account.auth_player_name);
+                //accountType.setText(context.getString(R.string.item_account_type_auth_lib));
+                break;
+            default:
+                accountName.setText(context.getString(R.string.launcher_scroll_account_name));
+                accountType.setText(context.getString(R.string.launcher_scroll_account_state));
+                break;
+        }
     }
 
     @Override

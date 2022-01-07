@@ -105,7 +105,7 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
     }
 
     public void refreshVersionList(){
-        gameList = SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory);
+        gameList = SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory,activity.publicGameSetting.currentVersion);
         gameListAdapter = new GameListAdapter(context,activity,gameList);
         versionList.setAdapter(gameListAdapter);
         if (gameList.size() != 0){

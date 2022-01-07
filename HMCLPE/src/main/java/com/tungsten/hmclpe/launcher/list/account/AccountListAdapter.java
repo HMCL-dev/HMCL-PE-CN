@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.Account;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
 import java.util.ArrayList;
 
@@ -72,12 +74,9 @@ public class AccountListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder)convertView.getTag();
         }
         Account account = accounts.get(position);
-        if (account.loginType == 0){
+        if (account.loginType == 1){
             viewHolder.name.setText(account.auth_player_name);
             viewHolder.type.setText(context.getString(R.string.item_account_type_offline));
-        }
-        if (account.loginType == 1){
-
         }
         if (account.loginType == 2){
 
@@ -85,7 +84,18 @@ public class AccountListAdapter extends BaseAdapter {
         if (account.loginType == 3){
 
         }
+        if (account.loginType == 4){
+
+        }
         viewHolder.check.setChecked(account.email.equals(activity.publicGameSetting.account.email) && account.auth_player_name.equals(activity.publicGameSetting.account.auth_player_name) && account.auth_uuid.equals(activity.publicGameSetting.account.auth_uuid) && account.loginServer.equals(activity.publicGameSetting.account.loginServer));
+        viewHolder.check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.publicGameSetting.account = account;
+                GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");
+                notifyDataSetChanged();
+            }
+        });
         viewHolder.refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -49,6 +49,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
+                    android:id="@+id/account_skin_face"
                     android:background="@drawable/ic_steve"/>
 
                 <LinearLayout
