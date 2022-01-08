@@ -3,6 +3,7 @@ package com.tungsten.hmclpe.launcher.uis.main;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -10,8 +11,14 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
+import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
+import com.tungsten.hmclpe.utils.gson.GsonUtils;
+
+import java.util.ArrayList;
 
 public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
@@ -25,11 +32,15 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
     private LinearLayout startSettingUI;
 
     private LinearLayout startGame;
-    private Spinner gameVersionSpinner;
+    private TextView launchVersionText;
 
     private ImageView accountSkinFace;
     private TextView accountName;
     private TextView accountType;
+
+    private ImageView versionIcon;
+    private LinearLayout noVersionAlert;
+    private TextView currentVersionText;
 
     public MainUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -48,11 +59,15 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         startSettingUI = activity.findViewById(R.id.start_ui_setting);
 
         startGame = activity.findViewById(R.id.launcher_play_button);
-        gameVersionSpinner = activity.findViewById(R.id.launcher_spinner_version);
+        launchVersionText = activity.findViewById(R.id.launch_version_text);
 
         accountSkinFace = activity.findViewById(R.id.account_skin_face);
         accountName = activity.findViewById(R.id.account_name_text);
         accountType = activity.findViewById(R.id.account_state_text);
+
+        versionIcon = activity.findViewById(R.id.current_version_icon);
+        noVersionAlert = activity.findViewById(R.id.no_version_alert_text);
+        currentVersionText = activity.findViewById(R.id.current_version_name_text);
 
         startAccountUI.setOnClickListener(this);
         startGameManagerUI.setOnClickListener(this);
@@ -62,7 +77,6 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         startSettingUI.setOnClickListener(this);
 
         startGame.setOnClickListener(this);
-        gameVersionSpinner.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -93,6 +107,33 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
                 accountType.setText(context.getString(R.string.launcher_scroll_account_state));
                 break;
         }
+
+        ArrayList<GameListBean> gameList = SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory,activity.publicGameSetting.currentVersion);
+        ArrayList<String> names = new ArrayList<>();
+        String currentVersion = "";
+        if (!activity.publicGameSetting.currentVersion.equals("")){
+            currentVersion = activity.publicGameSetting.currentVersion.substring(activity.publicGameSetting.currentVersion.lastIndexOf("/") + 1);
+        }
+        for (int i = 0;i < gameList.size();i++){
+            names.add(gameList.get(i).name);
+        }
+        ArrayAdapter<String> launcherVersionAdapter = new ArrayAdapter<>(context,android.R.layout.simple_spinner_item,names);
+        launcherVersionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner gameVersionSpinner = activity.findViewById(R.id.launcher_spinner_version);
+        gameVersionSpinner.setAdapter(launcherVersionAdapter);
+        gameVersionSpinner.setSelection(launcherVersionAdapter.getPosition(currentVersion));
+        gameVersionSpinner.setOnItemSelectedListener(this);
+        if (!currentVersion.equals("") && names.contains(currentVersion)){
+            noVersionAlert.setVisibility(View.GONE);
+            currentVersionText.setVisibility(View.VISIBLE);
+            currentVersionText.setText(currentVersion);
+            launchVersionText.setText(currentVersion);
+        }
+        else {
+            noVersionAlert.setVisibility(View.VISIBLE);
+            currentVersionText.setVisibility(View.GONE);
+            launchVersionText.setText(context.getString(R.string.launcher_button_current_version));
+        }
     }
 
     @Override
@@ -107,7 +148,12 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
             activity.uiManager.switchMainUI(activity.uiManager.accountUI);
         }
         if (v == startGameManagerUI){
-
+            if (noVersionAlert.getVisibility() == View.VISIBLE){
+                activity.uiManager.switchMainUI(activity.uiManager.versionListUI);
+            }
+            else {
+                activity.uiManager.switchMainUI(activity.uiManager.gameManagerUI);
+            }
         }
         if (v == startVersionListUI){
             activity.uiManager.switchMainUI(activity.uiManager.versionListUI);
@@ -128,7 +174,10 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        activity.publicGameSetting.currentVersion = activity.launcherSetting.gameFileDirectory + "/versions/" + parent.getItemAtPosition(position).toString();
+        GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");
+        currentVersionText.setText(parent.getItemAtPosition(position).toString());
+        launchVersionText.setText(parent.getItemAtPosition(position).toString());
     }
 
     @Override

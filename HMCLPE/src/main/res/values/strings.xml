@@ -69,6 +69,8 @@
     <string name="item_account_type_auth_lib">外置登录 (authlib-injector)</string>
     <string name="item_account_login_server">认证服务器:</string>
 
+    <string name="game_manager_ui_title">游戏管理</string>
+
     <string name="version_list_ui_title">版本列表</string>
     <string name="version_list_ui_add_dir">添加游戏目录</string>
     <string name="version_list_ui_download_new_version">安装新游戏版本</string>
