@@ -87,6 +87,11 @@
     <string name="menu_local_version_delete">删除该版本</string>
     <string name="menu_local_version_export_pack">导出整合包</string>
     <string name="menu_local_version_game_folder">游戏文件夹</string>
+
+    <string name="dialog_rename_version_title">请输入要改成的名字</string>
+    <string name="dialog_rename_version_confirm">确定</string>
+    <string name="dialog_rename_version_cancel">取消</string>
+    <string name="dialog_rename_version_alert">名字不合法</string>
     
     <string name="default_game_file_directory_list_pri">公有目录</string>
     <string name="default_game_file_directory_list_pri_path">/storage/emulated/0/HMCLPE/.minecraft</string>

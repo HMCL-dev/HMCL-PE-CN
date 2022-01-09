@@ -58,7 +58,7 @@ public class SettingUI extends BaseUI implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        activity.showBarTitle(context.getResources().getString(R.string.setting_ui_title),false,false);
+        activity.showBarTitle(context.getResources().getString(R.string.setting_ui_title),activity.uiManager.uis.get(activity.uiManager.uis.size() - 2) != activity.uiManager.mainUI,false);
         CustomAnimationUtils.showViewFromLeft(settingUI,activity,context,true);
         init();
     }

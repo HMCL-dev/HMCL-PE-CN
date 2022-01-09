@@ -66,11 +66,11 @@ public class UIManager {
 
     public void switchMainUI(BaseUI ui){
         currentUI = ui;
-        ui.onStart();
-        if (uis.size() > 0){
-            uis.get(uis.size() - 1).onStop();
-        }
         uis.add(ui);
+        ui.onStart();
+        if (uis.size() > 1){
+            uis.get(uis.size() - 2).onStop();
+        }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data){

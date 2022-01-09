@@ -21,6 +21,7 @@ import androidx.appcompat.widget.PopupMenu;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.dialogs.RenameVersionDialog;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 import com.tungsten.hmclpe.utils.resources.DrawableUtils;
@@ -146,8 +147,17 @@ public class GameListAdapter extends BaseAdapter {
                             case R.id.local_version_menu_generate_launch_script:
                                 return true;
                             case R.id.local_version_menu_game_manage:
+                                activity.uiManager.gameManagerUI.versionName = list.get(position).name;
+                                activity.uiManager.switchMainUI(activity.uiManager.gameManagerUI);
                                 return true;
                             case R.id.local_version_menu_rename:
+                                RenameVersionDialog dialog = new RenameVersionDialog(context, list.get(position).name, new RenameVersionDialog.OnVersionRenameListener() {
+                                    @Override
+                                    public void onRename(String name) {
+
+                                    }
+                                });
+                                dialog.show();
                                 return true;
                             case R.id.local_version_menu_copy:
                                 return true;

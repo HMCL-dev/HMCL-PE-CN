@@ -60,7 +60,7 @@ public class AddGameDirectoryUI extends BaseUI implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        activity.showBarTitle(context.getResources().getString(R.string.add_game_dir_ui_title),true,false);
+        activity.showBarTitle(context.getResources().getString(R.string.add_game_dir_ui_title),activity.uiManager.uis.get(activity.uiManager.uis.size() - 2) != activity.uiManager.mainUI,false);
         CustomAnimationUtils.showViewFromLeft(addGameDirUI,activity,context,true);
         selectedDir.setText(AppManifest.DEFAULT_GAME_DIR);
     }

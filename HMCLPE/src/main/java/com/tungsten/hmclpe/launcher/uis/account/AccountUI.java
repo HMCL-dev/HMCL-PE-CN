@@ -62,7 +62,7 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        activity.showBarTitle(context.getResources().getString(R.string.account_ui_title),false,false);
+        activity.showBarTitle(context.getResources().getString(R.string.account_ui_title),activity.uiManager.uis.get(activity.uiManager.uis.size() - 2) != activity.uiManager.mainUI,false);
         CustomAnimationUtils.showViewFromLeft(accountUI,activity,context,true);
         init();
     }
