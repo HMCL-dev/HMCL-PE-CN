@@ -12,6 +12,7 @@ import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 public class GameManagerUI extends BaseUI implements View.OnClickListener {
 
     public LinearLayout gameManagerUI;
+    public String versionName;
 
     public GameManagerUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -26,7 +27,7 @@ public class GameManagerUI extends BaseUI implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        activity.showBarTitle(context.getResources().getString(R.string.game_manager_ui_title) + " - " + activity.publicGameSetting.currentVersion.substring(activity.publicGameSetting.currentVersion.lastIndexOf("/") + 1),false,false);
+        activity.showBarTitle(context.getResources().getString(R.string.game_manager_ui_title) + " - " + versionName,false,false);
         CustomAnimationUtils.showViewFromLeft(gameManagerUI,activity,context,true);
         init();
     }

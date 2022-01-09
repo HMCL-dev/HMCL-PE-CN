@@ -7,6 +7,15 @@
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/ic_baseline_arrow_forward_black.xml" value="0.20462962962962963" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/ic_baseline_delete_black.xml" value="0.20462962962962963" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/ic_baseline_folder_gray.xml" value="0.146875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/ic_baseline_launch_black.xml" value="0.20555555555555555" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/ic_outline_copy_black.xml" value="0.20555555555555555" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/ic_outline_create_black.xml" value="0.20555555555555555" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/ic_outline_delete_black.xml" value="0.20555555555555555" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/ic_outline_export_black.xml" value="0.20555555555555555" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/ic_outline_extension_black.xml" value="0.20555555555555555" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/ic_outline_folder_open_black.xml" value="0.20555555555555555" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/ic_outline_script_black.xml" value="0.20555555555555555" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/ic_outline_settings_black.xml" value="0.20555555555555555" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/launcher_button_gray.xml" value="0.20555555555555555" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/launcher_button_light_gray.xml" value="0.12864583333333332" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/launcher_setting_button.xml" value="0.12864583333333332" />
@@ -52,6 +61,7 @@
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/ui_setting_help.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/ui_setting_universal.xml" value="0.1125" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/layout/ui_version_list.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/menu/local_version_menu.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/PojavCore/src/main/res/drawable/no_focus_shown.xml" value="0.128125" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/PojavCore/src/main/res/layout/activity_minecraft.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/PojavCore/src/main/res/layout/control_action_popup_text.xml" value="0.11197916666666667" />

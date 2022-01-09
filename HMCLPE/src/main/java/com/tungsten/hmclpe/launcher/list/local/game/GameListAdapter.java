@@ -1,7 +1,11 @@
 package com.tungsten.hmclpe.launcher.list.local.game;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,6 +14,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.appcompat.widget.PopupMenu;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
@@ -77,7 +85,8 @@ public class GameListAdapter extends BaseAdapter {
         viewHolder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                activity.uiManager.gameManagerUI.versionName = list.get(position).name;
+                activity.uiManager.switchMainUI(activity.uiManager.gameManagerUI);
             }
         });
         if ((activity.launcherSetting.gameFileDirectory + "/versions/" + list.get(position).name).equals(activity.publicGameSetting.currentVersion)){
@@ -119,9 +128,41 @@ public class GameListAdapter extends BaseAdapter {
             }
         });
         viewHolder.moreVert.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
+            @RequiresApi(api = Build.VERSION_CODES.Q)
             @Override
             public void onClick(View v) {
-
+                Context wrapper = new ContextThemeWrapper(context, R.style.MenuStyle);
+                PopupMenu menu = new PopupMenu(wrapper, viewHolder.item,Gravity.RIGHT);
+                menu.inflate(R.menu.local_version_menu);
+                menu.setForceShowIcon(true);
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @SuppressLint("NonConstantResourceId")
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            case R.id.local_version_menu_test_game:
+                                return true;
+                            case R.id.local_version_menu_generate_launch_script:
+                                return true;
+                            case R.id.local_version_menu_game_manage:
+                                return true;
+                            case R.id.local_version_menu_rename:
+                                return true;
+                            case R.id.local_version_menu_copy:
+                                return true;
+                            case R.id.local_version_menu_delete:
+                                return true;
+                            case R.id.local_version_menu_export_pack:
+                                return true;
+                            case R.id.local_version_menu_game_folder:
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
+                menu.show();
             }
         });
         return convertView;

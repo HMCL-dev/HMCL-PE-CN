@@ -64,6 +64,8 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
         startDownloadMcUI.setOnClickListener(this);
         refresh = activity.findViewById(R.id.refresh_local_version_list);
         refresh.setOnClickListener(this);
+        startGlobalSettingUI = activity.findViewById(R.id.start_ui_global_setting);
+        startGlobalSettingUI.setOnClickListener(this);
 
         contentListParent = activity.findViewById(R.id.content_list_parent);
         gameDirList.setMaxHeight(contentListParent.getHeight() - startAddGameDirUI.getHeight() - ConvertUtils.dip2px(context,10));
@@ -94,6 +96,10 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
         }
         if (v == refresh){
             refreshVersionList();
+        }
+        if (v == startGlobalSettingUI){
+            activity.uiManager.switchMainUI(activity.uiManager.settingUI);
+            activity.uiManager.settingUI.settingUIManager.switchSettingUIs(activity.uiManager.settingUI.settingUIManager.universalGameSettingUI);
         }
     }
 

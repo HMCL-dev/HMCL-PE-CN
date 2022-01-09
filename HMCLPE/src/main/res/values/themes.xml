@@ -18,4 +18,15 @@
         <item name="android:windowTranslucentNavigation">true</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="MenuStyle" parent="Widget.AppCompat.PopupMenu">
+        <item name="dropdownListPreferredItemHeight">36dp</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/MenuTextStyle</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/MenuTextStyle</item>
+    </style>
+
+    <style name="MenuTextStyle">
+        <item name="android:textColor">@color/colorPureBlack</item>
+        <item name="android:textSize">11sp</item>
+    </style>
 </resources>

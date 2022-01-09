@@ -152,6 +152,7 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
                 activity.uiManager.switchMainUI(activity.uiManager.versionListUI);
             }
             else {
+                activity.uiManager.gameManagerUI.versionName = activity.publicGameSetting.currentVersion.substring(activity.publicGameSetting.currentVersion.lastIndexOf("/") + 1);
                 activity.uiManager.switchMainUI(activity.uiManager.gameManagerUI);
             }
         }

@@ -78,6 +78,15 @@
     <string name="version_list_ui_refresh">刷新</string>
     <string name="version_list_ui_global_setting">全局游戏设置</string>
     <string name="version_list_ui_none">没有已安装的游戏，你可以切换其他游戏目录，或者点击此处进入游戏下载页面</string>
+
+    <string name="menu_local_version_test_game">测试游戏</string>
+    <string name="menu_local_version_generate_launch_script">生成启动脚本</string>
+    <string name="menu_local_version_game_manage">游戏管理</string>
+    <string name="menu_local_version_rename">重命名该版本</string>
+    <string name="menu_local_version_copy">复制游戏实例</string>
+    <string name="menu_local_version_delete">删除该版本</string>
+    <string name="menu_local_version_export_pack">导出整合包</string>
+    <string name="menu_local_version_game_folder">游戏文件夹</string>
     
     <string name="default_game_file_directory_list_pri">公有目录</string>
     <string name="default_game_file_directory_list_pri_path">/storage/emulated/0/HMCLPE/.minecraft</string>
