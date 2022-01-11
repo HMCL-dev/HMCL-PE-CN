@@ -70,6 +70,17 @@
     <string name="item_account_login_server">认证服务器:</string>
 
     <string name="game_manager_ui_title">游戏管理</string>
+    <string name="game_manager_ui_game_setting">游戏设置</string>
+    <string name="game_manager_ui_mod_manage">模组管理</string>
+    <string name="game_manager_ui_auto_install">自动安装</string>
+    <string name="game_manager_ui_world">世界/数据包</string>
+    <string name="game_manager_ui_test_game">测试游戏</string>
+    <string name="game_manager_ui_browse">浏览</string>
+    <string name="game_manager_ui_manage">管理</string>
+    
+    <string name="version_setting_ui_icon">游戏图标</string>
+    <string name="version_setting_ui_check">启用游戏特定设置（不影响其他游戏版本）</string>
+    <string name="version_setting_ui_global">编辑全局版本设置</string>
 
     <string name="version_list_ui_title">版本列表</string>
     <string name="version_list_ui_add_dir">添加游戏目录</string>

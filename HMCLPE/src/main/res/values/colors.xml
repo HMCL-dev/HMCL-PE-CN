@@ -15,6 +15,7 @@
     <color name="colorPureBlack">#000000</color>
     <color name="colorLightWhite">#99FFFFFF</color>
     <color name="colorShallowWhite">#40FFFFFF</color>
+    <color name="colorDarkGray">#40000000</color>
     <color name="colorGray">#1A000000</color>
     <color name="colorLightGray">#0D000000</color>
     <color name="colorLightBlue">#655C6BC0</color>

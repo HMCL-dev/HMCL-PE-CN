@@ -12,7 +12,17 @@ import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 public class GameManagerUI extends BaseUI implements View.OnClickListener {
 
     public LinearLayout gameManagerUI;
+    public GameManagerUIManager gameManagerUIManager;
     public String versionName;
+
+    public LinearLayout startGameSetting;
+    public LinearLayout startModManager;
+    public LinearLayout startAutoInstall;
+    public LinearLayout startWorldManager;
+
+    private LinearLayout testGame;
+    private LinearLayout browse;
+    private LinearLayout manage;
 
     public GameManagerUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -22,6 +32,26 @@ public class GameManagerUI extends BaseUI implements View.OnClickListener {
     public void onCreate() {
         super.onCreate();
         gameManagerUI = activity.findViewById(R.id.ui_game_manager);
+
+        startGameSetting = activity.findViewById(R.id.game_manager_game_setting);
+        startModManager = activity.findViewById(R.id.game_manager_manage_mod);
+        startAutoInstall = activity.findViewById(R.id.game_manager_auto_install);
+        startWorldManager = activity.findViewById(R.id.game_manager_world);
+
+        testGame = activity.findViewById(R.id.game_manager_test_game);
+        browse = activity.findViewById(R.id.game_manager_browse);
+        manage = activity.findViewById(R.id.game_manager_manage);
+
+        startGameSetting.setOnClickListener(this);
+        startModManager.setOnClickListener(this);
+        startAutoInstall.setOnClickListener(this);
+        startWorldManager.setOnClickListener(this);
+
+        testGame.setOnClickListener(this);
+        browse.setOnClickListener(this);
+        manage.setOnClickListener(this);
+
+        gameManagerUIManager = new GameManagerUIManager(context,activity);
     }
 
     @Override
@@ -40,7 +70,27 @@ public class GameManagerUI extends BaseUI implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        if (v == startGameSetting){
+            gameManagerUIManager.switchGameManagerUIs(gameManagerUIManager.versionSettingUI);
+        }
+        if (v == startModManager){
+            gameManagerUIManager.switchGameManagerUIs(gameManagerUIManager.modManagerUI);
+        }
+        if (v == startAutoInstall){
+            gameManagerUIManager.switchGameManagerUIs(gameManagerUIManager.autoInstallUI);
+        }
+        if (v == startWorldManager){
+            gameManagerUIManager.switchGameManagerUIs(gameManagerUIManager.worldManagerUI);
+        }
+        if (v == testGame){
 
+        }
+        if (v == browse){
+
+        }
+        if (v == manage){
+
+        }
     }
 
     private void init(){

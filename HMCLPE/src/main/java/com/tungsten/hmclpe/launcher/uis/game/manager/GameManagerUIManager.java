@@ -1,6 +1,7 @@
 package com.tungsten.hmclpe.launcher.uis.game.manager;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUIManager;
@@ -15,7 +16,6 @@ public class GameManagerUIManager {
 
     public VersionSettingUI versionSettingUI;
     public ModManagerUI modManagerUI;
-    public DownloadModUI downloadModUI;
     public AutoInstallUI autoInstallUI;
     public WorldManagerUI worldManagerUI;
 
@@ -24,11 +24,16 @@ public class GameManagerUIManager {
     public GameManagerUIManager (Context context, MainActivity activity){
         versionSettingUI = new VersionSettingUI(context,activity);
         modManagerUI = new ModManagerUI(context,activity);
-        downloadModUI = new DownloadModUI(context,activity);
         autoInstallUI = new AutoInstallUI(context,activity);
         worldManagerUI = new WorldManagerUI(context,activity);
 
-        gameManagerUIs = new BaseUI[]{versionSettingUI,modManagerUI,downloadModUI,autoInstallUI,worldManagerUI};
+        versionSettingUI.onCreate();
+        modManagerUI.onCreate();
+        autoInstallUI.onCreate();
+        worldManagerUI.onCreate();
+
+        gameManagerUIs = new BaseUI[]{versionSettingUI,modManagerUI,autoInstallUI,worldManagerUI};
+        switchGameManagerUIs(versionSettingUI);
     }
 
     public void switchGameManagerUIs(BaseUI ui){
@@ -39,6 +44,12 @@ public class GameManagerUIManager {
             else {
                 gameManagerUIs[i].onStop();
             }
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        for (BaseUI ui : gameManagerUIs){
+            ui.onActivityResult(requestCode,resultCode,data);
         }
     }
 }
