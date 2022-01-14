@@ -6,24 +6,26 @@ public class PrivateGameSetting {
     public boolean notCheckJvm;
     public boolean notCheckMinecraft;
     public boolean notCheckForge;
-    public String runtimePath;
+    public String javaPath;
     public String extraJavaFlags;
     public String extraMinecraftFlags;
     public String game_directory;
-    public String renderer;
+    public BoatLauncherSetting boatLauncherSetting;
+    public PojavLauncherSetting pojavLauncherSetting;
     public int width;
     public int height;
 
-    public PrivateGameSetting (boolean enable,boolean notCheckJvm,boolean notCheckMinecraft,boolean notCheckForge,String runtimePath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,String renderer,int width,int height){
+    public PrivateGameSetting (boolean enable,boolean notCheckJvm,boolean notCheckMinecraft,boolean notCheckForge,String javaPath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,BoatLauncherSetting boatLauncherSetting,PojavLauncherSetting pojavLauncherSetting,int width,int height){
         this.enable = enable;
         this.notCheckJvm = notCheckJvm;
         this.notCheckMinecraft = notCheckMinecraft;
         this.notCheckForge = notCheckForge;
-        this.runtimePath = runtimePath;
+        this.javaPath = javaPath;
         this.extraJavaFlags = extraJavaFlags;
         this.extraMinecraftFlags = extraMinecraftFlags;
         this.game_directory = game_directory;
-        this.renderer = renderer;
+        this.boatLauncherSetting = boatLauncherSetting;
+        this.pojavLauncherSetting = pojavLauncherSetting;
         this.width = width;
         this.height = height;
     }

@@ -3,6 +3,7 @@ package com.tungsten.hmclpe.launcher.launch.boat;
 import android.content.Context;
 
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
+import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 
 import java.io.File;
 import java.util.Collections;
@@ -13,7 +14,7 @@ public class BoatLauncher {
     public static Vector<String> getMcArgs(GameLaunchSetting gameLaunchSetting , Context context){
         try {
             BoatVersion version = BoatVersion.fromDirectory(new File(gameLaunchSetting.currentVersion));
-            String runtimePath = gameLaunchSetting.runtimePath;
+            String javaPath = gameLaunchSetting.javaPath;
             boolean highVersion = false;
             if (version.minimumLauncherVersion > 21){
                 highVersion = true;
@@ -21,15 +22,15 @@ public class BoatLauncher {
             String libraryPath;
             String classPath;
             if (!highVersion){
-                libraryPath = runtimePath + "/j2re-image/lib/aarch64/jli:" + runtimePath + "/j2re-image/lib/aarch64:" + runtimePath + "/lwjgl-2:" + runtimePath;
-                classPath = runtimePath + "/lwjgl-2/lwjgl.jar:" + runtimePath + "/lwjgl-2/lwjgl_util.jar:" + version.getClassPath(gameLaunchSetting.gameFileDirectory);
+                libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-2:" + javaPath;
+                classPath = AppManifest.BOAT_LIB_DIR + "/lwjgl-2/lwjgl.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-2/lwjgl_util.jar:" + version.getClassPath(gameLaunchSetting.gameFileDirectory);
             }
             else {
-                libraryPath = runtimePath + "/j2re-image/lib/aarch64/jli:" + runtimePath + "/j2re-image/lib/aarch64:" + runtimePath + "/lwjgl-3:" + runtimePath;
-                classPath = runtimePath + "/lwjgl-3/lwjgl-jemalloc.jar:" + runtimePath + "/lwjgl-3/lwjgl-tinyfd.jar:" + runtimePath + "/lwjgl-3/lwjgl-opengl.jar:" + runtimePath + "/lwjgl-3/lwjgl-openal.jar:" + runtimePath + "/lwjgl-3/lwjgl-glfw.jar:" + runtimePath + "/lwjgl-3/lwjgl-stb.jar:" + runtimePath + "/lwjgl-3/lwjgl.jar:" +  version.getClassPath(gameLaunchSetting.gameFileDirectory);
+                libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3:" + javaPath;
+                classPath = AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-jemalloc.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-tinyfd.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-opengl.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-openal.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-glfw.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-stb.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl.jar:" +  version.getClassPath(gameLaunchSetting.gameFileDirectory);
             }
             Vector<String> args = new Vector<String>();
-            args.add(runtimePath +  "/j2re-image/bin/java");
+            args.add(javaPath +  "/bin/java");
             args.add("-cp");
             args.add(classPath);
             args.add("-Djava.library.path=" + libraryPath);

@@ -24,6 +24,11 @@ public class AppManifest {
     public static String DEFAULT_CACHE_DIR;
     public static String DEFAULT_RUNTIME_DIR;
 
+    public static String BOAT_JAVA_DIR;
+    public static String BOAT_LIB_DIR;
+    public static String POJAV_JAVA_DIR;
+    public static String POJAV_LIB_DIR;
+
     public static void initializeManifest (Context context){
         INNER_DIR = context.getFilesDir().getParent();
         INNER_FILE_DIR = context.getFilesDir().getAbsolutePath();
@@ -38,6 +43,11 @@ public class AppManifest {
 
         DEFAULT_CACHE_DIR = context.getCacheDir().getAbsolutePath();
         DEFAULT_RUNTIME_DIR = context.getDir("runtime",0).getAbsolutePath();
+
+        BOAT_JAVA_DIR = DEFAULT_RUNTIME_DIR + "/boat/java";
+        BOAT_LIB_DIR = DEFAULT_RUNTIME_DIR + "/boat/lib";
+        POJAV_JAVA_DIR = DEFAULT_RUNTIME_DIR + "/pojav/java";
+        POJAV_LIB_DIR = DEFAULT_RUNTIME_DIR + "/pojav/lib";
 
         FileUtils.createDirectory(LAUNCHER_DIR);
         FileUtils.createDirectory(DEFAULT_GAME_DIR);
@@ -55,6 +65,11 @@ public class AppManifest {
 
         FileUtils.createDirectory(DEFAULT_CACHE_DIR);
         FileUtils.createDirectory(DEFAULT_RUNTIME_DIR);
+
+        FileUtils.createDirectory(BOAT_JAVA_DIR);
+        FileUtils.createDirectory(BOAT_LIB_DIR);
+        FileUtils.createDirectory(POJAV_JAVA_DIR);
+        FileUtils.createDirectory(POJAV_LIB_DIR);
     }
 
 }

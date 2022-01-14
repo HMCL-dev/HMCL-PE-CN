@@ -13,7 +13,7 @@ public class GameLaunchSetting {
     public String home;
     public String currentVersion;
 
-    public String runtimePath;
+    public String javaPath;
     public String extraJavaFlags;
     public String extraMinecraftFlags;
     public String game_directory;
@@ -23,12 +23,12 @@ public class GameLaunchSetting {
 
     public String gameFileDirectory;
 
-    public GameLaunchSetting(Account account,String home,String currentVersion,String runtimePath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,String renderer,int width,int height,String gameFileDirectory){
+    public GameLaunchSetting(Account account,String home,String currentVersion,String javaPath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,String renderer,int width,int height,String gameFileDirectory){
         this.account = account;
         this.home = home;
         this.currentVersion = currentVersion;
 
-        this.runtimePath = runtimePath;
+        this.javaPath = javaPath;
         this.extraJavaFlags = extraJavaFlags;
         this.extraMinecraftFlags = extraMinecraftFlags;
         this.game_directory = game_directory;
@@ -45,11 +45,11 @@ public class GameLaunchSetting {
         GameLaunchSetting gameLaunchSetting = new GameLaunchSetting(publicGameSetting.account,
                 publicGameSetting.home,
                 publicGameSetting.currentVersion,
-                privateGameSetting.runtimePath,
+                privateGameSetting.javaPath,
                 privateGameSetting.extraJavaFlags,
                 privateGameSetting.extraMinecraftFlags,
                 privateGameSetting.game_directory,
-                privateGameSetting.renderer,
+                privateGameSetting.boatLauncherSetting.renderer,
                 privateGameSetting.width,privateGameSetting.height,
                 launcherSetting.gameFileDirectory);
         return gameLaunchSetting;

@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 publicGameSetting = InitializeSetting.initializePublicGameSetting(MainActivity.this,MainActivity.this);
                 privateGameSetting = InitializeSetting.initializePrivateGameSetting(MainActivity.this);
 
+                /*
                 AssetsUtils.getInstance(getApplicationContext()).copyAssetsToSD("app_runtime", AppManifest.DEFAULT_RUNTIME_DIR).setFileOperateCallback(new AssetsUtils.FileOperateCallback() {
                     @Override
                     public void onSuccess() {
@@ -106,6 +107,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         //Toast.makeText(MainActivity.this,"failed",Toast.LENGTH_SHORT).show();
                     }
                 });
+
+                 */
+                loadingHandler.sendEmptyMessage(0);
+                loadingHandler.sendEmptyMessage(1);
             }
         }.start();
     }

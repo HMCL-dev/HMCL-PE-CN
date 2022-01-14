@@ -6,6 +6,8 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.info.contents.ContentListBean;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.launcher.setting.game.BoatLauncherSetting;
+import com.tungsten.hmclpe.launcher.setting.game.PojavLauncherSetting;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.setting.game.PublicGameSetting;
 import com.tungsten.hmclpe.auth.Account;
@@ -79,7 +81,7 @@ public class InitializeSetting {
             privateGameSetting = GsonUtils.getPrivateGameSettingFromFile(AppManifest.SETTING_DIR + "/private_game_setting.json");
         }
         else {
-            privateGameSetting = new PrivateGameSetting(false,false,false,false,AppManifest.DEFAULT_RUNTIME_DIR,"-client -Xms4096M -Xmx4096M","",AppManifest.DEFAULT_GAME_DIR,"GL4ES-1.1.4",context.getResources().getDisplayMetrics().widthPixels,context.getResources().getDisplayMetrics().heightPixels);
+            privateGameSetting = new PrivateGameSetting(false,false,false,false,AppManifest.BOAT_JAVA_DIR + "/default","-client -Xms4096M -Xmx4096M","",AppManifest.DEFAULT_GAME_DIR,new BoatLauncherSetting(true,"GL4ES-1.1.2"),new PojavLauncherSetting(false,"GL4ES-1.1.4"),context.getResources().getDisplayMetrics().widthPixels,context.getResources().getDisplayMetrics().heightPixels);
             GsonUtils.savePrivateGameSetting(privateGameSetting,AppManifest.SETTING_DIR + "/private_game_setting.json");
         }
         return privateGameSetting;

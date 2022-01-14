@@ -21,7 +21,7 @@ public class BoatMinecraftActivity extends BoatActivity {
         this.setOnCursorChangeListener(new OnActivityChangeListener() {
             @Override
             public void onSurfaceTextureAvailable() {
-                startGame(gameLaunchSetting.runtimePath,
+                startGame(gameLaunchSetting.javaPath,
                         gameLaunchSetting.home,
                         BoatLauncher.isHighVersion(gameLaunchSetting),
                         BoatLauncher.getMcArgs(gameLaunchSetting,BoatMinecraftActivity.this));
