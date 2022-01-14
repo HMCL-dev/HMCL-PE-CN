@@ -99,7 +99,18 @@ public class AccountListAdapter extends BaseAdapter {
         viewHolder.refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (account.loginType == 1){
+                    
+                }
+                if (account.loginType == 2){
 
+                }
+                if (account.loginType == 3){
+
+                }
+                if (account.loginType == 4){
+
+                }
             }
         });
         viewHolder.skin.setOnClickListener(new View.OnClickListener() {
