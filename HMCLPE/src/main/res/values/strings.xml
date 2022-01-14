@@ -63,6 +63,17 @@
     <string name="dialog_add_verify_server_cancel">取消</string>
     <string name="dialog_add_verify_server_next">下一步 ></string>
 
+    <string name="dialog_offline_skin_title">皮肤</string>
+    <string name="dialog_offline_skin_default">默认</string>
+    <string name="dialog_offline_skin_steve">Steve</string>
+    <string name="dialog_offline_skin_alex">Alex</string>
+    <string name="dialog_offline_skin_local">本地皮肤图片文件</string>
+    <string name="dialog_offline_skin_little_skin">LittleSkin</string>
+    <string name="dialog_offline_skin_blessing_skin">Blessing Skin 服务器</string>
+    <string name="dialog_offline_skin_url">LittleSkin 皮肤站</string>
+    <string name="dialog_offline_skin_confirm">确定</string>
+    <string name="dialog_offline_skin_cancel">取消</string>
+
     <string name="item_account_type_offline">离线模式</string>
     <string name="item_account_type_mojang">Mojang 账户</string>
     <string name="item_account_type_microsoft">微软登录</string>

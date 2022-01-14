@@ -4,4 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dialog_offline_skin_title"
+        android:textSize="@dimen/text_size_big"
+        android:textColor="@color/colorPureBlack"
+        android:textStyle="bold"/>
+
+    <android.opengl.GLSurfaceView
+        android:clickable="true"
+        android:layout_width="600dp"
+        android:layout_height="600dp"
+        android:id="@+id/skin_gl_view"/>
+
 </LinearLayout>
