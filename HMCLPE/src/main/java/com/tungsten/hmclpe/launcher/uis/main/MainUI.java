@@ -1,6 +1,8 @@
 package com.tungsten.hmclpe.launcher.uis.main;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.launch.boat.BoatMinecraftActivity;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
@@ -169,7 +172,11 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
             activity.uiManager.switchMainUI(activity.uiManager.settingUI);
         }
         if (v == startGame){
-
+            Intent intent = new Intent(context, BoatMinecraftActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("setting_path",AppManifest.SETTING_DIR + "/private_game_setting.json");
+            intent.putExtras(bundle);
+            context.startActivity(intent);
         }
     }
 

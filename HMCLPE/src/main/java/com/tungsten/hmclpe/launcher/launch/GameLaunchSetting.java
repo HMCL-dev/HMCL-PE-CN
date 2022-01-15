@@ -17,13 +17,14 @@ public class GameLaunchSetting {
     public String extraJavaFlags;
     public String extraMinecraftFlags;
     public String game_directory;
-    public String renderer;
+    public String boatRenderer;
+    public String pojavRenderer;
     public int width;
     public int height;
 
     public String gameFileDirectory;
 
-    public GameLaunchSetting(Account account,String home,String currentVersion,String javaPath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,String renderer,int width,int height,String gameFileDirectory){
+    public GameLaunchSetting(Account account,String home,String currentVersion,String javaPath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,String boatRenderer,String pojavRenderer,int width,int height,String gameFileDirectory){
         this.account = account;
         this.home = home;
         this.currentVersion = currentVersion;
@@ -32,9 +33,12 @@ public class GameLaunchSetting {
         this.extraJavaFlags = extraJavaFlags;
         this.extraMinecraftFlags = extraMinecraftFlags;
         this.game_directory = game_directory;
-        this.renderer = renderer;
+        this.boatRenderer = boatRenderer;
+        this.pojavRenderer = pojavRenderer;
         this.width = width;
         this.height = height;
+
+        this.gameFileDirectory = gameFileDirectory;
     }
 
     public static GameLaunchSetting getGameLaunchSetting(String privatePath){
@@ -50,6 +54,7 @@ public class GameLaunchSetting {
                 privateGameSetting.extraMinecraftFlags,
                 privateGameSetting.game_directory,
                 privateGameSetting.boatLauncherSetting.renderer,
+                privateGameSetting.pojavLauncherSetting.renderer,
                 privateGameSetting.width,privateGameSetting.height,
                 launcherSetting.gameFileDirectory);
         return gameLaunchSetting;

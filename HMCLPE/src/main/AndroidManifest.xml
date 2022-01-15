@@ -59,6 +59,10 @@
                 android:name="android.app.lib_name"
                 android:value="boat" />
         </activity>
+        <service
+            android:name="utils.logcat.LogcatService"
+            android:process=":logcatprocess"
+            tools:ignore="MissingClass" />
     </application>
 
 </manifest>

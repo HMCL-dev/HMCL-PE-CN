@@ -1,10 +1,13 @@
 package cosine.boat;
 
+import android.os.Bundle;
 import android.view.TextureView;
 import android.graphics.SurfaceTexture;
 import android.view.Surface;
+import android.view.View;
 import android.view.Window;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Vector;
@@ -16,14 +19,17 @@ public class BoatActivity extends AppCompatActivity implements TextureView.Surfa
 	private TextureView mainTextureView;
 	public OnActivityChangeListener activityChangeListener;
 
-	public void initLayout(int resId){
+	@Override
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		nOnCreate();
 
-		setContentView(resId);
+		setContentView(R.layout.activity_boat);
 
-		mainTextureView = new TextureView(this);
+		mainTextureView = findViewById(R.id.main_surface);
 		mainTextureView.setSurfaceTextureListener(this);
 	}
 	
@@ -63,11 +69,11 @@ public class BoatActivity extends AppCompatActivity implements TextureView.Surfa
 		// TODO: Implement this method
 	}
 
-	public void startGame(final String javaPath,final String home,final boolean highVersion,final Vector<String> args){
+	public void startGame(final String javaPath,final String home,final boolean highVersion,final Vector<String> args,String renderer){
 		new Thread(){
 			@Override
 			public void run(){
-				LoadMe.launchMinecraft(javaPath,home,highVersion,args);
+				LoadMe.launchMinecraft(javaPath,home,highVersion,args,renderer);
 			}
 		}.start();
 	}
@@ -83,6 +89,20 @@ public class BoatActivity extends AppCompatActivity implements TextureView.Surfa
 
 	public void setOnCursorChangeListener(OnActivityChangeListener listener){
 		this.activityChangeListener=listener;
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (hasFocus) {
+			getWindow().getDecorView().setSystemUiVisibility(
+					View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+							| View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+							| View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+							| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+							| View.SYSTEM_UI_FLAG_FULLSCREEN
+							| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+		}
 	}
 }
 

@@ -22,7 +22,7 @@ public class LoadMe {
         System.loadLibrary("boat");
     }
 
-    public static int launchMinecraft(String javaPath, String home, boolean highVersion, Vector<String> args) {
+    public static int launchMinecraft(String javaPath, String home, boolean highVersion, Vector<String> args,String renderer) {
 
 		patchLinker();
 
@@ -38,8 +38,6 @@ public class LoadMe {
             dlopen(javaPath + "/lib/aarch64/libpng16.so.16");
             dlopen(javaPath + "/lib/aarch64/libpng16.so");
             dlopen(javaPath + "/lib/aarch64/libfreetype.so");
-            dlopen(javaPath + "/lib/aarch64/libinstrument.so");
-            dlopen(javaPath + "/lib/aarch64/libfontmanager.so");
 			dlopen(javaPath + "/lib/aarch64/jli/libjli.so");
 			dlopen(javaPath + "/lib/aarch64/server/libjvm.so");
 			dlopen(javaPath + "/lib/aarch64/libverify.so");
@@ -48,17 +46,19 @@ public class LoadMe {
 			dlopen(javaPath + "/lib/aarch64/libnio.so");
 			dlopen(javaPath + "/lib/aarch64/libawt.so");
 			dlopen(javaPath + "/lib/aarch64/libawt_headless.so");
+            dlopen(javaPath + "/lib/aarch64/libinstrument.so");
+            dlopen(javaPath + "/lib/aarch64/libfontmanager.so");
             dlopen(BOAT_LIB_DIR + "/libopenal.so.1");
-            dlopen(BOAT_LIB_DIR + "/libGL.so.1");
+            dlopen(BOAT_LIB_DIR + "/renderer/" + renderer);
 
             String libraryPath;
 
             if (!highVersion) {
-                libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64:" + BOAT_LIB_DIR + "/lwjgl-2:" + javaPath;
+                libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64:" + BOAT_LIB_DIR + "/lwjgl-2:" + BOAT_LIB_DIR + "/renderer";
                 dlopen(BOAT_LIB_DIR + "/lwjgl-2/liblwjgl.so");
             }
             else {
-                libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64:" + BOAT_LIB_DIR + "/lwjgl-3:" + javaPath;
+                libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64:" + BOAT_LIB_DIR + "/lwjgl-3:" + BOAT_LIB_DIR + "/renderer";
                 dlopen(BOAT_LIB_DIR + "/libglfw.so");
                 dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl.so");
                 dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl_stb.so");

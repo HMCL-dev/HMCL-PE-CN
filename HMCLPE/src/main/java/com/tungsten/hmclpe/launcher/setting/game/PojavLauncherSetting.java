@@ -4,10 +4,12 @@ public class PojavLauncherSetting {
 
     public boolean enable;
     public String renderer;
+    public String java;
 
-    public PojavLauncherSetting(boolean enable,String renderer){
+    public PojavLauncherSetting(boolean enable,String renderer,String java){
         this.enable = enable;
         this.renderer = renderer;
+        this.java = java;
     }
 
     public void setEnable(boolean enable) {
@@ -24,5 +26,13 @@ public class PojavLauncherSetting {
 
     public String getRenderer() {
         return renderer;
+    }
+
+    public void setJava(String java) {
+        this.java = java;
+    }
+
+    public String getJava() {
+        return java;
     }
 }

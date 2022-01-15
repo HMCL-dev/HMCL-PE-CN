@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="Lava-Boat"
+        android:text="HMCL-PE"
         android:textSize="10sp"/>
 
 </RelativeLayout>
