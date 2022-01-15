@@ -12,12 +12,35 @@ import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.setting.game.PublicGameSetting;
 import com.tungsten.hmclpe.auth.Account;
 import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
+import com.tungsten.hmclpe.utils.file.AssetsUtils;
+import com.tungsten.hmclpe.utils.file.FileUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 
 public class InitializeSetting {
+
+    public static void checkLauncherFiles(MainActivity activity){
+        if (SettingUtils.getJavaVersionInfo(activity).size() < 1){
+            FileUtils.deleteDirectory(AppManifest.DEFAULT_RUNTIME_DIR);
+            AssetsUtils.getInstance(activity.getApplicationContext()).copyAssetsToSD("app_runtime", AppManifest.DEFAULT_RUNTIME_DIR).setFileOperateCallback(new AssetsUtils.FileOperateCallback() {
+                @Override
+                public void onSuccess() {
+                    activity.loadingHandler.sendEmptyMessage(0);
+                    activity.loadingHandler.sendEmptyMessage(1);
+                }
+                @Override
+                public void onFailed(String error) {
+
+                }
+            });
+        }
+        else {
+            activity.loadingHandler.sendEmptyMessage(0);
+            activity.loadingHandler.sendEmptyMessage(1);
+        }
+    }
 
     public static ArrayList<Account> initializeAccounts(Context context){
         ArrayList<Account> accountList = new ArrayList<>();

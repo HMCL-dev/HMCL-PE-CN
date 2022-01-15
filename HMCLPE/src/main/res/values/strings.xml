@@ -1,9 +1,13 @@
 <resources>
     <string name="app_name" translatable="false">HMCL-PE</string>
+    <string name="app_full_name" translatable="false">Hello Minecraft! Launcher : Pocket Edition</string>
     <string name="version_name" translatable="false">v1.0.0</string>
     <string name="app_bar_title" translatable="false">Hello Minecraft! Launcher Pocket Edition v1.0.0</string>
 
     <string name="storage_permissions_remind">请授予启动器读写权限，否则可能无法正常运行</string>
+    
+    <string name="loading_title">欢迎使用</string>
+    <string name="loading_hint">加载中...</string>
 
     <string name="launcher_scroll_text_account">账户</string>
     <string name="launcher_scroll_account_name">没有游戏账户</string>

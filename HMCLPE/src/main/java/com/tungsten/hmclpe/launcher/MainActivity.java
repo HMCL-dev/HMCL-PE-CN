@@ -21,6 +21,7 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
@@ -31,11 +32,10 @@ import com.tungsten.hmclpe.launcher.setting.game.PublicGameSetting;
 import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
 import com.tungsten.hmclpe.launcher.uis.tools.UIManager;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
-import com.tungsten.hmclpe.utils.file.AssetsUtils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public LinearLayout loadingLayout;
+    public RelativeLayout loadingLayout;
 
     public boolean isLoaded = false;
 
@@ -95,28 +95,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 publicGameSetting = InitializeSetting.initializePublicGameSetting(MainActivity.this,MainActivity.this);
                 privateGameSetting = InitializeSetting.initializePrivateGameSetting(MainActivity.this);
 
-                /*
-                AssetsUtils.getInstance(getApplicationContext()).copyAssetsToSD("app_runtime", AppManifest.DEFAULT_RUNTIME_DIR).setFileOperateCallback(new AssetsUtils.FileOperateCallback() {
-                    @Override
-                    public void onSuccess() {
-                        loadingHandler.sendEmptyMessage(0);
-                        loadingHandler.sendEmptyMessage(1);
-                    }
-                    @Override
-                    public void onFailed(String error) {
-                        //Toast.makeText(MainActivity.this,"failed",Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                 */
-                loadingHandler.sendEmptyMessage(0);
-                loadingHandler.sendEmptyMessage(1);
+                InitializeSetting.checkLauncherFiles(MainActivity.this);
             }
         }.start();
     }
 
     @SuppressLint("HandlerLeak")
-    private final Handler loadingHandler = new Handler(){
+    public final Handler loadingHandler = new Handler(){
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);

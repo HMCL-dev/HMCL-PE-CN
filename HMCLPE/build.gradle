@@ -25,29 +25,15 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    packagingOptions {
-        merge 'META-INF/substrate/config/reflectionconfig-aarch64-android.json'
-        merge 'META-INF/substrate/config/reflectionconfig-arm64-ios.json'
-        merge 'META-INF/substrate/config/reflectionconfig-x86_64-linux.json'
-        merge 'META-INF/substrate/config/reflectionconfig.json'
-        merge 'META-INF/substrate/config/reflectionconfig-x86_64-darwin.json'
-        merge 'META-INF/substrate/config/jniconfig-x86_64-ios.json'
-        merge 'META-INF/substrate/config/jniconfig-arm64-ios.json'
-        merge 'META-INF/substrate/config/resourcebundles'
-        merge 'META-INF/substrate/config/jniconfig-x86_64-darwin.json'
-        merge 'META-INF/substrate/config/reflectionconfig-x86_64-ios.json'
-        merge 'META-INF/substrate/config/jniconfig-aarch64-android.json'
-        merge 'META-INF/substrate/config/jniconfig-x86_64-linux.json'
-    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':FilePicker')
     implementation project(path: ':Boat')
-    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
     implementation 'cat.ereza:customactivityoncrash:2.3.0'
     implementation 'com.liulishuo.filedownloader:library:1.7.7'
