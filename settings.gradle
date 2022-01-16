@@ -11,3 +11,4 @@ rootProject.name = "Hello Minecraft Launcher Pocket Edition"
 include ':HMCLPE'
 include ':FilePicker'
 include ':Boat'
+include ':PojavLauncher'

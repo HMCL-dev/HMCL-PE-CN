@@ -388,9 +388,9 @@ public class SkinRenderer implements Renderer {
             world.setAmbientLight(600, 600, 600);
             this.mSkybox = Draw3DSupport.initSkybox(this.mDialog.getContext());
             Camera var6 = this.world.getCamera();
-            var6.setFOV(0.015F);
-            var6.rotateY(-0.45F);
-            var6.rotateX(-0.4F);
+            var6.setFOV(0.0F);
+            var6.rotateY(-0.0F);
+            var6.rotateX(-0.0F);
             var6.moveCamera(2, this.camera_z);
             var6.moveCamera(new SimpleVector(0.0F, 3.0F, 0.0F), 1.0F);
             MemoryHelper.compact();

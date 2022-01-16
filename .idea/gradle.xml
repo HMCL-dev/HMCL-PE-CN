@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/Boat" />
             <option value="$PROJECT_DIR$/FilePicker" />
             <option value="$PROJECT_DIR$/HMCLPE" />
+            <option value="$PROJECT_DIR$/PojavLauncher" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

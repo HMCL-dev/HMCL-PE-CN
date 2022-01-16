@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.tungsten.hmclpe"
-        minSdk 27
+        minSdk 26
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -31,6 +31,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':FilePicker')
     implementation project(path: ':Boat')
+    implementation project(path: ':PojavLauncher')
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'com.google.android.material:material:1.5.0'
