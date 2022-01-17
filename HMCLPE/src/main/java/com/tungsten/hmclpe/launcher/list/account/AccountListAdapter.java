@@ -118,8 +118,8 @@ public class AccountListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if (account.loginType == 1){
-                    OfflineAccountSkinDialog dialog = new OfflineAccountSkinDialog(context,account);
-                    dialog.show();
+                    OfflineAccountSkinDialog offlineAccountSkinDialog = new OfflineAccountSkinDialog(context,activity,account);
+                    offlineAccountSkinDialog.show();
                 }
                 else {
 

@@ -1,6 +1,5 @@
 package com.tungsten.hmclpe.skin;
 
-import android.app.Dialog;
 import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
 import com.threed.jpct.Camera;
@@ -12,7 +11,10 @@ import com.threed.jpct.SimpleVector;
 import com.threed.jpct.World;
 import com.threed.jpct.util.MemoryHelper;
 import com.threed.jpct.util.SkyBox;
+import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.account.OfflineAccountSkinDialog;
+import com.tungsten.hmclpe.skin.draw3d.Draw3DSupport;
+import com.tungsten.hmclpe.skin.draw3d.Movement;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -31,15 +33,17 @@ public class SkinRenderer implements Renderer {
     private boolean isLoaded = false;
     private int isShow = 0;
     private final float legsSpeed = 0.03F;
-    private final Dialog mDialog;
+    private final MainActivity dialog;
     private SkyBox mSkybox;
-    private Dialog master;
+    private MainActivity master;
     private long time = System.currentTimeMillis();
     private World world = null;
+    private OfflineAccountSkinDialog offlineAccountSkinDialog;
 
-    public SkinRenderer(Dialog var1, Dialog var2) {
-        this.mDialog = var1;
+    public SkinRenderer(MainActivity var1, MainActivity var2,OfflineAccountSkinDialog offlineAccountSkinDialog) {
+        this.dialog = var1;
         this.master = var2;
+        this.offlineAccountSkinDialog = offlineAccountSkinDialog;
     }
 
     private void animateArms() {
@@ -301,7 +305,7 @@ public class SkinRenderer implements Renderer {
     }
 
     private void moveCamera() {
-        Movement var1 = ((OfflineAccountSkinDialog)this.mDialog).movementHandler.getMovement();
+        Movement var1 = offlineAccountSkinDialog.movementHandler.getMovement();
         Object3D var2 = OfflineAccountSkinDialog.char_parts[2];
         SimpleVector var3 = new SimpleVector(0.0F, 1.0F, 0.0F);
         if (var1.hasMovement()) {
@@ -386,7 +390,7 @@ public class SkinRenderer implements Renderer {
         if (this.master == null) {
             this.world = new World();
             world.setAmbientLight(600, 600, 600);
-            this.mSkybox = Draw3DSupport.initSkybox(this.mDialog.getContext());
+            this.mSkybox = Draw3DSupport.initSkybox(dialog);
             Camera var6 = this.world.getCamera();
             var6.setFOV(0.0F);
             var6.rotateY(-0.0F);
@@ -396,7 +400,7 @@ public class SkinRenderer implements Renderer {
             MemoryHelper.compact();
             if (this.master == null) {
                 Logger.log("Saving master Activity!");
-                this.master = this.mDialog;
+                this.master = dialog;
             }
         }
 

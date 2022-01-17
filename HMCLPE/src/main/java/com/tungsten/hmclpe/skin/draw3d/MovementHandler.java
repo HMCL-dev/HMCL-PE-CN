@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.skin;
+package com.tungsten.hmclpe.skin.draw3d;
 
 import android.view.MotionEvent;
 

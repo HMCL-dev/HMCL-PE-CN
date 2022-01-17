@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public RelativeLayout loadingLayout;
 
     public boolean isLoaded = false;
+    public boolean dialogMode = false;
 
     public LauncherSetting launcherSetting;
     public PublicGameSetting publicGameSetting;
@@ -208,7 +209,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        backToLastUI();
+        if (!dialogMode){
+            backToLastUI();
+        }
     }
 
     @Override
