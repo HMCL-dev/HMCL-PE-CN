@@ -75,6 +75,8 @@ public class SkinPreviewDialog implements View.OnClickListener {
         skinGLView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
         skinGLView.setRenderer(skinRenderer);
         skinGLView.setZOrderOnTop(true);
+        skinGLView.setFocusable(true);
+        skinGLView.setClickable(true);
         skinGLView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
