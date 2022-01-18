@@ -22,12 +22,16 @@
             android:textColor="@color/colorPureBlack"
             android:textStyle="bold"/>
 
-        <android.opengl.GLSurfaceView
-            android:layout_marginTop="20dp"
-            android:clickable="true"
+        <LinearLayout
             android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:id="@+id/skin_gl_view"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/skin_parent_view"
+            android:orientation="vertical">
+
+
+
+        </LinearLayout>
 
     </LinearLayout>
 

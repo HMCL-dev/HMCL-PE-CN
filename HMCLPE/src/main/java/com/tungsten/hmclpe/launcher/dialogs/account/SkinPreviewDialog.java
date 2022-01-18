@@ -21,7 +21,7 @@ import com.tungsten.hmclpe.skin.SkinRenderer;
 
 import java.io.InputStream;
 
-public class OfflineAccountSkinDialog implements View.OnClickListener, View.OnTouchListener {
+public class SkinPreviewDialog implements View.OnClickListener {
 
     private LinearLayout dialog;
     private Button fakeBackground;
@@ -31,7 +31,7 @@ public class OfflineAccountSkinDialog implements View.OnClickListener, View.OnTo
     private Account account;
 
     public static Object3D[] char_parts;
-    private GLSurfaceView skinGLView;
+    private LinearLayout skinParentView;
     private SkinRenderer skinRenderer;
     private Bitmap bitmap = null;
     private MainActivity master = null;
@@ -40,7 +40,7 @@ public class OfflineAccountSkinDialog implements View.OnClickListener, View.OnTo
     private Button positive;
     private Button negative;
 
-    public OfflineAccountSkinDialog (Context context, MainActivity activity,Account account){
+    public SkinPreviewDialog(Context context, MainActivity activity, Account account){
         this.context = context;
         this.activity = activity;
         this.account = account;
@@ -60,7 +60,7 @@ public class OfflineAccountSkinDialog implements View.OnClickListener, View.OnTo
     public void dismiss(){
         activity.dialogMode = false;
 
-        skinGLView.onPause();
+        skinParentView.removeAllViews();
 
         dialog.setVisibility(View.GONE);
         fakeBackground.setVisibility(View.GONE);
@@ -69,11 +69,19 @@ public class OfflineAccountSkinDialog implements View.OnClickListener, View.OnTo
     @SuppressLint("ClickableViewAccessibility")
     private void init(){
         this.skinRenderer = new SkinRenderer(activity, master,this);
-        skinGLView = activity.findViewById(R.id.skin_gl_view);
+        skinParentView = activity.findViewById(R.id.skin_parent_view);
+        GLSurfaceView skinGLView = new GLSurfaceView(context);
+        skinParentView.addView(skinGLView);
         skinGLView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
         skinGLView.setRenderer(skinRenderer);
         skinGLView.setZOrderOnTop(true);
-        skinGLView.setOnTouchListener(this);
+        skinGLView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                movementHandler.handleMotionEvent(event);
+                return false;
+            }
+        });
         new Thread(){
             @Override
             public void run(){
@@ -106,13 +114,5 @@ public class OfflineAccountSkinDialog implements View.OnClickListener, View.OnTo
         if (v == negative){
             dismiss();
         }
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if (v == skinGLView){
-            movementHandler.handleMotionEvent(event);
-        }
-        return false;
     }
 }

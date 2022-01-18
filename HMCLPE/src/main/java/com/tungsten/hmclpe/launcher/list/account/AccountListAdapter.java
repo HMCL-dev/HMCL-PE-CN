@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.Account;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.dialogs.account.OfflineAccountSkinDialog;
+import com.tungsten.hmclpe.launcher.dialogs.account.SkinPreviewDialog;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
@@ -118,8 +118,8 @@ public class AccountListAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 if (account.loginType == 1){
-                    OfflineAccountSkinDialog offlineAccountSkinDialog = new OfflineAccountSkinDialog(context,activity,account);
-                    offlineAccountSkinDialog.show();
+                    SkinPreviewDialog skinPreviewDialog = new SkinPreviewDialog(context,activity,account);
+                    skinPreviewDialog.show();
                 }
                 else {
 

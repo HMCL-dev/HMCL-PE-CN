@@ -12,7 +12,7 @@ import com.threed.jpct.World;
 import com.threed.jpct.util.MemoryHelper;
 import com.threed.jpct.util.SkyBox;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.dialogs.account.OfflineAccountSkinDialog;
+import com.tungsten.hmclpe.launcher.dialogs.account.SkinPreviewDialog;
 import com.tungsten.hmclpe.skin.draw3d.Draw3DSupport;
 import com.tungsten.hmclpe.skin.draw3d.Movement;
 
@@ -38,12 +38,12 @@ public class SkinRenderer implements Renderer {
     private MainActivity master;
     private long time = System.currentTimeMillis();
     private World world = null;
-    private OfflineAccountSkinDialog offlineAccountSkinDialog;
+    private SkinPreviewDialog skinPreviewDialog;
 
-    public SkinRenderer(MainActivity var1, MainActivity var2,OfflineAccountSkinDialog offlineAccountSkinDialog) {
+    public SkinRenderer(MainActivity var1, MainActivity var2, SkinPreviewDialog skinPreviewDialog) {
         this.dialog = var1;
         this.master = var2;
-        this.offlineAccountSkinDialog = offlineAccountSkinDialog;
+        this.skinPreviewDialog = skinPreviewDialog;
     }
 
     private void animateArms() {
@@ -52,13 +52,13 @@ public class SkinRenderer implements Renderer {
         float var3;
         float var4;
         Object3D var6;
-        if (OfflineAccountSkinDialog.char_parts.length == 12) {
-            OfflineAccountSkinDialog.char_parts[8].setRotationPivot(new SimpleVector(0.0D, 1.5D, 0.0D));
-            OfflineAccountSkinDialog.char_parts[9].setRotationPivot(new SimpleVector(0.0D, 1.5D, 0.0D));
-            OfflineAccountSkinDialog.char_parts[10].setRotationPivot(new SimpleVector(0.0D, 1.5D, 0.0D));
-            OfflineAccountSkinDialog.char_parts[11].setRotationPivot(new SimpleVector(0.0D, 1.5D, 0.0D));
-            var1 = OfflineAccountSkinDialog.char_parts[5].getTransformedCenter();
-            var2 = OfflineAccountSkinDialog.char_parts[6].getTransformedCenter();
+        if (SkinPreviewDialog.char_parts.length == 12) {
+            SkinPreviewDialog.char_parts[8].setRotationPivot(new SimpleVector(0.0D, 1.5D, 0.0D));
+            SkinPreviewDialog.char_parts[9].setRotationPivot(new SimpleVector(0.0D, 1.5D, 0.0D));
+            SkinPreviewDialog.char_parts[10].setRotationPivot(new SimpleVector(0.0D, 1.5D, 0.0D));
+            SkinPreviewDialog.char_parts[11].setRotationPivot(new SimpleVector(0.0D, 1.5D, 0.0D));
+            var1 = SkinPreviewDialog.char_parts[5].getTransformedCenter();
+            var2 = SkinPreviewDialog.char_parts[6].getTransformedCenter();
             var3 = var1.calcAngle(new SimpleVector(0.0F, 0.0F, 1.0F));
             var4 = var2.calcAngle(new SimpleVector(0.0F, 0.0F, 1.0F));
             if (var3 < 1.4414F) {
@@ -77,8 +77,8 @@ public class SkinRenderer implements Renderer {
                 this.dirRL = 0;
             }
 
-            Object3D var5 = OfflineAccountSkinDialog.char_parts[8];
-            var1 = OfflineAccountSkinDialog.char_parts[8].getXAxis();
+            Object3D var5 = SkinPreviewDialog.char_parts[8];
+            var1 = SkinPreviewDialog.char_parts[8].getXAxis();
             if (this.dirLL == 0) {
                 var3 = -0.03F;
             } else {
@@ -86,8 +86,8 @@ public class SkinRenderer implements Renderer {
             }
 
             var5.rotateAxis(var1, var3);
-            var5 = OfflineAccountSkinDialog.char_parts[9];
-            var1 = OfflineAccountSkinDialog.char_parts[9].getXAxis();
+            var5 = SkinPreviewDialog.char_parts[9];
+            var1 = SkinPreviewDialog.char_parts[9].getXAxis();
             if (this.dirLL == 0) {
                 var3 = -0.03F;
             } else {
@@ -95,8 +95,8 @@ public class SkinRenderer implements Renderer {
             }
 
             var5.rotateAxis(var1, var3);
-            var5 = OfflineAccountSkinDialog.char_parts[10];
-            var1 = OfflineAccountSkinDialog.char_parts[10].getXAxis();
+            var5 = SkinPreviewDialog.char_parts[10];
+            var1 = SkinPreviewDialog.char_parts[10].getXAxis();
             if (this.dirRL == 0) {
                 var3 = -0.03F;
             } else {
@@ -104,8 +104,8 @@ public class SkinRenderer implements Renderer {
             }
 
             var5.rotateAxis(var1, var3);
-            var6 = OfflineAccountSkinDialog.char_parts[11];
-            var2 = OfflineAccountSkinDialog.char_parts[11].getXAxis();
+            var6 = SkinPreviewDialog.char_parts[11];
+            var2 = SkinPreviewDialog.char_parts[11].getXAxis();
             if (this.dirRL == 0) {
                 var3 = -0.03F;
             } else {
@@ -114,10 +114,10 @@ public class SkinRenderer implements Renderer {
 
             var6.rotateAxis(var2, var3);
         } else {
-            OfflineAccountSkinDialog.char_parts[5].setRotationPivot(new SimpleVector(0.0D, 1.5D, 0.0D));
-            OfflineAccountSkinDialog.char_parts[6].setRotationPivot(new SimpleVector(0.0D, 1.5D, 0.0D));
-            var2 = OfflineAccountSkinDialog.char_parts[5].getTransformedCenter();
-            var1 = OfflineAccountSkinDialog.char_parts[6].getTransformedCenter();
+            SkinPreviewDialog.char_parts[5].setRotationPivot(new SimpleVector(0.0D, 1.5D, 0.0D));
+            SkinPreviewDialog.char_parts[6].setRotationPivot(new SimpleVector(0.0D, 1.5D, 0.0D));
+            var2 = SkinPreviewDialog.char_parts[5].getTransformedCenter();
+            var1 = SkinPreviewDialog.char_parts[6].getTransformedCenter();
             var4 = var2.calcAngle(new SimpleVector(0.0F, 0.0F, 1.0F));
             var3 = var1.calcAngle(new SimpleVector(0.0F, 0.0F, 1.0F));
             if (var4 < 1.3707F) {
@@ -136,8 +136,8 @@ public class SkinRenderer implements Renderer {
                 this.dirRL = 0;
             }
 
-            var6 = OfflineAccountSkinDialog.char_parts[5];
-            var2 = OfflineAccountSkinDialog.char_parts[5].getXAxis();
+            var6 = SkinPreviewDialog.char_parts[5];
+            var2 = SkinPreviewDialog.char_parts[5].getXAxis();
             if (this.dirLL == 0) {
                 var3 = -0.03F;
             } else {
@@ -145,8 +145,8 @@ public class SkinRenderer implements Renderer {
             }
 
             var6.rotateAxis(var2, var3);
-            var6 = OfflineAccountSkinDialog.char_parts[6];
-            var2 = OfflineAccountSkinDialog.char_parts[6].getXAxis();
+            var6 = SkinPreviewDialog.char_parts[6];
+            var2 = SkinPreviewDialog.char_parts[6].getXAxis();
             if (this.dirRL == 0) {
                 var3 = -0.03F;
             } else {
@@ -159,9 +159,9 @@ public class SkinRenderer implements Renderer {
     }
 
     private void animateHead() {
-        OfflineAccountSkinDialog.char_parts[0].setRotationPivot(new SimpleVector(0.0F, 1.0F, 0.0F));
-        OfflineAccountSkinDialog.char_parts[1].setRotationPivot(new SimpleVector(0.0F, 1.0F, 0.0F));
-        if (OfflineAccountSkinDialog.char_parts[0].getXAxis().calcAngle(new SimpleVector(1.0F, 0.0F, 0.0F)) > 0.4F && this.headDelta > 10) {
+        SkinPreviewDialog.char_parts[0].setRotationPivot(new SimpleVector(0.0F, 1.0F, 0.0F));
+        SkinPreviewDialog.char_parts[1].setRotationPivot(new SimpleVector(0.0F, 1.0F, 0.0F));
+        if (SkinPreviewDialog.char_parts[0].getXAxis().calcAngle(new SimpleVector(1.0F, 0.0F, 0.0F)) > 0.4F && this.headDelta > 10) {
             this.headDelta = 0;
             if (this.dirH == 1) {
                 this.dirH = 0;
@@ -171,8 +171,8 @@ public class SkinRenderer implements Renderer {
         }
 
         ++this.headDelta;
-        Object3D var1 = OfflineAccountSkinDialog.char_parts[0];
-        SimpleVector var2 = OfflineAccountSkinDialog.char_parts[0].getYAxis();
+        Object3D var1 = SkinPreviewDialog.char_parts[0];
+        SimpleVector var2 = SkinPreviewDialog.char_parts[0].getYAxis();
         float var3;
         if (this.dirH == 0) {
             var3 = -this.headSpeed;
@@ -181,8 +181,8 @@ public class SkinRenderer implements Renderer {
         }
 
         var1.rotateAxis(var2, var3);
-        Object3D var5 = OfflineAccountSkinDialog.char_parts[1];
-        SimpleVector var4 = OfflineAccountSkinDialog.char_parts[1].getYAxis();
+        Object3D var5 = SkinPreviewDialog.char_parts[1];
+        SimpleVector var4 = SkinPreviewDialog.char_parts[1].getYAxis();
         if (this.dirH == 0) {
             var3 = -this.headSpeed;
         } else {
@@ -198,13 +198,13 @@ public class SkinRenderer implements Renderer {
         float var3;
         float var4;
         Object3D var5;
-        if (OfflineAccountSkinDialog.char_parts.length == 12) {
-            OfflineAccountSkinDialog.char_parts[4].setRotationPivot(new SimpleVector(0.0D, 4.5D, 0.0D));
-            OfflineAccountSkinDialog.char_parts[5].setRotationPivot(new SimpleVector(0.0D, 4.5D, 0.0D));
-            OfflineAccountSkinDialog.char_parts[6].setRotationPivot(new SimpleVector(0.0D, 4.5D, 0.0D));
-            OfflineAccountSkinDialog.char_parts[7].setRotationPivot(new SimpleVector(0.0D, 4.5D, 0.0D));
-            var1 = OfflineAccountSkinDialog.char_parts[5].getTransformedCenter();
-            var2 = OfflineAccountSkinDialog.char_parts[6].getTransformedCenter();
+        if (SkinPreviewDialog.char_parts.length == 12) {
+            SkinPreviewDialog.char_parts[4].setRotationPivot(new SimpleVector(0.0D, 4.5D, 0.0D));
+            SkinPreviewDialog.char_parts[5].setRotationPivot(new SimpleVector(0.0D, 4.5D, 0.0D));
+            SkinPreviewDialog.char_parts[6].setRotationPivot(new SimpleVector(0.0D, 4.5D, 0.0D));
+            SkinPreviewDialog.char_parts[7].setRotationPivot(new SimpleVector(0.0D, 4.5D, 0.0D));
+            var1 = SkinPreviewDialog.char_parts[5].getTransformedCenter();
+            var2 = SkinPreviewDialog.char_parts[6].getTransformedCenter();
             var3 = var1.calcAngle(new SimpleVector(0.0F, 0.0F, 1.0F));
             var4 = var2.calcAngle(new SimpleVector(0.0F, 0.0F, 1.0F));
             if (var3 < 1.4414F) {
@@ -223,8 +223,8 @@ public class SkinRenderer implements Renderer {
                 this.dirRL = 0;
             }
 
-            Object3D var6 = OfflineAccountSkinDialog.char_parts[5];
-            var1 = OfflineAccountSkinDialog.char_parts[5].getXAxis();
+            Object3D var6 = SkinPreviewDialog.char_parts[5];
+            var1 = SkinPreviewDialog.char_parts[5].getXAxis();
             if (this.dirLL == 0) {
                 var3 = -0.03F;
             } else {
@@ -232,8 +232,8 @@ public class SkinRenderer implements Renderer {
             }
 
             var6.rotateAxis(var1, var3);
-            var6 = OfflineAccountSkinDialog.char_parts[4];
-            var1 = OfflineAccountSkinDialog.char_parts[4].getXAxis();
+            var6 = SkinPreviewDialog.char_parts[4];
+            var1 = SkinPreviewDialog.char_parts[4].getXAxis();
             if (this.dirLL == 0) {
                 var3 = -0.03F;
             } else {
@@ -241,8 +241,8 @@ public class SkinRenderer implements Renderer {
             }
 
             var6.rotateAxis(var1, var3);
-            var5 = OfflineAccountSkinDialog.char_parts[7];
-            var2 = OfflineAccountSkinDialog.char_parts[5].getXAxis();
+            var5 = SkinPreviewDialog.char_parts[7];
+            var2 = SkinPreviewDialog.char_parts[5].getXAxis();
             if (this.dirRL == 0) {
                 var3 = -0.03F;
             } else {
@@ -250,8 +250,8 @@ public class SkinRenderer implements Renderer {
             }
 
             var5.rotateAxis(var2, var3);
-            var6 = OfflineAccountSkinDialog.char_parts[6];
-            var1 = OfflineAccountSkinDialog.char_parts[4].getXAxis();
+            var6 = SkinPreviewDialog.char_parts[6];
+            var1 = SkinPreviewDialog.char_parts[4].getXAxis();
             if (this.dirRL == 0) {
                 var3 = -0.03F;
             } else {
@@ -260,10 +260,10 @@ public class SkinRenderer implements Renderer {
 
             var6.rotateAxis(var1, var3);
         } else {
-            OfflineAccountSkinDialog.char_parts[3].setRotationPivot(new SimpleVector(0.0D, 4.5D, 0.0D));
-            OfflineAccountSkinDialog.char_parts[4].setRotationPivot(new SimpleVector(0.0D, 4.5D, 0.0D));
-            var2 = OfflineAccountSkinDialog.char_parts[3].getTransformedCenter();
-            var1 = OfflineAccountSkinDialog.char_parts[4].getTransformedCenter();
+            SkinPreviewDialog.char_parts[3].setRotationPivot(new SimpleVector(0.0D, 4.5D, 0.0D));
+            SkinPreviewDialog.char_parts[4].setRotationPivot(new SimpleVector(0.0D, 4.5D, 0.0D));
+            var2 = SkinPreviewDialog.char_parts[3].getTransformedCenter();
+            var1 = SkinPreviewDialog.char_parts[4].getTransformedCenter();
             var4 = var2.calcAngle(new SimpleVector(0.0F, 0.0F, 1.0F));
             var3 = var1.calcAngle(new SimpleVector(0.0F, 0.0F, 1.0F));
             if (var4 < 1.3707F) {
@@ -282,8 +282,8 @@ public class SkinRenderer implements Renderer {
                 this.dirRL = 0;
             }
 
-            var5 = OfflineAccountSkinDialog.char_parts[3];
-            var2 = OfflineAccountSkinDialog.char_parts[3].getXAxis();
+            var5 = SkinPreviewDialog.char_parts[3];
+            var2 = SkinPreviewDialog.char_parts[3].getXAxis();
             if (this.dirLL == 0) {
                 var3 = -0.03F;
             } else {
@@ -291,8 +291,8 @@ public class SkinRenderer implements Renderer {
             }
 
             var5.rotateAxis(var2, var3);
-            var5 = OfflineAccountSkinDialog.char_parts[4];
-            var2 = OfflineAccountSkinDialog.char_parts[4].getXAxis();
+            var5 = SkinPreviewDialog.char_parts[4];
+            var2 = SkinPreviewDialog.char_parts[4].getXAxis();
             if (this.dirRL == 0) {
                 var3 = -0.03F;
             } else {
@@ -305,8 +305,8 @@ public class SkinRenderer implements Renderer {
     }
 
     private void moveCamera() {
-        Movement var1 = offlineAccountSkinDialog.movementHandler.getMovement();
-        Object3D var2 = OfflineAccountSkinDialog.char_parts[2];
+        Movement var1 = skinPreviewDialog.movementHandler.getMovement();
+        Object3D var2 = SkinPreviewDialog.char_parts[2];
         SimpleVector var3 = new SimpleVector(0.0F, 1.0F, 0.0F);
         if (var1.hasMovement()) {
             Camera var4 = this.world.getCamera();
@@ -333,8 +333,8 @@ public class SkinRenderer implements Renderer {
     }
 
     public void onDrawFrame(GL10 var1) {
-        if (OfflineAccountSkinDialog.char_parts != null) {
-            if (this.isAnimation && (OfflineAccountSkinDialog.char_parts.length == 7 || OfflineAccountSkinDialog.char_parts.length == 12)) {
+        if (SkinPreviewDialog.char_parts != null) {
+            if (this.isAnimation && (SkinPreviewDialog.char_parts.length == 7 || SkinPreviewDialog.char_parts.length == 12)) {
                 this.animateLegs();
                 this.animateArms();
                 this.animateHead();
@@ -342,7 +342,7 @@ public class SkinRenderer implements Renderer {
 
             int var3;
             if (!this.isLoaded) {
-                Object3D[] var5 = OfflineAccountSkinDialog.char_parts;
+                Object3D[] var5 = SkinPreviewDialog.char_parts;
                 int var2 = var5.length;
 
                 for(var3 = 0; var3 < var2; ++var3) {
