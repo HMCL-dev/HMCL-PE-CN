@@ -3,7 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/Boat/src/main/res/layout/activity_boat.xml" value="0.1296875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/Boat/src/main/res/layout/activity_boat.xml" value="0.264" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/drawable/ic_outline_build_black.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/drawable/raw.xml" value="0.146875" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/layout/activity_main.xml" value="0.13072916666666667" />
@@ -20,6 +20,7 @@
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/layout/ui_setting_global_game.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/layout/ui_setting_universal.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/layout/ui_version_list.xml" value="0.25364583333333335" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/PojavLauncher/src/main/res/layout/activity_pojav.xml" value="0.4" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/Boat/src/main/res/layout/activity_boat.xml" value="0.11875" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/ic_baseline_arrow_forward_black.xml" value="0.20462962962962963" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HelloMinecraftLauncherPocketEdition/HMCLPE/src/main/res/drawable/ic_baseline_delete_black.xml" value="0.20462962962962963" />

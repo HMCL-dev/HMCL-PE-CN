@@ -5,16 +5,31 @@
     android:layout_height="fill_parent">
 
     <TextureView
+        android:id="@+id/main_surface"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/main_surface"/>
+        android:layout_height="match_parent" />
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="HMCL-PE"
-        android:textSize="10sp"/>
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Powered by Boat"
+            android:textSize="10sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="HMCL-PE"
+            android:textSize="10sp"/>
+
+    </LinearLayout>
 
 </RelativeLayout>
