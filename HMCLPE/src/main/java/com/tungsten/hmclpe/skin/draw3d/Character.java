@@ -99,9 +99,9 @@ public class Character {
 
     private static Object3D draw_hat(float var0, float var1, float var2, ArrayList<Integer> var3) {
         Object3D var4 = new Object3D(12);
-        float var5 = -1.125F + var0;
-        float var6 = -1.125F + var1;
-        float var7 = -1.125F + var2;
+        float var5 = -1.25F + var0;
+        float var6 = -1.25F + var1;
+        float var7 = -1.25F + var2;
         SimpleVector var8 = new SimpleVector(var5, var6, var7);
         ++var0;
         SimpleVector var9 = new SimpleVector(var0, var6, var7);
@@ -552,8 +552,8 @@ public class Character {
             var6 = Bitmap.createBitmap(var1, 56, 48, 4, 4, matrix, false);
             var3 = this.convert_to_4x16(Bitmap.createBitmap(var1, 52, 52, 4, 12, matrix, false));
             var7 = this.convert_to_4x16(Bitmap.createBitmap(var1, 60, 52, 4, 12, matrix, false));
-            var5 = this.convert_to_4x16(Bitmap.createBitmap(var1, 56, 52, 4, 12, (Matrix)null, false));
-            var8 = this.convert_to_4x16(Bitmap.createBitmap(var1, 48, 52, 4, 12, (Matrix)null, false));
+            var5 = this.convert_to_4x16(Bitmap.createBitmap(var1, 56, 52, 4, 12, matrix, false));
+            var8 = this.convert_to_4x16(Bitmap.createBitmap(var1, 48, 52, 4, 12, matrix, false));
             this.addOrReplaceTexture(var2, "l_arm_top2", new Texture(var4));
             this.addOrReplaceTexture(var2, "l_arm_bottom2", new Texture(var6));
             this.addOrReplaceTexture(var2, "l_arm_front2", new Texture(var3));
@@ -586,16 +586,16 @@ public class Character {
             this.part_arm_r_tex.add(var2.getTextureID("r_arm_right"));
             var3 = Bitmap.createBitmap(var1, 44, 32, 4, 4, (Matrix)null, false);
             var5 = Bitmap.createBitmap(var1, 48, 32, 4, 4, (Matrix)null, false);
-            var4 = this.convert_to_4x16(Bitmap.createBitmap(var1, 44, 36, 4, 12, (Matrix)null, false));
-            var7 = this.convert_to_4x16(Bitmap.createBitmap(var1, 52, 36, 4, 12, (Matrix)null, false));
+            var4 = this.convert_to_4x16(Bitmap.createBitmap(var1, 44, 36, 4, 12, matrix, false));
+            var7 = this.convert_to_4x16(Bitmap.createBitmap(var1, 52, 36, 4, 12, matrix, false));
             var6 = this.convert_to_4x16(Bitmap.createBitmap(var1, 48, 36, 4, 12, (Matrix)null, false));
-            var1 = this.convert_to_4x16(Bitmap.createBitmap(var1, 40, 36, 4, 12, (Matrix)null, false));
+            var1 = this.convert_to_4x16(Bitmap.createBitmap(var1, 40, 36, 4, 12, matrix, false));
             this.addOrReplaceTexture(var2, "r_arm_top2", new Texture(var3));
             this.addOrReplaceTexture(var2, "r_arm_bottom2", new Texture(var5));
             this.addOrReplaceTexture(var2, "r_arm_front2", new Texture(var4));
             this.addOrReplaceTexture(var2, "r_arm_back2", new Texture(var7));
-            this.addOrReplaceTexture(var2, "r_arm_left2", new Texture(var6));
-            this.addOrReplaceTexture(var2, "r_arm_right2", new Texture(var1));
+            this.addOrReplaceTexture(var2, "r_arm_left2", new Texture(var1));
+            this.addOrReplaceTexture(var2, "r_arm_right2", new Texture(var6));
             this.part_arm_r_tex_2.add(var2.getTextureID("r_arm_top2"));
             this.part_arm_r_tex_2.add(var2.getTextureID("r_arm_bottom2"));
             this.part_arm_r_tex_2.add(var2.getTextureID("r_arm_front2"));
@@ -646,9 +646,9 @@ public class Character {
     public Object3D[] getObjects() {
         Object3D[] var1;
         if (this.is64x64) {
-            var1 = new Object3D[]{draw_head(0.0F, 0.0F, 0.0F, this.part_head_tex), draw_hat(0.0F, 0.0F, 0.0F, this.part_hat_tex), draw_body(0.0F, 3.0F, 0.0F, this.part_body_tex), draw_jacket(0.0F, 4.0F, 0.0F, this.part_jacket_tex), draw_limb_new(-0.5F, 5.5F, 0.0F, this.part_leg_r_tex, false, false), draw_limb_new(-0.5F, 5.5F, 0.0F, this.part_leg_r_tex_2, true, true), draw_limb_new(0.5F, 5.5F, 0.0F, this.part_leg_l_tex, true, false), draw_limb_new(0.5F, 5.5F, 0.0F, this.part_leg_l_tex_2, true, true), draw_limb_new(-1.5F, 2.5F, 0.0F, this.part_arm_r_tex, false, false), draw_limb_new(-1.5F, 2.5F, 0.0F, this.part_arm_r_tex_2, false, true), draw_limb_new(1.5F, 2.5F, 0.0F, this.part_arm_l_tex, true, false), draw_limb_new(1.5F, 2.5F, 0.0F, this.part_arm_l_tex_2, true, true)};
+            var1 = new Object3D[]{draw_head(0.0F, 0.0F, 0.0F, this.part_head_tex), draw_hat(0.125F, 0.125F, 0.125F, this.part_hat_tex), draw_body(0.0F, 3.0F, 0.0F, this.part_body_tex), draw_jacket(0.0F, 4.0F, 0.0F, this.part_jacket_tex), draw_limb_new(-0.5F, 5.5F, 0.0F, this.part_leg_r_tex, false, false), draw_limb_new(-0.5F, 5.5F, 0.0F, this.part_leg_r_tex_2, true, true), draw_limb_new(0.5F, 5.5F, 0.0F, this.part_leg_l_tex, true, false), draw_limb_new(0.5F, 5.5F, 0.0F, this.part_leg_l_tex_2, true, true), draw_limb_new(-1.5F, 2.5F, 0.0F, this.part_arm_r_tex, false, false), draw_limb_new(-1.5F, 2.5F, 0.0F, this.part_arm_r_tex_2, false, true), draw_limb_new(1.5F, 2.5F, 0.0F, this.part_arm_l_tex, true, false), draw_limb_new(1.5F, 2.5F, 0.0F, this.part_arm_l_tex_2, true, true)};
         } else {
-            var1 = new Object3D[]{draw_head(0.0F, 0.0F, 0.0F, this.part_head_tex), draw_hat(0.0F, 0.0F, 0.0F, this.part_hat_tex), draw_body(0.0F, 3.0F, 0.0F, this.part_body_tex), draw_limb(-0.5F, 5.5F, 0.0F, this.part_leg_tex, false), draw_limb(0.5F, 5.5F, 0.0F, this.part_leg_tex, true), draw_limb(-1.5F, 2.5F, 0.0F, this.part_arm_tex, false), draw_limb(1.5F, 2.5F, 0.0F, this.part_arm_tex, true)};
+            var1 = new Object3D[]{draw_head(0.0F, 0.0F, 0.0F, this.part_head_tex), draw_hat(0.125F, 0.125F, 0.125F, this.part_hat_tex), draw_body(0.0F, 3.0F, 0.0F, this.part_body_tex), draw_limb(-0.5F, 5.5F, 0.0F, this.part_leg_tex, false), draw_limb(0.5F, 5.5F, 0.0F, this.part_leg_tex, true), draw_limb(-1.5F, 2.5F, 0.0F, this.part_arm_tex, false), draw_limb(1.5F, 2.5F, 0.0F, this.part_arm_tex, true)};
         }
 
         return var1;
