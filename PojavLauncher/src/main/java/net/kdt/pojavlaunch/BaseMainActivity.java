@@ -14,7 +14,7 @@ public class BaseMainActivity extends BaseActivity {
 
     private MinecraftGLView minecraftGLView;
 
-    protected void initLayout() {
+    protected void initLayout(String javaPath,String home,boolean highVersion,final Vector<String> args, String renderer) {
         setContentView(R.layout.activity_pojav);
 
         try {
@@ -26,7 +26,7 @@ public class BaseMainActivity extends BaseActivity {
 
             minecraftGLView.setSurfaceReadyListener(() -> {
                 try {
-                    runCraft();
+                    runCraft(javaPath,home,highVersion,args,renderer);
                 }catch (Throwable e){
 
                 }
@@ -45,10 +45,10 @@ public class BaseMainActivity extends BaseActivity {
 
     private void runCraft(String javaPath,String home,boolean highVersion,final Vector<String> args, String renderer) throws Throwable {
         
-        JREUtils.jreReleaseList = JREUtils.readJREReleaseProperties();
+        JREUtils.jreReleaseList = JREUtils.readJREReleaseProperties(javaPath);
 
         JREUtils.redirectAndPrintJRELog(this);
-        Tools.launchMinecraft(this,  args);
+        Tools.launchMinecraft(this, javaPath,home,renderer, args);
     }
 
 }

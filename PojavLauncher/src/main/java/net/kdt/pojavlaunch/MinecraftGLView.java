@@ -30,7 +30,7 @@ public class MinecraftGLView extends TextureView {
     /* Pointer Debug textview, used to show info about the pointer state */
     private TextView pointerDebugText;
     /* Resolution scaler option, allow downsizing a window */
-    private final float scaleFactor = LauncherPreferences.DEFAULT_PREF.getInt("resolutionRatio",100)/100f;
+    private final float scaleFactor = 1;
     /* MC GUI scale, listened by MCOptionUtils */
     private int GUIScale = getMcScale();
     private MCOptionUtils.MCOptionListener GUIScaleListener = () -> GUIScale = getMcScale();

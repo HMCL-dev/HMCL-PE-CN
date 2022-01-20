@@ -11,7 +11,6 @@ public class BaseActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Tools.setFullscreen(this);
-        Tools.updateWindowSize(this);
     }
 
     @Override

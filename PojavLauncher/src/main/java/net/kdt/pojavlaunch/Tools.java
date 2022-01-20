@@ -34,20 +34,9 @@ import java.util.Vector;
 
 public final class Tools {
 
-    public static String DIR_DATA; //Initialized later to get context
-    public static String MULTIRT_HOME;
-    public static String LOCAL_RENDERER = null;
-    
-    // New since 3.0.0
-    public static String DIR_HOME_JRE;
-    public static String DIRNAME_HOME_JRE = "lib";
+    public static String POJAV_LIB_DIR = "/data/data/com.tungsten.hmclpe/app_runtime/pojav/lib";
 
-    // New since 2.4.2
-    public static String DIR_HOME_VERSION;
-
-    public static String ASSETS_PATH;
-
-    public static void launchMinecraft(final Activity activity, Vector<String> args) throws Throwable {
+    public static void launchMinecraft(final Activity activity,String javaPath,String home,String renderer, Vector<String> args) throws Throwable {
 
         String[] launchArgs = new String[args.size()];
         for (int i = 0; i < args.size(); i++) {
@@ -64,11 +53,8 @@ public final class Tools {
         }
 
         javaArgList.add("-cp");
-        javaArgList.add(getLWJGL3ClassPath() + ":" + launchClassPath);
-
-        javaArgList.add(versionInfo.mainClass);
         javaArgList.addAll(Arrays.asList(launchArgs));
-        JREUtils.launchJavaVM(activity, javaArgList);
+        JREUtils.launchJavaVM(activity,javaPath,home,renderer, javaArgList);
     }
     
     public static void getCacioJavaArgs(List<String> javaArgList, boolean isHeadless) {
@@ -84,7 +70,7 @@ public final class Tools {
 
         StringBuilder cacioClasspath = new StringBuilder();
         cacioClasspath.append("-Xbootclasspath/p");
-        File cacioDir = new File(DIR_GAME_HOME + "/caciocavallo");
+        File cacioDir = new File(POJAV_LIB_DIR + "/caciocavallo");
         if (cacioDir.exists() && cacioDir.isDirectory()) {
             for (File file : cacioDir.listFiles()) {
                 if (file.getName().endsWith(".jar")) {
@@ -105,10 +91,6 @@ public final class Tools {
         return builder.toString();
     }
 
-    public static String getPatchedFile(String version) {
-        return DIR_HOME_VERSION + "/" + version + "/" + version + ".jar";
-    }
-
     public static void setFullscreen(Activity act) {
         final View decorView = act.getWindow().getDecorView();
         decorView.setOnSystemUiVisibilityChangeListener (new View.OnSystemUiVisibilityChangeListener() {
@@ -127,13 +109,6 @@ public final class Tools {
     }
 
     public static DisplayMetrics currentDisplayMetrics;
-
-    public static void updateWindowSize(Activity ctx) {
-        currentDisplayMetrics = getDisplayMetrics(ctx);
-
-        CallbackBridge.physicalWidth = (int) (currentDisplayMetrics.widthPixels);
-        CallbackBridge.physicalHeight = (int) (currentDisplayMetrics.heightPixels);
-    }
 
     public static float dpToPx(float dp) {
         //Better hope for the currentDisplayMetrics to be good
@@ -273,18 +248,6 @@ public final class Tools {
         }catch (IOException e) {
             Log.i("SHA1","Fake-matching a hash due to a read error",e);
             return true;
-        }
-    }
-
-    public static void ignoreNotch(boolean shouldIgnore, Activity ctx){
-        if (SDK_INT >= P) {
-            if (shouldIgnore) {
-                ctx.getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
-            } else {
-                ctx.getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
-            }
-            ctx.getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-            Tools.updateWindowSize(ctx);
         }
     }
 
