@@ -30,27 +30,26 @@ public class MCOptionUtils
         void onOptionChanged();
     }
     
-    public static void load() {
+    public static void load(String gameDir) {
         if(fileObserver == null){
-            setupFileObserver();
+            setupFileObserver(gameDir);
         }
 
         parameterMap.clear();
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(Tools.DIR_GAME_NEW + "/options.txt"));
+            BufferedReader reader = new BufferedReader(new FileReader(gameDir + "/options.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
                 int firstColonIndex = line.indexOf(':');
                 if(firstColonIndex < 0) {
-                    Log.w(Tools.APP_NAME, "No colon on line \""+line+"\", skipping");
                     continue;
                 }
                 parameterMap.put(line.substring(0,firstColonIndex), line.substring(firstColonIndex+1));
             }
             reader.close();
         } catch (IOException e) {
-            Log.w(Tools.APP_NAME, "Could not load options.txt", e);
+
         }
     }
     
@@ -81,7 +80,7 @@ public class MCOptionUtils
         return Arrays.asList(value.split(","));
     }
     
-    public static void save() {
+    public static void save(String gameDir) {
         StringBuilder result = new StringBuilder();
         for(String key : parameterMap.keySet())
             result.append(key)
@@ -90,15 +89,15 @@ public class MCOptionUtils
                     .append('\n');
         
         try {
-            Tools.write(Tools.DIR_GAME_NEW + "/options.txt", result.toString());
+            Tools.write(gameDir + "/options.txt", result.toString());
         } catch (IOException e) {
-            Log.w(Tools.APP_NAME, "Could not save options.txt", e);
+
         }
     }
 
     /** @return The stored Minecraft GUI scale, also auto-computed if on auto-mode or improper setting */
-    public static int getMcScale() {
-        MCOptionUtils.load();
+    public static int getMcScale(String gameDir) {
+        MCOptionUtils.load(gameDir);
         String str = MCOptionUtils.get("guiScale");
         int guiScale = (str == null ? 0 :Integer.parseInt(str));
 
@@ -112,20 +111,20 @@ public class MCOptionUtils
 
     /** Add a file observer to reload options on file change
      * Listeners get notified of the change */
-    private static void setupFileObserver(){
+    private static void setupFileObserver(String gameDir){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-            fileObserver = new FileObserver(new File(Tools.DIR_GAME_NEW + "/options.txt"), FileObserver.MODIFY) {
+            fileObserver = new FileObserver(new File(gameDir + "/options.txt"), FileObserver.MODIFY) {
                 @Override
                 public void onEvent(int i, @Nullable String s) {
-                    MCOptionUtils.load();
+                    MCOptionUtils.load(gameDir);
                     notifyListeners();
                 }
             };
         }else{
-            fileObserver = new FileObserver(Tools.DIR_GAME_NEW + "/options.txt", FileObserver.MODIFY) {
+            fileObserver = new FileObserver(gameDir + "/options.txt", FileObserver.MODIFY) {
                 @Override
                 public void onEvent(int i, @Nullable String s) {
-                    MCOptionUtils.load();
+                    MCOptionUtils.load(gameDir);
                     notifyListeners();
                 }
             };

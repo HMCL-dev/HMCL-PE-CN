@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.launch.boat.BoatMinecraftActivity;
+import com.tungsten.hmclpe.launcher.launch.pojav.PojavMinecraftActivity;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
@@ -172,7 +173,7 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
             activity.uiManager.switchMainUI(activity.uiManager.settingUI);
         }
         if (v == startGame){
-            Intent intent = new Intent(context, BoatMinecraftActivity.class);
+            Intent intent = new Intent(context, PojavMinecraftActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("setting_path",AppManifest.SETTING_DIR + "/private_game_setting.json");
             intent.putExtras(bundle);

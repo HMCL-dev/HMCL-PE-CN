@@ -27,22 +27,15 @@ import org.lwjgl.glfw.CallbackBridge;
  * Class dealing with showing minecraft surface and taking inputs to dispatch them to minecraft
  */
 public class MinecraftGLView extends TextureView {
+
+    String gameDir = "/sdcard/HMCLPE/.minecraft";
+
     /* Pointer Debug textview, used to show info about the pointer state */
     private TextView pointerDebugText;
     /* Resolution scaler option, allow downsizing a window */
     private final float scaleFactor = 1;
-    /* MC GUI scale, listened by MCOptionUtils */
-    private int GUIScale = getMcScale();
-    private MCOptionUtils.MCOptionListener GUIScaleListener = () -> GUIScale = getMcScale();
     /* Surface ready listener, used by the activity to launch minecraft */
     SurfaceReadyListener surfaceReadyListener = null;
-    /* How much distance a finger has to go for touch sloppiness to be disabled */
-    public static final int FINGER_STILL_THRESHOLD = (int) Tools.dpToPx(9);
-    /* How much distance a finger has to go to scroll */
-    public static final int FINGER_SCROLL_THRESHOLD = (int) Tools.dpToPx(6);
-    /* Handle hotbar throw button and mouse mining button */
-    public static final int MSG_LEFT_MOUSE_BUTTON_CHECK = 1028;
-    public static final int MSG_DROP_ITEM_BUTTON_CHECK = 1029;
 
 
     public MinecraftGLView(Context context) {
@@ -55,8 +48,6 @@ public class MinecraftGLView extends TextureView {
         //since it forces android to used the background color of the view/layout behind it.
         setOpaque(false);
         setFocusable(true);
-
-        MCOptionUtils.addMCOptionListener(GUIScaleListener);
     }
 
     /** Initialize the view and all its settings */
@@ -77,11 +68,11 @@ public class MinecraftGLView extends TextureView {
                 texture.setDefaultBufferSize(windowWidth, windowHeight);
 
                 //Load Minecraft options:
-                MCOptionUtils.load();
+                MCOptionUtils.load(gameDir);
                 MCOptionUtils.set("overrideWidth", String.valueOf(windowWidth));
                 MCOptionUtils.set("overrideHeight", String.valueOf(windowHeight));
-                MCOptionUtils.save();
-                getMcScale();
+                MCOptionUtils.save(gameDir);
+                getMcScale(gameDir);
                 // Should we do that?
                 if(isCalled) return;
                 isCalled = true;
@@ -110,7 +101,7 @@ public class MinecraftGLView extends TextureView {
                 windowWidth = Tools.getDisplayFriendlyRes(width, scaleFactor);
                 windowHeight = Tools.getDisplayFriendlyRes(height, scaleFactor);
                 CallbackBridge.sendUpdateWindowSize(windowWidth, windowHeight);
-                getMcScale();
+                getMcScale(gameDir);
             }
 
             @Override
@@ -242,11 +233,6 @@ public class MinecraftGLView extends TextureView {
         if(glfwButton == -256) return false;
         sendMouseButton(glfwButton, status);
         return true;
-    }
-
-    /** Return the size, given the UI scale size */
-    private int mcscale(int input) {
-        return (int)((GUIScale * input)/scaleFactor);
     }
 
     /** A small interface called when the listener is ready for the first time */

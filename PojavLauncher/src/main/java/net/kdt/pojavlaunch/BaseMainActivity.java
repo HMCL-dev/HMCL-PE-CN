@@ -4,6 +4,8 @@ import static net.kdt.pojavlaunch.Tools.currentDisplayMetrics;
 import static org.lwjgl.glfw.CallbackBridge.windowHeight;
 import static org.lwjgl.glfw.CallbackBridge.windowWidth;
 
+import android.widget.Toast;
+
 import net.kdt.pojavlaunch.utils.JREUtils;
 
 import java.util.Vector;
@@ -22,21 +24,22 @@ public class BaseMainActivity extends BaseActivity {
             windowHeight = Tools.getDisplayFriendlyRes(currentDisplayMetrics.heightPixels, scaleFactor);
             System.out.println("WidthHeight: " + windowWidth + ":" + windowHeight);
 
-            this.minecraftGLView = findViewById(R.id.main_game_render_view);
-
-            minecraftGLView.setSurfaceReadyListener(() -> {
-                try {
-                    runCraft(javaPath,home,highVersion,args,renderer);
-                }catch (Throwable e){
-
-                }
-            });
-
-            minecraftGLView.start();
-
         } catch (Throwable e) {
 
         }
+
+        this.minecraftGLView = findViewById(R.id.main_game_render_view);
+
+        minecraftGLView.setSurfaceReadyListener(() -> {
+            try {
+                runCraft(javaPath,home,highVersion,args,renderer);
+            }catch (Throwable e){
+
+            }
+            Toast.makeText(BaseMainActivity.this, "...", Toast.LENGTH_SHORT).show();
+        });
+
+        minecraftGLView.start();
     }
 
     public static void fullyExit() {

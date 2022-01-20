@@ -1,7 +1,6 @@
-package com.tungsten.hmclpe.launcher.launch.boat;
+package com.tungsten.hmclpe.launcher.launch;
 
 import com.google.gson.Gson;
-import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -10,7 +9,7 @@ import java.util.Map;
 
 import cosine.boat.BoatUtils;
 
-public class BoatVersion {
+public class LaunchVersion {
 
     public class AssetsIndex {
         public String id;
@@ -58,11 +57,11 @@ public class BoatVersion {
 
     public String minecraftPath;
 
-    public static BoatVersion fromDirectory(File file) {
+    public static LaunchVersion fromDirectory(File file) {
         try {
 
             String json = new String(BoatUtils.readFile(new File(file, file.getName() + ".json")), "UTF-8");
-            BoatVersion result = new Gson().fromJson(json, BoatVersion.class);
+            LaunchVersion result = new Gson().fromJson(json, LaunchVersion.class);
             if (new File(file, file.getName() + ".jar").exists()) {
                 result.minecraftPath = new File(file, file.getName() + ".jar").getAbsolutePath();
             } else {
@@ -71,8 +70,8 @@ public class BoatVersion {
 
             if (result.inheritsFrom != null && !result.inheritsFrom.equals("")) {
 
-                BoatVersion self = result;
-                result = BoatVersion.fromDirectory(new File(file.getParentFile(), self.inheritsFrom));
+                LaunchVersion self = result;
+                result = LaunchVersion.fromDirectory(new File(file.getParentFile(), self.inheritsFrom));
 
                 if (self.assetIndex != null) {
                     result.assetIndex = self.assetIndex;

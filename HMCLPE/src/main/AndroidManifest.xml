@@ -59,6 +59,13 @@
                 android:name="android.app.lib_name"
                 android:value="boat" />
         </activity>
+        <activity
+            android:launchMode="standard"
+            android:multiprocess="true"
+            android:screenOrientation="sensorLandscape"
+            android:name=".launcher.launch.pojav.PojavMinecraftActivity"
+            android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"
+            android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"/>
         <service
             android:name="utils.logcat.LogcatService"
             android:process=":logcatprocess"

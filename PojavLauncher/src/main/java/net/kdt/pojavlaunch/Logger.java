@@ -15,25 +15,10 @@ public class Logger {
     private static Logger loggerSingleton = null;
 
     /* Instance variables */
-    private final File logFile;
     private PrintStream logStream;
     private WeakReference<eventLogListener> logListenerWeakReference = null;
 
     /* No public construction */
-    private Logger(){
-        this("latestlog.txt");
-    }
-
-    private Logger(String fileName){
-        logFile = new File(Tools.DIR_GAME_HOME, fileName);
-        // Make a new instance of the log file
-        logFile.delete();
-        try {
-            logFile.createNewFile();
-            logStream = new PrintStream(logFile.getAbsolutePath());
-        }catch (IOException e){e.printStackTrace();}
-
-    }
 
     public static Logger getInstance(){
         if(loggerSingleton == null){
@@ -57,15 +42,6 @@ public class Logger {
     public void appendToLogUnchecked(String text){
         logStream.println(text);
         notifyLogListener(text);
-    }
-
-    /** Reset the log file, effectively erasing any previous logs */
-    public void reset(){
-        try{
-            logFile.delete();
-            logFile.createNewFile();
-            logStream = new PrintStream(logFile.getAbsolutePath());
-        }catch (IOException e){ e.printStackTrace();}
     }
 
     /** Disables the printing */

@@ -104,7 +104,7 @@ public class InitializeSetting {
             privateGameSetting = GsonUtils.getPrivateGameSettingFromFile(AppManifest.SETTING_DIR + "/private_game_setting.json");
         }
         else {
-            privateGameSetting = new PrivateGameSetting(false,false,false,false,AppManifest.BOAT_JAVA_DIR + "/default","-client -Xms4096M -Xmx4096M","",AppManifest.DEFAULT_GAME_DIR,new BoatLauncherSetting(true,"libGL112.so.1","default"),new PojavLauncherSetting(false,"libgl4es_114.so",""),context.getResources().getDisplayMetrics().widthPixels,context.getResources().getDisplayMetrics().heightPixels);
+            privateGameSetting = new PrivateGameSetting(false,false,false,false,AppManifest.BOAT_JAVA_DIR + "/default","-client -Xms4096M -Xmx4096M","",AppManifest.DEFAULT_GAME_DIR,new BoatLauncherSetting(false,"libGL112.so.1","default"),new PojavLauncherSetting(true,"opengles2","default"),context.getResources().getDisplayMetrics().widthPixels,context.getResources().getDisplayMetrics().heightPixels);
             GsonUtils.savePrivateGameSetting(privateGameSetting,AppManifest.SETTING_DIR + "/private_game_setting.json");
         }
         return privateGameSetting;
