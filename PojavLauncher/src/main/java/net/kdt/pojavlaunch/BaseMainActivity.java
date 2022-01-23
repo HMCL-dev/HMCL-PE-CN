@@ -4,7 +4,13 @@ import static net.kdt.pojavlaunch.Tools.currentDisplayMetrics;
 import static org.lwjgl.glfw.CallbackBridge.windowHeight;
 import static org.lwjgl.glfw.CallbackBridge.windowWidth;
 
+import android.graphics.SurfaceTexture;
+import android.view.Surface;
+import android.view.TextureView;
+import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import net.kdt.pojavlaunch.utils.JREUtils;
 
@@ -12,46 +18,61 @@ import java.util.Vector;
 
 public class BaseMainActivity extends BaseActivity {
 
-    public float scaleFactor = 1;
-
-    private MinecraftGLView minecraftGLView;
+    private TextureView minecraftGLView;
 
     protected void initLayout(String javaPath,String home,boolean highVersion,final Vector<String> args, String renderer) {
         setContentView(R.layout.activity_pojav);
 
-        try {
-            windowWidth = Tools.getDisplayFriendlyRes(currentDisplayMetrics.widthPixels, scaleFactor);
-            windowHeight = Tools.getDisplayFriendlyRes(currentDisplayMetrics.heightPixels, scaleFactor);
-            System.out.println("WidthHeight: " + windowWidth + ":" + windowHeight);
-
-        } catch (Throwable e) {
-
-        }
-
         this.minecraftGLView = findViewById(R.id.main_game_render_view);
 
-        minecraftGLView.setSurfaceReadyListener(() -> {
-            try {
-                runCraft(javaPath,home,highVersion,args,renderer);
-            }catch (Throwable e){
+        minecraftGLView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
+            @Override
+            public void onSurfaceTextureAvailable(@NonNull SurfaceTexture surface, int width, int height) {
+                JREUtils.setupBridgeWindow(new Surface(surface));
+                try {
+                    runCraft(javaPath,home,highVersion,args,renderer);
+                }catch (Throwable e){
+
+                }
+            }
+
+            @Override
+            public void onSurfaceTextureSizeChanged(@NonNull SurfaceTexture surface, int width, int height) {
 
             }
-            Toast.makeText(BaseMainActivity.this, "...", Toast.LENGTH_SHORT).show();
+
+            @Override
+            public boolean onSurfaceTextureDestroyed(@NonNull SurfaceTexture surface) {
+                return false;
+            }
+
+            @Override
+            public void onSurfaceTextureUpdated(@NonNull SurfaceTexture surface) {
+
+            }
         });
-
-        minecraftGLView.start();
-    }
-
-    public static void fullyExit() {
-        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     private void runCraft(String javaPath,String home,boolean highVersion,final Vector<String> args, String renderer) throws Throwable {
         
         JREUtils.jreReleaseList = JREUtils.readJREReleaseProperties(javaPath);
 
-        JREUtils.redirectAndPrintJRELog(this);
+        JREUtils.redirectAndPrintJRELog();
         Tools.launchMinecraft(this, javaPath,home,renderer, args);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
     }
 
 }

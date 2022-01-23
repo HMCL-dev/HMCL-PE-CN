@@ -1,24 +1,17 @@
 package net.kdt.pojavlaunch.utils;
 
-import static net.kdt.pojavlaunch.Architecture.ARCH_X86;
 import static net.kdt.pojavlaunch.Architecture.is64BitsDevice;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.os.Build;
 import android.system.ErrnoException;
 import android.system.Os;
 import android.util.ArrayMap;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.oracle.dalvik.VMLauncher;
 
-import net.kdt.pojavlaunch.Architecture;
-import net.kdt.pojavlaunch.BaseMainActivity;
 import net.kdt.pojavlaunch.Logger;
-import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
 
 import org.lwjgl.glfw.CallbackBridge;
@@ -91,7 +84,7 @@ public class JREUtils {
     }
 
     public static String jvmLibraryPath;
-    public static void redirectAndPrintJRELog(final Context ctx) {
+    public static void redirectAndPrintJRELog() {
         Log.v("jrelog","Log starts here");
         JREUtils.logToLogger(Logger.getInstance());
         Thread t = new Thread(new Runnable(){
@@ -231,10 +224,6 @@ public class JREUtils {
          List<String> userArgs = getJavaArgs();
 
         //Remove arguments that can interfere with the good working of the launcher
-        purgeArg(userArgs,"-Xms");
-        purgeArg(userArgs,"-Xmx");
-        purgeArg(userArgs,"-d32");
-        purgeArg(userArgs,"-d64");
         purgeArg(userArgs, "-Dorg.lwjgl.opengl.libname");
 
         if(renderer != null) userArgs.add("-Dorg.lwjgl.opengl.libname=" + graphicsLib);
@@ -267,50 +256,6 @@ public class JREUtils {
         //Add all the arguments
         userArguments.addAll(Arrays.asList(overridableArguments));
         return userArguments;
-    }
-
-    /**
-     * Parse and separate java arguments in a user friendly fashion
-     * It supports multi line and absence of spaces between arguments
-     * The function also supports auto-removal of improper arguments, although it may miss some.
-     *
-     * @param args The un-parsed argument list.
-     * @return Parsed args as an ArrayList
-     */
-    public static ArrayList<String> parseJavaArguments(String args){
-        ArrayList<String> parsedArguments = new ArrayList<>(0);
-        args = args.trim().replace(" ", "");
-        //For each prefixes, we separate args.
-        for(String prefix : new String[]{"-XX:-","-XX:+", "-XX:","--","-"}){
-            while (true){
-                int start = args.indexOf(prefix);
-                if(start == -1) break;
-                //Get the end of the current argument
-                int end = args.indexOf("-", start + prefix.length());
-                if(end == -1) end = args.length();
-
-                //Extract it
-                String parsedSubString = args.substring(start, end);
-                args = args.replace(parsedSubString, "");
-
-                //Check if two args aren't bundled together by mistake
-                if(parsedSubString.indexOf('=') == parsedSubString.lastIndexOf('=')) {
-                    int arraySize = parsedArguments.size();
-                    if(arraySize > 0){
-                        String lastString = parsedArguments.get(arraySize - 1);
-                        // Looking for list elements
-                        if(lastString.charAt(lastString.length() - 1) == ',' ||
-                                parsedSubString.contains(",")){
-                            parsedArguments.set(arraySize - 1, lastString + parsedSubString);
-                            continue;
-                        }
-                    }
-                    parsedArguments.add(parsedSubString);
-                }
-                else Log.w("JAVA ARGS PARSER", "Removed improper arguments: " + parsedSubString);
-            }
-        }
-        return parsedArguments;
     }
 
     /**

@@ -36,6 +36,7 @@ public class BoatLauncher {
             args.add(classPath);
             args.add("-Djava.library.path=" + libraryPath);
             args.add("-Dfml.earlyprogresswindow=false");
+            args.add("-Dorg.lwjgl.opengl.libname=" + gameLaunchSetting.boatRenderer);
             args.add("-Djava.io.tmpdir=" + AppManifest.DEFAULT_CACHE_DIR);
             String[] extraJavaFlags = gameLaunchSetting.extraJavaFlags.split(" ");
             Collections.addAll(args, extraJavaFlags);
