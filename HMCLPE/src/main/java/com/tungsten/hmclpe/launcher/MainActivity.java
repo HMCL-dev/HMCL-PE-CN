@@ -126,13 +126,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             if (msg.what == 1){
                 isLoaded = true;
-                uiManager.gameManagerUI.gameManagerUIManager.versionSettingUI.onLoaded();
-                uiManager.downloadUI.downloadUIManager.downloadMinecraftUI.onLoaded();
-                uiManager.settingUI.settingUIManager.universalGameSettingUI.onLoaded();
-                loadingLayout.setVisibility(View.GONE);
+                if (uiManager.mainUI.isLoaded){
+                    enterLauncher();
+                }
             }
         }
     };
+
+    public void enterLauncher(){
+        uiManager.gameManagerUI.gameManagerUIManager.versionSettingUI.onLoaded();
+        uiManager.downloadUI.downloadUIManager.downloadMinecraftUI.onLoaded();
+        uiManager.settingUI.settingUIManager.universalGameSettingUI.onLoaded();
+        loadingLayout.setVisibility(View.GONE);
+    }
 
     public void showBarTitle(String title,boolean home,boolean close){
         if (isLoaded){

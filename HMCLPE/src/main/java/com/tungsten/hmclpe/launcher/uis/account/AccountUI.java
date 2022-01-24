@@ -57,6 +57,7 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
 
         externalServerList = activity.findViewById(R.id.external_server_list);
         accountList = activity.findViewById(R.id.account_list);
+        init();
     }
 
     @Override
@@ -64,7 +65,6 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
         super.onStart();
         activity.showBarTitle(context.getResources().getString(R.string.account_ui_title),activity.uiManager.uis.get(activity.uiManager.uis.size() - 2) != activity.uiManager.mainUI,false);
         CustomAnimationUtils.showViewFromLeft(accountUI,activity,context,true);
-        init();
     }
 
     @Override
@@ -95,7 +95,16 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
             addOfflineAccountDialog.show();
         }
         if (v == addMojangAccount){
-            AddMojangAccountDialog addMojangAccountDialog = new AddMojangAccountDialog(context);
+            AddMojangAccountDialog addMojangAccountDialog = new AddMojangAccountDialog(context, accounts, new AddMojangAccountDialog.OnMojangAccountAddListener() {
+                @Override
+                public void onPositive(Account account) {
+                    activity.publicGameSetting.account = account;
+                    GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");
+                    accounts.add(account);
+                    accountListAdapter.notifyDataSetChanged();
+                    GsonUtils.saveAccounts(accounts,AppManifest.ACCOUNT_DIR + "/accounts.json");
+                }
+            });
             addMojangAccountDialog.show();
         }
         if (v == addMicrosoftAccount){

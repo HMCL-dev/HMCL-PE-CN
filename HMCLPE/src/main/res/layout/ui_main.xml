@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ui_main"
-    android:visibility="gone"
+    android:visibility="invisible"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -45,12 +45,24 @@
                 android:orientation="horizontal"
                 android:padding="10dp">
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                <RelativeLayout
                     android:layout_gravity="center"
-                    android:id="@+id/account_skin_face"
-                    android:background="@drawable/ic_steve"/>
+                    android:layout_width="30dp"
+                    android:layout_height="30dp">
+
+                    <ImageView
+                        android:layout_width="26.6666dp"
+                        android:layout_height="26.6666dp"
+                        android:id="@+id/account_skin_face"
+                        android:src="@drawable/ic_steve"
+                        android:layout_centerInParent="true" />
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/account_skin_hat"/>
+
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"

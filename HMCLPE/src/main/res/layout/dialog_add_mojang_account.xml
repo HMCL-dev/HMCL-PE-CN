@@ -149,7 +149,6 @@
             android:layout_weight="1"/>
 
         <Button
-            android:enabled="false"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:gravity="center"

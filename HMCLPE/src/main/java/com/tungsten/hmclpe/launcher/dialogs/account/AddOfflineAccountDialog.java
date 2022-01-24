@@ -95,7 +95,7 @@ public class AddOfflineAccountDialog extends Dialog implements View.OnClickListe
         if (v == login){
             ArrayList<String> names = new ArrayList<>();
             for (Account account : accounts){
-                if (account.loginType == 0){
+                if (account.loginType == 1){
                     names.add(account.auth_player_name);
                 }
             }

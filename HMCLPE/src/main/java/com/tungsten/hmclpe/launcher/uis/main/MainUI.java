@@ -1,8 +1,15 @@
 package com.tungsten.hmclpe.launcher.uis.main;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,6 +19,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.auth.AuthenticationException;
+import com.tungsten.hmclpe.auth.yggdrasil.MojangYggdrasilProvider;
+import com.tungsten.hmclpe.auth.yggdrasil.Texture;
+import com.tungsten.hmclpe.auth.yggdrasil.TextureType;
+import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilService;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.launch.boat.BoatMinecraftActivity;
 import com.tungsten.hmclpe.launcher.launch.pojav.PojavMinecraftActivity;
@@ -22,9 +34,17 @@ import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.UUID;
 
 public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+
+    public boolean isLoaded = false;
 
     public LinearLayout mainUI;
 
@@ -38,9 +58,10 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
     private LinearLayout startGame;
     private TextView launchVersionText;
 
-    private ImageView accountSkinFace;
-    private TextView accountName;
-    private TextView accountType;
+    public ImageView accountSkinFace;
+    public ImageView accountSkinHat;
+    public TextView accountName;
+    public TextView accountType;
 
     private ImageView versionIcon;
     private LinearLayout noVersionAlert;
@@ -66,6 +87,7 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         launchVersionText = activity.findViewById(R.id.launch_version_text);
 
         accountSkinFace = activity.findViewById(R.id.account_skin_face);
+        accountSkinHat = activity.findViewById(R.id.account_skin_hat);
         accountName = activity.findViewById(R.id.account_name_text);
         accountType = activity.findViewById(R.id.account_state_text);
 
@@ -81,6 +103,160 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         startSettingUI.setOnClickListener(this);
 
         startGame.setOnClickListener(this);
+
+        switch (activity.publicGameSetting.account.loginType){
+            case 1:
+                accountName.setText(activity.publicGameSetting.account.auth_player_name);
+                accountType.setText(context.getString(R.string.item_account_type_offline));
+                AssetManager manager = context.getAssets();
+                InputStream inputStream;
+                Bitmap bitmap;
+                try {
+                    if (UUID.fromString(activity.publicGameSetting.account.auth_uuid).toString().equals("00000000-0000-0000-0000-000000000000")){
+                        inputStream = manager.open("img/steve.png");
+                    }
+                    else {
+                        inputStream = manager.open("img/alex.png");
+                    }
+                    bitmap = BitmapFactory.decodeStream(inputStream);
+                    Bitmap faceBitmap;
+                    Bitmap faceBitmapSec;
+                    faceBitmap = Bitmap.createBitmap(bitmap, 8, 8, 8, 8, (Matrix)null, false);
+                    faceBitmapSec = Bitmap.createBitmap(bitmap, 40, 8, 8, 8, (Matrix)null, false);
+                    Matrix matrix = new Matrix();
+                    float scale = (accountSkinFace.getWidth() / 8);
+                    Matrix matrixSec = new Matrix();
+                    float scaleSec = (accountSkinHat.getWidth() / 8);
+                    matrix.postScale(scale,scale);
+                    Bitmap newBitmap = Bitmap.createBitmap(faceBitmap,0,0,8,8,matrix,false);
+                    matrixSec.postScale(scaleSec,scaleSec);
+                    Bitmap newBitmapSec = Bitmap.createBitmap(faceBitmapSec,0,0,8,8,matrixSec,false);
+                    accountSkinFace.setImageBitmap(newBitmap);
+                    accountSkinHat.setImageBitmap(newBitmapSec);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+                if (!isLoaded && activity.isLoaded){
+                    activity.enterLauncher();
+                }
+                isLoaded = true;
+                break;
+            case 2:
+                accountName.setText(activity.publicGameSetting.account.auth_player_name);
+                accountType.setText(context.getString(R.string.item_account_type_mojang));
+                new Thread(){
+                    @Override
+                    public void run() {
+                        YggdrasilService yggdrasilService = new YggdrasilService(new MojangYggdrasilProvider());
+                        try {
+                            Map<TextureType, Texture> map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(UUID.fromString(activity.publicGameSetting.account.auth_uuid)).get()).get();
+                            Texture texture = map.get(TextureType.SKIN);
+                            URL url = new URL(texture.getUrl().replaceFirst("http","https"));
+                            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                            httpURLConnection.setDoInput(true);
+                            httpURLConnection.connect();
+                            InputStream inputStream = httpURLConnection.getInputStream();
+                            Bitmap skin = BitmapFactory.decodeStream(inputStream);
+                            Bitmap faceBitmap;
+                            Bitmap faceBitmapSec;
+                            faceBitmap = Bitmap.createBitmap(skin, 8, 8, 8, 8, (Matrix)null, false);
+                            faceBitmapSec = Bitmap.createBitmap(skin, 40, 8, 8, 8, (Matrix)null, false);
+                            Matrix matrix = new Matrix();
+                            float scale = (accountSkinFace.getWidth() / 8);
+                            Matrix matrixSec = new Matrix();
+                            float scaleSec = (accountSkinHat.getWidth() / 8);
+                            matrix.postScale(scale,scale);
+                            Bitmap newBitmap = Bitmap.createBitmap(faceBitmap,0,0,8,8,matrix,false);
+                            matrixSec.postScale(scaleSec,scaleSec);
+                            Bitmap newBitmapSec = Bitmap.createBitmap(faceBitmapSec,0,0,8,8,matrixSec,false);
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    accountSkinFace.setImageBitmap(newBitmap);
+                                    accountSkinHat.setImageBitmap(newBitmapSec);
+                                }
+                            });
+                        } catch (AuthenticationException | IOException e) {
+                            e.printStackTrace();
+                            //handler.sendEmptyMessage(0);
+                            AssetManager manager = context.getAssets();
+                            InputStream inputStream;
+                            Bitmap bitmap;
+                            try {
+                                inputStream = manager.open("img/alex.png");
+                                bitmap = BitmapFactory.decodeStream(inputStream);
+                                Bitmap faceBitmap;
+                                Bitmap faceBitmapSec;
+                                faceBitmap = Bitmap.createBitmap(bitmap, 8, 8, 8, 8, (Matrix)null, false);
+                                faceBitmapSec = Bitmap.createBitmap(bitmap, 40, 8, 8, 8, (Matrix)null, false);
+                                Matrix matrix = new Matrix();
+                                float scale = (accountSkinFace.getWidth() / 8);
+                                Matrix matrixSec = new Matrix();
+                                float scaleSec = (accountSkinHat.getWidth() / 8);
+                                matrix.postScale(scale,scale);
+                                Bitmap newBitmap = Bitmap.createBitmap(faceBitmap,0,0,8,8,matrix,false);
+                                matrixSec.postScale(scaleSec,scaleSec);
+                                Bitmap newBitmapSec = Bitmap.createBitmap(faceBitmapSec,0,0,8,8,matrixSec,false);
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        accountSkinFace.setImageBitmap(newBitmap);
+                                        accountSkinHat.setImageBitmap(newBitmapSec);
+                                    }
+                                });
+                            }
+                            catch (Exception ex){
+                                ex.printStackTrace();
+                            }
+                        }
+                        if (!isLoaded && activity.isLoaded){
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    activity.enterLauncher();
+                                }
+                            });
+                        }
+                        isLoaded = true;
+                    }
+                }.start();
+                break;
+            case 3:
+                accountName.setText(activity.publicGameSetting.account.auth_player_name);
+                accountType.setText(context.getString(R.string.item_account_type_microsoft));
+                if (!isLoaded && activity.isLoaded){
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            activity.enterLauncher();
+                        }
+                    });
+                }
+                isLoaded = true;
+                break;
+            case 4:
+                accountName.setText(activity.publicGameSetting.account.auth_player_name);
+                //accountType.setText(context.getString(R.string.item_account_type_auth_lib));
+                if (!isLoaded && activity.isLoaded){
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            activity.enterLauncher();
+                        }
+                    });
+                }
+                isLoaded = true;
+                break;
+            default:
+                accountName.setText(context.getString(R.string.launcher_scroll_account_name));
+                accountType.setText(context.getString(R.string.launcher_scroll_account_state));
+                if (!isLoaded && activity.isLoaded){
+                    activity.enterLauncher();
+                }
+                isLoaded = true;
+                break;
+        }
     }
 
     @Override
@@ -88,29 +264,6 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         super.onStart();
         CustomAnimationUtils.showViewFromLeft(mainUI,activity,context,true);
         activity.hideBarTitle();
-
-        switch (activity.publicGameSetting.account.loginType){
-            case 1:
-                accountName.setText(activity.publicGameSetting.account.auth_player_name);
-                accountType.setText(context.getString(R.string.item_account_type_offline));
-                break;
-            case 2:
-                accountName.setText(activity.publicGameSetting.account.auth_player_name);
-                accountType.setText(context.getString(R.string.item_account_type_mojang));
-                break;
-            case 3:
-                accountName.setText(activity.publicGameSetting.account.auth_player_name);
-                accountType.setText(context.getString(R.string.item_account_type_microsoft));
-                break;
-            case 4:
-                accountName.setText(activity.publicGameSetting.account.auth_player_name);
-                //accountType.setText(context.getString(R.string.item_account_type_auth_lib));
-                break;
-            default:
-                accountName.setText(context.getString(R.string.launcher_scroll_account_name));
-                accountType.setText(context.getString(R.string.launcher_scroll_account_state));
-                break;
-        }
 
         ArrayList<GameListBean> gameList = SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory,activity.publicGameSetting.currentVersion);
         ArrayList<String> names = new ArrayList<>();
@@ -193,4 +346,12 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+        }
+    };
 }

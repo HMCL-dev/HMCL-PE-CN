@@ -19,12 +19,23 @@
             android:layout_height="wrap_content"
             android:id="@+id/select_account"/>
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:id="@+id/skin_face"
+        <RelativeLayout
             android:layout_gravity="center"
-            android:src="@drawable/ic_steve"/>
+            android:layout_width="30dp"
+            android:layout_height="30dp">
+
+            <ImageView
+                android:layout_width="26.6666dp"
+                android:layout_height="26.6666dp"
+                android:id="@+id/skin_face"
+                android:layout_centerInParent="true" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/skin_hat"/>
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_marginStart="8dp"

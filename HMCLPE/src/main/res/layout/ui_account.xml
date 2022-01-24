@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:visibility="gone"
+    android:visibility="invisible"
     android:id="@+id/ui_account"
     android:background="@color/launcher_ui_background"
     android:orientation="horizontal"

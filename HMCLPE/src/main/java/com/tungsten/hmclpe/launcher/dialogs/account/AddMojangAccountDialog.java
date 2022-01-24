@@ -1,19 +1,34 @@
 package com.tungsten.hmclpe.launcher.dialogs.account;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.auth.Account;
+import com.tungsten.hmclpe.auth.AuthInfo;
+import com.tungsten.hmclpe.auth.AuthenticationException;
+import com.tungsten.hmclpe.auth.yggdrasil.MojangYggdrasilProvider;
+import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilService;
+import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilSession;
 
-public class AddMojangAccountDialog extends Dialog implements View.OnClickListener, TextWatcher {
+import java.util.ArrayList;
+
+public class AddMojangAccountDialog extends Dialog implements View.OnClickListener {
+
+    private ArrayList<Account> accounts;
+    private OnMojangAccountAddListener onMojangAccountAddListener;
 
     private TextView editEmail;
     private TextView editPassword;
@@ -25,8 +40,12 @@ public class AddMojangAccountDialog extends Dialog implements View.OnClickListen
     private Button login;
     private Button cancel;
 
-    public AddMojangAccountDialog(@NonNull Context context) {
+    Account account;
+
+    public AddMojangAccountDialog(@NonNull Context context, ArrayList<Account> accounts,OnMojangAccountAddListener onMojangAccountAddListener) {
         super(context);
+        this.accounts = accounts;
+        this.onMojangAccountAddListener = onMojangAccountAddListener;
         setContentView(R.layout.dialog_add_mojang_account);
         setCancelable(false);
         init();
@@ -35,9 +54,6 @@ public class AddMojangAccountDialog extends Dialog implements View.OnClickListen
     private void init(){
         editEmail = findViewById(R.id.edit_email);
         editPassword = findViewById(R.id.edit_password);
-
-        editEmail.addTextChangedListener(this);
-        editPassword.addTextChangedListener(this);
 
         migrateLink = findViewById(R.id.migrate_link);
         helpLink = findViewById(R.id.help_link);
@@ -57,25 +73,68 @@ public class AddMojangAccountDialog extends Dialog implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if (v == login){
-
+            ArrayList<String> emails = new ArrayList<>();
+            for (Account account : accounts){
+                if (account.loginType == 2){
+                    emails.add(account.email);
+                }
+            }
+            if (emails.contains(editEmail.getText().toString())){
+                Toast.makeText(getContext(), getContext().getString(R.string.dialog_add_mojang_account_exist_warn), Toast.LENGTH_SHORT).show();
+            }
+            else if (editEmail.getText().toString().equals("") || editPassword.getText().toString().equals("")){
+                Toast.makeText(getContext(), getContext().getString(R.string.dialog_add_mojang_account_empty_warn), Toast.LENGTH_SHORT).show();
+            }
+            else {
+                String email = editEmail.getText().toString();
+                String password = editPassword.getText().toString();
+                new Thread() {
+                    @Override
+                    public void run() {
+                        YggdrasilService yggdrasilService = new YggdrasilService(new MojangYggdrasilProvider());
+                        try {
+                            YggdrasilSession yggdrasilSession = yggdrasilService.authenticate(email,password,"");
+                            AuthInfo authInfo = yggdrasilSession.toAuthInfo();
+                            account = new Account(2,
+                                    email,
+                                    password,
+                                    "mojang",
+                                    "0",
+                                    authInfo.getUsername(),
+                                    authInfo.getUUID().toString(),
+                                    authInfo.getAccessToken(),
+                                    "",
+                                    "");
+                            loginHandler.sendEmptyMessage(0);
+                        } catch (AuthenticationException e) {
+                            e.printStackTrace();
+                            loginHandler.sendEmptyMessage(1);
+                        }
+                    }
+                }.start();
+            }
         }
         if (v == cancel){
             this.dismiss();
         }
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+    public interface OnMojangAccountAddListener{
+        void onPositive(Account account);
     }
 
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
-    }
+    @SuppressLint("HandlerLeak")
+    public final Handler loginHandler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 0) {
+                onMojangAccountAddListener.onPositive(account);
+                AddMojangAccountDialog.this.dismiss();
+            }
+            if (msg.what == 1) {
+                Toast.makeText(getContext(), getContext().getString(R.string.dialog_add_mojang_account_failed), Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 }

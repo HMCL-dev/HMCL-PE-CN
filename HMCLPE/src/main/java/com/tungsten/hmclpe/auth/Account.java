@@ -1,6 +1,6 @@
 package com.tungsten.hmclpe.auth;
 
-public class  Account {
+public class Account {
     public int loginType;
     public String email;
     public String password;
