@@ -75,7 +75,7 @@
                     <TextView
                         android:singleLine="true"
                         android:id="@+id/account_name_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="6dp"
                         android:layout_weight="1"
@@ -85,7 +85,7 @@
                     <TextView
                         android:singleLine="true"
                         android:id="@+id/account_state_text"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="6dp"
                         android:layout_weight="1"
