@@ -4,13 +4,20 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/Boat/src/main/res/layout/activity_boat.xml" value="0.264" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_add_24.xml" value="0.14583333333333334" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_server_black.xml" value="0.14583333333333334" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/drawable/ic_outline_build_black.xml" value="0.19166666666666668" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/drawable/raw.xml" value="0.146875" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/layout/activity_main.xml" value="0.13072916666666667" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/layout/dialog_add_authlib_injector_account.xml" value="0.1296875" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/layout/dialog_add_mojang_account.xml" value="0.1" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/layout/dialog_add_offline_account.xml" value="0.13072916666666667" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/layout/dialog_add_verify_server.xml" value="0.264" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/layout/dialog_offline_skin.xml" value="0.1" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/layout/item_account.xml" value="0.12239583333333333" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/layout/item_authlib_injector_server.xml" value="0.1296875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/layout/item_content_list.xml" value="0.1296875" />
+        <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/layout/spinner_item_server_list.xml" value="0.13125" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/layout/ui_account.xml" value="0.1296875" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/layout/ui_download_mod.xml" value="0.13072916666666667" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/layout/ui_game_manager.xml" value="0.25364583333333335" />

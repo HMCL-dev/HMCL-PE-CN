@@ -65,10 +65,27 @@
     <string name="dialog_add_microsoft_account_login">登录</string>
     <string name="dialog_add_microsoft_account_cancel">取消</string>
 
+    <string name="dialog_add_authlib_injector_account_title">添加外置登录账户 (authlib-injector)</string>
+    <string name="dialog_add_authlib_injector_account_server">认证服务器</string>
+    <string name="dialog_add_authlib_injector_account_email">用户名</string>
+    <string name="dialog_add_authlib_injector_account_password">密码</string>
+    <string name="dialog_add_authlib_injector_account_sign_up">注册</string>
+    <string name="dialog_add_authlib_injector_account_login">登录</string>
+    <string name="dialog_add_authlib_injector_account_cancel">取消</string>
+    <string name="dialog_add_authlib_injector_account_empty_warn">用户名或密码不得为空</string>
+    <string name="dialog_add_authlib_injector_account_exist_warn">当前用户已存在，无法重复添加</string>
+    <string name="dialog_add_authlib_injector_account_failed">登录失败，无效的用户名或密码</string>
+
     <string name="dialog_add_verify_server_title">添加认证服务器</string>
     <string name="dialog_add_verify_server_hint">服务器地址</string>
     <string name="dialog_add_verify_server_cancel">取消</string>
     <string name="dialog_add_verify_server_next">下一步 ></string>
+    <string name="dialog_add_verify_server_empty">服务器地址不得为空</string>
+    <string name="dialog_add_verify_server_invalid">无法连接认证服务器，可能是网络故障或 URL 输入错误</string>
+    <string name="dialog_add_verify_server_url">服务器地址</string>
+    <string name="dialog_add_verify_server_name">服务器名称</string>
+    <string name="dialog_add_verify_server_positive">完成</string>
+    <string name="dialog_add_verify_server_back">&#60; 上一步</string>
 
     <string name="dialog_offline_skin_title">皮肤</string>
     <string name="dialog_offline_skin_default">默认</string>

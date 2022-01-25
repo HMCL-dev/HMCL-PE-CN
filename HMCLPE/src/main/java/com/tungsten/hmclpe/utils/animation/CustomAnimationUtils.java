@@ -35,4 +35,32 @@ public class CustomAnimationUtils {
             view.setAnimation(AnimationUtils.makeOutAnimation(context, true));
         }
     }
+
+    public static void showViewFromLeft(View view, Context context,boolean animation){
+        view.setVisibility(View.VISIBLE);
+        if (animation){
+            view.setAnimation(AnimationUtils.makeInAnimation(context, true));
+        }
+    }
+
+    public static void hideViewToLeft(View view,Context context,boolean animation){
+        view.setVisibility(View.GONE);
+        if (animation){
+            view.setAnimation(AnimationUtils.makeOutAnimation(context, false));
+        }
+    }
+
+    public static void showViewFromRight(View view, Context context,boolean animation){
+        view.setVisibility(View.VISIBLE);
+        if (animation){
+            view.setAnimation(AnimationUtils.makeInAnimation(context, false));
+        }
+    }
+
+    public static void hideViewToRight(View view,Context context,boolean animation){
+        view.setVisibility(View.GONE);
+        if (animation){
+            view.setAnimation(AnimationUtils.makeOutAnimation(context, true));
+        }
+    }
 }

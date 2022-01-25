@@ -3,6 +3,7 @@ package com.tungsten.hmclpe.launcher.setting;
 import android.content.Context;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.info.contents.ContentListBean;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
@@ -51,6 +52,17 @@ public class InitializeSetting {
             GsonUtils.saveAccounts(accountList,AppManifest.ACCOUNT_DIR + "/accounts.json");
         }
         return accountList;
+    }
+
+    public static ArrayList<AuthlibInjectorServer> initializeAuthlibInjectorServer(Context context){
+        ArrayList<AuthlibInjectorServer> serverListBeans = new ArrayList<>();
+        if (new File(AppManifest.ACCOUNT_DIR + "/authlib_injector_server.json").exists() && GsonUtils.getContentListFromFile(AppManifest.ACCOUNT_DIR + "/authlib_injector_server.json").size() != 0){
+            serverListBeans = GsonUtils.getServerListFromFile(AppManifest.ACCOUNT_DIR + "/authlib_injector_server.json");
+        }
+        else {
+            GsonUtils.saveServer(serverListBeans,AppManifest.ACCOUNT_DIR + "/authlib_injector_server.json");
+        }
+        return serverListBeans;
     }
 
     public static ArrayList<ContentListBean> initializeContents(Context context){

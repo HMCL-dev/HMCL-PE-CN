@@ -7,12 +7,14 @@ import android.widget.ListView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.Account;
+import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddMicrosoftAccountDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddMojangAccountDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddOfflineAccountDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddVerifyServerDialog;
 import com.tungsten.hmclpe.launcher.list.account.AccountListAdapter;
+import com.tungsten.hmclpe.launcher.list.account.server.AuthlibInjectorServerListAdapter;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
@@ -33,8 +35,11 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
     private ListView externalServerList;
     private ListView accountList;
 
-    private ArrayList<Account> accounts;
-    private AccountListAdapter accountListAdapter;
+    public ArrayList<Account> accounts;
+    public AccountListAdapter accountListAdapter;
+
+    public ArrayList<AuthlibInjectorServer> serverList;
+    public AuthlibInjectorServerListAdapter serverListAdapter;
 
     public AccountUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -77,6 +82,10 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
         accounts = InitializeSetting.initializeAccounts(context);
         accountListAdapter = new AccountListAdapter(context,activity,accounts);
         accountList.setAdapter(accountListAdapter);
+
+        serverList = InitializeSetting.initializeAuthlibInjectorServer(context);
+        serverListAdapter = new AuthlibInjectorServerListAdapter(context,activity,serverList);
+        externalServerList.setAdapter(serverListAdapter);
     }
 
     @Override
@@ -112,7 +121,16 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
             addMicrosoftAccountDialog.show();
         }
         if (v == addLoginServer){
-            AddVerifyServerDialog addVerifyServerDialog = new AddVerifyServerDialog(context);
+            AddVerifyServerDialog addVerifyServerDialog = new AddVerifyServerDialog(context, new AddVerifyServerDialog.OnAuthlibInjectorServerAddListener() {
+                @Override
+                public void onServerAdd(AuthlibInjectorServer authlibInjectorServer) {
+                    if (!serverList.contains(authlibInjectorServer)){
+                        serverList.add(authlibInjectorServer);
+                        serverListAdapter.notifyDataSetChanged();
+                        GsonUtils.saveServer(serverList,AppManifest.ACCOUNT_DIR + "/authlib_injector_server.json");
+                    }
+                }
+            });
             addVerifyServerDialog.show();
         }
     }

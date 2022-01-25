@@ -3,6 +3,7 @@ package com.tungsten.hmclpe.utils.gson;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tungsten.hmclpe.auth.Account;
+import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
 import com.tungsten.hmclpe.launcher.list.info.contents.ContentListBean;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.setting.game.PublicGameSetting;
@@ -51,6 +52,14 @@ public class GsonUtils {
         return list;
     }
 
+    public static ArrayList<AuthlibInjectorServer> getServerListFromFile(String path){
+        String string = FileStringUtils.getStringFromFile(path);
+        Gson gson = JsonUtils.defaultGsonBuilder().registerTypeAdapter(AuthlibInjectorServer.class, new AuthlibInjectorServer.Deserializer()).create();
+        Type serverListType =new TypeToken<ArrayList<AuthlibInjectorServer>>(){}.getType();
+        ArrayList<AuthlibInjectorServer> list = gson.fromJson(string,serverListType);
+        return list;
+    }
+
     public static void saveLauncherSetting(LauncherSetting launcherSetting,String path){
         Gson gson = new Gson();
         String string = gson.toJson(launcherSetting);
@@ -77,6 +86,12 @@ public class GsonUtils {
 
     public static void saveAccounts(ArrayList<Account> list,String path){
         Gson gson = new Gson();
+        String string = gson.toJson(list);
+        FileStringUtils.writeFile(path,string);
+    }
+
+    public static void saveServer(ArrayList<AuthlibInjectorServer> list,String path){
+        Gson gson = JsonUtils.defaultGsonBuilder().registerTypeAdapter(AuthlibInjectorServer.class, new AuthlibInjectorServer.Deserializer()).create();
         String string = gson.toJson(list);
         FileStringUtils.writeFile(path,string);
     }
