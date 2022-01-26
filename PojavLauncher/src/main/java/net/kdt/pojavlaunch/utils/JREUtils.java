@@ -65,7 +65,7 @@ public class JREUtils {
         for(File f : locateLibs(new File(path))) {
             dlopen(f.getAbsolutePath());
         }
-        dlopen(Tools.POJAV_LIB_DIR + "/libopenal.so");
+        dlopen( nativeLibDir + "/libopenal.so");
 
     }
 
@@ -153,6 +153,7 @@ public class JREUtils {
 
     public static void setJavaEnvironment(Activity activity,String javaPath,String home,String renderer) throws Throwable {
         Map<String, String> envMap = new ArrayMap<>();
+        envMap.put("POJAV_NATIVEDIR",activity.getApplicationInfo().nativeLibraryDir);
         envMap.put("JAVA_HOME", javaPath);
         envMap.put("HOME", home);
         envMap.put("LIBGL_MIPMAP", "3");
@@ -216,17 +217,9 @@ public class JREUtils {
     }
     
     public static int launchJavaVM(final Activity activity,String javaPath,String home,String renderer,final List<String> JVMArgs) throws Throwable {
-        JREUtils.relocateLibPath(activity,javaPath);
-
         setJavaEnvironment(activity,javaPath,home,renderer);
-        
-        final String graphicsLib = loadGraphicsLibrary(renderer);
-         List<String> userArgs = getJavaArgs();
 
-        //Remove arguments that can interfere with the good working of the launcher
-        purgeArg(userArgs, "-Dorg.lwjgl.opengl.libname");
-
-        if(renderer != null) userArgs.add("-Dorg.lwjgl.opengl.libname=" + graphicsLib);
+        List<String> userArgs = getJavaArgs();
 
         userArgs.addAll(JVMArgs);
         

@@ -6,31 +6,37 @@ import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
 import com.tungsten.hmclpe.launcher.launch.LaunchVersion;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 
+import net.kdt.pojavlaunch.Tools;
+import net.kdt.pojavlaunch.utils.JREUtils;
+
 import java.io.File;
 import java.util.Collections;
 import java.util.Vector;
 
 public class PojavLauncher {
 
-    public static Vector<String> getMcArgs(GameLaunchSetting gameLaunchSetting , Context context){
+    public static Vector<String> getMcArgs(GameLaunchSetting gameLaunchSetting, Context context){
         try {
             LaunchVersion version = LaunchVersion.fromDirectory(new File(gameLaunchSetting.currentVersion));
-            String javaPath = gameLaunchSetting.javaPath;
             boolean highVersion = false;
             if (version.minimumLauncherVersion > 21){
                 highVersion = true;
             }
-            String libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64:" + AppManifest.POJAV_LIB_DIR + "/lwjgl3";;
-            String classPath = getLWJGL3ClassPath();
+            String javaPath = gameLaunchSetting.javaPath;
+            JREUtils.relocateLibPath(context,javaPath);
+            String libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64:" + AppManifest.POJAV_LIB_DIR + "/lwjgl3:" + JREUtils.LD_LIBRARY_PATH + ":" + AppManifest.POJAV_LIB_DIR + "/lwjgl3";;
+            String classPath = getLWJGL3ClassPath() + ":" + version.getClassPath(gameLaunchSetting.gameFileDirectory);
             Vector<String> args = new Vector<String>();
-            args.add(javaPath +  "/bin/java");
-            args.add("-cp");
-            args.add(classPath);
-            args.add("-Djava.library.path=" + libraryPath);
-            args.add("-Dfml.earlyprogresswindow=false");
-            args.add("-Djava.io.tmpdir=" + AppManifest.DEFAULT_CACHE_DIR);
             String[] extraJavaFlags = gameLaunchSetting.extraJavaFlags.split(" ");
             Collections.addAll(args, extraJavaFlags);
+            args.addAll(JREUtils.getJavaArgs());
+            args.add("-Dorg.lwjgl.opengl.libname=" + JREUtils.loadGraphicsLibrary(gameLaunchSetting.pojavRenderer));
+            //args.add("-Djava.library.path=" + libraryPath);
+            args.add("-Dfml.earlyprogresswindow=false");
+            args.add("-Djava.io.tmpdir=" + AppManifest.DEFAULT_CACHE_DIR);
+            args.add("-cp");
+            args.add(classPath);
+
             args.add(version.mainClass);
             String[] minecraftArgs;
             minecraftArgs = version.getMinecraftArguments(gameLaunchSetting, highVersion);

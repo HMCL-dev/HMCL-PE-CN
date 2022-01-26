@@ -1,14 +1,9 @@
 package net.kdt.pojavlaunch;
 
-import static net.kdt.pojavlaunch.Tools.currentDisplayMetrics;
-import static org.lwjgl.glfw.CallbackBridge.windowHeight;
-import static org.lwjgl.glfw.CallbackBridge.windowWidth;
-
 import android.graphics.SurfaceTexture;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 

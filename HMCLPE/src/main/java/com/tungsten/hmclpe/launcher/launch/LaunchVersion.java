@@ -190,7 +190,7 @@ public class LaunchVersion {
             }
         }
         else {
-            test = new String(this.minecraftArguments);
+            test = this.minecraftArguments;
         }
         String result = "";
 

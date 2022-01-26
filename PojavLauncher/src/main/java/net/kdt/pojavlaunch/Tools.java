@@ -110,16 +110,6 @@ public final class Tools {
 
     public static DisplayMetrics currentDisplayMetrics;
 
-    public static float dpToPx(float dp) {
-        //Better hope for the currentDisplayMetrics to be good
-        return dp * currentDisplayMetrics.density;
-    }
-
-    public static float pxToDp(float px){
-        //Better hope for the currentDisplayMetrics to be good
-        return px / currentDisplayMetrics.density;
-    }
-
     public static void copyAssetFile(Context ctx, String fileName, String output, boolean overwrite) throws IOException {
         copyAssetFile(ctx, fileName, output, new File(fileName).getName(), overwrite);
     }

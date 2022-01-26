@@ -1,5 +1,10 @@
 package com.tungsten.hmclpe.utils.io;
 
+import static com.tungsten.hmclpe.utils.Lang.mapOf;
+import static com.tungsten.hmclpe.utils.Lang.wrap;
+import static com.tungsten.hmclpe.utils.io.NetworkUtils.createHttpConnection;
+import static com.tungsten.hmclpe.utils.io.NetworkUtils.resolveConnection;
+
 import com.google.gson.JsonParseException;
 import com.tungsten.hmclpe.task.Schedulers;
 import com.tungsten.hmclpe.utils.Pair;
@@ -20,15 +25,7 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static com.tungsten.hmclpe.utils.Lang.mapOf;
-import static com.tungsten.hmclpe.utils.Lang.wrap;
 import static com.tungsten.hmclpe.utils.gson.JsonUtils.GSON;
-import static com.tungsten.hmclpe.utils.io.NetworkUtils.createHttpConnection;
-import static com.tungsten.hmclpe.utils.io.NetworkUtils.resolveConnection;
-
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 
 public abstract class HttpRequest {
     protected final String url;
@@ -36,6 +33,7 @@ public abstract class HttpRequest {
     protected final Map<String, String> headers = new HashMap<>();
     protected ExceptionalBiConsumer<URL, Integer, IOException> responseCodeTester;
     protected final Set<Integer> toleratedHttpCodes = new HashSet<>();
+    protected boolean ignoreHttpCode;
 
     private HttpRequest(String url, String method) {
         this.url = url;
@@ -63,29 +61,29 @@ public abstract class HttpRequest {
         return this;
     }
 
+    public HttpRequest ignoreHttpCode() {
+        ignoreHttpCode = true;
+        return this;
+    }
+
     public abstract String getString() throws IOException;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public CompletableFuture<String> getStringAsync() {
         return CompletableFuture.supplyAsync(wrap(this::getString), Schedulers.io());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public <T> T getJson(Class<T> typeOfT) throws IOException, JsonParseException {
         return JsonUtils.fromNonNullJson(getString(), typeOfT);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public <T> T getJson(Type type) throws IOException, JsonParseException {
         return JsonUtils.fromNonNullJson(getString(), type);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public <T> CompletableFuture<T> getJsonAsync(Class<T> typeOfT) {
         return getStringAsync().thenApplyAsync(jsonString -> JsonUtils.fromNonNullJson(jsonString, typeOfT));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public <T> CompletableFuture<T> getJsonAsync(Type type) {
         return getStringAsync().thenApplyAsync(jsonString -> JsonUtils.fromNonNullJson(jsonString, type));
     }
@@ -114,7 +112,6 @@ public abstract class HttpRequest {
             super(url, "GET");
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.N)
         public String getString() throws IOException {
             HttpURLConnection con = createConnection();
             con = resolveConnection(con);
@@ -134,7 +131,6 @@ public abstract class HttpRequest {
             return this;
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.O)
         public HttpPostRequest json(Object payload) throws JsonParseException {
             return string(payload instanceof String ? (String) payload : GSON.toJson(payload), "application/json");
         }
@@ -167,7 +163,7 @@ public abstract class HttpRequest {
                 responseCodeTester.accept(new URL(url), con.getResponseCode());
             } else {
                 if (con.getResponseCode() / 100 != 2) {
-                    if (!toleratedHttpCodes.contains(con.getResponseCode())) {
+                    if (!ignoreHttpCode && !toleratedHttpCodes.contains(con.getResponseCode())) {
                         String data = NetworkUtils.readData(con);
                         throw new ResponseCodeException(new URL(url), con.getResponseCode(), data);
                     }
