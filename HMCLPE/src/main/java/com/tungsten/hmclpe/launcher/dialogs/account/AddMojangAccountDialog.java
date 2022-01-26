@@ -101,7 +101,7 @@ public class AddMojangAccountDialog extends Dialog implements View.OnClickListen
                     public void run() {
                         YggdrasilService yggdrasilService = new YggdrasilService(new MojangYggdrasilProvider());
                         try {
-                            YggdrasilSession yggdrasilSession = yggdrasilService.authenticate(email,password,"");
+                            YggdrasilSession yggdrasilSession = yggdrasilService.authenticate(email,password,"00000000-0000-0000-0000-000000000000");
                             AuthInfo authInfo = yggdrasilSession.toAuthInfo();
                             Map<TextureType, Texture> map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(authInfo.getUUID()).get()).get();
                             Texture texture = map.get(TextureType.SKIN);
@@ -127,7 +127,7 @@ public class AddMojangAccountDialog extends Dialog implements View.OnClickListen
                                             authInfo.getUsername(),
                                             authInfo.getUUID().toString(),
                                             authInfo.getAccessToken(),
-                                            "",
+                                            yggdrasilSession.getClientToken(),
                                             "",
                                             skinTexture);
                                 }

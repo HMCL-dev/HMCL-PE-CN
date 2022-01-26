@@ -170,7 +170,7 @@ public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnCl
                                             authInfo.getUsername(),
                                             authInfo.getUUID().toString(),
                                             authInfo.getAccessToken(),
-                                            "",
+                                            yggdrasilSession.getClientToken(),
                                             authlibInjectorServer.getUrl(),
                                             skinTexture);
                                 }
