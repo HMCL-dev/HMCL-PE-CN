@@ -126,9 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             if (msg.what == 1){
                 isLoaded = true;
-                if (uiManager.mainUI.isLoaded){
-                    enterLauncher();
-                }
+                enterLauncher();
             }
         }
     };

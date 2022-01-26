@@ -2,10 +2,7 @@ package com.tungsten.hmclpe.launcher.list.account;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -26,21 +23,15 @@ import com.tungsten.hmclpe.auth.AuthenticationException;
 import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
 import com.tungsten.hmclpe.auth.yggdrasil.GameProfile;
 import com.tungsten.hmclpe.auth.yggdrasil.MojangYggdrasilProvider;
-import com.tungsten.hmclpe.auth.yggdrasil.Texture;
-import com.tungsten.hmclpe.auth.yggdrasil.TextureType;
 import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilService;
 import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilSession;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.account.SkinPreviewDialog;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.skin.draw2d.Avatar;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.UUID;
 
 public class AccountListAdapter extends BaseAdapter {
@@ -125,131 +116,12 @@ public class AccountListAdapter extends BaseAdapter {
         if (account.loginType == 1){
             viewHolder.name.setText(account.auth_player_name);
             viewHolder.type.setText(context.getString(R.string.item_account_type_offline));
-            if (isSelected){
-                activity.uiManager.mainUI.accountName.setText(account.auth_player_name);
-                activity.uiManager.mainUI.accountType.setText(context.getString(R.string.item_account_type_offline));
-            }
-            viewHolder.face.post(new Runnable() {
-                @Override
-                public void run() {
-                    AssetManager manager = context.getAssets();
-                    InputStream inputStream;
-                    Bitmap bitmap;
-                    try {
-                        if (UUID.fromString(account.auth_uuid).toString().equals("00000000-0000-0000-0000-000000000000")){
-                            inputStream = manager.open("img/steve.png");
-                        }
-                        else {
-                            inputStream = manager.open("img/alex.png");
-                        }
-                        bitmap = BitmapFactory.decodeStream(inputStream);
-                        Bitmap faceBitmap;
-                        Bitmap faceBitmapSec;
-                        faceBitmap = Bitmap.createBitmap(bitmap, 8, 8, 8, 8, (Matrix)null, false);
-                        faceBitmapSec = Bitmap.createBitmap(bitmap, 40, 8, 8, 8, (Matrix)null, false);
-                        Matrix matrix = new Matrix();
-                        float scale = (viewHolder.face.getWidth() / 8);
-                        Matrix matrixSec = new Matrix();
-                        float scaleSec = (viewHolder.hat.getWidth() / 8);
-                        matrix.postScale(scale,scale);
-                        Bitmap newBitmap = Bitmap.createBitmap(faceBitmap,0,0,8,8,matrix,false);
-                        matrixSec.postScale(scaleSec,scaleSec);
-                        Bitmap newBitmapSec = Bitmap.createBitmap(faceBitmapSec,0,0,8,8,matrixSec,false);
-                        viewHolder.face.setImageBitmap(newBitmap);
-                        viewHolder.hat.setImageBitmap(newBitmapSec);
-                        if (isSelected){
-                            activity.uiManager.mainUI.accountSkinFace.setImageBitmap(newBitmap);
-                            activity.uiManager.mainUI.accountSkinHat.setImageBitmap(newBitmapSec);
-                        }
-                    }
-                    catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            });
+            Avatar.setAvatar(account.texture, viewHolder.face, viewHolder.hat);
         }
         if (account.loginType == 2){
             viewHolder.name.setText(account.email + " - " +account.auth_player_name);
             viewHolder.type.setText(context.getString(R.string.item_account_type_mojang));
-            if (isSelected){
-                activity.uiManager.mainUI.accountName.setText(account.auth_player_name);
-                activity.uiManager.mainUI.accountType.setText(context.getString(R.string.item_account_type_mojang));
-            }
-            new Thread(){
-                @Override
-                public void run() {
-                    YggdrasilService yggdrasilService = new YggdrasilService(new MojangYggdrasilProvider());
-                    try {
-                        Map<TextureType, Texture> map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(UUID.fromString(account.auth_uuid)).get()).get();
-                        Texture texture = map.get(TextureType.SKIN);
-                        URL url = new URL(texture.getUrl().replaceFirst("http","https"));
-                        HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                        httpURLConnection.setDoInput(true);
-                        httpURLConnection.connect();
-                        InputStream inputStream = httpURLConnection.getInputStream();
-                        Bitmap skin = BitmapFactory.decodeStream(inputStream);
-                        Bitmap faceBitmap;
-                        Bitmap faceBitmapSec;
-                        faceBitmap = Bitmap.createBitmap(skin, 8, 8, 8, 8, (Matrix)null, false);
-                        faceBitmapSec = Bitmap.createBitmap(skin, 40, 8, 8, 8, (Matrix)null, false);
-                        Matrix matrix = new Matrix();
-                        float scale = (viewHolder.face.getWidth() / 8);
-                        Matrix matrixSec = new Matrix();
-                        float scaleSec = (viewHolder.hat.getWidth() / 8);
-                        matrix.postScale(scale,scale);
-                        Bitmap newBitmap = Bitmap.createBitmap(faceBitmap,0,0,8,8,matrix,false);
-                        matrixSec.postScale(scaleSec,scaleSec);
-                        Bitmap newBitmapSec = Bitmap.createBitmap(faceBitmapSec,0,0,8,8,matrixSec,false);
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                viewHolder.face.setImageBitmap(newBitmap);
-                                viewHolder.hat.setImageBitmap(newBitmapSec);
-                                if (isSelected){
-                                    activity.uiManager.mainUI.accountSkinFace.setImageBitmap(newBitmap);
-                                    activity.uiManager.mainUI.accountSkinHat.setImageBitmap(newBitmapSec);
-                                }
-                            }
-                        });
-                    } catch (AuthenticationException | IOException e) {
-                        e.printStackTrace();
-                        //handler.sendEmptyMessage(0);
-                        AssetManager manager = context.getAssets();
-                        InputStream inputStream;
-                        Bitmap bitmap;
-                        try {
-                            inputStream = manager.open("img/alex.png");
-                            bitmap = BitmapFactory.decodeStream(inputStream);
-                            Bitmap faceBitmap;
-                            Bitmap faceBitmapSec;
-                            faceBitmap = Bitmap.createBitmap(bitmap, 8, 8, 8, 8, (Matrix)null, false);
-                            faceBitmapSec = Bitmap.createBitmap(bitmap, 40, 8, 8, 8, (Matrix)null, false);
-                            Matrix matrix = new Matrix();
-                            float scale = (viewHolder.face.getWidth() / 8);
-                            Matrix matrixSec = new Matrix();
-                            float scaleSec = (viewHolder.hat.getWidth() / 8);
-                            matrix.postScale(scale,scale);
-                            Bitmap newBitmap = Bitmap.createBitmap(faceBitmap,0,0,8,8,matrix,false);
-                            matrixSec.postScale(scaleSec,scaleSec);
-                            Bitmap newBitmapSec = Bitmap.createBitmap(faceBitmapSec,0,0,8,8,matrixSec,false);
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    viewHolder.face.setImageBitmap(newBitmap);
-                                    viewHolder.hat.setImageBitmap(newBitmapSec);
-                                    if (isSelected){
-                                        activity.uiManager.mainUI.accountSkinFace.setImageBitmap(newBitmap);
-                                        activity.uiManager.mainUI.accountSkinHat.setImageBitmap(newBitmapSec);
-                                    }
-                                }
-                            });
-                        }
-                        catch (Exception ex){
-                            ex.printStackTrace();
-                        }
-                    }
-                }
-            }.start();
+            Avatar.setAvatar(account.texture, viewHolder.face, viewHolder.hat);
         }
         if (account.loginType == 3){
 
@@ -257,89 +129,7 @@ public class AccountListAdapter extends BaseAdapter {
         if (account.loginType == 4){
             viewHolder.name.setText(account.email + " - " +account.auth_player_name);
             viewHolder.type.setText(context.getString(R.string.item_account_type_auth_lib) + ", " + context.getString(R.string.item_account_login_server) + " " + getServerFromUrl(account.loginServer).getName());
-            if (isSelected){
-                activity.uiManager.mainUI.accountName.setText(account.auth_player_name);
-                activity.uiManager.mainUI.accountType.setText(getServerFromUrl(account.loginServer).getName());
-            }
-            new Thread(){
-                @Override
-                public void run() {
-                    YggdrasilService yggdrasilService = getServerFromUrl(account.loginServer).getYggdrasilService();
-                    try {
-                        Map<TextureType, Texture> map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(UUID.fromString(account.auth_uuid)).get()).get();
-                        Texture texture = map.get(TextureType.SKIN);
-                        String u = texture.getUrl();
-                        if (!u.startsWith("https")){
-                            u = u.replaceFirst("http","https");
-                        }
-                        URL url = new URL(u);
-                        HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                        httpURLConnection.setDoInput(true);
-                        httpURLConnection.connect();
-                        InputStream inputStream = httpURLConnection.getInputStream();
-                        Bitmap skin = BitmapFactory.decodeStream(inputStream);
-                        Bitmap faceBitmap;
-                        Bitmap faceBitmapSec;
-                        faceBitmap = Bitmap.createBitmap(skin, 8, 8, 8, 8, (Matrix)null, false);
-                        faceBitmapSec = Bitmap.createBitmap(skin, 40, 8, 8, 8, (Matrix)null, false);
-                        Matrix matrix = new Matrix();
-                        float scale = (viewHolder.face.getWidth() / 8);
-                        Matrix matrixSec = new Matrix();
-                        float scaleSec = (viewHolder.hat.getWidth() / 8);
-                        matrix.postScale(scale,scale);
-                        Bitmap newBitmap = Bitmap.createBitmap(faceBitmap,0,0,8,8,matrix,false);
-                        matrixSec.postScale(scaleSec,scaleSec);
-                        Bitmap newBitmapSec = Bitmap.createBitmap(faceBitmapSec,0,0,8,8,matrixSec,false);
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                viewHolder.face.setImageBitmap(newBitmap);
-                                viewHolder.hat.setImageBitmap(newBitmapSec);
-                                if (isSelected){
-                                    activity.uiManager.mainUI.accountSkinFace.setImageBitmap(newBitmap);
-                                    activity.uiManager.mainUI.accountSkinHat.setImageBitmap(newBitmapSec);
-                                }
-                            }
-                        });
-                    } catch (AuthenticationException | IOException e) {
-                        e.printStackTrace();
-                        //handler.sendEmptyMessage(0);
-                        AssetManager manager = context.getAssets();
-                        InputStream inputStream;
-                        Bitmap bitmap;
-                        try {
-                            inputStream = manager.open("img/alex.png");
-                            bitmap = BitmapFactory.decodeStream(inputStream);
-                            Bitmap faceBitmap;
-                            Bitmap faceBitmapSec;
-                            faceBitmap = Bitmap.createBitmap(bitmap, 8, 8, 8, 8, (Matrix)null, false);
-                            faceBitmapSec = Bitmap.createBitmap(bitmap, 40, 8, 8, 8, (Matrix)null, false);
-                            Matrix matrix = new Matrix();
-                            float scale = (viewHolder.face.getWidth() / 8);
-                            Matrix matrixSec = new Matrix();
-                            float scaleSec = (viewHolder.hat.getWidth() / 8);
-                            matrix.postScale(scale,scale);
-                            Bitmap newBitmap = Bitmap.createBitmap(faceBitmap,0,0,8,8,matrix,false);
-                            matrixSec.postScale(scaleSec,scaleSec);
-                            Bitmap newBitmapSec = Bitmap.createBitmap(faceBitmapSec,0,0,8,8,matrixSec,false);
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    viewHolder.face.setImageBitmap(newBitmap);
-                                    viewHolder.hat.setImageBitmap(newBitmapSec);
-                                    if (isSelected){
-                                        activity.uiManager.mainUI.accountSkinFace.setImageBitmap(newBitmap);
-                                        activity.uiManager.mainUI.accountSkinHat.setImageBitmap(newBitmapSec);
-                                    }
-                                }
-                            });
-                        }
-                        catch (Exception ex){
-                            ex.printStackTrace();
-                        }
-                    }
-                }
-            }.start();
+            Avatar.setAvatar(account.texture, viewHolder.face, viewHolder.hat);
         }
         viewHolder.check.setChecked(isSelected);
         viewHolder.check.setOnClickListener(new View.OnClickListener() {
@@ -386,14 +176,15 @@ public class AccountListAdapter extends BaseAdapter {
             }
         });
         viewHolder.delete.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onClick(View v) {
                 activity.uiManager.accountUI.accounts.remove(account);
                 GsonUtils.saveAccounts(activity.uiManager.accountUI.accounts,AppManifest.ACCOUNT_DIR + "/accounts.json");
                 if (activity.uiManager.accountUI.accounts.size() == 0){
-                    activity.publicGameSetting.account = new Account(0,"","","","","","","","","");
+                    activity.publicGameSetting.account = new Account(0,"","","","","","","","","","");
                 }
-                else if (account == activity.publicGameSetting.account){
+                else if (isSelected){
                     activity.publicGameSetting.account = accounts.get(0);
                 }
                 GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");

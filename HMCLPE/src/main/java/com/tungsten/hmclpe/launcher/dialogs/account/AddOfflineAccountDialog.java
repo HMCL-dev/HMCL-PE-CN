@@ -2,6 +2,9 @@ package com.tungsten.hmclpe.launcher.dialogs.account;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.animation.Animation;
@@ -18,7 +21,10 @@ import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.Account;
+import com.tungsten.hmclpe.skin.draw2d.Avatar;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class AddOfflineAccountDialog extends Dialog implements View.OnClickListener {
@@ -106,6 +112,17 @@ public class AddOfflineAccountDialog extends Dialog implements View.OnClickListe
                 Toast.makeText(context,context.getString(R.string.dialog_add_offline_account_exist_warn),Toast.LENGTH_SHORT).show();
             }
             else {
+                AssetManager manager = context.getAssets();
+                InputStream inputStream;
+                Bitmap bitmap;
+                String skinTexture = "";
+                try {
+                    inputStream = manager.open("img/alex.png");
+                    bitmap = BitmapFactory.decodeStream(inputStream);
+                    skinTexture = Avatar.bitmapToString(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 Account account = new Account(1,
                         "",
                         "",
@@ -115,7 +132,8 @@ public class AddOfflineAccountDialog extends Dialog implements View.OnClickListe
                         editUUID.getText().toString().equals("") ? "fc5bc365-aedf-30a8-8b89-04e462e29bde" : editUUID.getText().toString(),
                         "",
                         "",
-                        "");
+                        "",
+                        skinTexture);
                 onOfflineAccountAddListener.onPositive(account);
                 this.dismiss();
             }

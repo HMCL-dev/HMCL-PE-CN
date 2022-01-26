@@ -3,10 +3,7 @@ package com.tungsten.hmclpe.launcher.uis.main;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,34 +16,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
-import com.tungsten.hmclpe.auth.AuthenticationException;
 import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
-import com.tungsten.hmclpe.auth.yggdrasil.MojangYggdrasilProvider;
-import com.tungsten.hmclpe.auth.yggdrasil.Texture;
-import com.tungsten.hmclpe.auth.yggdrasil.TextureType;
-import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilService;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.launch.boat.BoatMinecraftActivity;
-import com.tungsten.hmclpe.launcher.launch.pojav.PojavMinecraftActivity;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
+import com.tungsten.hmclpe.skin.draw2d.Avatar;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.UUID;
 
 public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-
-    public boolean isLoaded = false;
 
     public LinearLayout mainUI;
 
@@ -105,231 +89,6 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         startSettingUI.setOnClickListener(this);
 
         startGame.setOnClickListener(this);
-
-        switch (activity.publicGameSetting.account.loginType){
-            case 1:
-                accountName.setText(activity.publicGameSetting.account.auth_player_name);
-                accountType.setText(context.getString(R.string.item_account_type_offline));
-                AssetManager manager = context.getAssets();
-                InputStream inputStream;
-                Bitmap bitmap;
-                try {
-                    if (UUID.fromString(activity.publicGameSetting.account.auth_uuid).toString().equals("00000000-0000-0000-0000-000000000000")){
-                        inputStream = manager.open("img/steve.png");
-                    }
-                    else {
-                        inputStream = manager.open("img/alex.png");
-                    }
-                    bitmap = BitmapFactory.decodeStream(inputStream);
-                    Bitmap faceBitmap;
-                    Bitmap faceBitmapSec;
-                    faceBitmap = Bitmap.createBitmap(bitmap, 8, 8, 8, 8, (Matrix)null, false);
-                    faceBitmapSec = Bitmap.createBitmap(bitmap, 40, 8, 8, 8, (Matrix)null, false);
-                    Matrix matrix = new Matrix();
-                    float scale = (accountSkinFace.getWidth() / 8);
-                    Matrix matrixSec = new Matrix();
-                    float scaleSec = (accountSkinHat.getWidth() / 8);
-                    matrix.postScale(scale,scale);
-                    Bitmap newBitmap = Bitmap.createBitmap(faceBitmap,0,0,8,8,matrix,false);
-                    matrixSec.postScale(scaleSec,scaleSec);
-                    Bitmap newBitmapSec = Bitmap.createBitmap(faceBitmapSec,0,0,8,8,matrixSec,false);
-                    accountSkinFace.setImageBitmap(newBitmap);
-                    accountSkinHat.setImageBitmap(newBitmapSec);
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
-                if (!isLoaded && activity.isLoaded){
-                    activity.enterLauncher();
-                }
-                isLoaded = true;
-                break;
-            case 2:
-                accountName.setText(activity.publicGameSetting.account.auth_player_name);
-                accountType.setText(context.getString(R.string.item_account_type_mojang));
-                new Thread(){
-                    @Override
-                    public void run() {
-                        YggdrasilService yggdrasilService = new YggdrasilService(new MojangYggdrasilProvider());
-                        try {
-                            Map<TextureType, Texture> map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(UUID.fromString(activity.publicGameSetting.account.auth_uuid)).get()).get();
-                            Texture texture = map.get(TextureType.SKIN);
-                            URL url = new URL(texture.getUrl().replaceFirst("http","https"));
-                            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                            httpURLConnection.setDoInput(true);
-                            httpURLConnection.connect();
-                            InputStream inputStream = httpURLConnection.getInputStream();
-                            Bitmap skin = BitmapFactory.decodeStream(inputStream);
-                            Bitmap faceBitmap;
-                            Bitmap faceBitmapSec;
-                            faceBitmap = Bitmap.createBitmap(skin, 8, 8, 8, 8, (Matrix)null, false);
-                            faceBitmapSec = Bitmap.createBitmap(skin, 40, 8, 8, 8, (Matrix)null, false);
-                            Matrix matrix = new Matrix();
-                            float scale = (accountSkinFace.getWidth() / 8);
-                            Matrix matrixSec = new Matrix();
-                            float scaleSec = (accountSkinHat.getWidth() / 8);
-                            matrix.postScale(scale,scale);
-                            Bitmap newBitmap = Bitmap.createBitmap(faceBitmap,0,0,8,8,matrix,false);
-                            matrixSec.postScale(scaleSec,scaleSec);
-                            Bitmap newBitmapSec = Bitmap.createBitmap(faceBitmapSec,0,0,8,8,matrixSec,false);
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    accountSkinFace.setImageBitmap(newBitmap);
-                                    accountSkinHat.setImageBitmap(newBitmapSec);
-                                }
-                            });
-                        } catch (AuthenticationException | IOException e) {
-                            e.printStackTrace();
-                            //handler.sendEmptyMessage(0);
-                            AssetManager manager = context.getAssets();
-                            InputStream inputStream;
-                            Bitmap bitmap;
-                            try {
-                                inputStream = manager.open("img/alex.png");
-                                bitmap = BitmapFactory.decodeStream(inputStream);
-                                Bitmap faceBitmap;
-                                Bitmap faceBitmapSec;
-                                faceBitmap = Bitmap.createBitmap(bitmap, 8, 8, 8, 8, (Matrix)null, false);
-                                faceBitmapSec = Bitmap.createBitmap(bitmap, 40, 8, 8, 8, (Matrix)null, false);
-                                Matrix matrix = new Matrix();
-                                float scale = (accountSkinFace.getWidth() / 8);
-                                Matrix matrixSec = new Matrix();
-                                float scaleSec = (accountSkinHat.getWidth() / 8);
-                                matrix.postScale(scale,scale);
-                                Bitmap newBitmap = Bitmap.createBitmap(faceBitmap,0,0,8,8,matrix,false);
-                                matrixSec.postScale(scaleSec,scaleSec);
-                                Bitmap newBitmapSec = Bitmap.createBitmap(faceBitmapSec,0,0,8,8,matrixSec,false);
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        accountSkinFace.setImageBitmap(newBitmap);
-                                        accountSkinHat.setImageBitmap(newBitmapSec);
-                                    }
-                                });
-                            }
-                            catch (Exception ex){
-                                ex.printStackTrace();
-                            }
-                        }
-                        if (!isLoaded && activity.isLoaded){
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    activity.enterLauncher();
-                                }
-                            });
-                        }
-                        isLoaded = true;
-                    }
-                }.start();
-                break;
-            case 3:
-                accountName.setText(activity.publicGameSetting.account.auth_player_name);
-                accountType.setText(context.getString(R.string.item_account_type_microsoft));
-                if (!isLoaded && activity.isLoaded){
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            activity.enterLauncher();
-                        }
-                    });
-                }
-                isLoaded = true;
-                break;
-            case 4:
-                accountName.setText(activity.publicGameSetting.account.auth_player_name);
-                accountType.setText(getServerFromUrl(activity.publicGameSetting.account.loginServer).getName());
-                new Thread(){
-                    @Override
-                    public void run() {
-                        YggdrasilService yggdrasilService = getServerFromUrl(activity.publicGameSetting.account.loginServer).getYggdrasilService();
-                        try {
-                            Map<TextureType, Texture> map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(UUID.fromString(activity.publicGameSetting.account.auth_uuid)).get()).get();
-                            Texture texture = map.get(TextureType.SKIN);
-                            String u = texture.getUrl();
-                            if (!u.startsWith("https")){
-                                u = u.replaceFirst("http","https");
-                            }
-                            URL url = new URL(u);
-                            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                            httpURLConnection.setDoInput(true);
-                            httpURLConnection.connect();
-                            InputStream inputStream = httpURLConnection.getInputStream();
-                            Bitmap skin = BitmapFactory.decodeStream(inputStream);
-                            Bitmap faceBitmap;
-                            Bitmap faceBitmapSec;
-                            faceBitmap = Bitmap.createBitmap(skin, 8, 8, 8, 8, (Matrix)null, false);
-                            faceBitmapSec = Bitmap.createBitmap(skin, 40, 8, 8, 8, (Matrix)null, false);
-                            Matrix matrix = new Matrix();
-                            float scale = (accountSkinFace.getWidth() / 8);
-                            Matrix matrixSec = new Matrix();
-                            float scaleSec = (accountSkinHat.getWidth() / 8);
-                            matrix.postScale(scale,scale);
-                            Bitmap newBitmap = Bitmap.createBitmap(faceBitmap,0,0,8,8,matrix,false);
-                            matrixSec.postScale(scaleSec,scaleSec);
-                            Bitmap newBitmapSec = Bitmap.createBitmap(faceBitmapSec,0,0,8,8,matrixSec,false);
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    accountSkinFace.setImageBitmap(newBitmap);
-                                    accountSkinHat.setImageBitmap(newBitmapSec);
-                                }
-                            });
-                        } catch (AuthenticationException | IOException e) {
-                            e.printStackTrace();
-                            //handler.sendEmptyMessage(0);
-                            AssetManager manager = context.getAssets();
-                            InputStream inputStream;
-                            Bitmap bitmap;
-                            try {
-                                inputStream = manager.open("img/alex.png");
-                                bitmap = BitmapFactory.decodeStream(inputStream);
-                                Bitmap faceBitmap;
-                                Bitmap faceBitmapSec;
-                                faceBitmap = Bitmap.createBitmap(bitmap, 8, 8, 8, 8, (Matrix)null, false);
-                                faceBitmapSec = Bitmap.createBitmap(bitmap, 40, 8, 8, 8, (Matrix)null, false);
-                                Matrix matrix = new Matrix();
-                                float scale = (accountSkinFace.getWidth() / 8);
-                                Matrix matrixSec = new Matrix();
-                                float scaleSec = (accountSkinHat.getWidth() / 8);
-                                matrix.postScale(scale,scale);
-                                Bitmap newBitmap = Bitmap.createBitmap(faceBitmap,0,0,8,8,matrix,false);
-                                matrixSec.postScale(scaleSec,scaleSec);
-                                Bitmap newBitmapSec = Bitmap.createBitmap(faceBitmapSec,0,0,8,8,matrixSec,false);
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        accountSkinFace.setImageBitmap(newBitmap);
-                                        accountSkinHat.setImageBitmap(newBitmapSec);
-                                    }
-                                });
-                            }
-                            catch (Exception ex){
-                                ex.printStackTrace();
-                            }
-                        }
-                        if (!isLoaded && activity.isLoaded){
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    activity.enterLauncher();
-                                }
-                            });
-                        }
-                        isLoaded = true;
-                    }
-                }.start();
-                break;
-            default:
-                accountName.setText(context.getString(R.string.launcher_scroll_account_name));
-                accountType.setText(context.getString(R.string.launcher_scroll_account_state));
-                if (!isLoaded && activity.isLoaded){
-                    activity.enterLauncher();
-                }
-                isLoaded = true;
-                break;
-        }
     }
 
     private AuthlibInjectorServer getServerFromUrl(String url){
@@ -342,6 +101,7 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         return null;
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onStart() {
         super.onStart();
@@ -373,6 +133,34 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
             noVersionAlert.setVisibility(View.VISIBLE);
             currentVersionText.setVisibility(View.GONE);
             launchVersionText.setText(context.getString(R.string.launcher_button_current_version));
+        }
+
+        switch (activity.publicGameSetting.account.loginType){
+            case 1:
+                accountName.setText(activity.publicGameSetting.account.auth_player_name);
+                accountType.setText(context.getString(R.string.item_account_type_offline));
+                Avatar.setAvatar(activity.publicGameSetting.account.texture, accountSkinFace, accountSkinHat);
+                break;
+            case 2:
+                accountName.setText(activity.publicGameSetting.account.auth_player_name);
+                accountType.setText(context.getString(R.string.item_account_type_mojang));
+                Avatar.setAvatar(activity.publicGameSetting.account.texture, accountSkinFace, accountSkinHat);
+                break;
+            case 3:
+                accountName.setText(activity.publicGameSetting.account.auth_player_name);
+                accountType.setText(context.getString(R.string.item_account_type_microsoft));
+                break;
+            case 4:
+                accountName.setText(activity.publicGameSetting.account.auth_player_name);
+                accountType.setText(getServerFromUrl(activity.publicGameSetting.account.loginServer).getName());
+                Avatar.setAvatar(activity.publicGameSetting.account.texture, accountSkinFace, accountSkinHat);
+                break;
+            default:
+                accountName.setText(context.getString(R.string.launcher_scroll_account_name));
+                accountType.setText(context.getString(R.string.launcher_scroll_account_state));
+                accountSkinFace.setImageBitmap(((BitmapDrawable) context.getDrawable(R.drawable.ic_steve)).getBitmap());
+                accountSkinHat.setImageBitmap(null);
+                break;
         }
     }
 

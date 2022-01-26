@@ -3,6 +3,8 @@ package com.tungsten.hmclpe.launcher.dialogs.account;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.text.method.LinkMovementMethod;
@@ -18,10 +20,18 @@ import com.tungsten.hmclpe.auth.Account;
 import com.tungsten.hmclpe.auth.AuthInfo;
 import com.tungsten.hmclpe.auth.AuthenticationException;
 import com.tungsten.hmclpe.auth.yggdrasil.MojangYggdrasilProvider;
+import com.tungsten.hmclpe.auth.yggdrasil.Texture;
+import com.tungsten.hmclpe.auth.yggdrasil.TextureType;
 import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilService;
 import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilSession;
+import com.tungsten.hmclpe.skin.draw2d.Avatar;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class AddMojangAccountDialog extends Dialog implements View.OnClickListener {
 
@@ -93,18 +103,37 @@ public class AddMojangAccountDialog extends Dialog implements View.OnClickListen
                         try {
                             YggdrasilSession yggdrasilSession = yggdrasilService.authenticate(email,password,"");
                             AuthInfo authInfo = yggdrasilSession.toAuthInfo();
-                            account = new Account(2,
-                                    email,
-                                    password,
-                                    "mojang",
-                                    "0",
-                                    authInfo.getUsername(),
-                                    authInfo.getUUID().toString(),
-                                    authInfo.getAccessToken(),
-                                    "",
-                                    "");
+                            Map<TextureType, Texture> map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(authInfo.getUUID()).get()).get();
+                            Texture texture = map.get(TextureType.SKIN);
+                            String u = texture.getUrl();
+                            if (!u.startsWith("https")){
+                                u = u.replaceFirst("http","https");
+                            }
+                            URL url = new URL(u);
+                            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                            httpURLConnection.setDoInput(true);
+                            httpURLConnection.connect();
+                            InputStream inputStream = httpURLConnection.getInputStream();
+                            Bitmap skin = BitmapFactory.decodeStream(inputStream);
+                            loginHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String skinTexture = Avatar.bitmapToString(skin);
+                                    account = new Account(2,
+                                            email,
+                                            password,
+                                            "mojang",
+                                            "0",
+                                            authInfo.getUsername(),
+                                            authInfo.getUUID().toString(),
+                                            authInfo.getAccessToken(),
+                                            "",
+                                            "",
+                                            skinTexture);
+                                }
+                            });
                             loginHandler.sendEmptyMessage(0);
-                        } catch (AuthenticationException e) {
+                        } catch (AuthenticationException | IOException e) {
                             e.printStackTrace();
                             loginHandler.sendEmptyMessage(1);
                         }

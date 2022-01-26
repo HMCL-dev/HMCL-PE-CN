@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -23,14 +25,24 @@ import com.tungsten.hmclpe.auth.Account;
 import com.tungsten.hmclpe.auth.AuthInfo;
 import com.tungsten.hmclpe.auth.AuthenticationException;
 import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
+import com.tungsten.hmclpe.auth.yggdrasil.Texture;
+import com.tungsten.hmclpe.auth.yggdrasil.TextureType;
 import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilService;
 import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilSession;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.account.server.AuthlibInjectorServerSpinnerAdapter;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.skin.draw2d.Avatar;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.UUID;
 
 public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
@@ -134,18 +146,37 @@ public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnCl
                         try {
                             YggdrasilSession yggdrasilSession = yggdrasilService.authenticate(email,password,"00000000-0000-0000-0000-000000000000");
                             AuthInfo authInfo = yggdrasilSession.toAuthInfo();
-                            account = new Account(4,
-                                    email,
-                                    password,
-                                    "mojang",
-                                    "0",
-                                    authInfo.getUsername(),
-                                    authInfo.getUUID().toString(),
-                                    authInfo.getAccessToken(),
-                                    "",
-                                    authlibInjectorServer.getUrl());
+                            Map<TextureType, Texture> map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(authInfo.getUUID()).get()).get();
+                            Texture texture = map.get(TextureType.SKIN);
+                            String u = texture.getUrl();
+                            if (!u.startsWith("https")){
+                                u = u.replaceFirst("http","https");
+                            }
+                            URL url = new URL(u);
+                            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                            httpURLConnection.setDoInput(true);
+                            httpURLConnection.connect();
+                            InputStream inputStream = httpURLConnection.getInputStream();
+                            Bitmap skin = BitmapFactory.decodeStream(inputStream);
+                            loginHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String skinTexture = Avatar.bitmapToString(skin);
+                                    account = new Account(4,
+                                            email,
+                                            password,
+                                            "mojang",
+                                            "0",
+                                            authInfo.getUsername(),
+                                            authInfo.getUUID().toString(),
+                                            authInfo.getAccessToken(),
+                                            "",
+                                            authlibInjectorServer.getUrl(),
+                                            skinTexture);
+                                }
+                            });
                             loginHandler.sendEmptyMessage(0);
-                        } catch (AuthenticationException e) {
+                        } catch (AuthenticationException | IOException e) {
                             e.printStackTrace();
                             loginHandler.sendEmptyMessage(1);
                         }

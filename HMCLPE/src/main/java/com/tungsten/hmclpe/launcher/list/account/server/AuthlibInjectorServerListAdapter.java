@@ -1,6 +1,8 @@
 package com.tungsten.hmclpe.launcher.list.account.server;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,19 +98,21 @@ public class AuthlibInjectorServerListAdapter extends BaseAdapter {
             }
         });
         viewHolder.delete.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
             @Override
             public void onClick(View v) {
                 activity.uiManager.accountUI.serverList.remove(authlibInjectorServer);
                 activity.uiManager.accountUI.serverListAdapter.notifyDataSetChanged();
                 GsonUtils.saveServer(activity.uiManager.accountUI.serverList, AppManifest.ACCOUNT_DIR + "/authlib_injector_server.json");
-                for (int i = 0;i < activity.uiManager.accountUI.accounts.size();i++){
-                    if (activity.uiManager.accountUI.accounts.get(i).loginServer.equals(authlibInjectorServer.getUrl())){
-                        activity.uiManager.accountUI.accounts.remove(activity.uiManager.accountUI.accounts.get(i));
+                for (Account account : activity.uiManager.accountUI.accounts){
+                    if (account.loginServer.equals(authlibInjectorServer.getUrl())){
+                        boolean isSelected = account.email.equals(activity.publicGameSetting.account.email) && account.auth_player_name.equals(activity.publicGameSetting.account.auth_player_name) && account.auth_uuid.equals(activity.publicGameSetting.account.auth_uuid) && account.loginServer.equals(activity.publicGameSetting.account.loginServer);
+                        activity.uiManager.accountUI.accounts.remove(account);
                         GsonUtils.saveAccounts(activity.uiManager.accountUI.accounts,AppManifest.ACCOUNT_DIR + "/accounts.json");
                         if (activity.uiManager.accountUI.accounts.size() == 0){
-                            activity.publicGameSetting.account = new Account(0,"","","","","","","","","");
+                            activity.publicGameSetting.account = new Account(0,"","","","","","","","","","");
                         }
-                        else if (activity.uiManager.accountUI.accounts.get(i) == activity.publicGameSetting.account){
+                        else if (isSelected){
                             activity.publicGameSetting.account = activity.uiManager.accountUI.accounts.get(0);
                         }
                         GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");
