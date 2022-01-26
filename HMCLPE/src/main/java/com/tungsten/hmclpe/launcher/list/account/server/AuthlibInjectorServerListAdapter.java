@@ -2,7 +2,6 @@ package com.tungsten.hmclpe.launcher.list.account.server;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
