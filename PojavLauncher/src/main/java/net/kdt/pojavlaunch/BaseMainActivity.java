@@ -1,5 +1,9 @@
 package net.kdt.pojavlaunch;
 
+import static net.kdt.pojavlaunch.utils.MCOptionUtils.getMcScale;
+import static org.lwjgl.glfw.CallbackBridge.windowHeight;
+import static org.lwjgl.glfw.CallbackBridge.windowWidth;
+
 import android.graphics.SurfaceTexture;
 import android.view.Surface;
 import android.view.TextureView;
@@ -8,7 +12,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import net.kdt.pojavlaunch.utils.JREUtils;
-import net.kdt.pojavlaunch.utils.MCOptionUtils;
 
 import org.lwjgl.glfw.CallbackBridge;
 
@@ -19,7 +22,7 @@ public class BaseMainActivity extends BaseActivity {
     private TextureView minecraftGLView;
     public float scaleFactor = 1.0F;
 
-    protected void initLayout(String javaPath,String home,boolean highVersion,final Vector<String> args, String renderer) {
+    protected void initLayout(String gameDir,String javaPath,String home,boolean highVersion,final Vector<String> args, String renderer) {
         setContentView(R.layout.activity_pojav);
 
         this.minecraftGLView = findViewById(R.id.main_game_render_view);
@@ -39,17 +42,20 @@ public class BaseMainActivity extends BaseActivity {
 
             @Override
             public void onSurfaceTextureSizeChanged(@NonNull SurfaceTexture surface, int width, int height) {
-
+                windowWidth = Tools.getDisplayFriendlyRes(width, scaleFactor);
+                windowHeight = Tools.getDisplayFriendlyRes(height, scaleFactor);
+                CallbackBridge.sendUpdateWindowSize(windowWidth, windowHeight);
+                getMcScale(gameDir);
             }
 
             @Override
             public boolean onSurfaceTextureDestroyed(@NonNull SurfaceTexture surface) {
-                return false;
+                return true;
             }
 
             @Override
             public void onSurfaceTextureUpdated(@NonNull SurfaceTexture surface) {
-
+                surface.setDefaultBufferSize(windowWidth, windowHeight);
             }
         });
     }

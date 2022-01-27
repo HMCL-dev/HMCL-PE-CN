@@ -20,12 +20,13 @@ public class PojavMinecraftActivity extends BaseMainActivity {
         CallbackBridge.windowWidth = gameLaunchSetting.width;
         CallbackBridge.windowHeight = gameLaunchSetting.height;
 
-        MCOptionUtils.load(gameLaunchSetting.currentVersion);
+        MCOptionUtils.load(gameLaunchSetting.game_directory);
         MCOptionUtils.set("overrideWidth", String.valueOf(CallbackBridge.windowWidth));
         MCOptionUtils.set("overrideHeight", String.valueOf(CallbackBridge.windowHeight));
-        MCOptionUtils.save(gameLaunchSetting.currentVersion);
+        MCOptionUtils.save(gameLaunchSetting.game_directory);
 
-        initLayout(gameLaunchSetting.javaPath,
+        initLayout(gameLaunchSetting.game_directory,
+                gameLaunchSetting.javaPath,
                 gameLaunchSetting.home,
                 PojavLauncher.isHighVersion(gameLaunchSetting),
                 PojavLauncher.getMcArgs(gameLaunchSetting, PojavMinecraftActivity.this),
