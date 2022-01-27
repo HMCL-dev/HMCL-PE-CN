@@ -27,7 +27,7 @@ public class ExitActivity extends AppCompatActivity {
             code = extras.getInt("code",-1);
         }
         new AlertDialog.Builder(this)
-                .setMessage("game exit!")
+                .setMessage("code : " + code)
                 .setPositiveButton(android.R.string.ok,(dialog,which)->{
                     dialog.dismiss();
                     ExitActivity.this.finish();

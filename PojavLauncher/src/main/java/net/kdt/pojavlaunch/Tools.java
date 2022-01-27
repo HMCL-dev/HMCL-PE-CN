@@ -1,19 +1,11 @@
 package net.kdt.pojavlaunch;
 
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.P;
-
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
-import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import net.kdt.pojavlaunch.utils.*;
 
@@ -43,16 +35,12 @@ public final class Tools {
             if (!args.get(i).equals(" ")) {
                 launchArgs[i] = args.get(i);
                 System.out.println("Minecraft Args:" + launchArgs[i]);
+                Logger.getInstance().appendToLog("Minecraft Args:" + launchArgs[i]);
             }
         }
 
         List<String> javaArgList = new ArrayList<String>();
 
-        if (JREUtils.jreReleaseList.get("JAVA_VERSION").equals("1.8.0")) {
-            getCacioJavaArgs(javaArgList, false);
-        }
-
-        javaArgList.add("-cp");
         javaArgList.addAll(Arrays.asList(launchArgs));
         JREUtils.launchJavaVM(activity,javaPath,home,renderer, javaArgList);
     }

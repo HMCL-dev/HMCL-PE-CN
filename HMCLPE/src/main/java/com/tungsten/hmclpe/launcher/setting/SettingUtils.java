@@ -66,7 +66,7 @@ public class SettingUtils {
                 JavaListBean bean = new JavaListBean("","","");
                 bean.name = str;
                 File release = new File(javaPath,"/" + bean.name + "/release");
-                if (release.exists()){
+                if (release.exists() && FileStringUtils.getStringFromFile(release.getAbsolutePath()) != null){
                     String releaseContent = FileStringUtils.getStringFromFile(release.getAbsolutePath());
                     int _JAVA_VERSION_index = releaseContent.indexOf(JAVA_VERSION_str);
                     int _OS_ARCH_index = releaseContent.indexOf(OS_ARCH_str);

@@ -8,12 +8,16 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import net.kdt.pojavlaunch.utils.JREUtils;
+import net.kdt.pojavlaunch.utils.MCOptionUtils;
+
+import org.lwjgl.glfw.CallbackBridge;
 
 import java.util.Vector;
 
 public class BaseMainActivity extends BaseActivity {
 
     private TextureView minecraftGLView;
+    public float scaleFactor = 1.0F;
 
     protected void initLayout(String javaPath,String home,boolean highVersion,final Vector<String> args, String renderer) {
         setContentView(R.layout.activity_pojav);
@@ -23,6 +27,8 @@ public class BaseMainActivity extends BaseActivity {
         minecraftGLView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
             public void onSurfaceTextureAvailable(@NonNull SurfaceTexture surface, int width, int height) {
+                surface.setDefaultBufferSize(CallbackBridge.windowWidth, CallbackBridge.windowHeight);
+                CallbackBridge.sendUpdateWindowSize(CallbackBridge.windowWidth, CallbackBridge.windowHeight);
                 JREUtils.setupBridgeWindow(new Surface(surface));
                 try {
                     runCraft(javaPath,home,highVersion,args,renderer);
@@ -49,9 +55,6 @@ public class BaseMainActivity extends BaseActivity {
     }
 
     private void runCraft(String javaPath,String home,boolean highVersion,final Vector<String> args, String renderer) throws Throwable {
-        
-        JREUtils.jreReleaseList = JREUtils.readJREReleaseProperties(javaPath);
-
         JREUtils.redirectAndPrintJRELog();
         Tools.launchMinecraft(this, javaPath,home,renderer, args);
     }

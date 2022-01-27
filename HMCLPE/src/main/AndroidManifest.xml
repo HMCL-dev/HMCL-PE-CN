@@ -25,6 +25,7 @@
         android:icon="@drawable/ic_craft_table"
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_craft_table"
+        android:extractNativeLibs="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition">
         <activity
@@ -66,6 +67,11 @@
             android:name=".launcher.launch.pojav.PojavMinecraftActivity"
             android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"
             android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.Dialog"
+            android:screenOrientation="sensorLandscape"
+            android:name="net.kdt.pojavlaunch.ExitActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"/>
         <service
             android:name="utils.logcat.LogcatService"
             android:process=":logcatprocess"

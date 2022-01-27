@@ -17,6 +17,7 @@ public class PojavLauncher {
 
     public static Vector<String> getMcArgs(GameLaunchSetting gameLaunchSetting, Context context){
         try {
+            JREUtils.jreReleaseList = JREUtils.readJREReleaseProperties(gameLaunchSetting.javaPath);
             LaunchVersion version = LaunchVersion.fromDirectory(new File(gameLaunchSetting.currentVersion));
             boolean highVersion = false;
             if (version.minimumLauncherVersion > 21){
@@ -30,8 +31,11 @@ public class PojavLauncher {
             String[] extraJavaFlags = gameLaunchSetting.extraJavaFlags.split(" ");
             Collections.addAll(args, extraJavaFlags);
             args.addAll(JREUtils.getJavaArgs());
+            if (JREUtils.jreReleaseList.get("JAVA_VERSION").equals("1.8.0")) {
+                Tools.getCacioJavaArgs(args, false);
+            }
             args.add("-Dorg.lwjgl.opengl.libname=" + JREUtils.loadGraphicsLibrary(gameLaunchSetting.pojavRenderer));
-            //args.add("-Djava.library.path=" + libraryPath);
+            args.add("-Djava.home=" + javaPath);
             args.add("-Dfml.earlyprogresswindow=false");
             args.add("-Djava.io.tmpdir=" + AppManifest.DEFAULT_CACHE_DIR);
             args.add("-cp");

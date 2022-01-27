@@ -153,7 +153,7 @@ public class JREUtils {
 
     public static void setJavaEnvironment(Activity activity,String javaPath,String home,String renderer) throws Throwable {
         Map<String, String> envMap = new ArrayMap<>();
-        envMap.put("POJAV_NATIVEDIR",activity.getApplicationInfo().nativeLibraryDir);
+        envMap.put("POJAV_NATIVEDIR", activity.getApplicationInfo().nativeLibraryDir);
         envMap.put("JAVA_HOME", javaPath);
         envMap.put("HOME", home);
         envMap.put("LIBGL_MIPMAP", "3");
@@ -217,9 +217,13 @@ public class JREUtils {
     }
     
     public static int launchJavaVM(final Activity activity,String javaPath,String home,String renderer,final List<String> JVMArgs) throws Throwable {
+        relocateLibPath(activity,javaPath);
+
         setJavaEnvironment(activity,javaPath,home,renderer);
 
-        List<String> userArgs = getJavaArgs();
+        loadGraphicsLibrary(renderer);
+
+        List<String> userArgs = new ArrayList<>();
 
         userArgs.addAll(JVMArgs);
         
@@ -241,7 +245,6 @@ public class JREUtils {
                 "-Dglfwstub.initEgl=false",
 
                 "-Dlog4j2.formatMsgNoLookups=true", //Log4j RCE mitigation
-                "-Dfml.earlyprogresswindow=false" //Forge 1.14+ workaround
         };
 
         List<String> userArguments = new ArrayList<>();

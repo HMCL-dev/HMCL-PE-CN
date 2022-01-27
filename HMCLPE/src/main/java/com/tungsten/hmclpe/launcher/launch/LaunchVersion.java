@@ -236,6 +236,9 @@ public class LaunchVersion {
                     else if (key.equals("game_directory")) {
                         value = gameLaunchSetting.game_directory;
                     }
+                    else if (key.equals("assets_root")) {
+                        value = gameLaunchSetting.gameFileDirectory + "/assets";
+                    }
                     else if (key.equals("user_properties")) {
                         value = "{}";
                     }
