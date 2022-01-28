@@ -21,11 +21,16 @@ public class BaseMainActivity extends BaseActivity {
 
     private TextureView minecraftGLView;
     public float scaleFactor = 1.0F;
+    public static boolean isInputStackCall = false;
 
     protected void initLayout(String gameDir,String javaPath,String home,boolean highVersion,final Vector<String> args, String renderer) {
         setContentView(R.layout.activity_pojav);
 
         this.minecraftGLView = findViewById(R.id.main_game_render_view);
+
+        if (highVersion){
+            isInputStackCall = true;
+        }
 
         minecraftGLView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
@@ -33,11 +38,16 @@ public class BaseMainActivity extends BaseActivity {
                 surface.setDefaultBufferSize(CallbackBridge.windowWidth, CallbackBridge.windowHeight);
                 CallbackBridge.sendUpdateWindowSize(CallbackBridge.windowWidth, CallbackBridge.windowHeight);
                 JREUtils.setupBridgeWindow(new Surface(surface));
-                try {
-                    runCraft(javaPath,home,highVersion,args,renderer);
-                }catch (Throwable e){
+                new Thread(){
+                    @Override
+                    public void run() {
+                        try {
+                            runCraft(javaPath,home,highVersion,args,renderer);
+                        }catch (Throwable e){
 
-                }
+                        }
+                    }
+                }.start();
             }
 
             @Override

@@ -231,7 +231,7 @@ public class JREUtils {
         setupExitTrap(activity.getApplication());
         chdir(home);
 
-        final int exitCode = VMLauncher.launchJVM(userArgs.toArray(new String[0]));
+        final int exitCode = VMLauncher.launchJVM((String[]) userArgs.toArray(new String[0]));
         Logger.getInstance().appendToLog("Java Exit code: " + exitCode);
         return exitCode;
     }
