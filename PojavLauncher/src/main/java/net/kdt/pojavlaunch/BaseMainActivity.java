@@ -4,10 +4,14 @@ import static net.kdt.pojavlaunch.utils.MCOptionUtils.getMcScale;
 import static org.lwjgl.glfw.CallbackBridge.windowHeight;
 import static org.lwjgl.glfw.CallbackBridge.windowWidth;
 
+import android.annotation.SuppressLint;
 import android.graphics.SurfaceTexture;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
@@ -23,8 +27,9 @@ public class BaseMainActivity extends BaseActivity {
     public float scaleFactor = 1.0F;
     public static boolean isInputStackCall = false;
 
-    protected void initLayout(String gameDir,String javaPath,String home,boolean highVersion,final Vector<String> args, String renderer) {
-        setContentView(R.layout.activity_pojav);
+    public MouseCallback mouseCallback;
+
+    protected void init(String gameDir, String javaPath, String home, boolean highVersion, final Vector<String> args, String renderer, ImageView mouseCursor) {
 
         this.minecraftGLView = findViewById(R.id.main_game_render_view);
 
@@ -48,6 +53,19 @@ public class BaseMainActivity extends BaseActivity {
                         }
                     }
                 }.start();
+                Thread virtualMouseGrabThread = new Thread(() -> {
+                    while (true) {
+                        if (!CallbackBridge.isGrabbing() && mouseCursor.getVisibility() != View.VISIBLE) {
+                            mouseModeHandler.sendEmptyMessage(1);
+                        }else{
+                            if (CallbackBridge.isGrabbing() && mouseCursor.getVisibility() != View.GONE) {
+                                mouseModeHandler.sendEmptyMessage(0);
+                            }
+                        }
+                    }
+                }, "VirtualMouseGrabThread");
+                virtualMouseGrabThread.setPriority(Thread.MIN_PRIORITY);
+                virtualMouseGrabThread.start();
             }
 
             @Override
@@ -87,6 +105,24 @@ public class BaseMainActivity extends BaseActivity {
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
+    }
+
+    @SuppressLint("HandlerLeak")
+    public final Handler mouseModeHandler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 0) {
+                mouseCallback.onMouseModeChange(false);
+            }
+            if (msg.what == 1) {
+                mouseCallback.onMouseModeChange(true);
+            }
+        }
+    };
+
+    public interface MouseCallback{
+        void onMouseModeChange(boolean mode);
     }
 
 }

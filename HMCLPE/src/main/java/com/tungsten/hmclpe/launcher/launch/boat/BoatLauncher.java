@@ -17,7 +17,7 @@ public class BoatLauncher {
             LaunchVersion version = LaunchVersion.fromDirectory(new File(gameLaunchSetting.currentVersion));
             String javaPath = gameLaunchSetting.javaPath;
             boolean highVersion = false;
-            if (version.minimumLauncherVersion > 21){
+            if (version.minimumLauncherVersion >= 21){
                 highVersion = true;
             }
             String libraryPath;
@@ -61,7 +61,7 @@ public class BoatLauncher {
     public static boolean isHighVersion(GameLaunchSetting gameLaunchSetting){
         LaunchVersion version = LaunchVersion.fromDirectory(new File(gameLaunchSetting.currentVersion));
         boolean highVersion = false;
-        if (version.minimumLauncherVersion > 21){
+        if (version.minimumLauncherVersion >= 21){
             highVersion = true;
         }
         return highVersion;

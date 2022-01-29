@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <net.kdt.pojavlaunch.MinecraftGLView
+    <TextureView
         android:id="@+id/main_game_render_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

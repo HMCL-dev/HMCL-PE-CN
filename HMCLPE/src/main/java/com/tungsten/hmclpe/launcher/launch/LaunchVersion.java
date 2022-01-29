@@ -180,17 +180,17 @@ public class LaunchVersion {
     }
 
     public String[] getMinecraftArguments(GameLaunchSetting gameLaunchSetting, boolean isHighVer) {
-        String test = "";
+        StringBuilder test = new StringBuilder();
         if (isHighVer) {
             Object[] objs = this.arguments.game;
-            for (int i = 0; i < objs.length; i++) {
-                if (objs[i] instanceof String) {
-                    test += objs[i].toString() + " ";
+            for (Object obj : objs) {
+                if (obj instanceof String) {
+                    test.append(obj.toString()).append(" ");
                 }
             }
         }
         else {
-            test = this.minecraftArguments;
+            test = new StringBuilder(this.minecraftArguments);
         }
         String result = "";
 

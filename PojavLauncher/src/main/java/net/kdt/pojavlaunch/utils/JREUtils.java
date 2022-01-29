@@ -62,7 +62,7 @@ public class JREUtils {
         dlopen(path + "/libawt_headless.so");
         dlopen(path + "/libfreetype.so");
         dlopen(path + "/libfontmanager.so");
-        for(File f : locateLibs(new File(path))) {
+        for(File f : locateLibs(new File(javaPath))) {
             dlopen(f.getAbsolutePath());
         }
         dlopen( nativeLibDir + "/libopenal.so");

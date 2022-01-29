@@ -3,4 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:src="@drawable/ic_cursor"
+        android:scaleType="centerInside"
+        android:layout_height="16dp"
+        android:layout_width="16dp"
+        android:id="@+id/mouse_cursor"/>
+
+    <Button
+        android:id="@+id/base_touch_pad"
+        android:stateListAnimator="@null"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorTransparent"/>
+
 </RelativeLayout>

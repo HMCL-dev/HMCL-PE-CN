@@ -19,10 +19,6 @@ public class PojavLauncher {
         try {
             JREUtils.jreReleaseList = JREUtils.readJREReleaseProperties(gameLaunchSetting.javaPath);
             LaunchVersion version = LaunchVersion.fromDirectory(new File(gameLaunchSetting.currentVersion));
-            boolean highVersion = false;
-            if (version.minimumLauncherVersion > 21){
-                highVersion = true;
-            }
             String javaPath = gameLaunchSetting.javaPath;
             JREUtils.relocateLibPath(context,javaPath);
             String libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64:" + AppManifest.POJAV_LIB_DIR + "/lwjgl3:" + JREUtils.LD_LIBRARY_PATH + ":" + AppManifest.POJAV_LIB_DIR + "/lwjgl3";;
@@ -36,7 +32,7 @@ public class PojavLauncher {
             }
             args.add("-Dorg.lwjgl.opengl.libname=" + JREUtils.loadGraphicsLibrary(gameLaunchSetting.pojavRenderer));
             args.add("-Djava.home=" + javaPath);
-            args.add("-Djava.library.path=" + libraryPath);
+            //args.add("-Djava.library.path=" + libraryPath);
             args.add("-Dfml.earlyprogresswindow=false");
             args.add("-Djava.io.tmpdir=" + AppManifest.DEFAULT_CACHE_DIR);
             args.add("-cp");
@@ -44,7 +40,7 @@ public class PojavLauncher {
 
             args.add(version.mainClass);
             String[] minecraftArgs;
-            minecraftArgs = version.getMinecraftArguments(gameLaunchSetting, highVersion);
+            minecraftArgs = version.getMinecraftArguments(gameLaunchSetting, isHighVersion(gameLaunchSetting));
             Collections.addAll(args, minecraftArgs);
             args.add("--width");
             args.add(Integer.toString(gameLaunchSetting.width));
@@ -77,11 +73,7 @@ public class PojavLauncher {
 
     public static boolean isHighVersion(GameLaunchSetting gameLaunchSetting){
         LaunchVersion version = LaunchVersion.fromDirectory(new File(gameLaunchSetting.currentVersion));
-        boolean highVersion = false;
-        if (version.minimumLauncherVersion > 21){
-            highVersion = true;
-        }
-        return highVersion;
+        return version.minimumLauncherVersion >= 21;
     }
 
 }
