@@ -53,13 +53,7 @@ public class SettingUtils {
 
     public static ArrayList<JavaListBean> getJavaVersionInfo(MainActivity activity){
         ArrayList<JavaListBean> list = new ArrayList<>();
-        String javaPath;
-        if (activity.privateGameSetting.boatLauncherSetting.enable){
-            javaPath = AppManifest.BOAT_JAVA_DIR + "/";
-        }
-        else {
-            javaPath = AppManifest.POJAV_JAVA_DIR + "/";
-        }
+        String javaPath = AppManifest.JAVA_DIR + "/";
         String[] string = new File(javaPath).list();
         if (new File(javaPath).exists()){
             for (String str : string){

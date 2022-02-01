@@ -26,7 +26,8 @@ import java.util.Vector;
 
 public final class Tools {
 
-    public static String POJAV_LIB_DIR = "/data/data/com.tungsten.hmclpe/app_runtime/pojav/lib";
+    public static String POJAV_LIB_DIR = "/data/data/com.tungsten.hmclpe/app_runtime/pojav/";
+    public static String CACIO_DIR = "/data/data/com.tungsten.hmclpe/app_runtime/caciocavallo/";
 
     public static void launchMinecraft(final Activity activity,String javaPath,String home,String renderer, Vector<String> args) throws Throwable {
 
@@ -58,7 +59,7 @@ public final class Tools {
 
         StringBuilder cacioClasspath = new StringBuilder();
         cacioClasspath.append("-Xbootclasspath/p");
-        File cacioDir = new File(POJAV_LIB_DIR + "/caciocavallo");
+        File cacioDir = new File(CACIO_DIR);
         if (cacioDir.exists() && cacioDir.isDirectory()) {
             for (File file : cacioDir.listFiles()) {
                 if (file.getName().endsWith(".jar")) {

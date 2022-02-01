@@ -7,7 +7,7 @@ import java.util.*;
 public class LoadMe {
 
     @SuppressLint("SdCardPath")
-    public static String BOAT_LIB_DIR = "/data/data/com.tungsten.hmclpe/app_runtime/boat/lib";
+    public static String BOAT_LIB_DIR = "/data/data/com.tungsten.hmclpe/app_runtime/boat";
 
     public static native int chdir(String str);
     public static native int jliLaunch(String[] strArr);
