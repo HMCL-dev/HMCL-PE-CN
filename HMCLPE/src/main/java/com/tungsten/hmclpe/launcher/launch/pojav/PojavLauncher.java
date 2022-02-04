@@ -15,7 +15,7 @@ import java.util.Vector;
 
 public class PojavLauncher {
 
-    public static Vector<String> getMcArgs(GameLaunchSetting gameLaunchSetting, Context context){
+    public static Vector<String> getMcArgs(GameLaunchSetting gameLaunchSetting, Context context,int width,int height){
         try {
             JREUtils.jreReleaseList = JREUtils.readJREReleaseProperties(gameLaunchSetting.javaPath);
             LaunchVersion version = LaunchVersion.fromDirectory(new File(gameLaunchSetting.currentVersion));
@@ -43,9 +43,9 @@ public class PojavLauncher {
             minecraftArgs = version.getMinecraftArguments(gameLaunchSetting, isHighVersion(gameLaunchSetting));
             Collections.addAll(args, minecraftArgs);
             args.add("--width");
-            args.add(Integer.toString(gameLaunchSetting.width));
+            args.add(Integer.toString(width));
             args.add("--height");
-            args.add(Integer.toString(gameLaunchSetting.height));
+            args.add(Integer.toString(height));
             String[] extraMinecraftArgs = gameLaunchSetting.extraMinecraftFlags.split(" ");
             Collections.addAll(args, extraMinecraftArgs);
             return args;

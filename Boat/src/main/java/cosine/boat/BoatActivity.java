@@ -17,7 +17,8 @@ public class BoatActivity extends AppCompatActivity implements TextureView.Surfa
 {
 
 	private TextureView mainTextureView;
-	public OnActivityChangeListener activityChangeListener;
+	public BoatCallback boatCallback;
+	public float scaleFactor = 1.0F;
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,9 +46,8 @@ public class BoatActivity extends AppCompatActivity implements TextureView.Surfa
 
 		// TODO: Implement this method
 		System.out.println("SurfaceTexture is available!");
-		BoatActivity.setBoatNativeWindow(new Surface(surface));
 
-		activityChangeListener.onSurfaceTextureAvailable();
+		boatCallback.onSurfaceTextureAvailable(surface,width,height);
 	}
 
 	@Override
@@ -79,16 +79,16 @@ public class BoatActivity extends AppCompatActivity implements TextureView.Surfa
 	}
 
 	public void setCursorMode(int mode){
-		activityChangeListener.onCursorModeChange(mode);
+		boatCallback.onCursorModeChange(mode);
 	}
 
-	public interface OnActivityChangeListener{
-		void onSurfaceTextureAvailable();
+	public interface BoatCallback{
+		void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height);
 		void onCursorModeChange(int mode);
 	}
 
-	public void setOnCursorChangeListener(OnActivityChangeListener listener){
-		this.activityChangeListener=listener;
+	public void setBoatCallback(BoatCallback callback){
+		this.boatCallback = callback;
 	}
 
 	@Override

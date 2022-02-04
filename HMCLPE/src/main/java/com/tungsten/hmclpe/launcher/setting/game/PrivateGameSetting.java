@@ -12,10 +12,9 @@ public class PrivateGameSetting {
     public String game_directory;
     public BoatLauncherSetting boatLauncherSetting;
     public PojavLauncherSetting pojavLauncherSetting;
-    public int width;
-    public int height;
+    public float scaleFactor;
 
-    public PrivateGameSetting (boolean enable,boolean notCheckJvm,boolean notCheckMinecraft,boolean notCheckForge,String javaPath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,BoatLauncherSetting boatLauncherSetting,PojavLauncherSetting pojavLauncherSetting,int width,int height){
+    public PrivateGameSetting (boolean enable,boolean notCheckJvm,boolean notCheckMinecraft,boolean notCheckForge,String javaPath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,BoatLauncherSetting boatLauncherSetting,PojavLauncherSetting pojavLauncherSetting,float scaleFactor){
         this.enable = enable;
         this.notCheckJvm = notCheckJvm;
         this.notCheckMinecraft = notCheckMinecraft;
@@ -26,8 +25,7 @@ public class PrivateGameSetting {
         this.game_directory = game_directory;
         this.boatLauncherSetting = boatLauncherSetting;
         this.pojavLauncherSetting = pojavLauncherSetting;
-        this.width = width;
-        this.height = height;
+        this.scaleFactor = scaleFactor;
     }
 
 }

@@ -12,7 +12,7 @@ import java.util.Vector;
 
 public class BoatLauncher {
 
-    public static Vector<String> getMcArgs(GameLaunchSetting gameLaunchSetting , Context context){
+    public static Vector<String> getMcArgs(GameLaunchSetting gameLaunchSetting , Context context,int width,int height){
         try {
             LaunchVersion version = LaunchVersion.fromDirectory(new File(gameLaunchSetting.currentVersion));
             String javaPath = gameLaunchSetting.javaPath;
@@ -45,10 +45,9 @@ public class BoatLauncher {
             minecraftArgs = version.getMinecraftArguments(gameLaunchSetting, highVersion);
             Collections.addAll(args, minecraftArgs);
             args.add("--width");
-            args.add("500");
+            args.add(Integer.toString(width));
             args.add("--height");
-            args.add("300");
-            args.add("--fullscreen");
+            args.add(Integer.toString(height));
             String[] extraMinecraftArgs = gameLaunchSetting.extraMinecraftFlags.split(" ");
             Collections.addAll(args, extraMinecraftArgs);
             return args;

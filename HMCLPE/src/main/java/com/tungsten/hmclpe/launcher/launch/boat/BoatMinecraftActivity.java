@@ -1,10 +1,12 @@
 package com.tungsten.hmclpe.launcher.launch.boat;
 
 import android.annotation.SuppressLint;
+import android.graphics.SurfaceTexture;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -57,13 +59,17 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
         mouseCursor = findViewById(R.id.mouse_cursor);
         baseTouchPad = findButton(R.id.base_touch_pad);
 
-        this.setOnCursorChangeListener(new OnActivityChangeListener() {
+        scaleFactor = gameLaunchSetting.scaleFactor;
+
+        this.setBoatCallback(new BoatCallback() {
             @Override
-            public void onSurfaceTextureAvailable() {
+            public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+                surface.setDefaultBufferSize((int) (width * scaleFactor), (int) (height * scaleFactor));
+                BoatActivity.setBoatNativeWindow(new Surface(surface));
                 startGame(gameLaunchSetting.javaPath,
                         gameLaunchSetting.home,
                         BoatLauncher.isHighVersion(gameLaunchSetting),
-                        BoatLauncher.getMcArgs(gameLaunchSetting,BoatMinecraftActivity.this),
+                        BoatLauncher.getMcArgs(gameLaunchSetting,BoatMinecraftActivity.this,(int) (width * scaleFactor), (int) (height * scaleFactor)),
                         gameLaunchSetting.boatRenderer);
             }
 
@@ -115,7 +121,7 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
                     case MotionEvent.ACTION_MOVE:
                         if (!customSettingPointer){
                             padSettingPointer = true;
-                            BoatInput.setPointer(baseX + (int)event.getX() -initialX, baseY + (int)event.getY() - initialY);
+                            BoatInput.setPointer((int) ((baseX + (int)event.getX() -initialX) * scaleFactor), (int) ((baseY + (int)event.getY() - initialY) * scaleFactor));
                         }
                         if (Math.abs(event.getX() - initialX) > 10 && Math.abs(event.getY() - initialY) > 10){
                             longClickTimer.cancel();
@@ -126,7 +132,7 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
                         if (padSettingPointer){
                             baseX += ((int)event.getX() - initialX);
                             baseY += ((int)event.getY() - initialY);
-                            BoatInput.setPointer(baseX,baseY);
+                            BoatInput.setPointer((int) (baseX * scaleFactor),(int) (baseY * scaleFactor));
                             padSettingPointer = false;
                         }
                         BoatInput.setMouseButton(BoatInput.Button1,false);
@@ -142,7 +148,7 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
             else {
                 baseX = (int)event.getX();
                 baseY = (int)event.getY();
-                BoatInput.setPointer(baseX,baseY);
+                BoatInput.setPointer((int) (baseX * scaleFactor),(int) (baseY * scaleFactor));
                 if (event.getActionMasked() == MotionEvent.ACTION_DOWN){
                     BoatInput.setMouseButton(BoatInput.Button1,true);
                 }

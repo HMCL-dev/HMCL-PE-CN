@@ -8,11 +8,8 @@ import android.annotation.SuppressLint;
 import android.graphics.SurfaceTexture;
 import android.os.Handler;
 import android.os.Message;
-import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -24,54 +21,26 @@ import java.util.Vector;
 
 public class BaseMainActivity extends BaseActivity {
 
-    private TextureView minecraftGLView;
+    public TextureView minecraftGLView;
     public float scaleFactor = 1.0F;
-    public static boolean isInputStackCall = false;
+    public static boolean isInputStackCall;
 
-    public MouseCallback mouseCallback;
+    public PojavCallback pojavCallback;
 
-    protected void init(String gameDir, String javaPath, String home, boolean highVersion, final Vector<String> args, String renderer, ImageView mouseCursor) {
+    protected void init(String gameDir , boolean highVersion) {
 
         this.minecraftGLView = findViewById(R.id.main_game_render_view);
 
-        if (highVersion){
-            isInputStackCall = true;
-        }
+        isInputStackCall = highVersion;
 
         minecraftGLView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
             public void onSurfaceTextureAvailable(@NonNull SurfaceTexture surface, int width, int height) {
-                surface.setDefaultBufferSize(CallbackBridge.windowWidth, CallbackBridge.windowHeight);
-                CallbackBridge.sendUpdateWindowSize(CallbackBridge.windowWidth, CallbackBridge.windowHeight);
-                JREUtils.setupBridgeWindow(new Surface(surface));
-                Thread JVMThread = new Thread(() -> {
-                    try {
-                        runCraft(javaPath,home,highVersion,args,renderer);
-                    } catch (Throwable e) {
-
-                    }
-                }, "JVM Main thread");
-                JVMThread.setPriority(Thread.MAX_PRIORITY);
-                JVMThread.start();
-                Thread virtualMouseGrabThread = new Thread(() -> {
-                    while (true) {
-                        if (!CallbackBridge.isGrabbing() && mouseCursor.getVisibility() != View.VISIBLE) {
-                            mouseModeHandler.sendEmptyMessage(1);
-                        }else{
-                            if (CallbackBridge.isGrabbing() && mouseCursor.getVisibility() != View.INVISIBLE) {
-                                mouseModeHandler.sendEmptyMessage(0);
-                            }
-                        }
-                    }
-                }, "VirtualMouseGrabThread");
-                virtualMouseGrabThread.setPriority(Thread.MIN_PRIORITY);
-                virtualMouseGrabThread.start();
+                pojavCallback.onSurfaceTextureAvailable(surface,width,height);
             }
 
             @Override
             public void onSurfaceTextureSizeChanged(@NonNull SurfaceTexture surface, int width, int height) {
-                windowWidth = Tools.getDisplayFriendlyRes(width, scaleFactor);
-                windowHeight = Tools.getDisplayFriendlyRes(height, scaleFactor);
                 CallbackBridge.sendUpdateWindowSize(windowWidth, windowHeight);
                 getMcScale(gameDir);
             }
@@ -88,7 +57,7 @@ public class BaseMainActivity extends BaseActivity {
         });
     }
 
-    private void runCraft(String javaPath,String home,boolean highVersion,final Vector<String> args, String renderer) throws Throwable {
+    public void startGame(String javaPath,String home,boolean highVersion,final Vector<String> args, String renderer) throws Throwable {
         JREUtils.redirectAndPrintJRELog();
         Tools.launchMinecraft(this, javaPath,home,renderer, args);
     }
@@ -113,15 +82,16 @@ public class BaseMainActivity extends BaseActivity {
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0) {
-                mouseCallback.onMouseModeChange(false);
+                pojavCallback.onMouseModeChange(false);
             }
             if (msg.what == 1) {
-                mouseCallback.onMouseModeChange(true);
+                pojavCallback.onMouseModeChange(true);
             }
         }
     };
 
-    public interface MouseCallback{
+    public interface PojavCallback{
+        void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height);
         void onMouseModeChange(boolean mode);
     }
 

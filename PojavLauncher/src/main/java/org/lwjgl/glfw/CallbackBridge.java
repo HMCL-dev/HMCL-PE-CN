@@ -21,7 +21,6 @@ public class CallbackBridge {
         putMouseEventWithCoords(button, true, x, y);
         Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(() -> putMouseEventWithCoords(button, false, x, y), 22);
-
     }
     
     public static void putMouseEventWithCoords(int button, boolean isDown, float x, float y /* , int dz, long nanos */) {
@@ -30,15 +29,16 @@ public class CallbackBridge {
     }
 
     private static boolean threadAttached;
-    public static void sendCursorPos(float x, float y) {
+    public static boolean sendCursorPos(float x, float y) {
         if (!threadAttached) {
-            //threadAttached = CallbackBridge.nativeAttachThreadToOther(true, BaseMainActivity.isInputStackCall);
+            threadAttached = CallbackBridge.nativeAttachThreadToOther(true, BaseMainActivity.isInputStackCall);
         }
         
         DEBUG_STRING.append("CursorPos=").append(x).append(", ").append(y).append("\n");
         mouseX = x;
         mouseY = y;
         nativeSendCursorPos(mouseX, mouseY);
+        return true;
     }
     
     public static void sendPrepareGrabInitialPos() {
