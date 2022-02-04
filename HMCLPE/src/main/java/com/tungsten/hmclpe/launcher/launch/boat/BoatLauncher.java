@@ -45,9 +45,9 @@ public class BoatLauncher {
             minecraftArgs = version.getMinecraftArguments(gameLaunchSetting, highVersion);
             Collections.addAll(args, minecraftArgs);
             args.add("--width");
-            args.add(Integer.toString(gameLaunchSetting.width));
+            args.add("500");
             args.add("--height");
-            args.add(Integer.toString(gameLaunchSetting.height));
+            args.add("300");
             args.add("--fullscreen");
             String[] extraMinecraftArgs = gameLaunchSetting.extraMinecraftFlags.split(" ");
             Collections.addAll(args, extraMinecraftArgs);

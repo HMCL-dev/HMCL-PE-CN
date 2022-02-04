@@ -48,21 +48,17 @@
             android:alwaysRetainTaskState="true"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|orientation|screenLayout|uiMode|screenSize|navigation"
             android:excludeFromRecents="false"
-            android:label="@string/app_name"
             android:launchMode="singleInstance"
             android:screenOrientation="sensorLandscape"
-            android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="boat" />
-        </activity>
+            android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"/>
         <activity
-            android:launchMode="standard"
-            android:multiprocess="true"
-            android:screenOrientation="sensorLandscape"
             android:name=".launcher.launch.pojav.PojavMinecraftActivity"
-            android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"
-            android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"/>
+            android:alwaysRetainTaskState="true"
+            android:configChanges="fontScale|keyboard|keyboardHidden|locale|orientation|screenLayout|uiMode|screenSize|navigation"
+            android:excludeFromRecents="false"
+            android:launchMode="singleInstance"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"/>
         <activity
             android:theme="@style/Theme.AppCompat.Dialog"
             android:screenOrientation="sensorLandscape"

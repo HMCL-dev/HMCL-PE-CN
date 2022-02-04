@@ -61,6 +61,7 @@ public final class JsonUtils {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static GsonBuilder defaultGsonBuilder() {
         return new GsonBuilder()
                 .enableComplexMapKeySerialization()

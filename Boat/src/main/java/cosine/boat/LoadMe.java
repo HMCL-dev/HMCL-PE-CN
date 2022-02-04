@@ -69,7 +69,7 @@ public class LoadMe {
             setLibraryPath(libraryPath);
 			setupJLI();
 
-            redirectStdio(home + "/boat_output.json");
+            redirectStdio(home + "/boat_output.txt");
             chdir(home);
 
 			String finalArgs[] = new String[args.size()];

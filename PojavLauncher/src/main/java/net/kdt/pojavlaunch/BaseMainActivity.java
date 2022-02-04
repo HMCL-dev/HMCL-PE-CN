@@ -12,6 +12,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -43,22 +44,21 @@ public class BaseMainActivity extends BaseActivity {
                 surface.setDefaultBufferSize(CallbackBridge.windowWidth, CallbackBridge.windowHeight);
                 CallbackBridge.sendUpdateWindowSize(CallbackBridge.windowWidth, CallbackBridge.windowHeight);
                 JREUtils.setupBridgeWindow(new Surface(surface));
-                new Thread(){
-                    @Override
-                    public void run() {
-                        try {
-                            runCraft(javaPath,home,highVersion,args,renderer);
-                        }catch (Throwable e){
+                Thread JVMThread = new Thread(() -> {
+                    try {
+                        runCraft(javaPath,home,highVersion,args,renderer);
+                    } catch (Throwable e) {
 
-                        }
                     }
-                }.start();
+                }, "JVM Main thread");
+                JVMThread.setPriority(Thread.MAX_PRIORITY);
+                JVMThread.start();
                 Thread virtualMouseGrabThread = new Thread(() -> {
                     while (true) {
                         if (!CallbackBridge.isGrabbing() && mouseCursor.getVisibility() != View.VISIBLE) {
                             mouseModeHandler.sendEmptyMessage(1);
                         }else{
-                            if (CallbackBridge.isGrabbing() && mouseCursor.getVisibility() != View.GONE) {
+                            if (CallbackBridge.isGrabbing() && mouseCursor.getVisibility() != View.INVISIBLE) {
                                 mouseModeHandler.sendEmptyMessage(0);
                             }
                         }

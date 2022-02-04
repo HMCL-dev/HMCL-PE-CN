@@ -2,12 +2,15 @@ package com.tungsten.hmclpe.launcher.launch.boat;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.tungsten.hmclpe.R;
@@ -67,9 +70,24 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
             @Override
             public void onCursorModeChange(int mode) {
                 cursorMode = mode;
+                cursorModeHandler.sendEmptyMessage(mode);
             }
         });
     }
+
+    @SuppressLint("HandlerLeak")
+    private Handler cursorModeHandler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == BoatInput.CursorDisabled){
+                mouseCursor.setVisibility(View.INVISIBLE);
+            }
+            if (msg.what == BoatInput.CursorEnabled){
+                mouseCursor.setVisibility(View.VISIBLE);
+            }
+        }
+    };
 
     @SuppressLint("ClickableViewAccessibility")
     private Button findButton(int id){

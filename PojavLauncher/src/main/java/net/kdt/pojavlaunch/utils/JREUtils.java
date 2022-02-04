@@ -156,6 +156,7 @@ public class JREUtils {
         envMap.put("POJAV_NATIVEDIR", activity.getApplicationInfo().nativeLibraryDir);
         envMap.put("JAVA_HOME", javaPath);
         envMap.put("HOME", home);
+        envMap.put("TMPDIR", activity.getCacheDir().getAbsolutePath());
         envMap.put("LIBGL_MIPMAP", "3");
 
         // On certain GLES drivers, overloading default functions shader hack fails, so disable it
