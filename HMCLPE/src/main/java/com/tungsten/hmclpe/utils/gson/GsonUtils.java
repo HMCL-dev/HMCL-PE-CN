@@ -1,5 +1,9 @@
 package com.tungsten.hmclpe.utils.gson;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tungsten.hmclpe.auth.Account;
@@ -52,6 +56,7 @@ public class GsonUtils {
         return list;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static ArrayList<AuthlibInjectorServer> getServerListFromFile(String path){
         String string = FileStringUtils.getStringFromFile(path);
         Gson gson = JsonUtils.defaultGsonBuilder().registerTypeAdapter(AuthlibInjectorServer.class, new AuthlibInjectorServer.Deserializer()).create();
@@ -90,7 +95,8 @@ public class GsonUtils {
         FileStringUtils.writeFile(path,string);
     }
 
-    public static void saveServer(ArrayList<AuthlibInjectorServer> list,String path){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static void saveServer(ArrayList<AuthlibInjectorServer> list, String path){
         Gson gson = JsonUtils.defaultGsonBuilder().registerTypeAdapter(AuthlibInjectorServer.class, new AuthlibInjectorServer.Deserializer()).create();
         String string = gson.toJson(list);
         FileStringUtils.writeFile(path,string);

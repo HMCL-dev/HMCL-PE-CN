@@ -198,7 +198,13 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
             activity.uiManager.switchMainUI(activity.uiManager.settingUI);
         }
         if (v == startGame){
-            Intent intent = new Intent(context, PojavMinecraftActivity.class);
+            Intent intent;
+            if (activity.privateGameSetting.boatLauncherSetting.enable){
+                intent = new Intent(context, BoatMinecraftActivity.class);
+            }
+            else {
+                intent = new Intent(context, PojavMinecraftActivity.class);
+            }
             Bundle bundle = new Bundle();
             bundle.putString("setting_path",AppManifest.SETTING_DIR + "/private_game_setting.json");
             intent.putExtras(bundle);

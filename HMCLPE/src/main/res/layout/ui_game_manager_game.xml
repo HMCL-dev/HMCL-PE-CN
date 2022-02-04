@@ -619,6 +619,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="@string/game_setting_ui_game_launcher_pojav"
                             android:textSize="@dimen/text_size_middle"
                             android:id="@+id/current_launcher_isolate"
                             android:layout_weight="1"/>
@@ -631,6 +632,44 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:background="@drawable/ic_baseline_keyboard_arrow_down_black" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/game_launcher_selector_isolate"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game_setting_ui_game_launcher_boat"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:id="@+id/launch_by_boat_isolate"/>
+
+                    <RadioButton
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game_setting_ui_game_launcher_pojav"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:id="@+id/launch_by_pojav_isolate"/>
+
+                    <TextView
+                        android:layout_marginTop="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPureBlack"
+                        android:textSize="@dimen/text_size_middle"
+                        android:text="@string/game_setting_ui_game_launcher_hint"/>
 
                 </LinearLayout>
 
@@ -671,6 +710,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="@string/game_setting_ui_boat_renderer_gl4es_112"
                             android:textSize="@dimen/text_size_middle"
                             android:id="@+id/current_boat_renderer_isolate"
                             android:layout_weight="1"/>
@@ -683,6 +723,36 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:background="@drawable/ic_baseline_keyboard_arrow_down_black" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/boat_render_selector_isolate"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game_setting_ui_boat_renderer_gl4es_112"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:id="@+id/boat_renderer_gl4es_112_isolate"/>
+
+                    <RadioButton
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game_setting_ui_boat_renderer_gl4es_115"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:id="@+id/boat_renderer_gl4es_115_isolate"/>
 
                 </LinearLayout>
 
@@ -723,6 +793,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:text="@string/game_setting_ui_pojav_renderer_gl4es_114"
                             android:textSize="@dimen/text_size_middle"
                             android:id="@+id/current_pojav_renderer_isolate"
                             android:layout_weight="1"/>
@@ -735,6 +806,63 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:background="@drawable/ic_baseline_keyboard_arrow_down_black" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/pojav_render_selector_isolate"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game_setting_ui_pojav_renderer_gl4es_114"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:id="@+id/pojav_renderer_gl4es_114_isolate"/>
+
+                    <RadioButton
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game_setting_ui_pojav_renderer_gl4es_115"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:id="@+id/pojav_renderer_gl4es_115_isolate"/>
+
+                    <RadioButton
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game_setting_ui_pojav_renderer_gl4es_115p"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:id="@+id/pojav_renderer_gl4es_115p_isolate"/>
+
+                    <RadioButton
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game_setting_ui_pojav_renderer_vgpu"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:id="@+id/pojav_renderer_vgpu_isolate"/>
+
+                    <RadioButton
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game_setting_ui_pojav_renderer_virgl"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:id="@+id/pojav_renderer_virgl_isolate"/>
 
                 </LinearLayout>
 
