@@ -36,7 +36,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/colorPureBlack"/>
+                    android:background="@color/colorDarkGray"/>
 
                 <LinearLayout
                     android:id="@+id/show_update_setting"
@@ -127,7 +127,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/colorPureBlack"/>
+                    android:background="@color/colorDarkGray"/>
 
                 <LinearLayout
                     android:id="@+id/show_cache_setting"
@@ -257,7 +257,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/colorPureBlack"/>
+                    android:background="@color/colorDarkGray"/>
 
                 <LinearLayout
                     android:paddingTop="12dp"
@@ -288,7 +288,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/colorPureBlack"/>
+                    android:background="@color/colorDarkGray"/>
 
                 <LinearLayout
                     android:paddingTop="12dp"
