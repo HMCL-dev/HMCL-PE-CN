@@ -1,6 +1,9 @@
 package com.tungsten.hmclpe.launcher.setting;
 
 import android.content.Context;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
@@ -16,6 +19,7 @@ import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
 import com.tungsten.hmclpe.utils.file.AssetsUtils;
 import com.tungsten.hmclpe.utils.file.FileUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
+import com.tungsten.hmclpe.utils.platform.MemoryUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -54,6 +58,7 @@ public class InitializeSetting {
         return accountList;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static ArrayList<AuthlibInjectorServer> initializeAuthlibInjectorServer(Context context){
         ArrayList<AuthlibInjectorServer> serverListBeans = new ArrayList<>();
         if (new File(AppManifest.ACCOUNT_DIR + "/authlib_injector_server.json").exists() && GsonUtils.getContentListFromFile(AppManifest.ACCOUNT_DIR + "/authlib_injector_server.json").size() != 0){
@@ -116,7 +121,8 @@ public class InitializeSetting {
             privateGameSetting = GsonUtils.getPrivateGameSettingFromFile(AppManifest.SETTING_DIR + "/private_game_setting.json");
         }
         else {
-            privateGameSetting = new PrivateGameSetting(false,false,false,false,AppManifest.JAVA_DIR + "/default","-Xms4096M -Xmx4096M","",AppManifest.DEFAULT_GAME_DIR,new BoatLauncherSetting(false,"libGL112.so.1","default"),new PojavLauncherSetting(true,"opengles2","default"),1.0F);
+            int ram = MemoryUtils.findBestRAMAllocation(context);
+            privateGameSetting = new PrivateGameSetting(false,false,false,false,true,AppManifest.JAVA_DIR + "/default","","",AppManifest.DEFAULT_GAME_DIR,new BoatLauncherSetting(false,"libGL112.so.1","default"),new PojavLauncherSetting(true,"opengles2","default"),1.0F,ram,ram);
             GsonUtils.savePrivateGameSetting(privateGameSetting,AppManifest.SETTING_DIR + "/private_game_setting.json");
         }
         return privateGameSetting;

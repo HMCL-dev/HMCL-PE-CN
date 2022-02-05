@@ -2,11 +2,17 @@ package com.tungsten.hmclpe.launcher.uis.universal.setting.right;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
@@ -16,8 +22,9 @@ import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.animation.HiddenAnimationUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
+import com.tungsten.hmclpe.utils.platform.MemoryUtils;
 
-public class UniversalGameSettingUI extends BaseUI implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class UniversalGameSettingUI extends BaseUI implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
 
     public LinearLayout universalGameSettingUI;
 
@@ -58,6 +65,16 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
     private RadioButton pojavRendererVGPU;
     private RadioButton pojavRendererVirGL;
 
+    private CheckBox checkAutoRam;
+    private SeekBar ramSeekBar;
+    private EditText editRam;
+    private ProgressBar ramProgressBar;
+    private TextView usedRamText;
+    private TextView actualRamText;
+
+    private SeekBar scaleFactorSeekBar;
+    private EditText editScaleFactor;
+
     public UniversalGameSettingUI(Context context, MainActivity activity) {
         super(context, activity);
     }
@@ -97,6 +114,20 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         pojavRendererVGPU = activity.findViewById(R.id.pojav_renderer_vgpu);
         pojavRendererVirGL = activity.findViewById(R.id.pojav_renderer_virgl);
 
+        checkAutoRam = activity.findViewById(R.id.check_auto_ram);
+        ramSeekBar = activity.findViewById(R.id.ram_seek_bar);
+        editRam = activity.findViewById(R.id.edit_ram);
+        usedRamText = activity.findViewById(R.id.used_ram_text);
+        actualRamText = activity.findViewById(R.id.actual_ram_text);
+        ramSeekBar.setMax(MemoryUtils.getTotalDeviceMemory(context));
+
+        ramProgressBar = activity.findViewById(R.id.ram_progress_bar);
+        ramProgressBar.setMax(MemoryUtils.getTotalDeviceMemory(context));
+
+        scaleFactorSeekBar = activity.findViewById(R.id.edit_scale_factor);
+        editScaleFactor = activity.findViewById(R.id.edit_scale_factor_text);
+        scaleFactorSeekBar.setMax(750);
+
         showJavaSetting.setOnClickListener(this);
         showJava.setOnClickListener(this);
         showGameDirSetting.setOnClickListener(this);
@@ -120,6 +151,61 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         pojavRendererGL4ES115P.setOnClickListener(this);
         pojavRendererVGPU.setOnClickListener(this);
         pojavRendererVirGL.setOnClickListener(this);
+
+        checkAutoRam.setOnCheckedChangeListener(this);
+        ramSeekBar.setOnSeekBarChangeListener(this);
+        editRam.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!editRam.getText().toString().equals("")){
+                    activity.privateGameSetting.minRam = Integer.parseInt(editRam.getText().toString());
+                    activity.privateGameSetting.maxRam = Integer.parseInt(editRam.getText().toString());
+                    ramSeekBar.setProgress(Integer.parseInt(editRam.getText().toString()));
+                }
+                else {
+                    activity.privateGameSetting.minRam = 0;
+                    activity.privateGameSetting.maxRam = 0;
+                    ramSeekBar.setProgress(0);
+                }
+                GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+            }
+        });
+
+        scaleFactorSeekBar.setOnSeekBarChangeListener(this);
+        editScaleFactor.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!editScaleFactor.getText().toString().equals("")){
+                    activity.privateGameSetting.scaleFactor = Integer.parseInt(editScaleFactor.getText().toString()) / 100F;
+                    scaleFactorSeekBar.setProgress((Integer.parseInt(editScaleFactor.getText().toString()) * 10) - 250);
+                }
+                else {
+                    activity.privateGameSetting.scaleFactor = 0.25F;
+                    scaleFactorSeekBar.setProgress(0);
+                }
+                GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+            }
+        });
 
         gameLauncherSetting.post(new Runnable() {
             @Override
@@ -173,10 +259,22 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+        if (buttonView == checkAutoRam){
+            activity.privateGameSetting.autoRam = isChecked;
+            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+        }
     }
 
+    @SuppressLint("SetTextI18n")
     private void init(){
+        checkAutoRam.setChecked(activity.privateGameSetting.autoRam);
+        ramProgressBar.setProgress(MemoryUtils.getTotalDeviceMemory(context) - MemoryUtils.getFreeDeviceMemory(context));
+        ramSeekBar.setProgress(activity.privateGameSetting.minRam);
+        editRam.setText(activity.privateGameSetting.minRam + "");
+        usedRamText.setText(context.getText(R.string.game_setting_ui_used_ram) + " " + (float) Math.round(((MemoryUtils.getTotalDeviceMemory(context) - MemoryUtils.getFreeDeviceMemory(context)) / 1024F) * 10) / 10 + " GB / " + (float) Math.round((MemoryUtils.getTotalDeviceMemory(context) / 1024F) * 10) / 10 + " GB");
+        actualRamText.setText(context.getText(R.string.game_setting_ui_min_distribution) + " " + (float) Math.round(((activity.privateGameSetting.minRam) / 1024F) * 10) / 10 + " GB / " + context.getText(R.string.game_setting_ui_actual_distribution) + " " + (float) Math.round(((activity.privateGameSetting.minRam) / 1024F) * 10) / 10 + " GB");
+        scaleFactorSeekBar.setProgress((int) (activity.privateGameSetting.scaleFactor * 1000) - 250);
+        editScaleFactor.setText(((int) (activity.privateGameSetting.scaleFactor * 100)) + "");
         if (activity.privateGameSetting.boatLauncherSetting.enable){
             launchByBoat.setChecked(true);
             launchByPojav.setChecked(false);
@@ -328,4 +426,30 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_virgl));
         }
     }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        if (seekBar == ramSeekBar && fromUser){
+            activity.privateGameSetting.minRam = progress;
+            activity.privateGameSetting.maxRam = progress;
+            editRam.setText(progress + "");
+        }
+        if (seekBar == scaleFactorSeekBar && fromUser){
+            activity.privateGameSetting.scaleFactor = (progress + 250.0F) / 1000F;
+            editScaleFactor.setText(((progress / 10) + 25) + "");
+        }
+        GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
+    }
+
 }

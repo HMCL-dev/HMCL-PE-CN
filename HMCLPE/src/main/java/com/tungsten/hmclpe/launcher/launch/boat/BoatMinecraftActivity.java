@@ -121,7 +121,7 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
                     case MotionEvent.ACTION_MOVE:
                         if (!customSettingPointer){
                             padSettingPointer = true;
-                            BoatInput.setPointer((int) ((baseX + (int)event.getX() -initialX) * scaleFactor), (int) ((baseY + (int)event.getY() - initialY) * scaleFactor));
+                            BoatInput.setPointer(baseX + (int)event.getX() -initialX, baseY + (int)event.getY() - initialY);
                         }
                         if (Math.abs(event.getX() - initialX) > 10 && Math.abs(event.getY() - initialY) > 10){
                             longClickTimer.cancel();
@@ -132,7 +132,7 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
                         if (padSettingPointer){
                             baseX += ((int)event.getX() - initialX);
                             baseY += ((int)event.getY() - initialY);
-                            BoatInput.setPointer((int) (baseX * scaleFactor),(int) (baseY * scaleFactor));
+                            BoatInput.setPointer(baseX,baseY);
                             padSettingPointer = false;
                         }
                         BoatInput.setMouseButton(BoatInput.Button1,false);

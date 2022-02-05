@@ -363,6 +363,7 @@
     <string name="game_setting_ui_ram">MB</string>
     <string name="game_setting_ui_used_ram">已使用</string>
     <string name="game_setting_ui_total_ram">总内存</string>
+    <string name="game_setting_ui_min_distribution">最低分配</string>
     <string name="game_setting_ui_actual_distribution">实际分配</string>
     <string name="game_setting_ui_resolution">游戏窗口分辨率</string>
     <string name="game_setting_ui_log">查看日志</string>

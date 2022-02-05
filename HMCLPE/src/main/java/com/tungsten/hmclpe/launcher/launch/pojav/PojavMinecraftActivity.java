@@ -144,7 +144,7 @@ public class PojavMinecraftActivity extends BaseMainActivity implements View.OnT
                     case MotionEvent.ACTION_MOVE:
                         if (!customSettingPointer){
                             padSettingPointer = true;
-                            CallbackBridge.sendCursorPos((baseX + (int)event.getX() -initialX) * scaleFactor, (baseY + (int)event.getY() - initialY) * scaleFactor);
+                            CallbackBridge.sendCursorPos(baseX + (int)event.getX() -initialX, baseY + (int)event.getY() - initialY);
                         }
                         if (Math.abs(event.getX() - initialX) > 10 && Math.abs(event.getY() - initialY) > 10){
                             longClickTimer.cancel();
@@ -155,7 +155,7 @@ public class PojavMinecraftActivity extends BaseMainActivity implements View.OnT
                         if (padSettingPointer){
                             baseX += ((int)event.getX() - initialX);
                             baseY += ((int)event.getY() - initialY);
-                            CallbackBridge.sendCursorPos(baseX * scaleFactor,baseY * scaleFactor);
+                            CallbackBridge.sendCursorPos(baseX,baseY);
                             padSettingPointer = false;
                         }
                         CallbackBridge.sendMouseButton(LWJGLGLFWKeycode.GLFW_MOUSE_BUTTON_LEFT,false);

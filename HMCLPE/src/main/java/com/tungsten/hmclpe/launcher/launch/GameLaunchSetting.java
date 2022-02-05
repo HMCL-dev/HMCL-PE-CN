@@ -20,10 +20,12 @@ public class GameLaunchSetting {
     public String boatRenderer;
     public String pojavRenderer;
     public float scaleFactor;
+    public int minRam;
+    public int maxRam;
 
     public String gameFileDirectory;
 
-    public GameLaunchSetting(Account account,String home,String currentVersion,String javaPath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,String boatRenderer,String pojavRenderer,float scaleFactor,String gameFileDirectory){
+    public GameLaunchSetting(Account account,String home,String currentVersion,String javaPath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,String boatRenderer,String pojavRenderer,float scaleFactor,String gameFileDirectory,int minRam,int maxRam){
         this.account = account;
         this.home = home;
         this.currentVersion = currentVersion;
@@ -35,6 +37,8 @@ public class GameLaunchSetting {
         this.boatRenderer = boatRenderer;
         this.pojavRenderer = pojavRenderer;
         this.scaleFactor = scaleFactor;
+        this.minRam = minRam;
+        this.maxRam = maxRam;
 
         this.gameFileDirectory = gameFileDirectory;
     }
@@ -54,7 +58,9 @@ public class GameLaunchSetting {
                 privateGameSetting.boatLauncherSetting.renderer,
                 privateGameSetting.pojavLauncherSetting.renderer,
                 privateGameSetting.scaleFactor,
-                launcherSetting.gameFileDirectory);
+                launcherSetting.gameFileDirectory,
+                privateGameSetting.minRam,
+                privateGameSetting.maxRam);
         return gameLaunchSetting;
     }
 

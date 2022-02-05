@@ -24,8 +24,8 @@ public class PojavLauncher {
             String libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64:" + AppManifest.POJAV_LIB_DIR + "/lwjgl3:" + JREUtils.LD_LIBRARY_PATH + ":" + AppManifest.POJAV_LIB_DIR + "/lwjgl3";;
             String classPath = getLWJGL3ClassPath() + ":" + version.getClassPath(gameLaunchSetting.gameFileDirectory);
             Vector<String> args = new Vector<String>();
-            String[] extraJavaFlags = gameLaunchSetting.extraJavaFlags.split(" ");
-            Collections.addAll(args, extraJavaFlags);
+            args.add("-Xms" + gameLaunchSetting.minRam + "M");
+            args.add("-Xmx" + gameLaunchSetting.maxRam + "M");
             args.addAll(JREUtils.getJavaArgs());
             if (JREUtils.jreReleaseList.get("JAVA_VERSION").equals("1.8.0")) {
                 Tools.getCacioJavaArgs(args, false);
@@ -46,6 +46,8 @@ public class PojavLauncher {
             args.add(Integer.toString(width));
             args.add("--height");
             args.add(Integer.toString(height));
+            String[] extraJavaFlags = gameLaunchSetting.extraJavaFlags.split(" ");
+            Collections.addAll(args, extraJavaFlags);
             String[] extraMinecraftArgs = gameLaunchSetting.extraMinecraftFlags.split(" ");
             Collections.addAll(args, extraMinecraftArgs);
             return args;

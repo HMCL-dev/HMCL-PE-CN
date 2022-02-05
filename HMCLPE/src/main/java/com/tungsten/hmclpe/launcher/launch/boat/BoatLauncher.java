@@ -38,8 +38,8 @@ public class BoatLauncher {
             args.add("-Dfml.earlyprogresswindow=false");
             args.add("-Dorg.lwjgl.opengl.libname=" + gameLaunchSetting.boatRenderer);
             args.add("-Djava.io.tmpdir=" + AppManifest.DEFAULT_CACHE_DIR);
-            String[] extraJavaFlags = gameLaunchSetting.extraJavaFlags.split(" ");
-            Collections.addAll(args, extraJavaFlags);
+            args.add("-Xms" + gameLaunchSetting.minRam + "M");
+            args.add("-Xmx" + gameLaunchSetting.maxRam + "M");
             args.add(version.mainClass);
             String[] minecraftArgs;
             minecraftArgs = version.getMinecraftArguments(gameLaunchSetting, highVersion);
@@ -48,6 +48,8 @@ public class BoatLauncher {
             args.add(Integer.toString(width));
             args.add("--height");
             args.add(Integer.toString(height));
+            String[] extraJavaFlags = gameLaunchSetting.extraJavaFlags.split(" ");
+            Collections.addAll(args, extraJavaFlags);
             String[] extraMinecraftArgs = gameLaunchSetting.extraMinecraftFlags.split(" ");
             Collections.addAll(args, extraMinecraftArgs);
             return args;
