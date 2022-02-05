@@ -60,13 +60,4 @@ public class BoatLauncher {
         }
     }
 
-    public static boolean isHighVersion(GameLaunchSetting gameLaunchSetting){
-        LaunchVersion version = LaunchVersion.fromDirectory(new File(gameLaunchSetting.currentVersion));
-        boolean highVersion = false;
-        if (version.minimumLauncherVersion >= 21){
-            highVersion = true;
-        }
-        return highVersion;
-    }
-
 }

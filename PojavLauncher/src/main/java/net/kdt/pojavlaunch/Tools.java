@@ -69,6 +69,20 @@ public final class Tools {
         javaArgList.add(cacioClasspath.toString());
     }
 
+    public static String read(InputStream is) throws IOException {
+        String out = "";
+        int len;
+        byte[] buf = new byte[512];
+        while((len = is.read(buf))!=-1) {
+            out += new String(buf,0,len);
+        }
+        return out;
+    }
+
+    public static String read(String path) throws IOException {
+        return read(new FileInputStream(path));
+    }
+
     public static void write(String path, byte[] content) throws IOException
     {
         File outPath = new File(path);

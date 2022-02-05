@@ -168,13 +168,13 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             @Override
             public void afterTextChanged(Editable s) {
                 if (!editRam.getText().toString().equals("")){
-                    activity.privateGameSetting.minRam = Integer.parseInt(editRam.getText().toString());
-                    activity.privateGameSetting.maxRam = Integer.parseInt(editRam.getText().toString());
+                    activity.privateGameSetting.ramSetting.minRam = Integer.parseInt(editRam.getText().toString());
+                    activity.privateGameSetting.ramSetting.maxRam = Integer.parseInt(editRam.getText().toString());
                     ramSeekBar.setProgress(Integer.parseInt(editRam.getText().toString()));
                 }
                 else {
-                    activity.privateGameSetting.minRam = 0;
-                    activity.privateGameSetting.maxRam = 0;
+                    activity.privateGameSetting.ramSetting.minRam = 0;
+                    activity.privateGameSetting.ramSetting.maxRam = 0;
                     ramSeekBar.setProgress(0);
                 }
                 GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
@@ -260,19 +260,19 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (buttonView == checkAutoRam){
-            activity.privateGameSetting.autoRam = isChecked;
+            activity.privateGameSetting.ramSetting.autoRam = isChecked;
             GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
         }
     }
 
     @SuppressLint("SetTextI18n")
     private void init(){
-        checkAutoRam.setChecked(activity.privateGameSetting.autoRam);
+        checkAutoRam.setChecked(activity.privateGameSetting.ramSetting.autoRam);
         ramProgressBar.setProgress(MemoryUtils.getTotalDeviceMemory(context) - MemoryUtils.getFreeDeviceMemory(context));
-        ramSeekBar.setProgress(activity.privateGameSetting.minRam);
-        editRam.setText(activity.privateGameSetting.minRam + "");
+        ramSeekBar.setProgress(activity.privateGameSetting.ramSetting.minRam);
+        editRam.setText(activity.privateGameSetting.ramSetting.minRam + "");
         usedRamText.setText(context.getText(R.string.game_setting_ui_used_ram) + " " + (float) Math.round(((MemoryUtils.getTotalDeviceMemory(context) - MemoryUtils.getFreeDeviceMemory(context)) / 1024F) * 10) / 10 + " GB / " + (float) Math.round((MemoryUtils.getTotalDeviceMemory(context) / 1024F) * 10) / 10 + " GB");
-        actualRamText.setText(context.getText(R.string.game_setting_ui_min_distribution) + " " + (float) Math.round(((activity.privateGameSetting.minRam) / 1024F) * 10) / 10 + " GB / " + context.getText(R.string.game_setting_ui_actual_distribution) + " " + (float) Math.round(((activity.privateGameSetting.minRam) / 1024F) * 10) / 10 + " GB");
+        actualRamText.setText(context.getText(R.string.game_setting_ui_min_distribution) + " " + (float) Math.round(((activity.privateGameSetting.ramSetting.minRam) / 1024F) * 10) / 10 + " GB / " + context.getText(R.string.game_setting_ui_actual_distribution) + " " + (float) Math.round(((activity.privateGameSetting.ramSetting.minRam) / 1024F) * 10) / 10 + " GB");
         scaleFactorSeekBar.setProgress((int) (activity.privateGameSetting.scaleFactor * 1000) - 250);
         editScaleFactor.setText(((int) (activity.privateGameSetting.scaleFactor * 100)) + "");
         if (activity.privateGameSetting.boatLauncherSetting.enable){
@@ -431,8 +431,8 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (seekBar == ramSeekBar && fromUser){
-            activity.privateGameSetting.minRam = progress;
-            activity.privateGameSetting.maxRam = progress;
+            activity.privateGameSetting.ramSetting.minRam = progress;
+            activity.privateGameSetting.ramSetting.maxRam = progress;
             editRam.setText(progress + "");
         }
         if (seekBar == scaleFactorSeekBar && fromUser){

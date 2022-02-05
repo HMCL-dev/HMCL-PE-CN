@@ -1,37 +1,39 @@
 package com.tungsten.hmclpe.launcher.setting.game;
 
+import com.tungsten.hmclpe.launcher.setting.game.child.BoatLauncherSetting;
+import com.tungsten.hmclpe.launcher.setting.game.child.GameDirSetting;
+import com.tungsten.hmclpe.launcher.setting.game.child.JavaSetting;
+import com.tungsten.hmclpe.launcher.setting.game.child.PojavLauncherSetting;
+import com.tungsten.hmclpe.launcher.setting.game.child.RamSetting;
+
 public class PrivateGameSetting {
 
     public boolean enable;
     public boolean notCheckJvm;
     public boolean notCheckMinecraft;
     public boolean notCheckForge;
-    public boolean autoRam;
-    public String javaPath;
+    public JavaSetting javaSetting;
     public String extraJavaFlags;
     public String extraMinecraftFlags;
-    public String game_directory;
+    public GameDirSetting gameDirSetting;
     public BoatLauncherSetting boatLauncherSetting;
     public PojavLauncherSetting pojavLauncherSetting;
+    public RamSetting ramSetting;
     public float scaleFactor;
-    public int minRam;
-    public int maxRam;
 
-    public PrivateGameSetting (boolean enable,boolean notCheckJvm,boolean notCheckMinecraft,boolean notCheckForge,boolean autoRam,String javaPath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,BoatLauncherSetting boatLauncherSetting,PojavLauncherSetting pojavLauncherSetting,float scaleFactor,int minRam,int maxRam){
+    public PrivateGameSetting (boolean enable,boolean notCheckJvm,boolean notCheckMinecraft,boolean notCheckForge,JavaSetting javaSetting,String extraJavaFlags,String extraMinecraftFlags,GameDirSetting gameDirSetting,BoatLauncherSetting boatLauncherSetting,PojavLauncherSetting pojavLauncherSetting,RamSetting ramSetting,float scaleFactor){
         this.enable = enable;
         this.notCheckJvm = notCheckJvm;
         this.notCheckMinecraft = notCheckMinecraft;
         this.notCheckForge = notCheckForge;
-        this.autoRam = autoRam;
-        this.javaPath = javaPath;
+        this.javaSetting = javaSetting;
         this.extraJavaFlags = extraJavaFlags;
         this.extraMinecraftFlags = extraMinecraftFlags;
-        this.game_directory = game_directory;
+        this.gameDirSetting = gameDirSetting;
         this.boatLauncherSetting = boatLauncherSetting;
         this.pojavLauncherSetting = pojavLauncherSetting;
+        this.ramSetting = ramSetting;
         this.scaleFactor = scaleFactor;
-        this.minRam = minRam;
-        this.maxRam = maxRam;
     }
 
 }

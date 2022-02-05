@@ -1,6 +1,5 @@
 package com.tungsten.hmclpe.launcher.setting;
 
-import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
 import com.tungsten.hmclpe.launcher.list.local.java.JavaListBean;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
@@ -44,14 +43,11 @@ public class SettingUtils {
                 bean.isSelected = currentVersion.equals(bean.name);
                 list.add(bean);
             }
-            return list;
         }
-        else {
-            return list;
-        }
+        return list;
     }
 
-    public static ArrayList<JavaListBean> getJavaVersionInfo(MainActivity activity){
+    public static ArrayList<JavaListBean> getJavaVersionInfo(){
         ArrayList<JavaListBean> list = new ArrayList<>();
         String javaPath = AppManifest.JAVA_DIR + "/";
         String[] string = new File(javaPath).list();
@@ -59,7 +55,7 @@ public class SettingUtils {
             for (String str : string){
                 JavaListBean bean = new JavaListBean("","","");
                 bean.name = str;
-                File release = new File(javaPath,"/" + bean.name + "/release");
+                File release = new File(javaPath + bean.name,"release");
                 if (release.exists() && FileStringUtils.getStringFromFile(release.getAbsolutePath()) != null){
                     String releaseContent = FileStringUtils.getStringFromFile(release.getAbsolutePath());
                     int _JAVA_VERSION_index = releaseContent.indexOf(JAVA_VERSION_str);
@@ -79,11 +75,8 @@ public class SettingUtils {
                 }
                 list.add(bean);
             }
-            return list;
         }
-        else {
-            return list;
-        }
+        return list;
     }
 
 }

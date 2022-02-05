@@ -10,11 +10,14 @@ import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.info.contents.ContentListBean;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
-import com.tungsten.hmclpe.launcher.setting.game.BoatLauncherSetting;
-import com.tungsten.hmclpe.launcher.setting.game.PojavLauncherSetting;
+import com.tungsten.hmclpe.launcher.setting.game.child.BoatLauncherSetting;
+import com.tungsten.hmclpe.launcher.setting.game.child.GameDirSetting;
+import com.tungsten.hmclpe.launcher.setting.game.child.JavaSetting;
+import com.tungsten.hmclpe.launcher.setting.game.child.PojavLauncherSetting;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.setting.game.PublicGameSetting;
 import com.tungsten.hmclpe.auth.Account;
+import com.tungsten.hmclpe.launcher.setting.game.child.RamSetting;
 import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
 import com.tungsten.hmclpe.utils.file.AssetsUtils;
 import com.tungsten.hmclpe.utils.file.FileUtils;
@@ -27,7 +30,7 @@ import java.util.ArrayList;
 public class InitializeSetting {
 
     public static void checkLauncherFiles(MainActivity activity){
-        if (SettingUtils.getJavaVersionInfo(activity).size() < 1){
+        if (SettingUtils.getJavaVersionInfo().size() < 1){
             FileUtils.deleteDirectory(AppManifest.DEFAULT_RUNTIME_DIR);
             AssetsUtils.getInstance(activity.getApplicationContext()).copyAssetsToSD("app_runtime", AppManifest.DEFAULT_RUNTIME_DIR).setFileOperateCallback(new AssetsUtils.FileOperateCallback() {
                 @Override
@@ -122,7 +125,7 @@ public class InitializeSetting {
         }
         else {
             int ram = MemoryUtils.findBestRAMAllocation(context);
-            privateGameSetting = new PrivateGameSetting(false,false,false,false,true,AppManifest.JAVA_DIR + "/default","","",AppManifest.DEFAULT_GAME_DIR,new BoatLauncherSetting(false,"libGL112.so.1","default"),new PojavLauncherSetting(true,"opengles2","default"),1.0F,ram,ram);
+            privateGameSetting = new PrivateGameSetting(false,false,false,false,new JavaSetting(true,AppManifest.JAVA_DIR + "/default"),"","",new GameDirSetting(0,AppManifest.DEFAULT_GAME_DIR),new BoatLauncherSetting(false,"libGL112.so.1","default"),new PojavLauncherSetting(true,"opengles2","default"),new RamSetting(ram,ram,true),1.0F);
             GsonUtils.savePrivateGameSetting(privateGameSetting,AppManifest.SETTING_DIR + "/private_game_setting.json");
         }
         return privateGameSetting;

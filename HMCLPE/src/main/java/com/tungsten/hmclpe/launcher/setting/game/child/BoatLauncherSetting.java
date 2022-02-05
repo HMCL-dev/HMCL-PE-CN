@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.launcher.setting.game;
+package com.tungsten.hmclpe.launcher.setting.game.child;
 
 public class BoatLauncherSetting {
 

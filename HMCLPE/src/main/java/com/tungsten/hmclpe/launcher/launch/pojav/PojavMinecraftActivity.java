@@ -2,6 +2,7 @@ package com.tungsten.hmclpe.launcher.launch.pojav;
 
 import android.annotation.SuppressLint;
 import android.graphics.SurfaceTexture;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.RequiresApi;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
@@ -43,6 +46,7 @@ public class PojavMinecraftActivity extends BaseMainActivity implements View.OnT
     private boolean customSettingPointer = false;
     private boolean padSettingPointer = false;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +83,7 @@ public class PojavMinecraftActivity extends BaseMainActivity implements View.OnT
                     try {
                         startGame(gameLaunchSetting.javaPath,
                                 gameLaunchSetting.home,
-                                PojavLauncher.isHighVersion(gameLaunchSetting),
+                                GameLaunchSetting.isHighVersion(gameLaunchSetting),
                                 PojavLauncher.getMcArgs(gameLaunchSetting, PojavMinecraftActivity.this,(int) (width * scaleFactor),(int) (height * scaleFactor)),
                                 gameLaunchSetting.pojavRenderer);
                     } catch (Throwable e) {
@@ -114,7 +118,7 @@ public class PojavMinecraftActivity extends BaseMainActivity implements View.OnT
             }
         };
 
-        init(gameLaunchSetting.game_directory, PojavLauncher.isHighVersion(gameLaunchSetting));
+        init(gameLaunchSetting.game_directory, GameLaunchSetting.isHighVersion(gameLaunchSetting));
 
     }
 

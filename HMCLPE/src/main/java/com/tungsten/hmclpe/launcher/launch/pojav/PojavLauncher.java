@@ -1,5 +1,7 @@
 package com.tungsten.hmclpe.launcher.launch.pojav;
 
+import static com.tungsten.hmclpe.launcher.launch.GameLaunchSetting.isHighVersion;
+
 import android.content.Context;
 
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
@@ -71,11 +73,6 @@ public class PojavLauncher {
         // Remove the ':' at the end
         libStr.setLength(libStr.length() - 1);
         return libStr.toString();
-    }
-
-    public static boolean isHighVersion(GameLaunchSetting gameLaunchSetting){
-        LaunchVersion version = LaunchVersion.fromDirectory(new File(gameLaunchSetting.currentVersion));
-        return version.minimumLauncherVersion >= 21;
     }
 
 }
