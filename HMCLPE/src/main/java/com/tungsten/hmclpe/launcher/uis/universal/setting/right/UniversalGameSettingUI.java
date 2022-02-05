@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -33,6 +34,7 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
     private LinearLayout javaSetting;
     private int javaSettingHeight;
     private LinearLayout showGameDirSetting;
+    private TextView gameDirText;
     private ImageView showGameDir;
     private LinearLayout gameDirSetting;
     private int gameDirSettingHeight;
@@ -52,6 +54,12 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
     private ImageView showPojavRenderer;
     private LinearLayout pojavRendererSetting;
     private int pojavRendererSettingHeight;
+
+    private RadioButton checkGameDirDefault;
+    private RadioButton checkGameDirIsolate;
+    private RadioButton checkGameDirCustom;
+    private EditText editGameDir;
+    private ImageButton selectGameDir;
 
     private RadioButton launchByBoat;
     private RadioButton launchByPojav;
@@ -87,7 +95,9 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         showJavaSetting = activity.findViewById(R.id.show_java_selector);
         showJava = activity.findViewById(R.id.show_java);
         showGameDirSetting = activity.findViewById(R.id.show_game_directory_selector);
+        gameDirText = activity.findViewById(R.id.game_directory_text);
         showGameDir = activity.findViewById(R.id.show_game_dir);
+        gameDirSetting = activity.findViewById(R.id.game_dir_setting);
 
         showGameLauncherSetting = activity.findViewById(R.id.show_game_launcher_selector);
         currentLauncher = activity.findViewById(R.id.current_launcher);
@@ -101,6 +111,12 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         currentPojavRenderer = activity.findViewById(R.id.current_pojav_renderer);
         showPojavRenderer = activity.findViewById(R.id.show_pojav_renderer);
         pojavRendererSetting = activity.findViewById(R.id.pojav_render_selector);
+
+        checkGameDirDefault = activity.findViewById(R.id.check_default_game_dir);
+        checkGameDirIsolate = activity.findViewById(R.id.check_isolate_game_dir);
+        checkGameDirCustom = activity.findViewById(R.id.check_custom_game_dir);
+        editGameDir = activity.findViewById(R.id.edit_game_dir_path);
+        selectGameDir = activity.findViewById(R.id.select_game_dir_path);
 
         launchByBoat = activity.findViewById(R.id.launch_by_boat);
         launchByPojav = activity.findViewById(R.id.launch_by_pojav);
@@ -207,6 +223,13 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             }
         });
 
+        gameDirSetting.post(new Runnable() {
+            @Override
+            public void run() {
+                gameDirSettingHeight = gameDirSetting.getHeight();
+                gameDirSetting.setVisibility(View.GONE);
+            }
+        });
         gameLauncherSetting.post(new Runnable() {
             @Override
             public void run() {
@@ -343,7 +366,7 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
 
         }
         if (v == showGameDirSetting || v == showGameDir){
-
+            HiddenAnimationUtils.newInstance(context,gameDirSetting,showGameDir,gameDirSettingHeight).toggle();
         }
         if (v == showGameLauncherSetting || v == showGameLauncher){
             HiddenAnimationUtils.newInstance(context,gameLauncherSetting,showGameLauncher,gameLauncherSettingHeight).toggle();

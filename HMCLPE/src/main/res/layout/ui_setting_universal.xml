@@ -238,6 +238,7 @@
                             android:layout_height="32dp"
                             android:background="@color/colorLightGray"
                             android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:id="@+id/edit_cache_path"
                             android:enabled="false"/>
 

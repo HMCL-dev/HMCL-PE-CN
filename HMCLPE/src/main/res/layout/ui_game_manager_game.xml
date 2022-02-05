@@ -204,6 +204,99 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/game_dir_setting_isolate"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="25dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/game_setting_ui_version_isolation_default"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:id="@+id/check_default_game_dir_isolate"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/game_setting_ui_version_isolation_isolate"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:id="@+id/check_isolate_game_dir_isolate"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:layout_gravity="center"
+                            android:layout_marginStart="12dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/universal_setting_ui_cache_custom"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:id="@+id/check_custom_game_dir_isolate"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
+
+                        <EditText
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"
+                            android:layout_width="200dp"
+                            android:layout_height="32dp"
+                            android:background="@color/colorLightGray"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:id="@+id/edit_game_dir_path_isolate"
+                            android:enabled="false"/>
+
+                        <ImageButton
+                            android:id="@+id/select_game_dir_path_isolate"
+                            android:layout_marginEnd="5dp"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/ic_baseline_folder_black"
+                            android:layout_marginStart="15dp"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"

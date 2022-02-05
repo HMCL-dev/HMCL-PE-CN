@@ -357,6 +357,9 @@
     
     <string name="game_setting_ui_java_path">Java 路径</string>
     <string name="game_setting_ui_version_isolation">版本隔离（修改后请自行移动相关游戏文件，如存档模组配置等）</string>
+    <string name="game_setting_ui_version_isolation_default">默认 (.minecraft/)</string>
+    <string name="game_setting_ui_version_isolation_isolate">(.minecraft/versions/&#60;版本名>/, 除 assets、libraries)</string>
+    <string name="game_setting_ui_version_isolation_custom">自定义</string>
     <string name="game_setting_ui_game_ram">游戏内存</string>
     <string name="game_setting_ui_auto_ram">自动分配</string>
     <string name="game_setting_ui_min_ram">最低分配</string>

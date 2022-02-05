@@ -3,6 +3,8 @@ package com.tungsten.hmclpe.launcher.uis.game.manager.right;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -23,6 +25,7 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
     private LinearLayout javaSetting;
     private int javaSettingHeight;
     private LinearLayout showGameDirSetting;
+    private TextView gameDirText;
     private ImageView showGameDir;
     private LinearLayout gameDirSetting;
     private int gameDirSettingHeight;
@@ -42,6 +45,12 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
     private ImageView showPojavRenderer;
     private LinearLayout pojavRendererSetting;
     private int pojavRendererSettingHeight;
+
+    private RadioButton checkGameDirDefault;
+    private RadioButton checkGameDirIsolate;
+    private RadioButton checkGameDirCustom;
+    private EditText editGameDir;
+    private ImageButton selectGameDir;
 
     private RadioButton launchByBoat;
     private RadioButton launchByPojav;
@@ -67,7 +76,9 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
         showJavaSetting = activity.findViewById(R.id.show_java_selector_isolate);
         showJava = activity.findViewById(R.id.show_java_isolate);
         showGameDirSetting = activity.findViewById(R.id.show_game_directory_selector_isolate);
+        gameDirText = activity.findViewById(R.id.game_directory_text_isolate);
         showGameDir = activity.findViewById(R.id.show_game_dir_isolate);
+        gameDirSetting = activity.findViewById(R.id.game_dir_setting_isolate);
 
         showGameLauncherSetting = activity.findViewById(R.id.show_game_launcher_selector_isolate);
         currentLauncher = activity.findViewById(R.id.current_launcher_isolate);
@@ -81,6 +92,12 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
         currentPojavRenderer = activity.findViewById(R.id.current_pojav_renderer_isolate);
         showPojavRenderer = activity.findViewById(R.id.show_pojav_renderer_isolate);
         pojavRendererSetting = activity.findViewById(R.id.pojav_render_selector_isolate);
+
+        checkGameDirDefault = activity.findViewById(R.id.check_default_game_dir_isolate);
+        checkGameDirIsolate = activity.findViewById(R.id.check_isolate_game_dir_isolate);
+        checkGameDirCustom = activity.findViewById(R.id.check_custom_game_dir_isolate);
+        editGameDir = activity.findViewById(R.id.edit_game_dir_path_isolate);
+        selectGameDir = activity.findViewById(R.id.select_game_dir_path_isolate);
 
         launchByBoat = activity.findViewById(R.id.launch_by_boat_isolate);
         launchByPojav = activity.findViewById(R.id.launch_by_pojav_isolate);
@@ -118,6 +135,13 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
         pojavRendererVGPU.setOnClickListener(this);
         pojavRendererVirGL.setOnClickListener(this);
 
+        gameDirSetting.post(new Runnable() {
+            @Override
+            public void run() {
+                gameDirSettingHeight = gameDirSetting.getHeight();
+                gameDirSetting.setVisibility(View.GONE);
+            }
+        });
         gameLauncherSetting.post(new Runnable() {
             @Override
             public void run() {
@@ -173,7 +197,7 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
 
         }
         if (v == showGameDirSetting || v == showGameDir){
-
+            HiddenAnimationUtils.newInstance(context,gameDirSetting,showGameDir,gameDirSettingHeight).toggle();
         }
         if (v == showGameLauncherSetting || v == showGameLauncher){
             HiddenAnimationUtils.newInstance(context,gameLauncherSetting,showGameLauncher,gameLauncherSettingHeight).toggle();
