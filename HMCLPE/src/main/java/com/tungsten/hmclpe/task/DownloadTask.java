@@ -64,6 +64,7 @@ public class DownloadTask extends AsyncTask<Map<String, String>, Integer, Map<St
 
     }
 
+    //这里多加了几个回调
     @SuppressLint("WrongThread")
     @Override
     public Map<String, String> doInBackground(Map<String, String>... args) {
@@ -155,6 +156,7 @@ public class DownloadTask extends AsyncTask<Map<String, String>, Integer, Map<St
         public abstract void updateSpeed(String speed);
     }
 
+    //这个方法只把连接超时改成了8秒，其他啥也没动
     public static void downloadFileMonitored(String url,String nameOutput, DownloadFeedback monitor) throws IOException {
         File nameOutputFile = new File(nameOutput);
         if (!nameOutputFile.exists()) {
@@ -163,9 +165,9 @@ public class DownloadTask extends AsyncTask<Map<String, String>, Integer, Map<St
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.sslSocketFactory(SSLSocketClient.getSSLSocketFactory(),(X509TrustManager)SSLSocketClient.getTrustManager()[0]);
         builder.hostnameVerifier(SSLSocketClient.getHostnameVerifier());
-        builder.connectTimeout(5, TimeUnit.SECONDS);
-        builder.readTimeout(5, TimeUnit.SECONDS);
-        builder.writeTimeout(5, TimeUnit.SECONDS);
+        builder.connectTimeout(8, TimeUnit.SECONDS);
+        builder.readTimeout(8, TimeUnit.SECONDS);
+        builder.writeTimeout(8, TimeUnit.SECONDS);
         builder.followRedirects(true);
         builder.followSslRedirects(true);
         OkHttpClient okHttpClient = builder.build();
