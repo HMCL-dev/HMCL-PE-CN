@@ -4,69 +4,76 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.tungsten.hmclpe.R;
-import com.tungsten.hmclpe.launcher.dialogs.install.DownloadDialog;
 
 import java.util.ArrayList;
 
-public class DownloadTaskListAdapter extends BaseAdapter {
+public class DownloadTaskListAdapter extends RecyclerView.Adapter<DownloadTaskListAdapter.ViewHolder> {
 
     private Context context;
     private ArrayList<DownloadTaskListBean> list;
-    private DownloadDialog dialog;
 
-    public DownloadTaskListAdapter (Context context, ArrayList<DownloadTaskListBean> list, DownloadDialog dialog){
+    public DownloadTaskListAdapter(Context context) {
         this.context = context;
-        this.list = list;
-        this.dialog = dialog;
+        this.list = new ArrayList<>();
     }
 
-    private class ViewHolder{
-        TextView name;
-        ProgressBar progressBar;
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_download_task,parent,false));
     }
 
     @Override
-    public int getCount() {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        DownloadTaskListBean downloadTaskListBean = list.get(position);
+        holder.progressBar.setProgress(downloadTaskListBean.progress);
+        holder.fileName.setText(downloadTaskListBean.name);
+    }
+
+    @Override
+    public int getItemCount() {
         return list.size();
     }
 
-    @Override
-    public Object getItem(int position) {
-        return list.get(position);
+    public void addDownloadTask(DownloadTaskListBean bean) {
+        list.add(bean);
+        this.notifyItemInserted(list.size() - 1);
     }
 
-    @Override
-    public long getItemId(int position) {
-        return 0;
+    public void onProgress(DownloadTaskListBean bean) {
+        for(int i = 0; i < list.size(); ++i) {
+            if (list.get(i).url.equals(bean.url)) {
+                list.set(i, bean);
+                this.notifyItemChanged(i);
+            }
+        }
     }
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        final ViewHolder viewHolder;
-        if (convertView == null){
-            viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_download_task,null);
-            viewHolder.name = convertView.findViewById(R.id.download_task_name);
-            viewHolder.progressBar = convertView.findViewById(R.id.download_task_progress);
-            convertView.setTag(viewHolder);
+    public void onComplete(DownloadTaskListBean bean) {
+        for(int i = 0; i < list.size(); ++i) {
+            if (list.get(i).url.equals(bean.url)) {
+                list.remove(i);
+                this.notifyItemRemoved(i);
+            }
         }
-        else {
-            viewHolder = (ViewHolder)convertView.getTag();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView fileName;
+        private ProgressBar progressBar;
+
+        public ViewHolder(View parent) {
+            super(parent);
+            this.progressBar = parent.findViewById(R.id.download_task_progress);
+            this.fileName = parent.findViewById(R.id.download_task_name);
         }
-        viewHolder.name.setTag(position);
-        viewHolder.progressBar.setTag(position);
-        final DownloadTaskListBean bean = list.get(position);
-        if (viewHolder.name.getTag().equals(position)){
-            viewHolder.name.setText(bean.name);
-        }
-        if (viewHolder.progressBar.getTag().equals(position)){
-            viewHolder.progressBar.setProgress(bean.progress);
-        }
-        return convertView;
     }
 }

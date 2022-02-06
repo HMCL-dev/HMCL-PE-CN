@@ -24,14 +24,14 @@ public class SSLSocketClient {
 
     public static SSLSocketFactory getSSLSocketFactory() {
         try {
-            SSLContext var0 = SSLContext.getInstance("SSL");
-            TrustManager[] var1 = getTrustManager();
-            SecureRandom var2 = new SecureRandom();
-            var0.init((KeyManager[])null, var1, var2);
-            SSLSocketFactory var4 = var0.getSocketFactory();
-            return var4;
-        } catch (Exception var3) {
-            throw new RuntimeException(var3);
+            SSLContext ssl = SSLContext.getInstance("SSL");
+            TrustManager[] manager = getTrustManager();
+            SecureRandom secureRandom = new SecureRandom();
+            ssl.init((KeyManager[])null, manager, secureRandom);
+            SSLSocketFactory sslSocketFactory = ssl.getSocketFactory();
+            return sslSocketFactory;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

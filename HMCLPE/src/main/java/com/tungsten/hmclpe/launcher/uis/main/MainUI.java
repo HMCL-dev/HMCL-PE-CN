@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
@@ -92,6 +95,7 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         startGame.setOnClickListener(this);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private AuthlibInjectorServer getServerFromUrl(String url){
         ArrayList<AuthlibInjectorServer> list = InitializeSetting.initializeAuthlibInjectorServer(context);
         for (int i = 0;i < list.size();i++){
@@ -102,6 +106,7 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         return null;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onStart() {

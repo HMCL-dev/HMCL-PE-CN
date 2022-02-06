@@ -6,18 +6,18 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.google.gson.Gson;
-import com.liulishuo.filedownloader.BaseDownloadTask;
-import com.liulishuo.filedownloader.FileDownloadListener;
-import com.liulishuo.filedownloader.FileDownloader;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.minecraft.game.VersionManifest;
@@ -31,6 +31,7 @@ import com.tungsten.hmclpe.launcher.game.Version;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListAdapter;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
+import com.tungsten.hmclpe.task.DownloadTask;
 import com.tungsten.hmclpe.utils.gson.JsonUtils;
 import com.tungsten.hmclpe.utils.io.NetworkUtils;
 import com.tungsten.hmclpe.utils.network.NetSpeed;
@@ -39,6 +40,8 @@ import com.tungsten.hmclpe.utils.platform.Bits;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Objects;
 
 public class DownloadDialog extends Dialog implements View.OnClickListener, Handler.Callback {
 
@@ -50,9 +53,11 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     private String name;
     private VersionManifest.Version version;
 
-    private ListView taskListView;
+    private RecyclerView taskListView;
     private ArrayList<DownloadTaskListBean> allTaskList;
     private DownloadTaskListAdapter downloadTaskListAdapter;
+
+    private DownloadTask downloadTask;
 
     private NetSpeedTimer netSpeedTimer;
     private TextView speedText;
@@ -81,8 +86,15 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     private void init(){
         taskListView = findViewById(R.id.download_task_list);
         allTaskList = new ArrayList<>();
-        downloadTaskListAdapter = new DownloadTaskListAdapter(context,allTaskList,this);
+
+        taskListView.setLayoutManager(new LinearLayoutManager(context));
+        downloadTaskListAdapter = new DownloadTaskListAdapter(context);
         taskListView.setAdapter(downloadTaskListAdapter);
+        Objects.requireNonNull(taskListView.getItemAnimator()).setAddDuration(0L);
+        taskListView.getItemAnimator().setChangeDuration(0L);
+        taskListView.getItemAnimator().setMoveDuration(0L);
+        taskListView.getItemAnimator().setRemoveDuration(0L);
+        ((SimpleItemAnimator)taskListView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         speedText = findViewById(R.id.download_speed_text);
         cancelButton = findViewById(R.id.cancel_install_game);
@@ -118,25 +130,21 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
                     //version.json
                     allTaskList.add(new DownloadTaskListBean(name + ".json",
                             versionJsonUrl,
-                            gameFilePath + "/versions/" + name + "/" + name + ".json",
-                            ""));
+                            gameFilePath + "/versions/" + name + "/" + name + ".json"));
                     //assetIndex.json
                     allTaskList.add(new DownloadTaskListBean(version.getAssetIndex().id + ".json",
                             version.getAssetIndex().getUrl(),
-                            gameFilePath + "/assets/indexes/" + version.getAssetIndex().id + ".json",
-                            version.getAssetIndex().getSha1()));
+                            gameFilePath + "/assets/indexes/" + version.getAssetIndex().id + ".json"));
                     //client.jar
                     allTaskList.add(new DownloadTaskListBean(name + ".jar",
                             version.getDownloadInfo().getUrl(),
-                            gameFilePath + "/versions/" + name + "/" + name + ".jar",
-                            version.getDownloadInfo().getSha1()));
+                            gameFilePath + "/versions/" + name + "/" + name + ".jar"));
                     //libraries
                     for (Library library : version.getLibraries()){
                         if (library.getDownload().getUrl() != null && !library.getDownload().getUrl().equals("")) {
                             DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
                                     library.getDownload().getUrl(),
-                                    activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath(),
-                                    library.getDownload().getSha1());
+                                    activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath());
                             allTaskList.add(bean);
                         }
                     }
@@ -144,70 +152,62 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
                     for (AssetObject object : assetIndex.getObjects().values()){
                         DownloadTaskListBean bean = new DownloadTaskListBean(object.getHash(),
                                 DownloadUrlSource.getSubUrl(activity.launcherSetting.downloadUrlSource,DownloadUrlSource.ASSETS_OBJ) + "/" + object.getLocation(),
-                                gameFilePath + "/assets/objects/" + object.getLocation(),
-                                object.getHash());
+                                gameFilePath + "/assets/objects/" + object.getLocation());
                         allTaskList.add(bean);
                     }
-                    FileDownloader fileDownloader = new FileDownloader();
-                    fileDownloader.setup(context);
-                    fileDownloader.setMaxNetworkThreadCount(12);
-                    final FileDownloadListener downloadListener = new FileDownloadListener() {
-                        @Override
-                        protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-
-                        }
+                    ArrayMap<String,String> map = new ArrayMap<>();
+                    for (DownloadTaskListBean bean : allTaskList){
+                        map.put(bean.url,bean.path);
+                    }
+                    downloadTask = new DownloadTask(context, new DownloadTask.Feedback() {
 
                         @Override
-                        protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
-                        }
-
-                        @Override
-                        protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-                            long soFar = soFarBytes;
-                            long total = totalBytes;
-                            long progress = 100 * soFar / total;
-                            for (DownloadTaskListBean bean : allTaskList){
-                                if (((DownloadTaskListBean) task.getTag()).name.equals(bean.name)){
-                                    bean.progress = (int) progress;
+                        public void addTask(DownloadTaskListBean bean) {
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    downloadTaskListAdapter.addDownloadTask(bean);
                                 }
-                            }
-                            downloadHandler.sendEmptyMessage(0);
+                            });
                         }
 
                         @Override
-                        protected void blockComplete(BaseDownloadTask task) {
+                        public void updateProgress(DownloadTaskListBean bean) {
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    downloadTaskListAdapter.onProgress(bean);
+                                }
+                            });
                         }
 
                         @Override
-                        protected void retry(final BaseDownloadTask task, final Throwable ex, final int retryingTimes, final int soFarBytes) {
+                        public void updateSpeed(String speed) {
+
                         }
 
                         @Override
-                        protected void completed(BaseDownloadTask task) {
-                            allTaskList.remove((DownloadTaskListBean) task.getTag());
-                            downloadHandler.sendEmptyMessage(0);
+                        public void removeTask(DownloadTaskListBean bean) {
+                            activity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    downloadTaskListAdapter.onComplete(bean);
+                                }
+                            });
                         }
 
                         @Override
-                        protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+                        public void onFinished(Map<String, String> failedFile) {
+                            DownloadDialog.this.dismiss();
                         }
 
                         @Override
-                        protected void error(BaseDownloadTask task, Throwable e) {
-                        }
+                        public void onCancelled() {
 
-                        @Override
-                        protected void warn(BaseDownloadTask task) {
                         }
-                    };
-                    final ArrayList<BaseDownloadTask> tasks = new ArrayList<>();
-                    for (int i = 0; i < allTaskList.size(); i++) {
-                        tasks.add(fileDownloader.getImpl().create(allTaskList.get(i).url).setTag(allTaskList.get(i)).setPath(allTaskList.get(i).path).setListener(downloadListener).setAutoRetryTimes(2));
-                    }
-                    for (int i = 0; i < tasks.size(); i++){
-                        tasks.get(i).start();
-                    }
-                    downloadHandler.sendEmptyMessage(0);
+                    });
+                    downloadTask.setMaxTask(activity.launcherSetting.maxDownloadTask);
+                    downloadTask.execute(new Map[]{map});
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -234,10 +234,13 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0){
-                downloadTaskListAdapter.notifyDataSetChanged();
+
             }
             if (msg.what == 1){
-                dismiss();
+
+            }
+            if (msg.what == 2){
+
             }
         }
     };

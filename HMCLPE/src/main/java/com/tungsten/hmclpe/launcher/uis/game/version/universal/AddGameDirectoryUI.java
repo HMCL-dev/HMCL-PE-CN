@@ -89,7 +89,7 @@ public class AddGameDirectoryUI extends BaseUI implements View.OnClickListener {
             if (!exist){
                 activity.uiManager.versionListUI.contentList.add(new ContentListBean(editName.getText().toString(),selectedDir.getText().toString(),false));
                 GsonUtils.saveContents(activity.uiManager.versionListUI.contentList, AppManifest.GAME_FILE_DIRECTORY_DIR + "/game_file_directories.json");
-                activity.uiManager.switchMainUI(activity.uiManager.versionListUI);
+                activity.backToLastUI();
             }
             else {
                 Toast.makeText(context,context.getString(R.string.add_game_dir_ui_alert),Toast.LENGTH_SHORT).show();
