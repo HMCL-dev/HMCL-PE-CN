@@ -2,6 +2,10 @@ package com.tungsten.hmclpe.launcher.list.download.modpack;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +14,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.liulishuo.filedownloader.BaseDownloadTask;
-import com.liulishuo.filedownloader.FileDownloadListener;
-import com.liulishuo.filedownloader.FileDownloader;
+import androidx.annotation.NonNull;
+
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
-import com.tungsten.hmclpe.launcher.list.download.world.DownloadWorldListAdapter;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
-import com.tungsten.hmclpe.utils.resources.DrawableUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class DownloadPackageListAdapter extends BaseAdapter {
@@ -73,50 +77,29 @@ public class DownloadPackageListAdapter extends BaseAdapter {
         }
         viewHolder.packageIcon.setImageDrawable(context.getDrawable(R.drawable.launcher_background_color_white));
         viewHolder.packageIcon.setTag(position);
-        FileDownloader.setup(context);
-        FileDownloader.getImpl().create(packageList.get(position).getIconUrl())
-                .setPath(AppManifest.DEFAULT_CACHE_DIR + "/icon_" + packageList.get(position).getTitle().replace(" ","_") + ".png")
-                .setTag(position)
-                .setListener(new FileDownloadListener() {
-                    @Override
-                    protected void pending(BaseDownloadTask task, int soFarBytes, int totalBytes) {
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(packageList.get(position).getIconUrl());
+                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                    httpURLConnection.setDoInput(true);
+                    httpURLConnection.connect();
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    Bitmap icon = BitmapFactory.decodeStream(inputStream);
+                    if (viewHolder.packageIcon.getTag().equals(position)){
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                viewHolder.packageIcon.setImageBitmap(icon);
+                            }
+                        });
                     }
-
-                    @Override
-                    protected void connected(BaseDownloadTask task, String etag, boolean isContinue, int soFarBytes, int totalBytes) {
-                    }
-
-                    @Override
-                    protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-                    }
-
-                    @Override
-                    protected void blockComplete(BaseDownloadTask task) {
-                    }
-
-                    @Override
-                    protected void retry(final BaseDownloadTask task, final Throwable ex, final int retryingTimes, final int soFarBytes) {
-                    }
-
-                    @Override
-                    protected void completed(BaseDownloadTask task) {
-                        if (viewHolder.packageIcon.getTag().equals(position)){
-                            viewHolder.packageIcon.setImageDrawable(DrawableUtils.getDrawableFromFile(AppManifest.DEFAULT_CACHE_DIR + "/icon_" + packageList.get(position).getTitle().replace(" ","_") + ".png"));
-                        }
-                    }
-
-                    @Override
-                    protected void paused(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-                    }
-
-                    @Override
-                    protected void error(BaseDownloadTask task, Throwable e) {
-                    }
-
-                    @Override
-                    protected void warn(BaseDownloadTask task) {
-                    }
-                }).start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
         String categories = "";
         for (int i = 0;i < packageList.get(position).getCategories().size();i++){
             //categories = categories + SearchTools.getCategoryFromID(context,worldList.get(position).getCategories().get(i)) + "  ";
@@ -132,4 +115,12 @@ public class DownloadPackageListAdapter extends BaseAdapter {
         });
         return convertView;
     }
+
+    @SuppressLint("HandlerLeak")
+    public final Handler handler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+        }
+    };
 }

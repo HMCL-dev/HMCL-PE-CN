@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.text.method.LinkMovementMethod;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.Account;
@@ -97,6 +99,7 @@ public class AddMojangAccountDialog extends Dialog implements View.OnClickListen
                 String email = editEmail.getText().toString();
                 String password = editPassword.getText().toString();
                 new Thread() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void run() {
                         YggdrasilService yggdrasilService = new YggdrasilService(new MojangYggdrasilProvider());
