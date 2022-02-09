@@ -1,13 +1,19 @@
 package com.tungsten.hmclpe.launcher.uis.account;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import androidx.annotation.RequiresApi;
+
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.Account;
 import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
+import com.tungsten.hmclpe.auth.microsoft.MicrosoftLoginActivity;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddMicrosoftAccountDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddMojangAccountDialog;
@@ -41,10 +47,13 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
     public ArrayList<AuthlibInjectorServer> serverList;
     public AuthlibInjectorServerListAdapter serverListAdapter;
 
+    private AddMicrosoftAccountDialog addMicrosoftAccountDialog;
+
     public AccountUI(Context context, MainActivity activity) {
         super(context, activity);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate() {
         super.onCreate();
@@ -78,6 +87,15 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
         CustomAnimationUtils.hideViewToLeft(accountUI,activity,context,true);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == MicrosoftLoginActivity.AUTHENTICATE_MICROSOFT_REQUEST || resultCode == Activity.RESULT_OK) {
+            addMicrosoftAccountDialog.login(data);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void init(){
         accounts = InitializeSetting.initializeAccounts(context);
         accountListAdapter = new AccountListAdapter(context,activity,accounts);
@@ -117,11 +135,12 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
             addMojangAccountDialog.show();
         }
         if (v == addMicrosoftAccount){
-            AddMicrosoftAccountDialog addMicrosoftAccountDialog = new AddMicrosoftAccountDialog(context);
+            addMicrosoftAccountDialog = new AddMicrosoftAccountDialog(context,activity);
             addMicrosoftAccountDialog.show();
         }
         if (v == addLoginServer){
             AddVerifyServerDialog addVerifyServerDialog = new AddVerifyServerDialog(context, new AddVerifyServerDialog.OnAuthlibInjectorServerAddListener() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onServerAdd(AuthlibInjectorServer authlibInjectorServer) {
                     if (!serverList.contains(authlibInjectorServer)){

@@ -1,8 +1,5 @@
 package com.tungsten.hmclpe.auth;
 
-import com.tungsten.hmclpe.auth.microsoft.MicrosoftService;
-import com.tungsten.hmclpe.auth.yggdrasil.RemoteAuthenticationException;
-
 public class ExceptionAnalyst {
 
     /*

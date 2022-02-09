@@ -2,23 +2,21 @@ package com.tungsten.hmclpe.launcher.dialogs.account;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.tungsten.hmclpe.R;
-import com.tungsten.hmclpe.auth.AuthenticationException;
-import com.tungsten.hmclpe.auth.OAuth;
-import com.tungsten.hmclpe.auth.microsoft.MicrosoftService;
-
-import java.io.IOException;
+import com.tungsten.hmclpe.auth.microsoft.MicrosoftLoginActivity;
+import com.tungsten.hmclpe.launcher.MainActivity;
 
 public class AddMicrosoftAccountDialog extends Dialog implements View.OnClickListener {
+
+    private MainActivity activity;
 
     private TextView accountSettingLink;
     private TextView helpLink;
@@ -27,8 +25,9 @@ public class AddMicrosoftAccountDialog extends Dialog implements View.OnClickLis
     private Button login;
     private Button cancel;
 
-    public AddMicrosoftAccountDialog(@NonNull Context context) {
+    public AddMicrosoftAccountDialog(@NonNull Context context, MainActivity activity) {
         super(context);
+        this.activity = activity;
         setContentView(R.layout.dialog_add_microsoft_account);
         setCancelable(false);
         init();
@@ -53,51 +52,15 @@ public class AddMicrosoftAccountDialog extends Dialog implements View.OnClickLis
     @Override
     public void onClick(View v) {
         if (v == login){
-            MicrosoftService microsoftService = new MicrosoftService(new OAuth.Callback() {
-                @Override
-                public OAuth.Session startServer() throws IOException, AuthenticationException {
-                    return null;
-                }
-
-                @Override
-                public void grantDeviceCode(String userCode, String verificationURI) {
-
-                }
-
-                @Override
-                public void openBrowser(String url) throws IOException {
-
-                }
-
-                @Override
-                public String getClientId() {
-                    return null;
-                }
-
-                @Override
-                public String getClientSecret() {
-                    return null;
-                }
-
-                @Override
-                public boolean isPublicClient() {
-                    return false;
-                }
-            });
-            new Thread(){
-                @Override
-                public void run() {
-                    try {
-                        microsoftService.authenticate();
-                    } catch (AuthenticationException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }.start();
-
+            Intent i = new Intent(getContext(), MicrosoftLoginActivity.class);
+            activity.startActivityForResult(i,MicrosoftLoginActivity.AUTHENTICATE_MICROSOFT_REQUEST);
         }
         if (v == cancel){
             this.dismiss();
         }
+    }
+
+    public void login(Intent intent){
+
     }
 }

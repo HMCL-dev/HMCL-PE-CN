@@ -7,13 +7,14 @@ import android.util.ArrayMap;
 import android.util.Log;
 
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
-import com.tungsten.hmclpe.utils.download.SSLSocketClient;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +25,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import javax.net.ssl.X509TrustManager;
-
-import okhttp3.Call;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 public class DownloadTask extends AsyncTask<Map<String, String>, Integer, Map<String, String>> {
 
@@ -64,7 +57,6 @@ public class DownloadTask extends AsyncTask<Map<String, String>, Integer, Map<St
 
     }
 
-    //这里多加了几个回调
     @SuppressLint("WrongThread")
     @Override
     public Map<String, String> doInBackground(Map<String, String>... args) {
@@ -156,38 +148,25 @@ public class DownloadTask extends AsyncTask<Map<String, String>, Integer, Map<St
         public abstract void updateSpeed(String speed);
     }
 
-    //这个方法只把连接超时改成了8秒，其他啥也没动
     public static void downloadFileMonitored(String url,String nameOutput, DownloadFeedback monitor) throws IOException {
         File nameOutputFile = new File(nameOutput);
         if (!nameOutputFile.exists()) {
             nameOutputFile.getParentFile().mkdirs();
         }
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.sslSocketFactory(SSLSocketClient.getSSLSocketFactory(),(X509TrustManager)SSLSocketClient.getTrustManager()[0]);
-        builder.hostnameVerifier(SSLSocketClient.getHostnameVerifier());
-        builder.connectTimeout(8, TimeUnit.SECONDS);
-        builder.readTimeout(8, TimeUnit.SECONDS);
-        builder.writeTimeout(8, TimeUnit.SECONDS);
-        builder.followRedirects(true);
-        builder.followSslRedirects(true);
-        OkHttpClient okHttpClient = builder.build();
-        Request request = new Request.Builder()
-                .url(url)
-                //.addHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36")
-                .build();
-        Call call = okHttpClient.newCall(request);
-        Response response = call.execute();
-        ResponseBody responseBody = response.body();
-        InputStream readStr = responseBody.byteStream();
+        URL downloadUrl = new URL(url);
+        HttpURLConnection httpURLConnection = (HttpURLConnection)downloadUrl.openConnection();
+        httpURLConnection.setDoInput(true);
+        httpURLConnection.connect();
+        InputStream inputStream = httpURLConnection.getInputStream();
         FileOutputStream fos = new FileOutputStream(nameOutputFile);
         int cur = 0;
         int oval = 0;
-        long len = responseBody.contentLength();
+        long len = httpURLConnection.getContentLength();
 //        System.out.println(len);
         byte[] buf = new byte[65535];
         long lastTime=System.currentTimeMillis();
         long lastLen=0;
-        while ((cur = readStr.read(buf)) != -1) {
+        while ((cur = inputStream.read(buf)) != -1) {
             oval += cur;
             if (System.currentTimeMillis()-lastTime>=1000){
                 lastLen=oval;
@@ -198,7 +177,7 @@ public class DownloadTask extends AsyncTask<Map<String, String>, Integer, Map<St
             monitor.updateProgress(oval, len);
         }
         fos.close();
-        readStr.close();
+        inputStream.close();
     }
 
     public static String formetFileSize(long fileS) {

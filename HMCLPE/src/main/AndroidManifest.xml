@@ -35,18 +35,13 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="ms-xal-00000000402b5328"
-                    android:host="auth"/>
-            </intent-filter>
         </activity>
+        <activity
+            android:name=".auth.microsoft.MicrosoftLoginActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"/>
         <activity
             android:name=".launcher.launch.boat.BoatMinecraftActivity"
             android:alwaysRetainTaskState="true"
