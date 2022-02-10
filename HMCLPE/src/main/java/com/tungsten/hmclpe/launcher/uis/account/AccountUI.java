@@ -135,7 +135,24 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
             addMojangAccountDialog.show();
         }
         if (v == addMicrosoftAccount){
-            addMicrosoftAccountDialog = new AddMicrosoftAccountDialog(context,activity);
+            addMicrosoftAccountDialog = new AddMicrosoftAccountDialog(context, activity, new AddMicrosoftAccountDialog.OnMicrosoftAccountAddListener() {
+                @Override
+                public void onPositive(Account account) {
+                    ArrayList<String> names = new ArrayList<>();
+                    for (Account a : accounts){
+                        if (a.loginType == 3){
+                            names.add(account.auth_player_name);
+                        }
+                    }
+                    if (!names.contains(account.auth_player_name)){
+                        activity.publicGameSetting.account = account;
+                        GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");
+                        accounts.add(account);
+                        accountListAdapter.notifyDataSetChanged();
+                        GsonUtils.saveAccounts(accounts,AppManifest.ACCOUNT_DIR + "/accounts.json");
+                    }
+                }
+            });
             addMicrosoftAccountDialog.show();
         }
         if (v == addLoginServer){

@@ -155,6 +155,7 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
             case 3:
                 accountName.setText(activity.publicGameSetting.account.auth_player_name);
                 accountType.setText(context.getString(R.string.item_account_type_microsoft));
+                Avatar.setAvatar(activity.publicGameSetting.account.texture, accountSkinFace, accountSkinHat);
                 break;
             case 4:
                 accountName.setText(activity.publicGameSetting.account.auth_player_name);

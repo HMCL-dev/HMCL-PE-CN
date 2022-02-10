@@ -124,7 +124,9 @@ public class AccountListAdapter extends BaseAdapter {
             Avatar.setAvatar(account.texture, viewHolder.face, viewHolder.hat);
         }
         if (account.loginType == 3){
-
+            viewHolder.name.setText(account.auth_player_name);
+            viewHolder.type.setText(context.getString(R.string.item_account_type_microsoft));
+            Avatar.setAvatar(account.texture, viewHolder.face, viewHolder.hat);
         }
         if (account.loginType == 4){
             viewHolder.name.setText(account.email + " - " +account.auth_player_name);
@@ -182,7 +184,7 @@ public class AccountListAdapter extends BaseAdapter {
                 activity.uiManager.accountUI.accounts.remove(account);
                 GsonUtils.saveAccounts(activity.uiManager.accountUI.accounts,AppManifest.ACCOUNT_DIR + "/accounts.json");
                 if (activity.uiManager.accountUI.accounts.size() == 0){
-                    activity.publicGameSetting.account = new Account(0,"","","","","","","","","","");
+                    activity.publicGameSetting.account = new Account(0,"","","","","","","","","","","");
                 }
                 else if (isSelected){
                     activity.publicGameSetting.account = accounts.get(0);

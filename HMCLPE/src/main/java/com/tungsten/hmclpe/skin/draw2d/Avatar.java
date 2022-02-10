@@ -60,7 +60,7 @@ public class Avatar {
 
     public static String bitmapToString(Bitmap bitmap){
         //将Bitmap转换成字符串
-        String string=null;
+        String string;
         ByteArrayOutputStream bStream=new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG,100,bStream);
         byte[]bytes=bStream.toByteArray();

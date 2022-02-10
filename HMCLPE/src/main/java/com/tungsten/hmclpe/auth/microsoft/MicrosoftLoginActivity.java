@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.utils.activity.ActivityUtils;
 
 public class MicrosoftLoginActivity extends AppCompatActivity {
 
@@ -35,6 +36,7 @@ public class MicrosoftLoginActivity extends AppCompatActivity {
         webView.setWebViewClient(new WebViewTrackClient());
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         webView.loadUrl("https://login.live.com/oauth20_authorize.srf" +
                 "?client_id=00000000402b5328" +
                 "&response_type=code" +
@@ -51,6 +53,7 @@ public class MicrosoftLoginActivity extends AppCompatActivity {
                 data.setData(Uri.parse(url));
                 progressBar.setVisibility(View.GONE);
                 setResult(Activity.RESULT_OK,data);
+                ActivityUtils.clearWebViewCache(MicrosoftLoginActivity.this);
                 finish();
                 return true;
             }else{

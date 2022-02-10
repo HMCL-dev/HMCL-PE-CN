@@ -111,7 +111,7 @@ public class InitializeSetting {
             else {
                 currentVersion = "";
             }
-            Account account = new Account(0,"","","","","","","","","","");
+            Account account = new Account(0,"","","","","","","","","","","");
             publicGameSetting = new PublicGameSetting(account,AppManifest.LAUNCHER_DIR,currentVersion);
             GsonUtils.savePublicGameSetting(publicGameSetting,AppManifest.SETTING_DIR + "/public_game_setting.json");
         }

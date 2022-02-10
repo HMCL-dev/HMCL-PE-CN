@@ -132,6 +132,7 @@ public class AddMojangAccountDialog extends Dialog implements View.OnClickListen
                                             authInfo.getAccessToken(),
                                             yggdrasilSession.getClientToken(),
                                             "",
+                                            "",
                                             skinTexture);
                                 }
                             });

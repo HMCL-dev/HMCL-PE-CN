@@ -133,6 +133,7 @@ public class AddOfflineAccountDialog extends Dialog implements View.OnClickListe
                         "",
                         "",
                         "",
+                        "",
                         skinTexture);
                 onOfflineAccountAddListener.onPositive(account);
                 this.dismiss();

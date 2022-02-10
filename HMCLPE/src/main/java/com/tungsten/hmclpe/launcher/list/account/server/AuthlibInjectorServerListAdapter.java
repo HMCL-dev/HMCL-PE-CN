@@ -109,7 +109,7 @@ public class AuthlibInjectorServerListAdapter extends BaseAdapter {
                         activity.uiManager.accountUI.accounts.remove(account);
                         GsonUtils.saveAccounts(activity.uiManager.accountUI.accounts,AppManifest.ACCOUNT_DIR + "/accounts.json");
                         if (activity.uiManager.accountUI.accounts.size() == 0){
-                            activity.publicGameSetting.account = new Account(0,"","","","","","","","","","");
+                            activity.publicGameSetting.account = new Account(0,"","","","","","","","","","","");
                         }
                         else if (isSelected){
                             activity.publicGameSetting.account = activity.uiManager.accountUI.accounts.get(0);
