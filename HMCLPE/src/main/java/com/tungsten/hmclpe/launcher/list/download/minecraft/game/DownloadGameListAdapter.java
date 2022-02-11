@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.download.minecraft.forge.ForgeVersion;
 import com.tungsten.hmclpe.launcher.download.minecraft.game.VersionManifest;
 import com.tungsten.hmclpe.utils.string.StringUtils;
 
@@ -112,6 +113,7 @@ public class DownloadGameListAdapter extends BaseAdapter {
         viewHolder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                activity.uiManager.installGameUI.forgeVersion = new ForgeVersion();
                 activity.uiManager.installGameUI.version = version;
                 activity.uiManager.switchMainUI(activity.uiManager.installGameUI);
             }

@@ -182,6 +182,11 @@
     <string name="install_game_ui_fabric">Fabric</string>
     <string name="install_game_ui_exist">此版本已经存在，请换一个名字</string>
 
+    <string name="forge_list_ui_title">安装新游戏版本 - 选择 Forge 版本</string>
+    <string name="fabric_list_ui_title">安装新游戏版本 - 选择 Fabric 版本</string>
+    <string name="lite_loader_list_ui_title">安装新游戏版本 - 选择 LiteLoader 版本</string>
+    <string name="optifine_list_ui_title">安装新游戏版本 - 选择 Optifine 版本</string>
+
     <string name="dialog_install_game_title">安装新游戏版本</string>
     <string name="dialog_install_game_exit">取消</string>
 

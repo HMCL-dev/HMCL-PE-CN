@@ -6,6 +6,10 @@ import android.content.Intent;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.uis.account.AccountUI;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUI;
+import com.tungsten.hmclpe.launcher.uis.game.download.right.game.DownloadFabricUI;
+import com.tungsten.hmclpe.launcher.uis.game.download.right.game.DownloadForgeUI;
+import com.tungsten.hmclpe.launcher.uis.game.download.right.game.DownloadLiteloaderUI;
+import com.tungsten.hmclpe.launcher.uis.game.download.right.game.DownloadOptifineUI;
 import com.tungsten.hmclpe.launcher.uis.game.download.right.game.InstallGameUI;
 import com.tungsten.hmclpe.launcher.uis.game.manager.GameManagerUI;
 import com.tungsten.hmclpe.launcher.uis.game.version.VersionListUI;
@@ -29,6 +33,10 @@ public class UIManager {
     public InstallPackageUI installPackageUI;
 
     public InstallGameUI installGameUI;
+    public DownloadForgeUI downloadForgeUI;
+    public DownloadFabricUI downloadFabricUI;
+    public DownloadLiteloaderUI downloadLiteloaderUI;
+    public DownloadOptifineUI downloadOptifineUI;
 
     public BaseUI[] mainUIs;
     public ArrayList<BaseUI> uis;
@@ -46,6 +54,10 @@ public class UIManager {
         installPackageUI = new InstallPackageUI(context,activity);
 
         installGameUI = new InstallGameUI(context,activity);
+        downloadForgeUI = new DownloadForgeUI(context,activity);
+        downloadFabricUI = new DownloadFabricUI(context,activity);
+        downloadLiteloaderUI = new DownloadLiteloaderUI(context,activity);
+        downloadOptifineUI = new DownloadOptifineUI(context,activity);
 
         mainUI.onCreate();
         accountUI.onCreate();
@@ -58,8 +70,12 @@ public class UIManager {
         installPackageUI.onCreate();
 
         installGameUI.onCreate();
+        downloadForgeUI.onCreate();
+        downloadFabricUI.onCreate();
+        downloadLiteloaderUI.onCreate();
+        downloadOptifineUI.onCreate();
 
-        mainUIs = new BaseUI[]{mainUI,addGameDirectoryUI,installPackageUI,accountUI,gameManagerUI,versionListUI,downloadUI,settingUI,installGameUI};
+        mainUIs = new BaseUI[]{mainUI,addGameDirectoryUI,installPackageUI,accountUI,gameManagerUI,versionListUI,downloadUI,settingUI,installGameUI,downloadForgeUI,downloadFabricUI,downloadLiteloaderUI,downloadOptifineUI};
         uis = new ArrayList<>();
         switchMainUI(mainUI);
     }

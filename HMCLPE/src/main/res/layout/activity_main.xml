@@ -163,6 +163,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
+            <include
+                layout="@layout/ui_install_forge_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <include
+                layout="@layout/ui_install_fabric_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <include
+                layout="@layout/ui_install_liteloader_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <include
+                layout="@layout/ui_install_optifine_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
         </RelativeLayout>
 
     </LinearLayout>

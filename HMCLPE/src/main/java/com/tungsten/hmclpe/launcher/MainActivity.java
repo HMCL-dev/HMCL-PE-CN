@@ -200,8 +200,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 uiManager.uis.remove(i);
             }
         }
+        for (int i = 0;i < uiManager.uis.size();i++){
+            if (uiManager.uis.get(i) == uiManager.downloadForgeUI){
+                uiManager.uis.remove(i);
+            }
+        }
+        for (int i = 0;i < uiManager.uis.size();i++){
+            if (uiManager.uis.get(i) == uiManager.downloadFabricUI){
+                uiManager.uis.remove(i);
+            }
+        }
+        for (int i = 0;i < uiManager.uis.size();i++){
+            if (uiManager.uis.get(i) == uiManager.downloadLiteloaderUI){
+                uiManager.uis.remove(i);
+            }
+        }
+        for (int i = 0;i < uiManager.uis.size();i++){
+            if (uiManager.uis.get(i) == uiManager.downloadOptifineUI){
+                uiManager.uis.remove(i);
+            }
+        }
         uiManager.downloadUI.onStart();
-        uiManager.installGameUI.onStop();
+        if (uiManager.currentUI == uiManager.installGameUI){
+            uiManager.installGameUI.onStop();
+        }
+        if (uiManager.currentUI == uiManager.downloadForgeUI){
+            uiManager.downloadForgeUI.onStop();
+        }
+        if (uiManager.currentUI == uiManager.downloadFabricUI){
+            uiManager.downloadFabricUI.onStop();
+        }
+        if (uiManager.currentUI == uiManager.downloadLiteloaderUI){
+            uiManager.downloadLiteloaderUI.onStop();
+        }
+        if (uiManager.currentUI == uiManager.downloadOptifineUI){
+            uiManager.downloadOptifineUI.onStop();
+        }
     }
 
     public void backToDeskTop(){

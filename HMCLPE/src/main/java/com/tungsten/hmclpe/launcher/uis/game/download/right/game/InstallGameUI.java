@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.install.DownloadDialog;
+import com.tungsten.hmclpe.launcher.download.minecraft.forge.ForgeVersion;
 import com.tungsten.hmclpe.launcher.download.minecraft.game.VersionManifest;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
@@ -22,6 +23,7 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener {
     public LinearLayout installGameUI;
 
     public VersionManifest.Version version;
+    public ForgeVersion forgeVersion = new ForgeVersion();
 
     private EditText editName;
 
@@ -99,7 +101,10 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v == deleteForgeVersion){
-
+            if (!forgeVersion.getGameVersion().equals("")){
+                forgeVersion = new ForgeVersion();
+                init();
+            }
         }
         if (v == deleteLiteLoaderVersion){
 
@@ -111,7 +116,8 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener {
 
         }
         if (v == selectForgeVersion){
-
+            activity.uiManager.downloadForgeUI.version = version.id;
+            activity.uiManager.switchMainUI(activity.uiManager.downloadForgeUI);
         }
         if (v == selectLiteLoaderVersion){
 
@@ -142,5 +148,15 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener {
     private void init(){
         editName.setText(version.id);
         gameVersionText.setText(version.id);
+        if (!forgeVersion.getGameVersion().equals("")){
+            forgeVersionText.setText(forgeVersion.getVersion());
+            fabricVersionText.setText(context.getString(R.string.install_game_ui_forge_not_compatible));
+            deleteForgeVersion.setVisibility(View.VISIBLE);
+        }
+        else {
+            forgeVersionText.setText(context.getString(R.string.install_game_ui_none));
+            fabricVersionText.setText(context.getString(R.string.install_game_ui_none));
+            deleteForgeVersion.setVisibility(View.GONE);
+        }
     }
 }
