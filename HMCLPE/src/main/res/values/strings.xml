@@ -186,6 +186,7 @@
     <string name="fabric_list_ui_title">安装新游戏版本 - 选择 Fabric 版本</string>
     <string name="lite_loader_list_ui_title">安装新游戏版本 - 选择 LiteLoader 版本</string>
     <string name="optifine_list_ui_title">安装新游戏版本 - 选择 Optifine 版本</string>
+    <string name="no_available_version">没有可供安装的版本，点击此处返回</string>
 
     <string name="dialog_install_game_title">安装新游戏版本</string>
     <string name="dialog_install_game_exit">取消</string>

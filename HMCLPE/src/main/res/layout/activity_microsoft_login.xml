@@ -9,9 +9,9 @@
         android:id="@+id/web_view"/>
 
     <ProgressBar
+        android:id="@+id/web_loading_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/web_loading_progress"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>

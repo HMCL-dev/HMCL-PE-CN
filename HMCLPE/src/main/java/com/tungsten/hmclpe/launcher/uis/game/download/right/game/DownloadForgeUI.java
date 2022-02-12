@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -40,6 +41,7 @@ public class DownloadForgeUI extends BaseUI implements View.OnClickListener {
 
     private ListView forgeListView;
     private ProgressBar progressBar;
+    private TextView back;
 
     public DownloadForgeUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -55,6 +57,9 @@ public class DownloadForgeUI extends BaseUI implements View.OnClickListener {
 
         forgeListView = activity.findViewById(R.id.forge_version_list);
         progressBar = activity.findViewById(R.id.loading_forge_list_progress);
+        back = activity.findViewById(R.id.back_to_install_ui);
+
+        back.setOnClickListener(this);
     }
 
     @Override
@@ -77,11 +82,11 @@ public class DownloadForgeUI extends BaseUI implements View.OnClickListener {
             public void run() {
                 String manifestUrl = FORGE_VERSION_MANIFEST + version;
                 loadingHandler.sendEmptyMessage(0);
+                ArrayList<ForgeVersion> list = new ArrayList<>();
                 try {
                     String response = NetworkUtils.doGet(NetworkUtils.toURL(manifestUrl));
                     Gson gson = new Gson();
                     ForgeVersion[] forgeVersion = gson.fromJson(response, ForgeVersion[].class);
-                    ArrayList<ForgeVersion> list = new ArrayList<>();
                     list.addAll(Arrays.asList(forgeVersion));
                     Collections.sort(list,new ForgeCompareTool());
                     DownloadForgeListAdapter downloadForgeListAdapter = new DownloadForgeListAdapter(context,activity,list);
@@ -94,7 +99,12 @@ public class DownloadForgeUI extends BaseUI implements View.OnClickListener {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                loadingHandler.sendEmptyMessage(1);
+                if (list.size() == 0){
+                    loadingHandler.sendEmptyMessage(2);
+                }
+                else {
+                    loadingHandler.sendEmptyMessage(1);
+                }
             }
         }.start();
     }
@@ -106,6 +116,9 @@ public class DownloadForgeUI extends BaseUI implements View.OnClickListener {
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             context.startActivity(intent);
         }
+        if (view == back){
+            activity.backToLastUI();
+        }
     }
 
     @SuppressLint("HandlerLeak")
@@ -116,10 +129,17 @@ public class DownloadForgeUI extends BaseUI implements View.OnClickListener {
             if (msg.what == 0){
                 forgeListView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
+                back.setVisibility(View.GONE);
             }
             if (msg.what == 1){
                 forgeListView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
+                back.setVisibility(View.GONE);
+            }
+            if (msg.what == 2){
+                forgeListView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
+                back.setVisibility(View.VISIBLE);
             }
         }
     };

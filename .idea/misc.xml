@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_exterior_black.xml" value="0.1915" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/activity_main.xml" value="0.1526268115942029" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/activity_microsoft_login.xml" value="0.1721014492753623" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_add_game_directory.xml" value="0.2151268115942029" />
@@ -14,6 +15,7 @@
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_install_liteloader_list.xml" value="0.2151268115942029" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_install_optifine_list.xml" value="0.2151268115942029" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_main.xml" value="0.2151268115942029" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_version_list.xml" value="0.2151268115942029" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/Boat/src/main/res/layout/activity_boat.xml" value="0.264" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_add_24.xml" value="0.14583333333333334" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_server_black.xml" value="0.14583333333333334" />

@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.download.minecraft.forge.ForgeVersion;
 import com.tungsten.hmclpe.launcher.download.minecraft.game.VersionManifest;
 import com.tungsten.hmclpe.launcher.game.Argument;
 import com.tungsten.hmclpe.launcher.game.Artifact;
@@ -52,6 +53,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
 
     private String name;
     private VersionManifest.Version version;
+    private ForgeVersion forgeVersion;
 
     private RecyclerView taskListView;
     private ArrayList<DownloadTaskListBean> allTaskList;
@@ -63,13 +65,14 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     private TextView speedText;
     private Button cancelButton;
 
-    public DownloadDialog(@NonNull Context context, MainActivity activity, String name, VersionManifest.Version version) {
+    public DownloadDialog(@NonNull Context context, MainActivity activity, String name, VersionManifest.Version version,ForgeVersion forgeVersion) {
         super(context);
         this.context = context;
         this.activity = activity;
         this.maxDownloadTask = activity.launcherSetting.maxDownloadTask;
         this.name = name;
         this.version = version;
+        this.forgeVersion = forgeVersion;
         setContentView(R.layout.dialog_install_game);
         setCancelable(false);
         init();
@@ -206,7 +209,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
 
                         }
                     });
-                    downloadTask.setMaxTask(activity.launcherSetting.maxDownloadTask);
+                    downloadTask.setMaxTask(maxDownloadTask);
                     downloadTask.execute(new Map[]{map});
                 } catch (IOException e) {
                     e.printStackTrace();

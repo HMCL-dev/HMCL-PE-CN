@@ -139,7 +139,7 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener {
                 Toast.makeText(context,context.getString(R.string.install_game_ui_exist),Toast.LENGTH_SHORT).show();
             }
             else {
-                DownloadDialog downloadDialog = new DownloadDialog(context,activity,editName.getText().toString(),version);
+                DownloadDialog downloadDialog = new DownloadDialog(context,activity,editName.getText().toString(),version,forgeVersion);
                 downloadDialog.show();
             }
         }
