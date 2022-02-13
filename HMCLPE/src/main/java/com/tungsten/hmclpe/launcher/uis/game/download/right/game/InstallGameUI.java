@@ -123,7 +123,8 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener {
 
         }
         if (v == selectOptiFineVersion){
-
+            activity.uiManager.downloadOptifineUI.version = version.id;
+            activity.uiManager.switchMainUI(activity.uiManager.downloadOptifineUI);
         }
         if (v == selectFabricVersion){
 

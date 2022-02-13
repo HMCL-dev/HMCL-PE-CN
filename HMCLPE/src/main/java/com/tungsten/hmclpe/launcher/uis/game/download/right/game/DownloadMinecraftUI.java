@@ -40,6 +40,8 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
     private CheckBox checkSnapshot;
     private CheckBox checkOld;
 
+    private LinearLayout refresh;
+
     private ProgressBar loadingProgress;
     private ListView mcList;
 
@@ -59,11 +61,15 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
         checkSnapshot = activity.findViewById(R.id.checkbox_snapshot);
         checkOld = activity.findViewById(R.id.checkbox_old);
 
+        refresh = activity.findViewById(R.id.refresh_game_list);
+
         checkRelease.setChecked(true);
 
         checkRelease.setOnCheckedChangeListener(this);
         checkSnapshot.setOnCheckedChangeListener(this);
         checkOld.setOnCheckedChangeListener(this);
+
+        refresh.setOnClickListener(this);
 
         loadingProgress = activity.findViewById(R.id.loading_minecraft_list_progress);
         mcList = activity.findViewById(R.id.download_minecraft_version_list);
@@ -134,6 +140,9 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
             Uri uri = Uri.parse("https://afdian.net/@bangbang93");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             context.startActivity(intent);
+        }
+        if (v == refresh){
+            init();
         }
     }
 

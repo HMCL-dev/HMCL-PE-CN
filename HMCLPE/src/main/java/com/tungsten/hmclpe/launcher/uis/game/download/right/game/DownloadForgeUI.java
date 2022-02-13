@@ -57,7 +57,7 @@ public class DownloadForgeUI extends BaseUI implements View.OnClickListener {
 
         forgeListView = activity.findViewById(R.id.forge_version_list);
         progressBar = activity.findViewById(R.id.loading_forge_list_progress);
-        back = activity.findViewById(R.id.back_to_install_ui);
+        back = activity.findViewById(R.id.back_to_install_ui_forge);
 
         back.setOnClickListener(this);
     }

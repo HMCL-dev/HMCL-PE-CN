@@ -76,7 +76,7 @@
             android:textColor="@color/colorLinkBlue"
             android:textSize="22sp"
             android:text="@string/no_available_version"
-            android:id="@+id/back_to_install_ui"/>
+            android:id="@+id/back_to_install_ui_forge"/>
 
     </RelativeLayout>
 

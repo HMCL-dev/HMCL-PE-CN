@@ -164,6 +164,7 @@
     <string name="download_minecraft_ui_release">正式版</string>
     <string name="download_minecraft_ui_snapshot">测试版</string>
     <string name="download_minecraft_ui_old">远古版</string>
+    <string name="download_minecraft_ui_refresh">刷新</string>
 
     <string name="download_minecraft_item_year">年</string>
     <string name="download_minecraft_item_month">月</string>
