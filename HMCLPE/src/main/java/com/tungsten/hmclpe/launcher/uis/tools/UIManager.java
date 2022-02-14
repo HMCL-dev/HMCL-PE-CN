@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.uis.account.AccountUI;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUI;
+import com.tungsten.hmclpe.launcher.uis.game.download.right.game.DownloadFabricAPIUI;
 import com.tungsten.hmclpe.launcher.uis.game.download.right.game.DownloadFabricUI;
 import com.tungsten.hmclpe.launcher.uis.game.download.right.game.DownloadForgeUI;
 import com.tungsten.hmclpe.launcher.uis.game.download.right.game.DownloadLiteloaderUI;
@@ -35,6 +36,7 @@ public class UIManager {
     public InstallGameUI installGameUI;
     public DownloadForgeUI downloadForgeUI;
     public DownloadFabricUI downloadFabricUI;
+    public DownloadFabricAPIUI downloadFabricAPIUI;
     public DownloadLiteloaderUI downloadLiteloaderUI;
     public DownloadOptifineUI downloadOptifineUI;
 
@@ -56,6 +58,7 @@ public class UIManager {
         installGameUI = new InstallGameUI(context,activity);
         downloadForgeUI = new DownloadForgeUI(context,activity);
         downloadFabricUI = new DownloadFabricUI(context,activity);
+        downloadFabricAPIUI = new DownloadFabricAPIUI(context,activity);
         downloadLiteloaderUI = new DownloadLiteloaderUI(context,activity);
         downloadOptifineUI = new DownloadOptifineUI(context,activity);
 
@@ -72,10 +75,11 @@ public class UIManager {
         installGameUI.onCreate();
         downloadForgeUI.onCreate();
         downloadFabricUI.onCreate();
+        downloadFabricAPIUI.onCreate();
         downloadLiteloaderUI.onCreate();
         downloadOptifineUI.onCreate();
 
-        mainUIs = new BaseUI[]{mainUI,addGameDirectoryUI,installPackageUI,accountUI,gameManagerUI,versionListUI,downloadUI,settingUI,installGameUI,downloadForgeUI,downloadFabricUI,downloadLiteloaderUI,downloadOptifineUI};
+        mainUIs = new BaseUI[]{mainUI,addGameDirectoryUI,installPackageUI,accountUI,gameManagerUI,versionListUI,downloadUI,settingUI,installGameUI,downloadForgeUI,downloadFabricUI,downloadLiteloaderUI,downloadOptifineUI,downloadFabricAPIUI};
         uis = new ArrayList<>();
         switchMainUI(mainUI);
     }

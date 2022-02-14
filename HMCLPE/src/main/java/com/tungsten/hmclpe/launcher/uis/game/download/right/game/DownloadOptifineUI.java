@@ -16,10 +16,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.download.minecraft.optifine.OptifineVersion;
+import com.tungsten.hmclpe.launcher.list.download.minecraft.optifine.DownloadOptifineListAdapter;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
+import com.tungsten.hmclpe.utils.io.NetworkUtils;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class DownloadOptifineUI extends BaseUI implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -31,6 +38,8 @@ public class DownloadOptifineUI extends BaseUI implements View.OnClickListener, 
 
     private LinearLayout hintLayout;
 
+    private LinearLayout listLayout;
+
     private CheckBox checkRelease;
     private CheckBox checkSnapshot;
     private CheckBox checkOld;
@@ -40,6 +49,8 @@ public class DownloadOptifineUI extends BaseUI implements View.OnClickListener, 
     private ListView optifineListView;
     private ProgressBar progressBar;
     private TextView back;
+
+    private ArrayList<OptifineVersion> allList;
 
     public DownloadOptifineUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -52,6 +63,8 @@ public class DownloadOptifineUI extends BaseUI implements View.OnClickListener, 
 
         hintLayout = activity.findViewById(R.id.download_forge_hint_layout);
         hintLayout.setOnClickListener(this);
+
+        listLayout = activity.findViewById(R.id.optifine_list_layout);
 
         checkRelease = activity.findViewById(R.id.optifine_checkbox_release);
         checkSnapshot = activity.findViewById(R.id.optifine_checkbox_snapshot);
@@ -89,7 +102,59 @@ public class DownloadOptifineUI extends BaseUI implements View.OnClickListener, 
     }
 
     private void init(){
+        ArrayList<OptifineVersion> list = new ArrayList<>();
+        allList = new ArrayList<>();
+        new Thread(){
+            @Override
+            public void run(){
+                loadingHandler.sendEmptyMessage(0);
+                try {
+                    String response = NetworkUtils.doGet(NetworkUtils.toURL(OPTIFINE_VERSION_MANIFEST));
+                    Gson gson = new Gson();
+                    OptifineVersion[] optifineVersions = gson.fromJson(response,OptifineVersion[].class);
+                    for (OptifineVersion versions : optifineVersions){
+                        if (versions.mcVersion.equals(version) && checkRelease.isChecked() && !(versions.patch.startsWith("pre") || versions.patch.startsWith("alpha"))){
+                            list.add(versions);
+                        }
+                        if (versions.mcVersion.equals(version) && checkSnapshot.isChecked() && (versions.patch.startsWith("pre") || versions.patch.startsWith("alpha"))){
+                            list.add(versions);
+                        }
+                        if (versions.mcVersion.equals(version)){
+                            allList.add(versions);
+                        }
+                    }
+                    DownloadOptifineListAdapter downloadOptifineListAdapter = new DownloadOptifineListAdapter(context,activity,list);
+                    activity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            optifineListView.setAdapter(downloadOptifineListAdapter);
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (allList.size() == 0){
+                    loadingHandler.sendEmptyMessage(2);
+                }
+                else {
+                    loadingHandler.sendEmptyMessage(1);
+                }
+            }
+        }.start();
+    }
 
+    private void refresh(){
+        ArrayList<OptifineVersion> list = new ArrayList<>();
+        for (OptifineVersion versions : allList){
+            if (versions.mcVersion.equals(version) && checkRelease.isChecked() && !(versions.patch.startsWith("pre") || versions.patch.startsWith("alpha"))){
+                list.add(versions);
+            }
+            if (versions.mcVersion.equals(version) && checkSnapshot.isChecked() && (versions.patch.startsWith("pre") || versions.patch.startsWith("alpha"))){
+                list.add(versions);
+            }
+        }
+        DownloadOptifineListAdapter downloadOptifineListAdapter = new DownloadOptifineListAdapter(context,activity,list);
+        optifineListView.setAdapter(downloadOptifineListAdapter);
     }
 
     @Override
@@ -113,17 +178,17 @@ public class DownloadOptifineUI extends BaseUI implements View.OnClickListener, 
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0){
-                optifineListView.setVisibility(View.GONE);
+                listLayout.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 back.setVisibility(View.GONE);
             }
             if (msg.what == 1){
-                optifineListView.setVisibility(View.VISIBLE);
+                listLayout.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
                 back.setVisibility(View.GONE);
             }
             if (msg.what == 2){
-                optifineListView.setVisibility(View.GONE);
+                listLayout.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
                 back.setVisibility(View.VISIBLE);
             }
@@ -132,6 +197,6 @@ public class DownloadOptifineUI extends BaseUI implements View.OnClickListener, 
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        init();
+        refresh();
     }
 }

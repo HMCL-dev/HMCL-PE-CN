@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:id="@+id/ui_install_fabric_list"
+    android:id="@+id/ui_install_fabric_api_list"
     android:visibility="gone"
     android:background="@color/launcher_ui_background"
     android:padding="10dp"
@@ -9,7 +9,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/download_fabric_hint_layout"
+        android:id="@+id/download_fabric_api_hint_layout"
         android:padding="10dp"
         android:background="@drawable/launcher_view_blue"
         android:layout_width="match_parent"
@@ -57,7 +57,7 @@
             android:background="@drawable/launcher_view_white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/fabric_version_list" />
+            android:id="@+id/fabric_api_version_list" />
 
         <ProgressBar
             android:visibility="gone"
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:indeterminate="true"
-            android:id="@+id/loading_fabric_list_progress"/>
+            android:id="@+id/loading_fabric_api_list_progress"/>
 
         <TextView
             android:clickable="true"
@@ -76,7 +76,7 @@
             android:textColor="@color/colorLinkBlue"
             android:textSize="22sp"
             android:text="@string/no_available_version"
-            android:id="@+id/back_to_install_ui_fabric"/>
+            android:id="@+id/back_to_install_ui_fabric_api"/>
 
     </RelativeLayout>
 

@@ -36,6 +36,8 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
 
     private LinearLayout hintLayout;
 
+    private LinearLayout gameListLayout;
+
     private CheckBox checkRelease;
     private CheckBox checkSnapshot;
     private CheckBox checkOld;
@@ -44,6 +46,8 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
 
     private ProgressBar loadingProgress;
     private ListView mcList;
+
+    private ArrayList<VersionManifest.Version> allList;
 
     public DownloadMinecraftUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -56,6 +60,8 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
 
         hintLayout = activity.findViewById(R.id.download_minecraft_hint_layout);
         hintLayout.setOnClickListener(this);
+
+        gameListLayout = activity.findViewById(R.id.game_list_layout);
 
         checkRelease = activity.findViewById(R.id.checkbox_release);
         checkSnapshot = activity.findViewById(R.id.checkbox_snapshot);
@@ -104,6 +110,7 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
             public void run(){
                 loadingHandler.sendEmptyMessage(0);
                 try {
+                    allList = new ArrayList<>();
                     String response = NetworkUtils.doGet(NetworkUtils.toURL(DownloadUrlSource.getSubUrl(activity.launcherSetting.downloadUrlSource,DownloadUrlSource.VERSION_MANIFEST)));
                     Gson gson = new Gson();
                     VersionManifest versionManifest = gson.fromJson(response,VersionManifest.class);
@@ -118,6 +125,7 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
                         if (checkOld.isChecked() && (versions.type.equals("old_alpha") || versions.type.equals("old_beta"))){
                             list.add(versions);
                         }
+                        allList.add(versions);
                     }
                     DownloadGameListAdapter downloadGameListAdapter = new DownloadGameListAdapter(context,activity,list);
                     activity.runOnUiThread(new Runnable() {
@@ -132,6 +140,23 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
                 loadingHandler.sendEmptyMessage(1);
             }
         }.start();
+    }
+
+    private void refresh(){
+        ArrayList<VersionManifest.Version> list = new ArrayList<>();
+        for (VersionManifest.Version versions : allList){
+            if (checkRelease.isChecked() && versions.type.equals("release")){
+                list.add(versions);
+            }
+            if (checkSnapshot.isChecked() && versions.type.equals("snapshot")){
+                list.add(versions);
+            }
+            if (checkOld.isChecked() && (versions.type.equals("old_alpha") || versions.type.equals("old_beta"))){
+                list.add(versions);
+            }
+        }
+        DownloadGameListAdapter downloadGameListAdapter = new DownloadGameListAdapter(context,activity,list);
+        mcList.setAdapter(downloadGameListAdapter);
     }
 
     @Override
@@ -155,7 +180,7 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        init();
+        refresh();
     }
 
     @SuppressLint("HandlerLeak")
@@ -164,11 +189,11 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0){
-                mcList.setVisibility(View.GONE);
+                gameListLayout.setVisibility(View.GONE);
                 loadingProgress.setVisibility(View.VISIBLE);
             }
             if (msg.what == 1){
-                mcList.setVisibility(View.VISIBLE);
+                gameListLayout.setVisibility(View.VISIBLE);
                 loadingProgress.setVisibility(View.GONE);
             }
         }
