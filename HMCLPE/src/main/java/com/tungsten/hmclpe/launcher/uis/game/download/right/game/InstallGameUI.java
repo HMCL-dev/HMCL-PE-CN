@@ -140,7 +140,10 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
             }
         }
         if (v == deleteLiteLoaderVersion){
-
+            if (liteLoaderVersion != null){
+                liteLoaderVersion = null;
+                init();
+            }
         }
         if (v == deleteOptiFineVersion){
             if (optifineVersion != null){
@@ -162,7 +165,8 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
             activity.uiManager.switchMainUI(activity.uiManager.downloadForgeUI);
         }
         if (v == selectLiteLoaderVersion && fabricVersion == null){
-
+            activity.uiManager.downloadLiteLoaderUI.version = version.id;
+            activity.uiManager.switchMainUI(activity.uiManager.downloadLiteLoaderUI);
         }
         if (v == selectOptiFineVersion && fabricVersion == null){
             activity.uiManager.downloadOptifineUI.version = version.id;
@@ -240,6 +244,16 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
             selectForge.setVisibility(View.VISIBLE);
             selectLiteLoader.setVisibility(View.VISIBLE);
             selectOptiFine.setVisibility(View.VISIBLE);
+        }
+        if (liteLoaderVersion != null){
+            liteLoaderVersionText.setText(liteLoaderVersion.getVersion());
+            deleteLiteLoaderVersion.setVisibility(View.VISIBLE);
+        }
+        else {
+            if (fabricVersion == null){
+                liteLoaderVersionText.setText(context.getString(R.string.install_game_ui_none));
+            }
+            deleteLiteLoaderVersion.setVisibility(View.GONE);
         }
     }
 

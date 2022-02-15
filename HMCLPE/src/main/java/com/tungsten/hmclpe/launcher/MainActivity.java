@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         for (int i = 0;i < uiManager.uis.size();i++){
-            if (uiManager.uis.get(i) == uiManager.downloadLiteloaderUI){
+            if (uiManager.uis.get(i) == uiManager.downloadLiteLoaderUI){
                 uiManager.uis.remove(i);
             }
         }
@@ -238,8 +238,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (uiManager.currentUI == uiManager.downloadFabricAPIUI){
             uiManager.downloadFabricAPIUI.onStop();
         }
-        if (uiManager.currentUI == uiManager.downloadLiteloaderUI){
-            uiManager.downloadLiteloaderUI.onStop();
+        if (uiManager.currentUI == uiManager.downloadLiteLoaderUI){
+            uiManager.downloadLiteLoaderUI.onStop();
         }
         if (uiManager.currentUI == uiManager.downloadOptifineUI){
             uiManager.downloadOptifineUI.onStop();
