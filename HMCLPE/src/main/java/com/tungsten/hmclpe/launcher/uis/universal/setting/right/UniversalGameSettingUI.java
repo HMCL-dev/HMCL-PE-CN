@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -27,6 +28,7 @@ import com.tungsten.filepicker.Constants;
 import com.tungsten.filepicker.FolderChooser;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.dialogs.control.ControllerManagerDialog;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
@@ -53,6 +55,11 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
     private ImageView showGameDir;
     private LinearLayout gameDirSetting;
     private int gameDirSettingHeight;
+    private LinearLayout showControlSetting;
+    private TextView controlTypeText;
+    private ImageView showControl;
+    private LinearLayout controlSetting;
+    private int controlSettingHeight;
 
     private LinearLayout showGameLauncherSetting;
     private TextView currentLauncher;
@@ -81,6 +88,10 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
     private RadioButton checkGameDirCustom;
     private EditText editGameDir;
     private ImageButton selectGameDir;
+
+    private RadioButton checkControlTypeTouch;
+    private RadioButton checkControlTypeKeyboard;
+    private RadioButton checkControlTypeHandle;
 
     private RadioButton launchByBoat;
     private RadioButton launchByPojav;
@@ -112,6 +123,9 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
 
     private EditText editServer;
 
+    private Button manageController;
+    private TextView currentControlPattern;
+
     public UniversalGameSettingUI(Context context, MainActivity activity) {
         super(context, activity);
     }
@@ -130,6 +144,10 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         gameDirText = activity.findViewById(R.id.game_directory_text);
         showGameDir = activity.findViewById(R.id.show_game_dir);
         gameDirSetting = activity.findViewById(R.id.game_dir_setting);
+        showControlSetting = activity.findViewById(R.id.show_control_type_selector);
+        controlTypeText = activity.findViewById(R.id.control_type);
+        showControl = activity.findViewById(R.id.show_control_type);
+        controlSetting = activity.findViewById(R.id.control_type_setting);
 
         showGameLauncherSetting = activity.findViewById(R.id.show_game_launcher_selector);
         currentLauncher = activity.findViewById(R.id.current_launcher);
@@ -157,6 +175,10 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         checkGameDirCustom = activity.findViewById(R.id.check_custom_game_dir);
         editGameDir = activity.findViewById(R.id.edit_game_dir_path);
         selectGameDir = activity.findViewById(R.id.select_game_dir_path);
+
+        checkControlTypeTouch = activity.findViewById(R.id.control_type_touch);
+        checkControlTypeKeyboard = activity.findViewById(R.id.control_type_keyboard);
+        checkControlTypeHandle = activity.findViewById(R.id.control_type_handle);
 
         launchByBoat = activity.findViewById(R.id.launch_by_boat);
         launchByPojav = activity.findViewById(R.id.launch_by_pojav);
@@ -190,6 +212,10 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         notCheckForge = activity.findViewById(R.id.switch_check_forge);
         notCheckJVM = activity.findViewById(R.id.switch_check_runtime);
 
+        manageController = activity.findViewById(R.id.manage_control_layout);
+        manageController.setOnClickListener(this);
+        currentControlPattern = activity.findViewById(R.id.control_layout);
+
         editServer = activity.findViewById(R.id.edit_mc_server);
         editServer.addTextChangedListener(new TextWatcher() {
             @Override
@@ -219,6 +245,8 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         showJava.setOnClickListener(this);
         showGameDirSetting.setOnClickListener(this);
         showGameDir.setOnClickListener(this);
+        showControlSetting.setOnClickListener(this);
+        showControl.setOnClickListener(this);
 
         showGameLauncherSetting.setOnClickListener(this);
         showGameLauncher.setOnClickListener(this);
@@ -252,6 +280,10 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
                 GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
             }
         });
+
+        checkControlTypeTouch.setOnClickListener(this);
+        checkControlTypeKeyboard.setOnClickListener(this);
+        checkControlTypeHandle.setOnClickListener(this);
 
         launchByBoat.setOnClickListener(this);
         launchByPojav.setOnClickListener(this);
@@ -332,6 +364,13 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             public void run() {
                 gameDirSettingHeight = gameDirSetting.getHeight();
                 gameDirSetting.setVisibility(View.GONE);
+            }
+        });
+        controlSetting.post(new Runnable() {
+            @Override
+            public void run() {
+                controlSettingHeight = controlSetting.getHeight();
+                controlSetting.setVisibility(View.GONE);
             }
         });
         gameLauncherSetting.post(new Runnable() {
@@ -434,6 +473,7 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         notCheckJVM.setChecked(activity.privateGameSetting.notCheckJvm);
         editGameDir.setText(activity.privateGameSetting.gameDirSetting.path);
         editServer.setText(activity.privateGameSetting.server);
+        currentControlPattern.setText(activity.privateGameSetting.controlLayout);
         if (activity.privateGameSetting.javaSetting.autoSelect){
             javaPathText.setText(context.getString(R.string.game_setting_ui_java_path_auto));
             checkJavaAuto.setChecked(true);
@@ -477,6 +517,24 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             checkGameDirDefault.setChecked(false);
             checkGameDirIsolate.setChecked(false);
             checkGameDirCustom.setChecked(true);
+        }
+        if (activity.privateGameSetting.controlType == 0){
+            controlTypeText.setText(context.getString(R.string.game_setting_ui_control_type_touch));
+            checkControlTypeTouch.setChecked(true);
+            checkControlTypeKeyboard.setChecked(false);
+            checkControlTypeHandle.setChecked(false);
+        }
+        else if (activity.privateGameSetting.controlType == 1){
+            controlTypeText.setText(context.getString(R.string.game_setting_ui_control_type_keyboard));
+            checkControlTypeTouch.setChecked(false);
+            checkControlTypeKeyboard.setChecked(true);
+            checkControlTypeHandle.setChecked(false);
+        }
+        else {
+            controlTypeText.setText(context.getString(R.string.game_setting_ui_control_type_handle));
+            checkControlTypeTouch.setChecked(false);
+            checkControlTypeKeyboard.setChecked(false);
+            checkControlTypeHandle.setChecked(true);
         }
         if (activity.privateGameSetting.boatLauncherSetting.enable){
             launchByBoat.setChecked(true);
@@ -549,6 +607,9 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         if (v == showGameDirSetting || v == showGameDir){
             HiddenAnimationUtils.newInstance(context,gameDirSetting,showGameDir,gameDirSettingHeight).toggle();
         }
+        if (v == showControlSetting || v == showControl){
+            HiddenAnimationUtils.newInstance(context,controlSetting,showControl,controlSettingHeight).toggle();
+        }
         if (v == showGameLauncherSetting || v == showGameLauncher){
             HiddenAnimationUtils.newInstance(context,gameLauncherSetting,showGameLauncher,gameLauncherSettingHeight).toggle();
         }
@@ -613,6 +674,27 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             intent.putExtra(Constants.SELECTION_MODE, Constants.SELECTION_MODES.SINGLE_SELECTION.ordinal());
             intent.putExtra(Constants.INITIAL_DIRECTORY, new File(AppManifest.DEFAULT_GAME_DIR).getAbsolutePath());
             activity.startActivityForResult(intent, PICK_GAME_DIR_REQUEST);
+        }
+        if (v == checkControlTypeTouch){
+            controlTypeText.setText(context.getString(R.string.game_setting_ui_control_type_touch));
+            checkControlTypeKeyboard.setChecked(false);
+            checkControlTypeHandle.setChecked(false);
+            activity.privateGameSetting.controlType = 0;
+            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+        }
+        if (v == checkControlTypeKeyboard){
+            controlTypeText.setText(context.getString(R.string.game_setting_ui_control_type_keyboard));
+            checkControlTypeTouch.setChecked(false);
+            checkControlTypeHandle.setChecked(false);
+            activity.privateGameSetting.controlType = 1;
+            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+        }
+        if (v == checkControlTypeHandle){
+            controlTypeText.setText(context.getString(R.string.game_setting_ui_control_type_handle));
+            checkControlTypeKeyboard.setChecked(false);
+            checkControlTypeTouch.setChecked(false);
+            activity.privateGameSetting.controlType = 2;
+            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
         }
         if (v == launchByBoat){
             launchByPojav.setChecked(false);
@@ -684,6 +766,17 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             activity.privateGameSetting.pojavLauncherSetting.renderer = "opengles3_virgl";
             GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
             currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_virgl));
+        }
+        if (v == manageController){
+            ControllerManagerDialog controllerManagerDialog = new ControllerManagerDialog(context, activity.privateGameSetting.controlLayout, new ControllerManagerDialog.OnPatternChangeListener() {
+                @Override
+                public void onPatternChange(String pattern) {
+                    currentControlPattern.setText(pattern);
+                    activity.privateGameSetting.controlLayout = pattern;
+                    GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+                }
+            });
+            controllerManagerDialog.show();
         }
     }
 

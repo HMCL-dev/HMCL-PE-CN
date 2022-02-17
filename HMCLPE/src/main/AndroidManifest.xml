@@ -37,6 +37,35 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter
+                android:scheme="content"
+                android:label="@string/import_control_label"
+                tools:ignore="AppLinkUrlError">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file" android:host="*" android:mimeType="*/*"
+                    android:pathPattern=".*\\.hmclpe"/>
+                <data android:scheme="file" android:host="*" android:mimeType="*/*"
+                    android:pathPattern="/.*/.*\\.hmclpe"/>
+                <data android:scheme="file" android:host="*" android:mimeType="*/*"
+                    android:pathPattern="/.*/.*/.*\\.hmclpe"/>
+                <data android:scheme="file" android:host="*" android:mimeType="*/*"
+                    android:pathPattern="/.*/.*/.*/.*\\.hmclpe"/>
+                <data android:scheme="file" android:host="*" android:mimeType="*/*"
+                    android:pathPattern="/.*/.*/.*/.*/.*\\.hmclpe"/>
+                <data android:scheme="file" android:host="*" android:mimeType="*/*"
+                    android:pathPattern="/.*/.*/.*/.*/.*/.*\\.hmclpe"/>
+                <data android:scheme="file" android:host="*" android:mimeType="*/*"
+                    android:pathPattern="/.*/.*/.*/.*/.*/.*/.*\\.hmclpe"/>
+                <data android:scheme="file" android:host="*" android:mimeType="*/*"
+                    android:pathPattern="/.*/.*/.*/.*/.*/.*/.*/.*\\.hmclpe"/>
+                <data android:scheme="file" android:host="*" android:mimeType="*/*"
+                    android:pathPattern="/.*/.*/.*/.*/.*/.*/.*/.*/.*\\.hmclpe"/>
+                <data android:scheme="file" android:host="*" android:mimeType="*/*"
+                    android:pathPattern="/.*/.*/.*/.*/.*/.*/.*/.*/.*/.*\\.hmclpe"/>
+                <data android:scheme="file" android:host="*" android:mimeType="*/*"
+                    android:pathPattern="/.*/.*/.*/.*/.*/.*/.*/.*/.*/.*/.*\\.hmclpe"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".auth.microsoft.MicrosoftLoginActivity"

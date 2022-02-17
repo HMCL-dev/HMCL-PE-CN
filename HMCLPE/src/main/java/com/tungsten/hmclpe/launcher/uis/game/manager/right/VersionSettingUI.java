@@ -3,6 +3,7 @@ package com.tungsten.hmclpe.launcher.uis.game.manager.right;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -31,6 +32,11 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
     private ImageView showGameDir;
     private LinearLayout gameDirSetting;
     private int gameDirSettingHeight;
+    private LinearLayout showControlSetting;
+    private TextView controlTypeText;
+    private ImageView showControl;
+    private LinearLayout controlSetting;
+    private int controlSettingHeight;
 
     private LinearLayout showGameLauncherSetting;
     private TextView currentLauncher;
@@ -59,6 +65,10 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
     private RadioButton checkGameDirCustom;
     private EditText editGameDir;
     private ImageButton selectGameDir;
+
+    private RadioButton checkControlTypeTouch;
+    private RadioButton checkControlTypeKeyboard;
+    private RadioButton checkControlTypeHandle;
 
     private RadioButton launchByBoat;
     private RadioButton launchByPojav;
@@ -90,6 +100,10 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
         gameDirText = activity.findViewById(R.id.game_directory_text_isolate);
         showGameDir = activity.findViewById(R.id.show_game_dir_isolate);
         gameDirSetting = activity.findViewById(R.id.game_dir_setting_isolate);
+        showControlSetting = activity.findViewById(R.id.show_control_type_selector_isolate);
+        controlTypeText = activity.findViewById(R.id.control_type_isolate);
+        showControl = activity.findViewById(R.id.show_control_type_isolate);
+        controlSetting = activity.findViewById(R.id.control_type_setting_isolate);
 
         showGameLauncherSetting = activity.findViewById(R.id.show_game_launcher_selector_isolate);
         currentLauncher = activity.findViewById(R.id.current_launcher_isolate);
@@ -118,6 +132,10 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
         editGameDir = activity.findViewById(R.id.edit_game_dir_path_isolate);
         selectGameDir = activity.findViewById(R.id.select_game_dir_path_isolate);
 
+        checkControlTypeTouch = activity.findViewById(R.id.control_type_touch);
+        checkControlTypeKeyboard = activity.findViewById(R.id.control_type_keyboard);
+        checkControlTypeHandle = activity.findViewById(R.id.control_type_handle);
+
         launchByBoat = activity.findViewById(R.id.launch_by_boat_isolate);
         launchByPojav = activity.findViewById(R.id.launch_by_pojav_isolate);
 
@@ -134,6 +152,8 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
         showJava.setOnClickListener(this);
         showGameDirSetting.setOnClickListener(this);
         showGameDir.setOnClickListener(this);
+        showControlSetting.setOnClickListener(this);
+        showControl.setOnClickListener(this);
 
         showGameLauncherSetting.setOnClickListener(this);
         showGameLauncher.setOnClickListener(this);
@@ -145,6 +165,10 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
         checkJavaAuto.setOnClickListener(this);
         checkJava8.setOnClickListener(this);
         checkJava17.setOnClickListener(this);
+
+        checkControlTypeTouch.setOnClickListener(this);
+        checkControlTypeKeyboard.setOnClickListener(this);
+        checkControlTypeHandle.setOnClickListener(this);
 
         launchByBoat.setOnClickListener(this);
         launchByPojav.setOnClickListener(this);
@@ -170,6 +194,13 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
             public void run() {
                 gameDirSettingHeight = gameDirSetting.getHeight();
                 gameDirSetting.setVisibility(View.GONE);
+            }
+        });
+        controlSetting.post(new Runnable() {
+            @Override
+            public void run() {
+                controlSettingHeight = controlSetting.getHeight();
+                controlSetting.setVisibility(View.GONE);
             }
         });
         gameLauncherSetting.post(new Runnable() {
@@ -228,6 +259,9 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
         }
         if (v == showGameDirSetting || v == showGameDir){
             HiddenAnimationUtils.newInstance(context,gameDirSetting,showGameDir,gameDirSettingHeight).toggle();
+        }
+        if (v == showControlSetting || v == showControl){
+            HiddenAnimationUtils.newInstance(context,controlSetting,showControl,controlSettingHeight).toggle();
         }
         if (v == showGameLauncherSetting || v == showGameLauncher){
             HiddenAnimationUtils.newInstance(context,gameLauncherSetting,showGameLauncher,gameLauncherSettingHeight).toggle();

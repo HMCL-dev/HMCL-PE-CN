@@ -4,6 +4,8 @@
     <string name="version_name" translatable="false">v1.0.0</string>
     <string name="app_bar_title" translatable="false">Hello Minecraft! Launcher Pocket Edition v1.0.0</string>
 
+    <string name="import_control_label">导入控制布局方案</string>
+
     <string name="storage_permissions_remind">请授予启动器读写权限，否则可能无法正常运行</string>
     
     <string name="loading_title">欢迎使用</string>
@@ -392,6 +394,13 @@
     <string name="game_setting_ui_check_game">不检查游戏完整性</string>
     <string name="game_setting_ui_check_java">不检查 JVM 与游戏的兼容性</string>
     <string name="game_setting_ui_check_forge">不检查 Forge 动画禁用情况</string>
+    <string name="game_setting_ui_control_setting">控制选项</string>
+    <string name="game_setting_ui_control_type">游戏控制方式</string>
+    <string name="game_setting_ui_control_type_touch">触控</string>
+    <string name="game_setting_ui_control_type_keyboard">键盘鼠标</string>
+    <string name="game_setting_ui_control_type_handle">手柄</string>
+    <string name="game_setting_ui_control_layout">触控布局方案</string>
+    <string name="game_setting_ui_control_layout_manage">管理</string>
     <string name="game_setting_ui_launch_setting">启动选项</string>
     <string name="game_setting_ui_game_launcher">游戏启动方式</string>
     <string name="game_setting_ui_game_launcher_boat" translatable="false">Boat</string>
@@ -446,4 +455,9 @@
     <string name="feedback_ui_github_issues">前往Github反馈</string>
 
     <string name="donate_ui_text">Hello Minecraft! Launcher Pocket Edition 是一个免费、自由、开放源代码的 Minecraft 启动器。您的赞助将帮助 Hello Minecraft! Launcher Pocket Edition 获得更好的发展，还可以获得 HMCL-PE 的开发进展。点击此处查阅更多详细信息。</string>
+
+    <string name="dialog_manage_controller_title">管理触控布局方案</string>
+    <string name="dialog_manage_controller_import">从本地导入布局方案</string>
+    <string name="dialog_manage_controller_create">创建新的布局方案</string>
+    <string name="dialog_manage_controller_exit">完成</string>
 </resources>

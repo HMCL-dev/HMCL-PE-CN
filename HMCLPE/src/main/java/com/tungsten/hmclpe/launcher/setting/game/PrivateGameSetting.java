@@ -21,9 +21,11 @@ public class PrivateGameSetting {
     public BoatLauncherSetting boatLauncherSetting;
     public PojavLauncherSetting pojavLauncherSetting;
     public RamSetting ramSetting;
+    public int controlType;
+    public String controlLayout;
     public float scaleFactor;
 
-    public PrivateGameSetting (boolean enable,boolean log,boolean notCheckJvm,boolean notCheckMinecraft,boolean notCheckForge,JavaSetting javaSetting,String extraJavaFlags,String extraMinecraftFlags,String server,GameDirSetting gameDirSetting,BoatLauncherSetting boatLauncherSetting,PojavLauncherSetting pojavLauncherSetting,RamSetting ramSetting,float scaleFactor){
+    public PrivateGameSetting (boolean enable,boolean log,boolean notCheckJvm,boolean notCheckMinecraft,boolean notCheckForge,JavaSetting javaSetting,String extraJavaFlags,String extraMinecraftFlags,String server,GameDirSetting gameDirSetting,BoatLauncherSetting boatLauncherSetting,PojavLauncherSetting pojavLauncherSetting,RamSetting ramSetting,int controlType,String controlLayout,float scaleFactor){
         this.enable = enable;
         this.log = log;
         this.notCheckJvm = notCheckJvm;
@@ -37,6 +39,8 @@ public class PrivateGameSetting {
         this.boatLauncherSetting = boatLauncherSetting;
         this.pojavLauncherSetting = pojavLauncherSetting;
         this.ramSetting = ramSetting;
+        this.controlType = controlType;
+        this.controlLayout = controlLayout;
         this.scaleFactor = scaleFactor;
     }
 
