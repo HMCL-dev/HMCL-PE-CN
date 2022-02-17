@@ -84,7 +84,7 @@ public class PojavMinecraftActivity extends BaseMainActivity implements View.OnT
                         startGame(gameLaunchSetting.javaPath,
                                 gameLaunchSetting.home,
                                 GameLaunchSetting.isHighVersion(gameLaunchSetting),
-                                PojavLauncher.getMcArgs(gameLaunchSetting, PojavMinecraftActivity.this,(int) (width * scaleFactor),(int) (height * scaleFactor)),
+                                PojavLauncher.getMcArgs(gameLaunchSetting, PojavMinecraftActivity.this,(int) (width * scaleFactor),(int) (height * scaleFactor),gameLaunchSetting.server),
                                 gameLaunchSetting.pojavRenderer);
                     } catch (Throwable e) {
 

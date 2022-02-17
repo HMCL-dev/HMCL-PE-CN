@@ -218,9 +218,13 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         activity.publicGameSetting.currentVersion = activity.launcherSetting.gameFileDirectory + "/versions/" + parent.getItemAtPosition(position).toString();
+        if (activity.privateGameSetting.gameDirSetting.type == 1){
+            activity.uiManager.settingUI.settingUIManager.universalGameSettingUI.gameDirText.setText(activity.launcherSetting.gameFileDirectory + "/versions/" + parent.getItemAtPosition(position).toString());
+        }
         GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");
         currentVersionText.setText(parent.getItemAtPosition(position).toString());
         launchVersionText.setText(parent.getItemAtPosition(position).toString());

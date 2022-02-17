@@ -51,7 +51,13 @@ public class JREUtils {
     }
 
     public static void initJavaRuntime(String javaPath) {
-        String path = javaPath + "/lib/aarch64";
+        String path;
+        if (javaPath.endsWith("default")){
+            path = javaPath + "/lib/aarch64";
+        }
+        else {
+            path = javaPath + "/lib";
+        }
         dlopen(path + "/jli/libjli.so");
         dlopen(path + "/server/libjvm.so");
         dlopen(path + "/libverify.so");
@@ -66,7 +72,6 @@ public class JREUtils {
             dlopen(f.getAbsolutePath());
         }
         dlopen( nativeLibDir + "/libopenal.so");
-
     }
 
     public static Map<String, String> readJREReleaseProperties(String javaPath) throws IOException {

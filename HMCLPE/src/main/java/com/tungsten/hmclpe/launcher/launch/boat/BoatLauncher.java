@@ -5,6 +5,7 @@ import android.content.Context;
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
 import com.tungsten.hmclpe.launcher.launch.LaunchVersion;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.utils.string.StringUtils;
 
 import java.io.File;
 import java.util.Collections;
@@ -12,7 +13,7 @@ import java.util.Vector;
 
 public class BoatLauncher {
 
-    public static Vector<String> getMcArgs(GameLaunchSetting gameLaunchSetting , Context context,int width,int height){
+    public static Vector<String> getMcArgs(GameLaunchSetting gameLaunchSetting , Context context,int width,int height,String server){
         try {
             LaunchVersion version = LaunchVersion.fromDirectory(new File(gameLaunchSetting.currentVersion));
             String javaPath = gameLaunchSetting.javaPath;
@@ -48,6 +49,13 @@ public class BoatLauncher {
             args.add(Integer.toString(width));
             args.add("--height");
             args.add(Integer.toString(height));
+            if (StringUtils.isNotBlank(server)) {
+                String[] ser = server.split(":");
+                args.add("--server");
+                args.add(ser[0]);
+                args.add("--port");
+                args.add(ser.length > 1 ? ser[1] : "25565");
+            }
             String[] extraJavaFlags = gameLaunchSetting.extraJavaFlags.split(" ");
             Collections.addAll(args, extraJavaFlags);
             String[] extraMinecraftArgs = gameLaunchSetting.extraMinecraftFlags.split(" ");

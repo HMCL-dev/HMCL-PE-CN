@@ -133,10 +133,10 @@
                             android:layout_weight="1"/>
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
-                            android:textColor="@color/colorPureBlack"
                             android:id="@+id/java_path_text_isolate"
                             android:layout_weight="1"/>
 
@@ -148,6 +148,100 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:background="@drawable/ic_baseline_keyboard_arrow_down_black" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/java_setting_isolate"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/game_setting_ui_java_path_auto"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:id="@+id/check_java_path_auto_isolate"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/game_setting_ui_java_path_8"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:id="@+id/check_java_path_8_isolate"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="20dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size_small"
+                            android:id="@+id/java_8_path_isolate"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/game_setting_ui_java_path_17"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:id="@+id/check_java_path_17_isolate"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="20dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size_small"
+                            android:id="@+id/java_17_path_isolate"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -189,7 +283,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
-                            android:textColor="@color/colorPureBlack"
                             android:id="@+id/game_directory_text_isolate"
                             android:layout_weight="1"/>
 
@@ -516,13 +609,10 @@
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"/>
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
                     <EditText
-                        android:layout_width="300dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="20dp"
+                        android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:textSize="@dimen/text_size_middle"
                         android:hint="@string/game_setting_ui_server_hint"

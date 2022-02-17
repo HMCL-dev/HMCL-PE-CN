@@ -100,7 +100,7 @@ public class AddGameDirectoryUI extends BaseUI implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_GAME_FILE_FOLDER_REQUEST && data!=null) {
+        if (requestCode == PICK_GAME_FILE_FOLDER_REQUEST && data != null) {
             if (resultCode == RESULT_OK) {
                 Uri uri = data.getData();
                 selectedDir.setText(UriUtils.getRealPathFromUri_AboveApi19(context,uri));

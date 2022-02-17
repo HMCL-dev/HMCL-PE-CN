@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.animation.HiddenAnimationUtils;
@@ -21,6 +22,7 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
     public LinearLayout versionSettingUI;
 
     private LinearLayout showJavaSetting;
+    private TextView javaPathText;
     private ImageView showJava;
     private LinearLayout javaSetting;
     private int javaSettingHeight;
@@ -46,6 +48,12 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
     private LinearLayout pojavRendererSetting;
     private int pojavRendererSettingHeight;
 
+    private RadioButton checkJavaAuto;
+    private RadioButton checkJava8;
+    private RadioButton checkJava17;
+    private TextView java8Path;
+    private TextView java17Path;
+
     private RadioButton checkGameDirDefault;
     private RadioButton checkGameDirIsolate;
     private RadioButton checkGameDirCustom;
@@ -68,13 +76,16 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
         super(context, activity);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onCreate() {
         super.onCreate();
         versionSettingUI = activity.findViewById(R.id.ui_version_setting);
 
         showJavaSetting = activity.findViewById(R.id.show_java_selector_isolate);
+        javaPathText = activity.findViewById(R.id.java_path_text_isolate);
         showJava = activity.findViewById(R.id.show_java_isolate);
+        javaSetting = activity.findViewById(R.id.java_setting_isolate);
         showGameDirSetting = activity.findViewById(R.id.show_game_directory_selector_isolate);
         gameDirText = activity.findViewById(R.id.game_directory_text_isolate);
         showGameDir = activity.findViewById(R.id.show_game_dir_isolate);
@@ -92,6 +103,14 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
         currentPojavRenderer = activity.findViewById(R.id.current_pojav_renderer_isolate);
         showPojavRenderer = activity.findViewById(R.id.show_pojav_renderer_isolate);
         pojavRendererSetting = activity.findViewById(R.id.pojav_render_selector_isolate);
+
+        checkJavaAuto = activity.findViewById(R.id.check_java_path_auto_isolate);
+        checkJava8 = activity.findViewById(R.id.check_java_path_8_isolate);
+        checkJava17 = activity.findViewById(R.id.check_java_path_17_isolate);
+        java8Path = activity.findViewById(R.id.java_8_path_isolate);
+        java17Path = activity.findViewById(R.id.java_17_path_isolate);
+        java8Path.setText(AppManifest.JAVA_DIR + "/default");
+        java17Path.setText(AppManifest.JAVA_DIR + "/JRE17");
 
         checkGameDirDefault = activity.findViewById(R.id.check_default_game_dir_isolate);
         checkGameDirIsolate = activity.findViewById(R.id.check_isolate_game_dir_isolate);
@@ -123,6 +142,10 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
         showPojavRendererSetting.setOnClickListener(this);
         showPojavRenderer.setOnClickListener(this);
 
+        checkJavaAuto.setOnClickListener(this);
+        checkJava8.setOnClickListener(this);
+        checkJava17.setOnClickListener(this);
+
         launchByBoat.setOnClickListener(this);
         launchByPojav.setOnClickListener(this);
 
@@ -135,6 +158,13 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
         pojavRendererVGPU.setOnClickListener(this);
         pojavRendererVirGL.setOnClickListener(this);
 
+        javaSetting.post(new Runnable() {
+            @Override
+            public void run() {
+                javaSettingHeight = javaSetting.getHeight();
+                javaSetting.setVisibility(View.GONE);
+            }
+        });
         gameDirSetting.post(new Runnable() {
             @Override
             public void run() {
@@ -194,7 +224,7 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v == showJavaSetting || v == showJava){
-
+            HiddenAnimationUtils.newInstance(context,javaSetting,showJava,javaSettingHeight).toggle();
         }
         if (v == showGameDirSetting || v == showGameDir){
             HiddenAnimationUtils.newInstance(context,gameDirSetting,showGameDir,gameDirSettingHeight).toggle();

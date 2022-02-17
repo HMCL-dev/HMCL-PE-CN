@@ -100,6 +100,7 @@ public class GameListAdapter extends BaseAdapter {
             viewHolder.radioButton.setChecked(false);
         }
         viewHolder.radioButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
                 if (!list.get(position).isSelected){
@@ -112,6 +113,9 @@ public class GameListAdapter extends BaseAdapter {
                         }
                     }
                     activity.publicGameSetting.currentVersion = activity.launcherSetting.gameFileDirectory + "/versions/" + list.get(position).name;
+                    if (activity.privateGameSetting.gameDirSetting.type == 1){
+                        activity.uiManager.settingUI.settingUIManager.universalGameSettingUI.gameDirText.setText(activity.launcherSetting.gameFileDirectory + "/versions/" + list.get(position).name);
+                    }
                     GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");
                     notifyDataSetChanged();
                 }

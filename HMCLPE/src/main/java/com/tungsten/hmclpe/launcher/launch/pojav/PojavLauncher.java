@@ -7,6 +7,7 @@ import android.content.Context;
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
 import com.tungsten.hmclpe.launcher.launch.LaunchVersion;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.utils.string.StringUtils;
 
 import net.kdt.pojavlaunch.Tools;
 import net.kdt.pojavlaunch.utils.JREUtils;
@@ -17,7 +18,7 @@ import java.util.Vector;
 
 public class PojavLauncher {
 
-    public static Vector<String> getMcArgs(GameLaunchSetting gameLaunchSetting, Context context,int width,int height){
+    public static Vector<String> getMcArgs(GameLaunchSetting gameLaunchSetting, Context context,int width,int height,String server){
         try {
             JREUtils.jreReleaseList = JREUtils.readJREReleaseProperties(gameLaunchSetting.javaPath);
             LaunchVersion version = LaunchVersion.fromDirectory(new File(gameLaunchSetting.currentVersion));
@@ -48,6 +49,13 @@ public class PojavLauncher {
             args.add(Integer.toString(width));
             args.add("--height");
             args.add(Integer.toString(height));
+            if (StringUtils.isNotBlank(server)) {
+                String[] ser = server.split(":");
+                args.add("--server");
+                args.add(ser[0]);
+                args.add("--port");
+                args.add(ser.length > 1 ? ser[1] : "25565");
+            }
             String[] extraJavaFlags = gameLaunchSetting.extraJavaFlags.split(" ");
             Collections.addAll(args, extraJavaFlags);
             String[] extraMinecraftArgs = gameLaunchSetting.extraMinecraftFlags.split(" ");

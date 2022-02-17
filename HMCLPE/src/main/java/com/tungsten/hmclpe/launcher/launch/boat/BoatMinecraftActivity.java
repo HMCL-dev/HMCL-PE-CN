@@ -72,7 +72,7 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
                 startGame(gameLaunchSetting.javaPath,
                         gameLaunchSetting.home,
                         GameLaunchSetting.isHighVersion(gameLaunchSetting),
-                        BoatLauncher.getMcArgs(gameLaunchSetting,BoatMinecraftActivity.this,(int) (width * scaleFactor), (int) (height * scaleFactor)),
+                        BoatLauncher.getMcArgs(gameLaunchSetting,BoatMinecraftActivity.this,(int) (width * scaleFactor), (int) (height * scaleFactor),gameLaunchSetting.server),
                         gameLaunchSetting.boatRenderer);
             }
 

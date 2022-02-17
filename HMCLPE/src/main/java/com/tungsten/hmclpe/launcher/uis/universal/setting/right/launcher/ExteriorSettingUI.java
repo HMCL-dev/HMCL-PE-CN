@@ -15,12 +15,15 @@ import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.SwitchCompat;
+
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.tools.ColorSelectorDialog;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
+import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
 public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, TextWatcher {
 
@@ -29,7 +32,7 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
     private LinearLayout selectTheme;
     private View colorView;
     private TextView colorText;
-    private Switch transBarSwitch;
+    private SwitchCompat transBarSwitch;
     private RadioButton defaultRadio;
     private RadioButton classicRadio;
     private RadioButton customRadio;
@@ -68,6 +71,8 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
         editBgPath.addTextChangedListener(this);
         editBgUrl.addTextChangedListener(this);
         selectBgPath.setOnClickListener(this);
+
+        transBarSwitch.setChecked(activity.launcherSetting.transBar);
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -126,7 +131,16 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+        if (buttonView == transBarSwitch){
+            activity.launcherSetting.transBar = isChecked;
+            GsonUtils.saveLauncherSetting(activity.launcherSetting,AppManifest.SETTING_DIR + "/launcher_setting.json");
+            if (isChecked){
+                activity.appBar.setBackgroundColor(context.getResources().getColor(R.color.launcher_ui_background));
+            }
+            else {
+                activity.appBar.setBackgroundColor(Color.parseColor(getThemeColor(activity.launcherSetting.launcherTheme)));
+            }
+        }
     }
 
     @Override

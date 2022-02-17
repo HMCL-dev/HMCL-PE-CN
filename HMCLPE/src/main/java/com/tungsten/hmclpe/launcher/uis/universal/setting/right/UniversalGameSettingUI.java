@@ -1,7 +1,11 @@
 package com.tungsten.hmclpe.launcher.uis.universal.setting.right;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -14,27 +18,38 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.SwitchCompat;
+
+import com.tungsten.filepicker.Constants;
+import com.tungsten.filepicker.FolderChooser;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.animation.HiddenAnimationUtils;
+import com.tungsten.hmclpe.utils.file.UriUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 import com.tungsten.hmclpe.utils.platform.MemoryUtils;
+
+import java.io.File;
 
 public class UniversalGameSettingUI extends BaseUI implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
 
     public LinearLayout universalGameSettingUI;
 
+    public static final int PICK_GAME_DIR_REQUEST = 1500;
+
     private LinearLayout showJavaSetting;
+    private TextView javaPathText;
     private ImageView showJava;
     private LinearLayout javaSetting;
     private int javaSettingHeight;
     private LinearLayout showGameDirSetting;
-    private TextView gameDirText;
+    public TextView gameDirText;
     private ImageView showGameDir;
     private LinearLayout gameDirSetting;
     private int gameDirSettingHeight;
@@ -54,6 +69,12 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
     private ImageView showPojavRenderer;
     private LinearLayout pojavRendererSetting;
     private int pojavRendererSettingHeight;
+
+    private RadioButton checkJavaAuto;
+    private RadioButton checkJava8;
+    private RadioButton checkJava17;
+    private TextView java8Path;
+    private TextView java17Path;
 
     private RadioButton checkGameDirDefault;
     private RadioButton checkGameDirIsolate;
@@ -83,17 +104,28 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
     private SeekBar scaleFactorSeekBar;
     private EditText editScaleFactor;
 
+    private SwitchCompat checkLog;
+
+    private SwitchCompat notCheckGameFile;
+    private SwitchCompat notCheckForge;
+    private SwitchCompat notCheckJVM;
+
+    private EditText editServer;
+
     public UniversalGameSettingUI(Context context, MainActivity activity) {
         super(context, activity);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onCreate() {
         super.onCreate();
         universalGameSettingUI = activity.findViewById(R.id.ui_setting_global_game);
 
         showJavaSetting = activity.findViewById(R.id.show_java_selector);
+        javaPathText = activity.findViewById(R.id.java_path_text);
         showJava = activity.findViewById(R.id.show_java);
+        javaSetting = activity.findViewById(R.id.java_setting);
         showGameDirSetting = activity.findViewById(R.id.show_game_directory_selector);
         gameDirText = activity.findViewById(R.id.game_directory_text);
         showGameDir = activity.findViewById(R.id.show_game_dir);
@@ -111,6 +143,14 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         currentPojavRenderer = activity.findViewById(R.id.current_pojav_renderer);
         showPojavRenderer = activity.findViewById(R.id.show_pojav_renderer);
         pojavRendererSetting = activity.findViewById(R.id.pojav_render_selector);
+
+        checkJavaAuto = activity.findViewById(R.id.check_java_path_auto);
+        checkJava8 = activity.findViewById(R.id.check_java_path_8);
+        checkJava17 = activity.findViewById(R.id.check_java_path_17);
+        java8Path = activity.findViewById(R.id.java_8_path);
+        java17Path = activity.findViewById(R.id.java_17_path);
+        java8Path.setText(AppManifest.JAVA_DIR + "/default");
+        java17Path.setText(AppManifest.JAVA_DIR + "/JRE17");
 
         checkGameDirDefault = activity.findViewById(R.id.check_default_game_dir);
         checkGameDirIsolate = activity.findViewById(R.id.check_isolate_game_dir);
@@ -144,6 +184,37 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         editScaleFactor = activity.findViewById(R.id.edit_scale_factor_text);
         scaleFactorSeekBar.setMax(750);
 
+        checkLog = activity.findViewById(R.id.switch_log);
+
+        notCheckGameFile = activity.findViewById(R.id.switch_check_mc);
+        notCheckForge = activity.findViewById(R.id.switch_check_forge);
+        notCheckJVM = activity.findViewById(R.id.switch_check_runtime);
+
+        editServer = activity.findViewById(R.id.edit_mc_server);
+        editServer.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                activity.privateGameSetting.server = editServer.getText().toString();
+                GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+            }
+        });
+
+        checkLog.setOnCheckedChangeListener(this);
+
+        notCheckGameFile.setOnCheckedChangeListener(this);
+        notCheckForge.setOnCheckedChangeListener(this);
+        notCheckJVM.setOnCheckedChangeListener(this);
+
         showJavaSetting.setOnClickListener(this);
         showJava.setOnClickListener(this);
         showGameDirSetting.setOnClickListener(this);
@@ -155,6 +226,32 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         showBoatRenderer.setOnClickListener(this);
         showPojavRendererSetting.setOnClickListener(this);
         showPojavRenderer.setOnClickListener(this);
+
+        checkJavaAuto.setOnClickListener(this);
+        checkJava8.setOnClickListener(this);
+        checkJava17.setOnClickListener(this);
+
+        checkGameDirDefault.setOnClickListener(this);
+        checkGameDirIsolate.setOnClickListener(this);
+        checkGameDirCustom.setOnClickListener(this);
+        selectGameDir.setOnClickListener(this);
+        editGameDir.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                activity.privateGameSetting.gameDirSetting.path = editGameDir.getText().toString();
+                GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+            }
+        });
 
         launchByBoat.setOnClickListener(this);
         launchByPojav.setOnClickListener(this);
@@ -223,6 +320,13 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             }
         });
 
+        javaSetting.post(new Runnable() {
+            @Override
+            public void run() {
+                javaSettingHeight = javaSetting.getHeight();
+                javaSetting.setVisibility(View.GONE);
+            }
+        });
         gameDirSetting.post(new Runnable() {
             @Override
             public void run() {
@@ -281,11 +385,37 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_GAME_DIR_REQUEST && data != null) {
+            if (resultCode == RESULT_OK) {
+                Uri uri = data.getData();
+                gameDirText.setText(UriUtils.getRealPathFromUri_AboveApi19(context,uri));
+                editGameDir.setText(UriUtils.getRealPathFromUri_AboveApi19(context,uri));
+                activity.privateGameSetting.gameDirSetting.path = UriUtils.getRealPathFromUri_AboveApi19(context,uri);
+                GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+            }
+        }
+    }
+
+    @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (buttonView == checkAutoRam){
             activity.privateGameSetting.ramSetting.autoRam = isChecked;
-            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
         }
+        if (buttonView == checkLog){
+            activity.privateGameSetting.log = isChecked;
+        }
+        if (buttonView == notCheckGameFile){
+            activity.privateGameSetting.notCheckMinecraft = isChecked;
+        }
+        if (buttonView == notCheckForge){
+            activity.privateGameSetting.notCheckForge = isChecked;
+        }
+        if (buttonView == notCheckJVM){
+            activity.privateGameSetting.notCheckJvm = isChecked;
+        }
+        GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
     }
 
     @SuppressLint("SetTextI18n")
@@ -298,6 +428,56 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         actualRamText.setText(context.getText(R.string.game_setting_ui_min_distribution) + " " + (float) Math.round(((activity.privateGameSetting.ramSetting.minRam) / 1024F) * 10) / 10 + " GB / " + context.getText(R.string.game_setting_ui_actual_distribution) + " " + (float) Math.round(((activity.privateGameSetting.ramSetting.minRam) / 1024F) * 10) / 10 + " GB");
         scaleFactorSeekBar.setProgress((int) (activity.privateGameSetting.scaleFactor * 1000) - 250);
         editScaleFactor.setText(((int) (activity.privateGameSetting.scaleFactor * 100)) + "");
+        checkLog.setChecked(activity.privateGameSetting.log);
+        notCheckGameFile.setChecked(activity.privateGameSetting.notCheckMinecraft);
+        notCheckForge.setChecked(activity.privateGameSetting.notCheckForge);
+        notCheckJVM.setChecked(activity.privateGameSetting.notCheckJvm);
+        editGameDir.setText(activity.privateGameSetting.gameDirSetting.path);
+        editServer.setText(activity.privateGameSetting.server);
+        if (activity.privateGameSetting.javaSetting.autoSelect){
+            javaPathText.setText(context.getString(R.string.game_setting_ui_java_path_auto));
+            checkJavaAuto.setChecked(true);
+            checkJava8.setChecked(false);
+            checkJava17.setChecked(false);
+        }
+        else {
+            if (activity.privateGameSetting.javaSetting.name.equals("default")){
+                javaPathText.setText(AppManifest.JAVA_DIR + "/default");
+                checkJavaAuto.setChecked(false);
+                checkJava8.setChecked(true);
+                checkJava17.setChecked(false);
+            }
+            if (activity.privateGameSetting.javaSetting.name.equals("JRE17")){
+                javaPathText.setText(AppManifest.JAVA_DIR + "/JRE17");
+                checkJavaAuto.setChecked(false);
+                checkJava8.setChecked(false);
+                checkJava17.setChecked(true);
+            }
+        }
+        if (activity.privateGameSetting.gameDirSetting.type == 0){
+            editGameDir.setEnabled(false);
+            selectGameDir.setEnabled(false);
+            gameDirText.setText(activity.launcherSetting.gameFileDirectory);
+            checkGameDirDefault.setChecked(true);
+            checkGameDirIsolate.setChecked(false);
+            checkGameDirCustom.setChecked(false);
+        }
+        else if (activity.privateGameSetting.gameDirSetting.type == 1){
+            editGameDir.setEnabled(false);
+            selectGameDir.setEnabled(false);
+            gameDirText.setText(activity.publicGameSetting.currentVersion);
+            checkGameDirDefault.setChecked(false);
+            checkGameDirIsolate.setChecked(true);
+            checkGameDirCustom.setChecked(false);
+        }
+        else {
+            editGameDir.setEnabled(true);
+            selectGameDir.setEnabled(true);
+            gameDirText.setText(activity.privateGameSetting.gameDirSetting.path);
+            checkGameDirDefault.setChecked(false);
+            checkGameDirIsolate.setChecked(false);
+            checkGameDirCustom.setChecked(true);
+        }
         if (activity.privateGameSetting.boatLauncherSetting.enable){
             launchByBoat.setChecked(true);
             launchByPojav.setChecked(false);
@@ -360,10 +540,11 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onClick(View v) {
         if (v == showJavaSetting || v == showJava){
-
+            HiddenAnimationUtils.newInstance(context,javaSetting,showJava,javaSettingHeight).toggle();
         }
         if (v == showGameDirSetting || v == showGameDir){
             HiddenAnimationUtils.newInstance(context,gameDirSetting,showGameDir,gameDirSettingHeight).toggle();
@@ -376,6 +557,62 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         }
         if (v == showPojavRendererSetting || v == showPojavRenderer){
             HiddenAnimationUtils.newInstance(context,pojavRendererSetting,showPojavRenderer,pojavRendererSettingHeight).toggle();
+        }
+        if (v == checkJavaAuto){
+            javaPathText.setText(context.getString(R.string.game_setting_ui_java_path_auto));
+            checkJava8.setChecked(false);
+            checkJava17.setChecked(false);
+            activity.privateGameSetting.javaSetting.autoSelect = true;
+            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+        }
+        if (v == checkJava8){
+            javaPathText.setText(AppManifest.JAVA_DIR + "/default");
+            checkJavaAuto.setChecked(false);
+            checkJava17.setChecked(false);
+            activity.privateGameSetting.javaSetting.autoSelect = false;
+            activity.privateGameSetting.javaSetting.name = "default";
+            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+        }
+        if (v == checkJava17){
+            javaPathText.setText(AppManifest.JAVA_DIR + "/JRE17");
+            checkJavaAuto.setChecked(false);
+            checkJava8.setChecked(false);
+            activity.privateGameSetting.javaSetting.autoSelect = false;
+            activity.privateGameSetting.javaSetting.name = "JRE17";
+            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+        }
+        if (v == checkGameDirDefault){
+            editGameDir.setEnabled(false);
+            selectGameDir.setEnabled(false);
+            gameDirText.setText(activity.launcherSetting.gameFileDirectory);
+            checkGameDirIsolate.setChecked(false);
+            checkGameDirCustom.setChecked(false);
+            activity.privateGameSetting.gameDirSetting.type = 0;
+            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+        }
+        if (v == checkGameDirIsolate){
+            editGameDir.setEnabled(false);
+            selectGameDir.setEnabled(false);
+            gameDirText.setText(activity.publicGameSetting.currentVersion);
+            checkGameDirDefault.setChecked(false);
+            checkGameDirCustom.setChecked(false);
+            activity.privateGameSetting.gameDirSetting.type = 1;
+            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+        }
+        if (v == checkGameDirCustom){
+            editGameDir.setEnabled(true);
+            selectGameDir.setEnabled(true);
+            gameDirText.setText(activity.privateGameSetting.gameDirSetting.path);
+            checkGameDirDefault.setChecked(false);
+            checkGameDirIsolate.setChecked(false);
+            activity.privateGameSetting.gameDirSetting.type = 2;
+            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+        }
+        if (v == selectGameDir){
+            Intent intent = new Intent(context, FolderChooser.class);
+            intent.putExtra(Constants.SELECTION_MODE, Constants.SELECTION_MODES.SINGLE_SELECTION.ordinal());
+            intent.putExtra(Constants.INITIAL_DIRECTORY, new File(AppManifest.DEFAULT_GAME_DIR).getAbsolutePath());
+            activity.startActivityForResult(intent, PICK_GAME_DIR_REQUEST);
         }
         if (v == launchByBoat){
             launchByPojav.setChecked(false);

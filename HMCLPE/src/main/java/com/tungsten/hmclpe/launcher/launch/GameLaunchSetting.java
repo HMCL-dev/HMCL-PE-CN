@@ -40,10 +40,11 @@ public class GameLaunchSetting {
     public float scaleFactor;
     public int minRam;
     public int maxRam;
+    public String server;
 
     public String gameFileDirectory;
 
-    public GameLaunchSetting(Account account,String home,String currentVersion,String javaPath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,String boatRenderer,String pojavRenderer,float scaleFactor,String gameFileDirectory,int minRam,int maxRam){
+    public GameLaunchSetting(Account account,String home,String currentVersion,String javaPath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,String boatRenderer,String pojavRenderer,float scaleFactor,String gameFileDirectory,int minRam,int maxRam,String server){
         this.account = account;
         this.home = home;
         this.currentVersion = currentVersion;
@@ -57,6 +58,7 @@ public class GameLaunchSetting {
         this.scaleFactor = scaleFactor;
         this.minRam = minRam;
         this.maxRam = maxRam;
+        this.server = server;
 
         this.gameFileDirectory = gameFileDirectory;
     }
@@ -102,12 +104,7 @@ public class GameLaunchSetting {
                 javaPath = AppManifest.JAVA_DIR + "/default";
             }
             else {
-                for (JavaListBean javaListBean : SettingUtils.getJavaVersionInfo()){
-                    if (javaListBean.version.equals("17")){
-                        javaPath = AppManifest.JAVA_DIR + "/" + javaListBean.name;
-                        break;
-                    }
-                }
+                javaPath = AppManifest.JAVA_DIR + "/JRE17";
             }
         }
         else {
@@ -126,7 +123,8 @@ public class GameLaunchSetting {
                 privateGameSetting.scaleFactor,
                 launcherSetting.gameFileDirectory,
                 privateGameSetting.ramSetting.minRam,
-                privateGameSetting.ramSetting.maxRam);
+                privateGameSetting.ramSetting.maxRam,
+                privateGameSetting.server);
         return gameLaunchSetting;
     }
 

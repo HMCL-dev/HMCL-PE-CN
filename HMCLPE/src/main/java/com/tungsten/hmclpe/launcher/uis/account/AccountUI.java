@@ -90,7 +90,7 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == MicrosoftLoginActivity.AUTHENTICATE_MICROSOFT_REQUEST || resultCode == Activity.RESULT_OK) {
+        if(requestCode == MicrosoftLoginActivity.AUTHENTICATE_MICROSOFT_REQUEST && resultCode == Activity.RESULT_OK) {
             addMicrosoftAccountDialog.login(data);
         }
     }
