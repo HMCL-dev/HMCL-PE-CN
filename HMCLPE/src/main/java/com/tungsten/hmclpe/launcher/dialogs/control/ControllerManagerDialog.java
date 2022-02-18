@@ -8,20 +8,31 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.launcher.list.local.controller.ControlPattern;
+import com.tungsten.hmclpe.launcher.list.local.controller.ControlPatternListAdapter;
+import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.launcher.setting.SettingUtils;
+import com.tungsten.hmclpe.utils.file.FileStringUtils;
+import com.tungsten.hmclpe.utils.file.FileUtils;
+
+import java.util.ArrayList;
 
 public class ControllerManagerDialog extends Dialog implements View.OnClickListener {
 
-    private String currentPattern;
-    private OnPatternChangeListener onPatternChangeListener;
+    private boolean fullscreen;
+    public String currentPattern;
+    public OnPatternChangeListener onPatternChangeListener;
 
     private ListView patternList;
     private Button importPattern;
     private Button createNewPattern;
     private Button exit;
 
-    public ControllerManagerDialog(@NonNull Context context,String currentPattern,OnPatternChangeListener onPatternChangeListener) {
+    public ControllerManagerDialog(@NonNull Context context,boolean fullscreen,String currentPattern,OnPatternChangeListener onPatternChangeListener) {
         super(context);
+        this.fullscreen = fullscreen;
         this.currentPattern = currentPattern;
         this.onPatternChangeListener = onPatternChangeListener;
         setContentView(R.layout.dialog_controller_manager);
@@ -38,6 +49,14 @@ public class ControllerManagerDialog extends Dialog implements View.OnClickListe
         importPattern.setOnClickListener(this);
         createNewPattern.setOnClickListener(this);
         exit.setOnClickListener(this);
+
+        loadList();
+    }
+
+    private void loadList(){
+        ArrayList<ControlPattern> list = SettingUtils.getControlPatternList();
+        ControlPatternListAdapter adapter = new ControlPatternListAdapter(getContext(),this,list,currentPattern,fullscreen);
+        patternList.setAdapter(adapter);
     }
 
     @Override
@@ -46,7 +65,17 @@ public class ControllerManagerDialog extends Dialog implements View.OnClickListe
 
         }
         if (view == createNewPattern){
-
+            CreateControlPatternDialog dialog = new CreateControlPatternDialog(getContext(), new CreateControlPatternDialog.OnPatternCreateListener() {
+                @Override
+                public void OnPatternCreate(ControlPattern controlPattern) {
+                    FileUtils.createDirectory(AppManifest.CONTROLLER_DIR + "/" + controlPattern.name);
+                    Gson gson = new Gson();
+                    String string = gson.toJson(controlPattern);
+                    FileStringUtils.writeFile(AppManifest.CONTROLLER_DIR + "/" + controlPattern.name + "/info.json",string);
+                    loadList();
+                }
+            });
+            dialog.show();
         }
         if (view == exit){
             dismiss();

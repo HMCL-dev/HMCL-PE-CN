@@ -19,7 +19,9 @@
             android:textSize="@dimen/text_size_big"/>
 
         <ListView
-            android:layout_marginTop="15dp"
+            android:divider="@color/colorTransparent"
+            android:dividerHeight="0dp"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/control_pattern_list"/>
@@ -27,6 +29,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginStart="15dp"
         android:layout_width="150dp"
         android:layout_height="match_parent"
         android:orientation="vertical">

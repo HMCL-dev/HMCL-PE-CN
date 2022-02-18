@@ -60,7 +60,7 @@ public class AppManifest {
         FileUtils.createDirectory(ACCOUNT_DIR);
         FileUtils.createDirectory(GAME_FILE_DIRECTORY_DIR);
         FileUtils.createDirectory(SETTING_DIR);
-        FileUtils.deleteDirectory(CONTROLLER_DIR);
+        FileUtils.createDirectory(CONTROLLER_DIR);
         FileUtils.createDirectory(DEBUG_DIR);
         FileUtils.createDirectory(INNER_GAME_DIR);
 

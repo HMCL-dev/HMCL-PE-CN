@@ -1,0 +1,73 @@
+package com.tungsten.hmclpe.launcher.dialogs.control;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
+import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.launcher.list.local.controller.ControlPattern;
+import com.tungsten.hmclpe.launcher.manifest.info.AppInfo;
+
+public class CreateControlPatternDialog extends Dialog implements View.OnClickListener {
+
+    private OnPatternCreateListener onPatternCreateListener;
+
+    private EditText editName;
+    private EditText editAuthor;
+    private EditText editVersion;
+    private EditText editDescribe;
+
+    private Button positive;
+    private Button negative;
+
+    public CreateControlPatternDialog(@NonNull Context context,OnPatternCreateListener onPatternCreateListener) {
+        super(context);
+        setContentView(R.layout.dialog_create_control_pattern);
+        this.onPatternCreateListener = onPatternCreateListener;
+        setCancelable(false);
+        init();
+    }
+
+    private void init(){
+        editName = findViewById(R.id.edit_pattern_name);
+        editAuthor = findViewById(R.id.edit_pattern_author);
+        editVersion = findViewById(R.id.edit_pattern_version);
+        editDescribe = findViewById(R.id.edit_pattern_describe);
+
+        positive = findViewById(R.id.create_pattern);
+        negative = findViewById(R.id.exit);
+
+        positive.setOnClickListener(this);
+        negative.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == positive){
+            if (editName.getText().toString().equals("")){
+                Toast.makeText(getContext(),getContext().getString(R.string.dialog_create_control_pattern_warn),Toast.LENGTH_SHORT).show();
+            }
+            else {
+                ControlPattern controlPattern = new ControlPattern(editName.getText().toString(),
+                        editAuthor.getText().toString(),
+                        editVersion.getText().toString(),
+                        editDescribe.getText().toString(),
+                        AppInfo.APP_VERSION_CODE);
+                onPatternCreateListener.OnPatternCreate(controlPattern);
+                dismiss();
+            }
+        }
+        if (view == negative){
+            dismiss();
+        }
+    }
+
+    public interface OnPatternCreateListener{
+        void OnPatternCreate(ControlPattern controlPattern);
+    }
+}

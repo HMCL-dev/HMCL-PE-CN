@@ -65,7 +65,9 @@ public class HiddenAnimationUtils {
         animation.setInterpolator(new LinearInterpolator());
         animation.setRepeatMode(Animation.REVERSE);//设置反方向执行
         animation.setFillAfter(true);//动画执行完后是否停留在执行完的状态
-        down.startAnimation(animation);
+        if (down != null){
+            down.startAnimation(animation);
+        }
     }
 
     private void openAnim(View v) {

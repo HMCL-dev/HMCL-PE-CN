@@ -72,6 +72,10 @@
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"/>
         <activity
+            android:name=".control.ControlPatternActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"/>
+        <activity
             android:name=".launcher.launch.boat.BoatMinecraftActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|orientation|screenLayout|uiMode|screenSize|navigation"

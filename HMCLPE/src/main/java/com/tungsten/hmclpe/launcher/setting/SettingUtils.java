@@ -1,5 +1,7 @@
 package com.tungsten.hmclpe.launcher.setting;
 
+import com.google.gson.Gson;
+import com.tungsten.hmclpe.launcher.list.local.controller.ControlPattern;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
 import com.tungsten.hmclpe.launcher.list.local.java.JavaListBean;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
@@ -74,6 +76,20 @@ public class SettingUtils {
                     bean.osArch = "";
                 }
                 list.add(bean);
+            }
+        }
+        return list;
+    }
+
+    public static ArrayList<ControlPattern> getControlPatternList(){
+        ArrayList<ControlPattern> list = new ArrayList<>();
+        String[] string = new File(AppManifest.CONTROLLER_DIR + "/").list();
+        if (new File(AppManifest.CONTROLLER_DIR + "/").exists()){
+            for (String str : string){
+                String info = FileStringUtils.getStringFromFile(AppManifest.CONTROLLER_DIR + "/" + str + "/info.json");
+                Gson gson = new Gson();
+                ControlPattern controlPattern = gson.fromJson(info, ControlPattern.class);
+                list.add(controlPattern);
             }
         }
         return list;

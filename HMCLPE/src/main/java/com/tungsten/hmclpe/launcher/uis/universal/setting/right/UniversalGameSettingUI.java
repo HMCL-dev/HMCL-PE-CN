@@ -768,7 +768,7 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_virgl));
         }
         if (v == manageController){
-            ControllerManagerDialog controllerManagerDialog = new ControllerManagerDialog(context, activity.privateGameSetting.controlLayout, new ControllerManagerDialog.OnPatternChangeListener() {
+            ControllerManagerDialog controllerManagerDialog = new ControllerManagerDialog(context,activity.launcherSetting.fullscreen, activity.privateGameSetting.controlLayout, new ControllerManagerDialog.OnPatternChangeListener() {
                 @Override
                 public void onPatternChange(String pattern) {
                     currentControlPattern.setText(pattern);
