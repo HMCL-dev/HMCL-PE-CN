@@ -478,4 +478,6 @@
     <string name="item_control_pattern_author">作者：</string>
     <string name="item_control_pattern_version">版本：</string>
     <string name="item_control_pattern_describe">描述：</string>
+
+    <string name="dialog_game_menu_title">HMCL-PE 控制面板</string>
 </resources>

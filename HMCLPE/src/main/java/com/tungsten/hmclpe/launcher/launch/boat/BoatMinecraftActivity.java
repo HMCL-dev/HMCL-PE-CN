@@ -18,7 +18,10 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.control.view.MenuView;
+import com.tungsten.hmclpe.launcher.dialogs.game.GameMenuDialog;
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
+import com.tungsten.hmclpe.launcher.launch.pojav.PojavMinecraftActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,6 +49,9 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
     private boolean padSettingPointer = false;
 
     private int cursorMode = BoatInput.CursorEnabled;
+
+    private MenuView menuView;
+    private GameMenuDialog menuDialog;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -80,6 +86,37 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
             public void onCursorModeChange(int mode) {
                 cursorMode = mode;
                 cursorModeHandler.sendEmptyMessage(mode);
+            }
+        });
+
+        menuDialog = new GameMenuDialog(this);
+
+        baseLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                menuView = new MenuView(BoatMinecraftActivity.this,baseLayout.getWidth(),baseLayout.getHeight(),MenuView.MENU_MODE_LEFT,0.2f);
+                menuView.addCallback(new MenuView.MenuCallback() {
+                    @Override
+                    public void onRelease() {
+                        menuDialog.show();
+                    }
+
+                    @Override
+                    public void onMoveModeStart() {
+
+                    }
+
+                    @Override
+                    public void onMove(int mode, float yPercent) {
+
+                    }
+
+                    @Override
+                    public void onMoveModeStop() {
+
+                    }
+                });
+                baseLayout.addView(menuView);
             }
         });
     }

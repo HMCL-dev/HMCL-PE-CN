@@ -16,6 +16,9 @@ import android.widget.RelativeLayout;
 import androidx.annotation.RequiresApi;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.control.ControlPatternActivity;
+import com.tungsten.hmclpe.control.view.MenuView;
+import com.tungsten.hmclpe.launcher.dialogs.game.GameMenuDialog;
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
 
 import net.kdt.pojavlaunch.BaseMainActivity;
@@ -45,6 +48,9 @@ public class PojavMinecraftActivity extends BaseMainActivity implements View.OnT
 
     private boolean customSettingPointer = false;
     private boolean padSettingPointer = false;
+
+    private MenuView menuView;
+    private GameMenuDialog menuDialog;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -119,6 +125,37 @@ public class PojavMinecraftActivity extends BaseMainActivity implements View.OnT
         };
 
         init(gameLaunchSetting.game_directory, GameLaunchSetting.isHighVersion(gameLaunchSetting));
+
+        menuDialog = new GameMenuDialog(this);
+
+        baseLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                menuView = new MenuView(PojavMinecraftActivity.this,baseLayout.getWidth(),baseLayout.getHeight(),MenuView.MENU_MODE_LEFT,0.2f);
+                menuView.addCallback(new MenuView.MenuCallback() {
+                    @Override
+                    public void onRelease() {
+                        menuDialog.show();
+                    }
+
+                    @Override
+                    public void onMoveModeStart() {
+
+                    }
+
+                    @Override
+                    public void onMove(int mode, float yPercent) {
+
+                    }
+
+                    @Override
+                    public void onMoveModeStop() {
+
+                    }
+                });
+                baseLayout.addView(menuView);
+            }
+        });
 
     }
 

@@ -28,5 +28,6 @@
     <color name="colorEndRockerBlue">#3300C4FF</color>
 
     <color name="launcher_ui_background">#9AFFFFFF</color>
+    <color name="launcher_ui_background_light">#4DFFFFFF</color>
     <color name="colorPressed">#BDBDBD</color>
 </resources>
