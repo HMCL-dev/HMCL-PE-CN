@@ -63,6 +63,7 @@ public class CreateChildDialog extends Dialog implements View.OnClickListener, A
             }
             else {
                 onChildAddListener.onChildAdd(new ChildLayout(editName.getText().toString(),visibility,new ArrayList<>()));
+                dismiss();
             }
         }
         if (view == negative){

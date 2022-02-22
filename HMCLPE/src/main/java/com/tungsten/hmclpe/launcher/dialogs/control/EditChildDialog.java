@@ -72,6 +72,7 @@ public class EditChildDialog extends Dialog implements View.OnClickListener , Ad
             }
             else {
                 onChildChangeListener.onChildChange(new ChildLayout(editName.getText().toString(),visibility, childLayout.viewList));
+                dismiss();
             }
         }
         if (view == negative){
