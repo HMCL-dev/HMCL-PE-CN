@@ -11,14 +11,13 @@ import android.view.Surface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.RequiresApi;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.MenuHelper;
-import com.tungsten.hmclpe.control.view.MenuView;
+import com.tungsten.hmclpe.control.view.LayoutPanel;
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
 
 import net.kdt.pojavlaunch.BaseMainActivity;
@@ -34,7 +33,7 @@ import java.util.TimerTask;
 public class PojavMinecraftActivity extends BaseMainActivity implements View.OnTouchListener {
 
     private DrawerLayout drawerLayout;
-    private RelativeLayout baseLayout;
+    private LayoutPanel baseLayout;
 
     private ImageView mouseCursor;
     private Button baseTouchPad;
@@ -128,7 +127,7 @@ public class PojavMinecraftActivity extends BaseMainActivity implements View.OnT
 
         init(gameLaunchSetting.game_directory, GameLaunchSetting.isHighVersion(gameLaunchSetting));
 
-        menuHelper = new MenuHelper(this,this,drawerLayout,baseLayout);
+        menuHelper = new MenuHelper(this,this,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout);
 
     }
 

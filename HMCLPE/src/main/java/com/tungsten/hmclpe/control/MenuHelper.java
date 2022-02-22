@@ -1,8 +1,12 @@
 package com.tungsten.hmclpe.control;
 
 import android.content.Context;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -10,16 +14,22 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.control.view.LayoutPanel;
 import com.tungsten.hmclpe.control.view.MenuFloat;
 import com.tungsten.hmclpe.control.view.MenuView;
+import com.tungsten.hmclpe.launcher.dialogs.control.EditControlPatternDialog;
+import com.tungsten.hmclpe.launcher.list.local.controller.ControlPattern;
+import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.setting.game.GameMenuSetting;
 
-public class MenuHelper implements CompoundButton.OnCheckedChangeListener {
+import java.util.ArrayList;
+
+public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     public Context context;
     public AppCompatActivity activity;
     public DrawerLayout drawerLayout;
-    public RelativeLayout baseLayout;
+    public LayoutPanel baseLayout;
 
     public GameMenuSetting gameMenuSetting;
 
@@ -30,11 +40,30 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener {
     public MenuFloat menuFloat;
     public MenuView menuView;
 
-    public MenuHelper(Context context, AppCompatActivity activity, DrawerLayout drawerLayout, RelativeLayout baseLayout){
+    public Spinner patternSpinner;
+    public SwitchCompat editModeSwitch;
+    public Button editInfo;
+    public Button manageChild;
+    public Spinner childSpinner;
+    public Button addView;
+
+    public ArrayList<ControlPattern> patternList;
+    public ControlPattern currentPattern;
+    public String currentChild;
+    public boolean editMode;
+
+    public MenuHelper(Context context, AppCompatActivity activity, DrawerLayout drawerLayout, LayoutPanel baseLayout,boolean editMode,String currentPattern){
         this.context = context;
         this.activity = activity;
         this.drawerLayout = drawerLayout;
         this.baseLayout = baseLayout;
+        this.editMode = editMode;
+        patternList = SettingUtils.getControlPatternList();
+        for (ControlPattern controlPattern : patternList){
+            if (controlPattern.name.equals(currentPattern)){
+                this.currentPattern = controlPattern;
+            }
+        }
 
         gameMenuSetting = GameMenuSetting.getGameMenuSetting();
         init();
@@ -52,6 +81,20 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener {
         switchMenuFloat.setOnCheckedChangeListener(this);
         switchMenuView.setOnCheckedChangeListener(this);
         switchMenuSlide.setOnCheckedChangeListener(this);
+
+        patternSpinner = activity.findViewById(R.id.current_pattern_spinner);
+        editModeSwitch = activity.findViewById(R.id.switch_edit_mode);
+        editInfo = activity.findViewById(R.id.edit_pattern_info);
+        manageChild = activity.findViewById(R.id.manage_child_layout);
+        childSpinner = activity.findViewById(R.id.current_child_spinner);
+        addView = activity.findViewById(R.id.add_view);
+
+        patternSpinner.setOnItemSelectedListener(this);
+        editModeSwitch.setOnCheckedChangeListener(this);
+        editInfo.setOnClickListener(this);
+        manageChild.setOnClickListener(this);
+        childSpinner.setOnItemSelectedListener(this);
+        addView.setOnClickListener(this);
 
         baseLayout.post(new Runnable() {
             @Override
@@ -153,5 +196,39 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener {
             checkOpenMenuSetting();
         }
         GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == editInfo){
+            EditControlPatternDialog dialog = new EditControlPatternDialog(context, new EditControlPatternDialog.OnPatternInfoChangeListener() {
+                @Override
+                public void OnInfoChange(ControlPattern controlPattern) {
+
+                }
+            },currentPattern);
+            dialog.show();
+        }
+        if (view == manageChild){
+
+        }
+        if (view == addView){
+            if (currentChild == null){
+                Toast.makeText(context,context.getString(R.string.drawer_custom_menu_warn),Toast.LENGTH_SHORT).show();
+            }
+            else {
+
+            }
+        }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

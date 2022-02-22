@@ -3,18 +3,18 @@ package com.tungsten.hmclpe.control;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.control.view.LayoutPanel;
 
 public class ControlPatternActivity extends AppCompatActivity implements View.OnTouchListener {
 
     private DrawerLayout drawerLayout;
-    private RelativeLayout baseLayout;
+    private LayoutPanel baseLayout;
 
     public MenuHelper menuHelper;
 
@@ -27,7 +27,7 @@ public class ControlPatternActivity extends AppCompatActivity implements View.On
         drawerLayout = findViewById(R.id.drawer_layout);
         baseLayout = findViewById(R.id.base_layout);
 
-        menuHelper = new MenuHelper(this,this,drawerLayout,baseLayout);
+        menuHelper = new MenuHelper(this,this,drawerLayout,baseLayout,true,getIntent().getExtras().getString("pattern"));
     }
 
     @Override

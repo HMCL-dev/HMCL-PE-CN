@@ -11,7 +11,6 @@ import android.view.Surface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.MenuHelper;
+import com.tungsten.hmclpe.control.view.LayoutPanel;
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
 
 import java.util.Timer;
@@ -32,7 +32,7 @@ import cosine.boat.keyboard.BoatKeycodes;
 public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchListener {
 
     private DrawerLayout drawerLayout;
-    private RelativeLayout baseLayout;
+    private LayoutPanel baseLayout;
 
     private ImageView mouseCursor;
     private Button baseTouchPad;
@@ -90,7 +90,7 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
             }
         });
 
-        menuHelper = new MenuHelper(this,this,drawerLayout,baseLayout);
+        menuHelper = new MenuHelper(this,this,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout);
     }
 
     @SuppressLint("HandlerLeak")

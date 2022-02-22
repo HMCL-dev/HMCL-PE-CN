@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <com.tungsten.hmclpe.control.view.LayoutPanel
         android:background="@drawable/ic_background"
         android:id="@+id/base_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </RelativeLayout>
+    </com.tungsten.hmclpe.control.view.LayoutPanel>
 
     <RelativeLayout
         android:layout_marginTop="30dp"
@@ -175,7 +175,202 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/drawer_custom_menu_current"
+                        android:textSize="9sp"
+                        android:textColor="@color/colorPureBlack"/>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/colorDarkGray"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/drawer_custom_menu_current_pattern"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"
+                            android:singleLine="true"
+                            android:layout_gravity="center"/>
+
+                        <Spinner
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:id="@+id/current_pattern_spinner"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/drawer_custom_menu_mode"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"
+                            android:singleLine="true"
+                            android:layout_gravity="center"/>
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:id="@+id/switch_edit_mode"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/drawer_custom_menu_pattern_setting"
+                        android:textSize="9sp"
+                        android:textColor="@color/colorPureBlack"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/colorDarkGray"/>
+
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/drawer_custom_menu_info"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"
+                            android:singleLine="true"
+                            android:layout_gravity="center"/>
+
+                        <Button
+                            android:layout_width="40dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:text="@string/drawer_custom_menu_edit_info"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:gravity="center"
+                            android:background="@drawable/launcher_setting_button"
+                            android:id="@+id/edit_pattern_info"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/drawer_custom_menu_child_layout"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"
+                            android:singleLine="true"
+                            android:layout_gravity="center"/>
+
+                        <Button
+                            android:layout_width="40dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:text="@string/drawer_custom_menu_child_manager"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:gravity="center"
+                            android:background="@drawable/launcher_setting_button"
+                            android:id="@+id/manage_child_layout"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/drawer_custom_menu_child_setting"
+                        android:textSize="9sp"
+                        android:textColor="@color/colorPureBlack"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/colorDarkGray"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="5dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/drawer_custom_menu_current_child"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"
+                            android:singleLine="true"
+                            android:layout_gravity="center"/>
+
+                        <Spinner
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:id="@+id/current_child_spinner"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/drawer_custom_menu_view"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"
+                            android:singleLine="true"
+                            android:layout_gravity="center"/>
+
+                        <Button
+                            android:layout_width="40dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:text="@string/drawer_custom_menu_add_view"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:gravity="center"
+                            android:background="@drawable/launcher_setting_button"
+                            android:id="@+id/add_view"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

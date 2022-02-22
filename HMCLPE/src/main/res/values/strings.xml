@@ -462,12 +462,14 @@
     <string name="dialog_manage_controller_exit">完成</string>
 
     <string name="dialog_create_control_pattern_title">创建新的布局方案</string>
+    <string name="dialog_create_control_pattern_title_sec">编辑布局方案信息</string>
     <string name="dialog_create_control_pattern_name">布局方案名称（必填）</string>
     <string name="dialog_create_control_pattern_author">作者（选填）</string>
     <string name="dialog_create_control_pattern_version">版本（选填）</string>
     <string name="dialog_create_control_pattern_describe">描述（选填）</string>
     <string name="dialog_create_control_pattern_warn">布局方案名称不得为空！</string>
     <string name="dialog_create_control_pattern_positive">创建</string>
+    <string name="dialog_create_control_pattern_positive_sec">保存</string>
     <string name="dialog_create_control_pattern_negative">取消</string>
 
     <string name="dialog_delete_control_pattern_title">提示</string>
@@ -486,4 +488,17 @@
     <string name="drawer_game_menu_type_gesture">侧滑手势</string>
 
     <string name="drawer_custom_menu_title">控制布局选项</string>
+    <string name="drawer_custom_menu_current">当前方案</string>
+    <string name="drawer_custom_menu_current_pattern">当前布局方案</string>
+    <string name="drawer_custom_menu_mode">编辑模式</string>
+    <string name="drawer_custom_menu_pattern_setting">方案设置</string>
+    <string name="drawer_custom_menu_info">基本信息</string>
+    <string name="drawer_custom_menu_edit_info">编辑</string>
+    <string name="drawer_custom_menu_child_layout">子布局</string>
+    <string name="drawer_custom_menu_child_manager">管理</string>
+    <string name="drawer_custom_menu_child_setting">子布局</string>
+    <string name="drawer_custom_menu_current_child">当前子布局</string>
+    <string name="drawer_custom_menu_view">添加控件</string>
+    <string name="drawer_custom_menu_add_view">添加</string>
+    <string name="drawer_custom_menu_warn">你需要先创建或选择一个子布局</string>
 </resources>
