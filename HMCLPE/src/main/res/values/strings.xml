@@ -472,6 +472,21 @@
     <string name="dialog_create_control_pattern_positive_sec">保存</string>
     <string name="dialog_create_control_pattern_negative">取消</string>
 
+    <string name="dialog_manage_child_title">管理子布局</string>
+    <string name="dialog_manage_child_create">创建新的子布局</string>
+    <string name="dialog_manage_child_exit">完成</string>
+
+    <string name="dialog_create_child_title">创建新的子布局</string>
+    <string name="dialog_create_child_title_sec">编辑子布局信息</string>
+    <string name="dialog_create_child_name">子布局名称</string>
+    <string name="dialog_create_child_visibility">初始可视性</string>
+    <string name="dialog_create_child_visibility_visible">显示</string>
+    <string name="dialog_create_child_visibility_invisible">隐藏</string>
+    <string name="dialog_create_child_positive">创建</string>
+    <string name="dialog_create_child_positive_sec">保存</string>
+    <string name="dialog_create_child_negative">取消</string>
+    <string name="dialog_create_child_warn">子布局名称不得为空</string>
+
     <string name="dialog_delete_control_pattern_title">提示</string>
     <string name="dialog_delete_control_pattern_content">确定要永久删除此布局方案吗？</string>
     <string name="dialog_delete_control_pattern_positive">确认</string>

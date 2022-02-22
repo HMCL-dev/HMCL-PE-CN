@@ -3,6 +3,7 @@ package com.tungsten.hmclpe.control;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
@@ -17,7 +18,9 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.view.LayoutPanel;
 import com.tungsten.hmclpe.control.view.MenuFloat;
 import com.tungsten.hmclpe.control.view.MenuView;
+import com.tungsten.hmclpe.launcher.dialogs.control.ChildManagerDialog;
 import com.tungsten.hmclpe.launcher.dialogs.control.EditControlPatternDialog;
+import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
 import com.tungsten.hmclpe.launcher.list.local.controller.ControlPattern;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.setting.game.GameMenuSetting;
@@ -51,6 +54,8 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     public ControlPattern currentPattern;
     public String currentChild;
     public boolean editMode;
+    public ArrayList<String> childLayoutList;
+    public ArrayAdapter<String> childAdapter;
 
     public MenuHelper(Context context, AppCompatActivity activity, DrawerLayout drawerLayout, LayoutPanel baseLayout,boolean editMode,String currentPattern){
         this.context = context;
@@ -89,12 +94,30 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         childSpinner = activity.findViewById(R.id.current_child_spinner);
         addView = activity.findViewById(R.id.add_view);
 
+        ArrayList<String> patterns = new ArrayList<>();
+        for (ControlPattern controlPattern : patternList){
+            patterns.add(controlPattern.name);
+        }
+        ArrayAdapter<String> patternAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,patterns);
+        patternSpinner.setAdapter(patternAdapter);
+        patternSpinner.setSelection(patternAdapter.getPosition(currentPattern.name));
+
+        ArrayList<ChildLayout> list = SettingUtils.getChildList(currentPattern.name);
+        childLayoutList = new ArrayList<>();
+        for (ChildLayout childLayout : list){
+            childLayoutList.add(childLayout.name);
+        }
+        childAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,childLayoutList);
+        childSpinner.setAdapter(childAdapter);
+
         patternSpinner.setOnItemSelectedListener(this);
         editModeSwitch.setOnCheckedChangeListener(this);
         editInfo.setOnClickListener(this);
         manageChild.setOnClickListener(this);
         childSpinner.setOnItemSelectedListener(this);
         addView.setOnClickListener(this);
+
+        childSpinner.setSelection(0);
 
         baseLayout.post(new Runnable() {
             @Override
@@ -163,6 +186,10 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         }
     }
 
+    public void refreshChildSpinner(){
+
+    }
+
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         if (compoundButton == switchMenuFloat){
@@ -210,7 +237,8 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
             dialog.show();
         }
         if (view == manageChild){
-
+            ChildManagerDialog dialog = new ChildManagerDialog(context,this,currentPattern);
+            dialog.show();
         }
         if (view == addView){
             if (currentChild == null){
