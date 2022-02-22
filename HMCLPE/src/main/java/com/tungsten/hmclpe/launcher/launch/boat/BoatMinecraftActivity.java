@@ -16,12 +16,11 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.tungsten.hmclpe.R;
-import com.tungsten.hmclpe.control.view.MenuView;
-import com.tungsten.hmclpe.launcher.dialogs.game.GameMenuDialog;
+import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
-import com.tungsten.hmclpe.launcher.launch.pojav.PojavMinecraftActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,6 +31,7 @@ import cosine.boat.keyboard.BoatKeycodes;
 
 public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchListener {
 
+    private DrawerLayout drawerLayout;
     private RelativeLayout baseLayout;
 
     private ImageView mouseCursor;
@@ -50,8 +50,7 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
 
     private int cursorMode = BoatInput.CursorEnabled;
 
-    private MenuView menuView;
-    private GameMenuDialog menuDialog;
+    public MenuHelper menuHelper;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -60,10 +59,12 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
 
         GameLaunchSetting gameLaunchSetting = GameLaunchSetting.getGameLaunchSetting(getIntent().getExtras().getString("setting_path"));
 
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.MATCH_PARENT, DrawerLayout.LayoutParams.MATCH_PARENT);
 
-        baseLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.activity_minecraft,null) ;
-        addContentView(baseLayout,params);
+        drawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_minecraft,null) ;
+        addContentView(drawerLayout,params);
+
+        baseLayout = findViewById(R.id.base_layout);
 
         mouseCursor = findViewById(R.id.mouse_cursor);
         baseTouchPad = findButton(R.id.base_touch_pad);
@@ -89,36 +90,7 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
             }
         });
 
-        menuDialog = new GameMenuDialog(this);
-
-        baseLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                menuView = new MenuView(BoatMinecraftActivity.this,baseLayout.getWidth(),baseLayout.getHeight(),MenuView.MENU_MODE_LEFT,0.2f);
-                menuView.addCallback(new MenuView.MenuCallback() {
-                    @Override
-                    public void onRelease() {
-                        menuDialog.show();
-                    }
-
-                    @Override
-                    public void onMoveModeStart() {
-
-                    }
-
-                    @Override
-                    public void onMove(int mode, float yPercent) {
-
-                    }
-
-                    @Override
-                    public void onMoveModeStop() {
-
-                    }
-                });
-                baseLayout.addView(menuView);
-            }
-        });
+        menuHelper = new MenuHelper(this,this,drawerLayout,baseLayout);
     }
 
     @SuppressLint("HandlerLeak")

@@ -479,5 +479,11 @@
     <string name="item_control_pattern_version">版本：</string>
     <string name="item_control_pattern_describe">描述：</string>
 
-    <string name="dialog_game_menu_title">HMCL-PE 控制面板</string>
+    <string name="drawer_game_menu_title">HMCL-PE 控制面板</string>
+    <string name="drawer_game_menu_type">控制面板呼出方式</string>
+    <string name="drawer_game_menu_type_float">悬浮窗</string>
+    <string name="drawer_game_menu_type_bar">侧边栏</string>
+    <string name="drawer_game_menu_type_gesture">侧滑手势</string>
+
+    <string name="drawer_custom_menu_title">控制布局选项</string>
 </resources>

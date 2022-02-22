@@ -14,11 +14,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.RequiresApi;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.tungsten.hmclpe.R;
-import com.tungsten.hmclpe.control.ControlPatternActivity;
+import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.control.view.MenuView;
-import com.tungsten.hmclpe.launcher.dialogs.game.GameMenuDialog;
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
 
 import net.kdt.pojavlaunch.BaseMainActivity;
@@ -33,6 +33,7 @@ import java.util.TimerTask;
 
 public class PojavMinecraftActivity extends BaseMainActivity implements View.OnTouchListener {
 
+    private DrawerLayout drawerLayout;
     private RelativeLayout baseLayout;
 
     private ImageView mouseCursor;
@@ -49,8 +50,7 @@ public class PojavMinecraftActivity extends BaseMainActivity implements View.OnT
     private boolean customSettingPointer = false;
     private boolean padSettingPointer = false;
 
-    private MenuView menuView;
-    private GameMenuDialog menuDialog;
+    public MenuHelper menuHelper;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -61,10 +61,12 @@ public class PojavMinecraftActivity extends BaseMainActivity implements View.OnT
 
         GameLaunchSetting gameLaunchSetting = GameLaunchSetting.getGameLaunchSetting(getIntent().getExtras().getString("setting_path"));
 
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+        DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.MATCH_PARENT, DrawerLayout.LayoutParams.MATCH_PARENT);
 
-        baseLayout = (RelativeLayout) getLayoutInflater().inflate(R.layout.activity_minecraft,null) ;
-        addContentView(baseLayout,params);
+        drawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_minecraft,null) ;
+        addContentView(drawerLayout,params);
+
+        baseLayout = findViewById(R.id.base_layout);
 
         mouseCursor = findViewById(R.id.mouse_cursor);
         baseTouchPad = findButton(R.id.base_touch_pad);
@@ -126,36 +128,7 @@ public class PojavMinecraftActivity extends BaseMainActivity implements View.OnT
 
         init(gameLaunchSetting.game_directory, GameLaunchSetting.isHighVersion(gameLaunchSetting));
 
-        menuDialog = new GameMenuDialog(this);
-
-        baseLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                menuView = new MenuView(PojavMinecraftActivity.this,baseLayout.getWidth(),baseLayout.getHeight(),MenuView.MENU_MODE_LEFT,0.2f);
-                menuView.addCallback(new MenuView.MenuCallback() {
-                    @Override
-                    public void onRelease() {
-                        menuDialog.show();
-                    }
-
-                    @Override
-                    public void onMoveModeStart() {
-
-                    }
-
-                    @Override
-                    public void onMove(int mode, float yPercent) {
-
-                    }
-
-                    @Override
-                    public void onMoveModeStop() {
-
-                    }
-                });
-                baseLayout.addView(menuView);
-            }
-        });
+        menuHelper = new MenuHelper(this,this,drawerLayout,baseLayout);
 
     }
 

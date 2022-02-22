@@ -136,7 +136,7 @@ public class ControlPatternListAdapter extends BaseAdapter {
                 builder.setMessage(context.getString(R.string.dialog_delete_control_pattern_content));
                 builder.setPositiveButton(context.getString(R.string.dialog_delete_control_pattern_positive), new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick(DialogInterface dialogInterface, int p) {
                         if (currentPattern.equals(pattern.name)){
                             if (list.size() == 1){
                                 FileUtils.deleteDirectory(AppManifest.CONTROLLER_DIR + "/" + pattern.name);

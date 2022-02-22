@@ -34,7 +34,7 @@ public class MenuView extends View {
     private int radius = ConvertUtils.dip2px(getContext(),10);
 
     private boolean moveMode = false;
-    private int menuMode = MENU_MODE_LEFT;
+    private int menuMode;
 
     private Timer moveTimer;
     private Timer positionTimer;
