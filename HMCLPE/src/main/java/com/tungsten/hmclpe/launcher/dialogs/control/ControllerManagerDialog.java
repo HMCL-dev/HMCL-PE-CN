@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.local.controller.ControlPattern;
 import com.tungsten.hmclpe.launcher.list.local.controller.ControlPatternListAdapter;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 
 public class ControllerManagerDialog extends Dialog implements View.OnClickListener {
 
+    private MainActivity activity;
     private boolean fullscreen;
     public String currentPattern;
     public OnPatternChangeListener onPatternChangeListener;
@@ -30,8 +32,9 @@ public class ControllerManagerDialog extends Dialog implements View.OnClickListe
     private Button createNewPattern;
     private Button exit;
 
-    public ControllerManagerDialog(@NonNull Context context,boolean fullscreen,String currentPattern,OnPatternChangeListener onPatternChangeListener) {
+    public ControllerManagerDialog(@NonNull Context context, MainActivity activity, boolean fullscreen, String currentPattern, OnPatternChangeListener onPatternChangeListener) {
         super(context);
+        this.activity = activity;
         this.fullscreen = fullscreen;
         this.currentPattern = currentPattern;
         this.onPatternChangeListener = onPatternChangeListener;
@@ -53,9 +56,9 @@ public class ControllerManagerDialog extends Dialog implements View.OnClickListe
         loadList();
     }
 
-    private void loadList(){
+    public void loadList(){
         ArrayList<ControlPattern> list = SettingUtils.getControlPatternList();
-        ControlPatternListAdapter adapter = new ControlPatternListAdapter(getContext(),this,list,currentPattern,fullscreen);
+        ControlPatternListAdapter adapter = new ControlPatternListAdapter(getContext(),activity,this,list,currentPattern,fullscreen);
         patternList.setAdapter(adapter);
     }
 

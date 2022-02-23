@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.SwitchCompat;
@@ -27,6 +26,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import com.tungsten.filepicker.Constants;
 import com.tungsten.filepicker.FolderChooser;
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.control.ControlPatternActivity;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.control.ControllerManagerDialog;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
@@ -125,6 +125,7 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
 
     private Button manageController;
     private TextView currentControlPattern;
+    private ControllerManagerDialog controllerManagerDialog;
 
     public UniversalGameSettingUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -434,6 +435,15 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
                 activity.privateGameSetting.gameDirSetting.path = UriUtils.getRealPathFromUri_AboveApi19(context,uri);
                 GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
             }
+        }
+        if (requestCode == ControlPatternActivity.CONTROL_PATTERN_REQUEST_CODE && controllerManagerDialog != null && data != null){
+            Uri uri = data.getData();
+            String pattern = uri.toString();
+            currentControlPattern.setText(pattern);
+            activity.privateGameSetting.controlLayout = pattern;
+            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+            controllerManagerDialog.currentPattern = pattern;
+            controllerManagerDialog.loadList();
         }
     }
 
@@ -768,7 +778,7 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_virgl));
         }
         if (v == manageController){
-            ControllerManagerDialog controllerManagerDialog = new ControllerManagerDialog(context,activity.launcherSetting.fullscreen, activity.privateGameSetting.controlLayout, new ControllerManagerDialog.OnPatternChangeListener() {
+            controllerManagerDialog = new ControllerManagerDialog(context,activity,activity.launcherSetting.fullscreen, activity.privateGameSetting.controlLayout, new ControllerManagerDialog.OnPatternChangeListener() {
                 @Override
                 public void onPatternChange(String pattern) {
                     currentControlPattern.setText(pattern);

@@ -24,6 +24,8 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:layout_marginBottom="15dp"
+                android:id="@+id/pattern_name_editor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -54,7 +56,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">

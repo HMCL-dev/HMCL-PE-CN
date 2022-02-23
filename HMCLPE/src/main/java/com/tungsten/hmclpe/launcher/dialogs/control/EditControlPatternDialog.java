@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,11 +13,17 @@ import androidx.annotation.NonNull;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.list.local.controller.ControlPattern;
 import com.tungsten.hmclpe.launcher.manifest.info.AppInfo;
+import com.tungsten.hmclpe.launcher.setting.SettingUtils;
+
+import java.util.ArrayList;
 
 public class EditControlPatternDialog extends Dialog implements View.OnClickListener {
 
+    private boolean enable;
     private OnPatternInfoChangeListener onPatternInfoChangeListener;
     private ControlPattern controlPattern;
+
+    private LinearLayout layout;
 
     private EditText editName;
     private EditText editAuthor;
@@ -26,9 +33,10 @@ public class EditControlPatternDialog extends Dialog implements View.OnClickList
     private Button positive;
     private Button negative;
 
-    public EditControlPatternDialog(@NonNull Context context, OnPatternInfoChangeListener onPatternInfoChangeListener,ControlPattern controlPattern) {
+    public EditControlPatternDialog(@NonNull Context context,boolean enable, OnPatternInfoChangeListener onPatternInfoChangeListener,ControlPattern controlPattern) {
         super(context);
         setContentView(R.layout.dialog_edit_pattern_info);
+        this.enable = enable;
         this.onPatternInfoChangeListener = onPatternInfoChangeListener;
         this.controlPattern = controlPattern;
         setCancelable(false);
@@ -36,6 +44,8 @@ public class EditControlPatternDialog extends Dialog implements View.OnClickList
     }
 
     private void init(){
+        layout = findViewById(R.id.pattern_name_editor);
+
         editName = findViewById(R.id.edit_pattern_name);
         editAuthor = findViewById(R.id.edit_pattern_author);
         editVersion = findViewById(R.id.edit_pattern_version);
@@ -45,6 +55,10 @@ public class EditControlPatternDialog extends Dialog implements View.OnClickList
         editAuthor.setText(controlPattern.author);
         editVersion.setText(controlPattern.versionName);
         editDescribe.setText(controlPattern.describe);
+
+        if (!enable){
+            layout.setVisibility(View.GONE);
+        }
 
         positive = findViewById(R.id.create_pattern);
         negative = findViewById(R.id.exit);
@@ -56,8 +70,19 @@ public class EditControlPatternDialog extends Dialog implements View.OnClickList
     @Override
     public void onClick(View view) {
         if (view == positive){
+            ArrayList<ControlPattern> list = SettingUtils.getControlPatternList();
+            ArrayList<String> names = new ArrayList<>();
+            for (ControlPattern controlPattern : list){
+                if (!controlPattern.name.equals(this.controlPattern.name)){
+                    names.add(controlPattern.name);
+                }
+            }
+            boolean exist = names.contains(editName.getText().toString());
             if (editName.getText().toString().equals("")){
                 Toast.makeText(getContext(),getContext().getString(R.string.dialog_create_control_pattern_warn),Toast.LENGTH_SHORT).show();
+            }
+            else if (exist){
+                Toast.makeText(getContext(),getContext().getString(R.string.dialog_create_control_pattern_warn_exist),Toast.LENGTH_SHORT).show();
             }
             else {
                 ControlPattern controlPattern = new ControlPattern(editName.getText().toString(),

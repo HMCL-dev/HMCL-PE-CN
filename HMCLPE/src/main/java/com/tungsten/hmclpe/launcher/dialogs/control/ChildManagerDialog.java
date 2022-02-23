@@ -52,15 +52,17 @@ public class ChildManagerDialog extends Dialog implements View.OnClickListener {
         ArrayList<ChildLayout> list = SettingUtils.getChildList(controlPattern.name);
         ChildLayoutListAdapter adapter = new ChildLayoutListAdapter(getContext(),list,controlPattern,this);
         childListView.setAdapter(adapter);
+        menuHelper.refreshChildSpinner();
     }
 
     @Override
     public void onClick(View view) {
         if (view == create) {
-            CreateChildDialog dialog = new CreateChildDialog(getContext(), new CreateChildDialog.OnChildAddListener() {
+            CreateChildDialog dialog = new CreateChildDialog(getContext(),controlPattern.name, new CreateChildDialog.OnChildAddListener() {
                 @Override
                 public void onChildAdd(ChildLayout childLayout) {
-
+                    ChildLayout.saveChildLayout(controlPattern.name,childLayout);
+                    refreshListView();
                 }
             });
             dialog.show();

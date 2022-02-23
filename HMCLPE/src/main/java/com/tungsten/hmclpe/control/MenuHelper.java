@@ -14,6 +14,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.view.LayoutPanel;
 import com.tungsten.hmclpe.control.view.MenuFloat;
@@ -22,8 +23,11 @@ import com.tungsten.hmclpe.launcher.dialogs.control.ChildManagerDialog;
 import com.tungsten.hmclpe.launcher.dialogs.control.EditControlPatternDialog;
 import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
 import com.tungsten.hmclpe.launcher.list.local.controller.ControlPattern;
+import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.setting.game.GameMenuSetting;
+import com.tungsten.hmclpe.utils.file.FileStringUtils;
+import com.tungsten.hmclpe.utils.file.FileUtils;
 
 import java.util.ArrayList;
 
@@ -52,8 +56,10 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
 
     public ArrayList<ControlPattern> patternList;
     public ControlPattern currentPattern;
+    public String initialPattern;
     public String currentChild;
     public boolean editMode;
+    public boolean enableNameEditor;
     public ArrayList<String> childLayoutList;
     public ArrayAdapter<String> childAdapter;
 
@@ -63,6 +69,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         this.drawerLayout = drawerLayout;
         this.baseLayout = baseLayout;
         this.editMode = editMode;
+        this.enableNameEditor = editMode;
         patternList = SettingUtils.getControlPatternList();
         for (ControlPattern controlPattern : patternList){
             if (controlPattern.name.equals(currentPattern)){
@@ -98,7 +105,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         for (ControlPattern controlPattern : patternList){
             patterns.add(controlPattern.name);
         }
-        ArrayAdapter<String> patternAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,patterns);
+        ArrayAdapter<String> patternAdapter = new ArrayAdapter<>(context, R.layout.item_spinner_drop_down_small,patterns);
         patternSpinner.setAdapter(patternAdapter);
         patternSpinner.setSelection(patternAdapter.getPosition(currentPattern.name));
 
@@ -107,7 +114,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         for (ChildLayout childLayout : list){
             childLayoutList.add(childLayout.name);
         }
-        childAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item,childLayoutList);
+        childAdapter = new ArrayAdapter<>(context, R.layout.item_spinner_drop_down_small,childLayoutList);
         childSpinner.setAdapter(childAdapter);
 
         patternSpinner.setOnItemSelectedListener(this);
@@ -118,6 +125,8 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         addView.setOnClickListener(this);
 
         childSpinner.setSelection(0);
+
+        editModeSwitch.setChecked(editMode);
 
         baseLayout.post(new Runnable() {
             @Override
@@ -187,7 +196,22 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     }
 
     public void refreshChildSpinner(){
-
+        ArrayList<ChildLayout> list = SettingUtils.getChildList(currentPattern.name);
+        childLayoutList = new ArrayList<>();
+        for (ChildLayout childLayout : list){
+            childLayoutList.add(childLayout.name);
+        }
+        childAdapter = new ArrayAdapter<>(context, R.layout.item_spinner_drop_down_small,childLayoutList);
+        childSpinner.setAdapter(childAdapter);
+        if (childLayoutList.contains(currentChild)){
+            childSpinner.setSelection(childAdapter.getPosition(currentChild));
+        }
+        else {
+            childSpinner.setSelection(0);
+        }
+        if (childLayoutList.size() == 0){
+            currentChild = null;
+        }
     }
 
     @Override
@@ -201,6 +225,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
                 baseLayout.removeView(menuFloat);
             }
             checkOpenMenuSetting();
+            GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
         }
         if (compoundButton == switchMenuView){
             gameMenuSetting.menuViewSetting.enable = b;
@@ -211,6 +236,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
                 baseLayout.removeView(menuView);
             }
             checkOpenMenuSetting();
+            GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
         }
         if (compoundButton == switchMenuSlide){
             gameMenuSetting.menuSlideSetting = b;
@@ -221,17 +247,35 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             }
             checkOpenMenuSetting();
+            GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
         }
-        GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
+        if (compoundButton == editModeSwitch){
+            editMode = b;
+        }
     }
 
     @Override
     public void onClick(View view) {
         if (view == editInfo){
-            EditControlPatternDialog dialog = new EditControlPatternDialog(context, new EditControlPatternDialog.OnPatternInfoChangeListener() {
+            EditControlPatternDialog dialog = new EditControlPatternDialog(context,enableNameEditor, new EditControlPatternDialog.OnPatternInfoChangeListener() {
                 @Override
                 public void OnInfoChange(ControlPattern controlPattern) {
-
+                    if (currentPattern.name.equals(initialPattern)){
+                        initialPattern = controlPattern.name;
+                    }
+                    FileUtils.rename(AppManifest.CONTROLLER_DIR + "/" + currentPattern.name,controlPattern.name);
+                    Gson gson = new Gson();
+                    String string = gson.toJson(controlPattern);
+                    FileStringUtils.writeFile(AppManifest.CONTROLLER_DIR + "/" + controlPattern.name + "/info.json",string);
+                    patternList = SettingUtils.getControlPatternList();
+                    currentPattern = controlPattern;
+                    ArrayList<String> patterns = new ArrayList<>();
+                    for (ControlPattern pattern : patternList){
+                        patterns.add(pattern.name);
+                    }
+                    ArrayAdapter<String> patternAdapter = new ArrayAdapter<>(context, R.layout.item_spinner_drop_down_small,patterns);
+                    patternSpinner.setAdapter(patternAdapter);
+                    patternSpinner.setSelection(patternAdapter.getPosition(currentPattern.name));
                 }
             },currentPattern);
             dialog.show();
@@ -252,7 +296,18 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+        if (adapterView == patternSpinner){
+            String str = (String) patternSpinner.getItemAtPosition(i);
+            for (ControlPattern controlPattern : patternList){
+                if (controlPattern.name.equals(str)){
+                    currentPattern = controlPattern;
+                    break;
+                }
+            }
+        }
+        if (adapterView == childSpinner){
+            currentChild = (String) childSpinner.getItemAtPosition(i);
+        }
     }
 
     @Override

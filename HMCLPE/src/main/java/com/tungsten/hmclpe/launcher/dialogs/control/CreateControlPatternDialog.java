@@ -12,6 +12,9 @@ import androidx.annotation.NonNull;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.list.local.controller.ControlPattern;
 import com.tungsten.hmclpe.launcher.manifest.info.AppInfo;
+import com.tungsten.hmclpe.launcher.setting.SettingUtils;
+
+import java.util.ArrayList;
 
 public class CreateControlPatternDialog extends Dialog implements View.OnClickListener {
 
@@ -49,8 +52,17 @@ public class CreateControlPatternDialog extends Dialog implements View.OnClickLi
     @Override
     public void onClick(View view) {
         if (view == positive){
+            ArrayList<ControlPattern> list = SettingUtils.getControlPatternList();
+            ArrayList<String> names = new ArrayList<>();
+            for (ControlPattern controlPattern : list){
+                names.add(controlPattern.name);
+            }
+            boolean exist = names.contains(editName.getText().toString());
             if (editName.getText().toString().equals("")){
                 Toast.makeText(getContext(),getContext().getString(R.string.dialog_create_control_pattern_warn),Toast.LENGTH_SHORT).show();
+            }
+            else if (exist){
+                Toast.makeText(getContext(),getContext().getString(R.string.dialog_create_control_pattern_warn_exist),Toast.LENGTH_SHORT).show();
             }
             else {
                 ControlPattern controlPattern = new ControlPattern(editName.getText().toString(),

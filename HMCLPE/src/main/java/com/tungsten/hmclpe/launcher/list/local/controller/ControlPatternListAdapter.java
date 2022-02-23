@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.ControlPatternActivity;
+import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.control.ControllerManagerDialog;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.utils.animation.HiddenAnimationUtils;
@@ -28,13 +29,15 @@ import java.util.ArrayList;
 public class ControlPatternListAdapter extends BaseAdapter {
 
     private Context context;
+    private MainActivity activity;
     private ControllerManagerDialog dialog;
     private ArrayList<ControlPattern> list;
     private String currentPattern;
     private boolean fullscreen;
 
-    public ControlPatternListAdapter(Context context, ControllerManagerDialog dialog, ArrayList<ControlPattern> list,String currentPattern,boolean fullscreen){
+    public ControlPatternListAdapter(Context context, MainActivity activity, ControllerManagerDialog dialog, ArrayList<ControlPattern> list, String currentPattern, boolean fullscreen){
         this.context = context;
+        this.activity = activity;
         this.dialog = dialog;
         this.list = list;
         this.currentPattern = currentPattern;
@@ -117,9 +120,10 @@ public class ControlPatternListAdapter extends BaseAdapter {
                 Intent intent = new Intent(context, ControlPatternActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("pattern", pattern.name);
+                bundle.putString("initial", currentPattern);
                 bundle.putBoolean("fullscreen",fullscreen);
                 intent.putExtras(bundle);
-                context.startActivity(intent);
+                activity.startActivityForResult(intent,ControlPatternActivity.CONTROL_PATTERN_REQUEST_CODE);
             }
         });
         viewHolder.share.setOnClickListener(new View.OnClickListener() {

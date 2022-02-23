@@ -1,6 +1,8 @@
 package com.tungsten.hmclpe.launcher.list.local.controller;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,11 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.dialogs.control.ChildManagerDialog;
+import com.tungsten.hmclpe.launcher.dialogs.control.EditChildDialog;
+import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.utils.file.FileUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class ChildLayoutListAdapter extends BaseAdapter {
@@ -67,13 +73,39 @@ public class ChildLayoutListAdapter extends BaseAdapter {
         viewHolder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                EditChildDialog dialog = new EditChildDialog(context, controlPattern.name, new EditChildDialog.OnChildChangeListener() {
+                    @Override
+                    public void onChildChange(ChildLayout child) {
+                        FileUtils.rename(AppManifest.CONTROLLER_DIR + "/" + controlPattern.name + "/" + childLayout.name + ".json",child.name + ".json");
+                        ChildLayout.saveChildLayout(controlPattern.name,child);
+                        childManagerDialog.refreshListView();
+                    }
+                },childLayout);
+                dialog.show();
             }
         });
         viewHolder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(context.getString(R.string.dialog_delete_child_title));
+                builder.setMessage(context.getString(R.string.dialog_delete_child_content));
+                builder.setPositiveButton(context.getString(R.string.dialog_delete_child_positive), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int p) {
+                        if (new File(AppManifest.CONTROLLER_DIR + "/" + controlPattern.name + "/" + childLayout.name + ".json").delete()){
+                            childManagerDialog.refreshListView();
+                        }
+                    }
+                });
+                builder.setNegativeButton(context.getString(R.string.dialog_delete_child_negative), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int p) {
 
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
         return view;

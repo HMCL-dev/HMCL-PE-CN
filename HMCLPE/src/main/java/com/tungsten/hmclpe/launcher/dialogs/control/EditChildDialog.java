@@ -14,11 +14,13 @@ import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
+import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 
 import java.util.ArrayList;
 
 public class EditChildDialog extends Dialog implements View.OnClickListener , AdapterView.OnItemSelectedListener {
 
+    private String pattern;
     private OnChildChangeListener onChildChangeListener;
     private ChildLayout childLayout;
 
@@ -30,8 +32,9 @@ public class EditChildDialog extends Dialog implements View.OnClickListener , Ad
 
     private int visibility;
 
-    public EditChildDialog(@NonNull Context context,OnChildChangeListener onChildChangeListener,ChildLayout childLayout) {
+    public EditChildDialog(@NonNull Context context,String pattern,OnChildChangeListener onChildChangeListener,ChildLayout childLayout) {
         super(context);
+        this.pattern = pattern;
         this.onChildChangeListener = onChildChangeListener;
         this.childLayout = childLayout;
         setContentView(R.layout.dialog_edit_child);
@@ -51,7 +54,7 @@ public class EditChildDialog extends Dialog implements View.OnClickListener , Ad
         ArrayList<String> list = new ArrayList<>();
         list.add(getContext().getString(R.string.dialog_create_child_visibility_visible));
         list.add(getContext().getString(R.string.dialog_create_child_visibility_invisible));
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), R.layout.item_spinner,list);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
@@ -66,12 +69,26 @@ public class EditChildDialog extends Dialog implements View.OnClickListener , Ad
 
     @Override
     public void onClick(View view) {
+        ArrayList<ChildLayout> childLayouts = SettingUtils.getChildList(pattern);
+        ArrayList<String> list = new ArrayList<>();
+        for (ChildLayout childLayout : childLayouts){
+            if (!childLayout.name.equals(this.childLayout.name)){
+                list.add(childLayout.name);
+            }
+        }
+        boolean exist = list.contains(editName.getText().toString());
         if (view == positive){
             if (editName.getText().toString().equals("")){
                 Toast.makeText(getContext(),getContext().getString(R.string.dialog_create_child_warn),Toast.LENGTH_SHORT).show();
             }
+            else if (editName.getText().toString().equals("info")){
+                Toast.makeText(getContext(),getContext().getString(R.string.dialog_create_child_warn_info),Toast.LENGTH_SHORT).show();
+            }
+            else if (exist){
+                Toast.makeText(getContext(),getContext().getString(R.string.dialog_create_child_warn_exist),Toast.LENGTH_SHORT).show();
+            }
             else {
-                onChildChangeListener.onChildChange(new ChildLayout(editName.getText().toString(),visibility, childLayout.viewList));
+                onChildChangeListener.onChildChange(new ChildLayout(editName.getText().toString(),visibility, childLayout.baseButtonList,childLayout.baseRockerViewList));
                 dismiss();
             }
         }

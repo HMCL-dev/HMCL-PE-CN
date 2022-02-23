@@ -468,6 +468,7 @@
     <string name="dialog_create_control_pattern_version">版本（选填）</string>
     <string name="dialog_create_control_pattern_describe">描述（选填）</string>
     <string name="dialog_create_control_pattern_warn">布局方案名称不得为空！</string>
+    <string name="dialog_create_control_pattern_warn_exist">布局方案名称重复</string>
     <string name="dialog_create_control_pattern_positive">创建</string>
     <string name="dialog_create_control_pattern_positive_sec">保存</string>
     <string name="dialog_create_control_pattern_negative">取消</string>
@@ -486,11 +487,18 @@
     <string name="dialog_create_child_positive_sec">保存</string>
     <string name="dialog_create_child_negative">取消</string>
     <string name="dialog_create_child_warn">子布局名称不得为空</string>
+    <string name="dialog_create_child_warn_info">不合法的字符！</string>
+    <string name="dialog_create_child_warn_exist">子布局名称重复</string>
 
     <string name="dialog_delete_control_pattern_title">提示</string>
     <string name="dialog_delete_control_pattern_content">确定要永久删除此布局方案吗？</string>
     <string name="dialog_delete_control_pattern_positive">确认</string>
     <string name="dialog_delete_control_pattern_negative">取消</string>
+
+    <string name="dialog_delete_child_title">提示</string>
+    <string name="dialog_delete_child_content">确定要永久删除该子布局吗？</string>
+    <string name="dialog_delete_child_positive">确认</string>
+    <string name="dialog_delete_child_negative">取消</string>
 
     <string name="item_control_pattern_author">作者：</string>
     <string name="item_control_pattern_version">版本：</string>
