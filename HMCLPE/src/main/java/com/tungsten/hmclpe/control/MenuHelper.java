@@ -19,6 +19,7 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.view.LayoutPanel;
 import com.tungsten.hmclpe.control.view.MenuFloat;
 import com.tungsten.hmclpe.control.view.MenuView;
+import com.tungsten.hmclpe.launcher.dialogs.control.AddViewDialog;
 import com.tungsten.hmclpe.launcher.dialogs.control.ChildManagerDialog;
 import com.tungsten.hmclpe.launcher.dialogs.control.EditControlPatternDialog;
 import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
@@ -289,7 +290,8 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
                 Toast.makeText(context,context.getString(R.string.drawer_custom_menu_warn),Toast.LENGTH_SHORT).show();
             }
             else {
-
+                AddViewDialog dialog = new AddViewDialog(context);
+                dialog.show();
             }
         }
     }
