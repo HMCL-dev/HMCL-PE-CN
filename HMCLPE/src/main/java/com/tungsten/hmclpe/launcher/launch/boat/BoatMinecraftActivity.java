@@ -9,6 +9,7 @@ import android.os.Message;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -30,6 +31,8 @@ import cosine.boat.BoatInput;
 import cosine.boat.keyboard.BoatKeycodes;
 
 public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchListener {
+
+    private GameLaunchSetting gameLaunchSetting;
 
     private DrawerLayout drawerLayout;
     private LayoutPanel baseLayout;
@@ -57,7 +60,18 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        GameLaunchSetting gameLaunchSetting = GameLaunchSetting.getGameLaunchSetting(getIntent().getExtras().getString("setting_path"));
+        gameLaunchSetting = GameLaunchSetting.getGameLaunchSetting(getIntent().getExtras().getString("setting_path"));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            if (gameLaunchSetting.fullscreen) {
+                getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            } else {
+                getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
+            }
+        }
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+
+        setContentView(cosine.boat.R.layout.activity_boat);
 
         DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.MATCH_PARENT, DrawerLayout.LayoutParams.MATCH_PARENT);
 
@@ -89,6 +103,8 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
                 cursorModeHandler.sendEmptyMessage(mode);
             }
         });
+
+        init();
 
         menuHelper = new MenuHelper(this,this,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout);
     }
@@ -179,5 +195,18 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
     public void onBackPressed() {
         BoatInput.setKey(BoatKeycodes.BOAT_KEYBOARD_Escape,0,true);
         BoatInput.setKey(BoatKeycodes.BOAT_KEYBOARD_Escape,0,false);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            if (gameLaunchSetting.fullscreen) {
+                getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            } else {
+                getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
+            }
+        }
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
     }
 }

@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -31,6 +32,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class PojavMinecraftActivity extends BaseMainActivity implements View.OnTouchListener {
+
+    private GameLaunchSetting gameLaunchSetting;
 
     private DrawerLayout drawerLayout;
     private LayoutPanel baseLayout;
@@ -56,9 +59,18 @@ public class PojavMinecraftActivity extends BaseMainActivity implements View.OnT
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(net.kdt.pojavlaunch.R.layout.activity_pojav);
+        gameLaunchSetting = GameLaunchSetting.getGameLaunchSetting(getIntent().getExtras().getString("setting_path"));
 
-        GameLaunchSetting gameLaunchSetting = GameLaunchSetting.getGameLaunchSetting(getIntent().getExtras().getString("setting_path"));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            if (gameLaunchSetting.fullscreen) {
+                getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            } else {
+                getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
+            }
+        }
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+
+        setContentView(net.kdt.pojavlaunch.R.layout.activity_pojav);
 
         DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.MATCH_PARENT, DrawerLayout.LayoutParams.MATCH_PARENT);
 
@@ -202,6 +214,19 @@ public class PojavMinecraftActivity extends BaseMainActivity implements View.OnT
     @Override
     public void onBackPressed() {
         CallbackBridge.sendKeyPress(LWJGLGLFWKeycode.GLFW_KEY_ESCAPE);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            if (gameLaunchSetting.fullscreen) {
+                getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            } else {
+                getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
+            }
+        }
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
     }
 
 }

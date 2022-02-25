@@ -4,9 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -33,6 +35,8 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
     private View colorView;
     private TextView colorText;
     private SwitchCompat transBarSwitch;
+    private SwitchCompat fullscreenSwitch;
+    private LinearLayout fullscreenSetting;
     private RadioButton defaultRadio;
     private RadioButton classicRadio;
     private RadioButton customRadio;
@@ -54,6 +58,8 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
         colorView = activity.findViewById(R.id.theme_color_view);
         colorText = activity.findViewById(R.id.theme_color_text);
         transBarSwitch = activity.findViewById(R.id.switch_trans_bar);
+        fullscreenSwitch = activity.findViewById(R.id.switch_full_screen);
+        fullscreenSetting = activity.findViewById(R.id.fullscreen_layout);
         defaultRadio = activity.findViewById(R.id.select_bg_default);
         classicRadio = activity.findViewById(R.id.select_bg_classic);
         customRadio = activity.findViewById(R.id.select_bg_custom);
@@ -64,6 +70,7 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
 
         selectTheme.setOnClickListener(this);
         transBarSwitch.setOnCheckedChangeListener(this);
+        fullscreenSwitch.setOnCheckedChangeListener(this);
         defaultRadio.setOnCheckedChangeListener(this);
         classicRadio.setOnCheckedChangeListener(this);
         customRadio.setOnCheckedChangeListener(this);
@@ -73,6 +80,11 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
         selectBgPath.setOnClickListener(this);
 
         transBarSwitch.setChecked(activity.launcherSetting.transBar);
+        fullscreenSwitch.setChecked(activity.launcherSetting.fullscreen);
+
+        if (!(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)){
+            fullscreenSetting.setVisibility(View.GONE);
+        }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -140,6 +152,18 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
             else {
                 activity.appBar.setBackgroundColor(Color.parseColor(getThemeColor(activity.launcherSetting.launcherTheme)));
             }
+        }
+        if (buttonView == fullscreenSwitch){
+            activity.launcherSetting.fullscreen = isChecked;
+            GsonUtils.saveLauncherSetting(activity.launcherSetting,AppManifest.SETTING_DIR + "/launcher_setting.json");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                if (isChecked) {
+                    activity.getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+                } else {
+                    activity.getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
+                }
+            }
+            activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
         }
     }
 

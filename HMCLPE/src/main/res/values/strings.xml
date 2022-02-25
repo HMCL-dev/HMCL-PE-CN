@@ -440,6 +440,7 @@
     <string name="exterior_setting_ui_theme_title">外观</string>
     <string name="exterior_setting_ui_theme">主题</string>
     <string name="exterior_setting_ui_bar_trans">标题栏透明</string>
+    <string name="exterior_setting_ui_full_screen">忽略刘海屏</string>
     <string name="exterior_setting_ui_bg_title">背景地址</string>
     <string name="exterior_setting_ui_bg_default">默认</string>
     <string name="exterior_setting_ui_bg_classic">经典</string>

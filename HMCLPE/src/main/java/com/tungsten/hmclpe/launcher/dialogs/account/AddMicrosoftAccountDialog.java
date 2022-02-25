@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.method.LinkMovementMethod;
@@ -27,7 +28,6 @@ import com.tungsten.hmclpe.auth.yggdrasil.Texture;
 import com.tungsten.hmclpe.auth.yggdrasil.TextureType;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.skin.draw2d.Avatar;
-import com.tungsten.hmclpe.utils.activity.ActivityUtils;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -77,6 +77,9 @@ public class AddMicrosoftAccountDialog extends Dialog implements View.OnClickLis
     public void onClick(View v) {
         if (v == login){
             Intent i = new Intent(getContext(), MicrosoftLoginActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("fullscreen",activity.launcherSetting.fullscreen);
+            i.putExtras(bundle);
             activity.startActivityForResult(i,MicrosoftLoginActivity.AUTHENTICATE_MICROSOFT_REQUEST);
         }
         if (v == cancel){
