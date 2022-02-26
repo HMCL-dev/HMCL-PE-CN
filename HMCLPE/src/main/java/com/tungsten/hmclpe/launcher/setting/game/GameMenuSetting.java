@@ -11,14 +11,32 @@ import java.io.File;
 
 public class GameMenuSetting {
 
+    public static final int GAME_MENU_VERSION = 1;
+
     public MenuFloatSetting menuFloatSetting;
     public MenuViewSetting menuViewSetting;
     public boolean menuSlideSetting;
+    public boolean enableSensor;
+    public boolean disableHalfScreen;
+    public int touchMode;
+    public int mouseMode;
+    public float mouseSpeed;
+    public int mouseSize;
+    public boolean hideUI;
+    public int version;
 
-    public GameMenuSetting(MenuFloatSetting menuFloatSetting,MenuViewSetting menuViewSetting,boolean menuSlideSetting){
+    public GameMenuSetting(MenuFloatSetting menuFloatSetting,MenuViewSetting menuViewSetting,boolean menuSlideSetting,boolean enableSensor,boolean disableHalfScreen,int touchMode,int mouseMode,float mouseSpeed,int mouseSize,boolean hideUI,int version){
         this.menuFloatSetting = menuFloatSetting;
         this.menuViewSetting = menuViewSetting;
         this.menuSlideSetting = menuSlideSetting;
+        this.enableSensor = enableSensor;
+        this.disableHalfScreen = disableHalfScreen;
+        this.touchMode = touchMode;
+        this.mouseMode = mouseMode;
+        this.mouseSpeed = mouseSpeed;
+        this.mouseSize = mouseSize;
+        this.hideUI = hideUI;
+        this.version = version;
     }
 
     public static GameMenuSetting getGameMenuSetting(){
@@ -27,13 +45,32 @@ public class GameMenuSetting {
         if (!new File(path).exists()){
             gameMenuSetting = new GameMenuSetting(new MenuFloatSetting(true,0.5f,0.5f),
                     new MenuViewSetting(true, MenuView.MENU_MODE_LEFT,0.2f),
-                    true);
+                    true,
+                    false,
+                    false,
+                    0,
+                    0,
+                    1f,
+                    16,
+                    false,
+                    GAME_MENU_VERSION);
             saveGameMenuSetting(gameMenuSetting);
         }
         else {
             String string = FileStringUtils.getStringFromFile(path);
             Gson gson = new Gson();
             gameMenuSetting = gson.fromJson(string,GameMenuSetting.class);
+            if (gameMenuSetting.version < GAME_MENU_VERSION) {
+                gameMenuSetting.enableSensor = false;
+                gameMenuSetting.disableHalfScreen = false;
+                gameMenuSetting.touchMode = 0;
+                gameMenuSetting.mouseMode = 0;
+                gameMenuSetting.mouseSpeed = 1f;
+                gameMenuSetting.mouseSize = 16;
+                gameMenuSetting.hideUI = false;
+                gameMenuSetting.version = GAME_MENU_VERSION;
+                saveGameMenuSetting(gameMenuSetting);
+            }
         }
         return gameMenuSetting;
     }

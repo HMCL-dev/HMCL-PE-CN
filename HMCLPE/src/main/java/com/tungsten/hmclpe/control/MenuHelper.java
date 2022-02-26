@@ -1,12 +1,15 @@
 package com.tungsten.hmclpe.control;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +35,7 @@ import com.tungsten.hmclpe.utils.file.FileUtils;
 
 import java.util.ArrayList;
 
-public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.OnClickListener, AdapterView.OnItemSelectedListener, SeekBar.OnSeekBarChangeListener {
 
     public Context context;
     public AppCompatActivity activity;
@@ -44,6 +47,15 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     public SwitchCompat switchMenuFloat;
     public SwitchCompat switchMenuView;
     public SwitchCompat switchMenuSlide;
+    public SwitchCompat switchSensor;
+    public SwitchCompat switchHalfScreen;
+    public Spinner spinnerTouchMode;
+    public Spinner spinnerMouseMode;
+    public TextView mouseSpeedText;
+    public SeekBar mouseSpeedSeekbar;
+    public TextView mouseSizeText;
+    public SeekBar mouseSizeSeekbar;
+    public SwitchCompat switchHideUI;
 
     public MenuFloat menuFloat;
     public MenuView menuView;
@@ -82,18 +94,50 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         init();
     }
 
+    @SuppressLint("SetTextI18n")
     public void init(){
         switchMenuFloat = activity.findViewById(R.id.switch_float_button);
         switchMenuView = activity.findViewById(R.id.switch_bar);
         switchMenuSlide = activity.findViewById(R.id.switch_gesture);
+        switchSensor = activity.findViewById(R.id.switch_control_sensor);
+        switchHalfScreen = activity.findViewById(R.id.switch_half_screen);
+        spinnerTouchMode = activity.findViewById(R.id.spinner_touch_mode);
+        spinnerMouseMode = activity.findViewById(R.id.spinner_mouse_mode);
+        mouseSpeedText = activity.findViewById(R.id.mouse_speed_text);
+        mouseSpeedSeekbar = activity.findViewById(R.id.mouse_speed);
+        mouseSizeText = activity.findViewById(R.id.mouse_size_text);
+        mouseSizeSeekbar = activity.findViewById(R.id.mouse_size);
+        switchHideUI = activity.findViewById(R.id.switch_hide_ui);
 
         switchMenuFloat.setChecked(gameMenuSetting.menuFloatSetting.enable);
         switchMenuView.setChecked(gameMenuSetting.menuViewSetting.enable);
         switchMenuSlide.setChecked(gameMenuSetting.menuSlideSetting);
+        switchSensor.setChecked(gameMenuSetting.enableSensor);
+        switchHalfScreen.setChecked(gameMenuSetting.disableHalfScreen);
+        switchHideUI.setChecked(gameMenuSetting.hideUI);
 
         switchMenuFloat.setOnCheckedChangeListener(this);
         switchMenuView.setOnCheckedChangeListener(this);
         switchMenuSlide.setOnCheckedChangeListener(this);
+        switchSensor.setOnCheckedChangeListener(this);
+        switchHalfScreen.setOnCheckedChangeListener(this);
+        switchHideUI.setOnCheckedChangeListener(this);
+
+        ArrayList<String> touchModes = new ArrayList<>();
+        touchModes.add(context.getString(R.string.drawer_game_menu_control_touch_mode_create));
+        touchModes.add(context.getString(R.string.drawer_game_menu_control_touch_mode_attack));
+        ArrayAdapter<String> touchModeAdapter = new ArrayAdapter<>(context,R.layout.item_spinner_drop_down_small,touchModes);
+        spinnerTouchMode.setAdapter(touchModeAdapter);
+        spinnerTouchMode.setSelection(gameMenuSetting.touchMode);
+        spinnerTouchMode.setOnItemSelectedListener(this);
+
+        ArrayList<String> mouseModes = new ArrayList<>();
+        mouseModes.add(context.getString(R.string.drawer_game_menu_control_mouse_mode_click));
+        mouseModes.add(context.getString(R.string.drawer_game_menu_control_mouse_mode_slide));
+        ArrayAdapter<String> mouseModeAdapter = new ArrayAdapter<>(context,R.layout.item_spinner_drop_down_small,mouseModes);
+        spinnerMouseMode.setAdapter(mouseModeAdapter);
+        spinnerMouseMode.setSelection(gameMenuSetting.mouseMode);
+        spinnerMouseMode.setOnItemSelectedListener(this);
 
         patternSpinner = activity.findViewById(R.id.current_pattern_spinner);
         editModeSwitch = activity.findViewById(R.id.switch_edit_mode);
@@ -101,6 +145,14 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         manageChild = activity.findViewById(R.id.manage_child_layout);
         childSpinner = activity.findViewById(R.id.current_child_spinner);
         addView = activity.findViewById(R.id.add_view);
+
+        mouseSpeedText.setText(Float.toString(gameMenuSetting.mouseSpeed * 100));
+        mouseSpeedSeekbar.setProgress((int) (gameMenuSetting.mouseSpeed * 100));
+        mouseSpeedSeekbar.setOnSeekBarChangeListener(this);
+
+        mouseSizeText.setText(Integer.toString(gameMenuSetting.mouseSize));
+        mouseSizeSeekbar.setProgress(gameMenuSetting.mouseSize);
+        mouseSizeSeekbar.setOnSeekBarChangeListener(this);
 
         ArrayList<String> patterns = new ArrayList<>();
         for (ControlPattern controlPattern : patternList){
@@ -250,6 +302,18 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
             checkOpenMenuSetting();
             GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
         }
+        if (compoundButton == switchSensor){
+            gameMenuSetting.enableSensor = b;
+            GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
+        }
+        if (compoundButton == switchHalfScreen){
+            gameMenuSetting.disableHalfScreen = b;
+            GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
+        }
+        if (compoundButton == switchHideUI){
+            gameMenuSetting.hideUI = b;
+            GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
+        }
         if (compoundButton == editModeSwitch){
             editMode = b;
         }
@@ -298,6 +362,14 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        if (adapterView == spinnerTouchMode){
+            gameMenuSetting.touchMode = i;
+            GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
+        }
+        if (adapterView == spinnerMouseMode){
+            gameMenuSetting.mouseMode = i;
+            GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
+        }
         if (adapterView == patternSpinner){
             String str = (String) patternSpinner.getItemAtPosition(i);
             for (ControlPattern controlPattern : patternList){
@@ -314,6 +386,30 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        if (seekBar == mouseSpeedSeekbar){
+            gameMenuSetting.mouseSpeed = (float) i / 100f;
+            mouseSpeedText.setText(Integer.toString(i));
+        }
+        if (seekBar == mouseSizeSeekbar){
+            gameMenuSetting.mouseSize = i;
+            mouseSizeText.setText(Integer.toString(i));
+        }
+        GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
 
     }
 }
