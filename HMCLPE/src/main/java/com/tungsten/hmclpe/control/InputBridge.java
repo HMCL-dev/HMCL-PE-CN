@@ -32,6 +32,17 @@ public class InputBridge {
         }
     }
 
+    public static boolean setPointer(int launcher,int x,int y){
+        if (launcher == 1){
+            BoatInput.setPointer(x,y);
+            return true;
+        }
+        if (launcher == 2){
+            return CallbackBridge.sendCursorPos(x,y);
+        }
+        return false;
+    }
+
     public static int getMouseEvent(int launcher,int bridge){
         switch (bridge) {
             case MOUSE_LEFT:
