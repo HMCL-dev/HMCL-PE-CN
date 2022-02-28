@@ -30,28 +30,12 @@ import cosine.boat.BoatActivity;
 import cosine.boat.BoatInput;
 import cosine.boat.keyboard.BoatKeycodes;
 
-public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchListener {
+public class BoatMinecraftActivity extends BoatActivity {
 
     private GameLaunchSetting gameLaunchSetting;
 
     private DrawerLayout drawerLayout;
     private LayoutPanel baseLayout;
-
-    private ImageView mouseCursor;
-    private Button baseTouchPad;
-
-    private int initialX;
-    private int initialY;
-    private int baseX;
-    private int baseY;
-
-    private long downTime;
-    private Timer longClickTimer;
-
-    private boolean customSettingPointer = false;
-    private boolean padSettingPointer = false;
-
-    private int cursorMode = BoatInput.CursorEnabled;
 
     public MenuHelper menuHelper;
 
@@ -80,9 +64,6 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
 
         baseLayout = findViewById(R.id.base_layout);
 
-        mouseCursor = findViewById(R.id.mouse_cursor);
-        baseTouchPad = findButton(R.id.base_touch_pad);
-
         scaleFactor = gameLaunchSetting.scaleFactor;
 
         this.setBoatCallback(new BoatCallback() {
@@ -99,97 +80,28 @@ public class BoatMinecraftActivity extends BoatActivity implements View.OnTouchL
 
             @Override
             public void onCursorModeChange(int mode) {
-                cursorMode = mode;
                 cursorModeHandler.sendEmptyMessage(mode);
             }
         });
 
         init();
 
-        menuHelper = new MenuHelper(this,this,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout);
+        menuHelper = new MenuHelper(this,this,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout,1);
     }
 
     @SuppressLint("HandlerLeak")
-    private Handler cursorModeHandler = new Handler(){
+    private final Handler cursorModeHandler = new Handler(){
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            if (msg.what == BoatInput.CursorDisabled){
-                mouseCursor.setVisibility(View.INVISIBLE);
+            if (msg.what == BoatInput.CursorDisabled && menuHelper.viewManager != null){
+                menuHelper.viewManager.disableCursor();
             }
-            if (msg.what == BoatInput.CursorEnabled){
-                mouseCursor.setVisibility(View.VISIBLE);
+            if (msg.what == BoatInput.CursorEnabled && menuHelper.viewManager != null){
+                menuHelper.viewManager.enableCursor();
             }
         }
     };
-
-    @SuppressLint("ClickableViewAccessibility")
-    private Button findButton(int id){
-        Button button = findViewById(id);
-        button.setOnTouchListener(this);
-        return button;
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if (v == baseTouchPad){
-            if (cursorMode == BoatInput.CursorDisabled){
-                switch(event.getActionMasked()){
-                    case MotionEvent.ACTION_DOWN:
-                        initialX = (int)event.getX();
-                        initialY = (int)event.getY();
-                        downTime = System.currentTimeMillis();
-                        longClickTimer = new Timer();
-                        longClickTimer.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                BoatInput.setMouseButton(BoatInput.Button1,true);
-                            }
-                        },400);
-                    case MotionEvent.ACTION_MOVE:
-                        if (!customSettingPointer){
-                            padSettingPointer = true;
-                            BoatInput.setPointer(baseX + (int)event.getX() -initialX, baseY + (int)event.getY() - initialY);
-                        }
-                        if (Math.abs(event.getX() - initialX) > 10 && Math.abs(event.getY() - initialY) > 10){
-                            longClickTimer.cancel();
-                        }
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        longClickTimer.cancel();
-                        if (padSettingPointer){
-                            baseX += ((int)event.getX() - initialX);
-                            baseY += ((int)event.getY() - initialY);
-                            BoatInput.setPointer(baseX,baseY);
-                            padSettingPointer = false;
-                        }
-                        BoatInput.setMouseButton(BoatInput.Button1,false);
-                        if (Math.abs(event.getX() - initialX) <= 10 && Math.abs(event.getY() - initialY) <= 10 && System.currentTimeMillis() - downTime <= 200){
-                            BoatInput.setMouseButton(BoatInput.Button3,true);
-                            BoatInput.setMouseButton(BoatInput.Button3,false);
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else {
-                baseX = (int)event.getX();
-                baseY = (int)event.getY();
-                BoatInput.setPointer((int) (baseX * scaleFactor),(int) (baseY * scaleFactor));
-                if (event.getActionMasked() == MotionEvent.ACTION_DOWN){
-                    BoatInput.setMouseButton(BoatInput.Button1,true);
-                }
-                if (event.getActionMasked() == MotionEvent.ACTION_UP){
-                    BoatInput.setMouseButton(BoatInput.Button1,false);
-                }
-            }
-            mouseCursor.setX(event.getX());
-            mouseCursor.setY(event.getY());
-            return true;
-        }
-        return false;
-    }
 
     @Override
     public void onBackPressed() {

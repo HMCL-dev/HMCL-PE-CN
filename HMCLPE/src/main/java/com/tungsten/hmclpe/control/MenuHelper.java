@@ -41,6 +41,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     public AppCompatActivity activity;
     public DrawerLayout drawerLayout;
     public LayoutPanel baseLayout;
+    public int launcher;
 
     public GameMenuSetting gameMenuSetting;
 
@@ -56,9 +57,6 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     public TextView mouseSizeText;
     public SeekBar mouseSizeSeekbar;
     public SwitchCompat switchHideUI;
-
-    public MenuFloat menuFloat;
-    public MenuView menuView;
 
     public Spinner patternSpinner;
     public SwitchCompat editModeSwitch;
@@ -76,13 +74,16 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     public ArrayList<String> childLayoutList;
     public ArrayAdapter<String> childAdapter;
 
-    public MenuHelper(Context context, AppCompatActivity activity, DrawerLayout drawerLayout, LayoutPanel baseLayout,boolean editMode,String currentPattern){
+    public ViewManager viewManager;
+
+    public MenuHelper(Context context, AppCompatActivity activity, DrawerLayout drawerLayout, LayoutPanel baseLayout,boolean editMode,String currentPattern,int launcher){
         this.context = context;
         this.activity = activity;
         this.drawerLayout = drawerLayout;
         this.baseLayout = baseLayout;
         this.editMode = editMode;
         this.enableNameEditor = editMode;
+        this.launcher = launcher;
         patternList = SettingUtils.getControlPatternList();
         for (ControlPattern controlPattern : patternList){
             if (controlPattern.name.equals(currentPattern)){
@@ -184,52 +185,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         baseLayout.post(new Runnable() {
             @Override
             public void run() {
-                menuFloat = new MenuFloat(context,baseLayout.getWidth(),baseLayout.getHeight(),gameMenuSetting.menuFloatSetting.positionX,gameMenuSetting.menuFloatSetting.positionY);
-                menuFloat.addCallback(new MenuFloat.MenuFloatCallback() {
-                    @Override
-                    public void onClick() {
-                        drawerLayout.openDrawer(GravityCompat.END,true);
-                        drawerLayout.openDrawer(GravityCompat.START,true);
-                    }
-
-                    @Override
-                    public void onMove(float xPosition, float yPosition) {
-                        gameMenuSetting.menuFloatSetting.positionX = xPosition;
-                        gameMenuSetting.menuFloatSetting.positionY = yPosition;
-                        GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
-                    }
-                });
-                menuView = new MenuView(context,baseLayout.getWidth(),baseLayout.getHeight(),gameMenuSetting.menuViewSetting.mode,gameMenuSetting.menuViewSetting.yPercent);
-                menuView.addCallback(new MenuView.MenuCallback() {
-                    @Override
-                    public void onRelease() {
-                        drawerLayout.openDrawer(GravityCompat.END,true);
-                        drawerLayout.openDrawer(GravityCompat.START,true);
-                    }
-
-                    @Override
-                    public void onMoveModeStart() {
-
-                    }
-
-                    @Override
-                    public void onMove(int mode, float yPercent) {
-                        gameMenuSetting.menuViewSetting.mode = mode;
-                        gameMenuSetting.menuViewSetting.yPercent = yPercent;
-                        GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
-                    }
-
-                    @Override
-                    public void onMoveModeStop() {
-
-                    }
-                });
-                if (gameMenuSetting.menuFloatSetting.enable){
-                    baseLayout.addView(menuFloat);
-                }
-                if (gameMenuSetting.menuViewSetting.enable){
-                    baseLayout.addView(menuView);
-                }
+                viewManager = new ViewManager(context,activity,MenuHelper.this,baseLayout,launcher);
                 checkOpenMenuSetting();
             }
         });
@@ -272,10 +228,10 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         if (compoundButton == switchMenuFloat){
             gameMenuSetting.menuFloatSetting.enable = b;
             if (b){
-                baseLayout.addView(menuFloat);
+                baseLayout.addView(viewManager.menuFloat);
             }
             else {
-                baseLayout.removeView(menuFloat);
+                baseLayout.removeView(viewManager.menuFloat);
             }
             checkOpenMenuSetting();
             GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
@@ -283,10 +239,10 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         if (compoundButton == switchMenuView){
             gameMenuSetting.menuViewSetting.enable = b;
             if (b){
-                baseLayout.addView(menuView);
+                baseLayout.addView(viewManager.menuView);
             }
             else {
-                baseLayout.removeView(menuView);
+                baseLayout.removeView(viewManager.menuView);
             }
             checkOpenMenuSetting();
             GameMenuSetting.saveGameMenuSetting(gameMenuSetting);

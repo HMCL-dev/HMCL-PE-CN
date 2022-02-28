@@ -214,6 +214,7 @@
                         android:layout_weight="1"/>
 
                     <EditText
+                        android:singleLine="true"
                         android:layout_gravity="center"
                         android:layout_width="140dp"
                         android:layout_height="32dp"
@@ -253,6 +254,7 @@
                         android:layout_weight="1"/>
 
                     <EditText
+                        android:singleLine="true"
                         android:layout_gravity="center"
                         android:layout_width="140dp"
                         android:layout_height="32dp"

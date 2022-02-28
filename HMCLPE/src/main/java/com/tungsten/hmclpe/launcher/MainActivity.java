@@ -38,6 +38,7 @@ import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public RelativeLayout loadingLayout;
+    public LinearLayout launcherLayout;
 
     public boolean isLoaded = false;
     public boolean dialogMode = false;
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         loadingLayout = findViewById(R.id.loading_layout);
+        launcherLayout = findViewById(R.id.launcher_layout);
 
         requestPermission();
     }

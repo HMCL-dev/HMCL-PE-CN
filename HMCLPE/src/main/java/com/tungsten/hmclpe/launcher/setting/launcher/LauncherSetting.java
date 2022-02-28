@@ -1,5 +1,7 @@
 package com.tungsten.hmclpe.launcher.setting.launcher;
 
+import com.tungsten.hmclpe.launcher.setting.launcher.child.BackgroundSetting;
+
 public class LauncherSetting {
 
     public String gameFileDirectory;
@@ -11,10 +13,10 @@ public class LauncherSetting {
     public boolean fullscreen;
     public boolean transBar;
     public String launcherTheme;
-    public String launcherBackground;
+    public BackgroundSetting launcherBackground;
     public String cachePath;
 
-    public LauncherSetting(String gameFileDirectory,int downloadUrlSource,int language,int maxDownloadTask,boolean autoCheckUpdate,boolean getBetaVersion,boolean fullscreen,boolean transBar,String launcherTheme,String launcherBackground,String cachePath){
+    public LauncherSetting(String gameFileDirectory,int downloadUrlSource,int language,int maxDownloadTask,boolean autoCheckUpdate,boolean getBetaVersion,boolean fullscreen,boolean transBar,String launcherTheme,BackgroundSetting launcherBackground,String cachePath){
         this.gameFileDirectory = gameFileDirectory;
         this.downloadUrlSource = downloadUrlSource;
         this.language = language;
@@ -27,4 +29,5 @@ public class LauncherSetting {
         this.launcherBackground = launcherBackground;
         this.cachePath = cachePath;
     }
+
 }

@@ -31,26 +31,12 @@ import org.lwjgl.glfw.CallbackBridge;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class PojavMinecraftActivity extends BaseMainActivity implements View.OnTouchListener {
+public class PojavMinecraftActivity extends BaseMainActivity {
 
     private GameLaunchSetting gameLaunchSetting;
 
     private DrawerLayout drawerLayout;
     private LayoutPanel baseLayout;
-
-    private ImageView mouseCursor;
-    private Button baseTouchPad;
-
-    private int initialX;
-    private int initialY;
-    private int baseX;
-    private int baseY;
-
-    private long downTime;
-    private Timer longClickTimer;
-
-    private boolean customSettingPointer = false;
-    private boolean padSettingPointer = false;
 
     public MenuHelper menuHelper;
 
@@ -78,9 +64,6 @@ public class PojavMinecraftActivity extends BaseMainActivity implements View.OnT
         addContentView(drawerLayout,params);
 
         baseLayout = findViewById(R.id.base_layout);
-
-        mouseCursor = findViewById(R.id.mouse_cursor);
-        baseTouchPad = findButton(R.id.base_touch_pad);
 
         scaleFactor = gameLaunchSetting.scaleFactor;
 
@@ -113,10 +96,10 @@ public class PojavMinecraftActivity extends BaseMainActivity implements View.OnT
                 JVMThread.start();
                 Thread virtualMouseGrabThread = new Thread(() -> {
                     while (true) {
-                        if (!CallbackBridge.isGrabbing() && mouseCursor.getVisibility() != View.VISIBLE) {
+                        if (!CallbackBridge.isGrabbing() && menuHelper.viewManager != null && menuHelper.viewManager.gameCursorMode == 1) {
                             mouseModeHandler.sendEmptyMessage(1);
                         }else{
-                            if (CallbackBridge.isGrabbing() && mouseCursor.getVisibility() != View.INVISIBLE) {
+                            if (CallbackBridge.isGrabbing() && menuHelper.viewManager != null && menuHelper.viewManager.gameCursorMode == 0) {
                                 mouseModeHandler.sendEmptyMessage(0);
                             }
                         }
@@ -129,86 +112,18 @@ public class PojavMinecraftActivity extends BaseMainActivity implements View.OnT
             @Override
             public void onMouseModeChange(boolean mode) {
                 if (mode){
-                    mouseCursor.setVisibility(View.VISIBLE);
+                    menuHelper.viewManager.enableCursor();
                 }
                 else {
-                    mouseCursor.setVisibility(View.INVISIBLE);
+                    menuHelper.viewManager.disableCursor();
                 }
             }
         };
 
+        menuHelper = new MenuHelper(this,this,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout,2);
+
         init(gameLaunchSetting.game_directory, GameLaunchSetting.isHighVersion(gameLaunchSetting));
 
-        menuHelper = new MenuHelper(this,this,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout);
-
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private Button findButton(int id){
-        Button button = findViewById(id);
-        button.setOnTouchListener(this);
-        return button;
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if (v == baseTouchPad){
-            if (CallbackBridge.isGrabbing()){
-                switch(event.getActionMasked()){
-                    case MotionEvent.ACTION_DOWN:
-                        initialX = (int)event.getX();
-                        initialY = (int)event.getY();
-                        downTime = System.currentTimeMillis();
-                        longClickTimer = new Timer();
-                        longClickTimer.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                CallbackBridge.sendMouseButton(LWJGLGLFWKeycode.GLFW_MOUSE_BUTTON_LEFT,true);
-                            }
-                        },400);
-                    case MotionEvent.ACTION_MOVE:
-                        if (!customSettingPointer){
-                            padSettingPointer = true;
-                            CallbackBridge.sendCursorPos(baseX + (int)event.getX() -initialX, baseY + (int)event.getY() - initialY);
-                        }
-                        if (Math.abs(event.getX() - initialX) > 10 && Math.abs(event.getY() - initialY) > 10){
-                            longClickTimer.cancel();
-                        }
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        longClickTimer.cancel();
-                        if (padSettingPointer){
-                            baseX += ((int)event.getX() - initialX);
-                            baseY += ((int)event.getY() - initialY);
-                            CallbackBridge.sendCursorPos(baseX,baseY);
-                            padSettingPointer = false;
-                        }
-                        CallbackBridge.sendMouseButton(LWJGLGLFWKeycode.GLFW_MOUSE_BUTTON_LEFT,false);
-                        if (Math.abs(event.getX() - initialX) <= 10 && Math.abs(event.getY() - initialY) <= 10 && System.currentTimeMillis() - downTime <= 200){
-                            CallbackBridge.sendMouseKeycode(LWJGLGLFWKeycode.GLFW_MOUSE_BUTTON_RIGHT);
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else {
-                baseX = (int)event.getX();
-                baseY = (int)event.getY();
-                CallbackBridge.sendCursorPos(baseX * scaleFactor,baseY * scaleFactor);
-                if (event.getActionMasked() == MotionEvent.ACTION_DOWN){
-                    Handler handler = new Handler(Looper.getMainLooper());
-                    handler.postDelayed(() -> CallbackBridge.sendMouseButton(LWJGLGLFWKeycode.GLFW_MOUSE_BUTTON_LEFT,true), 1);
-                }
-                if (event.getActionMasked() == MotionEvent.ACTION_UP){
-                    CallbackBridge.sendMouseButton(LWJGLGLFWKeycode.GLFW_MOUSE_BUTTON_LEFT,false);
-                }
-            }
-            mouseCursor.setX(event.getX());
-            mouseCursor.setY(event.getY());
-            return true;
-        }
-        return false;
     }
 
     @Override

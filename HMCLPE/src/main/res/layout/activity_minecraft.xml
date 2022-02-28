@@ -9,20 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:src="@drawable/ic_cursor"
-            android:scaleType="centerInside"
-            android:layout_height="16dp"
-            android:layout_width="16dp"
-            android:id="@+id/mouse_cursor"/>
-
-        <Button
-            android:id="@+id/base_touch_pad"
-            android:stateListAnimator="@null"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorTransparent"/>
-
     </com.tungsten.hmclpe.control.view.LayoutPanel>
 
     <RelativeLayout
@@ -140,6 +126,238 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:id="@+id/switch_gesture"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/drawer_game_menu_control"
+                        android:textSize="9sp"
+                        android:textColor="@color/colorPureBlack"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/colorDarkGray"/>
+
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:padding="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:text="@string/drawer_game_menu_control_sensor"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"/>
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:id="@+id/switch_control_sensor"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:padding="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:text="@string/drawer_game_menu_control_half_screen"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"/>
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:id="@+id/switch_half_screen"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:padding="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:singleLine="true"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:text="@string/drawer_game_menu_control_touch_mode"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"/>
+
+                        <Spinner
+                            android:layout_marginStart="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:id="@+id/spinner_touch_mode"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:padding="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:singleLine="true"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:text="@string/drawer_game_menu_control_mouse_mode"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"/>
+
+                        <Spinner
+                            android:layout_marginStart="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:id="@+id/spinner_mouse_mode"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:padding="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:singleLine="true"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:text="@string/drawer_game_menu_control_mouse_speed"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"/>
+
+                        <TextView
+                            android:id="@+id/mouse_speed_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"/>
+
+                        <TextView
+                            android:layout_marginStart="3dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="%"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"/>
+
+                    </LinearLayout>
+
+                    <SeekBar
+                        android:layout_marginTop="5dp"
+                        android:max="400"
+                        android:min="100"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/mouse_speed"/>
+
+                    <LinearLayout
+                        android:padding="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:singleLine="true"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:text="@string/drawer_game_menu_control_mouse_size"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"/>
+
+                        <TextView
+                            android:id="@+id/mouse_size_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"/>
+
+                        <TextView
+                            android:layout_marginStart="3dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="dp"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"/>
+
+                    </LinearLayout>
+
+                    <SeekBar
+                        android:layout_marginTop="5dp"
+                        android:max="30"
+                        android:min="0"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/mouse_size"/>
+
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/drawer_game_menu_ui"
+                        android:textSize="9sp"
+                        android:textColor="@color/colorPureBlack"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/colorDarkGray"/>
+
+                    <LinearLayout
+                        android:padding="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:text="@string/drawer_game_menu_ui_hide"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"/>
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:id="@+id/switch_hide_ui"/>
 
                     </LinearLayout>
 
