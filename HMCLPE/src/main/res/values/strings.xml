@@ -573,6 +573,7 @@
     <string name="drawer_game_menu_type_gesture">侧滑手势</string>
     <string name="drawer_game_menu_control">控制选项</string>
     <string name="drawer_game_menu_control_sensor">陀螺仪</string>
+    <string name="drawer_game_menu_control_sensor_sensitivity">陀螺仪灵敏度</string>
     <string name="drawer_game_menu_control_half_screen">取消左半屏触控</string>
     <string name="drawer_game_menu_control_touch_mode">触控模式</string>
     <string name="drawer_game_menu_control_touch_mode_create">建造模式</string>

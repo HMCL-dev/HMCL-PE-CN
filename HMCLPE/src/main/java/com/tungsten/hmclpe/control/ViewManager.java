@@ -36,7 +36,6 @@ public class ViewManager implements SensorEventListener {
     public static final float NS2S = 1.0f / 1000000000.0f;
     public float timestamp;
     public float[] angle = new float[3];
-    public int sensitivity = 10;
 
     public float pointerX;
     public float pointerY;
@@ -135,7 +134,9 @@ public class ViewManager implements SensorEventListener {
 
     public void setGamePointer(int type,float deltaX,float deltaY){
         if (viewMovingType == 0 || viewMovingType == type || type == 0){
-            InputBridge.setPointer(launcher,(int) (pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed),(int) (pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed));
+            if (!menuHelper.gameMenuSetting.enableSensor){
+                InputBridge.setPointer(launcher,(int) (pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed),(int) (pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed));
+            }
             currentX = pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed;
             currentY = pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed;
             if (type == 0){
@@ -155,7 +156,7 @@ public class ViewManager implements SensorEventListener {
                 angle[1] += sensorEvent.values[1] * dT;
                 float angleX = (float) Math.toDegrees(angle[0]);
                 float angleY = (float) Math.toDegrees(angle[1]);
-                InputBridge.setPointer(launcher,(int) (currentX + angleX * sensitivity),(int) (currentY + angleY * sensitivity));
+                InputBridge.setPointer(launcher,(int) (currentX + angleX * menuHelper.gameMenuSetting.sensitivity),(int) (currentY + angleY * menuHelper.gameMenuSetting.sensitivity));
             }
             timestamp = sensorEvent.timestamp;
         }

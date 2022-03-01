@@ -11,12 +11,13 @@ import java.io.File;
 
 public class GameMenuSetting {
 
-    public static final int GAME_MENU_VERSION = 1;
+    public static final int GAME_MENU_VERSION = 2;
 
     public MenuFloatSetting menuFloatSetting;
     public MenuViewSetting menuViewSetting;
     public boolean menuSlideSetting;
     public boolean enableSensor;
+    public int sensitivity;
     public boolean disableHalfScreen;
     public int touchMode;
     public int mouseMode;
@@ -25,11 +26,12 @@ public class GameMenuSetting {
     public boolean hideUI;
     public int version;
 
-    public GameMenuSetting(MenuFloatSetting menuFloatSetting,MenuViewSetting menuViewSetting,boolean menuSlideSetting,boolean enableSensor,boolean disableHalfScreen,int touchMode,int mouseMode,float mouseSpeed,int mouseSize,boolean hideUI,int version){
+    public GameMenuSetting(MenuFloatSetting menuFloatSetting,MenuViewSetting menuViewSetting,boolean menuSlideSetting,boolean enableSensor,int sensitivity,boolean disableHalfScreen,int touchMode,int mouseMode,float mouseSpeed,int mouseSize,boolean hideUI,int version){
         this.menuFloatSetting = menuFloatSetting;
         this.menuViewSetting = menuViewSetting;
         this.menuSlideSetting = menuSlideSetting;
         this.enableSensor = enableSensor;
+        this.sensitivity = sensitivity;
         this.disableHalfScreen = disableHalfScreen;
         this.touchMode = touchMode;
         this.mouseMode = mouseMode;
@@ -47,6 +49,7 @@ public class GameMenuSetting {
                     new MenuViewSetting(true, MenuView.MENU_MODE_LEFT,0.2f),
                     true,
                     false,
+                    10,
                     false,
                     0,
                     0,
@@ -60,14 +63,20 @@ public class GameMenuSetting {
             String string = FileStringUtils.getStringFromFile(path);
             Gson gson = new Gson();
             gameMenuSetting = gson.fromJson(string,GameMenuSetting.class);
-            if (gameMenuSetting.version < GAME_MENU_VERSION) {
+            if (gameMenuSetting.version == 0) {
                 gameMenuSetting.enableSensor = false;
+                gameMenuSetting.sensitivity = 10;
                 gameMenuSetting.disableHalfScreen = false;
                 gameMenuSetting.touchMode = 0;
                 gameMenuSetting.mouseMode = 0;
                 gameMenuSetting.mouseSpeed = 1f;
                 gameMenuSetting.mouseSize = 16;
                 gameMenuSetting.hideUI = false;
+                gameMenuSetting.version = GAME_MENU_VERSION;
+                saveGameMenuSetting(gameMenuSetting);
+            }
+            if (gameMenuSetting.version == 1){
+                gameMenuSetting.sensitivity = 10;
                 gameMenuSetting.version = GAME_MENU_VERSION;
                 saveGameMenuSetting(gameMenuSetting);
             }

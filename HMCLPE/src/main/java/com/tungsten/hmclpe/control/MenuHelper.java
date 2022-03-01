@@ -52,6 +52,8 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     public SwitchCompat switchHalfScreen;
     public Spinner spinnerTouchMode;
     public Spinner spinnerMouseMode;
+    public TextView sensitivityText;
+    public SeekBar sensitivitySeekbar;
     public TextView mouseSpeedText;
     public SeekBar mouseSpeedSeekbar;
     public TextView mouseSizeText;
@@ -107,6 +109,8 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         switchHalfScreen = activity.findViewById(R.id.switch_half_screen);
         spinnerTouchMode = activity.findViewById(R.id.spinner_touch_mode);
         spinnerMouseMode = activity.findViewById(R.id.spinner_mouse_mode);
+        sensitivityText = activity.findViewById(R.id.sensitivity_text);
+        sensitivitySeekbar = activity.findViewById(R.id.sensor_sensitivity);
         mouseSpeedText = activity.findViewById(R.id.mouse_speed_text);
         mouseSpeedSeekbar = activity.findViewById(R.id.mouse_speed);
         mouseSizeText = activity.findViewById(R.id.mouse_size_text);
@@ -149,6 +153,10 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         manageChild = activity.findViewById(R.id.manage_child_layout);
         childSpinner = activity.findViewById(R.id.current_child_spinner);
         addView = activity.findViewById(R.id.add_view);
+
+        sensitivityText.setText(Integer.toString(gameMenuSetting.sensitivity));
+        sensitivitySeekbar.setProgress(gameMenuSetting.sensitivity);
+        sensitivitySeekbar.setOnSeekBarChangeListener(this);
 
         mouseSpeedText.setText(Float.toString(gameMenuSetting.mouseSpeed * 100));
         mouseSpeedSeekbar.setProgress((int) (gameMenuSetting.mouseSpeed * 100));
@@ -354,6 +362,10 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     @SuppressLint("SetTextI18n")
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        if (seekBar == sensitivitySeekbar){
+            gameMenuSetting.sensitivity = i;
+            sensitivityText.setText(Integer.toString(i));
+        }
         if (seekBar == mouseSpeedSeekbar){
             gameMenuSetting.mouseSpeed = (float) i / 100f;
             mouseSpeedText.setText(Integer.toString(i));
