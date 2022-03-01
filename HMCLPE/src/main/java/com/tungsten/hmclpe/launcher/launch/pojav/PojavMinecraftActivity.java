@@ -60,7 +60,7 @@ public class PojavMinecraftActivity extends BaseMainActivity {
 
         DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.MATCH_PARENT, DrawerLayout.LayoutParams.MATCH_PARENT);
 
-        drawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_minecraft,null) ;
+        drawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_control_pattern,null) ;
         addContentView(drawerLayout,params);
 
         baseLayout = findViewById(R.id.base_layout);

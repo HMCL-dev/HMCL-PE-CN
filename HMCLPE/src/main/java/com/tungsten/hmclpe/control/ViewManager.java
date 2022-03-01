@@ -1,7 +1,13 @@
 package com.tungsten.hmclpe.control;
 
+import static android.content.Context.SENSOR_SERVICE;
+
 import android.app.Activity;
 import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 
 import androidx.core.view.GravityCompat;
 
@@ -11,7 +17,7 @@ import com.tungsten.hmclpe.control.view.MenuView;
 import com.tungsten.hmclpe.control.view.TouchPad;
 import com.tungsten.hmclpe.launcher.setting.game.GameMenuSetting;
 
-public class ViewManager {
+public class ViewManager implements SensorEventListener {
 
     public Context context;
     public Activity activity;
@@ -25,6 +31,20 @@ public class ViewManager {
     public MenuFloat menuFloat;
     public MenuView menuView;
 
+    public SensorManager sensorManager;
+    public Sensor sensor;
+    public static final float NS2S = 1.0f / 1000000000.0f;
+    public float timestamp;
+    public float[] angle = new float[3];
+    public int sensitivity = 10;
+
+    public float pointerX;
+    public float pointerY;
+    public float currentX;
+    public float currentY;
+
+    public int viewMovingType = 0;
+
     public ViewManager (Context context, Activity activity, MenuHelper menuHelper, LayoutPanel layoutPanel,int launcher) {
         this.context = context;
         this.activity = activity;
@@ -35,10 +55,15 @@ public class ViewManager {
     }
 
     private void init(){
+        pointerX = 0;
+        pointerY = 0;
         /*
-         *初始化触控板
+         *初始化触控板和陀螺仪
          */
-        touchPad = new TouchPad(context,launcher,layoutPanel.getWidth(),layoutPanel.getHeight(),menuHelper,gameCursorMode);
+        sensorManager = (SensorManager) context.getSystemService(SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        setSensorEnable(menuHelper.gameMenuSetting.enableSensor);
+        touchPad = new TouchPad(context,launcher,layoutPanel.getWidth(),layoutPanel.getHeight(),menuHelper);
         layoutPanel.addView(touchPad);
         /*
          *初始化菜单键
@@ -99,4 +124,45 @@ public class ViewManager {
         gameCursorMode = 1;
     }
 
+    public void setSensorEnable(boolean enable){
+        if (enable) {
+            sensorManager.registerListener(this,sensor,SensorManager.SENSOR_DELAY_FASTEST);
+        }
+        else {
+            sensorManager.unregisterListener(this);
+        }
+    }
+
+    public void setGamePointer(int type,float deltaX,float deltaY){
+        if (viewMovingType == 0 || viewMovingType == type || type == 0){
+            InputBridge.setPointer(launcher,(int) (pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed),(int) (pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed));
+            currentX = pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed;
+            currentY = pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed;
+            if (type == 0){
+                pointerX = pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed;
+                pointerY = pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed;
+            }
+            viewMovingType = type;
+        }
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        if (gameCursorMode == 1){
+            if (timestamp != 0){
+                final float dT = (sensorEvent.timestamp - timestamp) * NS2S;
+                angle[0] += sensorEvent.values[0] * dT;
+                angle[1] += sensorEvent.values[1] * dT;
+                float angleX = (float) Math.toDegrees(angle[0]);
+                float angleY = (float) Math.toDegrees(angle[1]);
+                InputBridge.setPointer(launcher,(int) (currentX + angleX * sensitivity),(int) (currentY + angleY * sensitivity));
+            }
+            timestamp = sensorEvent.timestamp;
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
 }

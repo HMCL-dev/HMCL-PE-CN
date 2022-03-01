@@ -90,6 +90,9 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
                 this.currentPattern = controlPattern;
             }
         }
+        if (editMode){
+            baseLayout.showBackground();
+        }
 
         gameMenuSetting = GameMenuSetting.getGameMenuSetting();
         init();
@@ -261,6 +264,9 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         if (compoundButton == switchSensor){
             gameMenuSetting.enableSensor = b;
             GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
+            if (viewManager != null){
+                viewManager.setSensorEnable(b);
+            }
         }
         if (compoundButton == switchHalfScreen){
             gameMenuSetting.disableHalfScreen = b;

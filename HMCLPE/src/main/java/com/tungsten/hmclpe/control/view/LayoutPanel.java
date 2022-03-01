@@ -1,12 +1,17 @@
 package com.tungsten.hmclpe.control.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
 public class LayoutPanel extends RelativeLayout {
 
@@ -19,9 +24,12 @@ public class LayoutPanel extends RelativeLayout {
     private float xReference;
     private float yReference;
 
+    private boolean showBackground = false;
     private boolean showReference = false;
 
     private Paint paint;
+
+    private Bitmap background;
 
     public LayoutPanel(Context context) {
         super(context);
@@ -32,11 +40,18 @@ public class LayoutPanel extends RelativeLayout {
         paint = new Paint();
         paint.setAntiAlias(true);
         paint.setColor(getContext().getColor(R.color.colorAccent));
+
+        background = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_background);
     }
 
     @Override
+    @SuppressLint("DrawAllocation")
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+        if (showBackground){
+            Rect src = new Rect(0, 0, background.getWidth(), background.getHeight());
+            Rect dst = new Rect(0, 0, getMeasuredWidth(), getMeasuredHeight());
+            canvas.drawBitmap(background, src, dst, new Paint(Paint.ANTI_ALIAS_FLAG));
+        }
         if (showReference){
             if (positionMode == POSITION_MODE_PERCENT){
 
@@ -61,5 +76,9 @@ public class LayoutPanel extends RelativeLayout {
 
     public void hideReference(){
         showReference = false;
+    }
+
+    public void showBackground(){
+        showBackground = true;
     }
 }
