@@ -54,8 +54,6 @@ public class ViewManager implements SensorEventListener {
     }
 
     private void init(){
-        pointerX = 0;
-        pointerY = 0;
         /*
          *初始化触控板和陀螺仪
          */
@@ -117,10 +115,22 @@ public class ViewManager implements SensorEventListener {
 
     public void enableCursor(){
         gameCursorMode = 0;
+        /*
+        if (touchPad != null){
+            InputBridge.setPointer(launcher,(int) (touchPad.cursorX * menuHelper.scaleFactor),(int) (touchPad.cursorY * menuHelper.scaleFactor));
+        }
+
+         */
     }
 
     public void disableCursor(){
         gameCursorMode = 1;
+        /*
+        if (!menuHelper.gameMenuSetting.enableSensor){
+            InputBridge.setPointer(launcher,(int) pointerX,(int) pointerY);
+        }
+
+         */
     }
 
     public void setSensorEnable(boolean enable){

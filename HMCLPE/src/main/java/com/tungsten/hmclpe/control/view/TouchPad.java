@@ -24,8 +24,8 @@ public class TouchPad extends View {
     private MenuHelper menuHelper;
 
     private Bitmap bitmap;
-    private float cursorX;
-    private float cursorY;
+    public float cursorX;
+    public float cursorY;
     private float startCursorX;
     private float startCursorY;
 
@@ -80,7 +80,7 @@ public class TouchPad extends View {
         if (menuHelper.gameMenuSetting.mouseMode == 0 && menuHelper.viewManager.gameCursorMode == 0){
             cursorX = event.getX();
             cursorY = event.getY();
-            InputBridge.setPointer(launcher,(int) event.getX(),(int) event.getY());
+            InputBridge.setPointer(launcher,(int) (event.getX() * menuHelper.scaleFactor),(int) (event.getY() * menuHelper.scaleFactor));
         }
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
@@ -127,7 +127,7 @@ public class TouchPad extends View {
                     }
                     cursorX = targetX;
                     cursorY = targetY;
-                    InputBridge.setPointer(launcher,(int) targetX,(int) targetY);
+                    InputBridge.setPointer(launcher,(int) (targetX * menuHelper.scaleFactor),(int) (targetY * menuHelper.scaleFactor));
                 }
                 if (menuHelper.viewManager.gameCursorMode == 1 && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
                     menuHelper.viewManager.setGamePointer(1,event.getX() - initialX,event.getY() - initialY);

@@ -42,6 +42,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     public DrawerLayout drawerLayout;
     public LayoutPanel baseLayout;
     public int launcher;
+    public float scaleFactor;
 
     public GameMenuSetting gameMenuSetting;
 
@@ -78,7 +79,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
 
     public ViewManager viewManager;
 
-    public MenuHelper(Context context, AppCompatActivity activity, DrawerLayout drawerLayout, LayoutPanel baseLayout,boolean editMode,String currentPattern,int launcher){
+    public MenuHelper(Context context, AppCompatActivity activity, DrawerLayout drawerLayout, LayoutPanel baseLayout,boolean editMode,String currentPattern,int launcher,float scaleFactor){
         this.context = context;
         this.activity = activity;
         this.drawerLayout = drawerLayout;
@@ -86,6 +87,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         this.editMode = editMode;
         this.enableNameEditor = editMode;
         this.launcher = launcher;
+        this.scaleFactor = scaleFactor;
         patternList = SettingUtils.getControlPatternList();
         for (ControlPattern controlPattern : patternList){
             if (controlPattern.name.equals(currentPattern)){

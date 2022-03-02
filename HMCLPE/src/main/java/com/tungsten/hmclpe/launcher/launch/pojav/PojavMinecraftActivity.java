@@ -120,7 +120,7 @@ public class PojavMinecraftActivity extends BaseMainActivity {
             }
         };
 
-        menuHelper = new MenuHelper(this,this,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout,2);
+        menuHelper = new MenuHelper(this,this,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout,2,scaleFactor);
 
         init(gameLaunchSetting.game_directory, GameLaunchSetting.isHighVersion(gameLaunchSetting));
 
