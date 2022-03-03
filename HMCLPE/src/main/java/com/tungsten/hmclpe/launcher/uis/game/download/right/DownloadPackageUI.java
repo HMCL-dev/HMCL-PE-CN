@@ -50,7 +50,7 @@ public class DownloadPackageUI extends BaseUI {
 
         packageListView = activity.findViewById(R.id.download_package_list);
         packageList = new ArrayList<>();
-        downloadPackageListAdapter = new DownloadPackageListAdapter(context,packageList);
+        downloadPackageListAdapter = new DownloadPackageListAdapter(context,activity,packageList);
         packageListView.setAdapter(downloadPackageListAdapter);
     }
 

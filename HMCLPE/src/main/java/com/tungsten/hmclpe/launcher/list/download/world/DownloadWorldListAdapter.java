@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 public class DownloadWorldListAdapter extends BaseAdapter {
 
     private Context context;
+    private MainActivity activity;
     private ArrayList<ModListBean.Mod> worldList;
 
     private class ViewHolder{
@@ -38,8 +40,9 @@ public class DownloadWorldListAdapter extends BaseAdapter {
         TextView worldIntroduction;
     }
 
-    public DownloadWorldListAdapter (Context context, ArrayList<ModListBean.Mod> worldList){
+    public DownloadWorldListAdapter (Context context,MainActivity activity, ArrayList<ModListBean.Mod> worldList){
         this.context = context;
+        this.activity = activity;
         this.worldList = worldList;
     }
 
@@ -70,6 +73,7 @@ public class DownloadWorldListAdapter extends BaseAdapter {
             viewHolder.worldName = convertView.findViewById(R.id.world_name);
             viewHolder.worldCategories = convertView.findViewById(R.id.world_categories);
             viewHolder.worldIntroduction = convertView.findViewById(R.id.world_introduction);
+            activity.exteriorConfig.apply(viewHolder.worldCategories);
             convertView.setTag(viewHolder);
         }
         else {

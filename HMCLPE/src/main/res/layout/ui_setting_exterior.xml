@@ -105,6 +105,7 @@
                         android:layout_weight="1"/>
 
                     <androidx.appcompat.widget.SwitchCompat
+                        android:tag="tint_accent_color"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -144,6 +145,7 @@
                             android:layout_weight="1"/>
 
                         <androidx.appcompat.widget.SwitchCompat
+                            android:tag="tint_accent_color"
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -176,6 +178,7 @@
                 android:background="@drawable/launcher_view_light_gray">
 
                 <RadioButton
+                    android:tag="tint_accent_color"
                     android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -185,6 +188,7 @@
                     android:id="@+id/select_bg_default"/>
 
                 <RadioButton
+                    android:tag="tint_accent_color"
                     android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -200,6 +204,7 @@
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:tag="tint_accent_color"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -240,6 +245,7 @@
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:tag="tint_accent_color"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

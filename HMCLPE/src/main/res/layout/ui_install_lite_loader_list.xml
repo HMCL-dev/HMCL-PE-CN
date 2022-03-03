@@ -34,7 +34,7 @@
                 android:layout_marginLeft="5dp"
                 android:text="@string/download_minecraft_ui_hint"
                 android:textSize="@dimen/text_size_middle"
-                android:textColor="@color/colorPureBlack"/>
+                android:textColor="@color/colorLinkBlueDark"/>
 
         </LinearLayout>
 
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:text="@string/download_minecraft_ui_hint_text"
             android:textSize="@dimen/text_size_middle"
-            android:textColor="@color/colorPureBlack"/>
+            android:textColor="@color/colorLinkBlueDark"/>
 
     </LinearLayout>
 
@@ -60,6 +60,7 @@
             android:id="@+id/lite_loader_version_list" />
 
         <ProgressBar
+            android:tag="tint_accent_color"
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

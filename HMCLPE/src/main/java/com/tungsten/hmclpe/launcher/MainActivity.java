@@ -12,6 +12,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afollestad.appthemeengine.ATE;
+import com.afollestad.appthemeengine.Config;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
@@ -33,6 +36,7 @@ import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.setting.game.PublicGameSetting;
 import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
 import com.tungsten.hmclpe.launcher.uis.tools.UIManager;
+import com.tungsten.hmclpe.launcher.uis.universal.setting.right.launcher.ExteriorSettingUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public ImageButton closeApp;
 
     public UIManager uiManager;
+
+    public Config exteriorConfig;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,6 +117,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0){
+                exteriorConfig = ATE.config(MainActivity.this, null);
+
                 appBar = findViewById(R.id.app_bar);
                 appBarTitle = findViewById(R.id.app_bar_title);
                 backToLastUI = findViewById(R.id.back_to_last_ui);
@@ -127,6 +135,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 closeApp.setOnClickListener(MainActivity.this);
 
                 uiManager = new UIManager(MainActivity.this,MainActivity.this);
+
+                exteriorConfig.primaryColor(Color.parseColor(ExteriorSettingUI.getThemeColor(MainActivity.this,launcherSetting.launcherTheme)));
+                exteriorConfig.accentColor(Color.parseColor(ExteriorSettingUI.getThemeColor(MainActivity.this,launcherSetting.launcherTheme)));
+                exteriorConfig.apply(MainActivity.this);
             }
             if (msg.what == 1){
                 isLoaded = true;

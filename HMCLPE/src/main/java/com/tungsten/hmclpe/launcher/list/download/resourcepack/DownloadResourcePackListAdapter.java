@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 public class DownloadResourcePackListAdapter extends BaseAdapter {
 
     private Context context;
+    private MainActivity activity;
     private ArrayList<ModListBean.Mod> resourcePackList;
 
     private class ViewHolder{
@@ -38,8 +40,9 @@ public class DownloadResourcePackListAdapter extends BaseAdapter {
         TextView resourcePackIntroduction;
     }
 
-    public DownloadResourcePackListAdapter (Context context, ArrayList<ModListBean.Mod> resourcePackList){
+    public DownloadResourcePackListAdapter (Context context,MainActivity activity, ArrayList<ModListBean.Mod> resourcePackList){
         this.context = context;
+        this.activity = activity;
         this.resourcePackList = resourcePackList;
     }
 
@@ -70,6 +73,7 @@ public class DownloadResourcePackListAdapter extends BaseAdapter {
             viewHolder.resourcePackName = convertView.findViewById(R.id.resource_pack_name);
             viewHolder.resourcePackCategories = convertView.findViewById(R.id.resource_pack_categories);
             viewHolder.resourcePackIntroduction = convertView.findViewById(R.id.resource_pack_introduction);
+            activity.exteriorConfig.apply(viewHolder.resourcePackCategories);
             convertView.setTag(viewHolder);
         }
         else {

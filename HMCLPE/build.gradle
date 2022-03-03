@@ -33,6 +33,7 @@ dependencies {
     implementation project(path: ':Boat')
     implementation project(path: ':PojavLauncher')
     implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.github.naman14:app-theme-engine:0.5.2@aar'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'

@@ -78,6 +78,7 @@ public class GameListAdapter extends BaseAdapter {
             viewHolder.version = convertView.findViewById(R.id.version_id);
             viewHolder.startGame = convertView.findViewById(R.id.test_game);
             viewHolder.moreVert = convertView.findViewById(R.id.more_vert);
+            activity.exteriorConfig.apply(viewHolder.radioButton);
             convertView.setTag(viewHolder);
         }
         else {

@@ -35,6 +35,7 @@
         android:orientation="vertical">
 
         <Button
+            android:tag="text_primary_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -45,6 +46,7 @@
             android:id="@+id/import_pattern"/>
 
         <Button
+            android:tag="text_primary_color"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,6 +63,7 @@
             android:layout_weight="1"/>
 
         <Button
+            android:tag="text_primary_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

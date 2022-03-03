@@ -23,7 +23,8 @@
     <color name="colorYellow">#F0FF00</color>
     <color name="colorRed">#FF0000</color>
     <color name="colorLinkBlue">#1DA0E6</color>
-    <color name="colorTextBlue">#7251ABDC</color>
+    <color name="colorLinkBlueDark">#005D8F</color>
+    <color name="colorTextBlue">#D5F1FF</color>
     <color name="colorStartRockerBlue">#1A00C4FF</color>
     <color name="colorEndRockerBlue">#3300C4FF</color>
 

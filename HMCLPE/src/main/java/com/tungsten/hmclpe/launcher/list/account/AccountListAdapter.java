@@ -106,6 +106,7 @@ public class AccountListAdapter extends BaseAdapter {
             viewHolder.refresh = convertView.findViewById(R.id.refresh);
             viewHolder.skin = convertView.findViewById(R.id.skin);
             viewHolder.delete = convertView.findViewById(R.id.delete);
+            activity.exteriorConfig.apply(viewHolder.check);
             convertView.setTag(viewHolder);
         }
         else {

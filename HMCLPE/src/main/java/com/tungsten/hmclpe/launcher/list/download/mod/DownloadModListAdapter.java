@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
 import com.tungsten.hmclpe.utils.string.ModTranslations;
 
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 public class DownloadModListAdapter extends BaseAdapter {
 
     private Context context;
+    private MainActivity activity;
     private ArrayList<ModListBean.Mod> modList;
 
     private class ViewHolder{
@@ -41,8 +43,9 @@ public class DownloadModListAdapter extends BaseAdapter {
         TextView modIntroduction;
     }
 
-    public DownloadModListAdapter (Context context, ArrayList<ModListBean.Mod> modList){
+    public DownloadModListAdapter (Context context, MainActivity activity, ArrayList<ModListBean.Mod> modList){
         this.context = context;
+        this.activity = activity;
         this.modList = modList;
     }
 
@@ -74,6 +77,7 @@ public class DownloadModListAdapter extends BaseAdapter {
             viewHolder.modName = convertView.findViewById(R.id.mod_name);
             viewHolder.modCategories = convertView.findViewById(R.id.mod_categories);
             viewHolder.modIntroduction = convertView.findViewById(R.id.mod_introduction);
+            activity.exteriorConfig.apply(viewHolder.modCategories);
             convertView.setTag(viewHolder);
         }
         else {

@@ -28,6 +28,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.afollestad.appthemeengine.ATE;
+import com.afollestad.appthemeengine.Config;
 import com.tungsten.filepicker.Constants;
 import com.tungsten.filepicker.FileChooser;
 import com.tungsten.hmclpe.R;
@@ -246,8 +248,8 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
         if (activity.isLoaded){
             activity.uiManager.settingUI.startExteriorSettingUI.setBackground(context.getResources().getDrawable(R.drawable.launcher_button_white));
         }
-        colorView.setBackgroundColor(Color.parseColor(getThemeColor(activity.launcherSetting.launcherTheme)));
-        colorText.setText(getThemeColor(activity.launcherSetting.launcherTheme));
+        colorView.setBackgroundColor(Color.parseColor(getThemeColor(context,activity.launcherSetting.launcherTheme)));
+        colorText.setText(getThemeColor(context,activity.launcherSetting.launcherTheme));
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -271,7 +273,7 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
         }
     }
 
-    private String getThemeColor(String color){
+    public static String getThemeColor(Context context,String color){
         if (color.equals("DEFAULT")){
             return "#" + Integer.toHexString(context.getColor(R.color.colorAccent));
         }else {
@@ -292,21 +294,38 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
     @Override
     public void onClick(View v) {
         if (v == selectTheme){
-            ColorSelectorDialog dialog = new ColorSelectorDialog(context,true,Color.parseColor(getThemeColor(activity.launcherSetting.launcherTheme)));
+            ColorSelectorDialog dialog = new ColorSelectorDialog(context,true,Color.parseColor(getThemeColor(context,activity.launcherSetting.launcherTheme)));
             dialog.setColorSelectorDialogListener(new ColorSelectorDialog.ColorSelectorDialogListener() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onColorSelected(int color) {
-
+                    activity.exteriorConfig.primaryColor(color);
+                    activity.exteriorConfig.accentColor(color);
+                    activity.exteriorConfig.apply(activity);
+                    colorView.setBackgroundColor(color);
+                    colorText.setText("#" + Integer.toHexString(color));
                 }
 
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onPositive(int destColor) {
-
+                    activity.launcherSetting.launcherTheme = "#" + Integer.toHexString(destColor);
+                    GsonUtils.saveLauncherSetting(activity.launcherSetting,AppManifest.SETTING_DIR + "/launcher_setting.json");
+                    activity.exteriorConfig.primaryColor(destColor);
+                    activity.exteriorConfig.accentColor(destColor);
+                    activity.exteriorConfig.apply(activity);
+                    colorView.setBackgroundColor(destColor);
+                    colorText.setText("#" + Integer.toHexString(destColor));
                 }
 
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onNegative(int initColor) {
-
+                    activity.exteriorConfig.primaryColor(initColor);
+                    activity.exteriorConfig.accentColor(initColor);
+                    activity.exteriorConfig.apply(activity);
+                    colorView.setBackgroundColor(initColor);
+                    colorText.setText("#" + Integer.toHexString(initColor));
                 }
             });
             dialog.show();
@@ -330,7 +349,7 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
                 activity.appBar.setBackgroundColor(context.getResources().getColor(R.color.launcher_ui_background));
             }
             else {
-                activity.appBar.setBackgroundColor(Color.parseColor(getThemeColor(activity.launcherSetting.launcherTheme)));
+                activity.appBar.setBackgroundColor(Color.parseColor(getThemeColor(context,activity.launcherSetting.launcherTheme)));
             }
         }
         if (buttonView == fullscreenSwitch){

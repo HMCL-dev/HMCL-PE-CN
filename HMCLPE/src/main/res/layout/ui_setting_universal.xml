@@ -96,6 +96,7 @@
                     android:orientation="vertical">
 
                     <RadioButton
+                        android:tag="tint_accent_color"
                         android:layout_marginTop="3dp"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
@@ -106,6 +107,7 @@
                         android:id="@+id/update_to_rec"/>
 
                     <RadioButton
+                        android:tag="tint_accent_color"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -168,6 +170,7 @@
                     </LinearLayout>
 
                     <Button
+                        android:tag="text_primary_color"
                         android:layout_width="50dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
@@ -199,6 +202,7 @@
                     android:orientation="vertical">
 
                     <RadioButton
+                        android:tag="tint_accent_color"
                         android:layout_marginTop="3dp"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
@@ -215,6 +219,7 @@
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:tag="tint_accent_color"
                             android:layout_gravity="center"
                             android:layout_marginStart="12dp"
                             android:layout_width="wrap_content"
@@ -310,6 +315,7 @@
                         android:layout_gravity="center"/>
 
                     <Button
+                        android:tag="text_primary_color"
                         android:layout_gravity="center"
                         android:layout_width="120dp"
                         android:layout_height="40dp"

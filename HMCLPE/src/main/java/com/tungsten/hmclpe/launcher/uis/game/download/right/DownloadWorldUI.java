@@ -118,7 +118,7 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
 
         worldListView = activity.findViewById(R.id.download_world_list);
         worldList = new ArrayList<>();
-        downloadWorldListAdapter = new DownloadWorldListAdapter(context,worldList);
+        downloadWorldListAdapter = new DownloadWorldListAdapter(context,activity,worldList);
         worldListView.setAdapter(downloadWorldListAdapter);
     }
 

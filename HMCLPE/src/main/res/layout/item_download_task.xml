@@ -16,6 +16,7 @@
         android:id="@+id/download_task_name"/>
 
     <ProgressBar
+        android:tag="tint_accent_color"
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:max="100"

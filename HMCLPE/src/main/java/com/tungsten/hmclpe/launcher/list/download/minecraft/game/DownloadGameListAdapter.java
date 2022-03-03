@@ -100,6 +100,7 @@ public class DownloadGameListAdapter extends BaseAdapter {
             viewHolder.mcId = convertView.findViewById(R.id.id);
             viewHolder.type = convertView.findViewById(R.id.type);
             viewHolder.releaseTime = convertView.findViewById(R.id.release_time);
+            activity.exteriorConfig.apply(viewHolder.type);
             convertView.setTag(viewHolder);
         }
         else {

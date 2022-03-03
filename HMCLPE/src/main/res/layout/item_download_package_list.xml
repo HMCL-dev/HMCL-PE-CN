@@ -46,6 +46,7 @@
                     android:id="@+id/package_name"/>
 
                 <TextView
+                    android:tag="text_primary_color"
                     android:layout_marginLeft="10dp"
                     android:layout_gravity="center"
                     android:layout_width="match_parent"

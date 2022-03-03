@@ -51,6 +51,7 @@ public class ColorSelectorDialog extends Dialog implements ColorPickerView.OnCol
         colorPickerView = findViewById(R.id.color_picker);
         colorPickerView.setOnColorChangedListener(this);
         colorPickerView.setColor(initColor);
+        currentColor = initColor;
 
         recommendColorBar = findViewById(R.id.recommend_color_bar);
         if (showRecommendBar){

@@ -88,6 +88,7 @@
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:tag="tint_accent_color"
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -106,6 +107,7 @@
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:tag="tint_accent_color"
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -138,6 +140,7 @@
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:tag="tint_accent_color"
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -235,6 +238,7 @@
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:tag="tint_accent_color"
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -253,6 +257,7 @@
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:tag="tint_accent_color"
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -270,6 +275,7 @@
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:tag="tint_accent_color"
                             android:layout_gravity="center"
                             android:layout_marginStart="12dp"
                             android:layout_width="wrap_content"
@@ -325,6 +331,7 @@
                     android:layout_marginLeft="15dp"/>
 
                 <CheckBox
+                    android:tag="tint_accent_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -352,6 +359,7 @@
                         android:textColor="@color/colorPureBlack"/>
 
                     <SeekBar
+                        android:tag="tint_accent_color"
                         android:layout_gravity="center"
                         android:layout_marginLeft="10dp"
                         android:layout_width="0dp"
@@ -382,6 +390,7 @@
                 </LinearLayout>
                 
                 <ProgressBar
+                    android:tag="tint_accent_color"
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
                     android:layout_marginLeft="20dp"
@@ -443,6 +452,7 @@
                         android:textColor="@color/colorPureBlack"/>
 
                     <SeekBar
+                        android:tag="tint_accent_color"
                         android:layout_weight="1"
                         android:layout_margin="10dp"
                         android:layout_gravity="center"
@@ -500,6 +510,7 @@
                         android:layout_weight="1"/>
 
                     <androidx.appcompat.widget.SwitchCompat
+                        android:tag="tint_accent_color"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -591,6 +602,7 @@
                         android:layout_weight="1"/>
 
                     <androidx.appcompat.widget.SwitchCompat
+                        android:tag="tint_accent_color"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -626,6 +638,7 @@
                         android:layout_weight="1"/>
 
                     <androidx.appcompat.widget.SwitchCompat
+                        android:tag="tint_accent_color"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -661,6 +674,7 @@
                         android:layout_weight="1"/>
 
                     <androidx.appcompat.widget.SwitchCompat
+                        android:tag="tint_accent_color"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -742,6 +756,7 @@
                     android:orientation="vertical">
 
                     <RadioButton
+                        android:tag="tint_accent_color"
                         android:layout_marginTop="3dp"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
@@ -752,6 +767,7 @@
                         android:id="@+id/control_type_touch"/>
 
                     <RadioButton
+                        android:tag="tint_accent_color"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -761,6 +777,7 @@
                         android:id="@+id/control_type_keyboard"/>
 
                     <RadioButton
+                        android:tag="tint_accent_color"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -814,6 +831,7 @@
                     </LinearLayout>
 
                     <Button
+                        android:tag="text_primary_color"
                         android:layout_width="50dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
@@ -901,6 +919,7 @@
                     android:orientation="vertical">
 
                     <RadioButton
+                        android:tag="tint_accent_color"
                         android:layout_marginTop="3dp"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
@@ -911,6 +930,7 @@
                         android:id="@+id/launch_by_boat"/>
 
                     <RadioButton
+                        android:tag="tint_accent_color"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -992,6 +1012,7 @@
                     android:orientation="vertical">
 
                     <RadioButton
+                        android:tag="tint_accent_color"
                         android:layout_marginTop="3dp"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
@@ -1002,6 +1023,7 @@
                         android:id="@+id/boat_renderer_gl4es_112"/>
 
                     <RadioButton
+                        android:tag="tint_accent_color"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -1075,6 +1097,7 @@
                     android:orientation="vertical">
 
                     <RadioButton
+                        android:tag="tint_accent_color"
                         android:layout_marginTop="3dp"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
@@ -1085,6 +1108,7 @@
                         android:id="@+id/pojav_renderer_gl4es_114"/>
 
                     <RadioButton
+                        android:tag="tint_accent_color"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -1094,6 +1118,7 @@
                         android:id="@+id/pojav_renderer_gl4es_115"/>
 
                     <RadioButton
+                        android:tag="tint_accent_color"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -1103,6 +1128,7 @@
                         android:id="@+id/pojav_renderer_gl4es_115p"/>
 
                     <RadioButton
+                        android:tag="tint_accent_color"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -1112,6 +1138,7 @@
                         android:id="@+id/pojav_renderer_vgpu"/>
 
                     <RadioButton
+                        android:tag="tint_accent_color"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

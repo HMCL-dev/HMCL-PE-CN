@@ -132,7 +132,7 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
 
         modListView = activity.findViewById(R.id.download_mod_list);
         modList = new ArrayList<>();
-        modListAdapter = new DownloadModListAdapter(context,modList);
+        modListAdapter = new DownloadModListAdapter(context,activity,modList);
         modListView.setAdapter(modListAdapter);
 
         progressBar = activity.findViewById(R.id.loading_download_mod_list_progress);

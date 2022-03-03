@@ -50,7 +50,7 @@ public class DownloadResourcePackUI extends BaseUI {
 
         resourcePackListView = activity.findViewById(R.id.download_resource_pack_list);
         resourcePackList = new ArrayList<>();
-        downloadResourcePackListAdapter = new DownloadResourcePackListAdapter(context,resourcePackList);
+        downloadResourcePackListAdapter = new DownloadResourcePackListAdapter(context,activity,resourcePackList);
         resourcePackListView.setAdapter(downloadResourcePackListAdapter);
     }
 

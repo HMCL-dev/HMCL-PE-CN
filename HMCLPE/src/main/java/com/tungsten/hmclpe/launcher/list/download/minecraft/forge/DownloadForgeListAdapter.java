@@ -74,6 +74,7 @@ public class DownloadForgeListAdapter extends BaseAdapter {
             viewHolder.forgeId = view.findViewById(R.id.id);
             viewHolder.mcVersion = view.findViewById(R.id.type);
             viewHolder.releaseTime = view.findViewById(R.id.release_time);
+            activity.exteriorConfig.apply(viewHolder.mcVersion);
             view.setTag(viewHolder);
         }
         else {
