@@ -529,6 +529,8 @@
     <string name="dialog_add_view_button_function_extra_perspective">视角跟随</string>
     <string name="dialog_add_view_button_function_extra_keep">自动保持</string>
     <string name="dialog_add_view_button_function_extra_auto_click">自动连点</string>
+    <string name="dialog_add_view_button_function_open_menu">呼出控制面板</string>
+    <string name="dialog_add_view_button_function_movable">可拖动</string>
     <string name="dialog_add_view_button_function_touch_mode">切换触控模式</string>
     <string name="dialog_add_view_button_function_sensor">开/关陀螺仪</string>
     <string name="dialog_add_view_button_function_left_touch">启用/禁用左半屏触控</string>

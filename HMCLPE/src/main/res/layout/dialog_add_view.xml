@@ -410,6 +410,60 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/dialog_add_view_button_function_open_menu"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:layout_gravity="center"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/function_open_menu"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dialog_add_view_button_function_movable"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:layout_gravity="center"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/function_movable"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/dialog_add_view_button_function_extra_auto_click"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"

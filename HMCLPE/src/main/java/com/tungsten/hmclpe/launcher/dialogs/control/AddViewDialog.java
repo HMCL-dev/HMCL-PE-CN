@@ -62,7 +62,12 @@ public class AddViewDialog extends Dialog implements View.OnClickListener {
             editRocker.setVisibility(View.VISIBLE);
         }
         if (view == positive){
+            if (viewType == 0){
 
+            }
+            if (viewType == 1){
+
+            }
         }
         if (view == negative){
             dismiss();
