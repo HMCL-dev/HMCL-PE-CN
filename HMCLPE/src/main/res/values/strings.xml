@@ -513,8 +513,11 @@
     <string name="dialog_add_view_width">宽度</string>
     <string name="dialog_add_view_height">高度</string>
     <string name="dialog_add_view_size">边长</string>
-    <string name="dialog_add_view_size_type_percent_object_width">以屏幕宽度为参考</string>
-    <string name="dialog_add_view_size_type_percent_object_height">以屏幕高度为参考</string>
+    <string name="dialog_add_view_width_type_percent_object">宽度参考对象</string>
+    <string name="dialog_add_view_height_type_percent_object">高度参考对象</string>
+    <string name="dialog_add_view_size_type_percent_object">边长参考对象</string>
+    <string name="dialog_add_view_size_type_percent_object_width">屏幕宽度</string>
+    <string name="dialog_add_view_size_type_percent_object_height">屏幕高度</string>
     <string name="dialog_add_view_position_type">控件坐标类型</string>
     <string name="dialog_add_view_position_type_absolute">绝对坐标</string>
     <string name="dialog_add_view_position_type_percent">百分比坐标</string>
@@ -542,8 +545,8 @@
     <string name="dialog_add_view_button_function_output_keycode_button">选择</string>
     <string name="dialog_add_view_button_exterior_setting">外观设置</string>
     <string name="dialog_add_view_button_exterior_use_exist">使用保存的样式</string>
-    <string name="dialog_add_view_button_exterior_add_style">新建按键样式并保存至本地</string>
-    <string name="dialog_add_view_button_exterior_add_style_button">新建</string>
+    <string name="dialog_add_view_button_exterior_add_style">管理本地按键样式</string>
+    <string name="dialog_add_view_button_exterior_add_style_button">管理</string>
     <string name="dialog_add_view_button_exterior_setting_text_size">字体大小</string>
     <string name="dialog_add_view_button_exterior_setting_text_color">文本颜色</string>
     <string name="dialog_add_view_button_exterior_setting_corner_radius">圆角半径</string>
@@ -556,6 +559,7 @@
     <string name="dialog_add_view_button_exterior_setting_stroke_width_pressed">边框宽度（按压）</string>
     <string name="dialog_add_view_button_exterior_setting_stroke_color_pressed">边框颜色（按压）</string>
     <string name="dialog_add_view_button_exterior_setting_fill_color_pressed">填充色（按压）</string>
+    <string name="dialog_add_view_rocker_exterior_add_style">管理本地方向控制盘样式</string>
     <string name="dialog_add_view_rocker_exterior_setting_pointer_color">指示器颜色</string>
     <string name="dialog_add_view_rocker_exterior_setting_fill_color">填充色</string>
     <string name="dialog_add_view_rocker_exterior_setting_stroke_width">边框宽度</string>
@@ -567,6 +571,28 @@
     <string name="dialog_add_view_exterior_setting_choose_color">选择</string>
     <string name="dialog_add_view_positive">添加</string>
     <string name="dialog_add_view_negative">取消</string>
+
+    <string name="dialog_manage_button_style_title">管理按键样式</string>
+    <string name="dialog_manage_button_style_create">创建新的样式</string>
+    <string name="dialog_manage_button_style_positive">完成</string>
+
+    <string name="dialog_manage_rocker_style_title">管理方向控制盘样式</string>
+    <string name="dialog_manage_rocker_style_create">创建新的样式</string>
+    <string name="dialog_manage_rocker_style_positive">完成</string>
+
+    <string name="dialog_create_button_style_title">创建新的按键样式</string>
+    <string name="dialog_create_button_style_name">名称</string>
+    <string name="dialog_create_button_style_name_empty">样式名称不得为空</string>
+    <string name="dialog_create_button_style_name_exist">名称已存在</string>
+    <string name="dialog_create_button_style_positive">创建</string>
+    <string name="dialog_create_button_style_negative">取消</string>
+
+    <string name="dialog_create_rocker_style_title">创建新的方向控制盘样式</string>
+    <string name="dialog_create_rocker_style_name">名称</string>
+    <string name="dialog_create_rocker_style_name_empty">样式名称不得为空</string>
+    <string name="dialog_create_rocker_style_name_exist">名称已存在</string>
+    <string name="dialog_create_rocker_style_positive">创建</string>
+    <string name="dialog_create_rocker_style_negative">取消</string>
 
     <string name="drawer_game_menu_title">HMCL-PE 控制面板</string>
     <string name="drawer_game_menu_type">控制面板呼出方式</string>

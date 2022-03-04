@@ -1,6 +1,7 @@
 package com.tungsten.hmclpe.launcher.setting;
 
 import com.google.gson.Gson;
+import com.tungsten.hmclpe.control.bean.button.ButtonStyle;
 import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
 import com.tungsten.hmclpe.launcher.list.local.controller.ControlPattern;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
@@ -13,6 +14,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SettingUtils {
 
@@ -110,6 +112,35 @@ public class SettingUtils {
             }
         }
         return list;
+    }
+
+    public static ArrayList<ButtonStyle> getButtonStyleList(){
+        ArrayList<ButtonStyle> list = new ArrayList<>();
+        if (new File(AppManifest.STYLE_DIR + "/button.json").exists()){
+            String string = FileStringUtils.getStringFromFile(AppManifest.STYLE_DIR + "/button.json");
+            Gson gson = new Gson();
+            ButtonStyle[] buttonStyles = gson.fromJson(string, ButtonStyle[].class);
+            list.addAll(Arrays.asList(buttonStyles));
+            if (list.size() == 0){
+                ButtonStyle style = new ButtonStyle();
+                style.name = "Default";
+                list.add(style);
+                saveButtonStyle(list);
+            }
+        }
+        else {
+            ButtonStyle style = new ButtonStyle();
+            style.name = "Default";
+            list.add(style);
+            saveButtonStyle(list);
+        }
+        return list;
+    }
+
+    public static void saveButtonStyle(ArrayList<ButtonStyle> list){
+        Gson gson = new Gson();
+        String string = gson.toJson(list);
+        FileStringUtils.writeFile(AppManifest.STYLE_DIR + "/button.json",string);
     }
 
 }

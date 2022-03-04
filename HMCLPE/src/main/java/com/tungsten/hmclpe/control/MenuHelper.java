@@ -44,6 +44,9 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     public int launcher;
     public float scaleFactor;
 
+    public int screenWidth;
+    public int screenHeight;
+
     public GameMenuSetting gameMenuSetting;
 
     public SwitchCompat switchMenuFloat;
@@ -198,6 +201,8 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         baseLayout.post(new Runnable() {
             @Override
             public void run() {
+                screenWidth = baseLayout.getWidth();
+                screenHeight = baseLayout.getHeight();
                 viewManager = new ViewManager(context,activity,MenuHelper.this,baseLayout,launcher);
                 checkOpenMenuSetting();
             }
@@ -326,7 +331,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
                 Toast.makeText(context,context.getString(R.string.drawer_custom_menu_warn),Toast.LENGTH_SHORT).show();
             }
             else {
-                AddViewDialog dialog = new AddViewDialog(context);
+                AddViewDialog dialog = new AddViewDialog(context,screenWidth,screenHeight);
                 dialog.show();
             }
         }

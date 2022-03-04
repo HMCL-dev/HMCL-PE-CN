@@ -83,7 +83,7 @@
                         android:layout_height="32dp"
                         android:background="@color/colorLightGray"
                         android:layout_weight="1"
-                        android:layout_marginStart="30dp"
+                        android:layout_marginStart="108dp"
                         android:layout_gravity="center"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
@@ -127,94 +127,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_width"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
-
-                    <SeekBar
-                        android:id="@+id/button_width_seekbar"
-                        android:max="100"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
-
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="60dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_button_width"/>
-
-                    <Spinner
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/button_width_object"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_height"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
-
-                    <SeekBar
-                        android:id="@+id/button_height_seekbar"
-                        android:max="100"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
-
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="60dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_button_height"/>
-
-                    <Spinner
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/button_height_object"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:text="@string/dialog_add_view_position_type"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"
@@ -235,6 +147,130 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/width_object_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dialog_add_view_width_type_percent_object"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:layout_gravity="center"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/width_object"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/height_object_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dialog_add_view_height_type_percent_object"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:layout_gravity="center"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/height_object"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dialog_add_view_width"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:layout_gravity="center"/>
+
+                    <SeekBar
+                        android:id="@+id/button_width_seekbar"
+                        android:max="100"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_marginStart="108dp"
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="end"
+                        android:id="@+id/width_text"
+                        android:textColor="@color/colorPureBlack"
+                        android:textSize="@dimen/text_size_middle"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dialog_add_view_height"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:layout_gravity="center"/>
+
+                    <SeekBar
+                        android:id="@+id/button_height_seekbar"
+                        android:max="100"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_marginStart="108dp"
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="end"
+                        android:id="@+id/height_text"
+                        android:textColor="@color/colorPureBlack"
+                        android:textSize="@dimen/text_size_middle"/>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp">
@@ -251,23 +287,20 @@
                         android:id="@+id/button_x_seekbar"
                         android:max="100"
                         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_marginStart="30dp"
+                        android:layout_marginStart="98dp"
                         android:layout_gravity="center"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"/>
 
-                    <EditText
-                        android:background="@color/colorLightGray"
+                    <TextView
                         android:layout_width="60dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_button_x"/>
+                        android:gravity="end"
+                        android:id="@+id/button_x_text"
+                        android:textColor="@color/colorPureBlack"
+                        android:textSize="@dimen/text_size_middle"/>
 
                 </LinearLayout>
 
@@ -288,23 +321,20 @@
                         android:id="@+id/button_y_seekbar"
                         android:max="100"
                         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_marginStart="30dp"
+                        android:layout_marginStart="98dp"
                         android:layout_gravity="center"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"/>
 
-                    <EditText
-                        android:background="@color/colorLightGray"
+                    <TextView
                         android:layout_width="60dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_button_y"/>
+                        android:gravity="end"
+                        android:id="@+id/button_y_text"
+                        android:textColor="@color/colorPureBlack"
+                        android:textSize="@dimen/text_size_middle"/>
 
                 </LinearLayout>
 
@@ -410,6 +440,33 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/dialog_add_view_button_function_extra_auto_click"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:layout_gravity="center"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/function_extra_auto_click"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/dialog_add_view_button_function_open_menu"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"
@@ -453,33 +510,6 @@
                         android:layout_marginStart="30dp"
                         android:layout_gravity="center"
                         android:id="@+id/function_movable"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_button_function_extra_auto_click"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/function_extra_auto_click"/>
 
                 </LinearLayout>
 
@@ -640,7 +670,7 @@
                         android:layout_height="32dp"
                         android:background="@color/colorLightGray"
                         android:layout_weight="1"
-                        android:layout_marginStart="30dp"
+                        android:layout_marginStart="82dp"
                         android:layout_gravity="center"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
@@ -716,14 +746,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="30dp"
                         android:layout_gravity="center"
-                        android:id="@+id/exterior_use_exist"/>
+                        android:id="@+id/exterior_use_exist_button"/>
 
                     <androidx.appcompat.widget.SwitchCompat
                         android:layout_marginStart="30dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:id="@+id/switch_exterior_use_exist"/>
+                        android:id="@+id/switch_exterior_use_exist_button"/>
 
                 </LinearLayout>
 
@@ -749,7 +779,7 @@
                         android:layout_width="45dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:id="@+id/exterior_add_style"
+                        android:id="@+id/exterior_add_button_style"
                         android:background="@drawable/launcher_setting_button"
                         android:text="@string/dialog_add_view_button_exterior_add_style_button"
                         android:textColor="@color/colorAccent"
@@ -759,488 +789,514 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/button_style_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_button_exterior_setting_text_size"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
+                        android:layout_marginTop="15dp">
 
-                    <SeekBar
-                        android:id="@+id/exterior_text_size_seekbar"
-                        android:max="50"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_button_exterior_setting_text_size"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
+
+                        <SeekBar
+                            android:id="@+id/exterior_text_size_seekbar"
+                            android:max="50"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_marginStart="82dp"
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="end"
+                            android:id="@+id/text_size_text"
+                            android:textColor="@color/colorPureBlack"
+                            android:textSize="@dimen/text_size_middle"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_marginTop="15dp">
 
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="60dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/exterior_text_size"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_button_exterior_setting_corner_radius"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
 
-                </LinearLayout>
+                        <SeekBar
+                            android:id="@+id/exterior_corner_radius_seekbar"
+                            android:max="50"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_marginStart="82dp"
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                        <TextView
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="end"
+                            android:id="@+id/corner_radius_text"
+                            android:textColor="@color/colorPureBlack"
+                            android:textSize="@dimen/text_size_middle"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_button_exterior_setting_text_color"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
+                        android:layout_marginTop="15dp">
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_button_exterior_setting_stroke_width"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
 
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="100dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_exterior_text_color"/>
+                        <SeekBar
+                            android:id="@+id/exterior_stroke_width_seekbar"
+                            android:max="50"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_marginStart="82dp"
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
 
-                    <Button
-                        android:layout_marginStart="30dp"
-                        android:layout_width="45dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/exterior_text_color"
-                        android:background="@drawable/launcher_setting_button"
-                        android:text="@string/dialog_add_view_exterior_setting_choose_color"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"/>
+                        <TextView
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="end"
+                            android:id="@+id/stroke_width_text"
+                            android:textColor="@color/colorPureBlack"
+                            android:textSize="@dimen/text_size_middle"/>
 
-                </LinearLayout>
+                    </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_button_exterior_setting_corner_radius"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
+                        android:layout_marginTop="15dp">
 
-                    <SeekBar
-                        android:id="@+id/exterior_corner_radius_seekbar"
-                        android:max="50"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_button_exterior_setting_text_size_pressed"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
+
+                        <SeekBar
+                            android:id="@+id/exterior_text_size_seekbar_pressed"
+                            android:max="50"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_marginStart="30dp"
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="end"
+                            android:id="@+id/text_size_pressed_text"
+                            android:textColor="@color/colorPureBlack"
+                            android:textSize="@dimen/text_size_middle"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_marginTop="15dp">
 
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="60dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/exterior_corner_radius"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_button_exterior_setting_corner_radius_pressed"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
 
-                </LinearLayout>
+                        <SeekBar
+                            android:id="@+id/exterior_corner_radius_seekbar_pressed"
+                            android:max="50"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_marginStart="30dp"
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                        <TextView
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="end"
+                            android:id="@+id/corner_radius_pressed_text"
+                            android:textColor="@color/colorPureBlack"
+                            android:textSize="@dimen/text_size_middle"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_button_exterior_setting_stroke_width"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
+                        android:layout_marginTop="15dp">
 
-                    <SeekBar
-                        android:id="@+id/exterior_stroke_width_seekbar"
-                        android:max="50"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_button_exterior_setting_stroke_width_pressed"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
+
+                        <SeekBar
+                            android:id="@+id/exterior_stroke_width_seekbar_pressed"
+                            android:max="50"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_marginStart="30dp"
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="end"
+                            android:id="@+id/stroke_width_pressed_text"
+                            android:textColor="@color/colorPureBlack"
+                            android:textSize="@dimen/text_size_middle"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_marginTop="15dp">
 
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="60dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/exterior_stroke_width"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_button_exterior_setting_text_color"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
 
-                </LinearLayout>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                        <View
+                            android:layout_gravity="center"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/text_color_preview"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:layout_marginStart="30dp"
+                            android:layout_width="80dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_height="30dp"
+                            android:background="@color/colorLightGray"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:id="@+id/text_color_text"/>
+
+                        <Button
+                            android:layout_marginStart="30dp"
+                            android:layout_width="45dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/exterior_text_color"
+                            android:background="@drawable/launcher_setting_button"
+                            android:text="@string/dialog_add_view_exterior_setting_choose_color"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/text_size_middle"
+                            android:gravity="center"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_button_exterior_setting_stroke_color"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
+                        android:layout_marginTop="15dp">
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_button_exterior_setting_stroke_color"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
 
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="100dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_exterior_stroke_color"/>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
 
-                    <Button
-                        android:layout_marginStart="30dp"
-                        android:layout_width="45dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/exterior_stroke_color"
-                        android:background="@drawable/launcher_setting_button"
-                        android:text="@string/dialog_add_view_exterior_setting_choose_color"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"/>
+                        <View
+                            android:layout_gravity="center"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/stroke_color_preview"/>
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_marginStart="30dp"
+                            android:layout_width="80dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_height="30dp"
+                            android:background="@color/colorLightGray"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:id="@+id/stroke_color_text"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                        <Button
+                            android:layout_marginStart="30dp"
+                            android:layout_width="45dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/exterior_stroke_color"
+                            android:background="@drawable/launcher_setting_button"
+                            android:text="@string/dialog_add_view_exterior_setting_choose_color"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/text_size_middle"
+                            android:gravity="center"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_button_exterior_setting_fill_color"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
+                        android:layout_marginTop="15dp">
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_button_exterior_setting_fill_color"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
 
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="100dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_exterior_fill_color"/>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
 
-                    <Button
-                        android:layout_marginStart="30dp"
-                        android:layout_width="45dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/exterior_fill_color"
-                        android:background="@drawable/launcher_setting_button"
-                        android:text="@string/dialog_add_view_exterior_setting_choose_color"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"/>
+                        <View
+                            android:layout_gravity="center"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/fill_color_preview"/>
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_marginStart="30dp"
+                            android:layout_width="80dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_height="30dp"
+                            android:background="@color/colorLightGray"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:id="@+id/fill_color_text"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                        <Button
+                            android:layout_marginStart="30dp"
+                            android:layout_width="45dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/exterior_fill_color"
+                            android:background="@drawable/launcher_setting_button"
+                            android:text="@string/dialog_add_view_exterior_setting_choose_color"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/text_size_middle"
+                            android:gravity="center"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_button_exterior_setting_text_size_pressed"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
+                        android:layout_marginTop="15dp">
 
-                    <SeekBar
-                        android:id="@+id/exterior_text_size_seekbar_pressed"
-                        android:max="50"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_button_exterior_setting_text_color_pressed"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
+
+                        <View
+                            android:layout_gravity="center"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/text_color_pressed_preview"/>
+
+                        <TextView
+                            android:layout_marginStart="30dp"
+                            android:layout_width="80dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_height="30dp"
+                            android:background="@color/colorLightGray"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:id="@+id/text_color_pressed_text"/>
+
+                        <Button
+                            android:layout_marginStart="30dp"
+                            android:layout_width="45dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/exterior_text_color_pressed"
+                            android:background="@drawable/launcher_setting_button"
+                            android:text="@string/dialog_add_view_exterior_setting_choose_color"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/text_size_middle"
+                            android:gravity="center"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_marginTop="15dp">
 
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="60dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/exterior_text_size_pressed"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_button_exterior_setting_stroke_color_pressed"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
 
-                </LinearLayout>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                        <View
+                            android:layout_gravity="center"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/stroke_color_pressed_preview"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:layout_marginStart="30dp"
+                            android:layout_width="80dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_height="30dp"
+                            android:background="@color/colorLightGray"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:id="@+id/stroke_color_pressed_text"/>
+
+                        <Button
+                            android:layout_marginStart="30dp"
+                            android:layout_width="45dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/exterior_stroke_color_pressed"
+                            android:background="@drawable/launcher_setting_button"
+                            android:text="@string/dialog_add_view_exterior_setting_choose_color"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/text_size_middle"
+                            android:gravity="center"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_button_exterior_setting_text_color_pressed"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
+                        android:layout_marginTop="15dp">
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_button_exterior_setting_fill_color_pressed"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
 
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="100dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_exterior_text_color_pressed"/>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
 
-                    <Button
-                        android:layout_marginStart="30dp"
-                        android:layout_width="45dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/exterior_text_color_pressed"
-                        android:background="@drawable/launcher_setting_button"
-                        android:text="@string/dialog_add_view_exterior_setting_choose_color"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"/>
+                        <View
+                            android:layout_gravity="center"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/fill_color_pressed_preview"/>
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_marginStart="30dp"
+                            android:layout_width="80dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_height="30dp"
+                            android:background="@color/colorLightGray"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:id="@+id/fill_color_pressed_text"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                        <Button
+                            android:layout_marginStart="30dp"
+                            android:layout_width="45dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/exterior_fill_color_pressed"
+                            android:background="@drawable/launcher_setting_button"
+                            android:text="@string/dialog_add_view_exterior_setting_choose_color"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/text_size_middle"
+                            android:gravity="center"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_button_exterior_setting_corner_radius_pressed"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
-
-                    <SeekBar
-                        android:id="@+id/exterior_corner_radius_seekbar_pressed"
-                        android:max="50"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
-
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="60dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/exterior_corner_radius_pressed"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_button_exterior_setting_stroke_width_pressed"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
-
-                    <SeekBar
-                        android:id="@+id/exterior_stroke_width_seekbar_pressed"
-                        android:max="50"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
-
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="60dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/exterior_stroke_width_pressed"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_button_exterior_setting_stroke_color_pressed"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="100dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_exterior_stroke_color_pressed"/>
-
-                    <Button
-                        android:layout_marginStart="30dp"
-                        android:layout_width="45dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/exterior_stroke_color_pressed"
-                        android:background="@drawable/launcher_setting_button"
-                        android:text="@string/dialog_add_view_exterior_setting_choose_color"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_button_exterior_setting_fill_color_pressed"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="100dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_exterior_fill_color_pressed"/>
-
-                    <Button
-                        android:layout_marginStart="30dp"
-                        android:layout_width="45dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/exterior_fill_color_pressed"
-                        android:background="@drawable/launcher_setting_button"
-                        android:text="@string/dialog_add_view_exterior_setting_choose_color"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"/>
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -1300,50 +1356,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_size"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
-
-                    <SeekBar
-                        android:id="@+id/rocker_size_seekbar"
-                        android:max="100"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
-
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="60dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_rocker_size"/>
-
-                    <Spinner
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/rocker_size_object"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:text="@string/dialog_add_view_position_type"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"
@@ -1364,6 +1376,68 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/size_object_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dialog_add_view_size_type_percent_object"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:layout_gravity="center"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_gravity="center"
+                        android:id="@+id/size_object"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dialog_add_view_size"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:layout_gravity="center"/>
+
+                    <SeekBar
+                        android:id="@+id/rocker_size_seekbar"
+                        android:max="100"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_marginStart="108dp"
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="end"
+                        android:id="@+id/size_text"
+                        android:textColor="@color/colorPureBlack"
+                        android:textSize="@dimen/text_size_middle"/>
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp">
@@ -1380,23 +1454,20 @@
                         android:id="@+id/rocker_x_seekbar"
                         android:max="100"
                         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_marginStart="30dp"
+                        android:layout_marginStart="98dp"
                         android:layout_gravity="center"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"/>
 
-                    <EditText
-                        android:background="@color/colorLightGray"
+                    <TextView
                         android:layout_width="60dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_rocker_x"/>
+                        android:gravity="end"
+                        android:id="@+id/rocker_x_text"
+                        android:textColor="@color/colorPureBlack"
+                        android:textSize="@dimen/text_size_middle"/>
 
                 </LinearLayout>
 
@@ -1417,23 +1488,20 @@
                         android:id="@+id/rocker_y_seekbar"
                         android:max="100"
                         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_marginStart="30dp"
+                        android:layout_marginStart="98dp"
                         android:layout_gravity="center"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"/>
 
-                    <EditText
-                        android:background="@color/colorLightGray"
+                    <TextView
                         android:layout_width="60dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_rocker_y"/>
+                        android:gravity="end"
+                        android:id="@+id/rocker_y_text"
+                        android:textColor="@color/colorPureBlack"
+                        android:textSize="@dimen/text_size_middle"/>
 
                 </LinearLayout>
 
@@ -1458,7 +1526,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_rocker_exterior_setting_pointer_color"
+                        android:text="@string/dialog_add_view_button_exterior_use_exist"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"
                         android:layout_gravity="center"/>
@@ -1468,29 +1536,19 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"/>
 
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="100dp"
-                        android:layout_height="32dp"
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="30dp"
                         android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_exterior_pointer_color"/>
+                        android:id="@+id/exterior_use_exist_rocker"/>
 
-                    <Button
+                    <androidx.appcompat.widget.SwitchCompat
                         android:layout_marginStart="30dp"
-                        android:layout_width="45dp"
-                        android:layout_height="30dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:id="@+id/exterior_pointer_color"
-                        android:background="@drawable/launcher_setting_button"
-                        android:text="@string/dialog_add_view_exterior_setting_choose_color"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"/>
+                        android:id="@+id/switch_exterior_use_exist_rocker"/>
 
                 </LinearLayout>
 
@@ -1502,7 +1560,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_rocker_exterior_setting_fill_color"
+                        android:text="@string/dialog_add_view_rocker_exterior_add_style"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"
                         android:layout_gravity="center"/>
@@ -1512,26 +1570,13 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"/>
 
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="100dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_rocker_exterior_fill_color"/>
-
                     <Button
-                        android:layout_marginStart="30dp"
                         android:layout_width="45dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:id="@+id/rocker_exterior_fill_color"
+                        android:id="@+id/exterior_add_rocker_style"
                         android:background="@drawable/launcher_setting_button"
-                        android:text="@string/dialog_add_view_exterior_setting_choose_color"
+                        android:text="@string/dialog_add_view_button_exterior_add_style_button"
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/text_size_middle"
                         android:gravity="center"/>
@@ -1541,250 +1586,376 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                    android:orientation="vertical"
+                    android:id="@+id/rocker_style_layout">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_rocker_exterior_setting_stroke_width"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
+                        android:layout_marginTop="15dp">
 
-                    <SeekBar
-                        android:id="@+id/rocker_exterior_stroke_width_seekbar"
-                        android:max="50"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_rocker_exterior_setting_stroke_width"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
+
+                        <SeekBar
+                            android:id="@+id/rocker_exterior_stroke_width_seekbar"
+                            android:max="50"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_marginStart="82dp"
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <TextView
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="end"
+                            android:id="@+id/rocker_stroke_width_text"
+                            android:textColor="@color/colorPureBlack"
+                            android:textSize="@dimen/text_size_middle"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_marginTop="15dp">
 
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="60dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/rocker_exterior_stroke_width"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_rocker_exterior_setting_stroke_width_pressed"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
 
-                </LinearLayout>
+                        <SeekBar
+                            android:id="@+id/rocker_exterior_stroke_width_seekbar_pressed"
+                            android:max="50"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_marginStart="30dp"
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                        <TextView
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="end"
+                            android:id="@+id/rocker_stroke_width_press_text"
+                            android:textColor="@color/colorPureBlack"
+                            android:textSize="@dimen/text_size_middle"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_rocker_exterior_setting_stroke_color"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
+                        android:layout_marginTop="15dp">
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_rocker_exterior_setting_pointer_color"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
 
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="100dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_rocker_exterior_stroke_color"/>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
 
-                    <Button
-                        android:layout_marginStart="30dp"
-                        android:layout_width="45dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/rocker_exterior_stroke_color"
-                        android:background="@drawable/launcher_setting_button"
-                        android:text="@string/dialog_add_view_exterior_setting_choose_color"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"/>
+                        <View
+                            android:layout_gravity="center"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/pointer_color_preview"/>
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_marginStart="30dp"
+                            android:layout_width="80dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_height="30dp"
+                            android:background="@color/colorLightGray"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:id="@+id/pointer_color_text"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                        <Button
+                            android:layout_marginStart="30dp"
+                            android:layout_width="45dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/exterior_pointer_color"
+                            android:background="@drawable/launcher_setting_button"
+                            android:text="@string/dialog_add_view_exterior_setting_choose_color"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/text_size_middle"
+                            android:gravity="center"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_rocker_exterior_setting_pointer_color_pressed"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
+                        android:layout_marginTop="15dp">
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_rocker_exterior_setting_fill_color"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
 
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="100dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_exterior_pointer_color_pressed"/>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
 
-                    <Button
-                        android:layout_marginStart="30dp"
-                        android:layout_width="45dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/exterior_pointer_color_pressed"
-                        android:background="@drawable/launcher_setting_button"
-                        android:text="@string/dialog_add_view_exterior_setting_choose_color"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"/>
+                        <View
+                            android:layout_gravity="center"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/rocker_fill_color_preview"/>
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_marginStart="30dp"
+                            android:layout_width="80dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_height="30dp"
+                            android:background="@color/colorLightGray"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:id="@+id/rocker_fill_color_text"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                        <Button
+                            android:layout_marginStart="30dp"
+                            android:layout_width="45dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/rocker_exterior_fill_color"
+                            android:background="@drawable/launcher_setting_button"
+                            android:text="@string/dialog_add_view_exterior_setting_choose_color"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/text_size_middle"
+                            android:gravity="center"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_rocker_exterior_setting_fill_color_pressed"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
+                        android:layout_marginTop="15dp">
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_rocker_exterior_setting_stroke_color"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
 
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="100dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_rocker_exterior_fill_color_pressed"/>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
 
-                    <Button
-                        android:layout_marginStart="30dp"
-                        android:layout_width="45dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/rocker_exterior_fill_color_pressed"
-                        android:background="@drawable/launcher_setting_button"
-                        android:text="@string/dialog_add_view_exterior_setting_choose_color"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"/>
+                        <View
+                            android:layout_gravity="center"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/rocker_stroke_color_preview"/>
 
-                </LinearLayout>
+                        <TextView
+                            android:layout_marginStart="30dp"
+                            android:layout_width="80dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_height="30dp"
+                            android:background="@color/colorLightGray"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:id="@+id/rocker_stroke_color_text"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                        <Button
+                            android:layout_marginStart="30dp"
+                            android:layout_width="45dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/rocker_exterior_stroke_color"
+                            android:background="@drawable/launcher_setting_button"
+                            android:text="@string/dialog_add_view_exterior_setting_choose_color"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/text_size_middle"
+                            android:gravity="center"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_rocker_exterior_setting_stroke_width_pressed"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
+                        android:layout_marginTop="15dp">
 
-                    <SeekBar
-                        android:id="@+id/rocker_exterior_stroke_width_seekbar_pressed"
-                        android:max="50"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_rocker_exterior_setting_pointer_color_pressed"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
+
+                        <View
+                            android:layout_gravity="center"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/pointer_pressed_color_preview"/>
+
+                        <TextView
+                            android:layout_marginStart="30dp"
+                            android:layout_width="80dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_height="30dp"
+                            android:background="@color/colorLightGray"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:id="@+id/pointer_pressed_color_text"/>
+
+                        <Button
+                            android:layout_marginStart="30dp"
+                            android:layout_width="45dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/exterior_pointer_color_pressed"
+                            android:background="@drawable/launcher_setting_button"
+                            android:text="@string/dialog_add_view_exterior_setting_choose_color"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/text_size_middle"
+                            android:gravity="center"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_marginTop="15dp">
 
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="60dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/rocker_exterior_stroke_width_pressed"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_rocker_exterior_setting_fill_color_pressed"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
 
-                </LinearLayout>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp">
+                        <View
+                            android:layout_gravity="center"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/rocker_fill_pressed_color_preview"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:layout_marginStart="30dp"
+                            android:layout_width="80dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_height="30dp"
+                            android:background="@color/colorLightGray"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:id="@+id/rocker_fill_pressed_color_text"/>
+
+                        <Button
+                            android:layout_marginStart="30dp"
+                            android:layout_width="45dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/rocker_exterior_fill_color_pressed"
+                            android:background="@drawable/launcher_setting_button"
+                            android:text="@string/dialog_add_view_exterior_setting_choose_color"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/text_size_middle"
+                            android:gravity="center"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/dialog_add_view_rocker_exterior_setting_stroke_color_pressed"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:layout_gravity="center"/>
+                        android:layout_marginTop="15dp">
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/dialog_add_view_rocker_exterior_setting_stroke_color_pressed"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_gravity="center"/>
 
-                    <EditText
-                        android:background="@color/colorLightGray"
-                        android:layout_width="100dp"
-                        android:layout_height="32dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"
-                        android:id="@+id/edit_rocker_exterior_stroke_color_pressed"/>
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"/>
 
-                    <Button
-                        android:layout_marginStart="30dp"
-                        android:layout_width="45dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:id="@+id/rocker_exterior_stroke_color_pressed"
-                        android:background="@drawable/launcher_setting_button"
-                        android:text="@string/dialog_add_view_exterior_setting_choose_color"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="@dimen/text_size_middle"
-                        android:gravity="center"/>
+                        <View
+                            android:layout_gravity="center"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/rocker_stroke_pressed_color_preview"/>
+
+                        <TextView
+                            android:layout_marginStart="30dp"
+                            android:layout_width="80dp"
+                            android:singleLine="true"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:layout_height="30dp"
+                            android:background="@color/colorLightGray"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:id="@+id/rocker_stroke_pressed_color_text"/>
+
+                        <Button
+                            android:layout_marginStart="30dp"
+                            android:layout_width="45dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:id="@+id/rocker_exterior_stroke_color_pressed"
+                            android:background="@drawable/launcher_setting_button"
+                            android:text="@string/dialog_add_view_exterior_setting_choose_color"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="@dimen/text_size_middle"
+                            android:gravity="center"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -1796,10 +1967,7 @@
 
     <LinearLayout
         android:background="@color/colorPureWhite"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

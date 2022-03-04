@@ -31,7 +31,7 @@ public class ChildManagerDialog extends Dialog implements View.OnClickListener {
         super(context);
         this.menuHelper = menuHelper;
         this.controlPattern = controlPattern;
-        setContentView(R.layout.dialog_child_manager);
+        setContentView(R.layout.dialog_manage_child);
         setCancelable(false);
         init();
     }

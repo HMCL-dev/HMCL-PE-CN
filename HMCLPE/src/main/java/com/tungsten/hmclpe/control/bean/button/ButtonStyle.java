@@ -2,6 +2,7 @@ package com.tungsten.hmclpe.control.bean.button;
 
 public class ButtonStyle {
 
+    public String name;
     public int textSize;
     public String textColor;
     public int cornerRadius;
@@ -15,7 +16,12 @@ public class ButtonStyle {
     public String strokeColorPress;
     public String fillColorPress;
 
-    public ButtonStyle (int textSize,String textColor,int cornerRadius,float strokeWidth,String strokeColor,String fillColor,int textSizePress,String textColorPress,int cornerRadiusPress,float strokeWidthPress,String strokeColorPress,String fillColorPress) {
+    public ButtonStyle () {
+        this ("",13,"#ffffff",8,0.5f,"#1a000000","#00ffffff",13,"#ffffff",8,0.5f,"#1a000000","#40ffffff");
+    }
+
+    public ButtonStyle (String name,int textSize,String textColor,int cornerRadius,float strokeWidth,String strokeColor,String fillColor,int textSizePress,String textColorPress,int cornerRadiusPress,float strokeWidthPress,String strokeColorPress,String fillColorPress) {
+        this.name = name;
         this.textSize = textSize;
         this.textColor = textColor;
         this.cornerRadius = cornerRadius;

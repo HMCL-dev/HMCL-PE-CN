@@ -38,7 +38,7 @@ public class ControllerManagerDialog extends Dialog implements View.OnClickListe
         this.fullscreen = fullscreen;
         this.currentPattern = currentPattern;
         this.onPatternChangeListener = onPatternChangeListener;
-        setContentView(R.layout.dialog_controller_manager);
+        setContentView(R.layout.dialog_manage_controller);
         setCancelable(false);
         init();
     }
