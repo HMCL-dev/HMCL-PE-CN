@@ -10,7 +10,10 @@ import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.bean.button.ButtonStyle;
+import com.tungsten.hmclpe.launcher.list.local.controller.ButtonStyleAdapter;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
+
+import java.util.ArrayList;
 
 public class ButtonStyleManagerDialog extends Dialog implements View.OnClickListener {
 
@@ -36,6 +39,15 @@ public class ButtonStyleManagerDialog extends Dialog implements View.OnClickList
         positive = findViewById(R.id.exit);
         create.setOnClickListener(this);
         positive.setOnClickListener(this);
+
+        refreshStyleList();
+    }
+
+    public void refreshStyleList(){
+        ArrayList<ButtonStyle> styles = SettingUtils.getButtonStyleList();
+        ButtonStyleAdapter adapter = new ButtonStyleAdapter(getContext(),styles,this);
+        listView.setAdapter(adapter);
+        dialog.refreshButtonStyleList(false);
     }
 
     @Override
@@ -44,7 +56,10 @@ public class ButtonStyleManagerDialog extends Dialog implements View.OnClickList
             CreateButtonStyleDialog dialog = new CreateButtonStyleDialog(getContext(), SettingUtils.getButtonStyleList(), new CreateButtonStyleDialog.OnButtonStyleCreateListener() {
                 @Override
                 public void onButtonStyleCreate(ButtonStyle buttonStyle) {
-
+                    ArrayList<ButtonStyle> styles = SettingUtils.getButtonStyleList();
+                    styles.add(buttonStyle);
+                    SettingUtils.saveButtonStyle(styles);
+                    refreshStyleList();
                 }
             });
             dialog.show();

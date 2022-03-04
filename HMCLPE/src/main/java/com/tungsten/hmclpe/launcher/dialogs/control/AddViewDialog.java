@@ -53,6 +53,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
     private ArrayAdapter<String> positionTypeAdapter;
     private ArrayAdapter<String> sizeObjectAdapter;
     private ArrayAdapter<String> functionTypeAdapter;
+    private ArrayAdapter<String> buttonStyleAdapter;
 
     private EditText editButtonText;
     private Spinner buttonSizeTypeSpinner;
@@ -117,6 +118,8 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
     private TextView strokeColorPressedText;
     private TextView fillColorPressedText;
 
+    private ButtonStyle selectedStyle;
+
     public AddViewDialog(@NonNull Context context,int screenWidth,int screenHeight) {
         super(context);
         this.screenWidth = screenWidth;
@@ -128,6 +131,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
     }
 
     private void init(){
+        ButtonStyle style = SettingUtils.getButtonStyleList().get(0);
         baseButtonInfo = new BaseButtonInfo("",
                 BaseButtonInfo.SIZE_TYPE_ABSOLUTE,
                 new ButtonSize(50,0.06f,BaseButtonInfo.SIZE_OBJECT_WIDTH),
@@ -141,7 +145,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
                 "",
                 new ArrayList<>(),
                 true,
-                new ButtonStyle());
+                style);
 
         showButton = findViewById(R.id.add_button);
         showRocker = findViewById(R.id.add_rocker);
@@ -290,9 +294,21 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         checkSensor.setChecked(baseButtonInfo.switchSensor);
         checkLeftPad.setChecked(baseButtonInfo.switchLeftPad);
         checkOpenInput.setChecked(baseButtonInfo.showInputDialog);
-        checkUsingExist.setChecked(baseButtonInfo.usingExist);
-        if (baseButtonInfo.usingExist) {
+        refreshButtonStyleList(true);
+        ArrayList<String> names = new ArrayList<>();
+        for (ButtonStyle style : SettingUtils.getButtonStyleList()){
+            names.add(style.name);
+        }
+        if (baseButtonInfo.usingExist && names.contains(baseButtonInfo.buttonStyle.name)) {
             buttonStyleLayout.setVisibility(View.GONE);
+            checkUsingExist.setChecked(true);
+            selectExist.setSelection(buttonStyleAdapter.getPosition(baseButtonInfo.buttonStyle.name));
+            selectedStyle = baseButtonInfo.buttonStyle;
+        }
+        else {
+            baseButtonInfo.usingExist = false;
+            baseButtonInfo.buttonStyle.name = "";
+            selectedStyle = SettingUtils.getButtonStyleList().get(0);
         }
         textSizeSeekbar.setProgress(baseButtonInfo.buttonStyle.textSize);
         cornerRadiusSeekbar.setProgress(baseButtonInfo.buttonStyle.cornerRadius);
@@ -358,14 +374,29 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         editOutputText.addTextChangedListener(this);
     }
 
-    public void refreshButtonStyleList(){
+    public void refreshButtonStyleList(boolean first){
         ArrayList<ButtonStyle> styles = SettingUtils.getButtonStyleList();
         ArrayList<String> names = new ArrayList<>();
         for (ButtonStyle style : styles){
             names.add(style.name);
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner,names);
-        selectExist.setAdapter(adapter);
+        buttonStyleAdapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner,names);
+        selectExist.setAdapter(buttonStyleAdapter);
+        if (!first) {
+            if (baseButtonInfo.usingExist && names.contains(baseButtonInfo.buttonStyle.name)) {
+                buttonStyleLayout.setVisibility(View.GONE);
+                checkUsingExist.setChecked(true);
+                selectExist.setSelection(buttonStyleAdapter.getPosition(baseButtonInfo.buttonStyle.name));
+                selectedStyle = baseButtonInfo.buttonStyle;
+            }
+            else {
+                buttonStyleLayout.setVisibility(View.VISIBLE);
+                checkUsingExist.setChecked(false);
+                baseButtonInfo.usingExist = false;
+                baseButtonInfo.buttonStyle.name = "";
+                selectedStyle = SettingUtils.getButtonStyleList().get(0);
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -404,7 +435,8 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
 
         }
         if (view == createButtonStyle) {
-
+            ButtonStyleManagerDialog dialog = new ButtonStyleManagerDialog(getContext(),this);
+            dialog.show();
         }
         if (view == selectTextColor) {
             ColorSelectorDialog colorSelectorDialog = new ColorSelectorDialog(getContext(),false,Color.parseColor(baseButtonInfo.buttonStyle.textColor));
@@ -558,7 +590,14 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
 
         }
         if (adapterView == selectExist) {
-
+            for (ButtonStyle style : SettingUtils.getButtonStyleList()){
+                if (style.name.equals(selectExist.getItemAtPosition(i))){
+                    selectedStyle = style;
+                }
+            }
+            if (baseButtonInfo.usingExist){
+                baseButtonInfo.buttonStyle = selectedStyle;
+            }
         }
     }
 
@@ -651,9 +690,11 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
             baseButtonInfo.usingExist = b;
             if (b) {
                 buttonStyleLayout.setVisibility(View.GONE);
+                baseButtonInfo.buttonStyle = selectedStyle;
             }
             else {
                 buttonStyleLayout.setVisibility(View.VISIBLE);
+                baseButtonInfo.buttonStyle.name = "";
             }
         }
     }
