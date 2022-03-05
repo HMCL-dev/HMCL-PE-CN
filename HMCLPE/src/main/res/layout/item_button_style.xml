@@ -19,6 +19,8 @@
             android:orientation="horizontal">
 
             <Button
+                android:focusable="true"
+                android:clickable="true"
                 android:id="@+id/button_style"
                 android:layout_marginStart="6dp"
                 android:layout_width="30dp"

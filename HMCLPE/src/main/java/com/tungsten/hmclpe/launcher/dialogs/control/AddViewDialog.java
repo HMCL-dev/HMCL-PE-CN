@@ -28,6 +28,7 @@ import com.tungsten.hmclpe.control.bean.button.ButtonSize;
 import com.tungsten.hmclpe.control.bean.button.ButtonStyle;
 import com.tungsten.hmclpe.launcher.dialogs.tools.ColorSelectorDialog;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
+import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
 import java.util.ArrayList;
 
@@ -262,29 +263,38 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         functionTypeSpinner.setAdapter(functionTypeAdapter);
         functionTypeSpinner.setSelection(baseButtonInfo.functionType);
         if (baseButtonInfo.sizeType == BaseButtonInfo.SIZE_TYPE_PERCENT) {
-            buttonWidthSeekbar.setProgress((int) (100 * baseButtonInfo.width.percentSize));
-            buttonHeightSeekbar.setProgress((int) (100 * baseButtonInfo.height.percentSize));
-            buttonWidthText.setText((int) (100 * baseButtonInfo.width.percentSize) + " %");
-            buttonHeightText.setText((int) (100 * baseButtonInfo.height.percentSize) + " %");
+            buttonWidthSeekbar.setMax(1000);
+            buttonHeightSeekbar.setMax(1000);
+            buttonWidthSeekbar.setProgress((int) (1000 * baseButtonInfo.width.percentSize));
+            buttonHeightSeekbar.setProgress((int) (1000 * baseButtonInfo.height.percentSize));
+            buttonWidthText.setText(((int) (100 * baseButtonInfo.width.percentSize)) / 10f + " %");
+            buttonHeightText.setText(((int) (100 * baseButtonInfo.height.percentSize)) / 10f + " %");
         }
         else {
+            buttonWidthSeekbar.setMax(200);
+            buttonHeightSeekbar.setMax(200);
             buttonWidthSeekbar.setProgress(baseButtonInfo.width.absoluteSize);
             buttonHeightSeekbar.setProgress(baseButtonInfo.height.absoluteSize);
             buttonWidthText.setText(baseButtonInfo.width.absoluteSize + " dp");
             buttonHeightText.setText(baseButtonInfo.height.absoluteSize + " dp");
         }
         if (baseButtonInfo.positionType == BaseButtonInfo.POSITION_TYPE_PERCENT) {
-            buttonXSeekbar.setProgress((int) (100 * baseButtonInfo.xPosition.percentPosition));
-            buttonYSeekbar.setProgress((int) (100 * baseButtonInfo.yPosition.percentPosition));
-            buttonXText.setText((int) (100 * baseButtonInfo.xPosition.percentPosition) + " %");
-            buttonYText.setText((int) (100 * baseButtonInfo.yPosition.percentPosition) + " %");
+            buttonXSeekbar.setMax(1000);
+            buttonYSeekbar.setMax(1000);
+            buttonXSeekbar.setProgress((int) (1000 * baseButtonInfo.xPosition.percentPosition));
+            buttonYSeekbar.setProgress((int) (1000 * baseButtonInfo.yPosition.percentPosition));
+            buttonXText.setText(((int) (1000 * baseButtonInfo.xPosition.percentPosition)) / 10f + " %");
+            buttonYText.setText(((int) (1000 * baseButtonInfo.yPosition.percentPosition)) / 10f + " %");
         }
         else {
+            buttonXSeekbar.setMax(ConvertUtils.px2dip(getContext(),screenWidth));
+            buttonYSeekbar.setMax(ConvertUtils.px2dip(getContext(),screenHeight));
             buttonXSeekbar.setProgress(baseButtonInfo.xPosition.absolutePosition);
             buttonYSeekbar.setProgress(baseButtonInfo.yPosition.absolutePosition);
             buttonXText.setText(baseButtonInfo.xPosition.absolutePosition + " dp");
             buttonYText.setText(baseButtonInfo.yPosition.absolutePosition + " dp");
         }
+        onSizeChange();
         checkViewMove.setChecked(baseButtonInfo.viewMove);
         checkAutoKeep.setChecked(baseButtonInfo.autoKeep);
         checkAutoClick.setChecked(baseButtonInfo.autoClick);
@@ -310,30 +320,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
             baseButtonInfo.buttonStyle.name = "";
             selectedStyle = SettingUtils.getButtonStyleList().get(0);
         }
-        textSizeSeekbar.setProgress(baseButtonInfo.buttonStyle.textSize);
-        cornerRadiusSeekbar.setProgress(baseButtonInfo.buttonStyle.cornerRadius);
-        strokeWidthSeekbar.setProgress((int) (baseButtonInfo.buttonStyle.strokeWidth * 10));
-        textSizePressedSeekbar.setProgress(baseButtonInfo.buttonStyle.textSizePress);
-        cornerRadiusPressedSeekbar.setProgress(baseButtonInfo.buttonStyle.cornerRadiusPress);
-        strokeWidthPressedSeekbar.setProgress((int) (baseButtonInfo.buttonStyle.strokeWidthPress * 10));
-        textSizeText.setText(baseButtonInfo.buttonStyle.textSize + " sp");
-        cornerRadiusText.setText(baseButtonInfo.buttonStyle.cornerRadius + " dp");
-        strokeWidthText.setText(baseButtonInfo.buttonStyle.strokeWidth + " dp");
-        textSizePressedText.setText(baseButtonInfo.buttonStyle.textSizePress + " sp");
-        cornerRadiusPressedText.setText(baseButtonInfo.buttonStyle.cornerRadiusPress + " dp");
-        strokeWidthPressedText.setText(baseButtonInfo.buttonStyle.strokeWidthPress + " dp");
-        textColorPre.setBackgroundColor(Color.parseColor(baseButtonInfo.buttonStyle.textColor));
-        strokeColorPre.setBackgroundColor(Color.parseColor(baseButtonInfo.buttonStyle.strokeColor));
-        fillColorPre.setBackgroundColor(Color.parseColor(baseButtonInfo.buttonStyle.fillColor));
-        textColorPressedPre.setBackgroundColor(Color.parseColor(baseButtonInfo.buttonStyle.textColorPress));
-        strokeColorPressedPre.setBackgroundColor(Color.parseColor(baseButtonInfo.buttonStyle.strokeColorPress));
-        fillColorPressedPre.setBackgroundColor(Color.parseColor(baseButtonInfo.buttonStyle.fillColorPress));
-        textColorText.setText(baseButtonInfo.buttonStyle.textColor);
-        strokeColorText.setText(baseButtonInfo.buttonStyle.strokeColor);
-        fillColorText.setText(baseButtonInfo.buttonStyle.fillColor);
-        textColorPressedText.setText(baseButtonInfo.buttonStyle.textColorPress);
-        strokeColorPressedText.setText(baseButtonInfo.buttonStyle.strokeColorPress);
-        fillColorPressedText.setText(baseButtonInfo.buttonStyle.fillColorPress);
+        refreshButtonStyleEditor();
 
         buttonSizeTypeSpinner.setOnItemSelectedListener(this);
         buttonPositionTypeSpinner.setOnItemSelectedListener(this);
@@ -396,7 +383,74 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
                 baseButtonInfo.buttonStyle.name = "";
                 selectedStyle = SettingUtils.getButtonStyleList().get(0);
             }
+            refreshButtonStyleEditor();
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void onSizeChange(){
+        int xMax;
+        int yMax;
+        if (baseButtonInfo.sizeType == BaseButtonInfo.SIZE_TYPE_PERCENT) {
+            int widthObject = baseButtonInfo.width.object == BaseButtonInfo.SIZE_OBJECT_WIDTH ? screenWidth : screenHeight;
+            int heightObject = baseButtonInfo.height.object == BaseButtonInfo.SIZE_OBJECT_WIDTH ? screenWidth : screenHeight;
+            xMax = (int) (ConvertUtils.px2dip(getContext(),screenWidth) - (ConvertUtils.px2dip(getContext(),widthObject) * baseButtonInfo.width.percentSize));
+            yMax = (int) (ConvertUtils.px2dip(getContext(),screenHeight) - (ConvertUtils.px2dip(getContext(),heightObject) * baseButtonInfo.height.percentSize));
+        }
+        else {
+            xMax = ConvertUtils.px2dip(getContext(),screenWidth) - baseButtonInfo.width.absoluteSize;
+            yMax = ConvertUtils.px2dip(getContext(),screenHeight) - baseButtonInfo.height.absoluteSize;
+        }
+        if (baseButtonInfo.positionType == BaseButtonInfo.POSITION_TYPE_ABSOLUTE){
+            if (baseButtonInfo.xPosition.absolutePosition > xMax){
+                baseButtonInfo.xPosition.absolutePosition = xMax;
+                buttonXSeekbar.setProgress(xMax);
+                buttonXText.setText(xMax + " dp");
+            }
+            if (baseButtonInfo.yPosition.absolutePosition > yMax){
+                baseButtonInfo.yPosition.absolutePosition = yMax;
+                buttonYSeekbar.setProgress(yMax);
+                buttonYText.setText(yMax + " dp");
+            }
+            buttonXSeekbar.setMax(xMax);
+            buttonYSeekbar.setMax(yMax);
+        }
+        else {
+            if (baseButtonInfo.xPosition.absolutePosition > xMax){
+                baseButtonInfo.xPosition.absolutePosition = xMax;
+            }
+            if (baseButtonInfo.yPosition.absolutePosition > yMax){
+                baseButtonInfo.yPosition.absolutePosition = yMax;
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void refreshButtonStyleEditor(){
+        textSizeSeekbar.setProgress(baseButtonInfo.buttonStyle.textSize);
+        cornerRadiusSeekbar.setProgress(baseButtonInfo.buttonStyle.cornerRadius);
+        strokeWidthSeekbar.setProgress((int) (baseButtonInfo.buttonStyle.strokeWidth * 10));
+        textSizePressedSeekbar.setProgress(baseButtonInfo.buttonStyle.textSizePress);
+        cornerRadiusPressedSeekbar.setProgress(baseButtonInfo.buttonStyle.cornerRadiusPress);
+        strokeWidthPressedSeekbar.setProgress((int) (baseButtonInfo.buttonStyle.strokeWidthPress * 10));
+        textSizeText.setText(baseButtonInfo.buttonStyle.textSize + " sp");
+        cornerRadiusText.setText(baseButtonInfo.buttonStyle.cornerRadius + " dp");
+        strokeWidthText.setText(baseButtonInfo.buttonStyle.strokeWidth + " dp");
+        textSizePressedText.setText(baseButtonInfo.buttonStyle.textSizePress + " sp");
+        cornerRadiusPressedText.setText(baseButtonInfo.buttonStyle.cornerRadiusPress + " dp");
+        strokeWidthPressedText.setText(baseButtonInfo.buttonStyle.strokeWidthPress + " dp");
+        textColorPre.setBackgroundColor(Color.parseColor(baseButtonInfo.buttonStyle.textColor));
+        strokeColorPre.setBackgroundColor(Color.parseColor(baseButtonInfo.buttonStyle.strokeColor));
+        fillColorPre.setBackgroundColor(Color.parseColor(baseButtonInfo.buttonStyle.fillColor));
+        textColorPressedPre.setBackgroundColor(Color.parseColor(baseButtonInfo.buttonStyle.textColorPress));
+        strokeColorPressedPre.setBackgroundColor(Color.parseColor(baseButtonInfo.buttonStyle.strokeColorPress));
+        fillColorPressedPre.setBackgroundColor(Color.parseColor(baseButtonInfo.buttonStyle.fillColorPress));
+        textColorText.setText(baseButtonInfo.buttonStyle.textColor);
+        strokeColorText.setText(baseButtonInfo.buttonStyle.strokeColor);
+        fillColorText.setText(baseButtonInfo.buttonStyle.fillColor);
+        textColorPressedText.setText(baseButtonInfo.buttonStyle.textColorPress);
+        strokeColorPressedText.setText(baseButtonInfo.buttonStyle.strokeColorPress);
+        fillColorPressedText.setText(baseButtonInfo.buttonStyle.fillColorPress);
     }
 
     @SuppressLint("SetTextI18n")
@@ -572,22 +626,63 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         if (adapterView == buttonSizeTypeSpinner) {
-
+            baseButtonInfo.sizeType = i;
+            if (i == BaseButtonInfo.SIZE_TYPE_PERCENT) {
+                widthObjectLayout.setVisibility(View.VISIBLE);
+                heightObjectLayout.setVisibility(View.VISIBLE);
+                buttonWidthSeekbar.setMax(1000);
+                buttonHeightSeekbar.setMax(1000);
+                buttonWidthSeekbar.setProgress((int) (baseButtonInfo.width.percentSize * 1000));
+                buttonHeightSeekbar.setProgress((int) (baseButtonInfo.height.percentSize * 1000));
+                buttonWidthText.setText(((int) (1000 * baseButtonInfo.width.percentSize)) / 10f + " %");
+                buttonHeightText.setText(((int) (1000 * baseButtonInfo.height.percentSize)) / 10f + " %");
+            }
+            else {
+                widthObjectLayout.setVisibility(View.GONE);
+                heightObjectLayout.setVisibility(View.GONE);
+                buttonWidthSeekbar.setMax(200);
+                buttonHeightSeekbar.setMax(200);
+                buttonWidthSeekbar.setProgress(baseButtonInfo.width.absoluteSize);
+                buttonHeightSeekbar.setProgress(baseButtonInfo.height.absoluteSize);
+                buttonWidthText.setText(baseButtonInfo.width.absoluteSize + " dp");
+                buttonHeightText.setText(baseButtonInfo.height.absoluteSize + " dp");
+            }
+            onSizeChange();
         }
         if (adapterView == buttonPositionTypeSpinner) {
-
+            baseButtonInfo.positionType = i;
+            if (i == BaseButtonInfo.POSITION_TYPE_PERCENT) {
+                buttonXSeekbar.setMax(1000);
+                buttonYSeekbar.setMax(1000);
+                buttonXSeekbar.setProgress((int) (baseButtonInfo.xPosition.percentPosition * 1000));
+                buttonYSeekbar.setProgress((int) (baseButtonInfo.yPosition.percentPosition * 1000));
+                buttonXText.setText(((int) (1000 * baseButtonInfo.xPosition.percentPosition)) / 10f + " %");
+                buttonYText.setText(((int) (1000 * baseButtonInfo.yPosition.percentPosition)) / 10f + " %");
+            }
+            else {
+                buttonXSeekbar.setMax(ConvertUtils.px2dip(getContext(),screenWidth));
+                buttonYSeekbar.setMax(ConvertUtils.px2dip(getContext(),screenHeight));
+                buttonXSeekbar.setProgress(baseButtonInfo.xPosition.absolutePosition);
+                buttonYSeekbar.setProgress(baseButtonInfo.yPosition.absolutePosition);
+                buttonXText.setText(baseButtonInfo.xPosition.absolutePosition + " dp");
+                buttonYText.setText(baseButtonInfo.yPosition.absolutePosition + " dp");
+            }
+            onSizeChange();
         }
         if (adapterView == widthObjectSpinner) {
-
+            baseButtonInfo.width.object = i;
+            onSizeChange();
         }
         if (adapterView == heightObjectSpinner) {
-
+            baseButtonInfo.height.object = i;
+            onSizeChange();
         }
         if (adapterView == functionTypeSpinner) {
-
+            baseButtonInfo.functionType = i;
         }
         if (adapterView == selectExist) {
             for (ButtonStyle style : SettingUtils.getButtonStyleList()){
@@ -598,6 +693,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
             if (baseButtonInfo.usingExist){
                 baseButtonInfo.buttonStyle = selectedStyle;
             }
+            refreshButtonStyleEditor();
         }
     }
 
@@ -609,17 +705,47 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
     @SuppressLint("SetTextI18n")
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        if (seekBar == buttonWidthSeekbar) {
-
+        if (seekBar == buttonWidthSeekbar && b) {
+            if (baseButtonInfo.sizeType == BaseButtonInfo.SIZE_TYPE_PERCENT) {
+                baseButtonInfo.width.percentSize = ((float) i / 1000f);
+                buttonWidthText.setText(((int) (1000 * baseButtonInfo.width.percentSize)) / 10f + " %");
+            }
+            else {
+                baseButtonInfo.width.absoluteSize = i;
+                buttonWidthText.setText(i + " dp");
+            }
+            onSizeChange();
         }
-        if (seekBar == buttonHeightSeekbar) {
-
+        if (seekBar == buttonHeightSeekbar && b) {
+            if (baseButtonInfo.sizeType == BaseButtonInfo.SIZE_TYPE_PERCENT) {
+                baseButtonInfo.height.percentSize = ((float) i / 1000f);
+                buttonHeightText.setText(((int) (1000 * baseButtonInfo.height.percentSize)) / 10f + " %");
+            }
+            else {
+                baseButtonInfo.height.absoluteSize = i;
+                buttonHeightText.setText(i + " dp");
+            }
+            onSizeChange();
         }
-        if (seekBar == buttonXSeekbar) {
-
+        if (seekBar == buttonXSeekbar && b) {
+            if (baseButtonInfo.positionType == BaseButtonInfo.POSITION_TYPE_PERCENT) {
+                baseButtonInfo.xPosition.percentPosition = ((float) i / 1000f);
+                buttonXText.setText(((int) (1000 * baseButtonInfo.xPosition.percentPosition)) / 10f + " %");
+            }
+            else {
+                baseButtonInfo.xPosition.absolutePosition = i;
+                buttonXText.setText(i + " dp");
+            }
         }
-        if (seekBar == buttonYSeekbar) {
-
+        if (seekBar == buttonYSeekbar && b) {
+            if (baseButtonInfo.positionType == BaseButtonInfo.POSITION_TYPE_PERCENT) {
+                baseButtonInfo.yPosition.percentPosition = ((float) i / 1000f);
+                buttonYText.setText(((int) (1000 * baseButtonInfo.yPosition.percentPosition)) / 10f + " %");
+            }
+            else {
+                baseButtonInfo.yPosition.absolutePosition = i;
+                buttonYText.setText(i + " dp");
+            }
         }
         if (seekBar == textSizeSeekbar) {
             textSizeText.setText(i + " sp");
@@ -696,6 +822,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
                 buttonStyleLayout.setVisibility(View.VISIBLE);
                 baseButtonInfo.buttonStyle.name = "";
             }
+            refreshButtonStyleEditor();
         }
     }
 
@@ -711,6 +838,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
 
     @Override
     public void afterTextChanged(Editable editable) {
-
+        baseButtonInfo.text = editButtonText.getText().toString();
+        baseButtonInfo.outputText = editOutputText.getText().toString();
     }
 }

@@ -89,15 +89,15 @@ public class ButtonStyleAdapter extends BaseAdapter {
         viewHolder.styleButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-                    viewHolder.styleButton.setTextSize(buttonStyle.textSizePress);
-                    viewHolder.styleButton.setTextColor(Color.parseColor(buttonStyle.textColorPress));
-                    viewHolder.styleButton.setBackground(drawablePress);
+                if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                    ((Button) view).setTextSize(buttonStyle.textSizePress);
+                    ((Button) view).setTextColor(Color.parseColor(buttonStyle.textColorPress));
+                    ((Button) view).setBackground(drawablePress);
                 }
-                if (motionEvent.getAction() == MotionEvent.ACTION_UP){
-                    viewHolder.styleButton.setTextSize(buttonStyle.textSize);
-                    viewHolder.styleButton.setTextColor(Color.parseColor(buttonStyle.textColor));
-                    viewHolder.styleButton.setBackground(drawableNormal);
+                if (motionEvent.getActionMasked() == MotionEvent.ACTION_UP || motionEvent.getActionMasked() == MotionEvent.ACTION_CANCEL) {
+                    ((Button) view).setTextSize(buttonStyle.textSize);
+                    ((Button) view).setTextColor(Color.parseColor(buttonStyle.textColor));
+                    ((Button) view).setBackground(drawableNormal);
                 }
                 return true;
             }
