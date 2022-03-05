@@ -594,6 +594,9 @@
     <string name="dialog_create_rocker_style_positive">创建</string>
     <string name="dialog_create_rocker_style_negative">取消</string>
 
+    <string name="dialog_select_keycode_title">选择输出的键值</string>
+    <string name="dialog_select_keycode_positive">完成</string>
+
     <string name="drawer_game_menu_title">HMCL-PE 控制面板</string>
     <string name="drawer_game_menu_type">控制面板呼出方式</string>
     <string name="drawer_game_menu_type_float">悬浮窗</string>
