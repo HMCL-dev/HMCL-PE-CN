@@ -82,7 +82,7 @@ public class TouchPad extends View {
             cursorY = event.getY();
             InputBridge.setPointer(launcher,(int) (event.getX() * menuHelper.scaleFactor),(int) (event.getY() * menuHelper.scaleFactor));
         }
-        switch (event.getAction()){
+        switch (event.getActionMasked()){
             case MotionEvent.ACTION_DOWN:
                 initialX = event.getX();
                 initialY = event.getY();

@@ -483,10 +483,17 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         }
 
         if (view == childVisibility) {
-
+            ChildVisibilityDialog dialog = new ChildVisibilityDialog(getContext(),baseButtonInfo.visibilityControl);
+            dialog.show();
         }
         if (view == outputKeycode) {
-
+            SelectKeycodeDialog dialog = new SelectKeycodeDialog(getContext(), baseButtonInfo.outputKeycode, new SelectKeycodeDialog.OnKeyCodesChangeListener() {
+                @Override
+                public void onKeyCodesChange(ArrayList<Integer> list) {
+                    baseButtonInfo.outputKeycode = list;
+                }
+            });
+            dialog.show();
         }
         if (view == createButtonStyle) {
             ButtonStyleManagerDialog dialog = new ButtonStyleManagerDialog(getContext(),this);
