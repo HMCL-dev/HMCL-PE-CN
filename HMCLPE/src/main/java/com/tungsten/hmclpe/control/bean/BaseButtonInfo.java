@@ -1,14 +1,8 @@
 package com.tungsten.hmclpe.control.bean;
 
-import android.content.Context;
-import android.view.Gravity;
-
-import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.control.bean.button.ButtonPosition;
 import com.tungsten.hmclpe.control.bean.button.ButtonSize;
 import com.tungsten.hmclpe.control.bean.button.ButtonStyle;
-import com.tungsten.hmclpe.control.view.BaseButton;
-import com.tungsten.hmclpe.control.view.LayoutPanel;
 
 import java.util.ArrayList;
 
@@ -26,6 +20,9 @@ public class BaseButtonInfo {
     public static final int FUNCTION_TYPE_TOUCH = 0;
     public static final int FUNCTION_TYPE_DOUBLE_CLICK = 1;
 
+    public String uuid;
+    public String pattern;
+    public String child;
     public String text;
     public int sizeType;
     public ButtonSize width;
@@ -49,7 +46,10 @@ public class BaseButtonInfo {
     public boolean usingExist;
     public ButtonStyle buttonStyle;
 
-    public BaseButtonInfo (String text, int sizeType, ButtonSize width, ButtonSize height, int positionType, ButtonPosition xPosition, ButtonPosition yPosition, int functionType, boolean viewMove, boolean autoKeep, boolean autoClick,boolean openMenu,boolean movable, boolean switchTouchMode, boolean switchSensor, boolean switchLeftPad, boolean showInputDialog, ArrayList<String> visibilityControl, String outputText, ArrayList<Integer> outputKeycode, boolean usingExist, ButtonStyle buttonStyle) {
+    public BaseButtonInfo (String uuid,String pattern,String child,String text, int sizeType, ButtonSize width, ButtonSize height, int positionType, ButtonPosition xPosition, ButtonPosition yPosition, int functionType, boolean viewMove, boolean autoKeep, boolean autoClick,boolean openMenu,boolean movable, boolean switchTouchMode, boolean switchSensor, boolean switchLeftPad, boolean showInputDialog, ArrayList<String> visibilityControl, String outputText, ArrayList<Integer> outputKeycode, boolean usingExist, ButtonStyle buttonStyle) {
+        this.uuid = uuid;
+        this.pattern = pattern;
+        this.child = child;
         this.text = text;
         this.sizeType = sizeType;
         this.width = width;
@@ -72,47 +72,6 @@ public class BaseButtonInfo {
         this.outputKeycode = outputKeycode;
         this.usingExist = usingExist;
         this.buttonStyle = buttonStyle;
-    }
-
-    public static void addButton(Context context, MenuHelper menuHelper, BaseButtonInfo info, int screenWidth, int screenHeight, LayoutPanel layoutPanel){
-        BaseButton baseButton = new BaseButton(context,screenWidth,screenHeight,info,menuHelper);
-        layoutPanel.addView(baseButton);
-        int width;
-        int height;
-        if (info.sizeType == SIZE_TYPE_PERCENT){
-            if (info.width.object == SIZE_OBJECT_WIDTH){
-                baseButton.setWidth((int) (screenWidth * info.width.percentSize));
-                width = (int) (screenWidth * info.width.percentSize);
-            }
-            else {
-                baseButton.setWidth((int) (screenHeight * info.width.percentSize));
-                width = (int) (screenHeight * info.width.percentSize);
-            }
-            if (info.height.object == SIZE_OBJECT_WIDTH){
-                baseButton.setHeight((int) (screenWidth * info.height.percentSize));
-                height = (int) (screenWidth * info.height.percentSize);
-            }
-            else {
-                baseButton.setHeight((int) (screenHeight * info.height.percentSize));
-                height = (int) (screenHeight * info.height.percentSize);
-            }
-        }
-        else {
-            baseButton.setWidth(info.width.absoluteSize);
-            baseButton.setHeight(info.height.absoluteSize);
-            width = info.width.absoluteSize;
-            height = info.height.absoluteSize;
-        }
-        baseButton.setText(info.text);
-        baseButton.setGravity(Gravity.CENTER);
-        if (info.positionType == POSITION_TYPE_PERCENT){
-            baseButton.setX((screenWidth - width) * info.xPosition.percentPosition);
-            baseButton.setY((screenHeight - height) * info.yPosition.percentPosition);
-        }
-        else {
-            baseButton.setX(info.xPosition.absolutePosition);
-            baseButton.setY(info.yPosition.absolutePosition);
-        }
     }
 
 }

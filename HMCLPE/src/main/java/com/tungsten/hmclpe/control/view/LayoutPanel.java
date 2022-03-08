@@ -11,7 +11,6 @@ import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
 import com.tungsten.hmclpe.R;
-import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
 public class LayoutPanel extends RelativeLayout {
 

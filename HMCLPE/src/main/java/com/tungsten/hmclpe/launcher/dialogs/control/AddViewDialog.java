@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.tungsten.hmclpe.R;
@@ -31,11 +33,15 @@ import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class AddViewDialog extends Dialog implements View.OnClickListener, AdapterView.OnItemSelectedListener, SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, TextWatcher {
 
+    private String pattern;
+    private String child;
     private int screenWidth;
     private int screenHeight;
+    private OnViewCreateListener onViewCreateListener;
 
     private BaseButtonInfo baseButtonInfo;
     private BaseRockerViewInfo baseRockerViewInfo;
@@ -121,19 +127,27 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
 
     private ButtonStyle selectedStyle;
 
-    public AddViewDialog(@NonNull Context context,int screenWidth,int screenHeight) {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public AddViewDialog(@NonNull Context context, String pattern,String child, int screenWidth, int screenHeight, OnViewCreateListener onViewCreateListener) {
         super(context);
+        this.pattern = pattern;
+        this.child = child;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
+        this.onViewCreateListener = onViewCreateListener;
         viewType = 0;
         setContentView(R.layout.dialog_add_view);
         setCancelable(false);
         init();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void init(){
         ButtonStyle style = SettingUtils.getButtonStyleList().get(0);
-        baseButtonInfo = new BaseButtonInfo("",
+        baseButtonInfo = new BaseButtonInfo(UUID.randomUUID().toString(),
+                pattern,
+                child,
+                "",
                 BaseButtonInfo.SIZE_TYPE_ABSOLUTE,
                 new ButtonSize(50,0.06f,BaseButtonInfo.SIZE_OBJECT_WIDTH),
                 new ButtonSize(50,0.06f,BaseButtonInfo.SIZE_OBJECT_WIDTH),
@@ -181,6 +195,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         initButtonLayout();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     private void initButtonLayout(){
         editButtonText = findViewById(R.id.edit_button_text);
@@ -263,6 +278,8 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         functionTypeSpinner.setAdapter(functionTypeAdapter);
         functionTypeSpinner.setSelection(baseButtonInfo.functionType);
         if (baseButtonInfo.sizeType == BaseButtonInfo.SIZE_TYPE_PERCENT) {
+            buttonWidthSeekbar.setMin(1);
+            buttonHeightSeekbar.setMin(1);
             buttonWidthSeekbar.setMax(1000);
             buttonHeightSeekbar.setMax(1000);
             buttonWidthSeekbar.setProgress((int) (1000 * baseButtonInfo.width.percentSize));
@@ -271,6 +288,8 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
             buttonHeightText.setText(((int) (100 * baseButtonInfo.height.percentSize)) / 10f + " %");
         }
         else {
+            buttonWidthSeekbar.setMin(1);
+            buttonHeightSeekbar.setMin(1);
             buttonWidthSeekbar.setMax(200);
             buttonHeightSeekbar.setMax(200);
             buttonWidthSeekbar.setProgress(baseButtonInfo.width.absoluteSize);
@@ -472,27 +491,23 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         }
         if (view == positive){
             if (viewType == 0){
-
+                onViewCreateListener.onButtonCreate(baseButtonInfo);
             }
             if (viewType == 1){
-
+                onViewCreateListener.onRockerCreate(baseRockerViewInfo);
             }
+            dismiss();
         }
         if (view == negative){
             dismiss();
         }
 
         if (view == childVisibility) {
-            ChildVisibilityDialog dialog = new ChildVisibilityDialog(getContext(),baseButtonInfo.visibilityControl);
+            ChildVisibilityDialog dialog = new ChildVisibilityDialog(getContext(),pattern, baseButtonInfo.visibilityControl, list -> baseButtonInfo.visibilityControl = list);
             dialog.show();
         }
         if (view == outputKeycode) {
-            SelectKeycodeDialog dialog = new SelectKeycodeDialog(getContext(), baseButtonInfo.outputKeycode, new SelectKeycodeDialog.OnKeyCodesChangeListener() {
-                @Override
-                public void onKeyCodesChange(ArrayList<Integer> list) {
-                    baseButtonInfo.outputKeycode = list;
-                }
-            });
+            SelectKeycodeDialog dialog = new SelectKeycodeDialog(getContext(), baseButtonInfo.outputKeycode, list -> baseButtonInfo.outputKeycode = list);
             dialog.show();
         }
         if (view == createButtonStyle) {
@@ -847,5 +862,10 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
     public void afterTextChanged(Editable editable) {
         baseButtonInfo.text = editButtonText.getText().toString();
         baseButtonInfo.outputText = editOutputText.getText().toString();
+    }
+
+    public interface OnViewCreateListener{
+        void onButtonCreate(BaseButtonInfo baseButtonInfo);
+        void onRockerCreate(BaseRockerViewInfo baseRockerViewInfo);
     }
 }

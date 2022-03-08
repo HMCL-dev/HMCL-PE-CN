@@ -594,6 +594,9 @@
     <string name="dialog_create_rocker_style_positive">创建</string>
     <string name="dialog_create_rocker_style_negative">取消</string>
 
+    <string name="dialog_child_visibility_title">控制子布局显示/隐藏</string>
+    <string name="dialog_child_visibility_positive">完成</string>
+
     <string name="dialog_select_keycode_keyboard">键盘</string>
     <string name="dialog_select_keycode_mouse">鼠标</string>
     <string name="dialog_select_keycode_positive">完成</string>

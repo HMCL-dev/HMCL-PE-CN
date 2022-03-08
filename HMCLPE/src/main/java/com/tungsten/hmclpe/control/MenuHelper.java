@@ -19,6 +19,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.control.bean.BaseButtonInfo;
+import com.tungsten.hmclpe.control.bean.BaseRockerViewInfo;
 import com.tungsten.hmclpe.control.view.LayoutPanel;
 import com.tungsten.hmclpe.control.view.MenuFloat;
 import com.tungsten.hmclpe.control.view.MenuView;
@@ -187,6 +189,19 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         childAdapter = new ArrayAdapter<>(context, R.layout.item_spinner_drop_down_small,childLayoutList);
         childSpinner.setAdapter(childAdapter);
 
+        if (editMode) {
+            editInfo.setEnabled(true);
+            manageChild.setEnabled(true);
+            childSpinner.setEnabled(true);
+            addView.setEnabled(true);
+        }
+        else {
+            editInfo.setEnabled(false);
+            manageChild.setEnabled(false);
+            childSpinner.setEnabled(false);
+            addView.setEnabled(false);
+        }
+
         patternSpinner.setOnItemSelectedListener(this);
         editModeSwitch.setOnCheckedChangeListener(this);
         editInfo.setOnClickListener(this);
@@ -293,6 +308,18 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         }
         if (compoundButton == editModeSwitch){
             editMode = b;
+            if (b) {
+                editInfo.setEnabled(true);
+                manageChild.setEnabled(true);
+                childSpinner.setEnabled(true);
+                addView.setEnabled(true);
+            }
+            else {
+                editInfo.setEnabled(false);
+                manageChild.setEnabled(false);
+                childSpinner.setEnabled(false);
+                addView.setEnabled(false);
+            }
         }
     }
 
@@ -331,8 +358,20 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
                 Toast.makeText(context,context.getString(R.string.drawer_custom_menu_warn),Toast.LENGTH_SHORT).show();
             }
             else {
-                AddViewDialog dialog = new AddViewDialog(context,screenWidth,screenHeight);
-                dialog.show();
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    AddViewDialog dialog = new AddViewDialog(context, currentPattern.name,currentChild, screenWidth, screenHeight, new AddViewDialog.OnViewCreateListener() {
+                        @Override
+                        public void onButtonCreate(BaseButtonInfo baseButtonInfo) {
+                            viewManager.addButton(baseButtonInfo);
+                        }
+
+                        @Override
+                        public void onRockerCreate(BaseRockerViewInfo baseRockerViewInfo) {
+
+                        }
+                    });
+                    dialog.show();
+                }
             }
         }
     }

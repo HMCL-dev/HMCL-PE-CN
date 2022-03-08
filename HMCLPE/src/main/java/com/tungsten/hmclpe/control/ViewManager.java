@@ -11,6 +11,8 @@ import android.hardware.SensorManager;
 
 import androidx.core.view.GravityCompat;
 
+import com.tungsten.hmclpe.control.bean.BaseButtonInfo;
+import com.tungsten.hmclpe.control.view.BaseButton;
 import com.tungsten.hmclpe.control.view.LayoutPanel;
 import com.tungsten.hmclpe.control.view.MenuFloat;
 import com.tungsten.hmclpe.control.view.MenuView;
@@ -24,6 +26,8 @@ public class ViewManager implements SensorEventListener {
     public MenuHelper menuHelper;
     public LayoutPanel layoutPanel;
     public int launcher;
+    public int screenWidth;
+    public int screenHeight;
 
     public int gameCursorMode = 0;
     public TouchPad touchPad;
@@ -50,6 +54,9 @@ public class ViewManager implements SensorEventListener {
         this.menuHelper = menuHelper;
         this.layoutPanel = layoutPanel;
         this.launcher = launcher;
+
+        screenWidth = layoutPanel.getWidth();
+        screenHeight = layoutPanel.getHeight();
         init();
     }
 
@@ -111,6 +118,12 @@ public class ViewManager implements SensorEventListener {
         if (menuHelper.gameMenuSetting.menuViewSetting.enable){
             layoutPanel.addView(menuView);
         }
+    }
+
+    public void addButton (BaseButtonInfo baseButtonInfo) {
+        BaseButton baseButton = new BaseButton(context,screenWidth,screenHeight,baseButtonInfo,menuHelper);
+        layoutPanel.addView(baseButton);
+        baseButton.updateSizeAndPosition(baseButtonInfo);
     }
 
     public void enableCursor(){
