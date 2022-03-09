@@ -8,16 +8,26 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.view.View;
 
 import androidx.core.view.GravityCompat;
 
+import com.google.gson.Gson;
 import com.tungsten.hmclpe.control.bean.BaseButtonInfo;
+import com.tungsten.hmclpe.control.bean.BaseRockerViewInfo;
 import com.tungsten.hmclpe.control.view.BaseButton;
+import com.tungsten.hmclpe.control.view.BaseRockerView;
 import com.tungsten.hmclpe.control.view.LayoutPanel;
 import com.tungsten.hmclpe.control.view.MenuFloat;
 import com.tungsten.hmclpe.control.view.MenuView;
 import com.tungsten.hmclpe.control.view.TouchPad;
+import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
+import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.setting.game.GameMenuSetting;
+import com.tungsten.hmclpe.utils.file.FileStringUtils;
+
+import java.util.ArrayList;
 
 public class ViewManager implements SensorEventListener {
 
@@ -118,12 +128,75 @@ public class ViewManager implements SensorEventListener {
         if (menuHelper.gameMenuSetting.menuViewSetting.enable){
             layoutPanel.addView(menuView);
         }
+
+        refreshLayout(menuHelper.currentPattern.name,menuHelper.currentChild,menuHelper.editMode);
     }
 
-    public void addButton (BaseButtonInfo baseButtonInfo) {
+    public void addButton (BaseButtonInfo baseButtonInfo,int visibility) {
         BaseButton baseButton = new BaseButton(context,screenWidth,screenHeight,baseButtonInfo,menuHelper);
         layoutPanel.addView(baseButton);
         baseButton.updateSizeAndPosition(baseButtonInfo);
+        if (menuHelper.editMode) {
+            baseButton.saveButtonInfo();
+        }
+        baseButton.setVisibility(visibility);
+    }
+
+    public void addRocker (BaseRockerViewInfo baseRockerViewInfo,int visibility) {
+
+    }
+
+    public void refreshLayout (String pattern,String child,boolean editMode) {
+        ArrayList<View> views = new ArrayList<>();
+        for (int i = 0;i < layoutPanel.getChildCount();i++) {
+            if (layoutPanel.getChildAt(i) instanceof BaseButton || layoutPanel.getChildAt(i) instanceof BaseRockerView){
+                views.add(layoutPanel.getChildAt(i));
+            }
+        }
+        for (View v : views) {
+            layoutPanel.removeView(v);
+        }
+        if (SettingUtils.getChildList(pattern).size() > 0) {
+            if (editMode) {
+                String string = FileStringUtils.getStringFromFile(AppManifest.CONTROLLER_DIR + "/" + pattern + "/" + child + ".json");
+                Gson gson = new Gson();
+                ChildLayout childLayout = gson.fromJson(string, ChildLayout.class);
+                for (BaseButtonInfo buttonInfo : childLayout.baseButtonList) {
+                    addButton(buttonInfo, View.VISIBLE);
+                }
+                for (BaseRockerViewInfo rockerViewInfo : childLayout.baseRockerViewList) {
+                    addRocker(rockerViewInfo, View.VISIBLE);
+                }
+            }
+            else {
+                ArrayList<ChildLayout> childLayouts = SettingUtils.getChildList(pattern);
+                for (ChildLayout layout : childLayouts) {
+                    for (BaseButtonInfo buttonInfo : layout.baseButtonList) {
+                        addButton(buttonInfo,layout.visibility);
+                    }
+                    for (BaseRockerViewInfo rockerViewInfo : layout.baseRockerViewList) {
+                        addRocker(rockerViewInfo,layout.visibility);
+                    }
+                }
+            }
+        }
+    }
+
+    public void setChildVisibility(String pattern,String child,int visibility) {
+        String string = FileStringUtils.getStringFromFile(AppManifest.CONTROLLER_DIR + "/" + pattern + "/" + child + ".json");
+        Gson gson = new Gson();
+        ChildLayout childLayout = gson.fromJson(string, ChildLayout.class);
+        ArrayList<String> ids = new ArrayList<>();
+        for (BaseButtonInfo buttonInfo : childLayout.baseButtonList) {
+            ids.add(buttonInfo.uuid);
+        }
+        for (int i = 0;i < layoutPanel.getChildCount();i++) {
+            if (layoutPanel.getChildAt(i) instanceof BaseButton){
+                if (ids.contains(((BaseButton) layoutPanel.getChildAt(i)).info.uuid)) {
+                    layoutPanel.getChildAt(i).setVisibility(visibility);
+                }
+            }
+        }
     }
 
     public void enableCursor(){

@@ -1,6 +1,5 @@
 package com.tungsten.hmclpe.control.bean;
 
-import com.tungsten.hmclpe.control.bean.button.ButtonPosition;
 import com.tungsten.hmclpe.control.bean.button.ButtonSize;
 import com.tungsten.hmclpe.control.bean.button.ButtonStyle;
 
@@ -28,8 +27,8 @@ public class BaseButtonInfo {
     public ButtonSize width;
     public ButtonSize height;
     public int positionType;
-    public ButtonPosition xPosition;
-    public ButtonPosition yPosition;
+    public ViewPosition xPosition;
+    public ViewPosition yPosition;
     public int functionType;
     public boolean viewMove;
     public boolean autoKeep;
@@ -46,7 +45,7 @@ public class BaseButtonInfo {
     public boolean usingExist;
     public ButtonStyle buttonStyle;
 
-    public BaseButtonInfo (String uuid,String pattern,String child,String text, int sizeType, ButtonSize width, ButtonSize height, int positionType, ButtonPosition xPosition, ButtonPosition yPosition, int functionType, boolean viewMove, boolean autoKeep, boolean autoClick,boolean openMenu,boolean movable, boolean switchTouchMode, boolean switchSensor, boolean switchLeftPad, boolean showInputDialog, ArrayList<String> visibilityControl, String outputText, ArrayList<Integer> outputKeycode, boolean usingExist, ButtonStyle buttonStyle) {
+    public BaseButtonInfo (String uuid, String pattern, String child, String text, int sizeType, ButtonSize width, ButtonSize height, int positionType, ViewPosition xPosition, ViewPosition yPosition, int functionType, boolean viewMove, boolean autoKeep, boolean autoClick, boolean openMenu, boolean movable, boolean switchTouchMode, boolean switchSensor, boolean switchLeftPad, boolean showInputDialog, ArrayList<String> visibilityControl, String outputText, ArrayList<Integer> outputKeycode, boolean usingExist, ButtonStyle buttonStyle) {
         this.uuid = uuid;
         this.pattern = pattern;
         this.child = child;
@@ -72,6 +71,34 @@ public class BaseButtonInfo {
         this.outputKeycode = outputKeycode;
         this.usingExist = usingExist;
         this.buttonStyle = buttonStyle;
+    }
+
+    public void refresh (BaseButtonInfo info) {
+        this.uuid = info.uuid;
+        this.pattern = info.pattern;
+        this.child = info.child;
+        this.text = info.text;
+        this.sizeType = info.sizeType;
+        this.width = info.width;
+        this.height = info.height;
+        this.positionType = info.positionType;
+        this.xPosition = info.xPosition;
+        this.yPosition = info.yPosition;
+        this.functionType = info.functionType;
+        this.viewMove = info.viewMove;
+        this.autoKeep = info.autoKeep;
+        this.autoClick = info.autoClick;
+        this.openMenu = info.openMenu;
+        this.movable = info.movable;
+        this.switchTouchMode = info.switchTouchMode;
+        this.switchSensor = info.switchSensor;
+        this.switchLeftPad = info.switchLeftPad;
+        this.showInputDialog = info.showInputDialog;
+        this.visibilityControl = info.visibilityControl;
+        this.outputText = info.outputText;
+        this.outputKeycode = info.outputKeycode;
+        this.usingExist = info.usingExist;
+        this.buttonStyle = info.buttonStyle;
     }
 
 }

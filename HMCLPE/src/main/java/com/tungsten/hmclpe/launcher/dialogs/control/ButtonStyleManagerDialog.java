@@ -17,16 +17,16 @@ import java.util.ArrayList;
 
 public class ButtonStyleManagerDialog extends Dialog implements View.OnClickListener {
 
-    private AddViewDialog dialog;
+    private OnStyleListChangeListener onStyleListChangeListener;
 
     private ListView listView;
 
     private Button create;
     private Button positive;
 
-    public ButtonStyleManagerDialog(@NonNull Context context,AddViewDialog dialog) {
+    public ButtonStyleManagerDialog(@NonNull Context context,OnStyleListChangeListener onStyleListChangeListener) {
         super(context);
-        this.dialog = dialog;
+        this.onStyleListChangeListener = onStyleListChangeListener;
         setContentView(R.layout.dialog_manage_button_style);
         setCancelable(false);
         init();
@@ -47,7 +47,7 @@ public class ButtonStyleManagerDialog extends Dialog implements View.OnClickList
         ArrayList<ButtonStyle> styles = SettingUtils.getButtonStyleList();
         ButtonStyleAdapter adapter = new ButtonStyleAdapter(getContext(),styles,this);
         listView.setAdapter(adapter);
-        dialog.refreshButtonStyleList(false);
+        onStyleListChangeListener.onStyleListChange();
     }
 
     @Override
@@ -67,5 +67,9 @@ public class ButtonStyleManagerDialog extends Dialog implements View.OnClickList
         if (view == positive){
             dismiss();
         }
+    }
+
+    public interface OnStyleListChangeListener{
+        void onStyleListChange();
     }
 }

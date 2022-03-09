@@ -1,11 +1,11 @@
-package com.tungsten.hmclpe.control.bean.button;
+package com.tungsten.hmclpe.control.bean;
 
-public class ButtonPosition {
+public class ViewPosition {
 
     public int absolutePosition;
     public float percentPosition;
 
-    public ButtonPosition (int absolutePosition,float percentPosition) {
+    public ViewPosition(int absolutePosition, float percentPosition) {
         this.absolutePosition = absolutePosition;
         this.percentPosition = percentPosition;
     }

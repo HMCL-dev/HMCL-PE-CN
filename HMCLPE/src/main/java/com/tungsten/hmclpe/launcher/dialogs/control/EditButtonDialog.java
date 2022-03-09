@@ -25,36 +25,26 @@ import androidx.appcompat.widget.SwitchCompat;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.bean.BaseButtonInfo;
 import com.tungsten.hmclpe.control.bean.BaseRockerViewInfo;
-import com.tungsten.hmclpe.control.bean.ViewPosition;
-import com.tungsten.hmclpe.control.bean.button.ButtonSize;
 import com.tungsten.hmclpe.control.bean.button.ButtonStyle;
+import com.tungsten.hmclpe.control.view.BaseButton;
 import com.tungsten.hmclpe.launcher.dialogs.tools.ColorSelectorDialog;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
-public class AddViewDialog extends Dialog implements View.OnClickListener, AdapterView.OnItemSelectedListener, SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, TextWatcher {
+public class EditButtonDialog extends Dialog implements View.OnClickListener, AdapterView.OnItemSelectedListener, SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener, TextWatcher {
 
     private String pattern;
     private String child;
     private int screenWidth;
     private int screenHeight;
-    private OnViewCreateListener onViewCreateListener;
+    private BaseButton baseButton;
 
     private BaseButtonInfo baseButtonInfo;
-    private BaseRockerViewInfo baseRockerViewInfo;
-
-    private Button showButton;
-    private Button showRocker;
-    private LinearLayout editButton;
-    private LinearLayout editRocker;
 
     private Button positive;
     private Button negative;
-
-    private int viewType;
 
     private ArrayAdapter<String> sizeTypeAdapter;
     private ArrayAdapter<String> positionTypeAdapter;
@@ -128,50 +118,25 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
     private ButtonStyle selectedButtonStyle;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public AddViewDialog(@NonNull Context context, String pattern,String child, int screenWidth, int screenHeight, OnViewCreateListener onViewCreateListener) {
+    public EditButtonDialog(@NonNull Context context, String pattern, String child, int screenWidth, int screenHeight, BaseButton baseButton) {
         super(context);
         this.pattern = pattern;
         this.child = child;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        this.onViewCreateListener = onViewCreateListener;
-        viewType = 0;
-        setContentView(R.layout.dialog_add_view);
+        this.baseButton = baseButton;
+        setContentView(R.layout.dialog_edit_button);
         setCancelable(false);
         init();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void init(){
-        ButtonStyle style = SettingUtils.getButtonStyleList().get(0);
-        baseButtonInfo = new BaseButtonInfo(UUID.randomUUID().toString(),
-                pattern,
-                child,
-                "",
-                BaseButtonInfo.SIZE_TYPE_ABSOLUTE,
-                new ButtonSize(50,0.06f,BaseButtonInfo.SIZE_OBJECT_WIDTH),
-                new ButtonSize(50,0.06f,BaseButtonInfo.SIZE_OBJECT_WIDTH),
-                BaseButtonInfo.POSITION_TYPE_PERCENT,
-                new ViewPosition(0,0),
-                new ViewPosition(0,0),
-                BaseButtonInfo.FUNCTION_TYPE_TOUCH,
-                false,false,false,false,false,false,false,false,false,
-                new ArrayList<>(),
-                "",
-                new ArrayList<>(),
-                true,
-                style);
+        baseButtonInfo = baseButton.info;
 
-        showButton = findViewById(R.id.add_button);
-        showRocker = findViewById(R.id.add_rocker);
-        editButton = findViewById(R.id.add_button_layout);
-        editRocker = findViewById(R.id.add_rocker_layout);
-
-        positive = findViewById(R.id.add_current_view);
+        positive = findViewById(R.id.apply_button_change);
         negative = findViewById(R.id.exit);
 
-        showButton.setOnClickListener(this);
-        showRocker.setOnClickListener(this);
         positive.setOnClickListener(this);
         negative.setOnClickListener(this);
 
@@ -475,27 +440,11 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
     @SuppressLint("SetTextI18n")
     @Override
     public void onClick(View view) {
-        if (view == showButton){
-            viewType = 0;
-            showButton.setBackgroundColor(getContext().getColor(R.color.colorPureWhite));
-            showRocker.setBackgroundColor(getContext().getColor(R.color.colorLightGray));
-            editButton.setVisibility(View.VISIBLE);
-            editRocker.setVisibility(View.GONE);
-        }
-        if (view == showRocker){
-            viewType = 1;
-            showButton.setBackgroundColor(getContext().getColor(R.color.colorLightGray));
-            showRocker.setBackgroundColor(getContext().getColor(R.color.colorPureWhite));
-            editButton.setVisibility(View.GONE);
-            editRocker.setVisibility(View.VISIBLE);
-        }
         if (view == positive){
-            if (viewType == 0){
-                onViewCreateListener.onButtonCreate(baseButtonInfo);
-            }
-            if (viewType == 1){
-                onViewCreateListener.onRockerCreate(baseRockerViewInfo);
-            }
+            baseButton.info.refresh(baseButtonInfo);
+            baseButton.updateSizeAndPosition(baseButtonInfo);
+            baseButton.refreshStyle(baseButtonInfo);
+            baseButton.saveButtonInfo();
             dismiss();
         }
         if (view == negative){
@@ -866,8 +815,4 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         baseButtonInfo.outputText = editOutputText.getText().toString();
     }
 
-    public interface OnViewCreateListener{
-        void onButtonCreate(BaseButtonInfo baseButtonInfo);
-        void onRockerCreate(BaseRockerViewInfo baseRockerViewInfo);
-    }
 }

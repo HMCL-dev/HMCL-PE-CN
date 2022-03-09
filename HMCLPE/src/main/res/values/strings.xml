@@ -569,6 +569,7 @@
     <string name="dialog_add_view_rocker_exterior_setting_stroke_width_pressed">边框宽度（按压）</string>
     <string name="dialog_add_view_rocker_exterior_setting_stroke_color_pressed">边框颜色（按压）</string>
     <string name="dialog_add_view_exterior_setting_choose_color">选择</string>
+    <string name="dialog_edit_view_positive">完成</string>
     <string name="dialog_add_view_positive">添加</string>
     <string name="dialog_add_view_negative">取消</string>
 
@@ -600,6 +601,11 @@
     <string name="dialog_select_keycode_keyboard">键盘</string>
     <string name="dialog_select_keycode_mouse">鼠标</string>
     <string name="dialog_select_keycode_positive">完成</string>
+
+    <string name="dialog_delete_button_title">提示</string>
+    <string name="dialog_delete_button_content">确定要删除该按键吗？</string>
+    <string name="dialog_delete_button_positive">删除</string>
+    <string name="dialog_delete_button_negative">取消</string>
 
     <string name="drawer_game_menu_title">HMCL-PE 控制面板</string>
     <string name="drawer_game_menu_type">控制面板呼出方式</string>

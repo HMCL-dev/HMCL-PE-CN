@@ -99,6 +99,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
                 this.currentPattern = controlPattern;
             }
         }
+        currentChild = SettingUtils.getChildList(currentPattern).size() > 0 ? SettingUtils.getChildList(currentPattern).get(0).name : null;
         if (editMode){
             baseLayout.showBackground();
         }
@@ -201,6 +202,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
             childSpinner.setEnabled(false);
             addView.setEnabled(false);
         }
+        editModeSwitch.setChecked(editMode);
 
         patternSpinner.setOnItemSelectedListener(this);
         editModeSwitch.setOnCheckedChangeListener(this);
@@ -210,8 +212,6 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         addView.setOnClickListener(this);
 
         childSpinner.setSelection(0);
-
-        editModeSwitch.setChecked(editMode);
 
         baseLayout.post(new Runnable() {
             @Override
@@ -245,14 +245,20 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         }
         childAdapter = new ArrayAdapter<>(context, R.layout.item_spinner_drop_down_small,childLayoutList);
         childSpinner.setAdapter(childAdapter);
-        if (childLayoutList.contains(currentChild)){
-            childSpinner.setSelection(childAdapter.getPosition(currentChild));
-        }
-        else {
-            childSpinner.setSelection(0);
-        }
         if (childLayoutList.size() == 0){
             currentChild = null;
+        }
+        else {
+            if (childLayoutList.contains(currentChild)){
+                childSpinner.setSelection(childAdapter.getPosition(currentChild));
+            }
+            else {
+                childSpinner.setSelection(0);
+                currentChild = childLayoutList.get(0);
+            }
+        }
+        if (editMode) {
+            viewManager.refreshLayout(currentPattern.name,currentChild,true);
         }
     }
 
@@ -320,6 +326,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
                 childSpinner.setEnabled(false);
                 addView.setEnabled(false);
             }
+            viewManager.refreshLayout(currentPattern.name,currentChild,b);
         }
     }
 
@@ -362,7 +369,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
                     AddViewDialog dialog = new AddViewDialog(context, currentPattern.name,currentChild, screenWidth, screenHeight, new AddViewDialog.OnViewCreateListener() {
                         @Override
                         public void onButtonCreate(BaseButtonInfo baseButtonInfo) {
-                            viewManager.addButton(baseButtonInfo);
+                            viewManager.addButton(baseButtonInfo,View.VISIBLE);
                         }
 
                         @Override
@@ -394,9 +401,11 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
                     break;
                 }
             }
+            refreshChildSpinner();
         }
         if (adapterView == childSpinner){
             currentChild = (String) childSpinner.getItemAtPosition(i);
+            viewManager.refreshLayout(currentPattern.name,(String) childSpinner.getItemAtPosition(i), true);
         }
     }
 

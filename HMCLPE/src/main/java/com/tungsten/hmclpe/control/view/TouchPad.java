@@ -150,7 +150,7 @@ public class TouchPad extends View {
                         InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,false);
                     }
                 }
-                if (System.currentTimeMillis() - downTime <= 400 && Math.abs(event.getX() - initialX) <= 10 && Math.abs(event.getY() - initialY) <= 10){
+                if (System.currentTimeMillis() - downTime <= 200 && Math.abs(event.getX() - initialX) <= 10 && Math.abs(event.getY() - initialY) <= 10){
                     if (menuHelper.gameMenuSetting.mouseMode == 1 && menuHelper.viewManager.gameCursorMode == 0){
                         InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,true);
                         InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);
