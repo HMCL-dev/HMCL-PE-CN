@@ -6,15 +6,18 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
 public class MenuFloat extends View {
 
+    private MenuHelper menuHelper;
     private int screenWidth;
     private int screenHeight;
     private float xPosition;
@@ -28,6 +31,8 @@ public class MenuFloat extends View {
     private Paint paint;
     private Paint areaPaint;
 
+    private final Paint outlinePaint;
+
     private Bitmap bitmap;
 
     private boolean pressed = false;
@@ -37,8 +42,9 @@ public class MenuFloat extends View {
 
     private long downTime;
 
-    public MenuFloat(Context context,int screenWidth,int screenHeight,float xPosition,float yPosition) {
+    public MenuFloat(Context context, MenuHelper menuHelper, int screenWidth, int screenHeight, float xPosition, float yPosition) {
         super(context);
+        this.menuHelper = menuHelper;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.xPosition = xPosition;
@@ -52,6 +58,12 @@ public class MenuFloat extends View {
 
         areaPaint = new Paint();
         areaPaint.setAntiAlias(true);
+
+        outlinePaint = new Paint();
+        outlinePaint.setAntiAlias(true);
+        outlinePaint.setColor(getContext().getColor(R.color.colorRed));
+        outlinePaint.setStyle(Paint.Style.STROKE);
+        outlinePaint.setStrokeWidth(3);
 
         bitmap = BitmapFactory.decodeResource(getContext().getResources(),R.drawable.ic_craft_table);
     }
@@ -78,6 +90,15 @@ public class MenuFloat extends View {
         Rect src = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
         Rect dst = new Rect(ConvertUtils.dip2px(getContext(),6), ConvertUtils.dip2px(getContext(),6), ConvertUtils.dip2px(getContext(),34), ConvertUtils.dip2px(getContext(),34));
         canvas.drawBitmap(bitmap, src, dst, new Paint(Paint.ANTI_ALIAS_FLAG));
+        if (menuHelper.showOutline) {
+            Path outlinePath = new Path();
+            outlinePath.moveTo(0,0);
+            outlinePath.lineTo(getWidth(),0);
+            outlinePath.lineTo(getWidth(),getHeight());
+            outlinePath.lineTo(0,getHeight());
+            outlinePath.lineTo(0,0);
+            canvas.drawPath(outlinePath,outlinePaint);
+        }
         invalidate();
     }
 

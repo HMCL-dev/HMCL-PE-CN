@@ -21,8 +21,8 @@ public class LayoutPanel extends RelativeLayout {
 
     private int positionMode = POSITION_MODE_PERCENT;
 
-    private float xReference;
-    private float yReference;
+    private float[] xReference;
+    private float[] yReference;
 
     private boolean showBackground = false;
     private boolean showReference = false;
@@ -43,7 +43,7 @@ public class LayoutPanel extends RelativeLayout {
         super(context, attrs);
         linePaint = new Paint();
         linePaint.setAntiAlias(true);
-        linePaint.setColor(getContext().getColor(R.color.colorAccent));
+        linePaint.setColor(getContext().getColor(R.color.colorGreen));
         linePaint.setStyle(Paint.Style.STROKE);
 
         textPaint = new Paint();
@@ -51,6 +51,9 @@ public class LayoutPanel extends RelativeLayout {
         textPaint.setColor(getContext().getColor(R.color.colorGreen));
         textPaint.setStyle(Paint.Style.FILL);
         textPaint.setTextSize(50);
+
+        xReference = new float[2];
+        yReference = new float[2];
 
         background = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_background);
     }
@@ -65,10 +68,14 @@ public class LayoutPanel extends RelativeLayout {
         }
         if (showReference){
             path = new Path();
-            path.moveTo(xReference,0);
-            path.lineTo(xReference,getHeight());
-            path.moveTo(0,yReference);
-            path.lineTo(getWidth(),yReference);
+            path.moveTo(xReference[0],0);
+            path.lineTo(xReference[0],getHeight());
+            path.moveTo(xReference[1],0);
+            path.lineTo(xReference[1],getHeight());
+            path.moveTo(0,yReference[0]);
+            path.lineTo(getWidth(),yReference[0]);
+            path.moveTo(0,yReference[1]);
+            path.lineTo(getWidth(),yReference[1]);
             canvas.drawPath(path,linePaint);
             canvas.drawText(xText,100,100,textPaint);
             canvas.drawText(yText,100,200,textPaint);
@@ -79,17 +86,17 @@ public class LayoutPanel extends RelativeLayout {
     public void showReference(int positionMode, float x, float y,int width,int height){
         this.positionMode = positionMode;
         if (positionMode == POSITION_MODE_PERCENT){
-            this.xReference = x + (width >> 1);
-            this.yReference = y + (height >> 1);
-            xText = ((int) ((x / (getWidth() - width)) * 1000)) / 10f + "%";
-            yText = ((int) ((y / (getHeight() - height)) * 1000)) / 10f + "%";
+            xText = "X:" + ((int) ((x / (getWidth() - width)) * 1000)) / 10f + "%";
+            yText = "Y:" + ((int) ((y / (getHeight() - height)) * 1000)) / 10f + "%";
         }
         if (positionMode == POSITION_MODE_ABSOLUTE){
-            this.xReference = x;
-            this.yReference = y;
-            xText = ConvertUtils.px2dip(getContext(),x) + "dp";
-            yText = ConvertUtils.px2dip(getContext(),y) + "dp";
+            xText = "X:" + ConvertUtils.px2dip(getContext(),x) + "dp";
+            yText = "Y:" + ConvertUtils.px2dip(getContext(),y) + "dp";
         }
+        this.xReference[0] = x;
+        this.yReference[0] = y;
+        this.xReference[1] = x + width;
+        this.yReference[1] = y + height;
         showReference = true;
     }
 

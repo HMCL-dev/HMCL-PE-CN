@@ -506,6 +506,30 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/drawer_custom_menu_outline"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"
+                            android:singleLine="true"
+                            android:layout_gravity="center"/>
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:id="@+id/switch_show_outline"/>
+
+                    </LinearLayout>
+
                     <TextView
                         android:layout_marginTop="5dp"
                         android:layout_width="wrap_content"

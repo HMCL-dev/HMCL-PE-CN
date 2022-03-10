@@ -7,7 +7,10 @@ import static com.tungsten.hmclpe.control.bean.BaseButtonInfo.SIZE_TYPE_PERCENT;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
 import android.view.Gravity;
@@ -39,6 +42,8 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
     private float initialX;
     private float initialY;
 
+    private final Paint outlinePaint;
+
     private final Handler deleteHandler = new Handler();
     private final Runnable deleteRunnable = new Runnable() {
         @Override
@@ -60,7 +65,30 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.menuHelper = menuHelper;
+
+        outlinePaint = new Paint();
+        outlinePaint.setAntiAlias(true);
+        outlinePaint.setColor(getContext().getColor(R.color.colorRed));
+        outlinePaint.setStyle(Paint.Style.STROKE);
+        outlinePaint.setStrokeWidth(3);
+
         refreshStyle(info);
+    }
+
+    @SuppressLint("DrawAllocation")
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (menuHelper.showOutline) {
+            Path outlinePath = new Path();
+            outlinePath.moveTo(0,0);
+            outlinePath.lineTo(getWidth(),0);
+            outlinePath.lineTo(getWidth(),getHeight());
+            outlinePath.lineTo(0,getHeight());
+            outlinePath.lineTo(0,0);
+            canvas.drawPath(outlinePath,outlinePaint);
+        }
+        invalidate();
     }
 
     @Override

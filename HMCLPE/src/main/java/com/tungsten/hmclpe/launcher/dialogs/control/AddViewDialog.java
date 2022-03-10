@@ -28,6 +28,8 @@ import com.tungsten.hmclpe.control.bean.BaseRockerViewInfo;
 import com.tungsten.hmclpe.control.bean.ViewPosition;
 import com.tungsten.hmclpe.control.bean.button.ButtonSize;
 import com.tungsten.hmclpe.control.bean.button.ButtonStyle;
+import com.tungsten.hmclpe.control.bean.rocker.RockerSize;
+import com.tungsten.hmclpe.control.bean.rocker.RockerStyle;
 import com.tungsten.hmclpe.launcher.dialogs.tools.ColorSelectorDialog;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.utils.convert.ConvertUtils;
@@ -61,6 +63,8 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
     private ArrayAdapter<String> sizeObjectAdapter;
     private ArrayAdapter<String> functionTypeAdapter;
     private ArrayAdapter<String> buttonStyleAdapter;
+    private ArrayAdapter<String> followTypeAdapter;
+    private ArrayAdapter<String> rockerStyleAdapter;
 
     private EditText editButtonText;
     private Spinner buttonSizeTypeSpinner;
@@ -125,7 +129,52 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
     private TextView strokeColorPressedText;
     private TextView fillColorPressedText;
 
+    private Spinner rockerSizeTypeSpinner;
+    private Spinner rockerPositionTypeSpinner;
+    private LinearLayout sizeObjectLayout;
+    private Spinner sizeObjectSpinner;
+    private SeekBar rockerSizeSeekbar;
+    private SeekBar rockerXSeekbar;
+    private SeekBar rockerYSeekbar;
+    private TextView rockerSizeText;
+    private TextView rockerXText;
+    private TextView rockerYText;
+    private Spinner followTypeSpinner;
+    private SwitchCompat checkShift;
+    private Spinner selectExistRockerStyle;
+    private SwitchCompat checkUsingExistRockerStyle;
+    private Button createRockerStyle;
+    private LinearLayout rockerStyleLayout;
+    private SeekBar rockerCornerRadiusSeekbar;
+    private SeekBar rockerCornerRadiusPressSeekbar;
+    private SeekBar rockerStrokeWidthSeekbar;
+    private SeekBar rockerStrokeWidthPressSeekbar;
+    private TextView rockerCornerRadiusText;
+    private TextView rockerStrokeWidthText;
+    private TextView rockerCornerRadiusPressedText;
+    private TextView rockerStrokeWidthPressedText;
+    private Button selectPointerColor;
+    private Button selectRockerStrokeColor;
+    private Button selectRockerFillColor;
+    private Button selectPointerColorPressed;
+    private Button selectRockerStrokeColorPressed;
+    private Button selectRockerFillColorPressed;
+    private View pointerColorPre;
+    private View rockerStrokeColorPre;
+    private View rockerFillColorPre;
+    private View pointerColorPressedPre;
+    private View rockerStrokeColorPressedPre;
+    private View rockerFillColorPressedPre;
+    private TextView pointerColorText;
+    private TextView rockerStrokeColorText;
+    private TextView rockerFillColorText;
+    private TextView pointerColorPressedText;
+    private TextView rockerStrokeColorPressedText;
+    private TextView rockerFillColorPressedText;
+
     private ButtonStyle selectedButtonStyle;
+
+    private ButtonStyle selectedRockerStyle;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public AddViewDialog(@NonNull Context context, String pattern,String child, int screenWidth, int screenHeight, OnViewCreateListener onViewCreateListener) {
@@ -143,7 +192,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void init(){
-        ButtonStyle style = SettingUtils.getButtonStyleList().get(0);
+        ButtonStyle styleB = SettingUtils.getButtonStyleList().get(0);
         baseButtonInfo = new BaseButtonInfo(UUID.randomUUID().toString(),
                 pattern,
                 child,
@@ -160,7 +209,21 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
                 "",
                 new ArrayList<>(),
                 true,
-                style);
+                styleB);
+
+        RockerStyle styleR = SettingUtils.getRockerStyleList().get(0);
+        baseRockerViewInfo = new BaseRockerViewInfo(UUID.randomUUID().toString(),
+                pattern,
+                child,
+                BaseRockerViewInfo.SIZE_TYPE_ABSOLUTE,
+                new RockerSize(160,0.2f,BaseRockerViewInfo.SIZE_OBJECT_WIDTH),
+                BaseRockerViewInfo.POSITION_TYPE_PERCENT,
+                new ViewPosition(0,0),
+                new ViewPosition(0,0),
+                BaseRockerViewInfo.FUNCTION_FOLLOW_NONE,
+                true,
+                true,
+                styleR);
 
         showButton = findViewById(R.id.add_button);
         showRocker = findViewById(R.id.add_rocker);
@@ -179,6 +242,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         ArrayList<String> positionType = new ArrayList<>();
         ArrayList<String> sizeObject = new ArrayList<>();
         ArrayList<String> functionType = new ArrayList<>();
+        ArrayList<String> followType = new ArrayList<>();
         sizeType.add(getContext().getString(R.string.dialog_add_view_size_type_percent));
         sizeType.add(getContext().getString(R.string.dialog_add_view_size_type_absolute));
         positionType.add(getContext().getString(R.string.dialog_add_view_position_type_percent));
@@ -187,12 +251,18 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         sizeObject.add(getContext().getString(R.string.dialog_add_view_size_type_percent_object_height));
         functionType.add(getContext().getString(R.string.dialog_add_view_button_function_type_click));
         functionType.add(getContext().getString(R.string.dialog_add_view_button_function_type_double_click));
+        followType.add(getContext().getString(R.string.dialog_add_view_rocker_function_follow_none));
+        followType.add(getContext().getString(R.string.dialog_add_view_rocker_function_follow_part));
+        followType.add(getContext().getString(R.string.dialog_add_view_rocker_function_follow_all));
         sizeTypeAdapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner, sizeType);
         positionTypeAdapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner, positionType);
         sizeObjectAdapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner, sizeObject);
         functionTypeAdapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner, functionType);
+        followTypeAdapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner, followType);
 
         initButtonLayout();
+
+        initRockerLayout();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -404,6 +474,51 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
             }
             refreshButtonStyleEditor();
         }
+    }
+
+    private void initRockerLayout(){
+        rockerSizeTypeSpinner = findViewById(R.id.rocker_size_type);
+        rockerPositionTypeSpinner = findViewById(R.id.rocker_position_type);
+        sizeObjectLayout = findViewById(R.id.size_object_layout);
+        sizeObjectSpinner = findViewById(R.id.size_object);
+        rockerSizeSeekbar = findViewById(R.id.rocker_size_seekbar);
+        rockerXSeekbar = findViewById(R.id.rocker_x_seekbar);
+        rockerYSeekbar = findViewById(R.id.rocker_y_seekbar);
+        rockerSizeText = findViewById(R.id.size_text);
+        rockerXText = findViewById(R.id.rocker_x_text);
+        rockerYText = findViewById(R.id.rocker_y_text);
+        followTypeSpinner = findViewById(R.id.function_follow);
+        checkShift = findViewById(R.id.function_shift);
+        selectExistRockerStyle = findViewById(R.id.exterior_use_exist_rocker);
+        checkUsingExistRockerStyle = findViewById(R.id.switch_exterior_use_exist_rocker);
+        createRockerStyle = findViewById(R.id.exterior_add_rocker_style);
+        rockerStyleLayout = findViewById(R.id.rocker_style_layout);
+        rockerCornerRadiusSeekbar = findViewById(R.id.rocker_exterior_corner_radius_seekbar);
+        rockerCornerRadiusPressSeekbar = findViewById(R.id.rocker_exterior_corner_radius_seekbar_pressed);
+        rockerStrokeWidthSeekbar = findViewById(R.id.rocker_exterior_stroke_width_seekbar);
+        rockerStrokeWidthPressSeekbar = findViewById(R.id.rocker_exterior_stroke_width_seekbar_pressed);
+        rockerCornerRadiusText = findViewById(R.id.rocker_corner_radius_text);
+        rockerCornerRadiusPressedText = findViewById(R.id.rocker_corner_radius_press_text);
+        rockerStrokeWidthText = findViewById(R.id.rocker_stroke_width_text);
+        rockerStrokeWidthPressedText = findViewById(R.id.rocker_stroke_width_press_text);
+        selectPointerColor = findViewById(R.id.exterior_pointer_color);
+        selectRockerStrokeColor = findViewById(R.id.rocker_exterior_stroke_color);
+        selectRockerFillColor = findViewById(R.id.rocker_exterior_fill_color);
+        selectPointerColor = findViewById(R.id.exterior_pointer_color_pressed);
+        selectRockerStrokeColorPressed = findViewById(R.id.rocker_exterior_stroke_color_pressed);
+        selectRockerFillColorPressed = findViewById(R.id.rocker_exterior_fill_color_pressed);
+        pointerColorPre = findViewById(R.id.pointer_color_preview);
+        rockerStrokeColorPre = findViewById(R.id.rocker_stroke_color_preview);
+        rockerFillColorPre = findViewById(R.id.rocker_fill_color_preview);
+        pointerColorPressedPre = findViewById(R.id.pointer_pressed_color_preview);
+        rockerStrokeColorPressedPre = findViewById(R.id.rocker_stroke_pressed_color_preview);
+        rockerFillColorPressedPre = findViewById(R.id.rocker_fill_pressed_color_preview);
+        pointerColorText = findViewById(R.id.pointer_color_text);
+        rockerStrokeColorText = findViewById(R.id.rocker_stroke_color_text);
+        rockerFillColorText = findViewById(R.id.rocker_fill_color_text);
+        pointerColorPressedText = findViewById(R.id.pointer_pressed_color_text);
+        rockerStrokeColorPressedText = findViewById(R.id.rocker_stroke_pressed_color_text);
+        rockerFillColorPressedText = findViewById(R.id.rocker_fill_pressed_color_text);
     }
 
     @SuppressLint("SetTextI18n")

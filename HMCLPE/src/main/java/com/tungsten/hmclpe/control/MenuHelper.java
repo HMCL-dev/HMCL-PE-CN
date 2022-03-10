@@ -68,6 +68,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
 
     public Spinner patternSpinner;
     public SwitchCompat editModeSwitch;
+    public SwitchCompat showOutlineSwitch;
     public Button editInfo;
     public Button manageChild;
     public Spinner childSpinner;
@@ -78,6 +79,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     public String initialPattern;
     public String currentChild;
     public boolean editMode;
+    public boolean showOutline;
     public boolean enableNameEditor;
     public ArrayList<String> childLayoutList;
     public ArrayAdapter<String> childAdapter;
@@ -90,6 +92,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         this.drawerLayout = drawerLayout;
         this.baseLayout = baseLayout;
         this.editMode = editMode;
+        this.showOutline = false;
         this.enableNameEditor = editMode;
         this.launcher = launcher;
         this.scaleFactor = scaleFactor;
@@ -157,6 +160,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
 
         patternSpinner = activity.findViewById(R.id.current_pattern_spinner);
         editModeSwitch = activity.findViewById(R.id.switch_edit_mode);
+        showOutlineSwitch = activity.findViewById(R.id.switch_show_outline);
         editInfo = activity.findViewById(R.id.edit_pattern_info);
         manageChild = activity.findViewById(R.id.manage_child_layout);
         childSpinner = activity.findViewById(R.id.current_child_spinner);
@@ -206,6 +210,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
 
         patternSpinner.setOnItemSelectedListener(this);
         editModeSwitch.setOnCheckedChangeListener(this);
+        showOutlineSwitch.setOnCheckedChangeListener(this);
         editInfo.setOnClickListener(this);
         manageChild.setOnClickListener(this);
         childSpinner.setOnItemSelectedListener(this);
@@ -257,9 +262,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
                 currentChild = childLayoutList.get(0);
             }
         }
-        if (editMode) {
-            viewManager.refreshLayout(currentPattern.name,currentChild,true);
-        }
+        viewManager.refreshLayout(currentPattern.name,currentChild,editMode);
     }
 
     @Override
@@ -327,6 +330,9 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
                 addView.setEnabled(false);
             }
             viewManager.refreshLayout(currentPattern.name,currentChild,b);
+        }
+        if (compoundButton == showOutlineSwitch) {
+            showOutline = b;
         }
     }
 

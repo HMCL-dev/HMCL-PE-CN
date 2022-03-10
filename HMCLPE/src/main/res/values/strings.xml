@@ -543,6 +543,11 @@
     <string name="dialog_add_view_button_function_output_keychar">输出文本</string>
     <string name="dialog_add_view_button_function_output_keycode">输出键值</string>
     <string name="dialog_add_view_button_function_output_keycode_button">选择</string>
+    <string name="dialog_add_view_rocker_function_shift">双击中心位置潜行</string>
+    <string name="dialog_add_view_rocker_function_follow">跟随设置</string>
+    <string name="dialog_add_view_rocker_function_follow_none">不跟随</string>
+    <string name="dialog_add_view_rocker_function_follow_part">中心部分跟随</string>
+    <string name="dialog_add_view_rocker_function_follow_all">完全跟随</string>
     <string name="dialog_add_view_button_exterior_setting">外观设置</string>
     <string name="dialog_add_view_button_exterior_use_exist">使用保存的样式</string>
     <string name="dialog_add_view_button_exterior_add_style">管理本地按键样式</string>
@@ -562,10 +567,12 @@
     <string name="dialog_add_view_rocker_exterior_add_style">管理本地方向控制盘样式</string>
     <string name="dialog_add_view_rocker_exterior_setting_pointer_color">指示器颜色</string>
     <string name="dialog_add_view_rocker_exterior_setting_fill_color">填充色</string>
+    <string name="dialog_add_view_rocker_exterior_setting_corner_radius">圆角半径</string>
     <string name="dialog_add_view_rocker_exterior_setting_stroke_width">边框宽度</string>
     <string name="dialog_add_view_rocker_exterior_setting_stroke_color">边框颜色</string>
     <string name="dialog_add_view_rocker_exterior_setting_pointer_color_pressed">指示器颜色（按压）</string>
     <string name="dialog_add_view_rocker_exterior_setting_fill_color_pressed">填充色（按压）</string>
+    <string name="dialog_add_view_rocker_exterior_setting_corner_radius_pressed">圆角半径（按压）</string>
     <string name="dialog_add_view_rocker_exterior_setting_stroke_width_pressed">边框宽度（按压）</string>
     <string name="dialog_add_view_rocker_exterior_setting_stroke_color_pressed">边框颜色（按压）</string>
     <string name="dialog_add_view_exterior_setting_choose_color">选择</string>
@@ -631,6 +638,7 @@
     <string name="drawer_custom_menu_current">当前方案</string>
     <string name="drawer_custom_menu_current_pattern">当前布局方案</string>
     <string name="drawer_custom_menu_mode">编辑模式</string>
+    <string name="drawer_custom_menu_outline">显示控件边界</string>
     <string name="drawer_custom_menu_pattern_setting">方案设置</string>
     <string name="drawer_custom_menu_info">基本信息</string>
     <string name="drawer_custom_menu_edit_info">编辑</string>

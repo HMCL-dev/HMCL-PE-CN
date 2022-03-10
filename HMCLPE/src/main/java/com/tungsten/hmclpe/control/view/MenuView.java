@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Vibrator;
@@ -11,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
 import java.util.Timer;
@@ -18,6 +20,7 @@ import java.util.TimerTask;
 
 public class MenuView extends View {
 
+    private MenuHelper menuHelper;
     private MenuCallback menuCallback;
 
     private int screenWidth;
@@ -45,24 +48,33 @@ public class MenuView extends View {
 
     private Paint painter;
 
-    public MenuView(Context context,int screenWidth,int screenHeight,int mode,float yPercent) {
+    private final Paint outlinePaint;
+
+    public MenuView(Context context, MenuHelper menuHelper, int screenWidth, int screenHeight, int mode, float yPercent) {
         super(context);
+        this.menuHelper = menuHelper;
         painter = new Paint();
         painter.setAntiAlias(true);
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.menuMode = mode;
         this.yPercent = yPercent;
+
+        outlinePaint = new Paint();
+        outlinePaint.setAntiAlias(true);
+        outlinePaint.setColor(getContext().getColor(R.color.colorRed));
+        outlinePaint.setStyle(Paint.Style.STROKE);
+        outlinePaint.setStrokeWidth(3);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         setMeasuredDimension(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         if (menuMode == MENU_MODE_LEFT){
-            setX(-(DEFAULT_WIDTH / 2));
+            setX(-(DEFAULT_WIDTH >> 1));
         }
         else {
-            setX(screenWidth - (DEFAULT_WIDTH / 2));
+            setX(screenWidth - (DEFAULT_WIDTH >> 1));
         }
         setY((screenHeight - DEFAULT_HEIGHT) * yPercent);
     }
@@ -79,6 +91,15 @@ public class MenuView extends View {
         canvas.drawArc(downRectF,0,180,true,painter);
         if (radius < getMeasuredHeight() / 2){
             canvas.drawRect(rect,painter);
+        }
+        if (menuHelper.showOutline) {
+            @SuppressLint("DrawAllocation") Path outlinePath = new Path();
+            outlinePath.moveTo(0,0);
+            outlinePath.lineTo(getWidth(),0);
+            outlinePath.lineTo(getWidth(),getHeight());
+            outlinePath.lineTo(0,getHeight());
+            outlinePath.lineTo(0,0);
+            canvas.drawPath(outlinePath,outlinePaint);
         }
         invalidate();
     }
@@ -114,7 +135,7 @@ public class MenuView extends View {
                         public void run() {
                             moveMode = true;
                             initialY = event.getY();
-                            Vibrator vibrator = (Vibrator)getContext().getSystemService(getContext().VIBRATOR_SERVICE);
+                            Vibrator vibrator = (Vibrator)getContext().getSystemService(Context.VIBRATOR_SERVICE);
                             vibrator.vibrate(100);
                             if (menuCallback != null){
                                 menuCallback.onMoveModeStart();
@@ -183,7 +204,7 @@ public class MenuView extends View {
                         setY(screenHeight - getMeasuredHeight());
                         yPercent = 1;
                     }
-                    if (event.getRawX() > screenWidth / 2){
+                    if (event.getRawX() > screenWidth >> 1){
                         menuMode = MENU_MODE_RIGHT;
                         setX(screenWidth - ConvertUtils.dip2px(getContext(),40));
                     }

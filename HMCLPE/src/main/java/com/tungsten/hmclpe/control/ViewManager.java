@@ -82,7 +82,7 @@ public class ViewManager implements SensorEventListener {
         /*
          *初始化菜单键
          */
-        menuFloat = new MenuFloat(context,layoutPanel.getWidth(),layoutPanel.getHeight(),menuHelper.gameMenuSetting.menuFloatSetting.positionX,menuHelper.gameMenuSetting.menuFloatSetting.positionY);
+        menuFloat = new MenuFloat(context,menuHelper,layoutPanel.getWidth(),layoutPanel.getHeight(),menuHelper.gameMenuSetting.menuFloatSetting.positionX,menuHelper.gameMenuSetting.menuFloatSetting.positionY);
         menuFloat.addCallback(new MenuFloat.MenuFloatCallback() {
             @Override
             public void onClick() {
@@ -97,7 +97,7 @@ public class ViewManager implements SensorEventListener {
                 GameMenuSetting.saveGameMenuSetting(menuHelper.gameMenuSetting);
             }
         });
-        menuView = new MenuView(context,layoutPanel.getWidth(),layoutPanel.getHeight(),menuHelper.gameMenuSetting.menuViewSetting.mode,menuHelper.gameMenuSetting.menuViewSetting.yPercent);
+        menuView = new MenuView(context,menuHelper,layoutPanel.getWidth(),layoutPanel.getHeight(),menuHelper.gameMenuSetting.menuViewSetting.mode,menuHelper.gameMenuSetting.menuViewSetting.yPercent);
         menuView.addCallback(new MenuView.MenuCallback() {
             @Override
             public void onRelease() {

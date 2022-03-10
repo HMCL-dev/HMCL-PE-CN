@@ -2,6 +2,7 @@ package com.tungsten.hmclpe.launcher.setting;
 
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.control.bean.button.ButtonStyle;
+import com.tungsten.hmclpe.control.bean.rocker.RockerStyle;
 import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
 import com.tungsten.hmclpe.launcher.list.local.controller.ControlPattern;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
@@ -141,6 +142,35 @@ public class SettingUtils {
         Gson gson = new Gson();
         String string = gson.toJson(list);
         FileStringUtils.writeFile(AppManifest.STYLE_DIR + "/button.json",string);
+    }
+
+    public static ArrayList<RockerStyle> getRockerStyleList(){
+        ArrayList<RockerStyle> list = new ArrayList<>();
+        if (new File(AppManifest.STYLE_DIR + "/rocker.json").exists()){
+            String string = FileStringUtils.getStringFromFile(AppManifest.STYLE_DIR + "/rocker.json");
+            Gson gson = new Gson();
+            RockerStyle[] rockerStyles = gson.fromJson(string, RockerStyle[].class);
+            list.addAll(Arrays.asList(rockerStyles));
+            if (list.size() == 0){
+                RockerStyle style = new RockerStyle();
+                style.name = "Default";
+                list.add(style);
+                saveRockerStyle(list);
+            }
+        }
+        else {
+            RockerStyle style = new RockerStyle();
+            style.name = "Default";
+            list.add(style);
+            saveRockerStyle(list);
+        }
+        return list;
+    }
+
+    public static void saveRockerStyle(ArrayList<RockerStyle> list){
+        Gson gson = new Gson();
+        String string = gson.toJson(list);
+        FileStringUtils.writeFile(AppManifest.STYLE_DIR + "/rocker.json",string);
     }
 
 }
