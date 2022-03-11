@@ -140,7 +140,7 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                     deleteHandler.removeCallbacks(deleteRunnable);
                     if (System.currentTimeMillis() - downTime <= 200 && Math.abs(event.getX() - initialX) <= 10 && Math.abs(event.getY() - initialY) <= 10){
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                            EditButtonDialog dialog = new EditButtonDialog(getContext(), info.pattern, info.child,screenWidth,screenHeight,this);
+                            EditButtonDialog dialog = new EditButtonDialog(getContext(), info.pattern, info.child,screenWidth,screenHeight,this,menuHelper.fullscreen);
                             dialog.show();
                         }
                     }

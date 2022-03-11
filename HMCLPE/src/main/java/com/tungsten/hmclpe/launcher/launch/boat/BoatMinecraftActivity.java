@@ -86,7 +86,7 @@ public class BoatMinecraftActivity extends BoatActivity {
 
         init();
 
-        menuHelper = new MenuHelper(this,this,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout,1,scaleFactor);
+        menuHelper = new MenuHelper(this,this,gameLaunchSetting.fullscreen,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout,1,scaleFactor);
     }
 
     @SuppressLint("HandlerLeak")

@@ -192,6 +192,7 @@ public class RockerView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
+                onShakeListener.onTouch(this);
                 float centerX = getWidth() / 2;
                 float centerY = getHeight() / 2;
                 initialPositionX = getX();
@@ -208,7 +209,7 @@ public class RockerView extends View {
                     }
                     if (clickCount == 2) {
                         if (System.currentTimeMillis() - firstClickTime <= 500) {
-                            onShakeListener.onCenterDoubleClick();
+                            onShakeListener.onCenterDoubleClick(this);
                             clickCount = 0;
                         }
                         else {
@@ -222,6 +223,7 @@ public class RockerView extends View {
                 refreshView(event);
                 break;
             case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
                 center = State.NORMAL;
                 up = State.NORMAL;
                 down = State.NORMAL;
@@ -233,10 +235,11 @@ public class RockerView extends View {
                 downRight = State.HIDE;
                 if (tempDirection != Direction.DIRECTION_CENTER) {
                     tempDirection = Direction.DIRECTION_CENTER;
-                    onShakeListener.onShake(tempDirection);
+                    onShakeListener.onShake(this,tempDirection);
                 }
                 setX(initialPositionX);
                 setY(initialPositionY);
+                onShakeListener.onFinish(this);
                 break;
         }
         return true;
@@ -281,7 +284,7 @@ public class RockerView extends View {
                 downLeft = State.HIDE;
                 upRight = State.HIDE;
                 downRight = State.HIDE;
-                onShakeListener.onShake(tempDirection);
+                onShakeListener.onShake(this,tempDirection);
             }
         }
         else {
@@ -393,7 +396,7 @@ public class RockerView extends View {
             right = State.NORMAL;
             upRight = State.PRESS;
         }
-        onShakeListener.onShake(tempDirection);
+        onShakeListener.onShake(this,tempDirection);
     }
 
     public enum State {
@@ -415,7 +418,9 @@ public class RockerView extends View {
     }
 
     public interface OnShakeListener{
-        void onShake(Direction direction);
-        void onCenterDoubleClick();
+        void onTouch(RockerView view);
+        void onShake(RockerView view,Direction direction);
+        void onCenterDoubleClick(RockerView view);
+        void onFinish(RockerView view);
     }
 }

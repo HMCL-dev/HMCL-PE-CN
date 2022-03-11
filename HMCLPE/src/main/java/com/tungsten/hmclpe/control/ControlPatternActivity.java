@@ -43,7 +43,7 @@ public class ControlPatternActivity extends AppCompatActivity implements View.On
         drawerLayout = findViewById(R.id.drawer_layout);
         baseLayout = findViewById(R.id.base_layout);
 
-        menuHelper = new MenuHelper(this,this,drawerLayout,baseLayout,true,getIntent().getExtras().getString("pattern"),0,1);
+        menuHelper = new MenuHelper(this,this,getIntent().getExtras().getBoolean("fullscreen"),drawerLayout,baseLayout,true,getIntent().getExtras().getString("pattern"),0,1);
         menuHelper.initialPattern = getIntent().getExtras().getString("initial");
     }
 

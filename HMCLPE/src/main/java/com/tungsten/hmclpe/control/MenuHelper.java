@@ -41,6 +41,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
 
     public Context context;
     public AppCompatActivity activity;
+    public boolean fullscreen;
     public DrawerLayout drawerLayout;
     public LayoutPanel baseLayout;
     public int launcher;
@@ -86,9 +87,10 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
 
     public ViewManager viewManager;
 
-    public MenuHelper(Context context, AppCompatActivity activity, DrawerLayout drawerLayout, LayoutPanel baseLayout,boolean editMode,String currentPattern,int launcher,float scaleFactor){
+    public MenuHelper(Context context, AppCompatActivity activity,boolean fullscreen, DrawerLayout drawerLayout, LayoutPanel baseLayout,boolean editMode,String currentPattern,int launcher,float scaleFactor){
         this.context = context;
         this.activity = activity;
+        this.fullscreen = fullscreen;
         this.drawerLayout = drawerLayout;
         this.baseLayout = baseLayout;
         this.editMode = editMode;
@@ -380,9 +382,9 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
 
                         @Override
                         public void onRockerCreate(BaseRockerViewInfo baseRockerViewInfo) {
-
+                            viewManager.addRocker(baseRockerViewInfo,View.VISIBLE);
                         }
-                    });
+                    },fullscreen);
                     dialog.show();
                 }
             }

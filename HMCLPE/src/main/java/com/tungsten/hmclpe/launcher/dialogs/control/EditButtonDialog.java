@@ -4,10 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -118,7 +121,7 @@ public class EditButtonDialog extends Dialog implements View.OnClickListener, Ad
     private ButtonStyle selectedButtonStyle;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public EditButtonDialog(@NonNull Context context, String pattern, String child, int screenWidth, int screenHeight, BaseButton baseButton) {
+    public EditButtonDialog(@NonNull Context context, String pattern, String child, int screenWidth, int screenHeight, BaseButton baseButton,boolean fullscreen) {
         super(context);
         this.pattern = pattern;
         this.child = child;
@@ -127,6 +130,15 @@ public class EditButtonDialog extends Dialog implements View.OnClickListener, Ad
         this.baseButton = baseButton;
         setContentView(R.layout.dialog_edit_button);
         setCancelable(false);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            if (fullscreen) {
+                getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            } else {
+                getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
+            }
+        }
         init();
     }
 
