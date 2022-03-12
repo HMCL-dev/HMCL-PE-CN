@@ -78,7 +78,12 @@ public class RockerStyleAdapter extends BaseAdapter {
         drawablePress.setCornerRadius(ConvertUtils.dip2px(context,rockerStyle.cornerRadiusPress));
         drawablePress.setStroke(ConvertUtils.dip2px(context,rockerStyle.strokeWidthPress), Color.parseColor(rockerStyle.strokeColorPress));
         drawablePress.setColor(Color.parseColor(rockerStyle.fillColorPress));
-        RockerView rockerView = new RockerView(context, rockerStyle.pointerColor, rockerStyle.pointerColorPress, 0, false, new RockerView.OnShakeListener() {
+        RockerView rockerView = new RockerView(context);
+        rockerView.setPointerColor(rockerStyle.pointerColor);
+        rockerView.setPointerColorPress(rockerStyle.pointerColorPress);
+        rockerView.setFollowType(0);
+        rockerView.setDoubleClick(false);
+        rockerView.setOnShakeListener(new RockerView.OnShakeListener() {
             @Override
             public void onTouch(RockerView view) {
                 view.setBackground(drawablePress);

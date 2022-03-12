@@ -143,7 +143,13 @@ public class ViewManager implements SensorEventListener {
     }
 
     public void addRocker (BaseRockerViewInfo baseRockerViewInfo,int visibility) {
-
+        BaseRockerView baseRockerView = new BaseRockerView(context,screenWidth,screenHeight,baseRockerViewInfo,menuHelper);
+        layoutPanel.addView(baseRockerView);
+        baseRockerView.updateSizeAndPosition(baseRockerViewInfo);
+        if (menuHelper.editMode) {
+            baseRockerView.saveRockerInfo();
+        }
+        baseRockerView.setVisibility(visibility);
     }
 
     public void refreshLayout (String pattern,String child,boolean editMode) {
@@ -193,6 +199,11 @@ public class ViewManager implements SensorEventListener {
         for (int i = 0;i < layoutPanel.getChildCount();i++) {
             if (layoutPanel.getChildAt(i) instanceof BaseButton){
                 if (ids.contains(((BaseButton) layoutPanel.getChildAt(i)).info.uuid)) {
+                    layoutPanel.getChildAt(i).setVisibility(visibility);
+                }
+            }
+            if (layoutPanel.getChildAt(i) instanceof BaseRockerView){
+                if (ids.contains(((BaseRockerView) layoutPanel.getChildAt(i)).info.uuid)) {
                     layoutPanel.getChildAt(i).setVisibility(visibility);
                 }
             }

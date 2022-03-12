@@ -614,6 +614,11 @@
     <string name="dialog_delete_button_positive">删除</string>
     <string name="dialog_delete_button_negative">取消</string>
 
+    <string name="dialog_delete_rocker_title">提示</string>
+    <string name="dialog_delete_rocker_content">确定要删除该方向控制盘吗？</string>
+    <string name="dialog_delete_rocker_positive">删除</string>
+    <string name="dialog_delete_rocker_negative">取消</string>
+
     <string name="drawer_game_menu_title">HMCL-PE 控制面板</string>
     <string name="drawer_game_menu_type">控制面板呼出方式</string>
     <string name="drawer_game_menu_type_float">悬浮窗</string>

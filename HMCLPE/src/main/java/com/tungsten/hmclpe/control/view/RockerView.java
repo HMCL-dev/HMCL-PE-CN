@@ -12,11 +12,11 @@ import android.view.ViewGroup;
 
 public class RockerView extends View {
 
-    private String pointerColor;
-    private String pointerColorPress;
+    private String pointerColor = "#f6f6f6";
+    private String pointerColorPress = "#40ffffff";
 
-    private int followType;
-    private boolean doubleClick;
+    private int followType = 0;
+    private boolean doubleClick = true;
 
     private OnShakeListener onShakeListener;
 
@@ -44,19 +44,16 @@ public class RockerView extends View {
 
     private Direction tempDirection = Direction.DIRECTION_CENTER;
 
+    private boolean touching = false;
+
     private int clickCount = 0;
     private long firstClickTime;
 
     private float initialPositionX;
     private float initialPositionY;
 
-    public RockerView(Context context,String pointerColor,String pointerColorPress,int followType,boolean doubleClick,OnShakeListener onShakeListener) {
+    public RockerView(Context context) {
         super(context);
-        this.pointerColor = pointerColor;
-        this.pointerColorPress = pointerColorPress;
-        this.followType = followType;
-        this.doubleClick = doubleClick;
-        this.onShakeListener = onShakeListener;
     }
 
     @Override
@@ -192,54 +189,87 @@ public class RockerView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-                onShakeListener.onTouch(this);
                 float centerX = getWidth() / 2;
                 float centerY = getHeight() / 2;
-                initialPositionX = getX();
-                initialPositionY = getY();
-                if ((followType == 1 && calculateDistance(event.getX(),event.getY(),centerX,centerY) <= getWidth() / 6) || followType == 2) {
-                    setX(initialPositionX + event.getX() - centerX);
-                    setY(initialPositionY + event.getY() - centerY);
-                }
-                refreshView(event);
-                if (calculateDistance(event.getX(),event.getY(),centerX,centerY) <= getWidth() / 6 && doubleClick) {
-                    clickCount++;
-                    if (clickCount == 1) {
-                        firstClickTime = System.currentTimeMillis();
+                if (calculateDistance(event.getX(),event.getY(),centerX,centerY) <= getWidth() / 2 && doubleClick) {
+                    touching = true;
+                    if (onShakeListener != null) {
+                        onShakeListener.onTouch(this);
                     }
-                    if (clickCount == 2) {
-                        if (System.currentTimeMillis() - firstClickTime <= 500) {
-                            onShakeListener.onCenterDoubleClick(this);
-                            clickCount = 0;
+                    initialPositionX = getX();
+                    initialPositionY = getY();
+                    if ((followType == 1 && calculateDistance(event.getX(),event.getY(),centerX,centerY) <= getWidth() / 6) || followType == 2) {
+                        setX(initialPositionX + event.getX() - centerX);
+                        setY(initialPositionY + event.getY() - centerY);
+                    }
+                    if (calculateDistance(event.getX(),event.getY(),centerX,centerY) <= getWidth() / 6) {
+                        tempDirection = Direction.DIRECTION_CENTER;
+                        center = State.PRESS;
+                        up = State.NORMAL;
+                        down = State.NORMAL;
+                        left = State.NORMAL;
+                        right = State.NORMAL;
+                        upLeft = State.HIDE;
+                        downLeft = State.HIDE;
+                        upRight = State.HIDE;
+                        downRight = State.HIDE;
+                        if (onShakeListener != null) {
+                            onShakeListener.onShake(this,tempDirection);
                         }
-                        else {
+                    }
+                    refreshView(event);
+                    if (calculateDistance(event.getX(),event.getY(),centerX,centerY) <= getWidth() / 6 && doubleClick) {
+                        clickCount++;
+                        if (clickCount == 1) {
                             firstClickTime = System.currentTimeMillis();
-                            clickCount = 1;
+                        }
+                        if (clickCount == 2) {
+                            if (System.currentTimeMillis() - firstClickTime <= 500) {
+                                if (onShakeListener != null) {
+                                    onShakeListener.onCenterDoubleClick(this);
+                                }
+                                clickCount = 0;
+                            }
+                            else {
+                                firstClickTime = System.currentTimeMillis();
+                                clickCount = 1;
+                            }
                         }
                     }
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                refreshView(event);
+                if (touching) {
+                    refreshView(event);
+                }
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                center = State.NORMAL;
-                up = State.NORMAL;
-                down = State.NORMAL;
-                left = State.NORMAL;
-                right = State.NORMAL;
-                upLeft = State.HIDE;
-                downLeft = State.HIDE;
-                upRight = State.HIDE;
-                downRight = State.HIDE;
-                if (tempDirection != Direction.DIRECTION_CENTER) {
-                    tempDirection = Direction.DIRECTION_CENTER;
-                    onShakeListener.onShake(this,tempDirection);
+                if (touching) {
+                    center = State.NORMAL;
+                    up = State.NORMAL;
+                    down = State.NORMAL;
+                    left = State.NORMAL;
+                    right = State.NORMAL;
+                    upLeft = State.HIDE;
+                    downLeft = State.HIDE;
+                    upRight = State.HIDE;
+                    downRight = State.HIDE;
+                    if (tempDirection != Direction.DIRECTION_CENTER) {
+                        tempDirection = Direction.DIRECTION_CENTER;
+                        if (onShakeListener != null) {
+                            onShakeListener.onShake(this,tempDirection);
+                        }
+                    }
+                    if (followType != 0) {
+                        setX(initialPositionX);
+                        setY(initialPositionY);
+                    }
+                    if (onShakeListener != null) {
+                        onShakeListener.onFinish(this);
+                    }
+                    touching = false;
                 }
-                setX(initialPositionX);
-                setY(initialPositionY);
-                onShakeListener.onFinish(this);
                 break;
         }
         return true;
@@ -268,6 +298,10 @@ public class RockerView extends View {
         this.doubleClick = doubleClick;
     }
 
+    public void setOnShakeListener(OnShakeListener onShakeListener) {
+        this.onShakeListener = onShakeListener;
+    }
+
     @SuppressWarnings("IntegerDivisionInFloatingPointContext")
     private void refreshView(MotionEvent event) {
         float centerX = getWidth() / 2;
@@ -284,7 +318,9 @@ public class RockerView extends View {
                 downLeft = State.HIDE;
                 upRight = State.HIDE;
                 downRight = State.HIDE;
-                onShakeListener.onShake(this,tempDirection);
+                if (onShakeListener != null) {
+                    onShakeListener.onShake(this,tempDirection);
+                }
             }
         }
         else {
@@ -396,7 +432,9 @@ public class RockerView extends View {
             right = State.NORMAL;
             upRight = State.PRESS;
         }
-        onShakeListener.onShake(this,tempDirection);
+        if (onShakeListener != null) {
+            onShakeListener.onShake(this,tempDirection);
+        }
     }
 
     public enum State {
