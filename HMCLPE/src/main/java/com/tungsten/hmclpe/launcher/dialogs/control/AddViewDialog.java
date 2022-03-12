@@ -61,6 +61,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
 
     private int viewType;
 
+    private ArrayAdapter<String> showTypeAdapter;
     private ArrayAdapter<String> sizeTypeAdapter;
     private ArrayAdapter<String> positionTypeAdapter;
     private ArrayAdapter<String> sizeObjectAdapter;
@@ -70,6 +71,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
     private ArrayAdapter<String> rockerStyleAdapter;
 
     private EditText editButtonText;
+    private Spinner buttonShowTypeSpinner;
     private Spinner buttonSizeTypeSpinner;
     private Spinner buttonPositionTypeSpinner;
     private LinearLayout widthObjectLayout;
@@ -132,6 +134,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
     private TextView strokeColorPressedText;
     private TextView fillColorPressedText;
 
+    private Spinner rockerShowTypeSpinner;
     private Spinner rockerSizeTypeSpinner;
     private Spinner rockerPositionTypeSpinner;
     private LinearLayout sizeObjectLayout;
@@ -209,6 +212,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
                 pattern,
                 child,
                 "",
+                BaseButtonInfo.SHOW_TYPE_ALWAYS,
                 BaseButtonInfo.SIZE_TYPE_ABSOLUTE,
                 new ButtonSize(50,0.06f,BaseButtonInfo.SIZE_OBJECT_WIDTH),
                 new ButtonSize(50,0.06f,BaseButtonInfo.SIZE_OBJECT_WIDTH),
@@ -227,6 +231,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         baseRockerViewInfo = new BaseRockerViewInfo(UUID.randomUUID().toString(),
                 pattern,
                 child,
+                BaseRockerViewInfo.SHOW_TYPE_ALWAYS,
                 BaseRockerViewInfo.SIZE_TYPE_ABSOLUTE,
                 new RockerSize(160,0.2f,BaseRockerViewInfo.SIZE_OBJECT_WIDTH),
                 BaseRockerViewInfo.POSITION_TYPE_PERCENT,
@@ -250,11 +255,15 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         positive.setOnClickListener(this);
         negative.setOnClickListener(this);
 
+        ArrayList<String> showType = new ArrayList<>();
         ArrayList<String> sizeType = new ArrayList<>();
         ArrayList<String> positionType = new ArrayList<>();
         ArrayList<String> sizeObject = new ArrayList<>();
         ArrayList<String> functionType = new ArrayList<>();
         ArrayList<String> followType = new ArrayList<>();
+        showType.add(getContext().getString(R.string.dialog_add_view_always));
+        showType.add(getContext().getString(R.string.dialog_add_view_only_in_game));
+        showType.add(getContext().getString(R.string.dialog_add_view_only_out_game));
         sizeType.add(getContext().getString(R.string.dialog_add_view_size_type_percent));
         sizeType.add(getContext().getString(R.string.dialog_add_view_size_type_absolute));
         positionType.add(getContext().getString(R.string.dialog_add_view_position_type_percent));
@@ -266,6 +275,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         followType.add(getContext().getString(R.string.dialog_add_view_rocker_function_follow_none));
         followType.add(getContext().getString(R.string.dialog_add_view_rocker_function_follow_part));
         followType.add(getContext().getString(R.string.dialog_add_view_rocker_function_follow_all));
+        showTypeAdapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner, showType);
         sizeTypeAdapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner, sizeType);
         positionTypeAdapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner, positionType);
         sizeObjectAdapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner, sizeObject);
@@ -281,6 +291,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
     @SuppressLint("SetTextI18n")
     private void initButtonLayout(){
         editButtonText = findViewById(R.id.edit_button_text);
+        buttonShowTypeSpinner = findViewById(R.id.button_show_type);
         buttonSizeTypeSpinner = findViewById(R.id.button_size_type);
         buttonPositionTypeSpinner = findViewById(R.id.button_position_type);
         widthObjectLayout = findViewById(R.id.width_object_layout);
@@ -345,6 +356,8 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
 
         editButtonText.setText(baseButtonInfo.text);
         editOutputText.setText(baseButtonInfo.outputText);
+        buttonShowTypeSpinner.setAdapter(showTypeAdapter);
+        buttonShowTypeSpinner.setSelection(baseButtonInfo.showType);
         buttonSizeTypeSpinner.setAdapter(sizeTypeAdapter);
         buttonSizeTypeSpinner.setSelection(baseButtonInfo.sizeType);
         buttonPositionTypeSpinner.setAdapter(positionTypeAdapter);
@@ -423,6 +436,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         }
         refreshButtonStyleEditor();
 
+        buttonShowTypeSpinner.setOnItemSelectedListener(this);
         buttonSizeTypeSpinner.setOnItemSelectedListener(this);
         buttonPositionTypeSpinner.setOnItemSelectedListener(this);
         widthObjectSpinner.setOnItemSelectedListener(this);
@@ -557,6 +571,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     private void initRockerLayout(){
+        rockerShowTypeSpinner = findViewById(R.id.rocker_show_type);
         rockerSizeTypeSpinner = findViewById(R.id.rocker_size_type);
         rockerPositionTypeSpinner = findViewById(R.id.rocker_position_type);
         sizeObjectLayout = findViewById(R.id.size_object_layout);
@@ -600,6 +615,8 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         rockerStrokeColorPressedText = findViewById(R.id.rocker_stroke_pressed_color_text);
         rockerFillColorPressedText = findViewById(R.id.rocker_fill_pressed_color_text);
 
+        rockerShowTypeSpinner.setAdapter(showTypeAdapter);
+        rockerShowTypeSpinner.setSelection(baseRockerViewInfo.showType);
         rockerSizeTypeSpinner.setAdapter(sizeTypeAdapter);
         rockerSizeTypeSpinner.setSelection(baseRockerViewInfo.sizeType);
         rockerPositionTypeSpinner.setAdapter(positionTypeAdapter);
@@ -659,6 +676,7 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         }
         refreshRockerStyleEditor();
 
+        rockerShowTypeSpinner.setOnItemSelectedListener(this);
         rockerSizeTypeSpinner.setOnItemSelectedListener(this);
         rockerPositionTypeSpinner.setOnItemSelectedListener(this);
         sizeObjectSpinner.setOnItemSelectedListener(this);
@@ -1089,6 +1107,9 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
     @SuppressLint("SetTextI18n")
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        if (adapterView == buttonShowTypeSpinner) {
+            baseButtonInfo.showType = i;
+        }
         if (adapterView == buttonSizeTypeSpinner) {
             baseButtonInfo.sizeType = i;
             if (i == BaseButtonInfo.SIZE_TYPE_PERCENT) {
@@ -1156,6 +1177,9 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
             refreshButtonStyleEditor();
         }
 
+        if (adapterView == rockerShowTypeSpinner) {
+            baseRockerViewInfo.showType = i;
+        }
         if (adapterView == rockerSizeTypeSpinner) {
             baseRockerViewInfo.sizeType = i;
             if (i == BaseRockerViewInfo.SIZE_TYPE_PERCENT) {

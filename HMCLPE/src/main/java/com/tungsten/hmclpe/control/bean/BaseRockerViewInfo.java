@@ -5,6 +5,10 @@ import com.tungsten.hmclpe.control.bean.rocker.RockerStyle;
 
 public class BaseRockerViewInfo {
 
+    public static final int SHOW_TYPE_ALWAYS = 0;
+    public static final int SHOW_TYPE_IN_GAME = 1;
+    public static final int SHOW_TYPE_OUT_GAME = 2;
+
     public static final int SIZE_TYPE_PERCENT = 0;
     public static final int SIZE_TYPE_ABSOLUTE = 1;
 
@@ -21,6 +25,7 @@ public class BaseRockerViewInfo {
     public String uuid;
     public String pattern;
     public String child;
+    public int showType;
     public int sizeType;
     public RockerSize size;
     public int positionType;
@@ -31,10 +36,11 @@ public class BaseRockerViewInfo {
     public boolean usingExist;
     public RockerStyle rockerStyle;
 
-    public BaseRockerViewInfo (String uuid,String pattern,String child,int sizeType,RockerSize size,int positionType,ViewPosition xPosition,ViewPosition yPosition,int followType,boolean shift,boolean usingExist,RockerStyle rockerStyle) {
+    public BaseRockerViewInfo (String uuid,String pattern,String child,int showType,int sizeType,RockerSize size,int positionType,ViewPosition xPosition,ViewPosition yPosition,int followType,boolean shift,boolean usingExist,RockerStyle rockerStyle) {
         this.uuid = uuid;
         this.pattern = pattern;
         this.child = child;
+        this.showType = showType;
         this.sizeType = sizeType;
         this.size = size;
         this.positionType = positionType;
@@ -50,6 +56,7 @@ public class BaseRockerViewInfo {
         this.uuid = info.uuid;
         this.pattern = info.pattern;
         this.child = info.child;
+        this.showType = info.showType;
         this.sizeType = info.sizeType;
         this.size = info.size;
         this.positionType = info.positionType;

@@ -49,6 +49,7 @@ public class EditButtonDialog extends Dialog implements View.OnClickListener, Ad
     private Button positive;
     private Button negative;
 
+    private ArrayAdapter<String> showTypeAdapter;
     private ArrayAdapter<String> sizeTypeAdapter;
     private ArrayAdapter<String> positionTypeAdapter;
     private ArrayAdapter<String> sizeObjectAdapter;
@@ -56,6 +57,7 @@ public class EditButtonDialog extends Dialog implements View.OnClickListener, Ad
     private ArrayAdapter<String> buttonStyleAdapter;
 
     private EditText editButtonText;
+    private Spinner buttonShowTypeSpinner;
     private Spinner buttonSizeTypeSpinner;
     private Spinner buttonPositionTypeSpinner;
     private LinearLayout widthObjectLayout;
@@ -152,10 +154,14 @@ public class EditButtonDialog extends Dialog implements View.OnClickListener, Ad
         positive.setOnClickListener(this);
         negative.setOnClickListener(this);
 
+        ArrayList<String> showType = new ArrayList<>();
         ArrayList<String> sizeType = new ArrayList<>();
         ArrayList<String> positionType = new ArrayList<>();
         ArrayList<String> sizeObject = new ArrayList<>();
         ArrayList<String> functionType = new ArrayList<>();
+        showType.add(getContext().getString(R.string.dialog_add_view_always));
+        showType.add(getContext().getString(R.string.dialog_add_view_only_in_game));
+        showType.add(getContext().getString(R.string.dialog_add_view_only_out_game));
         sizeType.add(getContext().getString(R.string.dialog_add_view_size_type_percent));
         sizeType.add(getContext().getString(R.string.dialog_add_view_size_type_absolute));
         positionType.add(getContext().getString(R.string.dialog_add_view_position_type_percent));
@@ -164,6 +170,7 @@ public class EditButtonDialog extends Dialog implements View.OnClickListener, Ad
         sizeObject.add(getContext().getString(R.string.dialog_add_view_size_type_percent_object_height));
         functionType.add(getContext().getString(R.string.dialog_add_view_button_function_type_click));
         functionType.add(getContext().getString(R.string.dialog_add_view_button_function_type_double_click));
+        showTypeAdapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner, showType);
         sizeTypeAdapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner, sizeType);
         positionTypeAdapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner, positionType);
         sizeObjectAdapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner, sizeObject);
@@ -176,6 +183,7 @@ public class EditButtonDialog extends Dialog implements View.OnClickListener, Ad
     @SuppressLint("SetTextI18n")
     private void initButtonLayout(){
         editButtonText = findViewById(R.id.edit_button_text);
+        buttonShowTypeSpinner = findViewById(R.id.button_show_type);
         buttonSizeTypeSpinner = findViewById(R.id.button_size_type);
         buttonPositionTypeSpinner = findViewById(R.id.button_position_type);
         widthObjectLayout = findViewById(R.id.width_object_layout);
@@ -240,6 +248,8 @@ public class EditButtonDialog extends Dialog implements View.OnClickListener, Ad
 
         editButtonText.setText(baseButtonInfo.text);
         editOutputText.setText(baseButtonInfo.outputText);
+        buttonShowTypeSpinner.setAdapter(showTypeAdapter);
+        buttonShowTypeSpinner.setSelection(baseButtonInfo.showType);
         buttonSizeTypeSpinner.setAdapter(sizeTypeAdapter);
         buttonSizeTypeSpinner.setSelection(baseButtonInfo.sizeType);
         buttonPositionTypeSpinner.setAdapter(positionTypeAdapter);
@@ -318,6 +328,7 @@ public class EditButtonDialog extends Dialog implements View.OnClickListener, Ad
         }
         refreshButtonStyleEditor();
 
+        buttonShowTypeSpinner.setOnItemSelectedListener(this);
         buttonSizeTypeSpinner.setOnItemSelectedListener(this);
         buttonPositionTypeSpinner.setOnItemSelectedListener(this);
         widthObjectSpinner.setOnItemSelectedListener(this);
@@ -614,6 +625,9 @@ public class EditButtonDialog extends Dialog implements View.OnClickListener, Ad
     @SuppressLint("SetTextI18n")
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        if (adapterView == buttonShowTypeSpinner) {
+            baseButtonInfo.showType = i;
+        }
         if (adapterView == buttonSizeTypeSpinner) {
             baseButtonInfo.sizeType = i;
             if (i == BaseButtonInfo.SIZE_TYPE_PERCENT) {

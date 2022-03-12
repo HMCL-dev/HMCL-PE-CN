@@ -212,22 +212,13 @@ public class ViewManager implements SensorEventListener {
 
     public void enableCursor(){
         gameCursorMode = 0;
-        /*
         if (touchPad != null){
             InputBridge.setPointer(launcher,(int) (touchPad.cursorX * menuHelper.scaleFactor),(int) (touchPad.cursorY * menuHelper.scaleFactor));
         }
-
-         */
     }
 
     public void disableCursor(){
         gameCursorMode = 1;
-        /*
-        if (!menuHelper.gameMenuSetting.enableSensor){
-            InputBridge.setPointer(launcher,(int) pointerX,(int) pointerY);
-        }
-
-         */
     }
 
     public void setSensorEnable(boolean enable){
@@ -236,21 +227,25 @@ public class ViewManager implements SensorEventListener {
         }
         else {
             sensorManager.unregisterListener(this);
+            if (gameCursorMode == 1){
+                InputBridge.setPointer(launcher,(int) currentX,(int) currentY);
+            }
         }
     }
 
-    public void setGamePointer(int type,float deltaX,float deltaY){
-        if (viewMovingType == 0 || viewMovingType == type || type == 0){
+    public void setGamePointer(int type,boolean isMoving,float deltaX,float deltaY){
+        if (viewMovingType == 0 || viewMovingType == type){
             if (!menuHelper.gameMenuSetting.enableSensor){
                 InputBridge.setPointer(launcher,(int) (pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed),(int) (pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed));
             }
             currentX = pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed;
             currentY = pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed;
-            if (type == 0){
+            viewMovingType = type;
+            if (!isMoving){
                 pointerX = pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed;
                 pointerY = pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed;
+                viewMovingType = 0;
             }
-            viewMovingType = type;
         }
     }
 

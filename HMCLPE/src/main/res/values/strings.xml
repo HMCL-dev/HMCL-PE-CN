@@ -507,6 +507,10 @@
 
     <string name="dialog_add_view_type_button">按键</string>
     <string name="dialog_add_view_type_rocker">方向控制盘</string>
+    <string name="dialog_add_view_show">显示选项</string>
+    <string name="dialog_add_view_always">总显示</string>
+    <string name="dialog_add_view_only_in_game">仅游戏内显示</string>
+    <string name="dialog_add_view_only_out_game">仅游戏外显示</string>
     <string name="dialog_add_view_size_type">控件大小度量方式</string>
     <string name="dialog_add_view_size_type_absolute">绝对尺寸</string>
     <string name="dialog_add_view_size_type_percent">百分比尺寸</string>
@@ -619,6 +623,17 @@
     <string name="dialog_delete_rocker_positive">删除</string>
     <string name="dialog_delete_rocker_negative">取消</string>
 
+    <string name="dialog_input_title">文本输入</string>
+    <string name="dialog_input_add_text">添加快捷文本</string>
+    <string name="dialog_input_send">发送</string>
+    <string name="dialog_input_negative">取消</string>
+
+    <string name="dialog_add_fast_text_title">添加快捷文本</string>
+    <string name="dialog_add_fast_text_empty">快捷文本不得为空</string>
+    <string name="dialog_add_fast_text_exist">当前快捷文本已存在</string>
+    <string name="dialog_add_fast_text_positive">添加</string>
+    <string name="dialog_add_fast_text_negative">取消</string>
+
     <string name="drawer_game_menu_title">HMCL-PE 控制面板</string>
     <string name="drawer_game_menu_type">控制面板呼出方式</string>
     <string name="drawer_game_menu_type_float">悬浮窗</string>
@@ -626,11 +641,17 @@
     <string name="drawer_game_menu_type_gesture">侧滑手势</string>
     <string name="drawer_game_menu_control">控制选项</string>
     <string name="drawer_game_menu_control_sensor">陀螺仪</string>
+    <string name="drawer_game_menu_control_sensor_open_alert">已开启陀螺仪</string>
+    <string name="drawer_game_menu_control_sensor_close_alert">已关闭陀螺仪</string>
     <string name="drawer_game_menu_control_sensor_sensitivity">陀螺仪灵敏度</string>
     <string name="drawer_game_menu_control_half_screen">取消左半屏触控</string>
+    <string name="drawer_game_menu_control_half_screen_enable">已取消左半屏触控</string>
+    <string name="drawer_game_menu_control_half_screen_disable">已启用左半屏触控</string>
     <string name="drawer_game_menu_control_touch_mode">触控模式</string>
     <string name="drawer_game_menu_control_touch_mode_create">建造模式</string>
     <string name="drawer_game_menu_control_touch_mode_attack">战斗模式</string>
+    <string name="drawer_game_menu_control_touch_mode_create_alert">已切换至建造模式</string>
+    <string name="drawer_game_menu_control_touch_mode_attack_alert">已切换至战斗模式</string>
     <string name="drawer_game_menu_control_mouse_mode">鼠标控制方式</string>
     <string name="drawer_game_menu_control_mouse_mode_click">点击</string>
     <string name="drawer_game_menu_control_mouse_mode_slide">滑动</string>

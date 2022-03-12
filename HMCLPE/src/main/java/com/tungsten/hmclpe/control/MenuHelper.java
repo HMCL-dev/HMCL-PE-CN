@@ -42,6 +42,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     public Context context;
     public AppCompatActivity activity;
     public boolean fullscreen;
+    public String gameDir;
     public DrawerLayout drawerLayout;
     public LayoutPanel baseLayout;
     public int launcher;
@@ -87,10 +88,11 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
 
     public ViewManager viewManager;
 
-    public MenuHelper(Context context, AppCompatActivity activity,boolean fullscreen, DrawerLayout drawerLayout, LayoutPanel baseLayout,boolean editMode,String currentPattern,int launcher,float scaleFactor){
+    public MenuHelper(Context context, AppCompatActivity activity,boolean fullscreen,String gameDir, DrawerLayout drawerLayout, LayoutPanel baseLayout,boolean editMode,String currentPattern,int launcher,float scaleFactor){
         this.context = context;
         this.activity = activity;
         this.fullscreen = fullscreen;
+        this.gameDir = gameDir;
         this.drawerLayout = drawerLayout;
         this.baseLayout = baseLayout;
         this.editMode = editMode;

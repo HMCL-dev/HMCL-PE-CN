@@ -14,6 +14,15 @@ public class InputBridge {
     public static final int MOUSE_SCROLL_UP   = 3;
     public static final int MOUSE_SCROLL_DOWN = 4;
 
+    public static void sendEvent(int launcher,int keyCode,boolean press) {
+        if (keyCode == 0 || keyCode == 1 || keyCode == 2 || keyCode == 3 || keyCode == 4) {
+            sendMouseEvent(launcher,keyCode,press);
+        }
+        else {
+            sendKeycode(launcher,keyCode,press);
+        }
+    }
+
     public static void sendKeycode(int launcher,int keyCode,boolean press){
         if (launcher == 1){
             BoatInput.setKey(keyCode,0,press);
@@ -41,6 +50,16 @@ public class InputBridge {
             return CallbackBridge.sendCursorPos(x,y);
         }
         return false;
+    }
+
+    public static void sendKeyChar(int launcher,char keyChar) {
+        if (launcher == 1) {
+            BoatInput.setKey(0,keyChar,true);
+            BoatInput.setKey(0,keyChar,false);
+        }
+        if (launcher == 2) {
+            CallbackBridge.sendChar(keyChar,CallbackBridge.getCurrentMods());
+        }
     }
 
     public static int getMouseEvent(int launcher,int bridge){

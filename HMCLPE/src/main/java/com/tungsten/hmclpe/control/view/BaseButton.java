@@ -16,13 +16,17 @@ import android.os.Handler;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.view.GravityCompat;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.control.InputBridge;
 import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.control.bean.BaseButtonInfo;
 import com.tungsten.hmclpe.launcher.dialogs.control.EditButtonDialog;
+import com.tungsten.hmclpe.launcher.dialogs.control.InputDialog;
 import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.utils.convert.ConvertUtils;
@@ -41,8 +45,12 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
     private long downTime;
     private float initialX;
     private float initialY;
+    private float initialPositionX;
+    private float initialPositionY;
 
     private final Paint outlinePaint;
+
+    private boolean isKeeping = false;
 
     private final Handler deleteHandler = new Handler();
     private final Runnable deleteRunnable = new Runnable() {
@@ -57,6 +65,17 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
             builder.setNegativeButton(getContext().getString(R.string.dialog_delete_button_negative), (dialogInterface, i) -> {});
             AlertDialog dialog = builder.create();
             dialog.show();
+        }
+    };
+
+    private final Handler clickHandler = new Handler();
+    private final Runnable clickRunnable = new Runnable() {
+        @Override
+        public void run() {
+            for (int code : info.outputKeycode) {
+                InputBridge.sendEvent(menuHelper.launcher,code,true);
+            }
+            clickHandler.post(clickRunnable);
         }
     };
 
@@ -150,7 +169,138 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
             }
         }
         else {
+            if (info.functionType == 0) {
+                switch (event.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        setPressDrawable();
+                        initialX = event.getRawX();
+                        initialY = event.getRawY();
+                        initialPositionX = getX();
+                        initialPositionY = getY();
+                        if (info.openMenu) {
+                            menuHelper.drawerLayout.openDrawer(GravityCompat.END,true);
+                            menuHelper.drawerLayout.openDrawer(GravityCompat.START,true);
+                        }
+                        if (info.switchTouchMode) {
+                            if (menuHelper.gameMenuSetting.touchMode == 0) {
+                                menuHelper.spinnerTouchMode.setSelection(1);
+                                Toast.makeText(getContext(),getContext().getString(R.string.drawer_game_menu_control_touch_mode_attack_alert),Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                menuHelper.spinnerTouchMode.setSelection(0);
+                                Toast.makeText(getContext(),getContext().getString(R.string.drawer_game_menu_control_touch_mode_create_alert),Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        if (info.switchSensor) {
+                            if (menuHelper.switchSensor.isChecked()) {
+                                Toast.makeText(getContext(),getContext().getString(R.string.drawer_game_menu_control_sensor_close_alert),Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(getContext(),getContext().getString(R.string.drawer_game_menu_control_sensor_open_alert),Toast.LENGTH_SHORT).show();
+                            }
+                            menuHelper.switchSensor.setChecked(!menuHelper.switchSensor.isChecked());
+                        }
+                        if (info.showInputDialog) {
+                            InputDialog dialog = new InputDialog(getContext(),menuHelper);
+                            dialog.show();
+                        }
+                        if (info.switchLeftPad) {
+                            if (menuHelper.switchHalfScreen.isChecked()) {
+                                Toast.makeText(getContext(),getContext().getString(R.string.drawer_game_menu_control_half_screen_disable),Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Toast.makeText(getContext(),getContext().getString(R.string.drawer_game_menu_control_half_screen_enable),Toast.LENGTH_SHORT).show();
+                            }
+                            menuHelper.switchHalfScreen.setChecked(!menuHelper.switchHalfScreen.isChecked());
+                        }
+                        if (!info.autoKeep && !info.autoClick) {
+                            for (int code : info.outputKeycode) {
+                                InputBridge.sendEvent(menuHelper.launcher,code,true);
+                            }
+                        }
+                        if (!info.autoKeep && info.autoClick) {
+                            clickHandler.post(clickRunnable);
+                        }
+                        if (info.autoKeep) {
+                            if (info.autoClick) {
+                                if (isKeeping) {
+                                    clickHandler.removeCallbacks(clickRunnable);
+                                    for (int code : info.outputKeycode) {
+                                        InputBridge.sendEvent(menuHelper.launcher,code,false);
+                                    }
+                                }
+                                else {
+                                    clickHandler.post(clickRunnable);
+                                }
+                            }
+                            else {
+                                if (isKeeping) {
+                                    for (int code : info.outputKeycode) {
+                                        InputBridge.sendEvent(menuHelper.launcher,code,false);
+                                    }
+                                }
+                                else {
+                                    for (int code : info.outputKeycode) {
+                                        InputBridge.sendEvent(menuHelper.launcher,code,true);
+                                    }
+                                }
+                            }
+                            isKeeping = !isKeeping;
+                        }
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (info.viewMove && menuHelper.viewManager.gameCursorMode == 1) {
+                            menuHelper.viewManager.setGamePointer(2,true,event.getRawX() - initialX,event.getRawY() - initialY);
+                        }
+                        if (info.movable) {
+                            float targetX;
+                            float targetY;
+                            if (initialPositionX + event.getRawX() - initialX >= 0 && initialPositionX + event.getRawX() - initialX <= screenWidth - getWidth()){
+                                targetX = initialPositionX + event.getRawX() - initialX;
+                            }
+                            else if (initialPositionX + event.getRawX() - initialX < 0){
+                                targetX = 0;
+                            }
+                            else {
+                                targetX = screenWidth - getWidth();
+                            }
+                            if (initialPositionY + event.getRawY() - initialY >= 0 && initialPositionY + event.getRawY() - initialY <= screenHeight - getHeight()){
+                                targetY = initialPositionY + event.getRawY() - initialY;
+                            }
+                            else if (initialPositionY + event.getRawY() - initialY < 0){
+                                targetY = 0;
+                            }
+                            else {
+                                targetY = screenHeight - getHeight();
+                            }
+                            setX(targetX);
+                            setY(targetY);
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (info.viewMove && menuHelper.viewManager.gameCursorMode == 1) {
+                            menuHelper.viewManager.setGamePointer(2,false,event.getRawX() - initialX,event.getRawY() - initialY);
+                        }
+                        if (!info.autoKeep && !info.autoClick) {
+                            for (int code : info.outputKeycode) {
+                                InputBridge.sendEvent(menuHelper.launcher,code,false);
+                            }
+                        }
+                        if (!info.autoKeep && info.autoClick) {
+                            clickHandler.removeCallbacks(clickRunnable);
+                            for (int code : info.outputKeycode) {
+                                InputBridge.sendEvent(menuHelper.launcher,code,false);
+                            }
+                        }
+                        setNormalDrawable();
+                        break;
+                }
+            }
+            if (info.functionType == 1) {
+                switch (event.getActionMasked()) {
 
+                }
+            }
         }
         return true;
     }

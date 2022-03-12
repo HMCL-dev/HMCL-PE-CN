@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 public class BaseButtonInfo {
 
+    public static final int SHOW_TYPE_ALWAYS = 0;
+    public static final int SHOW_TYPE_IN_GAME = 1;
+    public static final int SHOW_TYPE_OUT_GAME = 2;
+
     public static final int SIZE_TYPE_PERCENT = 0;
     public static final int SIZE_TYPE_ABSOLUTE = 1;
 
@@ -23,6 +27,7 @@ public class BaseButtonInfo {
     public String pattern;
     public String child;
     public String text;
+    public int showType;
     public int sizeType;
     public ButtonSize width;
     public ButtonSize height;
@@ -45,11 +50,12 @@ public class BaseButtonInfo {
     public boolean usingExist;
     public ButtonStyle buttonStyle;
 
-    public BaseButtonInfo (String uuid, String pattern, String child, String text, int sizeType, ButtonSize width, ButtonSize height, int positionType, ViewPosition xPosition, ViewPosition yPosition, int functionType, boolean viewMove, boolean autoKeep, boolean autoClick, boolean openMenu, boolean movable, boolean switchTouchMode, boolean switchSensor, boolean switchLeftPad, boolean showInputDialog, ArrayList<String> visibilityControl, String outputText, ArrayList<Integer> outputKeycode, boolean usingExist, ButtonStyle buttonStyle) {
+    public BaseButtonInfo (String uuid, String pattern, String child, String text,int showType, int sizeType, ButtonSize width, ButtonSize height, int positionType, ViewPosition xPosition, ViewPosition yPosition, int functionType, boolean viewMove, boolean autoKeep, boolean autoClick, boolean openMenu, boolean movable, boolean switchTouchMode, boolean switchSensor, boolean switchLeftPad, boolean showInputDialog, ArrayList<String> visibilityControl, String outputText, ArrayList<Integer> outputKeycode, boolean usingExist, ButtonStyle buttonStyle) {
         this.uuid = uuid;
         this.pattern = pattern;
         this.child = child;
         this.text = text;
+        this.showType = showType;
         this.sizeType = sizeType;
         this.width = width;
         this.height = height;
@@ -78,6 +84,7 @@ public class BaseButtonInfo {
         this.pattern = info.pattern;
         this.child = info.child;
         this.text = info.text;
+        this.showType = info.showType;
         this.sizeType = info.sizeType;
         this.width = info.width;
         this.height = info.height;

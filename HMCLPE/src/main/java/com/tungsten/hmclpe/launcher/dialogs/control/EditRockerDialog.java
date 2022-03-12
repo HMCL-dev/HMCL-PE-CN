@@ -45,12 +45,14 @@ public class EditRockerDialog extends Dialog implements View.OnClickListener, Ad
     private Button positive;
     private Button negative;
 
+    private ArrayAdapter<String> showTypeAdapter;
     private ArrayAdapter<String> sizeTypeAdapter;
     private ArrayAdapter<String> positionTypeAdapter;
     private ArrayAdapter<String> sizeObjectAdapter;
     private ArrayAdapter<String> followTypeAdapter;
     private ArrayAdapter<String> rockerStyleAdapter;
 
+    private Spinner rockerShowTypeSpinner;
     private Spinner rockerSizeTypeSpinner;
     private Spinner rockerPositionTypeSpinner;
     private LinearLayout sizeObjectLayout;
@@ -128,10 +130,14 @@ public class EditRockerDialog extends Dialog implements View.OnClickListener, Ad
         positive.setOnClickListener(this);
         negative.setOnClickListener(this);
 
+        ArrayList<String> showType = new ArrayList<>();
         ArrayList<String> sizeType = new ArrayList<>();
         ArrayList<String> positionType = new ArrayList<>();
         ArrayList<String> sizeObject = new ArrayList<>();
         ArrayList<String> followType = new ArrayList<>();
+        showType.add(getContext().getString(R.string.dialog_add_view_always));
+        showType.add(getContext().getString(R.string.dialog_add_view_only_in_game));
+        showType.add(getContext().getString(R.string.dialog_add_view_only_out_game));
         sizeType.add(getContext().getString(R.string.dialog_add_view_size_type_percent));
         sizeType.add(getContext().getString(R.string.dialog_add_view_size_type_absolute));
         positionType.add(getContext().getString(R.string.dialog_add_view_position_type_percent));
@@ -141,6 +147,7 @@ public class EditRockerDialog extends Dialog implements View.OnClickListener, Ad
         followType.add(getContext().getString(R.string.dialog_add_view_rocker_function_follow_none));
         followType.add(getContext().getString(R.string.dialog_add_view_rocker_function_follow_part));
         followType.add(getContext().getString(R.string.dialog_add_view_rocker_function_follow_all));
+        showTypeAdapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner, showType);
         sizeTypeAdapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner, sizeType);
         positionTypeAdapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner, positionType);
         sizeObjectAdapter = new ArrayAdapter<>(getContext(),R.layout.item_spinner, sizeObject);
@@ -152,6 +159,7 @@ public class EditRockerDialog extends Dialog implements View.OnClickListener, Ad
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     private void initRockerLayout(){
+        rockerShowTypeSpinner = findViewById(R.id.rocker_show_type);
         rockerSizeTypeSpinner = findViewById(R.id.rocker_size_type);
         rockerPositionTypeSpinner = findViewById(R.id.rocker_position_type);
         sizeObjectLayout = findViewById(R.id.size_object_layout);
@@ -195,6 +203,8 @@ public class EditRockerDialog extends Dialog implements View.OnClickListener, Ad
         rockerStrokeColorPressedText = findViewById(R.id.rocker_stroke_pressed_color_text);
         rockerFillColorPressedText = findViewById(R.id.rocker_fill_pressed_color_text);
 
+        rockerShowTypeSpinner.setAdapter(showTypeAdapter);
+        rockerShowTypeSpinner.setSelection(baseRockerViewInfo.showType);
         rockerSizeTypeSpinner.setAdapter(sizeTypeAdapter);
         rockerSizeTypeSpinner.setSelection(baseRockerViewInfo.sizeType);
         rockerPositionTypeSpinner.setAdapter(positionTypeAdapter);
@@ -254,6 +264,7 @@ public class EditRockerDialog extends Dialog implements View.OnClickListener, Ad
         }
         refreshRockerStyleEditor();
 
+        rockerShowTypeSpinner.setOnItemSelectedListener(this);
         rockerSizeTypeSpinner.setOnItemSelectedListener(this);
         rockerPositionTypeSpinner.setOnItemSelectedListener(this);
         sizeObjectSpinner.setOnItemSelectedListener(this);
@@ -521,6 +532,9 @@ public class EditRockerDialog extends Dialog implements View.OnClickListener, Ad
     @SuppressLint("SetTextI18n")
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        if (adapterView == rockerShowTypeSpinner) {
+            baseRockerViewInfo.showType = i;
+        }
         if (adapterView == rockerSizeTypeSpinner) {
             baseRockerViewInfo.sizeType = i;
             if (i == BaseRockerViewInfo.SIZE_TYPE_PERCENT) {

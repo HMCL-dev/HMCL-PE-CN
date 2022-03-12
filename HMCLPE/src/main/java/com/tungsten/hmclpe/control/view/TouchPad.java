@@ -16,6 +16,9 @@ import com.tungsten.hmclpe.control.InputBridge;
 import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
+import net.kdt.pojavlaunch.LWJGLGLFWKeycode;
+import net.kdt.pojavlaunch.utils.MCOptionUtils;
+
 public class TouchPad extends View {
 
     private int launcher;
@@ -29,6 +32,8 @@ public class TouchPad extends View {
     private float startCursorX;
     private float startCursorY;
 
+    private float downX;
+    private float downY;
     private float initialX;
     private float initialY;
     private long downTime;
@@ -43,6 +48,15 @@ public class TouchPad extends View {
             if (menuHelper.gameMenuSetting.touchMode == 1){
                 InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,true);
             }
+        }
+    };
+
+    private Handler throwHandler = new Handler();
+    private Runnable throwRunnable = new Runnable() {
+        @Override
+        public void run() {
+            InputBridge.sendKeycode(launcher,LWJGLGLFWKeycode.GLFW_KEY_Q,true);
+            InputBridge.sendKeycode(launcher,LWJGLGLFWKeycode.GLFW_KEY_Q,false);
         }
     };
 
@@ -75,98 +89,181 @@ public class TouchPad extends View {
         invalidate();
     }
 
+    @SuppressWarnings("IntegerDivisionInFloatingPointContext")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (menuHelper.gameMenuSetting.mouseMode == 0 && menuHelper.viewManager.gameCursorMode == 0){
-            cursorX = event.getX();
-            cursorY = event.getY();
-            InputBridge.setPointer(launcher,(int) (event.getX() * menuHelper.scaleFactor),(int) (event.getY() * menuHelper.scaleFactor));
+        if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+            downX = event.getX();
+            downY = event.getY();
         }
-        switch (event.getActionMasked()){
-            case MotionEvent.ACTION_DOWN:
-                initialX = event.getX();
-                initialY = event.getY();
-                downTime = System.currentTimeMillis();
-                if (menuHelper.gameMenuSetting.mouseMode == 1 && menuHelper.viewManager.gameCursorMode == 0){
-                    startCursorX = cursorX;
-                    startCursorY = cursorY;
-                }
-                if (menuHelper.viewManager.gameCursorMode == 1 && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
-                    handler.postDelayed(runnable,400);
-                }
-                if (menuHelper.gameMenuSetting.mouseMode == 0 && menuHelper.viewManager.gameCursorMode == 0){
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,true);
-                        }
-                    },50);
-                }
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (menuHelper.gameMenuSetting.mouseMode == 1 && menuHelper.viewManager.gameCursorMode == 0){
-                    float targetX;
-                    float targetY;
-                    if (startCursorX + ((event.getX() - initialX) * menuHelper.gameMenuSetting.mouseSpeed) < 0){
-                        targetX = 0;
+        int guiScale = -1;
+        if (menuHelper.gameDir != null) {
+            guiScale = 0;
+            MCOptionUtils.load(menuHelper.gameDir);
+            String str = MCOptionUtils.get("guiScale");
+            guiScale = (str == null ? 0 :Integer.parseInt(str));
+            int scale = (int) Math.max(Math.min((screenWidth * menuHelper.scaleFactor) / 320, (screenHeight * menuHelper.scaleFactor) / 240), 1);
+            if(scale < guiScale || guiScale == 0){
+                guiScale = scale;
+            }
+        }
+        int inventoryWidth = 0;
+        int inventoryHeight = 0;
+        if (guiScale != -1) {
+            inventoryWidth = 20 * guiScale * 9;
+            inventoryHeight = 20 * guiScale;
+        }
+        if (menuHelper.viewManager.gameCursorMode == 1 && downX >= ((getWidth() / 2) - (inventoryWidth / 2)) && downX <= ((getWidth() / 2) + (inventoryWidth / 2)) && downY >= getHeight() - inventoryHeight) {
+            int start = ((getWidth() / 2) - (inventoryWidth / 2));
+            switch (event.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+                    initialX = event.getX();
+                    initialY = event.getY();
+                    downTime = System.currentTimeMillis();
+                    if (event.getX() <= start + inventoryHeight) {
+                        InputBridge.sendKeycode(launcher, LWJGLGLFWKeycode.GLFW_KEY_1,true);
                     }
-                    else if (startCursorX + ((event.getX() - initialX) * menuHelper.gameMenuSetting.mouseSpeed) > screenWidth - ConvertUtils.dip2px(getContext(),menuHelper.gameMenuSetting.mouseSize)){
-                        targetX = screenWidth - ConvertUtils.dip2px(getContext(),menuHelper.gameMenuSetting.mouseSize);
+                    if (event.getX() > start + inventoryHeight && event.getX() <= start + (2 * inventoryHeight)) {
+                        InputBridge.sendKeycode(launcher, LWJGLGLFWKeycode.GLFW_KEY_2,true);
                     }
-                    else {
-                        targetX = startCursorX + ((event.getX() - initialX) * menuHelper.gameMenuSetting.mouseSpeed);
+                    if (event.getX() > start + (2 * inventoryHeight) && event.getX() <= start + (3 * inventoryHeight)) {
+                        InputBridge.sendKeycode(launcher, LWJGLGLFWKeycode.GLFW_KEY_3,true);
                     }
-                    if (startCursorY + ((event.getY() - initialY) * menuHelper.gameMenuSetting.mouseSpeed) < 0){
-                        targetY = 0;
+                    if (event.getX() > start + (3 * inventoryHeight) && event.getX() <= start + (4 * inventoryHeight)) {
+                        InputBridge.sendKeycode(launcher, LWJGLGLFWKeycode.GLFW_KEY_4,true);
                     }
-                    else if (startCursorY + ((event.getY() - initialY) * menuHelper.gameMenuSetting.mouseSpeed) > screenHeight - ConvertUtils.dip2px(getContext(),menuHelper.gameMenuSetting.mouseSize)){
-                        targetY = screenHeight - ConvertUtils.dip2px(getContext(),menuHelper.gameMenuSetting.mouseSize);
+                    if (event.getX() > start + (4 * inventoryHeight) && event.getX() <= start + (5 * inventoryHeight)) {
+                        InputBridge.sendKeycode(launcher, LWJGLGLFWKeycode.GLFW_KEY_5,true);
                     }
-                    else {
-                        targetY = startCursorY + ((event.getY() - initialY) * menuHelper.gameMenuSetting.mouseSpeed);
+                    if (event.getX() > start + (5 * inventoryHeight) && event.getX() <= start + (6 * inventoryHeight)) {
+                        InputBridge.sendKeycode(launcher, LWJGLGLFWKeycode.GLFW_KEY_6,true);
                     }
-                    cursorX = targetX;
-                    cursorY = targetY;
-                    InputBridge.setPointer(launcher,(int) (targetX * menuHelper.scaleFactor),(int) (targetY * menuHelper.scaleFactor));
-                }
-                if (menuHelper.viewManager.gameCursorMode == 1 && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
-                    menuHelper.viewManager.setGamePointer(1,event.getX() - initialX,event.getY() - initialY);
-                    if ((Math.abs(event.getX() - initialX) > 10 || Math.abs(event.getY() - initialY) > 10) && System.currentTimeMillis() - downTime < 400){
-                        handler.removeCallbacks(runnable);
+                    if (event.getX() > start + (6 * inventoryHeight) && event.getX() <= start + (7 * inventoryHeight)) {
+                        InputBridge.sendKeycode(launcher, LWJGLGLFWKeycode.GLFW_KEY_7,true);
                     }
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                if (menuHelper.gameMenuSetting.mouseMode == 0 && menuHelper.viewManager.gameCursorMode == 0){
-                    InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);
-                }
-                if (menuHelper.viewManager.gameCursorMode == 1 && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
-                    menuHelper.viewManager.setGamePointer(0,event.getX() - initialX,event.getY() - initialY);
-                    handler.removeCallbacks(runnable);
-                    if (menuHelper.gameMenuSetting.touchMode == 0){
-                        InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);
+                    if (event.getX() > start + (7 * inventoryHeight) && event.getX() <= start + (8 * inventoryHeight)) {
+                        InputBridge.sendKeycode(launcher, LWJGLGLFWKeycode.GLFW_KEY_8,true);
                     }
-                    if (menuHelper.gameMenuSetting.touchMode == 1){
-                        InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,false);
+                    if (event.getX() > start + (8 * inventoryHeight)){
+                        InputBridge.sendKeycode(launcher, LWJGLGLFWKeycode.GLFW_KEY_9,true);
                     }
-                }
-                if (System.currentTimeMillis() - downTime <= 200 && Math.abs(event.getX() - initialX) <= 10 && Math.abs(event.getY() - initialY) <= 10){
+                    throwHandler.postDelayed(throwRunnable,800);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    if ((Math.abs(event.getX() - initialX) > 10 || Math.abs(event.getY() - initialY) > 10) && System.currentTimeMillis() - downTime < 800){
+                        throwHandler.removeCallbacks(throwRunnable);
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    throwHandler.removeCallbacks(throwRunnable);
+                    InputBridge.sendKeycode(launcher, LWJGLGLFWKeycode.GLFW_KEY_1,false);
+                    InputBridge.sendKeycode(launcher, LWJGLGLFWKeycode.GLFW_KEY_2,false);
+                    InputBridge.sendKeycode(launcher, LWJGLGLFWKeycode.GLFW_KEY_3,false);
+                    InputBridge.sendKeycode(launcher, LWJGLGLFWKeycode.GLFW_KEY_4,false);
+                    InputBridge.sendKeycode(launcher, LWJGLGLFWKeycode.GLFW_KEY_5,false);
+                    InputBridge.sendKeycode(launcher, LWJGLGLFWKeycode.GLFW_KEY_6,false);
+                    InputBridge.sendKeycode(launcher, LWJGLGLFWKeycode.GLFW_KEY_7,false);
+                    InputBridge.sendKeycode(launcher, LWJGLGLFWKeycode.GLFW_KEY_8,false);
+                    InputBridge.sendKeycode(launcher, LWJGLGLFWKeycode.GLFW_KEY_9,false);
+                    break;
+            }
+        }
+        else {
+            if (menuHelper.gameMenuSetting.mouseMode == 0 && menuHelper.viewManager.gameCursorMode == 0){
+                cursorX = event.getX();
+                cursorY = event.getY();
+                menuHelper.viewManager.pointerX = event.getX();
+                menuHelper.viewManager.pointerY = event.getY();
+                InputBridge.setPointer(launcher,(int) (event.getX() * menuHelper.scaleFactor),(int) (event.getY() * menuHelper.scaleFactor));
+            }
+            switch (event.getActionMasked()){
+                case MotionEvent.ACTION_DOWN:
+                    initialX = event.getX();
+                    initialY = event.getY();
+                    downTime = System.currentTimeMillis();
                     if (menuHelper.gameMenuSetting.mouseMode == 1 && menuHelper.viewManager.gameCursorMode == 0){
-                        InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,true);
+                        startCursorX = cursorX;
+                        startCursorY = cursorY;
+                    }
+                    if (menuHelper.viewManager.gameCursorMode == 1 && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
+                        handler.postDelayed(runnable,400);
+                    }
+                    if (menuHelper.gameMenuSetting.mouseMode == 0 && menuHelper.viewManager.gameCursorMode == 0){
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,true);
+                            }
+                        },50);
+                    }
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    if (menuHelper.gameMenuSetting.mouseMode == 1 && menuHelper.viewManager.gameCursorMode == 0){
+                        float targetX;
+                        float targetY;
+                        if (startCursorX + ((event.getX() - initialX) * menuHelper.gameMenuSetting.mouseSpeed) < 0){
+                            targetX = 0;
+                        }
+                        else if (startCursorX + ((event.getX() - initialX) * menuHelper.gameMenuSetting.mouseSpeed) > screenWidth - ConvertUtils.dip2px(getContext(),menuHelper.gameMenuSetting.mouseSize)){
+                            targetX = screenWidth - ConvertUtils.dip2px(getContext(),menuHelper.gameMenuSetting.mouseSize);
+                        }
+                        else {
+                            targetX = startCursorX + ((event.getX() - initialX) * menuHelper.gameMenuSetting.mouseSpeed);
+                        }
+                        if (startCursorY + ((event.getY() - initialY) * menuHelper.gameMenuSetting.mouseSpeed) < 0){
+                            targetY = 0;
+                        }
+                        else if (startCursorY + ((event.getY() - initialY) * menuHelper.gameMenuSetting.mouseSpeed) > screenHeight - ConvertUtils.dip2px(getContext(),menuHelper.gameMenuSetting.mouseSize)){
+                            targetY = screenHeight - ConvertUtils.dip2px(getContext(),menuHelper.gameMenuSetting.mouseSize);
+                        }
+                        else {
+                            targetY = startCursorY + ((event.getY() - initialY) * menuHelper.gameMenuSetting.mouseSpeed);
+                        }
+                        cursorX = targetX;
+                        cursorY = targetY;
+                        menuHelper.viewManager.pointerX = targetX;
+                        menuHelper.viewManager.pointerY = targetY;
+                        InputBridge.setPointer(launcher,(int) (targetX * menuHelper.scaleFactor),(int) (targetY * menuHelper.scaleFactor));
+                    }
+                    if (menuHelper.viewManager.gameCursorMode == 1 && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
+                        menuHelper.viewManager.setGamePointer(1,true,event.getX() - initialX,event.getY() - initialY);
+                        if ((Math.abs(event.getX() - initialX) > 10 || Math.abs(event.getY() - initialY) > 10) && System.currentTimeMillis() - downTime < 400){
+                            handler.removeCallbacks(runnable);
+                        }
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    if (menuHelper.gameMenuSetting.mouseMode == 0 && menuHelper.viewManager.gameCursorMode == 0){
                         InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);
                     }
                     if (menuHelper.viewManager.gameCursorMode == 1 && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
+                        menuHelper.viewManager.setGamePointer(1,false,event.getX() - initialX,event.getY() - initialY);
+                        handler.removeCallbacks(runnable);
                         if (menuHelper.gameMenuSetting.touchMode == 0){
-                            InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,true);
-                            InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,false);
+                            InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);
                         }
                         if (menuHelper.gameMenuSetting.touchMode == 1){
+                            InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,false);
+                        }
+                    }
+                    if (System.currentTimeMillis() - downTime <= 200 && Math.abs(event.getX() - initialX) <= 10 && Math.abs(event.getY() - initialY) <= 10){
+                        if (menuHelper.gameMenuSetting.mouseMode == 1 && menuHelper.viewManager.gameCursorMode == 0){
                             InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,true);
                             InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);
                         }
+                        if (menuHelper.viewManager.gameCursorMode == 1 && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
+                            if (menuHelper.gameMenuSetting.touchMode == 0){
+                                InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,true);
+                                InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,false);
+                            }
+                            if (menuHelper.gameMenuSetting.touchMode == 1){
+                                InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,true);
+                                InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);
+                            }
+                        }
                     }
-                }
-                break;
+                    break;
+            }
         }
         return true;
     }

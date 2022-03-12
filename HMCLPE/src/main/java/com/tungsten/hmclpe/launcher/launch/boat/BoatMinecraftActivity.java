@@ -6,12 +6,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.MotionEvent;
 import android.view.Surface;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,9 +18,6 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.control.view.LayoutPanel;
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 import cosine.boat.BoatActivity;
 import cosine.boat.BoatInput;
@@ -86,7 +79,7 @@ public class BoatMinecraftActivity extends BoatActivity {
 
         init();
 
-        menuHelper = new MenuHelper(this,this,gameLaunchSetting.fullscreen,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout,1,scaleFactor);
+        menuHelper = new MenuHelper(this,this,gameLaunchSetting.fullscreen,gameLaunchSetting.game_directory,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout,1,scaleFactor);
     }
 
     @SuppressLint("HandlerLeak")

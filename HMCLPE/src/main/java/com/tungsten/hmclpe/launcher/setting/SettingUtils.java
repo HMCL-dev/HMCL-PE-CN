@@ -173,4 +173,30 @@ public class SettingUtils {
         FileStringUtils.writeFile(AppManifest.STYLE_DIR + "/rocker.json",string);
     }
 
+    public static ArrayList<String> getFastList(){
+        ArrayList<String> list = new ArrayList<>();
+        if (new File(AppManifest.SETTING_DIR + "/fast_text.json").exists()){
+            String string = FileStringUtils.getStringFromFile(AppManifest.SETTING_DIR + "/fast_text.json");
+            Gson gson = new Gson();
+            String[] fastTexts = gson.fromJson(string, String[].class);
+            list.addAll(Arrays.asList(fastTexts));
+        }
+        else {
+            list.add("/gamemode 0");
+            list.add("/gamemode 1");
+            list.add("/gamemode 2");
+            list.add("/weather clear");
+            list.add("/weather rain");
+            list.add("/weather thunder");
+            saveFastText(list);
+        }
+        return list;
+    }
+
+    public static void saveFastText(ArrayList<String> list){
+        Gson gson = new Gson();
+        String string = gson.toJson(list);
+        FileStringUtils.writeFile(AppManifest.SETTING_DIR + "/fast_text.json",string);
+    }
+
 }

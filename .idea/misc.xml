@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/control_button.xml" value="0.13" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/control_keyboard.xml" value="0.13" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/game_float_window.xml" value="0.1265" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/game_input_dialog.xml" value="0.1265" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_exterior_black.xml" value="0.1915" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_keyboard_arrow_up_black.xml" value="0.195" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_keyboard_blue.xml" value="0.195" />
@@ -25,6 +27,7 @@
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/activity_main.xml" value="0.1526268115942029" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/activity_microsoft_login.xml" value="0.1721014492753623" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/activity_minecraft.xml" value="0.2223731884057971" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/dialog_add_fast_text.xml" value="0.2" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/dialog_add_mojang_account.xml" value="0.2223731884057971" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/dialog_add_view.xml" value="0.22560975609756098" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/dialog_child_manager.xml" value="0.2223731884057971" />
@@ -39,6 +42,7 @@
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/dialog_edit_pattern_info.xml" value="0.2223731884057971" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/dialog_edit_rocker.xml" value="0.115625" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/dialog_game_menu.xml" value="0.2223731884057971" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/dialog_input.xml" value="0.2" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/dialog_manage_button_style.xml" value="0.2223731884057971" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/dialog_manage_child.xml" value="0.2223731884057971" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/dialog_manage_rocker_style.xml" value="0.22282608695652173" />
@@ -55,6 +59,7 @@
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_download_resource_pack_list.xml" value="0.1125" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_download_task.xml" value="0.2223731884057971" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_download_world_list.xml" value="0.1125" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_fast_text.xml" value="0.115625" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_local_version.xml" value="0.1125" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_rocker_style.xml" value="0.22282608695652173" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_spinner.xml" value="0.2223731884057971" />

@@ -12,17 +12,22 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
+import android.os.Message;
 import android.view.MotionEvent;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.control.InputBridge;
 import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.control.bean.BaseRockerViewInfo;
 import com.tungsten.hmclpe.launcher.dialogs.control.EditRockerDialog;
 import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.utils.convert.ConvertUtils;
+
+import net.kdt.pojavlaunch.LWJGLGLFWKeycode;
 
 @SuppressLint("ViewConstructor")
 public class BaseRockerView extends RockerView{
@@ -38,6 +43,8 @@ public class BaseRockerView extends RockerView{
     private long downTime;
     private float initialX;
     private float initialY;
+
+    private boolean shiftMode = false;
 
     private final Paint outlinePaint;
 
@@ -176,12 +183,22 @@ public class BaseRockerView extends RockerView{
 
             @Override
             public void onShake(RockerView view, Direction direction) {
-
+                if (!menuHelper.editMode) {
+                    getDirectionEvent(direction);
+                }
             }
 
             @Override
             public void onCenterDoubleClick(RockerView view) {
-
+                if (!menuHelper.editMode) {
+                    if (shiftMode) {
+                        InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_LEFT_SHIFT,false);
+                    }
+                    else {
+                        InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_LEFT_SHIFT,true);
+                    }
+                    shiftMode = !shiftMode;
+                }
             }
 
             @Override
@@ -200,6 +217,65 @@ public class BaseRockerView extends RockerView{
 
     public void setPressDrawable(){
         setBackground(drawablePress);
+    }
+
+    public void getDirectionEvent(Direction direction) {
+        switch (direction) {
+            case DIRECTION_CENTER:
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,false);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,false);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,false);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,false);
+                break;
+            case DIRECTION_UP:
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,true);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,false);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,false);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,false);
+                break;
+            case DIRECTION_DOWN:
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,false);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,false);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,true);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,false);
+                break;
+            case DIRECTION_LEFT:
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,false);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,true);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,false);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,false);
+                break;
+            case DIRECTION_RIGHT:
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,false);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,false);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,false);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,true);
+                break;
+            case DIRECTION_UP_LEFT:
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,true);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,true);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,false);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,false);
+                break;
+            case DIRECTION_UP_RIGHT:
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,true);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,false);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,false);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,true);
+                break;
+            case DIRECTION_DOWN_LEFT:
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,false);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,true);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,true);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,false);
+                break;
+            case DIRECTION_DOWN_RIGHT:
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,false);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,false);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,true);
+                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,true);
+                break;
+        }
     }
 
     public void updateSizeAndPosition (BaseRockerViewInfo info) {
@@ -269,5 +345,19 @@ public class BaseRockerView extends RockerView{
             menuHelper.viewManager.layoutPanel.removeView(this);
         }
     }
+
+    @SuppressLint("HandlerLeak")
+    public final Handler handler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 0) {
+
+            }
+            if (msg.what == 1) {
+
+            }
+        }
+    };
 
 }

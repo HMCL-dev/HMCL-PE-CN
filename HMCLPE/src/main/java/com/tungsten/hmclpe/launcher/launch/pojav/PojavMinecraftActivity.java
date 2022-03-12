@@ -1,17 +1,10 @@
 package com.tungsten.hmclpe.launcher.launch.pojav;
 
-import android.annotation.SuppressLint;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.view.MotionEvent;
 import android.view.Surface;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -27,9 +20,6 @@ import net.kdt.pojavlaunch.utils.JREUtils;
 import net.kdt.pojavlaunch.utils.MCOptionUtils;
 
 import org.lwjgl.glfw.CallbackBridge;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class PojavMinecraftActivity extends BaseMainActivity {
 
@@ -120,7 +110,7 @@ public class PojavMinecraftActivity extends BaseMainActivity {
             }
         };
 
-        menuHelper = new MenuHelper(this,this,gameLaunchSetting.fullscreen,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout,2,scaleFactor);
+        menuHelper = new MenuHelper(this,this,gameLaunchSetting.fullscreen,gameLaunchSetting.game_directory,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout,2,scaleFactor);
 
         init(gameLaunchSetting.game_directory, GameLaunchSetting.isHighVersion(gameLaunchSetting));
 
