@@ -214,10 +214,10 @@ public class BaseRockerView extends RockerView{
             public void onCenterDoubleClick(RockerView view) {
                 if (!menuHelper.editMode) {
                     if (shiftMode) {
-                        InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_LEFT_SHIFT,false);
+                        InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_LEFT_SHIFT,false);
                     }
                     else {
-                        InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_LEFT_SHIFT,true);
+                        InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_LEFT_SHIFT,true);
                     }
                     shiftMode = !shiftMode;
                 }
@@ -244,58 +244,58 @@ public class BaseRockerView extends RockerView{
     public void getDirectionEvent(Direction direction) {
         switch (direction) {
             case DIRECTION_CENTER:
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,false);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,false);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,false);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,false);
                 break;
             case DIRECTION_UP:
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,true);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,false);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,false);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,true);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,false);
                 break;
             case DIRECTION_DOWN:
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,false);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,false);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,true);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,true);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,false);
                 break;
             case DIRECTION_LEFT:
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,false);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,true);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,false);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,true);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,false);
                 break;
             case DIRECTION_RIGHT:
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,false);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,false);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,false);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,true);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,true);
                 break;
             case DIRECTION_UP_LEFT:
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,true);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,true);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,false);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,true);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,true);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,false);
                 break;
             case DIRECTION_UP_RIGHT:
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,true);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,false);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,false);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,true);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,true);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,true);
                 break;
             case DIRECTION_DOWN_LEFT:
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,false);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,true);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,true);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,true);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,true);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,false);
                 break;
             case DIRECTION_DOWN_RIGHT:
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,false);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,false);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,true);
-                InputBridge.sendKeycode(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,true);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_W,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_A,false);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_S,true);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_D,true);
                 break;
         }
     }
