@@ -191,7 +191,7 @@ public class RockerView extends View {
             case MotionEvent.ACTION_DOWN:
                 float centerX = getWidth() / 2;
                 float centerY = getHeight() / 2;
-                if (calculateDistance(event.getX(),event.getY(),centerX,centerY) <= getWidth() / 2 && doubleClick) {
+                if (calculateDistance(event.getX(),event.getY(),centerX,centerY) <= getWidth() / 2) {
                     touching = true;
                     if (onShakeListener != null) {
                         onShakeListener.onTouch(this);
@@ -218,7 +218,7 @@ public class RockerView extends View {
                         }
                     }
                     refreshView(event);
-                    if (calculateDistance(event.getX(),event.getY(),centerX,centerY) <= getWidth() / 6 && doubleClick) {
+                    if ((calculateDistance(event.getX(),event.getY(),centerX,centerY) <= getWidth() / 6 || followType == 2) && doubleClick) {
                         clickCount++;
                         if (clickCount == 1) {
                             firstClickTime = System.currentTimeMillis();

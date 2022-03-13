@@ -8,6 +8,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Handler;
 import android.view.View;
 
 import androidx.core.view.GravityCompat;
@@ -56,7 +57,7 @@ public class ViewManager implements SensorEventListener {
     public float currentX;
     public float currentY;
 
-    public int viewMovingType = 0;
+    public String viewMovingType = "0";
 
     public ViewManager (Context context, Activity activity, MenuHelper menuHelper, LayoutPanel layoutPanel,int launcher) {
         this.context = context;
@@ -129,7 +130,12 @@ public class ViewManager implements SensorEventListener {
             layoutPanel.addView(menuView);
         }
 
-        refreshLayout(menuHelper.currentPattern.name,menuHelper.currentChild,menuHelper.editMode);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout(menuHelper.currentPattern.name,menuHelper.currentChild,menuHelper.editMode);
+            }
+        },500);
     }
 
     public void addButton (BaseButtonInfo baseButtonInfo,int visibility) {
@@ -139,7 +145,7 @@ public class ViewManager implements SensorEventListener {
         if (menuHelper.editMode) {
             baseButton.saveButtonInfo();
         }
-        baseButton.setVisibility(visibility);
+        baseButton.setIsShowing(visibility == View.VISIBLE);
     }
 
     public void addRocker (BaseRockerViewInfo baseRockerViewInfo,int visibility) {
@@ -149,7 +155,7 @@ public class ViewManager implements SensorEventListener {
         if (menuHelper.editMode) {
             baseRockerView.saveRockerInfo();
         }
-        baseRockerView.setVisibility(visibility);
+        baseRockerView.setIsShowing(visibility == View.VISIBLE);
     }
 
     public void refreshLayout (String pattern,String child,boolean editMode) {
@@ -186,27 +192,27 @@ public class ViewManager implements SensorEventListener {
                 }
             }
         }
+        hideUI(menuHelper.gameMenuSetting.hideUI);
     }
 
-    public void setChildVisibility(String pattern,String child,int visibility) {
-        String string = FileStringUtils.getStringFromFile(AppManifest.CONTROLLER_DIR + "/" + pattern + "/" + child + ".json");
-        Gson gson = new Gson();
-        ChildLayout childLayout = gson.fromJson(string, ChildLayout.class);
-        ArrayList<String> ids = new ArrayList<>();
-        for (BaseButtonInfo buttonInfo : childLayout.baseButtonList) {
-            ids.add(buttonInfo.uuid);
-        }
+    public void setChildVisibility(String child) {
         for (int i = 0;i < layoutPanel.getChildCount();i++) {
             if (layoutPanel.getChildAt(i) instanceof BaseButton){
-                if (ids.contains(((BaseButton) layoutPanel.getChildAt(i)).info.uuid)) {
-                    layoutPanel.getChildAt(i).setVisibility(visibility);
+                if (((BaseButton) layoutPanel.getChildAt(i)).info.child.equals(child)) {
+                    ((BaseButton) layoutPanel.getChildAt(i)).setIsShowing(!((BaseButton) layoutPanel.getChildAt(i)).getIsShowing());
                 }
             }
             if (layoutPanel.getChildAt(i) instanceof BaseRockerView){
-                if (ids.contains(((BaseRockerView) layoutPanel.getChildAt(i)).info.uuid)) {
-                    layoutPanel.getChildAt(i).setVisibility(visibility);
+                if (((BaseRockerView) layoutPanel.getChildAt(i)).info.child.equals(child)) {
+                    ((BaseRockerView) layoutPanel.getChildAt(i)).setIsShowing(!((BaseRockerView) layoutPanel.getChildAt(i)).getIsShowing());
                 }
             }
+        }
+    }
+
+    public void hideUI(boolean b) {
+        for (int i = 0;i < layoutPanel.getChildCount();i++) {
+            layoutPanel.getChildAt(i).setAlpha(b ? 0 : 1);
         }
     }
 
@@ -215,10 +221,26 @@ public class ViewManager implements SensorEventListener {
         if (touchPad != null){
             InputBridge.setPointer(launcher,(int) (touchPad.cursorX * menuHelper.scaleFactor),(int) (touchPad.cursorY * menuHelper.scaleFactor));
         }
+        for (int i = 0;i < layoutPanel.getChildCount();i++) {
+            if (layoutPanel.getChildAt(i) instanceof BaseButton){
+                ((BaseButton) layoutPanel.getChildAt(i)).refreshVisibility();
+            }
+            if (layoutPanel.getChildAt(i) instanceof BaseRockerView){
+                ((BaseRockerView) layoutPanel.getChildAt(i)).refreshVisibility();
+            }
+        }
     }
 
     public void disableCursor(){
         gameCursorMode = 1;
+        for (int i = 0;i < layoutPanel.getChildCount();i++) {
+            if (layoutPanel.getChildAt(i) instanceof BaseButton){
+                ((BaseButton) layoutPanel.getChildAt(i)).refreshVisibility();
+            }
+            if (layoutPanel.getChildAt(i) instanceof BaseRockerView){
+                ((BaseRockerView) layoutPanel.getChildAt(i)).refreshVisibility();
+            }
+        }
     }
 
     public void setSensorEnable(boolean enable){
@@ -233,18 +255,18 @@ public class ViewManager implements SensorEventListener {
         }
     }
 
-    public void setGamePointer(int type,boolean isMoving,float deltaX,float deltaY){
-        if (viewMovingType == 0 || viewMovingType == type){
+    public void setGamePointer(String uuid,boolean isMoving,float deltaX,float deltaY){
+        if (viewMovingType.equals("0") || viewMovingType.equals(uuid)){
             if (!menuHelper.gameMenuSetting.enableSensor){
                 InputBridge.setPointer(launcher,(int) (pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed),(int) (pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed));
             }
             currentX = pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed;
             currentY = pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed;
-            viewMovingType = type;
+            viewMovingType = uuid;
             if (!isMoving){
                 pointerX = pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed;
                 pointerY = pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed;
-                viewMovingType = 0;
+                viewMovingType = "0";
             }
         }
     }

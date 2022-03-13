@@ -46,6 +46,8 @@ public class BaseRockerView extends RockerView{
 
     private boolean shiftMode = false;
 
+    private boolean isShowing = true;
+
     private final Paint outlinePaint;
 
     private final Handler deleteHandler = new Handler();
@@ -139,6 +141,7 @@ public class BaseRockerView extends RockerView{
                     }
                     break;
                 case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
                     deleteHandler.removeCallbacks(deleteRunnable);
                     if (System.currentTimeMillis() - downTime <= 200 && Math.abs(event.getX() - initialX) <= 10 && Math.abs(event.getY() - initialY) <= 10){
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -151,6 +154,25 @@ public class BaseRockerView extends RockerView{
             }
         }
         return super.onTouchEvent(event);
+    }
+
+    public void setIsShowing(boolean show) {
+        isShowing = show;
+        refreshVisibility();
+    }
+
+    public boolean getIsShowing(){
+        return isShowing;
+    }
+
+    public void refreshVisibility(){
+        int mode = menuHelper.viewManager == null ? 0 : menuHelper.viewManager.gameCursorMode;
+        if (menuHelper.editMode || (isShowing && (info.showType == 0 || (mode == 1 && info.showType == 1) || (mode == 0 && info.showType == 2)))) {
+            setVisibility(VISIBLE);
+        }
+        else {
+            setVisibility(INVISIBLE);
+        }
     }
 
     public void refreshInfo (BaseRockerViewInfo info) {

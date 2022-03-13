@@ -84,7 +84,7 @@ public class InputDialog extends Dialog implements View.OnClickListener, TextWat
             dialog.show();
         }
         if (view == clearText) {
-            editText.setText("");
+            editText.setText(">");
         }
         if (view == send) {
             if (menuHelper.viewManager.gameCursorMode == 0) {

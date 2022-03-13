@@ -226,7 +226,7 @@ public class TouchPad extends View {
                         InputBridge.setPointer(launcher,(int) (targetX * menuHelper.scaleFactor),(int) (targetY * menuHelper.scaleFactor));
                     }
                     if (menuHelper.viewManager.gameCursorMode == 1 && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
-                        menuHelper.viewManager.setGamePointer(1,true,event.getX() - initialX,event.getY() - initialY);
+                        menuHelper.viewManager.setGamePointer("1",true,event.getX() - initialX,event.getY() - initialY);
                         if ((Math.abs(event.getX() - initialX) > 10 || Math.abs(event.getY() - initialY) > 10) && System.currentTimeMillis() - downTime < 400){
                             handler.removeCallbacks(runnable);
                         }
@@ -237,7 +237,7 @@ public class TouchPad extends View {
                         InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);
                     }
                     if (menuHelper.viewManager.gameCursorMode == 1 && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
-                        menuHelper.viewManager.setGamePointer(1,false,event.getX() - initialX,event.getY() - initialY);
+                        menuHelper.viewManager.setGamePointer("1",false,event.getX() - initialX,event.getY() - initialY);
                         handler.removeCallbacks(runnable);
                         if (menuHelper.gameMenuSetting.touchMode == 0){
                             InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);

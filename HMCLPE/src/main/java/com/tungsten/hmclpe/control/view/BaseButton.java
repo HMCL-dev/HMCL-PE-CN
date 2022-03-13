@@ -31,6 +31,8 @@ import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
+import net.kdt.pojavlaunch.LWJGLGLFWKeycode;
+
 @SuppressLint("ViewConstructor")
 public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
 
@@ -47,10 +49,14 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
     private float initialY;
     private float initialPositionX;
     private float initialPositionY;
+    private int clickCount;
+    private long firstClickTime;
 
     private final Paint outlinePaint;
 
     private boolean isKeeping = false;
+
+    private boolean isShowing = true;
 
     private final Handler deleteHandler = new Handler();
     private final Runnable deleteRunnable = new Runnable() {
@@ -156,6 +162,7 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                     }
                     break;
                 case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
                     deleteHandler.removeCallbacks(deleteRunnable);
                     if (System.currentTimeMillis() - downTime <= 200 && Math.abs(event.getX() - initialX) <= 10 && Math.abs(event.getY() - initialY) <= 10){
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -172,7 +179,9 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
             if (info.functionType == 0) {
                 switch (event.getActionMasked()) {
                     case MotionEvent.ACTION_DOWN:
-                        setPressDrawable();
+                        if (!info.autoKeep) {
+                            setPressDrawable();
+                        }
                         initialX = event.getRawX();
                         initialY = event.getRawY();
                         initialPositionX = getX();
@@ -200,10 +209,6 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                             }
                             menuHelper.switchSensor.setChecked(!menuHelper.switchSensor.isChecked());
                         }
-                        if (info.showInputDialog) {
-                            InputDialog dialog = new InputDialog(getContext(),menuHelper);
-                            dialog.show();
-                        }
                         if (info.switchLeftPad) {
                             if (menuHelper.switchHalfScreen.isChecked()) {
                                 Toast.makeText(getContext(),getContext().getString(R.string.drawer_game_menu_control_half_screen_disable),Toast.LENGTH_SHORT).show();
@@ -222,6 +227,12 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                             clickHandler.post(clickRunnable);
                         }
                         if (info.autoKeep) {
+                            if (isKeeping) {
+                                setNormalDrawable();
+                            }
+                            else {
+                                setPressDrawable();
+                            }
                             if (info.autoClick) {
                                 if (isKeeping) {
                                     clickHandler.removeCallbacks(clickRunnable);
@@ -247,10 +258,38 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                             }
                             isKeeping = !isKeeping;
                         }
+                        for (String child : info.visibilityControl) {
+                            menuHelper.viewManager.setChildVisibility(child);
+                        }
+                        if (info.outputText != null && !info.outputText.equals("")) {
+                            if (menuHelper.viewManager.gameCursorMode == 0) {
+                                for(int i = 0; i < info.outputText.length(); i++){
+                                    InputBridge.sendKeyChar(menuHelper.launcher,info.outputText.charAt(i));
+                                }
+                            }
+                            else {
+                                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_T, true);
+                                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_T, false);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        for(int i = 0; i < info.outputText.length(); i++){
+                                            InputBridge.sendKeyChar(menuHelper.launcher,info.outputText.charAt(i));
+                                        }
+                                        InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_ENTER, true);
+                                        InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_ENTER, false);
+                                    }
+                                },50);
+                            }
+                        }
+                        if (info.showInputDialog) {
+                            InputDialog dialog = new InputDialog(getContext(),menuHelper);
+                            dialog.show();
+                        }
                         break;
                     case MotionEvent.ACTION_MOVE:
                         if (info.viewMove && menuHelper.viewManager.gameCursorMode == 1) {
-                            menuHelper.viewManager.setGamePointer(2,true,event.getRawX() - initialX,event.getRawY() - initialY);
+                            menuHelper.viewManager.setGamePointer(info.uuid,true,event.getRawX() - initialX,event.getRawY() - initialY);
                         }
                         if (info.movable) {
                             float targetX;
@@ -278,8 +317,9 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                         }
                         break;
                     case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
                         if (info.viewMove && menuHelper.viewManager.gameCursorMode == 1) {
-                            menuHelper.viewManager.setGamePointer(2,false,event.getRawX() - initialX,event.getRawY() - initialY);
+                            menuHelper.viewManager.setGamePointer(info.uuid,false,event.getRawX() - initialX,event.getRawY() - initialY);
                         }
                         if (!info.autoKeep && !info.autoClick) {
                             for (int code : info.outputKeycode) {
@@ -292,17 +332,199 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                                 InputBridge.sendEvent(menuHelper.launcher,code,false);
                             }
                         }
-                        setNormalDrawable();
+                        if (!info.autoKeep) {
+                            setNormalDrawable();
+                        }
                         break;
                 }
             }
             if (info.functionType == 1) {
                 switch (event.getActionMasked()) {
-
+                    case MotionEvent.ACTION_DOWN:
+                        if (!info.autoKeep) {
+                            setPressDrawable();
+                        }
+                        initialX = event.getRawX();
+                        initialY = event.getRawY();
+                        initialPositionX = getX();
+                        initialPositionY = getY();
+                        clickCount++;
+                        if (clickCount == 1) {
+                            firstClickTime = System.currentTimeMillis();
+                        }
+                        if (clickCount == 2) {
+                            if (System.currentTimeMillis() - firstClickTime <= 500) {
+                                handleDoubleClick();
+                                clickCount = 0;
+                            }
+                            else {
+                                firstClickTime = System.currentTimeMillis();
+                                clickCount = 1;
+                            }
+                        }
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (info.viewMove && menuHelper.viewManager.gameCursorMode == 1) {
+                            menuHelper.viewManager.setGamePointer(info.uuid,true,event.getRawX() - initialX,event.getRawY() - initialY);
+                        }
+                        if (info.movable) {
+                            float targetX;
+                            float targetY;
+                            if (initialPositionX + event.getRawX() - initialX >= 0 && initialPositionX + event.getRawX() - initialX <= screenWidth - getWidth()){
+                                targetX = initialPositionX + event.getRawX() - initialX;
+                            }
+                            else if (initialPositionX + event.getRawX() - initialX < 0){
+                                targetX = 0;
+                            }
+                            else {
+                                targetX = screenWidth - getWidth();
+                            }
+                            if (initialPositionY + event.getRawY() - initialY >= 0 && initialPositionY + event.getRawY() - initialY <= screenHeight - getHeight()){
+                                targetY = initialPositionY + event.getRawY() - initialY;
+                            }
+                            else if (initialPositionY + event.getRawY() - initialY < 0){
+                                targetY = 0;
+                            }
+                            else {
+                                targetY = screenHeight - getHeight();
+                            }
+                            setX(targetX);
+                            setY(targetY);
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        if (info.viewMove && menuHelper.viewManager.gameCursorMode == 1) {
+                            menuHelper.viewManager.setGamePointer(info.uuid,false,event.getRawX() - initialX,event.getRawY() - initialY);
+                        }
+                        if (!info.autoKeep) {
+                            setNormalDrawable();
+                        }
+                        break;
                 }
             }
         }
         return true;
+    }
+
+    private void handleDoubleClick() {
+        if (info.openMenu) {
+            menuHelper.drawerLayout.openDrawer(GravityCompat.END,true);
+            menuHelper.drawerLayout.openDrawer(GravityCompat.START,true);
+        }
+        if (info.switchTouchMode) {
+            if (menuHelper.gameMenuSetting.touchMode == 0) {
+                menuHelper.spinnerTouchMode.setSelection(1);
+                Toast.makeText(getContext(),getContext().getString(R.string.drawer_game_menu_control_touch_mode_attack_alert),Toast.LENGTH_SHORT).show();
+            }
+            else {
+                menuHelper.spinnerTouchMode.setSelection(0);
+                Toast.makeText(getContext(),getContext().getString(R.string.drawer_game_menu_control_touch_mode_create_alert),Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (info.switchSensor) {
+            if (menuHelper.switchSensor.isChecked()) {
+                Toast.makeText(getContext(),getContext().getString(R.string.drawer_game_menu_control_sensor_close_alert),Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(getContext(),getContext().getString(R.string.drawer_game_menu_control_sensor_open_alert),Toast.LENGTH_SHORT).show();
+            }
+            menuHelper.switchSensor.setChecked(!menuHelper.switchSensor.isChecked());
+        }
+        if (info.switchLeftPad) {
+            if (menuHelper.switchHalfScreen.isChecked()) {
+                Toast.makeText(getContext(),getContext().getString(R.string.drawer_game_menu_control_half_screen_disable),Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(getContext(),getContext().getString(R.string.drawer_game_menu_control_half_screen_enable),Toast.LENGTH_SHORT).show();
+            }
+            menuHelper.switchHalfScreen.setChecked(!menuHelper.switchHalfScreen.isChecked());
+        }
+        if (!info.autoKeep) {
+            for (int code : info.outputKeycode) {
+                InputBridge.sendEvent(menuHelper.launcher,code,true);
+                InputBridge.sendEvent(menuHelper.launcher,code,false);
+            }
+        }
+        if (info.autoKeep) {
+            if (isKeeping) {
+                setNormalDrawable();
+            }
+            else {
+                setPressDrawable();
+            }
+            if (info.autoClick) {
+                if (isKeeping) {
+                    clickHandler.removeCallbacks(clickRunnable);
+                    for (int code : info.outputKeycode) {
+                        InputBridge.sendEvent(menuHelper.launcher,code,false);
+                    }
+                }
+                else {
+                    clickHandler.post(clickRunnable);
+                }
+            }
+            else {
+                if (isKeeping) {
+                    for (int code : info.outputKeycode) {
+                        InputBridge.sendEvent(menuHelper.launcher,code,false);
+                    }
+                }
+                else {
+                    for (int code : info.outputKeycode) {
+                        InputBridge.sendEvent(menuHelper.launcher,code,true);
+                    }
+                }
+            }
+            isKeeping = !isKeeping;
+        }
+        for (String child : info.visibilityControl) {
+            menuHelper.viewManager.setChildVisibility(child);
+        }
+        if (info.outputText != null && !info.outputText.equals("")) {
+            if (menuHelper.viewManager.gameCursorMode == 0) {
+                for(int i = 0; i < info.outputText.length(); i++){
+                    InputBridge.sendKeyChar(menuHelper.launcher,info.outputText.charAt(i));
+                }
+            }
+            else {
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_T, true);
+                InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_T, false);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        for(int i = 0; i < info.outputText.length(); i++){
+                            InputBridge.sendKeyChar(menuHelper.launcher,info.outputText.charAt(i));
+                        }
+                        InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_ENTER, true);
+                        InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_ENTER, false);
+                    }
+                },50);
+            }
+        }
+        if (info.showInputDialog) {
+            InputDialog dialog = new InputDialog(getContext(),menuHelper);
+            dialog.show();
+        }
+    }
+
+    public void setIsShowing(boolean show) {
+        isShowing = show;
+        refreshVisibility();
+    }
+
+    public boolean getIsShowing(){
+        return isShowing;
+    }
+
+    public void refreshVisibility(){
+        int mode = menuHelper.viewManager == null ? 0 : menuHelper.viewManager.gameCursorMode;
+        if (menuHelper.editMode || (isShowing && (info.showType == 0 || (mode == 1 && info.showType == 1) || (mode == 0 && info.showType == 2)))) {
+            setVisibility(VISIBLE);
+        }
+        else {
+            setVisibility(INVISIBLE);
+        }
     }
 
     public void refreshStyle (BaseButtonInfo info) {

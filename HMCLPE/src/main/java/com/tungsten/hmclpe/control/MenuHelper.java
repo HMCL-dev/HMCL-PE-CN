@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.gson.Gson;
@@ -22,8 +21,6 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.bean.BaseButtonInfo;
 import com.tungsten.hmclpe.control.bean.BaseRockerViewInfo;
 import com.tungsten.hmclpe.control.view.LayoutPanel;
-import com.tungsten.hmclpe.control.view.MenuFloat;
-import com.tungsten.hmclpe.control.view.MenuView;
 import com.tungsten.hmclpe.launcher.dialogs.control.AddViewDialog;
 import com.tungsten.hmclpe.launcher.dialogs.control.ChildManagerDialog;
 import com.tungsten.hmclpe.launcher.dialogs.control.EditControlPatternDialog;
@@ -318,6 +315,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         if (compoundButton == switchHideUI){
             gameMenuSetting.hideUI = b;
             GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
+            viewManager.hideUI(b);
         }
         if (compoundButton == editModeSwitch){
             editMode = b;

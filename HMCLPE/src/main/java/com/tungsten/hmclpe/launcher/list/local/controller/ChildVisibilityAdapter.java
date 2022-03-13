@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
@@ -64,17 +65,12 @@ public class ChildVisibilityAdapter extends BaseAdapter {
         }
         ChildLayout childLayout = list.get(i);
         viewHolder.name.setText(childLayout.name);
+        viewHolder.checkBox.setOnCheckedChangeListener(null);
         viewHolder.checkBox.setChecked(currentList.contains(childLayout.name));
-        viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
+        viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                dialog.changeChildList(childLayout.name,viewHolder.checkBox.isChecked());
-                if (viewHolder.checkBox.isChecked()) {
-                    currentList.add(childLayout.name);
-                }
-                else {
-                    currentList.remove(childLayout.name);
-                }
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                dialog.changeChildList(childLayout.name,b);
             }
         });
         return view;
