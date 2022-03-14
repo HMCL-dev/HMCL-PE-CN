@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.control.bean.BaseButtonInfo;
+import com.tungsten.hmclpe.control.bean.BaseRockerViewInfo;
 import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 
@@ -88,7 +90,30 @@ public class EditChildDialog extends Dialog implements View.OnClickListener , Ad
                 Toast.makeText(getContext(),getContext().getString(R.string.dialog_create_child_warn_exist),Toast.LENGTH_SHORT).show();
             }
             else {
-                onChildChangeListener.onChildChange(new ChildLayout(editName.getText().toString(),visibility, childLayout.baseButtonList,childLayout.baseRockerViewList));
+                ArrayList<BaseButtonInfo> buttonList = new ArrayList<>();
+                ArrayList<BaseRockerViewInfo> rockerViewList = new ArrayList<>();
+                for (ChildLayout child : childLayouts) {
+                    for (BaseButtonInfo buttonInfo : child.baseButtonList) {
+                        if (buttonInfo.visibilityControl.contains(childLayout.name)) {
+                            buttonInfo.visibilityControl.remove(childLayout.name);
+                            buttonInfo.visibilityControl.add(editName.getText().toString());
+                            ChildLayout.saveChildLayout(pattern,child);
+                        }
+                    }
+                }
+                for (BaseButtonInfo buttonInfo : childLayout.baseButtonList) {
+                    buttonInfo.child = editName.getText().toString();
+                    if (buttonInfo.visibilityControl.contains(childLayout.name)) {
+                        buttonInfo.visibilityControl.remove(childLayout.name);
+                        buttonInfo.visibilityControl.add(editName.getText().toString());
+                    }
+                    buttonList.add(buttonInfo);
+                }
+                for (BaseRockerViewInfo rockerViewInfo : childLayout.baseRockerViewList) {
+                    rockerViewInfo.child = editName.getText().toString();
+                    rockerViewList.add(rockerViewInfo);
+                }
+                onChildChangeListener.onChildChange(new ChildLayout(editName.getText().toString(),visibility, buttonList,rockerViewList));
                 dismiss();
             }
         }

@@ -20,8 +20,11 @@ import com.tungsten.hmclpe.control.ControlPatternActivity;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.control.ControllerManagerDialog;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
+import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.utils.animation.HiddenAnimationUtils;
 import com.tungsten.hmclpe.utils.convert.ConvertUtils;
+import com.tungsten.hmclpe.utils.file.AssetsUtils;
 import com.tungsten.hmclpe.utils.file.FileUtils;
 
 import java.util.ArrayList;
@@ -145,6 +148,21 @@ public class ControlPatternListAdapter extends BaseAdapter {
                             if (list.size() == 1){
                                 FileUtils.deleteDirectory(AppManifest.CONTROLLER_DIR + "/" + pattern.name);
                                 list.remove(i);
+                                InitializeSetting.initializeControlPattern(activity, new AssetsUtils.FileOperateCallback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        list = SettingUtils.getControlPatternList();
+                                        dialog.onPatternChangeListener.onPatternChange(list.get(0).name);
+                                        dialog.currentPattern = list.get(0).name;
+                                        currentPattern = list.get(0).name;
+                                        notifyDataSetChanged();
+                                    }
+
+                                    @Override
+                                    public void onFailed(String error) {
+
+                                    }
+                                });
                             }
                             else {
                                 FileUtils.deleteDirectory(AppManifest.CONTROLLER_DIR + "/" + pattern.name);
@@ -152,13 +170,14 @@ public class ControlPatternListAdapter extends BaseAdapter {
                                 dialog.onPatternChangeListener.onPatternChange(list.get(0).name);
                                 dialog.currentPattern = list.get(0).name;
                                 currentPattern = list.get(0).name;
+                                notifyDataSetChanged();
                             }
                         }
                         else {
                             FileUtils.deleteDirectory(AppManifest.CONTROLLER_DIR + "/" + pattern.name);
                             list.remove(i);
+                            notifyDataSetChanged();
                         }
-                        notifyDataSetChanged();
                     }
                 });
                 builder.setNegativeButton(context.getString(R.string.dialog_delete_control_pattern_negative), new DialogInterface.OnClickListener() {

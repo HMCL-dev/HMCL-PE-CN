@@ -1,5 +1,6 @@
 package com.tungsten.hmclpe.launcher.setting;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 
@@ -10,6 +11,7 @@ import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.info.contents.ContentListBean;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.launcher.manifest.info.AppInfo;
 import com.tungsten.hmclpe.launcher.setting.game.child.BoatLauncherSetting;
 import com.tungsten.hmclpe.launcher.setting.game.child.GameDirSetting;
 import com.tungsten.hmclpe.launcher.setting.game.child.JavaSetting;
@@ -21,23 +23,41 @@ import com.tungsten.hmclpe.launcher.setting.game.child.RamSetting;
 import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
 import com.tungsten.hmclpe.launcher.setting.launcher.child.BackgroundSetting;
 import com.tungsten.hmclpe.utils.file.AssetsUtils;
+import com.tungsten.hmclpe.utils.file.FileStringUtils;
 import com.tungsten.hmclpe.utils.file.FileUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 import com.tungsten.hmclpe.utils.platform.MemoryUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class InitializeSetting {
 
     public static void checkLauncherFiles(MainActivity activity){
-        if (SettingUtils.getJavaVersionInfo().size() < 1){
+        if (SettingUtils.getJavaVersionInfo().size() < 2 || Integer.parseInt(Objects.requireNonNull(FileStringUtils.replaceBlank(FileStringUtils.getStringFromFile(AppManifest.DEFAULT_RUNTIME_DIR + "/java/default/version")))) < AppInfo.JAVA_8_VERSION || Integer.parseInt(Objects.requireNonNull(FileStringUtils.replaceBlank(FileStringUtils.getStringFromFile(AppManifest.DEFAULT_RUNTIME_DIR + "/java/JRE17/version")))) < AppInfo.JAVA_17_VERSION){
             FileUtils.deleteDirectory(AppManifest.DEFAULT_RUNTIME_DIR);
             AssetsUtils.getInstance(activity.getApplicationContext()).copyAssetsToSD("app_runtime", AppManifest.DEFAULT_RUNTIME_DIR).setFileOperateCallback(new AssetsUtils.FileOperateCallback() {
                 @Override
                 public void onSuccess() {
-                    activity.loadingHandler.sendEmptyMessage(0);
-                    activity.loadingHandler.sendEmptyMessage(1);
+                    if (SettingUtils.getControlPatternList().size() == 0) {
+                        initializeControlPattern(activity, new AssetsUtils.FileOperateCallback() {
+                            @Override
+                            public void onSuccess() {
+                                activity.loadingHandler.sendEmptyMessage(0);
+                                activity.loadingHandler.sendEmptyMessage(1);
+                            }
+
+                            @Override
+                            public void onFailed(String error) {
+
+                            }
+                        });
+                    }
+                    else {
+                        activity.loadingHandler.sendEmptyMessage(0);
+                        activity.loadingHandler.sendEmptyMessage(1);
+                    }
                 }
                 @Override
                 public void onFailed(String error) {
@@ -46,8 +66,37 @@ public class InitializeSetting {
             });
         }
         else {
-            activity.loadingHandler.sendEmptyMessage(0);
-            activity.loadingHandler.sendEmptyMessage(1);
+            if (SettingUtils.getControlPatternList().size() == 0) {
+                initializeControlPattern(activity, new AssetsUtils.FileOperateCallback() {
+                    @Override
+                    public void onSuccess() {
+                        activity.loadingHandler.sendEmptyMessage(0);
+                        activity.loadingHandler.sendEmptyMessage(1);
+                    }
+
+                    @Override
+                    public void onFailed(String error) {
+
+                    }
+                });
+            }
+            else {
+                activity.loadingHandler.sendEmptyMessage(0);
+                activity.loadingHandler.sendEmptyMessage(1);
+            }
+        }
+    }
+
+    public static void initializeControlPattern (Activity activity, AssetsUtils.FileOperateCallback callback) {
+        String[] string = new File(AppManifest.CONTROLLER_DIR + "/").list();
+        if (new File(AppManifest.CONTROLLER_DIR + "/").exists()){
+            assert string != null;
+            if (string.length == 0) {
+                AssetsUtils.getInstance(activity.getApplicationContext()).copyAssetsToSD("control", AppManifest.CONTROLLER_DIR).setFileOperateCallback(callback);
+            }
+        }
+        else {
+            AssetsUtils.getInstance(activity.getApplicationContext()).copyAssetsToSD("control", AppManifest.CONTROLLER_DIR).setFileOperateCallback(callback);
         }
     }
 

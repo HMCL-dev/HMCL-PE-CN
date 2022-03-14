@@ -68,7 +68,7 @@ public class ControllerManagerDialog extends Dialog implements View.OnClickListe
 
         }
         if (view == createNewPattern){
-            CreateControlPatternDialog dialog = new CreateControlPatternDialog(getContext(), new CreateControlPatternDialog.OnPatternCreateListener() {
+            CreateControlPatternDialog dialog = new CreateControlPatternDialog(getContext(),activity, new CreateControlPatternDialog.OnPatternCreateListener() {
                 @Override
                 public void OnPatternCreate(ControlPattern controlPattern) {
                     FileUtils.createDirectory(AppManifest.CONTROLLER_DIR + "/" + controlPattern.name);

@@ -103,6 +103,15 @@ public class BoatMinecraftActivity extends BoatActivity {
     }
 
     @Override
+    protected void onPause() {
+        if (menuHelper.viewManager != null && menuHelper.viewManager.gameCursorMode == 1) {
+            BoatInput.setKey(BoatKeycodes.BOAT_KEYBOARD_Escape,0,true);
+            BoatInput.setKey(BoatKeycodes.BOAT_KEYBOARD_Escape,0,false);
+        }
+        super.onPause();
+    }
+
+    @Override
     protected void onPostResume() {
         super.onPostResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

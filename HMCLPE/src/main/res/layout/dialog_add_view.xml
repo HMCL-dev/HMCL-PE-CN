@@ -242,15 +242,36 @@
                         android:textColor="@color/colorPureBlack"
                         android:layout_gravity="center"/>
 
-                    <SeekBar
-                        android:id="@+id/button_width_seekbar"
-                        android:max="100"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    <LinearLayout
                         android:layout_marginStart="108dp"
                         android:layout_gravity="center"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/ic_baseline_horizontal_black"
+                            android:id="@+id/reduce_button_width"/>
+
+                        <SeekBar
+                            android:id="@+id/button_width_seekbar"
+                            android:max="100"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <ImageButton
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/ic_baseline_add_black"
+                            android:id="@+id/add_button_width"/>
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="60dp"
@@ -276,15 +297,36 @@
                         android:textColor="@color/colorPureBlack"
                         android:layout_gravity="center"/>
 
-                    <SeekBar
-                        android:id="@+id/button_height_seekbar"
-                        android:max="100"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    <LinearLayout
                         android:layout_marginStart="108dp"
                         android:layout_gravity="center"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/ic_baseline_horizontal_black"
+                            android:id="@+id/reduce_button_height"/>
+
+                        <SeekBar
+                            android:id="@+id/button_height_seekbar"
+                            android:max="100"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <ImageButton
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/ic_baseline_add_black"
+                            android:id="@+id/add_button_height"/>
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="60dp"
@@ -310,15 +352,36 @@
                         android:textColor="@color/colorPureBlack"
                         android:layout_gravity="center"/>
 
-                    <SeekBar
-                        android:id="@+id/button_x_seekbar"
-                        android:max="100"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    <LinearLayout
                         android:layout_marginStart="98dp"
                         android:layout_gravity="center"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/ic_baseline_horizontal_black"
+                            android:id="@+id/reduce_button_x"/>
+
+                        <SeekBar
+                            android:id="@+id/button_x_seekbar"
+                            android:max="100"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <ImageButton
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/ic_baseline_add_black"
+                            android:id="@+id/add_button_x"/>
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="60dp"
@@ -344,15 +407,36 @@
                         android:textColor="@color/colorPureBlack"
                         android:layout_gravity="center"/>
 
-                    <SeekBar
-                        android:id="@+id/button_y_seekbar"
-                        android:max="100"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    <LinearLayout
                         android:layout_marginStart="98dp"
                         android:layout_gravity="center"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/ic_baseline_horizontal_black"
+                            android:id="@+id/reduce_button_y"/>
+
+                        <SeekBar
+                            android:id="@+id/button_y_seekbar"
+                            android:max="100"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <ImageButton
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/ic_baseline_add_black"
+                            android:id="@+id/add_button_y"/>
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="60dp"
@@ -834,15 +918,36 @@
                             android:textColor="@color/colorPureBlack"
                             android:layout_gravity="center"/>
 
-                        <SeekBar
-                            android:id="@+id/exterior_text_size_seekbar"
-                            android:max="50"
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        <LinearLayout
                             android:layout_marginStart="82dp"
                             android:layout_gravity="center"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_horizontal_black"
+                                android:id="@+id/reduce_text_size"/>
+
+                            <SeekBar
+                                android:id="@+id/exterior_text_size_seekbar"
+                                android:max="100"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_gravity="center"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"/>
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_add_black"
+                                android:id="@+id/add_text_size"/>
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="60dp"
@@ -868,15 +973,36 @@
                             android:textColor="@color/colorPureBlack"
                             android:layout_gravity="center"/>
 
-                        <SeekBar
-                            android:id="@+id/exterior_corner_radius_seekbar"
-                            android:max="50"
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        <LinearLayout
                             android:layout_marginStart="82dp"
                             android:layout_gravity="center"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_horizontal_black"
+                                android:id="@+id/reduce_corner_radius"/>
+
+                            <SeekBar
+                                android:id="@+id/exterior_corner_radius_seekbar"
+                                android:max="100"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_gravity="center"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"/>
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_add_black"
+                                android:id="@+id/add_corner_radius"/>
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="60dp"
@@ -902,15 +1028,36 @@
                             android:textColor="@color/colorPureBlack"
                             android:layout_gravity="center"/>
 
-                        <SeekBar
-                            android:id="@+id/exterior_stroke_width_seekbar"
-                            android:max="50"
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        <LinearLayout
                             android:layout_marginStart="82dp"
                             android:layout_gravity="center"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_horizontal_black"
+                                android:id="@+id/reduce_stroke_width"/>
+
+                            <SeekBar
+                                android:id="@+id/exterior_stroke_width_seekbar"
+                                android:max="100"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_gravity="center"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"/>
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_add_black"
+                                android:id="@+id/add_stroke_width"/>
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="60dp"
@@ -936,15 +1083,36 @@
                             android:textColor="@color/colorPureBlack"
                             android:layout_gravity="center"/>
 
-                        <SeekBar
-                            android:id="@+id/exterior_text_size_seekbar_pressed"
-                            android:max="50"
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        <LinearLayout
                             android:layout_marginStart="30dp"
                             android:layout_gravity="center"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_horizontal_black"
+                                android:id="@+id/reduce_text_size_pressed"/>
+
+                            <SeekBar
+                                android:id="@+id/exterior_text_size_seekbar_pressed"
+                                android:max="100"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_gravity="center"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"/>
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_add_black"
+                                android:id="@+id/add_text_size_pressed"/>
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="60dp"
@@ -970,15 +1138,36 @@
                             android:textColor="@color/colorPureBlack"
                             android:layout_gravity="center"/>
 
-                        <SeekBar
-                            android:id="@+id/exterior_corner_radius_seekbar_pressed"
-                            android:max="50"
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        <LinearLayout
                             android:layout_marginStart="30dp"
                             android:layout_gravity="center"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_horizontal_black"
+                                android:id="@+id/reduce_corner_radius_pressed"/>
+
+                            <SeekBar
+                                android:id="@+id/exterior_corner_radius_seekbar_pressed"
+                                android:max="100"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_gravity="center"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"/>
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_add_black"
+                                android:id="@+id/add_corner_radius_pressed"/>
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="60dp"
@@ -1004,15 +1193,36 @@
                             android:textColor="@color/colorPureBlack"
                             android:layout_gravity="center"/>
 
-                        <SeekBar
-                            android:id="@+id/exterior_stroke_width_seekbar_pressed"
-                            android:max="50"
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        <LinearLayout
                             android:layout_marginStart="30dp"
                             android:layout_gravity="center"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_horizontal_black"
+                                android:id="@+id/reduce_stroke_width_pressed"/>
+
+                            <SeekBar
+                                android:id="@+id/exterior_stroke_width_seekbar_pressed"
+                                android:max="100"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_gravity="center"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"/>
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_add_black"
+                                android:id="@+id/add_stroke_width_pressed"/>
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="60dp"
@@ -1470,15 +1680,36 @@
                         android:textColor="@color/colorPureBlack"
                         android:layout_gravity="center"/>
 
-                    <SeekBar
-                        android:id="@+id/rocker_size_seekbar"
-                        android:max="100"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    <LinearLayout
                         android:layout_marginStart="108dp"
                         android:layout_gravity="center"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/ic_baseline_horizontal_black"
+                            android:id="@+id/reduce_rocker_size"/>
+
+                        <SeekBar
+                            android:id="@+id/rocker_size_seekbar"
+                            android:max="100"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <ImageButton
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/ic_baseline_add_black"
+                            android:id="@+id/add_rocker_size"/>
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="60dp"
@@ -1504,15 +1735,36 @@
                         android:textColor="@color/colorPureBlack"
                         android:layout_gravity="center"/>
 
-                    <SeekBar
-                        android:id="@+id/rocker_x_seekbar"
-                        android:max="100"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    <LinearLayout
                         android:layout_marginStart="98dp"
                         android:layout_gravity="center"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/ic_baseline_horizontal_black"
+                            android:id="@+id/reduce_rocker_x"/>
+
+                        <SeekBar
+                            android:id="@+id/rocker_x_seekbar"
+                            android:max="100"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <ImageButton
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/ic_baseline_add_black"
+                            android:id="@+id/add_rocker_x"/>
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="60dp"
@@ -1538,15 +1790,36 @@
                         android:textColor="@color/colorPureBlack"
                         android:layout_gravity="center"/>
 
-                    <SeekBar
-                        android:id="@+id/rocker_y_seekbar"
-                        android:max="100"
-                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    <LinearLayout
                         android:layout_marginStart="98dp"
                         android:layout_gravity="center"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/ic_baseline_horizontal_black"
+                            android:id="@+id/reduce_rocker_y"/>
+
+                        <SeekBar
+                            android:id="@+id/rocker_y_seekbar"
+                            android:max="100"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_gravity="center"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"/>
+
+                        <ImageButton
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/ic_baseline_add_black"
+                            android:id="@+id/add_rocker_y"/>
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="60dp"
@@ -1723,15 +1996,36 @@
                             android:textColor="@color/colorPureBlack"
                             android:layout_gravity="center"/>
 
-                        <SeekBar
-                            android:id="@+id/rocker_exterior_corner_radius_seekbar"
-                            android:max="300"
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        <LinearLayout
                             android:layout_marginStart="82dp"
                             android:layout_gravity="center"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_horizontal_black"
+                                android:id="@+id/reduce_rocker_corner_radius"/>
+
+                            <SeekBar
+                                android:id="@+id/rocker_exterior_corner_radius_seekbar"
+                                android:max="100"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_gravity="center"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"/>
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_add_black"
+                                android:id="@+id/add_rocker_corner_radius"/>
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="60dp"
@@ -1757,15 +2051,36 @@
                             android:textColor="@color/colorPureBlack"
                             android:layout_gravity="center"/>
 
-                        <SeekBar
-                            android:id="@+id/rocker_exterior_stroke_width_seekbar"
-                            android:max="50"
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        <LinearLayout
                             android:layout_marginStart="82dp"
                             android:layout_gravity="center"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_horizontal_black"
+                                android:id="@+id/reduce_rocker_stroke_width"/>
+
+                            <SeekBar
+                                android:id="@+id/rocker_exterior_stroke_width_seekbar"
+                                android:max="100"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_gravity="center"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"/>
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_add_black"
+                                android:id="@+id/add_rocker_stroke_width"/>
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="60dp"
@@ -1791,15 +2106,36 @@
                             android:textColor="@color/colorPureBlack"
                             android:layout_gravity="center"/>
 
-                        <SeekBar
-                            android:id="@+id/rocker_exterior_corner_radius_seekbar_pressed"
-                            android:max="300"
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        <LinearLayout
                             android:layout_marginStart="30dp"
                             android:layout_gravity="center"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_horizontal_black"
+                                android:id="@+id/reduce_rocker_corner_radius_pressed"/>
+
+                            <SeekBar
+                                android:id="@+id/rocker_exterior_corner_radius_seekbar_pressed"
+                                android:max="100"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_gravity="center"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"/>
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_add_black"
+                                android:id="@+id/add_rocker_corner_radius_pressed"/>
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="60dp"
@@ -1825,15 +2161,36 @@
                             android:textColor="@color/colorPureBlack"
                             android:layout_gravity="center"/>
 
-                        <SeekBar
-                            android:id="@+id/rocker_exterior_stroke_width_seekbar_pressed"
-                            android:max="50"
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        <LinearLayout
                             android:layout_marginStart="30dp"
                             android:layout_gravity="center"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"/>
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_horizontal_black"
+                                android:id="@+id/reduce_rocker_stroke_width_pressed"/>
+
+                            <SeekBar
+                                android:id="@+id/rocker_exterior_stroke_width_seekbar_pressed"
+                                android:max="100"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_gravity="center"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"/>
+
+                            <ImageButton
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:background="@drawable/ic_baseline_add_black"
+                                android:id="@+id/add_rocker_stroke_width_pressed"/>
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="60dp"

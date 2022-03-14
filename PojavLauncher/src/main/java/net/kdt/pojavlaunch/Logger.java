@@ -55,7 +55,7 @@ public class Logger {
 
     /** Print the text to the log file, no china censoring there */
     public void appendToLogUnchecked(String text){
-        logStream.println(text);
+        //logStream.println(text);
         notifyLogListener(text);
     }
 

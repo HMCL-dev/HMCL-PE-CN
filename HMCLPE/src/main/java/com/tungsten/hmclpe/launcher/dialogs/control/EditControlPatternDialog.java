@@ -1,5 +1,6 @@
 package com.tungsten.hmclpe.launcher.dialogs.control;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 
 public class EditControlPatternDialog extends Dialog implements View.OnClickListener {
 
+    private Activity activity;
     private boolean enable;
     private OnPatternInfoChangeListener onPatternInfoChangeListener;
     private ControlPattern controlPattern;
@@ -33,9 +35,10 @@ public class EditControlPatternDialog extends Dialog implements View.OnClickList
     private Button positive;
     private Button negative;
 
-    public EditControlPatternDialog(@NonNull Context context,boolean enable, OnPatternInfoChangeListener onPatternInfoChangeListener,ControlPattern controlPattern) {
+    public EditControlPatternDialog(@NonNull Context context, Activity activity, boolean enable, OnPatternInfoChangeListener onPatternInfoChangeListener, ControlPattern controlPattern) {
         super(context);
         setContentView(R.layout.dialog_edit_pattern_info);
+        this.activity = activity;
         this.enable = enable;
         this.onPatternInfoChangeListener = onPatternInfoChangeListener;
         this.controlPattern = controlPattern;

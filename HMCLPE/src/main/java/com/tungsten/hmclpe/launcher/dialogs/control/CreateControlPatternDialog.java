@@ -1,5 +1,6 @@
 package com.tungsten.hmclpe.launcher.dialogs.control;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 
 public class CreateControlPatternDialog extends Dialog implements View.OnClickListener {
 
+    private Activity activity;
     private OnPatternCreateListener onPatternCreateListener;
 
     private EditText editName;
@@ -28,8 +30,9 @@ public class CreateControlPatternDialog extends Dialog implements View.OnClickLi
     private Button positive;
     private Button negative;
 
-    public CreateControlPatternDialog(@NonNull Context context,OnPatternCreateListener onPatternCreateListener) {
+    public CreateControlPatternDialog(@NonNull Context context, Activity activity, OnPatternCreateListener onPatternCreateListener) {
         super(context);
+        this.activity = activity;
         setContentView(R.layout.dialog_create_control_pattern);
         this.onPatternCreateListener = onPatternCreateListener;
         setCancelable(false);

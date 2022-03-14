@@ -33,6 +33,8 @@ import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
 import net.kdt.pojavlaunch.LWJGLGLFWKeycode;
 
+import java.util.ArrayList;
+
 @SuppressLint("ViewConstructor")
 public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
 
@@ -258,8 +260,18 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                             }
                             isKeeping = !isKeeping;
                         }
+                        ArrayList<String> childNames = new ArrayList<>();
+                        for (ChildLayout childLayout : SettingUtils.getChildList(info.pattern)){
+                            childNames.add(childLayout.name);
+                        }
                         for (String child : info.visibilityControl) {
-                            menuHelper.viewManager.setChildVisibility(child);
+                            if (childNames.contains(child)) {
+                                menuHelper.viewManager.setChildVisibility(child);
+                            }
+                            else {
+                                info.visibilityControl.remove(child);
+                                saveButtonInfo();
+                            }
                         }
                         if (info.outputText != null && !info.outputText.equals("")) {
                             if (menuHelper.viewManager.gameCursorMode == 0) {
@@ -478,8 +490,18 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
             }
             isKeeping = !isKeeping;
         }
+        ArrayList<String> childNames = new ArrayList<>();
+        for (ChildLayout childLayout : SettingUtils.getChildList(info.pattern)){
+            childNames.add(childLayout.name);
+        }
         for (String child : info.visibilityControl) {
-            menuHelper.viewManager.setChildVisibility(child);
+            if (childNames.contains(child)) {
+                menuHelper.viewManager.setChildVisibility(child);
+            }
+            else {
+                info.visibilityControl.remove(child);
+                saveButtonInfo();
+            }
         }
         if (info.outputText != null && !info.outputText.equals("")) {
             if (menuHelper.viewManager.gameCursorMode == 0) {

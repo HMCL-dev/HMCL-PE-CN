@@ -122,6 +122,14 @@ public class PojavMinecraftActivity extends BaseMainActivity {
     }
 
     @Override
+    protected void onPause() {
+        if (menuHelper.viewManager != null && menuHelper.viewManager.gameCursorMode == 1) {
+            CallbackBridge.sendKeyPress(LWJGLGLFWKeycode.GLFW_KEY_ESCAPE);
+        }
+        super.onPause();
+    }
+
+    @Override
     protected void onPostResume() {
         super.onPostResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

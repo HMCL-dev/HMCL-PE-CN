@@ -140,22 +140,22 @@ public class ViewManager implements SensorEventListener {
 
     public void addButton (BaseButtonInfo baseButtonInfo,int visibility) {
         BaseButton baseButton = new BaseButton(context,screenWidth,screenHeight,baseButtonInfo,menuHelper);
+        baseButton.setIsShowing(visibility == View.VISIBLE);
         layoutPanel.addView(baseButton);
         baseButton.updateSizeAndPosition(baseButtonInfo);
         if (menuHelper.editMode) {
             baseButton.saveButtonInfo();
         }
-        baseButton.setIsShowing(visibility == View.VISIBLE);
     }
 
     public void addRocker (BaseRockerViewInfo baseRockerViewInfo,int visibility) {
         BaseRockerView baseRockerView = new BaseRockerView(context,screenWidth,screenHeight,baseRockerViewInfo,menuHelper);
+        baseRockerView.setIsShowing(visibility == View.VISIBLE);
         layoutPanel.addView(baseRockerView);
         baseRockerView.updateSizeAndPosition(baseRockerViewInfo);
         if (menuHelper.editMode) {
             baseRockerView.saveRockerInfo();
         }
-        baseRockerView.setIsShowing(visibility == View.VISIBLE);
     }
 
     public void refreshLayout (String pattern,String child,boolean editMode) {

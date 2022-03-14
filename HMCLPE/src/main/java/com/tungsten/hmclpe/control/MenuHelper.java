@@ -27,8 +27,10 @@ import com.tungsten.hmclpe.launcher.dialogs.control.EditControlPatternDialog;
 import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
 import com.tungsten.hmclpe.launcher.list.local.controller.ControlPattern;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.setting.game.GameMenuSetting;
+import com.tungsten.hmclpe.utils.file.AssetsUtils;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
 import com.tungsten.hmclpe.utils.file.FileUtils;
 
@@ -98,10 +100,33 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         this.launcher = launcher;
         this.scaleFactor = scaleFactor;
         patternList = SettingUtils.getControlPatternList();
+        if (patternList.size() == 0) {
+            InitializeSetting.initializeControlPattern(activity, new AssetsUtils.FileOperateCallback() {
+                @Override
+                public void onSuccess() {
+                    patternList = SettingUtils.getControlPatternList();
+                    preInit(baseLayout,editMode,currentPattern);
+                }
+
+                @Override
+                public void onFailed(String error) {
+
+                }
+            });
+        }
+        else {
+            preInit(baseLayout,editMode,currentPattern);
+        }
+    }
+
+    public void preInit (LayoutPanel baseLayout,boolean editMode,String currentPattern) {
         for (ControlPattern controlPattern : patternList){
             if (controlPattern.name.equals(currentPattern)){
                 this.currentPattern = controlPattern;
             }
+        }
+        if (currentPattern == null) {
+            currentPattern = SettingUtils.getControlPatternList().get(0).name;
         }
         currentChild = SettingUtils.getChildList(currentPattern).size() > 0 ? SettingUtils.getChildList(currentPattern).get(0).name : null;
         if (editMode){
@@ -341,7 +366,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     @Override
     public void onClick(View view) {
         if (view == editInfo){
-            EditControlPatternDialog dialog = new EditControlPatternDialog(context,enableNameEditor, new EditControlPatternDialog.OnPatternInfoChangeListener() {
+            EditControlPatternDialog dialog = new EditControlPatternDialog(context,activity,enableNameEditor, new EditControlPatternDialog.OnPatternInfoChangeListener() {
                 @Override
                 public void OnInfoChange(ControlPattern controlPattern) {
                     if (currentPattern.name.equals(initialPattern)){
@@ -351,6 +376,15 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
                     Gson gson = new Gson();
                     String string = gson.toJson(controlPattern);
                     FileStringUtils.writeFile(AppManifest.CONTROLLER_DIR + "/" + controlPattern.name + "/info.json",string);
+                    for (ChildLayout child : SettingUtils.getChildList(controlPattern.name)) {
+                        for (BaseButtonInfo info : child.baseButtonList) {
+                            info.pattern = controlPattern.name;
+                        }
+                        for (BaseRockerViewInfo info : child.baseRockerViewList) {
+                            info.pattern = controlPattern.name;
+                        }
+                        ChildLayout.saveChildLayout(controlPattern.name,child);
+                    }
                     patternList = SettingUtils.getControlPatternList();
                     currentPattern = controlPattern;
                     ArrayList<String> patterns = new ArrayList<>();
@@ -373,20 +407,18 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
                 Toast.makeText(context,context.getString(R.string.drawer_custom_menu_warn),Toast.LENGTH_SHORT).show();
             }
             else {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    AddViewDialog dialog = new AddViewDialog(context, currentPattern.name,currentChild, screenWidth, screenHeight, new AddViewDialog.OnViewCreateListener() {
-                        @Override
-                        public void onButtonCreate(BaseButtonInfo baseButtonInfo) {
-                            viewManager.addButton(baseButtonInfo,View.VISIBLE);
-                        }
+                AddViewDialog dialog = new AddViewDialog(context, currentPattern.name,currentChild, screenWidth, screenHeight, new AddViewDialog.OnViewCreateListener() {
+                    @Override
+                    public void onButtonCreate(BaseButtonInfo baseButtonInfo) {
+                        viewManager.addButton(baseButtonInfo,View.VISIBLE);
+                    }
 
-                        @Override
-                        public void onRockerCreate(BaseRockerViewInfo baseRockerViewInfo) {
-                            viewManager.addRocker(baseRockerViewInfo,View.VISIBLE);
-                        }
-                    },fullscreen);
-                    dialog.show();
-                }
+                    @Override
+                    public void onRockerCreate(BaseRockerViewInfo baseRockerViewInfo) {
+                        viewManager.addRocker(baseRockerViewInfo,View.VISIBLE);
+                    }
+                },fullscreen);
+                dialog.show();
             }
         }
     }
