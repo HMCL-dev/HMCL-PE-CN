@@ -31,7 +31,7 @@ public class PojavLauncher {
             args.add("-Xmx" + gameLaunchSetting.maxRam + "M");
             args.addAll(JREUtils.getJavaArgs());
             if (JREUtils.jreReleaseList.get("JAVA_VERSION").equals("1.8.0")) {
-                Tools.getCacioJavaArgs(args, false);
+                Tools.getCacioJavaArgs(context,args, false);
             }
             args.add("-Dorg.lwjgl.opengl.libname=" + JREUtils.loadGraphicsLibrary(gameLaunchSetting.pojavRenderer));
             args.add("-Djava.home=" + javaPath);

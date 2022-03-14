@@ -1,13 +1,14 @@
 package cosine.boat;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 
 import java.util.*;
 
 public class LoadMe {
 
     @SuppressLint("SdCardPath")
-    public static String BOAT_LIB_DIR = "/data/data/com.tungsten.hmclpe/app_runtime/boat";
+    public static String BOAT_LIB_DIR;
 
     public static native int chdir(String str);
     public static native int jliLaunch(String[] strArr);
@@ -22,7 +23,9 @@ public class LoadMe {
         System.loadLibrary("boat");
     }
 
-    public static int launchMinecraft(String javaPath, String home, boolean highVersion, Vector<String> args,String renderer) {
+    public static int launchMinecraft(Context context,String javaPath, String home, boolean highVersion, Vector<String> args, String renderer) {
+
+        BOAT_LIB_DIR = context.getDir("runtime",0).getAbsolutePath() + "/boat";
 
 		patchLinker();
 

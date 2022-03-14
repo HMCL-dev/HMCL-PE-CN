@@ -58,7 +58,7 @@ public class BaseMainActivity extends BaseActivity {
     }
 
     public void startGame(String javaPath,String home,boolean highVersion,final Vector<String> args, String renderer) throws Throwable {
-        JREUtils.redirectAndPrintJRELog();
+        JREUtils.redirectAndPrintJRELog(this);
         Tools.launchMinecraft(this, javaPath,home,renderer, args);
     }
 

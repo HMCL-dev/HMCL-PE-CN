@@ -26,8 +26,6 @@ import java.util.Vector;
 
 public final class Tools {
 
-    public static String CACIO_DIR = "/data/data/com.tungsten.hmclpe/app_runtime/caciocavallo/";
-
     public static void launchMinecraft(final Activity activity,String javaPath,String home,String renderer, Vector<String> args) throws Throwable {
 
         String[] launchArgs = new String[args.size()];
@@ -35,7 +33,7 @@ public final class Tools {
             if (!args.get(i).equals(" ")) {
                 launchArgs[i] = args.get(i);
                 System.out.println("Minecraft Args:" + launchArgs[i]);
-                Logger.getInstance().appendToLog("Minecraft Args:" + launchArgs[i]);
+                Logger.getInstance(activity).appendToLog("Minecraft Args:" + launchArgs[i]);
             }
         }
 
@@ -45,7 +43,7 @@ public final class Tools {
         JREUtils.launchJavaVM(activity,javaPath,home,renderer, javaArgList);
     }
     
-    public static void getCacioJavaArgs(List<String> javaArgList, boolean isHeadless) {
+    public static void getCacioJavaArgs(Context context,List<String> javaArgList, boolean isHeadless) {
         javaArgList.add("-Djava.awt.headless="+isHeadless);
         // Caciocavallo config AWT-enabled version
         javaArgList.add("-Dcacio.managed.screensize=" + CallbackBridge.physicalWidth + "x" + CallbackBridge.physicalHeight);
@@ -58,7 +56,7 @@ public final class Tools {
 
         StringBuilder cacioClasspath = new StringBuilder();
         cacioClasspath.append("-Xbootclasspath/p");
-        File cacioDir = new File(CACIO_DIR);
+        File cacioDir = new File(context.getDir("runtime",0).getAbsolutePath() + "/caciocavallo/");
         if (cacioDir.exists() && cacioDir.isDirectory()) {
             for (File file : cacioDir.listFiles()) {
                 if (file.getName().endsWith(".jar")) {

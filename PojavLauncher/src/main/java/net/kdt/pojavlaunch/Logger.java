@@ -1,5 +1,7 @@
 package net.kdt.pojavlaunch;
 
+import android.content.Context;
+
 import androidx.annotation.Keep;
 
 import java.io.File;
@@ -20,8 +22,8 @@ public class Logger {
     private WeakReference<eventLogListener> logListenerWeakReference = null;
 
     /* No public construction */
-    private Logger(){
-        this("/storage/emulated/0/Android/data/com.tungsten.hmclpe/files/debug/pojav_latest_log.txt");
+    private Logger(Context context){
+        this(context.getExternalFilesDir("debug").getAbsolutePath() + "/pojav_latest_log.txt");
     }
 
     private Logger(String path){
@@ -35,11 +37,11 @@ public class Logger {
 
     }
 
-    public static Logger getInstance(){
+    public static Logger getInstance(Context context){
         if(loggerSingleton == null){
             synchronized(Logger.class){
                 if(loggerSingleton == null){
-                    loggerSingleton = new Logger();
+                    loggerSingleton = new Logger(context);
                 }
             }
         }
@@ -55,7 +57,7 @@ public class Logger {
 
     /** Print the text to the log file, no china censoring there */
     public void appendToLogUnchecked(String text){
-        //logStream.println(text);
+        logStream.println(text);
         notifyLogListener(text);
     }
 

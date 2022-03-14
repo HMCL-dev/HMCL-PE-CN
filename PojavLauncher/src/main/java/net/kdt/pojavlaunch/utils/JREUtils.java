@@ -89,9 +89,9 @@ public class JREUtils {
     }
 
     public static String jvmLibraryPath;
-    public static void redirectAndPrintJRELog() {
+    public static void redirectAndPrintJRELog(Context context) {
         Log.v("jrelog","Log starts here");
-        JREUtils.logToLogger(Logger.getInstance());
+        JREUtils.logToLogger(Logger.getInstance(context));
         Thread t = new Thread(new Runnable(){
             int failTime = 0;
             ProcessBuilder logcatPb;
@@ -111,7 +111,7 @@ public class JREUtils {
                     int len;
                     while ((len = p.getInputStream().read(buf)) != -1) {
                         String currStr = new String(buf, 0, len);
-                        Logger.getInstance().appendToLog(currStr);
+                        Logger.getInstance(context).appendToLog(currStr);
                     }
                     
                     if (p.waitFor() != 0) {
@@ -121,13 +121,13 @@ public class JREUtils {
                         if (failTime <= 10) {
                             run();
                         } else {
-                            Logger.getInstance().appendToLog("ERROR: Unable to get more log.");
+                            Logger.getInstance(context).appendToLog("ERROR: Unable to get more log.");
                         }
                         return;
                     }
                 } catch (Throwable e) {
                     Log.e("jrelog-logcat", "Exception on logging thread", e);
-                    Logger.getInstance().appendToLog("Exception on logging thread:\n" + Log.getStackTraceString(e));
+                    Logger.getInstance(context).appendToLog("Exception on logging thread:\n" + Log.getStackTraceString(e));
                 }
             }
         });
@@ -209,7 +209,7 @@ public class JREUtils {
             }
         }
         for (Map.Entry<String, String> env : envMap.entrySet()) {
-            Logger.getInstance().appendToLog("Added custom env: " + env.getKey() + "=" + env.getValue());
+            Logger.getInstance(activity).appendToLog("Added custom env: " + env.getKey() + "=" + env.getValue());
             Os.setenv(env.getKey(), env.getValue(), true);
         }
 
@@ -238,7 +238,7 @@ public class JREUtils {
         chdir(home);
 
         final int exitCode = VMLauncher.launchJVM((String[]) userArgs.toArray(new String[0]));
-        Logger.getInstance().appendToLog("Java Exit code: " + exitCode);
+        Logger.getInstance(activity).appendToLog("Java Exit code: " + exitCode);
         return exitCode;
     }
 
