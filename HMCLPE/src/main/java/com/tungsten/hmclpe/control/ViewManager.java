@@ -8,7 +8,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Handler;
 import android.view.View;
 
 import androidx.core.view.GravityCompat;
@@ -130,12 +129,7 @@ public class ViewManager implements SensorEventListener {
             layoutPanel.addView(menuView);
         }
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                refreshLayout(menuHelper.currentPattern.name,menuHelper.currentChild,menuHelper.editMode);
-            }
-        },500);
+        refreshLayout(menuHelper.currentPattern.name,menuHelper.currentChild,menuHelper.editMode);
     }
 
     public void addButton (BaseButtonInfo baseButtonInfo,int visibility) {

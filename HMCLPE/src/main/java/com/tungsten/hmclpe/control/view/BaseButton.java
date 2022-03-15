@@ -159,7 +159,7 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                     info.yPosition.percentPosition = targetY / (screenHeight - getHeight());
                     saveButtonInfo();
                     menuHelper.viewManager.layoutPanel.showReference(info.positionType,getX(),getY(),this.getWidth(),this.getHeight());
-                    if (Math.abs(event.getX() - initialX) > 5 || Math.abs(event.getY() - initialY) > 5){
+                    if (Math.abs(event.getX() - initialX) > 1 || Math.abs(event.getY() - initialY) > 1){
                         deleteHandler.removeCallbacks(deleteRunnable);
                     }
                     break;
@@ -167,10 +167,8 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                 case MotionEvent.ACTION_CANCEL:
                     deleteHandler.removeCallbacks(deleteRunnable);
                     if (System.currentTimeMillis() - downTime <= 200 && Math.abs(event.getX() - initialX) <= 10 && Math.abs(event.getY() - initialY) <= 10){
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                            EditButtonDialog dialog = new EditButtonDialog(getContext(), info.pattern, info.child,screenWidth,screenHeight,this,menuHelper.fullscreen);
-                            dialog.show();
-                        }
+                        EditButtonDialog dialog = new EditButtonDialog(getContext(),menuHelper.viewManager, info.pattern, info.child,screenWidth,screenHeight,this,menuHelper.fullscreen);
+                        dialog.show();
                     }
                     setNormalDrawable();
                     menuHelper.viewManager.layoutPanel.hideReference();

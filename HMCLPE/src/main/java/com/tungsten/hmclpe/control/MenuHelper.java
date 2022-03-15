@@ -234,6 +234,8 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         }
         editModeSwitch.setChecked(editMode);
 
+        childSpinner.setSelection(0);
+
         patternSpinner.setOnItemSelectedListener(this);
         editModeSwitch.setOnCheckedChangeListener(this);
         showOutlineSwitch.setOnCheckedChangeListener(this);
@@ -241,8 +243,6 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         manageChild.setOnClickListener(this);
         childSpinner.setOnItemSelectedListener(this);
         addView.setOnClickListener(this);
-
-        childSpinner.setSelection(0);
 
         baseLayout.post(new Runnable() {
             @Override
@@ -445,7 +445,9 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         }
         if (adapterView == childSpinner){
             currentChild = (String) childSpinner.getItemAtPosition(i);
-            viewManager.refreshLayout(currentPattern.name,(String) childSpinner.getItemAtPosition(i), true);
+            if (editMode) {
+                viewManager.refreshLayout(currentPattern.name,(String) childSpinner.getItemAtPosition(i), true);
+            }
         }
     }
 

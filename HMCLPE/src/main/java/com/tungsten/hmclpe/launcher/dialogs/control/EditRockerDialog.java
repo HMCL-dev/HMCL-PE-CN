@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -23,7 +24,10 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.control.ViewManager;
 import com.tungsten.hmclpe.control.bean.BaseRockerViewInfo;
+import com.tungsten.hmclpe.control.bean.ViewPosition;
+import com.tungsten.hmclpe.control.bean.rocker.RockerSize;
 import com.tungsten.hmclpe.control.bean.rocker.RockerStyle;
 import com.tungsten.hmclpe.control.view.BaseRockerView;
 import com.tungsten.hmclpe.launcher.dialogs.tools.ColorSelectorDialog;
@@ -31,9 +35,11 @@ import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class EditRockerDialog extends Dialog implements View.OnClickListener, AdapterView.OnItemSelectedListener, SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener {
 
+    private ViewManager viewManager;
     private String pattern;
     private String child;
     private int screenWidth;
@@ -44,6 +50,7 @@ public class EditRockerDialog extends Dialog implements View.OnClickListener, Ad
 
     private Button positive;
     private Button negative;
+    private Button copy;
 
     private ArrayAdapter<String> showTypeAdapter;
     private ArrayAdapter<String> sizeTypeAdapter;
@@ -95,12 +102,27 @@ public class EditRockerDialog extends Dialog implements View.OnClickListener, Ad
     private TextView pointerColorPressedText;
     private TextView rockerStrokeColorPressedText;
     private TextView rockerFillColorPressedText;
+    private ImageButton addRockerSize;
+    private ImageButton addRockerX;
+    private ImageButton addRockerY;
+    private ImageButton addRockerCornerRadius;
+    private ImageButton addRockerStrokeWidth;
+    private ImageButton addRockerCornerRadiusPress;
+    private ImageButton addRockerStrokeWidthPress;
+    private ImageButton reduceRockerSize;
+    private ImageButton reduceRockerX;
+    private ImageButton reduceRockerY;
+    private ImageButton reduceRockerCornerRadius;
+    private ImageButton reduceRockerStrokeWidth;
+    private ImageButton reduceRockerCornerRadiusPress;
+    private ImageButton reduceRockerStrokeWidthPress;
 
     private RockerStyle selectedRockerStyle;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public EditRockerDialog(@NonNull Context context, String pattern, String child, int screenWidth, int screenHeight, BaseRockerView baseRockerView, boolean fullscreen) {
+    public EditRockerDialog(@NonNull Context context, ViewManager viewManager, String pattern, String child, int screenWidth, int screenHeight, BaseRockerView baseRockerView, boolean fullscreen) {
         super(context);
+        this.viewManager = viewManager;
         this.pattern = pattern;
         this.child = child;
         this.screenWidth = screenWidth;
@@ -110,6 +132,13 @@ public class EditRockerDialog extends Dialog implements View.OnClickListener, Ad
         setCancelable(false);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             if (fullscreen) {
                 getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
@@ -122,13 +151,28 @@ public class EditRockerDialog extends Dialog implements View.OnClickListener, Ad
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void init(){
-        baseRockerViewInfo = baseRockerView.info;
+        baseRockerViewInfo = new BaseRockerViewInfo(UUID.randomUUID().toString(),
+                pattern,
+                child,
+                BaseRockerViewInfo.SHOW_TYPE_ALWAYS,
+                BaseRockerViewInfo.SIZE_TYPE_ABSOLUTE,
+                new RockerSize(160,0.2f,BaseRockerViewInfo.SIZE_OBJECT_WIDTH),
+                BaseRockerViewInfo.POSITION_TYPE_PERCENT,
+                new ViewPosition(0,0),
+                new ViewPosition(0,0),
+                BaseRockerViewInfo.FUNCTION_FOLLOW_NONE,
+                true,
+                true,
+                new RockerStyle());
+        baseRockerViewInfo.refresh(baseRockerView.info);
 
         positive = findViewById(R.id.apply_rocker_change);
         negative = findViewById(R.id.exit);
+        copy = findViewById(R.id.copy_rocker);
 
         positive.setOnClickListener(this);
         negative.setOnClickListener(this);
+        copy.setOnClickListener(this);
 
         ArrayList<String> showType = new ArrayList<>();
         ArrayList<String> sizeType = new ArrayList<>();
@@ -202,6 +246,20 @@ public class EditRockerDialog extends Dialog implements View.OnClickListener, Ad
         pointerColorPressedText = findViewById(R.id.pointer_pressed_color_text);
         rockerStrokeColorPressedText = findViewById(R.id.rocker_stroke_pressed_color_text);
         rockerFillColorPressedText = findViewById(R.id.rocker_fill_pressed_color_text);
+        addRockerSize = findViewById(R.id.add_rocker_size);
+        addRockerX = findViewById(R.id.add_rocker_x);
+        addRockerY = findViewById(R.id.add_rocker_y);
+        addRockerCornerRadius = findViewById(R.id.add_rocker_corner_radius);
+        addRockerStrokeWidth = findViewById(R.id.add_rocker_stroke_width);
+        addRockerCornerRadiusPress = findViewById(R.id.add_rocker_corner_radius_pressed);
+        addRockerStrokeWidthPress = findViewById(R.id.add_rocker_stroke_width_pressed);
+        reduceRockerSize = findViewById(R.id.reduce_rocker_size);
+        reduceRockerX = findViewById(R.id.reduce_rocker_x);
+        reduceRockerY = findViewById(R.id.reduce_rocker_y);
+        reduceRockerCornerRadius = findViewById(R.id.reduce_rocker_corner_radius);
+        reduceRockerStrokeWidth = findViewById(R.id.reduce_rocker_stroke_width);
+        reduceRockerCornerRadiusPress = findViewById(R.id.reduce_rocker_corner_radius_pressed);
+        reduceRockerStrokeWidthPress = findViewById(R.id.reduce_rocker_stroke_width_pressed);
 
         rockerShowTypeSpinner.setAdapter(showTypeAdapter);
         rockerShowTypeSpinner.setSelection(baseRockerViewInfo.showType);
@@ -286,6 +344,20 @@ public class EditRockerDialog extends Dialog implements View.OnClickListener, Ad
         selectRockerFillColorPressed.setOnClickListener(this);
         selectRockerStrokeColor.setOnClickListener(this);
         selectRockerStrokeColorPressed.setOnClickListener(this);
+        addRockerSize.setOnClickListener(this);
+        addRockerX.setOnClickListener(this);
+        addRockerY.setOnClickListener(this);
+        addRockerStrokeWidth.setOnClickListener(this);
+        addRockerCornerRadius.setOnClickListener(this);
+        addRockerStrokeWidthPress.setOnClickListener(this);
+        addRockerCornerRadiusPress.setOnClickListener(this);
+        reduceRockerSize.setOnClickListener(this);
+        reduceRockerX.setOnClickListener(this);
+        reduceRockerY.setOnClickListener(this);
+        reduceRockerStrokeWidth.setOnClickListener(this);
+        reduceRockerCornerRadius.setOnClickListener(this);
+        reduceRockerStrokeWidthPress.setOnClickListener(this);
+        reduceRockerCornerRadiusPress.setOnClickListener(this);
     }
 
     public void refreshRockerStyleList(boolean first){
@@ -386,6 +458,15 @@ public class EditRockerDialog extends Dialog implements View.OnClickListener, Ad
             dismiss();
         }
         if (view == negative){
+            dismiss();
+        }
+        if (view == copy) {
+            baseRockerViewInfo.uuid = UUID.randomUUID().toString();
+            baseRockerViewInfo.xPosition.percentPosition = 0f;
+            baseRockerViewInfo.xPosition.absolutePosition = 0;
+            baseRockerViewInfo.yPosition.percentPosition = 0f;
+            baseRockerViewInfo.yPosition.absolutePosition = 0;
+            viewManager.addRocker(baseRockerViewInfo,View.VISIBLE);
             dismiss();
         }
 

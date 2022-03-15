@@ -38,7 +38,19 @@ public class InputBridge {
             BoatInput.setMouseButton(getMouseEvent(launcher,bridge),press);
         }
         if (launcher == 2){
-            CallbackBridge.sendMouseButton(getMouseEvent(launcher,bridge),press);
+            if (getMouseEvent(launcher,bridge) == 10) {
+                if (press){
+                    CallbackBridge.sendScroll(0, 1d);
+                }
+            }
+            else if (getMouseEvent(launcher,bridge) == 11) {
+                if (press){
+                    CallbackBridge.sendScroll(0, -1d);
+                }
+            }
+            else {
+                CallbackBridge.sendMouseButton(getMouseEvent(launcher,bridge),press);
+            }
         }
     }
 
@@ -91,14 +103,14 @@ public class InputBridge {
                     return BoatInput.Button4;
                 }
                 else {
-                    return LWJGLGLFWKeycode.GLFW_MOUSE_BUTTON_4;
+                    return 10;
                 }
             case MOUSE_SCROLL_DOWN:
                 if (launcher == 1){
                     return BoatInput.Button5;
                 }
                 else {
-                    return LWJGLGLFWKeycode.GLFW_MOUSE_BUTTON_5;
+                    return 11;
                 }
             default:
                 return -1;

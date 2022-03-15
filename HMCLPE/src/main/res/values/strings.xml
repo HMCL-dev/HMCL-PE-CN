@@ -580,6 +580,7 @@
     <string name="dialog_add_view_rocker_exterior_setting_stroke_width_pressed">边框宽度（按压）</string>
     <string name="dialog_add_view_rocker_exterior_setting_stroke_color_pressed">边框颜色（按压）</string>
     <string name="dialog_add_view_exterior_setting_choose_color">选择</string>
+    <string name="dialog_edit_view_copy">复制此控件</string>
     <string name="dialog_edit_view_positive">完成</string>
     <string name="dialog_add_view_positive">添加</string>
     <string name="dialog_add_view_negative">取消</string>

@@ -150,7 +150,7 @@ public class TouchPad extends View {
                     throwHandler.postDelayed(throwRunnable,800);
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    if ((Math.abs(event.getX() - initialX) > 10 || Math.abs(event.getY() - initialY) > 10) && System.currentTimeMillis() - downTime < 800){
+                    if ((Math.abs(event.getX() - initialX) > 1 || Math.abs(event.getY() - initialY) > 1) && System.currentTimeMillis() - downTime < 800){
                         throwHandler.removeCallbacks(throwRunnable);
                     }
                     break;
@@ -227,7 +227,7 @@ public class TouchPad extends View {
                     }
                     if (menuHelper.viewManager.gameCursorMode == 1 && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
                         menuHelper.viewManager.setGamePointer("1",true,event.getX() - initialX,event.getY() - initialY);
-                        if ((Math.abs(event.getX() - initialX) > 10 || Math.abs(event.getY() - initialY) > 10) && System.currentTimeMillis() - downTime < 400){
+                        if ((Math.abs(event.getX() - initialX) > 1 || Math.abs(event.getY() - initialY) > 1) && System.currentTimeMillis() - downTime < 400){
                             handler.removeCallbacks(runnable);
                         }
                     }

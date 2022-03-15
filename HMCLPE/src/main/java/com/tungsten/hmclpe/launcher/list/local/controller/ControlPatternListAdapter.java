@@ -132,7 +132,7 @@ public class ControlPatternListAdapter extends BaseAdapter {
         viewHolder.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+
             }
         });
         viewHolder.delete.setOnClickListener(new View.OnClickListener() {

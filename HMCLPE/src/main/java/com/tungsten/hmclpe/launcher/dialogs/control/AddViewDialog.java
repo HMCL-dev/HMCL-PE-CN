@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -133,6 +134,26 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
     private TextView textColorPressedText;
     private TextView strokeColorPressedText;
     private TextView fillColorPressedText;
+    private ImageButton addButtonWidth;
+    private ImageButton addButtonHeight;
+    private ImageButton addButtonX;
+    private ImageButton addButtonY;
+    private ImageButton addButtonTextSize;
+    private ImageButton addButtonCornerRadius;
+    private ImageButton addButtonStrokeWidth;
+    private ImageButton addButtonTextSizePress;
+    private ImageButton addButtonCornerRadiusPress;
+    private ImageButton addButtonStrokeWidthPress;
+    private ImageButton reduceButtonWidth;
+    private ImageButton reduceButtonHeight;
+    private ImageButton reduceButtonX;
+    private ImageButton reduceButtonY;
+    private ImageButton reduceButtonTextSize;
+    private ImageButton reduceButtonCornerRadius;
+    private ImageButton reduceButtonStrokeWidth;
+    private ImageButton reduceButtonTextSizePress;
+    private ImageButton reduceButtonCornerRadiusPress;
+    private ImageButton reduceButtonStrokeWidthPress;
 
     private Spinner rockerShowTypeSpinner;
     private Spinner rockerSizeTypeSpinner;
@@ -177,6 +198,20 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
     private TextView pointerColorPressedText;
     private TextView rockerStrokeColorPressedText;
     private TextView rockerFillColorPressedText;
+    private ImageButton addRockerSize;
+    private ImageButton addRockerX;
+    private ImageButton addRockerY;
+    private ImageButton addRockerCornerRadius;
+    private ImageButton addRockerStrokeWidth;
+    private ImageButton addRockerCornerRadiusPress;
+    private ImageButton addRockerStrokeWidthPress;
+    private ImageButton reduceRockerSize;
+    private ImageButton reduceRockerX;
+    private ImageButton reduceRockerY;
+    private ImageButton reduceRockerCornerRadius;
+    private ImageButton reduceRockerStrokeWidth;
+    private ImageButton reduceRockerCornerRadiusPress;
+    private ImageButton reduceRockerStrokeWidthPress;
 
     private ButtonStyle selectedButtonStyle;
 
@@ -195,6 +230,13 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         setCancelable(false);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             if (fullscreen) {
                 getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
@@ -353,6 +395,26 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         textColorPressedText = findViewById(R.id.text_color_pressed_text);
         strokeColorPressedText = findViewById(R.id.stroke_color_pressed_text);
         fillColorPressedText = findViewById(R.id.fill_color_pressed_text);
+        addButtonWidth = findViewById(R.id.add_button_width);
+        addButtonHeight = findViewById(R.id.add_button_height);
+        addButtonX = findViewById(R.id.add_button_x);
+        addButtonY = findViewById(R.id.add_button_y);
+        addButtonTextSize = findViewById(R.id.add_text_size);
+        addButtonCornerRadius = findViewById(R.id.add_corner_radius);
+        addButtonStrokeWidth = findViewById(R.id.add_stroke_width);
+        addButtonTextSizePress = findViewById(R.id.add_text_size_pressed);
+        addButtonCornerRadiusPress = findViewById(R.id.add_corner_radius_pressed);
+        addButtonStrokeWidthPress = findViewById(R.id.add_stroke_width_pressed);
+        reduceButtonWidth = findViewById(R.id.reduce_button_width);
+        reduceButtonHeight = findViewById(R.id.reduce_button_height);
+        reduceButtonX = findViewById(R.id.reduce_button_x);
+        reduceButtonY = findViewById(R.id.reduce_button_y);
+        reduceButtonTextSize = findViewById(R.id.reduce_text_size);
+        reduceButtonCornerRadius = findViewById(R.id.reduce_corner_radius);
+        reduceButtonStrokeWidth = findViewById(R.id.reduce_stroke_width);
+        reduceButtonTextSizePress = findViewById(R.id.reduce_text_size_pressed);
+        reduceButtonCornerRadiusPress = findViewById(R.id.reduce_corner_radius_pressed);
+        reduceButtonStrokeWidthPress = findViewById(R.id.reduce_stroke_width_pressed);
 
         editButtonText.setText(baseButtonInfo.text);
         editOutputText.setText(baseButtonInfo.outputText);
@@ -474,6 +536,26 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         selectFillColorPressed.setOnClickListener(this);
         editButtonText.addTextChangedListener(this);
         editOutputText.addTextChangedListener(this);
+        addButtonWidth.setOnClickListener(this);
+        addButtonHeight.setOnClickListener(this);
+        addButtonX.setOnClickListener(this);
+        addButtonY.setOnClickListener(this);
+        addButtonTextSize.setOnClickListener(this);
+        addButtonStrokeWidth.setOnClickListener(this);
+        addButtonCornerRadius.setOnClickListener(this);
+        addButtonTextSizePress.setOnClickListener(this);
+        addButtonStrokeWidthPress.setOnClickListener(this);
+        addButtonCornerRadiusPress.setOnClickListener(this);
+        reduceButtonWidth.setOnClickListener(this);
+        reduceButtonHeight.setOnClickListener(this);
+        reduceButtonX.setOnClickListener(this);
+        reduceButtonY.setOnClickListener(this);
+        reduceButtonTextSize.setOnClickListener(this);
+        reduceButtonStrokeWidth.setOnClickListener(this);
+        reduceButtonCornerRadius.setOnClickListener(this);
+        reduceButtonTextSizePress.setOnClickListener(this);
+        reduceButtonStrokeWidthPress.setOnClickListener(this);
+        reduceButtonCornerRadiusPress.setOnClickListener(this);
     }
 
     public void refreshButtonStyleList(boolean first){
@@ -614,6 +696,20 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         pointerColorPressedText = findViewById(R.id.pointer_pressed_color_text);
         rockerStrokeColorPressedText = findViewById(R.id.rocker_stroke_pressed_color_text);
         rockerFillColorPressedText = findViewById(R.id.rocker_fill_pressed_color_text);
+        addRockerSize = findViewById(R.id.add_rocker_size);
+        addRockerX = findViewById(R.id.add_rocker_x);
+        addRockerY = findViewById(R.id.add_rocker_y);
+        addRockerCornerRadius = findViewById(R.id.add_rocker_corner_radius);
+        addRockerStrokeWidth = findViewById(R.id.add_rocker_stroke_width);
+        addRockerCornerRadiusPress = findViewById(R.id.add_rocker_corner_radius_pressed);
+        addRockerStrokeWidthPress = findViewById(R.id.add_rocker_stroke_width_pressed);
+        reduceRockerSize = findViewById(R.id.reduce_rocker_size);
+        reduceRockerX = findViewById(R.id.reduce_rocker_x);
+        reduceRockerY = findViewById(R.id.reduce_rocker_y);
+        reduceRockerCornerRadius = findViewById(R.id.reduce_rocker_corner_radius);
+        reduceRockerStrokeWidth = findViewById(R.id.reduce_rocker_stroke_width);
+        reduceRockerCornerRadiusPress = findViewById(R.id.reduce_rocker_corner_radius_pressed);
+        reduceRockerStrokeWidthPress = findViewById(R.id.reduce_rocker_stroke_width_pressed);
 
         rockerShowTypeSpinner.setAdapter(showTypeAdapter);
         rockerShowTypeSpinner.setSelection(baseRockerViewInfo.showType);
@@ -698,6 +794,20 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
         selectRockerFillColorPressed.setOnClickListener(this);
         selectRockerStrokeColor.setOnClickListener(this);
         selectRockerStrokeColorPressed.setOnClickListener(this);
+        addRockerSize.setOnClickListener(this);
+        addRockerX.setOnClickListener(this);
+        addRockerY.setOnClickListener(this);
+        addRockerStrokeWidth.setOnClickListener(this);
+        addRockerCornerRadius.setOnClickListener(this);
+        addRockerStrokeWidthPress.setOnClickListener(this);
+        addRockerCornerRadiusPress.setOnClickListener(this);
+        reduceRockerSize.setOnClickListener(this);
+        reduceRockerX.setOnClickListener(this);
+        reduceRockerY.setOnClickListener(this);
+        reduceRockerStrokeWidth.setOnClickListener(this);
+        reduceRockerCornerRadius.setOnClickListener(this);
+        reduceRockerStrokeWidthPress.setOnClickListener(this);
+        reduceRockerCornerRadiusPress.setOnClickListener(this);
     }
 
     public void refreshRockerStyleList(boolean first){
@@ -962,6 +1072,154 @@ public class AddViewDialog extends Dialog implements View.OnClickListener, Adapt
                 }
             });
             colorSelectorDialog.show();
+        }
+        if (view == addButtonWidth) {
+            buttonWidthSeekbar.setProgress(buttonWidthSeekbar.getProgress() + 1);
+            int i = buttonWidthSeekbar.getProgress();
+            if (baseButtonInfo.sizeType == BaseButtonInfo.SIZE_TYPE_PERCENT) {
+                baseButtonInfo.width.percentSize = ((float) i / 1000f);
+                buttonWidthText.setText(((int) (1000 * baseButtonInfo.width.percentSize)) / 10f + " %");
+            }
+            else {
+                baseButtonInfo.width.absoluteSize = i;
+                buttonWidthText.setText(i + " dp");
+            }
+            onButtonSizeChange();
+        }
+        if (view == addButtonHeight) {
+            buttonHeightSeekbar.setProgress(buttonHeightSeekbar.getProgress() + 1);
+            int i = buttonHeightSeekbar.getProgress();
+            if (baseButtonInfo.sizeType == BaseButtonInfo.SIZE_TYPE_PERCENT) {
+                baseButtonInfo.height.percentSize = ((float) i / 1000f);
+                buttonHeightText.setText(((int) (1000 * baseButtonInfo.height.percentSize)) / 10f + " %");
+            }
+            else {
+                baseButtonInfo.height.absoluteSize = i;
+                buttonHeightText.setText(i + " dp");
+            }
+            onButtonSizeChange();
+        }
+        if (view == addButtonX) {
+            buttonXSeekbar.setProgress(buttonXSeekbar.getProgress() + 1);
+            int i = buttonXSeekbar.getProgress();
+            if (baseButtonInfo.positionType == BaseButtonInfo.POSITION_TYPE_PERCENT) {
+                baseButtonInfo.xPosition.percentPosition = ((float) i / 1000f);
+                buttonXText.setText(((int) (1000 * baseButtonInfo.xPosition.percentPosition)) / 10f + " %");
+            }
+            else {
+                baseButtonInfo.xPosition.absolutePosition = i;
+                buttonXText.setText(i + " dp");
+            }
+        }
+        if (view == addButtonY) {
+            buttonYSeekbar.setProgress(buttonYSeekbar.getProgress() + 1);
+            int i = buttonYSeekbar.getProgress();
+            if (baseButtonInfo.positionType == BaseButtonInfo.POSITION_TYPE_PERCENT) {
+                baseButtonInfo.yPosition.percentPosition = ((float) i / 1000f);
+                buttonYText.setText(((int) (1000 * baseButtonInfo.yPosition.percentPosition)) / 10f + " %");
+            }
+            else {
+                baseButtonInfo.yPosition.absolutePosition = i;
+                buttonYText.setText(i + " dp");
+            }
+        }
+        if (view == addButtonTextSize) {
+            int i = textSizeSeekbar.getProgress() + 1;
+            textSizeSeekbar.setProgress(i);
+        }
+        if (view == addButtonStrokeWidth) {
+            int i = strokeWidthSeekbar.getProgress() + 1;
+            strokeWidthSeekbar.setProgress(i);
+        }
+        if (view == addButtonCornerRadius) {
+            int i = cornerRadiusSeekbar.getProgress() + 1;
+            cornerRadiusSeekbar.setProgress(i);
+        }
+        if (view == addButtonTextSizePress) {
+            int i = textSizePressedSeekbar.getProgress() + 1;
+            textSizePressedSeekbar.setProgress(i);
+        }
+        if (view == addButtonStrokeWidthPress) {
+            int i = strokeWidthPressedSeekbar.getProgress() + 1;
+            strokeWidthPressedSeekbar.setProgress(i);
+        }
+        if (view == addButtonCornerRadiusPress) {
+            int i = cornerRadiusPressedSeekbar.getProgress() + 1;
+            cornerRadiusPressedSeekbar.setProgress(i);
+        }
+        if (view == reduceButtonWidth) {
+            buttonWidthSeekbar.setProgress(buttonWidthSeekbar.getProgress() - 1);
+            int i = buttonWidthSeekbar.getProgress();
+            if (baseButtonInfo.sizeType == BaseButtonInfo.SIZE_TYPE_PERCENT) {
+                baseButtonInfo.width.percentSize = ((float) i / 1000f);
+                buttonWidthText.setText(((int) (1000 * baseButtonInfo.width.percentSize)) / 10f + " %");
+            }
+            else {
+                baseButtonInfo.width.absoluteSize = i;
+                buttonWidthText.setText(i + " dp");
+            }
+            onButtonSizeChange();
+        }
+        if (view == reduceButtonHeight) {
+            buttonHeightSeekbar.setProgress(buttonHeightSeekbar.getProgress() - 1);
+            int i = buttonHeightSeekbar.getProgress();
+            if (baseButtonInfo.sizeType == BaseButtonInfo.SIZE_TYPE_PERCENT) {
+                baseButtonInfo.height.percentSize = ((float) i / 1000f);
+                buttonHeightText.setText(((int) (1000 * baseButtonInfo.height.percentSize)) / 10f + " %");
+            }
+            else {
+                baseButtonInfo.height.absoluteSize = i;
+                buttonHeightText.setText(i + " dp");
+            }
+            onButtonSizeChange();
+        }
+        if (view == reduceButtonX) {
+            buttonXSeekbar.setProgress(buttonXSeekbar.getProgress() - 1);
+            int i = buttonXSeekbar.getProgress();
+            if (baseButtonInfo.positionType == BaseButtonInfo.POSITION_TYPE_PERCENT) {
+                baseButtonInfo.xPosition.percentPosition = ((float) i / 1000f);
+                buttonXText.setText(((int) (1000 * baseButtonInfo.xPosition.percentPosition)) / 10f + " %");
+            }
+            else {
+                baseButtonInfo.xPosition.absolutePosition = i;
+                buttonXText.setText(i + " dp");
+            }
+        }
+        if (view == reduceButtonY) {
+            buttonYSeekbar.setProgress(buttonYSeekbar.getProgress() - 1);
+            int i = buttonYSeekbar.getProgress();
+            if (baseButtonInfo.positionType == BaseButtonInfo.POSITION_TYPE_PERCENT) {
+                baseButtonInfo.yPosition.percentPosition = ((float) i / 1000f);
+                buttonYText.setText(((int) (1000 * baseButtonInfo.yPosition.percentPosition)) / 10f + " %");
+            }
+            else {
+                baseButtonInfo.yPosition.absolutePosition = i;
+                buttonYText.setText(i + " dp");
+            }
+        }
+        if (view == reduceButtonTextSize) {
+            int i = textSizeSeekbar.getProgress() - 1;
+            textSizeSeekbar.setProgress(i);
+        }
+        if (view == reduceButtonStrokeWidth) {
+            int i = strokeWidthSeekbar.getProgress() - 1;
+            strokeWidthSeekbar.setProgress(i);
+        }
+        if (view == reduceButtonCornerRadius) {
+            int i = cornerRadiusSeekbar.getProgress() - 1;
+            cornerRadiusSeekbar.setProgress(i);
+        }
+        if (view == reduceButtonTextSizePress) {
+            int i = textSizePressedSeekbar.getProgress() - 1;
+            textSizePressedSeekbar.setProgress(i);
+        }
+        if (view == reduceButtonStrokeWidthPress) {
+            int i = strokeWidthPressedSeekbar.getProgress() - 1;
+            strokeWidthPressedSeekbar.setProgress(i);
+        }
+        if (view == reduceButtonCornerRadiusPress) {
+            int i = cornerRadiusPressedSeekbar.getProgress() - 1;
+            cornerRadiusPressedSeekbar.setProgress(i);
         }
 
         if (view == createRockerStyle) {
