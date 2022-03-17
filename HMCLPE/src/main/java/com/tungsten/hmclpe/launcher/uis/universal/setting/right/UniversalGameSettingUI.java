@@ -445,6 +445,9 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             controllerManagerDialog.currentPattern = pattern;
             controllerManagerDialog.loadList();
         }
+        if (requestCode == ControllerManagerDialog.IMPORT_PATTERN_REQUEST_CODE && controllerManagerDialog != null && data != null){
+            controllerManagerDialog.onResult(requestCode,resultCode,data);
+        }
     }
 
     @Override

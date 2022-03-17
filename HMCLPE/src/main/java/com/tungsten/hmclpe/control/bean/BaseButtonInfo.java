@@ -1,11 +1,13 @@
 package com.tungsten.hmclpe.control.bean;
 
+import androidx.annotation.NonNull;
+
 import com.tungsten.hmclpe.control.bean.button.ButtonSize;
 import com.tungsten.hmclpe.control.bean.button.ButtonStyle;
 
 import java.util.ArrayList;
 
-public class BaseButtonInfo {
+public class BaseButtonInfo implements Cloneable {
 
     public static final int SHOW_TYPE_ALWAYS = 0;
     public static final int SHOW_TYPE_IN_GAME = 1;
@@ -50,7 +52,7 @@ public class BaseButtonInfo {
     public boolean usingExist;
     public ButtonStyle buttonStyle;
 
-    public BaseButtonInfo (String uuid, String pattern, String child, String text,int showType, int sizeType, ButtonSize width, ButtonSize height, int positionType, ViewPosition xPosition, ViewPosition yPosition, int functionType, boolean viewMove, boolean autoKeep, boolean autoClick, boolean openMenu, boolean movable, boolean switchTouchMode, boolean switchSensor, boolean switchLeftPad, boolean showInputDialog, ArrayList<String> visibilityControl, String outputText, ArrayList<Integer> outputKeycode, boolean usingExist, ButtonStyle buttonStyle) {
+    public BaseButtonInfo(String uuid, String pattern, String child, String text, int showType, int sizeType, ButtonSize width, ButtonSize height, int positionType, ViewPosition xPosition, ViewPosition yPosition, int functionType, boolean viewMove, boolean autoKeep, boolean autoClick, boolean openMenu, boolean movable, boolean switchTouchMode, boolean switchSensor, boolean switchLeftPad, boolean showInputDialog, ArrayList<String> visibilityControl, String outputText, ArrayList<Integer> outputKeycode, boolean usingExist, ButtonStyle buttonStyle) {
         this.uuid = uuid;
         this.pattern = pattern;
         this.child = child;
@@ -79,7 +81,7 @@ public class BaseButtonInfo {
         this.buttonStyle = buttonStyle;
     }
 
-    public void refresh (BaseButtonInfo info) {
+    public void refresh(BaseButtonInfo info) {
         this.uuid = info.uuid;
         this.pattern = info.pattern;
         this.child = info.child;
@@ -108,4 +110,18 @@ public class BaseButtonInfo {
         this.buttonStyle = info.buttonStyle;
     }
 
+    @NonNull
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        BaseButtonInfo baseButtonInfo;
+        baseButtonInfo = (BaseButtonInfo) super.clone();
+        baseButtonInfo.width = (ButtonSize) width.clone();
+        baseButtonInfo.height = (ButtonSize) height.clone();
+        baseButtonInfo.xPosition = (ViewPosition) xPosition.clone();
+        baseButtonInfo.yPosition = (ViewPosition) yPosition.clone();
+        baseButtonInfo.visibilityControl = (ArrayList<String>) visibilityControl.clone();
+        baseButtonInfo.outputKeycode = (ArrayList<Integer>) outputKeycode.clone();
+        baseButtonInfo.buttonStyle = (ButtonStyle) buttonStyle.clone();
+        return baseButtonInfo;
+    }
 }

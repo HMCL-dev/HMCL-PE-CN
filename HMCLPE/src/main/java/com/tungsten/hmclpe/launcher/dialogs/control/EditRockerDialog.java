@@ -26,8 +26,6 @@ import androidx.appcompat.widget.SwitchCompat;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.ViewManager;
 import com.tungsten.hmclpe.control.bean.BaseRockerViewInfo;
-import com.tungsten.hmclpe.control.bean.ViewPosition;
-import com.tungsten.hmclpe.control.bean.rocker.RockerSize;
 import com.tungsten.hmclpe.control.bean.rocker.RockerStyle;
 import com.tungsten.hmclpe.control.view.BaseRockerView;
 import com.tungsten.hmclpe.launcher.dialogs.tools.ColorSelectorDialog;
@@ -151,20 +149,11 @@ public class EditRockerDialog extends Dialog implements View.OnClickListener, Ad
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void init(){
-        baseRockerViewInfo = new BaseRockerViewInfo(UUID.randomUUID().toString(),
-                pattern,
-                child,
-                BaseRockerViewInfo.SHOW_TYPE_ALWAYS,
-                BaseRockerViewInfo.SIZE_TYPE_ABSOLUTE,
-                new RockerSize(160,0.2f,BaseRockerViewInfo.SIZE_OBJECT_WIDTH),
-                BaseRockerViewInfo.POSITION_TYPE_PERCENT,
-                new ViewPosition(0,0),
-                new ViewPosition(0,0),
-                BaseRockerViewInfo.FUNCTION_FOLLOW_NONE,
-                true,
-                true,
-                new RockerStyle());
-        baseRockerViewInfo.refresh(baseRockerView.info);
+        try {
+            baseRockerViewInfo = (BaseRockerViewInfo) baseRockerView.info.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
 
         positive = findViewById(R.id.apply_rocker_change);
         negative = findViewById(R.id.exit);
@@ -607,6 +596,112 @@ public class EditRockerDialog extends Dialog implements View.OnClickListener, Ad
                 }
             });
             colorSelectorDialog.show();
+        }
+        if (view == addRockerSize) {
+            rockerSizeSeekbar.setProgress(rockerSizeSeekbar.getProgress() + 1);
+            int i = rockerSizeSeekbar.getProgress();
+            if (baseRockerViewInfo.sizeType == BaseRockerViewInfo.SIZE_TYPE_PERCENT) {
+                baseRockerViewInfo.size.percentSize = ((float) i / 1000f);
+                rockerSizeText.setText(((int) (1000 * baseRockerViewInfo.size.percentSize)) / 10f + " %");
+            }
+            else {
+                baseRockerViewInfo.size.absoluteSize = i;
+                rockerSizeText.setText(i + " dp");
+            }
+            onRockerSizeChange();
+        }
+        if (view == addRockerX) {
+            rockerXSeekbar.setProgress(rockerXSeekbar.getProgress() + 1);
+            int i = rockerXSeekbar.getProgress();
+            if (baseRockerViewInfo.positionType == BaseRockerViewInfo.POSITION_TYPE_PERCENT) {
+                baseRockerViewInfo.xPosition.percentPosition = ((float) i / 1000f);
+                rockerXText.setText(((int) (1000 * baseRockerViewInfo.xPosition.percentPosition)) / 10f + " %");
+            }
+            else {
+                baseRockerViewInfo.xPosition.absolutePosition = i;
+                rockerXText.setText(i + " dp");
+            }
+        }
+        if (view == addRockerY) {
+            rockerYSeekbar.setProgress(rockerYSeekbar.getProgress() + 1);
+            int i = rockerYSeekbar.getProgress();
+            if (baseRockerViewInfo.positionType == BaseRockerViewInfo.POSITION_TYPE_PERCENT) {
+                baseRockerViewInfo.yPosition.percentPosition = ((float) i / 1000f);
+                rockerYText.setText(((int) (1000 * baseRockerViewInfo.yPosition.percentPosition)) / 10f + " %");
+            }
+            else {
+                baseRockerViewInfo.yPosition.absolutePosition = i;
+                rockerYText.setText(i + " dp");
+            }
+        }
+        if (view == addRockerStrokeWidth) {
+            int i = rockerStrokeWidthSeekbar.getProgress() + 1;
+            rockerStrokeWidthSeekbar.setProgress(i);
+        }
+        if (view == addRockerCornerRadius) {
+            int i = rockerCornerRadiusSeekbar.getProgress() + 1;
+            rockerCornerRadiusSeekbar.setProgress(i);
+        }
+        if (view == addRockerStrokeWidthPress) {
+            int i = rockerStrokeWidthPressSeekbar.getProgress() + 1;
+            rockerStrokeWidthPressSeekbar.setProgress(i);
+        }
+        if (view == addRockerCornerRadiusPress) {
+            int i = rockerCornerRadiusPressSeekbar.getProgress() + 1;
+            rockerCornerRadiusPressSeekbar.setProgress(i);
+        }
+        if (view == reduceRockerSize) {
+            rockerSizeSeekbar.setProgress(rockerSizeSeekbar.getProgress() - 1);
+            int i = rockerSizeSeekbar.getProgress();
+            if (baseRockerViewInfo.sizeType == BaseRockerViewInfo.SIZE_TYPE_PERCENT) {
+                baseRockerViewInfo.size.percentSize = ((float) i / 1000f);
+                rockerSizeText.setText(((int) (1000 * baseRockerViewInfo.size.percentSize)) / 10f + " %");
+            }
+            else {
+                baseRockerViewInfo.size.absoluteSize = i;
+                rockerSizeText.setText(i + " dp");
+            }
+            onRockerSizeChange();
+        }
+        if (view == reduceRockerX) {
+            rockerXSeekbar.setProgress(rockerXSeekbar.getProgress() - 1);
+            int i = rockerXSeekbar.getProgress();
+            if (baseRockerViewInfo.positionType == BaseRockerViewInfo.POSITION_TYPE_PERCENT) {
+                baseRockerViewInfo.xPosition.percentPosition = ((float) i / 1000f);
+                rockerXText.setText(((int) (1000 * baseRockerViewInfo.xPosition.percentPosition)) / 10f + " %");
+            }
+            else {
+                baseRockerViewInfo.xPosition.absolutePosition = i;
+                rockerXText.setText(i + " dp");
+            }
+        }
+        if (view == reduceRockerY) {
+            rockerYSeekbar.setProgress(rockerYSeekbar.getProgress() - 1);
+            int i = rockerYSeekbar.getProgress();
+            if (baseRockerViewInfo.positionType == BaseRockerViewInfo.POSITION_TYPE_PERCENT) {
+                baseRockerViewInfo.yPosition.percentPosition = ((float) i / 1000f);
+                rockerYText.setText(((int) (1000 * baseRockerViewInfo.yPosition.percentPosition)) / 10f + " %");
+            }
+            else {
+                baseRockerViewInfo.yPosition.absolutePosition = i;
+                rockerYText.setText(i + " dp");
+            }
+        }
+        if (view == reduceRockerStrokeWidth) {
+            int i = rockerStrokeWidthSeekbar.getProgress() - 1;
+            rockerStrokeWidthSeekbar.setProgress(i);
+        }
+        if (view == reduceRockerCornerRadius) {
+            int i = rockerCornerRadiusSeekbar.getProgress() - 1;
+            rockerCornerRadiusSeekbar.setProgress(i);
+        }
+        if (view == reduceRockerStrokeWidthPress) {
+            int i = rockerStrokeWidthPressSeekbar.getProgress() - 1;
+            rockerStrokeWidthPressSeekbar.setProgress(i);
+        }
+        if (view == reduceRockerCornerRadiusPress) {
+            int i = rockerCornerRadiusPressSeekbar.getProgress() - 1;
+            rockerCornerRadiusPressSeekbar.setProgress(i);
         }
     }
 

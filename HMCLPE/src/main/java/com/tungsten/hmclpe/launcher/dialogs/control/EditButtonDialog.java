@@ -29,8 +29,6 @@ import androidx.appcompat.widget.SwitchCompat;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.ViewManager;
 import com.tungsten.hmclpe.control.bean.BaseButtonInfo;
-import com.tungsten.hmclpe.control.bean.ViewPosition;
-import com.tungsten.hmclpe.control.bean.button.ButtonSize;
 import com.tungsten.hmclpe.control.bean.button.ButtonStyle;
 import com.tungsten.hmclpe.control.view.BaseButton;
 import com.tungsten.hmclpe.launcher.dialogs.tools.ColorSelectorDialog;
@@ -180,25 +178,11 @@ public class EditButtonDialog extends Dialog implements View.OnClickListener, Ad
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void init(){
-        baseButtonInfo = new BaseButtonInfo(UUID.randomUUID().toString(),
-                pattern,
-                child,
-                "",
-                BaseButtonInfo.SHOW_TYPE_ALWAYS,
-                BaseButtonInfo.SIZE_TYPE_ABSOLUTE,
-                new ButtonSize(50,0.06f,BaseButtonInfo.SIZE_OBJECT_WIDTH),
-                new ButtonSize(50,0.06f,BaseButtonInfo.SIZE_OBJECT_WIDTH),
-                BaseButtonInfo.POSITION_TYPE_PERCENT,
-                new ViewPosition(0,0),
-                new ViewPosition(0,0),
-                BaseButtonInfo.FUNCTION_TYPE_TOUCH,
-                false,false,false,false,false,false,false,false,false,
-                new ArrayList<>(),
-                "",
-                new ArrayList<>(),
-                true,
-                new ButtonStyle());
-        baseButtonInfo.refresh(baseButton.info);
+        try {
+            baseButtonInfo = (BaseButtonInfo) baseButton.info.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
 
         positive = findViewById(R.id.apply_button_change);
         negative = findViewById(R.id.exit);

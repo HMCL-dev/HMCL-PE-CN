@@ -167,6 +167,10 @@ public class JREUtils {
         // On certain GLES drivers, overloading default functions shader hack fails, so disable it
         envMap.put("LIBGL_NOINTOVLHACK", "1");
 
+        envMap.put("LIBGL_SHRINK","0");
+
+        envMap.put("LIBGL_USEVBO","0");
+
         // Fix white color on banner and sheep, since GL4ES 1.1.5
         envMap.put("LIBGL_NORMALIZE", "1");
    
@@ -242,14 +246,12 @@ public class JREUtils {
         return exitCode;
     }
 
-    public static List<String> getJavaArgs() {
+    public static List<String> getJavaArgs(Context context) {
         String[] overridableArguments = new String[]{
-                "-Duser.language=" + System.getProperty("user.language"),
-
                 "-Dglfwstub.windowWidth=" + CallbackBridge.windowWidth,
                 "-Dglfwstub.windowHeight=" + CallbackBridge.windowHeight,
                 "-Dglfwstub.initEgl=false",
-
+                "-Dext.net.resolvPath=" +new File(context.getFilesDir().getParent(),"resolv.conf").getAbsolutePath(),
                 "-Dlog4j2.formatMsgNoLookups=true", //Log4j RCE mitigation
         };
 

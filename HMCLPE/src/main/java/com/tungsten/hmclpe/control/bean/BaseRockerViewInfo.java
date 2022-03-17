@@ -1,9 +1,11 @@
 package com.tungsten.hmclpe.control.bean;
 
+import androidx.annotation.NonNull;
+
 import com.tungsten.hmclpe.control.bean.rocker.RockerSize;
 import com.tungsten.hmclpe.control.bean.rocker.RockerStyle;
 
-public class BaseRockerViewInfo {
+public class BaseRockerViewInfo implements Cloneable{
 
     public static final int SHOW_TYPE_ALWAYS = 0;
     public static final int SHOW_TYPE_IN_GAME = 1;
@@ -66,6 +68,18 @@ public class BaseRockerViewInfo {
         this.shift = info.shift;
         this.usingExist = info.usingExist;
         this.rockerStyle = info.rockerStyle;
+    }
+
+    @NonNull
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        BaseRockerViewInfo baseRockerViewInfo;
+        baseRockerViewInfo = (BaseRockerViewInfo) super.clone();
+        baseRockerViewInfo.size = (RockerSize) size.clone();
+        baseRockerViewInfo.xPosition = (ViewPosition) xPosition.clone();
+        baseRockerViewInfo.yPosition = (ViewPosition) yPosition.clone();
+        baseRockerViewInfo.rockerStyle = (RockerStyle) rockerStyle.clone();
+        return baseRockerViewInfo;
     }
 
 }

@@ -43,6 +43,8 @@ public class BaseRockerView extends RockerView{
     private long downTime;
     private float initialX;
     private float initialY;
+    private float initialPositionX;
+    private float initialPositionY;
 
     private boolean shiftMode = false;
 
@@ -104,6 +106,8 @@ public class BaseRockerView extends RockerView{
                     downTime = System.currentTimeMillis();
                     initialX = event.getX();
                     initialY = event.getY();
+                    initialPositionX = getX();
+                    initialPositionY = getY();
                     deleteHandler.postDelayed(deleteRunnable,600);
                     menuHelper.viewManager.layoutPanel.showReference(info.positionType,getX(),getY(),this.getWidth(),this.getHeight());
                     break;
@@ -144,6 +148,13 @@ public class BaseRockerView extends RockerView{
                 case MotionEvent.ACTION_CANCEL:
                     deleteHandler.removeCallbacks(deleteRunnable);
                     if (System.currentTimeMillis() - downTime <= 200 && Math.abs(event.getX() - initialX) <= 10 && Math.abs(event.getY() - initialY) <= 10){
+                        setX(initialPositionX);
+                        setY(initialPositionY);
+                        info.xPosition.absolutePosition = ConvertUtils.px2dip(getContext(),initialPositionX);
+                        info.yPosition.absolutePosition = ConvertUtils.px2dip(getContext(),initialPositionY);
+                        info.xPosition.percentPosition = initialPositionX / (screenWidth - getWidth());
+                        info.yPosition.percentPosition = initialPositionY / (screenHeight - getHeight());
+                        saveRockerInfo();
                         EditRockerDialog dialog = new EditRockerDialog(getContext(),menuHelper.viewManager, info.pattern, info.child,screenWidth,screenHeight,this,menuHelper.fullscreen);
                         dialog.show();
                     }

@@ -1,6 +1,8 @@
 package com.tungsten.hmclpe.control.bean.button;
 
-public class ButtonStyle {
+import androidx.annotation.NonNull;
+
+public class ButtonStyle implements Cloneable {
 
     public String name;
     public int textSize;
@@ -36,4 +38,9 @@ public class ButtonStyle {
         this.fillColorPress = fillColorPress;
     }
 
+    @NonNull
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

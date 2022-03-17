@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">HMCL-PE</string>
     <string name="app_full_name" translatable="false">Hello Minecraft! Launcher : Pocket Edition</string>
     <string name="version_name" translatable="false">v1.0.0</string>
@@ -461,6 +461,12 @@
     <string name="dialog_manage_controller_import">从本地导入布局方案</string>
     <string name="dialog_manage_controller_create">创建新的布局方案</string>
     <string name="dialog_manage_controller_exit">完成</string>
+
+    <string name="dialog_manage_controller_export_dialog" tools:ignore="TypographyEllipsis">正在导出本地布局方案...</string>
+    <string name="dialog_manage_controller_import_dialog" tools:ignore="TypographyEllipsis">正在导入触控布局方案...</string>
+    <string name="dialog_manage_controller_import_exist">您导入的布局方案已存在！</string>
+    <string name="dialog_manage_controller_import_error">导入失败，请检查文件是否为HMCL-PE布局文件</string>
+    <string name="dialog_manage_controller_import_warn">当前版本启动器不支持您导入的布局方案，如果强行导入，可能会造成崩溃，是否继续？</string>
 
     <string name="dialog_create_control_pattern_title">创建新的布局方案</string>
     <string name="dialog_create_control_pattern_title_sec">编辑布局方案信息</string>

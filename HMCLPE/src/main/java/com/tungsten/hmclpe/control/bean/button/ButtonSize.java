@@ -1,6 +1,8 @@
 package com.tungsten.hmclpe.control.bean.button;
 
-public class ButtonSize {
+import androidx.annotation.NonNull;
+
+public class ButtonSize implements Cloneable {
 
     public int absoluteSize;
     public float percentSize;
@@ -12,4 +14,9 @@ public class ButtonSize {
         this.object = object;
     }
 
+    @NonNull
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

@@ -3,6 +3,8 @@ package com.tungsten.hmclpe.launcher.list.local.controller;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaMetadataRetriever;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +16,15 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
 
+import com.leo618.zip.IZipCallback;
+import com.leo618.zip.ZipManager;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.ControlPatternActivity;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.control.ControllerManagerDialog;
+import com.tungsten.hmclpe.launcher.dialogs.control.ExportControlDialog;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
@@ -27,6 +33,7 @@ import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 import com.tungsten.hmclpe.utils.file.AssetsUtils;
 import com.tungsten.hmclpe.utils.file.FileUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class ControlPatternListAdapter extends BaseAdapter {
@@ -45,6 +52,21 @@ public class ControlPatternListAdapter extends BaseAdapter {
         this.list = list;
         this.currentPattern = currentPattern;
         this.fullscreen = fullscreen;
+    }
+
+    private static String getMimeType(String filePath) {
+        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+        String mime = "*/*";
+        if (filePath != null) {
+            try {
+                mmr.setDataSource(filePath);
+                mime = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_MIMETYPE);
+            }
+            catch (RuntimeException e) {
+                return mime;
+            }
+        }
+        return mime;
     }
 
     private class ViewHolder{
@@ -132,7 +154,40 @@ public class ControlPatternListAdapter extends BaseAdapter {
         viewHolder.share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ExportControlDialog dialog = new ExportControlDialog(context);
+                new Thread(() -> {
+                    activity.runOnUiThread(dialog::show);
+                    FileUtils.deleteDirectory(AppManifest.DEFAULT_CACHE_DIR + "/export/");
+                    FileUtils.createDirectory(AppManifest.DEFAULT_CACHE_DIR + "/export/");
+                    ZipManager.zip(AppManifest.CONTROLLER_DIR + "/" + pattern.name, AppManifest.DEFAULT_CACHE_DIR + "/export/" + pattern.name + ".zip", "HMCL-PE-Password", new IZipCallback() {
+                        @Override
+                        public void onStart() {
 
+                        }
+
+                        @Override
+                        public void onProgress(int percentDone) {
+
+                        }
+
+                        @Override
+                        public void onFinish(boolean success) {
+                            if (success) {
+                                if (FileUtils.rename(AppManifest.DEFAULT_CACHE_DIR + "/export/" + pattern.name + ".zip",pattern.name + ".hmclpe")) {
+                                    Intent intent = new Intent(Intent.ACTION_SEND);
+                                    Uri uri = FileProvider.getUriForFile(context,context.getString(R.string.filebrowser_provider),new File(AppManifest.DEFAULT_CACHE_DIR + "/export/" + pattern.name + ".hmclpe"));
+                                    intent.setType(getMimeType(AppManifest.DEFAULT_CACHE_DIR + "/export/" + pattern.name + ".hmclpe"));
+                                    //System.out.println(getMimeType(AppManifest.DEFAULT_CACHE_DIR + "/export/" + pattern.name + ".hmclpe"));
+                                    intent.putExtra(Intent.EXTRA_STREAM, uri);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+                                    activity.runOnUiThread(dialog::dismiss);
+                                    activity.startActivity(intent);
+                                }
+                            }
+                        }
+                    });
+                }).start();
             }
         });
         viewHolder.delete.setOnClickListener(new View.OnClickListener() {

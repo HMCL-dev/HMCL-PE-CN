@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/FilePicker" />
             <option value="$PROJECT_DIR$/HMCLPE" />
             <option value="$PROJECT_DIR$/PojavLauncher" />
+            <option value="$PROJECT_DIR$/ZipTools" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

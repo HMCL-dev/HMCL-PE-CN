@@ -3,10 +3,12 @@ package com.tungsten.hmclpe.launcher.launch.pojav;
 import static com.tungsten.hmclpe.launcher.launch.GameLaunchSetting.isHighVersion;
 
 import android.content.Context;
+import android.os.Build;
 
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
 import com.tungsten.hmclpe.launcher.launch.LaunchVersion;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.launcher.manifest.info.AppInfo;
 import com.tungsten.hmclpe.utils.string.StringUtils;
 
 import net.kdt.pojavlaunch.Tools;
@@ -29,15 +31,20 @@ public class PojavLauncher {
             Vector<String> args = new Vector<String>();
             args.add("-Xms" + gameLaunchSetting.minRam + "M");
             args.add("-Xmx" + gameLaunchSetting.maxRam + "M");
-            args.addAll(JREUtils.getJavaArgs());
             if (JREUtils.jreReleaseList.get("JAVA_VERSION").equals("1.8.0")) {
                 Tools.getCacioJavaArgs(context,args, false);
             }
             args.add("-Dorg.lwjgl.opengl.libname=" + JREUtils.loadGraphicsLibrary(gameLaunchSetting.pojavRenderer));
             args.add("-Djava.home=" + javaPath);
-            //args.add("-Djava.library.path=" + libraryPath);
-            args.add("-Dfml.earlyprogresswindow=false");
             args.add("-Djava.io.tmpdir=" + AppManifest.DEFAULT_CACHE_DIR);
+            args.add("-Duser.home=" + new File(gameLaunchSetting.gameFileDirectory).getParent());
+            args.add("-Duser.language=" + System.getProperty("user.language"));
+            args.add("-Dos.name=Linux");
+            args.add("-Dos.version=Android-" + Build.VERSION.RELEASE);
+            args.add("-Dpojav.path.minecraft=" + gameLaunchSetting.gameFileDirectory);
+            args.addAll(JREUtils.getJavaArgs(context));
+            args.add("-Dnet.minecraft.clientmodname=" + AppInfo.APP_NAME);
+            args.add("-Dfml.earlyprogresswindow=false");
             args.add("-cp");
             args.add(classPath);
 

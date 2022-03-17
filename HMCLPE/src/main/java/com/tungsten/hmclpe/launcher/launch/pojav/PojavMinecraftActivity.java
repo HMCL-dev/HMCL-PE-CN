@@ -79,7 +79,7 @@ public class PojavMinecraftActivity extends BaseMainActivity {
                                 PojavLauncher.getMcArgs(gameLaunchSetting, PojavMinecraftActivity.this,(int) (width * scaleFactor),(int) (height * scaleFactor),gameLaunchSetting.server),
                                 gameLaunchSetting.pojavRenderer);
                     } catch (Throwable e) {
-
+                        e.printStackTrace();
                     }
                 }, "JVM Main thread");
                 JVMThread.setPriority(Thread.MAX_PRIORITY);

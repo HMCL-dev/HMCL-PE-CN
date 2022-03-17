@@ -1,6 +1,8 @@
 package com.tungsten.hmclpe.control.bean.rocker;
 
-public class RockerStyle {
+import androidx.annotation.NonNull;
+
+public class RockerStyle implements Cloneable {
 
     public String name;
     public int cornerRadius;
@@ -30,6 +32,12 @@ public class RockerStyle {
         this.strokeColorPress = strokeColorPress;
         this.fillColorPress = fillColorPress;
         this.pointerColorPress = pointerColorPress;
+    }
+
+    @NonNull
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
 }

@@ -25,11 +25,36 @@ public class FileUtils {
         }
     }
 
-    public static void rename(String path,String newName){
+    public static boolean rename(String path,String newName){
         File file = new File(path);
         String newPath = path.substring(0,path.lastIndexOf("/") + 1) + newName;
         File newFile = new File(newPath);
-        file.renameTo(newFile);
+        return file.renameTo(newFile);
+    }
+
+    public static boolean copyDirectory(String srcPath, String destPath) {
+        File src = new File(srcPath);
+        File dest = new File(destPath);
+        if (!src.isDirectory()) {
+            return false;
+        }
+        if (!dest.isDirectory() && !dest.mkdirs()) {
+            return false;
+        }
+        File[] files = src.listFiles();
+        for (File file : files) {
+            File destFile = new File(dest, file.getName());
+            if (file.isFile()) {
+                if (!copyFile(file.getAbsolutePath(), destFile.getAbsolutePath())) {
+                    return false;
+                }
+            } else if (file.isDirectory()) {
+                if (!copyDirectory(file.getAbsolutePath(), destFile.getAbsolutePath())) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public static boolean copyFile(String srcPath,String destPath){
@@ -47,7 +72,8 @@ public class FileUtils {
             outputStream.close();
             inputStream.close();
             return true;
-        }catch (Exception e){
+        }
+        catch (Exception e){
             e.printStackTrace();
             return false;
         }
@@ -82,7 +108,8 @@ public class FileUtils {
             }
             dirFile.delete();
             return true;
-        }catch(Exception e){
+        }
+        catch(Exception e){
             return false;
         }
     }
