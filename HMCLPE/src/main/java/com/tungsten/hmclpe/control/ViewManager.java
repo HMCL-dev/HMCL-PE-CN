@@ -227,6 +227,7 @@ public class ViewManager implements SensorEventListener {
 
     public void disableCursor(){
         gameCursorMode = 1;
+        viewMovingType = "0";
         for (int i = 0;i < layoutPanel.getChildCount();i++) {
             if (layoutPanel.getChildAt(i) instanceof BaseButton){
                 ((BaseButton) layoutPanel.getChildAt(i)).refreshVisibility();

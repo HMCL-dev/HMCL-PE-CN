@@ -29,9 +29,10 @@ public class BaseMainActivity extends BaseActivity {
 
     protected void init(String gameDir , boolean highVersion) {
 
-        this.minecraftGLView = findViewById(R.id.main_game_render_view);
-
         isInputStackCall = highVersion;
+
+        minecraftGLView = findViewById(R.id.main_game_render_view);
+        minecraftGLView.setOpaque(false);
 
         minecraftGLView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override

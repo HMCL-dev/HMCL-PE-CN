@@ -62,14 +62,14 @@ public class PojavMinecraftActivity extends BaseMainActivity {
             public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
                 CallbackBridge.windowWidth = (int) (width * scaleFactor);
                 CallbackBridge.windowHeight = (int) (height * scaleFactor);
+                surface.setDefaultBufferSize(CallbackBridge.windowWidth, CallbackBridge.windowHeight);
 
                 MCOptionUtils.load(gameLaunchSetting.game_directory);
                 MCOptionUtils.set("overrideWidth", String.valueOf(CallbackBridge.windowWidth));
                 MCOptionUtils.set("overrideHeight", String.valueOf(CallbackBridge.windowHeight));
                 MCOptionUtils.save(gameLaunchSetting.game_directory);
 
-                surface.setDefaultBufferSize(CallbackBridge.windowWidth, CallbackBridge.windowHeight);
-                CallbackBridge.sendUpdateWindowSize(CallbackBridge.windowWidth, CallbackBridge.windowHeight);
+                //CallbackBridge.sendUpdateWindowSize(CallbackBridge.windowWidth, CallbackBridge.windowHeight);
                 JREUtils.setupBridgeWindow(new Surface(surface));
                 Thread JVMThread = new Thread(() -> {
                     try {

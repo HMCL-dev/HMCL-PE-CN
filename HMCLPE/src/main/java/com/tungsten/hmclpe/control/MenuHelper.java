@@ -2,6 +2,7 @@ package com.tungsten.hmclpe.control;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -66,6 +68,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     public TextView mouseSizeText;
     public SeekBar mouseSizeSeekbar;
     public SwitchCompat switchHideUI;
+    public Button forceExit;
 
     public Spinner patternSpinner;
     public SwitchCompat editModeSwitch;
@@ -153,6 +156,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         mouseSizeText = activity.findViewById(R.id.mouse_size_text);
         mouseSizeSeekbar = activity.findViewById(R.id.mouse_size);
         switchHideUI = activity.findViewById(R.id.switch_hide_ui);
+        forceExit = activity.findViewById(R.id.force_exit);
 
         switchMenuFloat.setChecked(gameMenuSetting.menuFloatSetting.enable);
         switchMenuView.setChecked(gameMenuSetting.menuViewSetting.enable);
@@ -167,6 +171,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         switchSensor.setOnCheckedChangeListener(this);
         switchHalfScreen.setOnCheckedChangeListener(this);
         switchHideUI.setOnCheckedChangeListener(this);
+        forceExit.setOnClickListener(this);
 
         ArrayList<String> touchModes = new ArrayList<>();
         touchModes.add(context.getString(R.string.drawer_game_menu_control_touch_mode_create));
@@ -365,6 +370,17 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
 
     @Override
     public void onClick(View view) {
+        if (view == forceExit) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle(context.getString(R.string.dialog_force_exit_title));
+            builder.setMessage(context.getString(R.string.dialog_force_exit_message));
+            builder.setPositiveButton(context.getString(R.string.dialog_force_exit_positive), (dialogInterface, i) -> {
+                android.os.Process.killProcess(android.os.Process.myPid());
+            });
+            builder.setNegativeButton(context.getString(R.string.dialog_force_exit_negative), (dialogInterface, i) -> {});
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
         if (view == editInfo){
             EditControlPatternDialog dialog = new EditControlPatternDialog(context,activity,enableNameEditor, new EditControlPatternDialog.OnPatternInfoChangeListener() {
                 @Override

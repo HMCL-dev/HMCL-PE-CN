@@ -641,6 +641,11 @@
     <string name="dialog_add_fast_text_positive">添加</string>
     <string name="dialog_add_fast_text_negative">取消</string>
 
+    <string name="dialog_force_exit_title">提示</string>
+    <string name="dialog_force_exit_message">是否要强制退出？</string>
+    <string name="dialog_force_exit_positive">确认</string>
+    <string name="dialog_force_exit_negative">取消</string>
+
     <string name="drawer_game_menu_title">HMCL-PE 控制面板</string>
     <string name="drawer_game_menu_type">控制面板呼出方式</string>
     <string name="drawer_game_menu_type_float">悬浮窗</string>
@@ -666,6 +671,9 @@
     <string name="drawer_game_menu_control_mouse_size">鼠标大小</string>
     <string name="drawer_game_menu_ui">UI选项</string>
     <string name="drawer_game_menu_ui_hide">隐藏全部UI（仍可使用）</string>
+    <string name="drawer_game_menu_extra">其他选项</string>
+    <string name="drawer_game_menu_force_exit">强制退出</string>
+    <string name="drawer_game_menu_force_exit_button">退出</string>
 
     <string name="drawer_custom_menu_title">控制布局选项</string>
     <string name="drawer_custom_menu_current">当前方案</string>

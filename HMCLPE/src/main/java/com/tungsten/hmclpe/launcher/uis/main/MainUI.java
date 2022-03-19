@@ -211,6 +211,8 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
             else {
                 intent = new Intent(context, PojavMinecraftActivity.class);
             }
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+            intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
             Bundle bundle = new Bundle();
             bundle.putString("setting_path",AppManifest.SETTING_DIR + "/private_game_setting.json");
             intent.putExtras(bundle);

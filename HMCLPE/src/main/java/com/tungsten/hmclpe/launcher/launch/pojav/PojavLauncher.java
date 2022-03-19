@@ -29,12 +29,9 @@ public class PojavLauncher {
             String libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64:" + AppManifest.POJAV_LIB_DIR + "/lwjgl3:" + JREUtils.LD_LIBRARY_PATH + ":" + AppManifest.POJAV_LIB_DIR + "/lwjgl3";;
             String classPath = getLWJGL3ClassPath() + ":" + version.getClassPath(gameLaunchSetting.gameFileDirectory);
             Vector<String> args = new Vector<String>();
-            args.add("-Xms" + gameLaunchSetting.minRam + "M");
-            args.add("-Xmx" + gameLaunchSetting.maxRam + "M");
             if (JREUtils.jreReleaseList.get("JAVA_VERSION").equals("1.8.0")) {
                 Tools.getCacioJavaArgs(context,args, false);
             }
-            args.add("-Dorg.lwjgl.opengl.libname=" + JREUtils.loadGraphicsLibrary(gameLaunchSetting.pojavRenderer));
             args.add("-Djava.home=" + javaPath);
             args.add("-Djava.io.tmpdir=" + AppManifest.DEFAULT_CACHE_DIR);
             args.add("-Duser.home=" + new File(gameLaunchSetting.gameFileDirectory).getParent());
@@ -45,6 +42,9 @@ public class PojavLauncher {
             args.addAll(JREUtils.getJavaArgs(context));
             args.add("-Dnet.minecraft.clientmodname=" + AppInfo.APP_NAME);
             args.add("-Dfml.earlyprogresswindow=false");
+            args.add("-Xms" + gameLaunchSetting.minRam + "M");
+            args.add("-Xmx" + gameLaunchSetting.maxRam + "M");
+            args.add("-Dorg.lwjgl.opengl.libname=" + JREUtils.loadGraphicsLibrary(gameLaunchSetting.pojavRenderer));
             args.add("-cp");
             args.add(classPath);
 

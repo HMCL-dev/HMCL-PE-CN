@@ -8,6 +8,7 @@ import android.system.ErrnoException;
 import android.system.Os;
 import android.util.ArrayMap;
 import android.util.Log;
+import android.view.Surface;
 
 import com.oracle.dalvik.VMLauncher;
 
@@ -68,6 +69,7 @@ public class JREUtils {
         dlopen(path + "/libawt_headless.so");
         dlopen(path + "/libfreetype.so");
         dlopen(path + "/libfontmanager.so");
+        dlopen(path + "/libtinyiconv.so");
         for(File f : locateLibs(new File(javaPath))) {
             dlopen(f.getAbsolutePath());
         }
@@ -240,6 +242,7 @@ public class JREUtils {
         initJavaRuntime(javaPath);
         setupExitTrap(activity.getApplication());
         chdir(home);
+        userArgs.add(0,"java");
 
         final int exitCode = VMLauncher.launchJVM((String[]) userArgs.toArray(new String[0]));
         Logger.getInstance(activity).appendToLog("Java Exit code: " + exitCode);
@@ -252,7 +255,7 @@ public class JREUtils {
                 "-Dglfwstub.windowHeight=" + CallbackBridge.windowHeight,
                 "-Dglfwstub.initEgl=false",
                 "-Dext.net.resolvPath=" +new File(context.getFilesDir().getParent(),"resolv.conf").getAbsolutePath(),
-                "-Dlog4j2.formatMsgNoLookups=true", //Log4j RCE mitigation
+                "-Dlog4j2.formatMsgNoLookups=true"
         };
 
         List<String> userArguments = new ArrayList<>();
@@ -404,7 +407,7 @@ public class JREUtils {
     public static native void logToLogger(final Logger logger);
     public static native boolean dlopen(String libPath);
     public static native void setLdLibraryPath(String ldLibraryPath);
-    public static native void setupBridgeWindow(Object surface);
+    public static native void setupBridgeWindow(Surface surface);
     public static native void setupExitTrap(Context context);
     // Obtain AWT screen pixels to render on Android SurfaceView
     public static native int[] renderAWTScreenFrame(/* Object canvas, int width, int height */);
