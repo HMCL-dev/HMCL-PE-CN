@@ -2,6 +2,8 @@ package com.tungsten.hmclpe.launcher.list.account;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -19,9 +22,12 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.Account;
 import com.tungsten.hmclpe.auth.AuthInfo;
 import com.tungsten.hmclpe.auth.AuthenticationException;
+import com.tungsten.hmclpe.auth.ServerResponseMalformedException;
 import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
 import com.tungsten.hmclpe.auth.yggdrasil.GameProfile;
 import com.tungsten.hmclpe.auth.yggdrasil.MojangYggdrasilProvider;
+import com.tungsten.hmclpe.auth.yggdrasil.Texture;
+import com.tungsten.hmclpe.auth.yggdrasil.TextureType;
 import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilService;
 import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilSession;
 import com.tungsten.hmclpe.launcher.MainActivity;
@@ -30,7 +36,13 @@ import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.skin.draw2d.Avatar;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.UUID;
 
 public class AccountListAdapter extends BaseAdapter {
@@ -66,6 +78,46 @@ public class AccountListAdapter extends BaseAdapter {
             }
         }
     };
+
+    Account newAccount;
+    private Account getAccountFromInfo(Account rawAccount,YggdrasilService yggdrasilService,YggdrasilSession yggdrasilSession,AuthInfo authInfo) {
+        Map<TextureType, Texture> map = null;
+        try {
+            map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(authInfo.getUUID()).get()).get();
+            Texture texture = map.get(TextureType.SKIN);
+            String u = texture.getUrl();
+            if (!u.startsWith("https")){
+                u = u.replaceFirst("http","https");
+            }
+            URL url = new URL(u);
+            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            httpURLConnection.setDoInput(true);
+            httpURLConnection.connect();
+            InputStream inputStream = httpURLConnection.getInputStream();
+            Bitmap skin = BitmapFactory.decodeStream(inputStream);
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    String skinTexture = Avatar.bitmapToString(skin);
+                    newAccount = new Account(rawAccount.loginType,
+                            rawAccount.email,
+                            rawAccount.password,
+                            rawAccount.user_type,
+                            rawAccount.auth_session,
+                            authInfo.getUsername(),
+                            authInfo.getUUID().toString(),
+                            authInfo.getAccessToken(),
+                            yggdrasilSession.getClientToken(),
+                            rawAccount.refresh_token,
+                            rawAccount.loginServer,
+                            skinTexture);
+                }
+            });
+        } catch (AuthenticationException | IOException e) {
+            e.printStackTrace();
+        }
+        return newAccount;
+    }
 
     private AuthlibInjectorServer getServerFromUrl(String url){
         for (int i = 0;i < activity.uiManager.accountUI.serverList.size();i++){
@@ -150,22 +202,56 @@ public class AccountListAdapter extends BaseAdapter {
 
                 }
                 if (account.loginType == 2){
-                    YggdrasilService yggdrasilService = new YggdrasilService(new MojangYggdrasilProvider());
-                    try {
-                        YggdrasilSession yggdrasilSession = yggdrasilService.refresh(account.auth_access_token, account.auth_client_token, new GameProfile(UUID.fromString(account.auth_uuid),account.auth_player_name));
-                        AuthInfo authInfo = yggdrasilSession.toAuthInfo();
-                    }catch (AuthenticationException e){
-                        e.printStackTrace();
-                    }
+                    /*
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                YggdrasilService yggdrasilService = new YggdrasilService(new MojangYggdrasilProvider());
+                                YggdrasilSession yggdrasilSession = yggdrasilService.refresh(account.auth_access_token, "00000000-0000-0000-0000-000000000000", new GameProfile(UUID.fromString(account.auth_uuid),account.auth_player_name));
+                                AuthInfo authInfo = yggdrasilSession.toAuthInfo();
+                                activity.uiManager.accountUI.accounts.get(position).refresh(getAccountFromInfo(account,yggdrasilService,yggdrasilSession,authInfo));
+                                GsonUtils.saveAccounts(activity.uiManager.accountUI.accounts,AppManifest.ACCOUNT_DIR + "/accounts.json");
+                                activity.uiManager.accountUI.accountListAdapter.notifyDataSetChanged();
+                            }catch (AuthenticationException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
+
+                     */
                 }
                 if (account.loginType == 3){
 
                 }
                 if (account.loginType == 4){
+                    /*
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                YggdrasilService yggdrasilService = getServerFromUrl(account.loginServer).getYggdrasilService();
+                                YggdrasilSession yggdrasilSession = yggdrasilService.refresh(account.auth_access_token, account.auth_client_token,null);
+                                if (yggdrasilSession == null || !yggdrasilSession.getSelectedProfile().getId().equals(account.auth_uuid)) {
+                                    throw new ServerResponseMalformedException("Selected profile changed");
+                                }
+                                AuthInfo authInfo = yggdrasilSession.toAuthInfo();
+                                activity.uiManager.accountUI.accounts.get(position).refresh(getAccountFromInfo(account,yggdrasilService,yggdrasilSession,authInfo));
+                                GsonUtils.saveAccounts(activity.uiManager.accountUI.accounts,AppManifest.ACCOUNT_DIR + "/accounts.json");
+                                activity.uiManager.accountUI.accountListAdapter.notifyDataSetChanged();
+                            }catch (AuthenticationException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    }).start();
 
+                     */
                 }
             }
         });
+        if (account.loginType == 3) {
+            viewHolder.skin.setVisibility(View.GONE);
+        }
         viewHolder.skin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

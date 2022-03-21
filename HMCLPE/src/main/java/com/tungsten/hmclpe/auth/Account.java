@@ -28,4 +28,19 @@ public class Account {
         this.loginServer = loginServer;
         this.texture = texture;
     }
+
+    public void refresh(Account account) {
+        this.loginType = account.loginType;
+        this.email = account.email;
+        this.password = account.password;
+        this.user_type = account.user_type;
+        this.auth_session = account.auth_session;
+        this.auth_player_name = account.auth_player_name;
+        this.auth_uuid = account.auth_uuid;
+        this.auth_access_token = account.auth_access_token;
+        this.auth_client_token = account.auth_client_token;
+        this.refresh_token = account.refresh_token;
+        this.loginServer = account.loginServer;
+        this.texture = account.texture;
+    }
 }

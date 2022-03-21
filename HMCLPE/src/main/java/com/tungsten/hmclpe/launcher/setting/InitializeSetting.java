@@ -37,6 +37,7 @@ public class InitializeSetting {
     public static void checkLauncherFiles(MainActivity activity){
         if (SettingUtils.getJavaVersionInfo().size() < 2 || Integer.parseInt(Objects.requireNonNull(FileStringUtils.replaceBlank(FileStringUtils.getStringFromFile(AppManifest.DEFAULT_RUNTIME_DIR + "/java/default/version")))) < AppInfo.JAVA_8_VERSION || Integer.parseInt(Objects.requireNonNull(FileStringUtils.replaceBlank(FileStringUtils.getStringFromFile(AppManifest.DEFAULT_RUNTIME_DIR + "/java/JRE17/version")))) < AppInfo.JAVA_17_VERSION){
             FileUtils.deleteDirectory(AppManifest.DEFAULT_RUNTIME_DIR);
+            AssetsUtils.getInstance(activity.getApplicationContext()).copyAssetsToSD("resolv.conf", new File(new File(AppManifest.DEFAULT_RUNTIME_DIR).getParent(),"resolv.conf").getAbsolutePath());
             AssetsUtils.getInstance(activity.getApplicationContext()).copyAssetsToSD("app_runtime", AppManifest.DEFAULT_RUNTIME_DIR).setFileOperateCallback(new AssetsUtils.FileOperateCallback() {
                 @Override
                 public void onSuccess() {

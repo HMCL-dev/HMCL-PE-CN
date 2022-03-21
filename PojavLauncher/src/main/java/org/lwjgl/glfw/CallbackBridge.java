@@ -209,6 +209,7 @@ public class CallbackBridge {
     private static native void nativeSendMouseButton(int button, int action, int mods);
     private static native void nativeSendScroll(double xoffset, double yoffset);
     private static native void nativeSendScreenSize(int width, int height);
+    public static native void nativeSetWindowAttrib(int attrib, int value);
     
     public static native boolean nativeIsGrabbing();
     static {

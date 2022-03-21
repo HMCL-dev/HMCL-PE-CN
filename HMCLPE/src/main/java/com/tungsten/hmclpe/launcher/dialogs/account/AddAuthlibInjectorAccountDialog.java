@@ -167,7 +167,7 @@ public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnCl
                                             password,
                                             "mojang",
                                             "0",
-                                            authInfo.getUsername(),
+                                            yggdrasilSession.getSelectedProfile().getName(),
                                             authInfo.getUUID().toString(),
                                             authInfo.getAccessToken(),
                                             yggdrasilSession.getClientToken(),

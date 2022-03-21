@@ -84,12 +84,13 @@ public class PojavMinecraftActivity extends BaseMainActivity {
                 }, "JVM Main thread");
                 JVMThread.setPriority(Thread.MAX_PRIORITY);
                 JVMThread.start();
+
                 Thread virtualMouseGrabThread = new Thread(() -> {
                     while (true) {
-                        if (!CallbackBridge.isGrabbing() && menuHelper.viewManager != null && menuHelper.viewManager.gameCursorMode == 1) {
+                        if (!CallbackBridge.isGrabbing() && menuHelper != null && menuHelper.viewManager != null && menuHelper.viewManager.gameCursorMode == 1) {
                             mouseModeHandler.sendEmptyMessage(1);
                         }else{
-                            if (CallbackBridge.isGrabbing() && menuHelper.viewManager != null && menuHelper.viewManager.gameCursorMode == 0) {
+                            if (CallbackBridge.isGrabbing() && menuHelper != null && menuHelper.viewManager != null && menuHelper.viewManager.gameCursorMode == 0) {
                                 mouseModeHandler.sendEmptyMessage(0);
                             }
                         }

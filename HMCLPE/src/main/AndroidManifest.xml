@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.tungsten.hmclpe">
 
-    <uses-feature android:glEsVersion="0x00020000"/>
-
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
@@ -33,6 +31,7 @@
         android:supportsRtl="true"
         android:hasFragileUserData="true"
         android:allowNativeHeapPointerTagging="false"
+        android:isGame="true"
         android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"
         tools:ignore="UnusedAttribute">
         <activity
@@ -74,7 +73,6 @@
             android:name=".launcher.launch.boat.BoatMinecraftActivity"
             android:alwaysRetainTaskState="true"
             android:configChanges="fontScale|keyboard|keyboardHidden|locale|orientation|screenLayout|uiMode|screenSize|navigation"
-            android:excludeFromRecents="false"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"/>
         <activity
@@ -82,8 +80,7 @@
             android:multiprocess="true"
             android:name=".launcher.launch.pojav.PojavMinecraftActivity"
             android:alwaysRetainTaskState="true"
-            android:configChanges="fontScale|keyboard|keyboardHidden|locale|orientation|screenLayout|uiMode|screenSize|navigation"
-            android:excludeFromRecents="false"
+            android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"/>
         <activity

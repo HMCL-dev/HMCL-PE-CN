@@ -6,12 +6,15 @@ import static org.lwjgl.glfw.CallbackBridge.windowWidth;
 
 import android.annotation.SuppressLint;
 import android.graphics.SurfaceTexture;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.view.TextureView;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import net.kdt.pojavlaunch.utils.JREUtils;
 
@@ -19,7 +22,7 @@ import org.lwjgl.glfw.CallbackBridge;
 
 import java.util.Vector;
 
-public class BaseMainActivity extends BaseActivity {
+public class BaseMainActivity extends AppCompatActivity {
 
     public TextureView minecraftGLView;
     public float scaleFactor = 1.0F;
@@ -33,6 +36,7 @@ public class BaseMainActivity extends BaseActivity {
 
         minecraftGLView = findViewById(R.id.main_game_render_view);
         minecraftGLView.setOpaque(false);
+        minecraftGLView.setFocusable(true);
 
         minecraftGLView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
@@ -61,6 +65,18 @@ public class BaseMainActivity extends BaseActivity {
     public void startGame(String javaPath,String home,boolean highVersion,final Vector<String> args, String renderer) throws Throwable {
         JREUtils.redirectAndPrintJRELog(this);
         Tools.launchMinecraft(this, javaPath,home,renderer, args);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        CallbackBridge.nativeSetWindowAttrib(LWJGLGLFWKeycode.GLFW_VISIBLE, 1);
+    }
+
+    @Override
+    protected void onStop() {
+        CallbackBridge.nativeSetWindowAttrib(LWJGLGLFWKeycode.GLFW_VISIBLE, 0);
+        super.onStop();
     }
 
     @Override
