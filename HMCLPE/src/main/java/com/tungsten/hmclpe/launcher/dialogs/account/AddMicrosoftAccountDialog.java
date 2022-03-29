@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -114,16 +115,25 @@ public class AddMicrosoftAccountDialog extends Dialog implements View.OnClickLis
                                 Msa.MinecraftProfileResponse minecraftProfile = Msa.getMinecraftProfile(msa.tokenType, msa.mcToken);
                                 Map<TextureType, Texture> map = Msa.getTextures(minecraftProfile).get();
                                 Texture texture = map.get(TextureType.SKIN);
-                                String u = texture.getUrl();
-                                if (!u.startsWith("https")) {
-                                    u = u.replaceFirst("http", "https");
+                                Bitmap skin;
+                                if (texture == null) {
+                                    AssetManager manager = getContext().getAssets();
+                                    InputStream inputStream;
+                                    inputStream = manager.open("img/alex.png");
+                                    skin = BitmapFactory.decodeStream(inputStream);
                                 }
-                                URL url = new URL(u);
-                                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                                httpURLConnection.setDoInput(true);
-                                httpURLConnection.connect();
-                                InputStream inputStream = httpURLConnection.getInputStream();
-                                Bitmap skin = BitmapFactory.decodeStream(inputStream);
+                                else {
+                                    String u = texture.getUrl();
+                                    if (!u.startsWith("https")){
+                                        u = u.replaceFirst("http","https");
+                                    }
+                                    URL url = new URL(u);
+                                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                                    httpURLConnection.setDoInput(true);
+                                    httpURLConnection.connect();
+                                    InputStream inputStream = httpURLConnection.getInputStream();
+                                    skin = BitmapFactory.decodeStream(inputStream);
+                                }
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {

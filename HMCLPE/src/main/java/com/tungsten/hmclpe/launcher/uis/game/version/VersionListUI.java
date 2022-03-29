@@ -12,7 +12,7 @@ import com.tungsten.hmclpe.launcher.list.info.contents.ContentListAdapter;
 import com.tungsten.hmclpe.launcher.list.info.contents.ContentListBean;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListAdapter;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
-import com.tungsten.hmclpe.launcher.list.view.listview.ContentListView;
+import com.tungsten.hmclpe.launcher.view.listview.ContentListView;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
@@ -68,7 +68,12 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
         startGlobalSettingUI.setOnClickListener(this);
 
         contentListParent = activity.findViewById(R.id.content_list_parent);
-        gameDirList.setMaxHeight(contentListParent.getHeight() - startAddGameDirUI.getHeight() - ConvertUtils.dip2px(context,10));
+        startAddGameDirUI.post(new Runnable() {
+            @Override
+            public void run() {
+                gameDirList.setMaxHeight(contentListParent.getHeight() - startAddGameDirUI.getHeight() - ConvertUtils.dip2px(context,10));
+            }
+        });
     }
 
     @Override

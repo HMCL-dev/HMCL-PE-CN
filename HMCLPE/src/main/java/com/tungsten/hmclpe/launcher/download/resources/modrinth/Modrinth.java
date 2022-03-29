@@ -40,6 +40,14 @@ public final class Modrinth {
         return response.getHits();
     }
 
+    public static Stream<ModListBean.Version> getRemoteVersionsById(String id) throws IOException {
+        id = StringUtils.removePrefix(id, "local-");
+        List<ModVersion> versions = HttpRequest.GET("https://api.modrinth.com/api/v1/mod/" + id + "/version")
+                .getJson(new TypeToken<List<ModVersion>>() {
+                }.getType());
+        return versions.stream().map(ModVersion::toVersion).flatMap(Lang::toStream);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static List<ModVersion> getFiles(ModResult mod) throws IOException {
         String id = StringUtils.removePrefix(mod.getModId(), "local-");

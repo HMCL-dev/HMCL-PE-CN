@@ -1,5 +1,7 @@
 package com.tungsten.hmclpe.launcher.uis.game.download.right.game;
 
+import static java.util.stream.Collectors.toList;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -13,11 +15,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.download.resources.modrinth.Modrinth;
+import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
+import com.tungsten.hmclpe.launcher.list.download.minecraft.fabric.DownloadFabricAPIListAdapter;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class DownloadFabricAPIUI extends BaseUI implements View.OnClickListener {
 
@@ -30,6 +41,8 @@ public class DownloadFabricAPIUI extends BaseUI implements View.OnClickListener 
     private ListView fabricAPIListView;
     private ProgressBar progressBar;
     private TextView back;
+
+    private static final String FABRIC_API_ID = "P7dR8mSH";
 
     public DownloadFabricAPIUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -65,7 +78,47 @@ public class DownloadFabricAPIUI extends BaseUI implements View.OnClickListener 
     }
 
     private void init(){
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(R.string.fabric_api_list_ui_warn);
+        builder.setMessage(R.string.fabric_api_list_ui_warn_text);
+        builder.setPositiveButton(R.string.fabric_api_list_ui_positive, (dialogInterface, i) -> { });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        new Thread(){
+            @Override
+            public void run() {
+                loadingHandler.sendEmptyMessage(0);
+                ArrayList<ModListBean.Version> apiVersions = new ArrayList<>();
+                ArrayList<ModListBean.Version> availableVersions = new ArrayList<>();
+                try {
+                    Stream<ModListBean.Version> stream = Modrinth.getRemoteVersionsById(FABRIC_API_ID);
+                    List<ModListBean.Version> list = stream.collect(toList());
+                    apiVersions.addAll(list);
+                    boolean exist = false;
+                    for (ModListBean.Version v : apiVersions) {
+                        if (v.getGameVersions().contains(version)){
+                            exist = true;
+                            availableVersions.add(v);
+                        }
+                    }
+                    if (exist) {
+                        DownloadFabricAPIListAdapter adapter = new DownloadFabricAPIListAdapter(context,activity,version,availableVersions);
+                        loadingHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                fabricAPIListView.setAdapter(adapter);
+                            }
+                        });
+                        loadingHandler.sendEmptyMessage(1);
+                    }
+                    else {
+                        loadingHandler.sendEmptyMessage(2);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 
     @Override

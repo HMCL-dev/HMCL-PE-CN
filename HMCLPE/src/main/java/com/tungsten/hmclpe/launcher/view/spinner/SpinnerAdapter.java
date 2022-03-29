@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.launcher.list.view.spinner;
+package com.tungsten.hmclpe.launcher.view.spinner;
 
 import android.content.Context;
 import android.view.LayoutInflater;

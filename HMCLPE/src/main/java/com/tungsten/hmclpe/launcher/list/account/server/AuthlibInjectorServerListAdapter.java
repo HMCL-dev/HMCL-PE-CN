@@ -83,14 +83,27 @@ public class AuthlibInjectorServerListAdapter extends BaseAdapter {
         viewHolder.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddAuthlibInjectorAccountDialog addAuthlibInjectorAccountDialog = new AddAuthlibInjectorAccountDialog(context, activity, activity.uiManager.accountUI.accounts, new AddAuthlibInjectorAccountDialog.OnAuthlibInjectorAccountAddListener() {
+                AddAuthlibInjectorAccountDialog addAuthlibInjectorAccountDialog = new AddAuthlibInjectorAccountDialog(context, activity, new AddAuthlibInjectorAccountDialog.OnAuthlibInjectorAccountAddListener() {
                     @Override
                     public void onAccountAdd(Account account) {
-                        activity.publicGameSetting.account = account;
-                        GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");
-                        activity.uiManager.accountUI.accounts.add(account);
-                        activity.uiManager.accountUI.accountListAdapter.notifyDataSetChanged();
-                        GsonUtils.saveAccounts(activity.uiManager.accountUI.accounts,AppManifest.ACCOUNT_DIR + "/accounts.json");
+                        boolean exist = false;
+                        for (Account a : activity.uiManager.accountUI.accounts){
+                            if (a.loginType == 4){
+                                if (a.loginServer.equals(authlibInjectorServer.getUrl())){
+                                    exist = (a.email.equals(account.email) && a.auth_player_name.equals(account.auth_player_name));
+                                    if (exist){
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if (!exist) {
+                            activity.publicGameSetting.account = account;
+                            GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");
+                            activity.uiManager.accountUI.accounts.add(account);
+                            activity.uiManager.accountUI.accountListAdapter.notifyDataSetChanged();
+                            GsonUtils.saveAccounts(activity.uiManager.accountUI.accounts,AppManifest.ACCOUNT_DIR + "/accounts.json");
+                        }
                     }
                 },list,authlibInjectorServer);
                 addAuthlibInjectorAccountDialog.show();

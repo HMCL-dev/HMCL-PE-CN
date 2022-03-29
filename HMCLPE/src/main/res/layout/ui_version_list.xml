@@ -19,7 +19,7 @@
             android:orientation="vertical"
             android:layout_weight="1">
 
-            <com.tungsten.hmclpe.launcher.list.view.listview.ContentListView
+            <com.tungsten.hmclpe.launcher.view.listview.ContentListView
                 android:divider="@color/colorTransparent"
                 android:dividerHeight="0dp"
                 android:layout_marginTop="10dp"

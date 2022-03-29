@@ -21,6 +21,7 @@ import com.tungsten.hmclpe.launcher.download.minecraft.forge.ForgeVersion;
 import com.tungsten.hmclpe.launcher.download.minecraft.game.VersionManifest;
 import com.tungsten.hmclpe.launcher.download.minecraft.liteloader.LiteLoaderVersion;
 import com.tungsten.hmclpe.launcher.download.minecraft.optifine.OptifineVersion;
+import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
@@ -36,6 +37,7 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
     public OptifineVersion optifineVersion;
     public LiteLoaderVersion liteLoaderVersion;
     public FabricLoaderVersion fabricVersion;
+    public ModListBean.Version fabricAPIVersion;
 
     private EditText editName;
 
@@ -158,7 +160,10 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
             }
         }
         if (v == deleteFabricAPIVersion){
-
+            if (fabricAPIVersion != null){
+                fabricAPIVersion = null;
+                init();
+            }
         }
         if (v == selectForgeVersion && fabricVersion == null){
             activity.uiManager.downloadForgeUI.version = version.id;
@@ -177,7 +182,8 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
             activity.uiManager.switchMainUI(activity.uiManager.downloadFabricUI);
         }
         if (v == selectFabricAPIVersion && forgeVersion.getGameVersion().equals("") && optifineVersion == null){
-
+            activity.uiManager.downloadFabricAPIUI.version = version.id;
+            activity.uiManager.switchMainUI(activity.uiManager.downloadFabricAPIUI);
         }
         if (v == install){
             boolean exist = false;
@@ -254,6 +260,21 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
                 liteLoaderVersionText.setText(context.getString(R.string.install_game_ui_none));
             }
             deleteLiteLoaderVersion.setVisibility(View.GONE);
+        }
+        if (!forgeVersion.getGameVersion().equals("") || optifineVersion != null) {
+            fabricAPIVersionText.setText(optifineVersion != null ? context.getString(R.string.install_game_ui_optifine_not_compatible) : context.getString(R.string.install_game_ui_forge_not_compatible));
+            deleteFabricAPIVersion.setVisibility(View.GONE);
+            selectFabricAPI.setVisibility(View.GONE);
+        }
+        else if (fabricAPIVersion == null) {
+            fabricAPIVersionText.setText(context.getString(R.string.install_game_ui_none));
+            deleteFabricAPIVersion.setVisibility(View.GONE);
+            selectFabricAPI.setVisibility(View.VISIBLE);
+        }
+        else {
+            fabricAPIVersionText.setText(fabricAPIVersion.getVersion());
+            deleteFabricAPIVersion.setVisibility(View.VISIBLE);
+            selectFabricAPI.setVisibility(View.VISIBLE);
         }
     }
 

@@ -28,7 +28,7 @@ import com.tungsten.hmclpe.launcher.download.resources.curse.CurseModManager;
 import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
 import com.tungsten.hmclpe.launcher.download.resources.SearchTools;
 import com.tungsten.hmclpe.launcher.list.download.world.DownloadWorldListAdapter;
-import com.tungsten.hmclpe.launcher.list.view.spinner.SpinnerAdapter;
+import com.tungsten.hmclpe.launcher.view.spinner.SpinnerAdapter;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
@@ -93,7 +93,7 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
         sortListAdapter.setDropDownViewResource(R.layout.item_spinner_drop_down);
         editSort.setAdapter(sortListAdapter);
 
-        String[] versionArray = context.getResources().getStringArray(R.array.download_resource_version);
+        String[] versionArray = DownloadModUI.DEFAULT_GAME_VERSIONS;
         versionList = new ArrayList<>();
         versionList.add("");
         versionList.addAll(Arrays.asList(versionArray));

@@ -12,7 +12,7 @@
         android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/launcher_view_light_gray"
+        android:background="@drawable/launcher_button_gray_blue"
         android:orientation="horizontal"
         android:focusable="true">
 

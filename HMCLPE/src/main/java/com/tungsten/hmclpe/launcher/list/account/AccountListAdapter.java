@@ -2,6 +2,7 @@ package com.tungsten.hmclpe.launcher.list.account;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
@@ -43,6 +44,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 public class AccountListAdapter extends BaseAdapter {
@@ -85,16 +87,25 @@ public class AccountListAdapter extends BaseAdapter {
         try {
             map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(authInfo.getUUID()).get()).get();
             Texture texture = map.get(TextureType.SKIN);
-            String u = texture.getUrl();
-            if (!u.startsWith("https")){
-                u = u.replaceFirst("http","https");
+            Bitmap skin;
+            if (texture == null) {
+                AssetManager manager = context.getAssets();
+                InputStream inputStream;
+                inputStream = manager.open("img/alex.png");
+                skin = BitmapFactory.decodeStream(inputStream);
             }
-            URL url = new URL(u);
-            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-            httpURLConnection.setDoInput(true);
-            httpURLConnection.connect();
-            InputStream inputStream = httpURLConnection.getInputStream();
-            Bitmap skin = BitmapFactory.decodeStream(inputStream);
+            else {
+                String u = texture.getUrl();
+                if (!u.startsWith("https")){
+                    u = u.replaceFirst("http","https");
+                }
+                URL url = new URL(u);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                skin = BitmapFactory.decodeStream(inputStream);
+            }
             handler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -202,50 +213,64 @@ public class AccountListAdapter extends BaseAdapter {
 
                 }
                 if (account.loginType == 2){
-                    /*
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                YggdrasilService yggdrasilService = new YggdrasilService(new MojangYggdrasilProvider());
-                                YggdrasilSession yggdrasilSession = yggdrasilService.refresh(account.auth_access_token, "00000000-0000-0000-0000-000000000000", new GameProfile(UUID.fromString(account.auth_uuid),account.auth_player_name));
-                                AuthInfo authInfo = yggdrasilSession.toAuthInfo();
-                                activity.uiManager.accountUI.accounts.get(position).refresh(getAccountFromInfo(account,yggdrasilService,yggdrasilSession,authInfo));
-                                GsonUtils.saveAccounts(activity.uiManager.accountUI.accounts,AppManifest.ACCOUNT_DIR + "/accounts.json");
-                                activity.uiManager.accountUI.accountListAdapter.notifyDataSetChanged();
-                            }catch (AuthenticationException e){
-                                e.printStackTrace();
-                            }
-                        }
-                    }).start();
 
-                     */
                 }
                 if (account.loginType == 3){
 
                 }
                 if (account.loginType == 4){
-                    /*
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                YggdrasilService yggdrasilService = getServerFromUrl(account.loginServer).getYggdrasilService();
-                                YggdrasilSession yggdrasilSession = yggdrasilService.refresh(account.auth_access_token, account.auth_client_token,null);
-                                if (yggdrasilSession == null || !yggdrasilSession.getSelectedProfile().getId().equals(account.auth_uuid)) {
-                                    throw new ServerResponseMalformedException("Selected profile changed");
-                                }
-                                AuthInfo authInfo = yggdrasilSession.toAuthInfo();
-                                activity.uiManager.accountUI.accounts.get(position).refresh(getAccountFromInfo(account,yggdrasilService,yggdrasilSession,authInfo));
-                                GsonUtils.saveAccounts(activity.uiManager.accountUI.accounts,AppManifest.ACCOUNT_DIR + "/accounts.json");
-                                activity.uiManager.accountUI.accountListAdapter.notifyDataSetChanged();
-                            }catch (AuthenticationException e){
-                                e.printStackTrace();
+                    new Thread(() -> {
+                        try {
+                            YggdrasilService yggdrasilService = Objects.requireNonNull(getServerFromUrl(account.loginServer)).getYggdrasilService();
+                            YggdrasilSession yggdrasilSession = yggdrasilService.refresh(account.auth_access_token, account.auth_client_token,new GameProfile(UUID.fromString(account.auth_uuid),account.auth_player_name));
+                            AuthInfo authInfo = yggdrasilSession.toAuthInfo();
+                            Map<TextureType, Texture> map = null;
+                            map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(authInfo.getUUID()).get()).get();
+                            Texture texture = map.get(TextureType.SKIN);
+                            Bitmap skin;
+                            if (texture == null) {
+                                AssetManager manager = context.getAssets();
+                                InputStream inputStream;
+                                inputStream = manager.open("img/alex.png");
+                                skin = BitmapFactory.decodeStream(inputStream);
                             }
+                            else {
+                                String u = texture.getUrl();
+                                if (!u.startsWith("https")){
+                                    u = u.replaceFirst("http","https");
+                                }
+                                URL url = new URL(u);
+                                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                                httpURLConnection.setDoInput(true);
+                                httpURLConnection.connect();
+                                InputStream inputStream = httpURLConnection.getInputStream();
+                                skin = BitmapFactory.decodeStream(inputStream);
+                            }
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String skinTexture = Avatar.bitmapToString(skin);
+                                    newAccount = new Account(account.loginType,
+                                            account.email,
+                                            account.password,
+                                            account.user_type,
+                                            account.auth_session,
+                                            authInfo.getUsername(),
+                                            authInfo.getUUID().toString(),
+                                            authInfo.getAccessToken(),
+                                            yggdrasilSession.getClientToken(),
+                                            account.refresh_token,
+                                            account.loginServer,
+                                            skinTexture);
+                                    activity.uiManager.accountUI.accounts.get(position).refresh(newAccount);
+                                    GsonUtils.saveAccounts(activity.uiManager.accountUI.accounts,AppManifest.ACCOUNT_DIR + "/accounts.json");
+                                    activity.uiManager.accountUI.accountListAdapter.notifyDataSetChanged();
+                                }
+                            });
+                        }catch (AuthenticationException | IOException e){
+                            e.printStackTrace();
                         }
                     }).start();
-
-                     */
                 }
             }
         });

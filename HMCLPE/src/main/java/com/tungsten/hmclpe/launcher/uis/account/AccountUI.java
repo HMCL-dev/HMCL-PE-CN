@@ -71,6 +71,8 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
 
         externalServerList = activity.findViewById(R.id.external_server_list);
         accountList = activity.findViewById(R.id.account_list);
+
+        addMojangAccount.setVisibility(View.GONE);
     }
 
     @Override
