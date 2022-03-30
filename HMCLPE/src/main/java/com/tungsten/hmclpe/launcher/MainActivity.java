@@ -35,6 +35,7 @@ import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.setting.game.PublicGameSetting;
 import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
+import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
 import com.tungsten.hmclpe.launcher.uis.tools.UIManager;
 import com.tungsten.hmclpe.launcher.uis.universal.setting.right.launcher.ExteriorSettingUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
@@ -105,6 +106,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 launcherSetting = InitializeSetting.initializeLauncherSetting();
                 publicGameSetting = InitializeSetting.initializePublicGameSetting(MainActivity.this,MainActivity.this);
                 privateGameSetting = InitializeSetting.initializePrivateGameSetting(MainActivity.this);
+
+                DownloadUrlSource.getBalancedSource(MainActivity.this);
 
                 InitializeSetting.checkLauncherFiles(MainActivity.this);
             }

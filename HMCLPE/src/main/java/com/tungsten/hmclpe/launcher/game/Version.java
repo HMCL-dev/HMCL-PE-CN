@@ -108,12 +108,12 @@ public class Version implements Comparable<Version>, Validation {
         this.patches = Lang.copyList(patches);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    
     public Optional<String> getMinecraftArguments() {
         return Optional.ofNullable(minecraftArguments);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    
     public Optional<Arguments> getArguments() {
         return Optional.ofNullable(arguments);
     }
@@ -222,7 +222,6 @@ public class Version implements Comparable<Version>, Validation {
         return assetIndex == null ? new AssetIndexInfo(assetsId, DEFAULT_INDEX_URL + assetsId + ".json") : assetIndex;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public boolean appliesToCurrentEnvironment() {
         return CompatibilityRule.appliesToCurrentEnvironment(compatibilityRules);
     }
@@ -232,13 +231,13 @@ public class Version implements Comparable<Version>, Validation {
      * Resolving version will list all patches within this version and its parents,
      * which is for analysis.
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    
     public Version resolve(VersionProvider provider) throws VersionNotFoundException {
         if (isResolved()) return this;
         return resolve(provider, new HashSet<>()).markAsResolved();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    
     protected Version merge(Version parent, boolean isPatch) {
         return new Version(
                 true,
@@ -267,7 +266,7 @@ public class Version implements Comparable<Version>, Validation {
                 isPatch ? parent.patches : Lang.merge(Lang.merge(parent.patches, Collections.singleton(toPatch())), patches));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    
     protected Version resolve(VersionProvider provider, Set<String> resolvedSoFar) throws VersionNotFoundException {
         Version thisVersion;
 
@@ -309,17 +308,17 @@ public class Version implements Comparable<Version>, Validation {
     /**
      * Resolve the version preserving all dependencies and patches.
      */
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    
     public Version resolvePreservingPatches(VersionProvider provider) throws VersionNotFoundException {
         return resolvePreservingPatches(provider, new HashSet<>());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    
     protected Version mergePreservingPatches(Version parent) {
         return parent.addPatch(toPatch()).addPatches(patches);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    
     protected Version resolvePreservingPatches(VersionProvider provider, Set<String> resolvedSoFar) throws VersionNotFoundException {
         Version thisVersion = isRoot() ? this : new Version(id).addPatch(toPatch()).addPatches(getPatches());
 
@@ -395,12 +394,12 @@ public class Version implements Comparable<Version>, Validation {
         return new Version(resolved, id, version, priority, minecraftArguments, arguments, mainClass, inheritsFrom, jar, assetIndex, assets, complianceLevel, javaVersion, libraries, compatibilityRules, downloads, logging, type, time, releaseTime, minimumLauncherVersion, hidden, root, patches);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    
     public Version addPatch(Version... additional) {
         return addPatches(Arrays.asList(additional));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    
     public Version addPatches(@Nullable List<Version> additional) {
         Set<String> patchIds = additional == null ? Collections.emptySet() : additional.stream().map(Version::getId).collect(Collectors.toSet());
         List<Version> patches = Lang.merge(this.patches == null ? null : this.patches.stream().filter(patch -> !patchIds.contains(patch.getId())).collect(Collectors.toList()), additional);
@@ -411,13 +410,13 @@ public class Version implements Comparable<Version>, Validation {
         return new Version(resolved, id, version, priority, minecraftArguments, arguments, mainClass, inheritsFrom, jar, assetIndex, assets, complianceLevel, javaVersion, libraries, compatibilityRules, downloads, logging, type, time, releaseTime, minimumLauncherVersion, hidden, root, null);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    
     public Version removePatchById(String patchId) {
         return new Version(resolved, id, version, priority, minecraftArguments, arguments, mainClass, inheritsFrom, jar, assetIndex, assets, complianceLevel, javaVersion, libraries, compatibilityRules, downloads, logging, type, time, releaseTime, minimumLauncherVersion, hidden, root,
                 patches == null ? null : patches.stream().filter(patch -> !patchId.equals(patch.getId())).collect(Collectors.toList()));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    
     public boolean hasPatch(String patchId) {
         return patches != null && patches.stream().anyMatch(patch -> patchId.equals(patch.getId()));
     }

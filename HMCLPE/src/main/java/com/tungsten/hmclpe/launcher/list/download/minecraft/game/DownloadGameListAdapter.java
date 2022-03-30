@@ -117,7 +117,7 @@ public class DownloadGameListAdapter extends BaseAdapter {
                 activity.uiManager.installGameUI.name = version.id;
                 activity.uiManager.installGameUI.fabricVersion = null;
                 activity.uiManager.installGameUI.fabricAPIVersion = null;
-                activity.uiManager.installGameUI.forgeVersion = new ForgeVersion();
+                activity.uiManager.installGameUI.forgeVersion = null;
                 activity.uiManager.installGameUI.optifineVersion = null;
                 activity.uiManager.installGameUI.liteLoaderVersion = null;
                 activity.uiManager.installGameUI.version = version;

@@ -1,5 +1,10 @@
 package com.tungsten.hmclpe.launcher.uis.game.download;
 
+import android.content.Context;
+
+import com.tungsten.hmclpe.launcher.setting.launcher.child.SourceSetting;
+import com.tungsten.hmclpe.utils.io.NetPingManager;
+
 public class DownloadUrlSource {
 
     public static int DOWNLOAD_URL_SOURCE_OFFICIAL = 0;
@@ -54,6 +59,91 @@ public class DownloadUrlSource {
         }
         else {
             return MCBBS_URLS[type];
+        }
+    }
+
+    static long official = 0;
+    static long bmclapi = 0;
+    static long mcbbs = 0;
+
+    public static void getBalancedSource(Context context){
+        NetPingManager officialNetPingService = new NetPingManager(context, "www.minecraft.net", new NetPingManager.IOnNetPingListener() {
+            @Override
+            public void onDelay(NetPingManager netPingManager,long log) {
+                official += log;
+                System.out.println("---------------------------------------------------------------official:" + log);
+                netPingManager.release();
+            }
+
+            @Override
+            public void onError(NetPingManager netPingManager) {
+                official = 10000000;
+                netPingManager.release();
+                System.out.println("---------------------------------------------------------------official:error");
+            }
+        });
+        NetPingManager bmclapiNetPingService = new NetPingManager(context, "download.mcbbs.net", new NetPingManager.IOnNetPingListener() {
+            @Override
+            public void onDelay(NetPingManager netPingManager,long log) {
+                bmclapi += log;
+                System.out.println("---------------------------------------------------------------bmclapi:" + log);
+                netPingManager.release();
+            }
+
+            @Override
+            public void onError(NetPingManager netPingManager) {
+                bmclapi = 10000000;
+                netPingManager.release();
+                System.out.println("---------------------------------------------------------------bmclapi:error");
+            }
+        });
+        NetPingManager mcbbsNetPingService = new NetPingManager(context, "download.mcbbs.net", new NetPingManager.IOnNetPingListener() {
+            @Override
+            public void onDelay(NetPingManager netPingManager,long log) {
+                bmclapi += log;
+                System.out.println("---------------------------------------------------------------mcbbs:" + log);
+                netPingManager.release();
+            }
+
+            @Override
+            public void onError(NetPingManager netPingManager) {
+                bmclapi = 10000000;
+                netPingManager.release();
+                System.out.println("---------------------------------------------------------------mcbbs:error");
+            }
+        });
+        officialNetPingService.startGetDelay();
+        bmclapiNetPingService.startGetDelay();
+        mcbbsNetPingService.startGetDelay();
+    }
+
+    public static int getSource(SourceSetting sourceSetting) {
+        if (sourceSetting.autoSelect) {
+            if (sourceSetting.autoSourceType == 0) {
+                return 0;
+            }
+            else if (sourceSetting.autoSourceType == 1) {
+                long faster = Math.min(official,bmclapi);
+                long fastest = Math.min(faster,mcbbs);
+                if (official == bmclapi && official == 0 && mcbbs == 0) {
+                    return 1;
+                }
+                else if (fastest == official) {
+                    return 0;
+                }
+                else if (fastest == bmclapi) {
+                    return 1;
+                }
+                else {
+                    return 2;
+                }
+            }
+            else {
+                return 2;
+            }
+        }
+        else {
+            return sourceSetting.fixSourceType;
         }
     }
 

@@ -33,7 +33,7 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
     public String name;
 
     public VersionManifest.Version version;
-    public ForgeVersion forgeVersion = new ForgeVersion();
+    public ForgeVersion forgeVersion;
     public OptifineVersion optifineVersion;
     public LiteLoaderVersion liteLoaderVersion;
     public FabricLoaderVersion fabricVersion;
@@ -136,8 +136,8 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
     @Override
     public void onClick(View v) {
         if (v == deleteForgeVersion){
-            if (!forgeVersion.getGameVersion().equals("")){
-                forgeVersion = new ForgeVersion();
+            if (forgeVersion != null){
+                forgeVersion = null;
                 init();
             }
         }
@@ -177,11 +177,11 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
             activity.uiManager.downloadOptifineUI.version = version.id;
             activity.uiManager.switchMainUI(activity.uiManager.downloadOptifineUI);
         }
-        if (v == selectFabricVersion && forgeVersion.getGameVersion().equals("") && optifineVersion == null){
+        if (v == selectFabricVersion && forgeVersion == null && optifineVersion == null){
             activity.uiManager.downloadFabricUI.version = version.id;
             activity.uiManager.switchMainUI(activity.uiManager.downloadFabricUI);
         }
-        if (v == selectFabricAPIVersion && forgeVersion.getGameVersion().equals("") && optifineVersion == null){
+        if (v == selectFabricAPIVersion && forgeVersion == null && optifineVersion == null){
             activity.uiManager.downloadFabricAPIUI.version = version.id;
             activity.uiManager.switchMainUI(activity.uiManager.downloadFabricAPIUI);
         }
@@ -196,7 +196,10 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
                 Toast.makeText(context,context.getString(R.string.install_game_ui_exist),Toast.LENGTH_SHORT).show();
             }
             else {
-                DownloadDialog downloadDialog = new DownloadDialog(context,activity,editName.getText().toString(),version,forgeVersion);
+                if (forgeVersion != null || optifineVersion != null) {
+                    fabricAPIVersion = null;
+                }
+                DownloadDialog downloadDialog = new DownloadDialog(context,activity,editName.getText().toString(),version,forgeVersion,optifineVersion,liteLoaderVersion,fabricVersion,fabricAPIVersion);
                 downloadDialog.show();
             }
         }
@@ -206,12 +209,12 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
     private void init(){
         editName.setText(name);
         gameVersionText.setText(version.id);
-        if (!forgeVersion.getGameVersion().equals("") || optifineVersion != null){
-            forgeVersionText.setText(forgeVersion.getVersion().equals("") ? context.getString(R.string.install_game_ui_none) : forgeVersion.getVersion());
+        if (forgeVersion != null || optifineVersion != null){
+            forgeVersionText.setText(forgeVersion == null ? context.getString(R.string.install_game_ui_none) : forgeVersion.getVersion());
             optiFineVersionText.setText(optifineVersion == null ? context.getString(R.string.install_game_ui_none) : optifineVersion.type + "_" + optifineVersion.patch);
             fabricVersionText.setText(optifineVersion != null ? context.getString(R.string.install_game_ui_optifine_not_compatible) : context.getString(R.string.install_game_ui_forge_not_compatible));
             fabricAPIVersionText.setText(optifineVersion != null ? context.getString(R.string.install_game_ui_optifine_not_compatible) : context.getString(R.string.install_game_ui_forge_not_compatible));
-            deleteForgeVersion.setVisibility(!forgeVersion.getGameVersion().equals("") ? View.VISIBLE : View.GONE);
+            deleteForgeVersion.setVisibility(forgeVersion != null ? View.VISIBLE : View.GONE);
             deleteOptiFineVersion.setVisibility(optifineVersion != null ? View.VISIBLE : View.GONE);
             selectFabric.setVisibility(View.GONE);
             selectFabricAPI.setVisibility(View.GONE);
@@ -237,7 +240,7 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
             selectOptiFine.setVisibility(View.GONE);
         }
         else {
-            if (forgeVersion.getGameVersion().equals("")){
+            if (forgeVersion == null){
                 forgeVersionText.setText(context.getString(R.string.install_game_ui_none));
             }
             if (optifineVersion == null){
@@ -261,7 +264,7 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
             }
             deleteLiteLoaderVersion.setVisibility(View.GONE);
         }
-        if (!forgeVersion.getGameVersion().equals("") || optifineVersion != null) {
+        if (forgeVersion != null || optifineVersion != null) {
             fabricAPIVersionText.setText(optifineVersion != null ? context.getString(R.string.install_game_ui_optifine_not_compatible) : context.getString(R.string.install_game_ui_forge_not_compatible));
             deleteFabricAPIVersion.setVisibility(View.GONE);
             selectFabricAPI.setVisibility(View.GONE);

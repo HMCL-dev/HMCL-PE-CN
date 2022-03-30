@@ -1,9 +1,7 @@
 package com.tungsten.hmclpe.launcher.dialogs.install;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.util.ArrayMap;
@@ -12,7 +10,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
@@ -20,26 +17,27 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.download.minecraft.fabric.FabricLoaderVersion;
 import com.tungsten.hmclpe.launcher.download.minecraft.forge.ForgeVersion;
 import com.tungsten.hmclpe.launcher.download.minecraft.game.VersionManifest;
+import com.tungsten.hmclpe.launcher.download.minecraft.liteloader.LiteLoaderVersion;
+import com.tungsten.hmclpe.launcher.download.minecraft.optifine.OptifineVersion;
+import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
 import com.tungsten.hmclpe.launcher.game.Argument;
 import com.tungsten.hmclpe.launcher.game.Artifact;
-import com.tungsten.hmclpe.launcher.game.AssetIndex;
-import com.tungsten.hmclpe.launcher.game.AssetObject;
-import com.tungsten.hmclpe.launcher.game.Library;
 import com.tungsten.hmclpe.launcher.game.RuledArgument;
 import com.tungsten.hmclpe.launcher.game.Version;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListAdapter;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
 import com.tungsten.hmclpe.task.DownloadTask;
+import com.tungsten.hmclpe.task.install.DownloadMinecraftTask;
+import com.tungsten.hmclpe.utils.file.FileStringUtils;
 import com.tungsten.hmclpe.utils.gson.JsonUtils;
-import com.tungsten.hmclpe.utils.io.NetworkUtils;
 import com.tungsten.hmclpe.utils.network.NetSpeed;
 import com.tungsten.hmclpe.utils.network.NetSpeedTimer;
 import com.tungsten.hmclpe.utils.platform.Bits;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
@@ -49,15 +47,24 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     private Context context;
     private MainActivity activity;
 
-    private int maxDownloadTask;
+    public int maxDownloadTask;
 
     private String name;
     private VersionManifest.Version version;
     private ForgeVersion forgeVersion;
+    private OptifineVersion optifineVersion;
+    private LiteLoaderVersion liteLoaderVersion;
+    private FabricLoaderVersion fabricVersion;
+    private ModListBean.Version fabricAPIVersion;
+
+    public Version gameVersionJson;
+    public Version optifineVersionJson;
+    public Version forgeVersionJson;
+    public Version liteLoaderVersionJson;
+    public Version fabricVersionJson;
 
     private RecyclerView taskListView;
-    private ArrayList<DownloadTaskListBean> allTaskList;
-    private DownloadTaskListAdapter downloadTaskListAdapter;
+    public DownloadTaskListAdapter downloadTaskListAdapter;
 
     private DownloadTask downloadTask;
 
@@ -65,7 +72,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     private TextView speedText;
     private Button cancelButton;
 
-    public DownloadDialog(@NonNull Context context, MainActivity activity, String name, VersionManifest.Version version,ForgeVersion forgeVersion) {
+    public DownloadDialog(@NonNull Context context, MainActivity activity, String name, VersionManifest.Version version,ForgeVersion forgeVersion,OptifineVersion optifineVersion,LiteLoaderVersion liteLoaderVersion,FabricLoaderVersion fabricVersion,ModListBean.Version fabricAPIVersion) {
         super(context);
         this.context = context;
         this.activity = activity;
@@ -73,6 +80,10 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
         this.name = name;
         this.version = version;
         this.forgeVersion = forgeVersion;
+        this.optifineVersion = optifineVersion;
+        this.liteLoaderVersion = liteLoaderVersion;
+        this.fabricVersion = fabricVersion;
+        this.fabricAPIVersion = fabricAPIVersion;
         setContentView(R.layout.dialog_install_game);
         setCancelable(false);
         init();
@@ -88,7 +99,6 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
 
     private void init(){
         taskListView = findViewById(R.id.download_task_list);
-        allTaskList = new ArrayList<>();
 
         taskListView.setLayoutManager(new LinearLayoutManager(context));
         downloadTaskListAdapter = new DownloadTaskListAdapter(context);
@@ -111,111 +121,172 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     }
 
     private void startDownloadTasks(){
-        String versionJsonUrl = version.url;
-        String gameFilePath = activity.launcherSetting.gameFileDirectory;
-        new Thread(new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void run() {
-                try {
-                    //getting tasks
-                    String versionJson = NetworkUtils.doGet(NetworkUtils.toURL(versionJsonUrl));
-                    //FileStringUtils.writeFile(gameFilePath + "/versions/" + name + "/" + name + ".json",response);
-                    Gson gson = JsonUtils.defaultGsonBuilder()
-                            .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
-                            .registerTypeAdapter(Bits.class, new Bits.Serializer())
-                            .registerTypeAdapter(RuledArgument.class, new RuledArgument.Serializer())
-                            .registerTypeAdapter(Argument.class, new Argument.Deserializer())
-                            .create();
-                    Version version = gson.fromJson(versionJson, Version.class);
-                    String assetIndexJson = NetworkUtils.doGet(NetworkUtils.toURL(version.getAssetIndex().getUrl()));
-                    AssetIndex assetIndex = gson.fromJson(assetIndexJson,AssetIndex.class);
-                    //version.json
-                    allTaskList.add(new DownloadTaskListBean(name + ".json",
-                            versionJsonUrl,
-                            gameFilePath + "/versions/" + name + "/" + name + ".json"));
-                    //assetIndex.json
-                    allTaskList.add(new DownloadTaskListBean(version.getAssetIndex().id + ".json",
-                            version.getAssetIndex().getUrl(),
-                            gameFilePath + "/assets/indexes/" + version.getAssetIndex().id + ".json"));
-                    //client.jar
-                    allTaskList.add(new DownloadTaskListBean(name + ".jar",
-                            version.getDownloadInfo().getUrl(),
-                            gameFilePath + "/versions/" + name + "/" + name + ".jar"));
-                    //libraries
-                    for (Library library : version.getLibraries()){
-                        if (library.getDownload().getUrl() != null && !library.getDownload().getUrl().equals("")) {
-                            DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
-                                    library.getDownload().getUrl(),
-                                    activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath());
-                            allTaskList.add(bean);
+        System.out.println("---------------------------------------------------------------source:" + DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource));
+        DownloadMinecraftTask downloadMinecraftTask = new DownloadMinecraftTask(context,activity,this);
+        downloadMinecraftTask.execute(version);
+    }
+
+    public void downloadMinecraft(ArrayList<DownloadTaskListBean> tasks){
+        startDownloadTask(tasks, () -> {
+            if (optifineVersion != null) {
+
+            }
+            else {
+                if (forgeVersion != null) {
+
+                }
+                else {
+                    if (liteLoaderVersion != null) {
+
+                    }
+                    else {
+                        if (fabricVersion != null) {
+
+                        }
+                        else {
+                            if (fabricAPIVersion != null) {
+
+                            }
+                            else {
+                                installClient();
+                            }
                         }
                     }
-                    //assets
-                    for (AssetObject object : assetIndex.getObjects().values()){
-                        DownloadTaskListBean bean = new DownloadTaskListBean(object.getHash(),
-                                DownloadUrlSource.getSubUrl(activity.launcherSetting.downloadUrlSource,DownloadUrlSource.ASSETS_OBJ) + "/" + object.getLocation(),
-                                gameFilePath + "/assets/objects/" + object.getLocation());
-                        allTaskList.add(bean);
-                    }
-                    ArrayMap<String,String> map = new ArrayMap<>();
-                    for (DownloadTaskListBean bean : allTaskList){
-                        map.put(bean.url,bean.path);
-                    }
-                    downloadTask = new DownloadTask(context, new DownloadTask.Feedback() {
-
-                        @Override
-                        public void addTask(DownloadTaskListBean bean) {
-                            activity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    downloadTaskListAdapter.addDownloadTask(bean);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void updateProgress(DownloadTaskListBean bean) {
-                            activity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    downloadTaskListAdapter.onProgress(bean);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void updateSpeed(String speed) {
-
-                        }
-
-                        @Override
-                        public void removeTask(DownloadTaskListBean bean) {
-                            activity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    downloadTaskListAdapter.onComplete(bean);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onFinished(Map<String, String> failedFile) {
-                            DownloadDialog.this.dismiss();
-                        }
-
-                        @Override
-                        public void onCancelled() {
-
-                        }
-                    });
-                    downloadTask.setMaxTask(maxDownloadTask);
-                    downloadTask.execute(new Map[]{map});
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
-        }).start();
+        });
+    }
+
+    public void downloadOptifine(ArrayList<DownloadTaskListBean> tasks){
+        startDownloadTask(tasks, () -> {
+            if (forgeVersion != null) {
+
+            }
+            else {
+                if (liteLoaderVersion != null) {
+
+                }
+                else {
+                    installClient();
+                }
+            }
+        });
+    }
+
+    public void downloadForge(ArrayList<DownloadTaskListBean> tasks){
+        startDownloadTask(tasks, () -> {
+            if (liteLoaderVersion != null) {
+
+            }
+            else {
+                installClient();
+            }
+        });
+    }
+
+    public void downloadLiteLoader(ArrayList<DownloadTaskListBean> tasks){
+        startDownloadTask(tasks, this::installClient);
+    }
+
+    public void downloadFabric(ArrayList<DownloadTaskListBean> tasks){
+        startDownloadTask(tasks, () -> {
+            if (liteLoaderVersion != null) {
+
+            }
+            else {
+                installClient();
+            }
+        });
+    }
+
+    public void downloadFabricAPI(ArrayList<DownloadTaskListBean> tasks){
+        startDownloadTask(tasks, this::installClient);
+    }
+
+    public void installClient(){
+        ArrayList<DownloadTaskListBean> tasks = new ArrayList<>();
+        String gameFilePath = activity.launcherSetting.gameFileDirectory;
+        if (forgeVersion == null) {
+            tasks.add(new DownloadTaskListBean(name + ".jar",
+                    gameVersionJson.getDownloadInfo().getUrl(),
+                    gameFilePath + "/versions/" + name + "/" + name + ".jar"));
+            startDownloadTask(tasks, this::installJson);
+        }
+        else {
+
+        }
+    }
+
+    public void installJson(){
+        String gameFilePath = activity.launcherSetting.gameFileDirectory;
+        Version resultVersionJson = gameVersionJson.addPatch(gameVersionJson.setId("game").setVersion(version.id).setPriority(0));
+        Gson gson = JsonUtils.defaultGsonBuilder()
+                .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
+                .registerTypeAdapter(Bits.class, new Bits.Serializer())
+                .registerTypeAdapter(RuledArgument.class, new RuledArgument.Serializer())
+                .registerTypeAdapter(Argument.class, new Argument.Deserializer())
+                .create();
+        String string = gson.toJson(resultVersionJson);
+        FileStringUtils.writeFile(gameFilePath + "/versions/" + name + "/" + name + ".json",string);
+        dismiss();
+    }
+
+    public void startDownloadTask(ArrayList<DownloadTaskListBean> tasks,OnDownloadFinishListener onDownloadFinishListener) {
+        ArrayMap<String,String> map = new ArrayMap<>();
+        for (DownloadTaskListBean bean : tasks){
+            map.put(bean.url,bean.path);
+        }
+        DownloadTask downloadTask = new DownloadTask(context, new DownloadTask.Feedback() {
+            @Override
+            public void addTask(DownloadTaskListBean bean) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        downloadTaskListAdapter.addDownloadTask(bean);
+                    }
+                });
+            }
+
+            @Override
+            public void updateProgress(DownloadTaskListBean bean) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        downloadTaskListAdapter.onProgress(bean);
+                    }
+                });
+            }
+
+            @Override
+            public void updateSpeed(String speed) {
+
+            }
+
+            @Override
+            public void removeTask(DownloadTaskListBean bean) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        downloadTaskListAdapter.onComplete(bean);
+                    }
+                });
+            }
+
+            @Override
+            public void onFinished(Map<String, String> failedFile) {
+                onDownloadFinishListener.onFinish();
+            }
+
+            @Override
+            public void onCancelled() {
+
+            }
+        });
+        if (activity.launcherSetting.autoDownloadTaskQuantity) {
+            maxDownloadTask = 64;
+        }
+        downloadTask.setMaxTask(maxDownloadTask);
+        downloadTask.execute(new Map[]{map});
     }
 
     @Override
@@ -231,21 +302,8 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
         return false;
     }
 
-    @SuppressLint("HandlerLeak")
-    private final Handler downloadHandler = new Handler(){
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 0){
-
-            }
-            if (msg.what == 1){
-
-            }
-            if (msg.what == 2){
-
-            }
-        }
-    };
+    public interface OnDownloadFinishListener{
+        void onFinish();
+    }
 
 }

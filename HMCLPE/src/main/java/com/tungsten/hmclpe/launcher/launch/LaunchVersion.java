@@ -263,6 +263,14 @@ public class LaunchVersion {
                 }
             }
         }
+        if (!isHighVer && arguments != null && arguments.game != null) {
+            Object[] objs = this.arguments.game;
+            for (Object obj : objs) {
+                if (obj instanceof String) {
+                    result = result + " " + obj.toString();
+                }
+            }
+        }
         return result.split(" ");
     }
 }

@@ -208,8 +208,8 @@ public class TouchPad extends View {
                         if (startCursorX + ((event.getX() - initialX) * menuHelper.gameMenuSetting.mouseSpeed) < 0){
                             targetX = 0;
                         }
-                        else if (startCursorX + ((event.getX() - initialX) * menuHelper.gameMenuSetting.mouseSpeed) > screenWidth - ConvertUtils.dip2px(getContext(),menuHelper.gameMenuSetting.mouseSize)){
-                            targetX = screenWidth - ConvertUtils.dip2px(getContext(),menuHelper.gameMenuSetting.mouseSize);
+                        else if (startCursorX + ((event.getX() - initialX) * menuHelper.gameMenuSetting.mouseSpeed) > screenWidth){
+                            targetX = screenWidth;
                         }
                         else {
                             targetX = startCursorX + ((event.getX() - initialX) * menuHelper.gameMenuSetting.mouseSpeed);
@@ -217,8 +217,8 @@ public class TouchPad extends View {
                         if (startCursorY + ((event.getY() - initialY) * menuHelper.gameMenuSetting.mouseSpeed) < 0){
                             targetY = 0;
                         }
-                        else if (startCursorY + ((event.getY() - initialY) * menuHelper.gameMenuSetting.mouseSpeed) > screenHeight - ConvertUtils.dip2px(getContext(),menuHelper.gameMenuSetting.mouseSize)){
-                            targetY = screenHeight - ConvertUtils.dip2px(getContext(),menuHelper.gameMenuSetting.mouseSize);
+                        else if (startCursorY + ((event.getY() - initialY) * menuHelper.gameMenuSetting.mouseSpeed) > screenHeight){
+                            targetY = screenHeight;
                         }
                         else {
                             targetY = startCursorY + ((event.getY() - initialY) * menuHelper.gameMenuSetting.mouseSpeed);

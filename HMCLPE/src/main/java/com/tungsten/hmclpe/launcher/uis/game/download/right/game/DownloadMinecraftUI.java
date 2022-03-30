@@ -103,7 +103,6 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void init(){
         new Thread(){
             @Override
@@ -111,7 +110,7 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
                 loadingHandler.sendEmptyMessage(0);
                 try {
                     allList = new ArrayList<>();
-                    String response = NetworkUtils.doGet(NetworkUtils.toURL(DownloadUrlSource.getSubUrl(activity.launcherSetting.downloadUrlSource,DownloadUrlSource.VERSION_MANIFEST)));
+                    String response = NetworkUtils.doGet(NetworkUtils.toURL(DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.VERSION_MANIFEST)));
                     Gson gson = new Gson();
                     VersionManifest versionManifest = gson.fromJson(response,VersionManifest.class);
                     ArrayList<VersionManifest.Version> list = new ArrayList<>();

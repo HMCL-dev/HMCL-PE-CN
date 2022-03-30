@@ -22,6 +22,7 @@ import com.tungsten.hmclpe.auth.Account;
 import com.tungsten.hmclpe.launcher.setting.game.child.RamSetting;
 import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
 import com.tungsten.hmclpe.launcher.setting.launcher.child.BackgroundSetting;
+import com.tungsten.hmclpe.launcher.setting.launcher.child.SourceSetting;
 import com.tungsten.hmclpe.utils.file.AssetsUtils;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
 import com.tungsten.hmclpe.utils.file.FileUtils;
@@ -143,7 +144,7 @@ public class InitializeSetting {
             launcherSetting = GsonUtils.getLauncherSettingFromFile(AppManifest.SETTING_DIR + "/launcher_setting.json");
         }
         else {
-            launcherSetting = new LauncherSetting(AppManifest.DEFAULT_GAME_DIR,0,0,64,true,false,false,false,"DEFAULT",new BackgroundSetting(0,"",""),AppManifest.DEFAULT_CACHE_DIR);
+            launcherSetting = new LauncherSetting(AppManifest.DEFAULT_GAME_DIR,new SourceSetting(true,1,0),0,64,false,true,false,false,false,"DEFAULT",new BackgroundSetting(0,"",""),AppManifest.DEFAULT_CACHE_DIR);
             GsonUtils.saveLauncherSetting(launcherSetting,AppManifest.SETTING_DIR + "/launcher_setting.json");
         }
         return launcherSetting;
