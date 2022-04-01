@@ -45,7 +45,7 @@ public class GameMenuSetting {
         GameMenuSetting gameMenuSetting;
         String path = AppManifest.SETTING_DIR + "/game_menu_setting.json";
         if (!new File(path).exists()){
-            gameMenuSetting = new GameMenuSetting(new MenuFloatSetting(true,0.5f,0.5f),
+            gameMenuSetting = new GameMenuSetting(new MenuFloatSetting(true,true,0.5f,0.5f),
                     new MenuViewSetting(true, MenuView.MENU_MODE_LEFT,0.2f),
                     true,
                     false,

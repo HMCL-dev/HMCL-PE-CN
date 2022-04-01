@@ -171,10 +171,12 @@ public class DownloadTask extends AsyncTask<Map<String, String>, Integer, Map<St
             if (System.currentTimeMillis()-lastTime>=1000){
                 lastLen=oval;
                 lastTime=System.currentTimeMillis();
-                monitor.updateSpeed(formetFileSize(oval-lastLen)+"/s");
+                if (monitor != null)
+                    monitor.updateSpeed(formetFileSize(oval-lastLen)+"/s");
             }
             fos.write(buf, 0, cur);
-            monitor.updateProgress(oval, len);
+            if (monitor != null)
+                monitor.updateProgress(oval, len);
         }
         fos.close();
         inputStream.close();

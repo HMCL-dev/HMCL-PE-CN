@@ -120,32 +120,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0){
-                exteriorConfig = ATE.config(MainActivity.this, null);
+                if (!isLoaded) {
+                    exteriorConfig = ATE.config(MainActivity.this, null);
 
-                appBar = findViewById(R.id.app_bar);
-                appBarTitle = findViewById(R.id.app_bar_title);
-                backToLastUI = findViewById(R.id.back_to_last_ui);
-                currentUIText = findViewById(R.id.text_current_ui);
-                backToHome = findViewById(R.id.back_to_home);
-                closeCurrentUI = findViewById(R.id.close_current_ui);
-                backToDesktop = findViewById(R.id.back_to_desktop);
-                closeApp = findViewById(R.id.close_app);
+                    appBar = findViewById(R.id.app_bar);
+                    appBarTitle = findViewById(R.id.app_bar_title);
+                    backToLastUI = findViewById(R.id.back_to_last_ui);
+                    currentUIText = findViewById(R.id.text_current_ui);
+                    backToHome = findViewById(R.id.back_to_home);
+                    closeCurrentUI = findViewById(R.id.close_current_ui);
+                    backToDesktop = findViewById(R.id.back_to_desktop);
+                    closeApp = findViewById(R.id.close_app);
 
-                backToLastUI.setOnClickListener(MainActivity.this);
-                backToHome.setOnClickListener(MainActivity.this);
-                closeCurrentUI.setOnClickListener(MainActivity.this);
-                backToDesktop.setOnClickListener(MainActivity.this);
-                closeApp.setOnClickListener(MainActivity.this);
+                    backToLastUI.setOnClickListener(MainActivity.this);
+                    backToHome.setOnClickListener(MainActivity.this);
+                    closeCurrentUI.setOnClickListener(MainActivity.this);
+                    backToDesktop.setOnClickListener(MainActivity.this);
+                    closeApp.setOnClickListener(MainActivity.this);
 
-                uiManager = new UIManager(MainActivity.this,MainActivity.this);
+                    uiManager = new UIManager(MainActivity.this,MainActivity.this);
 
-                exteriorConfig.primaryColor(Color.parseColor(ExteriorSettingUI.getThemeColor(MainActivity.this,launcherSetting.launcherTheme)));
-                exteriorConfig.accentColor(Color.parseColor(ExteriorSettingUI.getThemeColor(MainActivity.this,launcherSetting.launcherTheme)));
-                exteriorConfig.apply(MainActivity.this);
-            }
-            if (msg.what == 1){
-                isLoaded = true;
-                enterLauncher();
+                    exteriorConfig.primaryColor(Color.parseColor(ExteriorSettingUI.getThemeColor(MainActivity.this,launcherSetting.launcherTheme)));
+                    exteriorConfig.accentColor(Color.parseColor(ExteriorSettingUI.getThemeColor(MainActivity.this,launcherSetting.launcherTheme)));
+                    exteriorConfig.apply(MainActivity.this);
+
+                    isLoaded = true;
+                    enterLauncher();
+                }
             }
         }
     };

@@ -69,6 +69,10 @@ public class DownloadMinecraftTask extends AsyncTask<VersionManifest.Version, Do
             allTaskList.add(new DownloadTaskListBean(version.getAssetIndex().id + ".json",
                     version.getAssetIndex().getUrl(),
                     gameFilePath + "/assets/indexes/" + version.getAssetIndex().id + ".json"));
+            //version.jar
+            allTaskList.add(new DownloadTaskListBean(dialog.name + ".jar",
+                    version.getDownloadInfo().getUrl(),
+                    gameFilePath + "/versions/" + dialog.name + "/" + dialog.name + ".jar"));
             //libraries
             for (Library library : version.getLibraries()){
                 if (library.getDownload().getUrl() != null && !library.getDownload().getUrl().equals("")) {
@@ -100,7 +104,7 @@ public class DownloadMinecraftTask extends AsyncTask<VersionManifest.Version, Do
     @Override
     protected void onPostExecute(ArrayList<DownloadTaskListBean> downloadTaskListBeans) {
         super.onPostExecute(downloadTaskListBeans);
-        dialog.gameVersionJson = version;
+        dialog.gameVersionJson = version.addPatch(version.setId("game").setVersion(dialog.version.id).setPriority(0));
         dialog.downloadMinecraft(downloadTaskListBeans);
     }
 

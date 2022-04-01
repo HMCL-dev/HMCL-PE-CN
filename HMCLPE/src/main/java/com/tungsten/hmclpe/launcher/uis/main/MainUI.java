@@ -93,6 +93,8 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         startSettingUI.setOnClickListener(this);
 
         startGame.setOnClickListener(this);
+
+        startMultiPlayerUI.setVisibility(View.GONE);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -10,20 +10,16 @@ import com.tungsten.hmclpe.launcher.game.Argument;
 import com.tungsten.hmclpe.launcher.game.Artifact;
 import com.tungsten.hmclpe.launcher.game.RuledArgument;
 import com.tungsten.hmclpe.launcher.game.Version;
-import com.tungsten.hmclpe.launcher.list.local.java.JavaListBean;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
-import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.setting.game.PublicGameSetting;
 import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
+import com.tungsten.hmclpe.utils.file.FileStringUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 import com.tungsten.hmclpe.utils.gson.JsonUtils;
 import com.tungsten.hmclpe.utils.platform.Bits;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-
-import cosine.boat.BoatUtils;
 
 public class GameLaunchSetting {
 
@@ -93,12 +89,7 @@ public class GameLaunchSetting {
 
         String javaPath = "";
         if (privateGameSetting.javaSetting.autoSelect){
-            String versionJson = null;
-            try {
-                versionJson = new String(BoatUtils.readFile(new File(new File(publicGameSetting.currentVersion), (new File(publicGameSetting.currentVersion)).getName() + ".json")), "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            String versionJson = FileStringUtils.getStringFromFile(publicGameSetting.currentVersion + "/" + (new File(publicGameSetting.currentVersion)).getName() + ".json");
             Gson gson = JsonUtils.defaultGsonBuilder()
                     .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
                     .registerTypeAdapter(Bits.class, new Bits.Serializer())

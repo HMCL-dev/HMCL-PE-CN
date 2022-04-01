@@ -238,7 +238,7 @@ public class Version implements Comparable<Version>, Validation {
     }
 
     
-    protected Version merge(Version parent, boolean isPatch) {
+    public Version merge(Version parent, boolean isPatch) {
         return new Version(
                 true,
                 id,

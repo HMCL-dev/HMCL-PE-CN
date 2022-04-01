@@ -72,7 +72,7 @@ public class LoadMe {
             setLibraryPath(libraryPath);
 			setupJLI();
 
-            redirectStdio(home + "/boat_output.txt");
+            redirectStdio(home + "/boat_latest_log.txt");
             chdir(home);
 
 			String finalArgs[] = new String[args.size()];
@@ -83,11 +83,55 @@ public class LoadMe {
                 }
 			}
             System.out.println("OpenJDK exited with code : " + jliLaunch(finalArgs));
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
 			return 1;
         }
 		return 0;
+    }
+
+    public static int launchJVM (String javaPath,Vector<String> args,String home) {
+
+        patchLinker();
+
+        try {
+            setenv("HOME", home);
+            setenv("JAVA_HOME" , javaPath);
+
+            dlopen(javaPath + "/lib/aarch64/libfreetype.so");
+            dlopen(javaPath + "/lib/aarch64/jli/libjli.so");
+            dlopen(javaPath + "/lib/aarch64/server/libjvm.so");
+            dlopen(javaPath + "/lib/aarch64/libverify.so");
+            dlopen(javaPath + "/lib/aarch64/libjava.so");
+            dlopen(javaPath + "/lib/aarch64/libnet.so");
+            dlopen(javaPath + "/lib/aarch64/libnio.so");
+            dlopen(javaPath + "/lib/aarch64/libawt.so");
+            dlopen(javaPath + "/lib/aarch64/libawt_headless.so");
+            dlopen(javaPath + "/lib/aarch64/libfontmanager.so");
+
+            String libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64";
+
+            setLibraryPath(libraryPath);
+            setupJLI();
+
+            redirectStdio(home + "/api_installer_log.txt");
+            chdir(home);
+
+            String finalArgs[] = new String[args.size()];
+            for (int i = 0; i < args.size(); i++) {
+                if (!args.get(i).equals(" ")) {
+                    finalArgs[i] = args.get(i);
+                    System.out.println("JVM Args:" + finalArgs[i]);
+                }
+            }
+            System.out.println("OpenJDK exited with code : " + jliLaunch(finalArgs));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return 1;
+        }
+        return 0;
     }
 
 }

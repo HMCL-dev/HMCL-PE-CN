@@ -19,6 +19,7 @@ public class AppManifest {
     public static String GAME_FILE_DIRECTORY_DIR;
     public static String SETTING_DIR;
     public static String CONTROLLER_DIR;
+    public static String INSTALL_DIR;
     public static String STYLE_DIR;
     public static String DEBUG_DIR;
     public static String INNER_GAME_DIR;
@@ -40,6 +41,7 @@ public class AppManifest {
         GAME_FILE_DIRECTORY_DIR = INNER_FILE_DIR + "/paths";
         SETTING_DIR = INNER_FILE_DIR + "/settings";
         CONTROLLER_DIR = INNER_FILE_DIR + "/control";
+        INSTALL_DIR = INNER_FILE_DIR + "/install";
         STYLE_DIR = INNER_FILE_DIR + "/style";
         DEBUG_DIR = context.getExternalFilesDir("debug").getAbsolutePath();
         INNER_GAME_DIR = context.getExternalFilesDir(".minecraft").getAbsolutePath();
@@ -63,6 +65,7 @@ public class AppManifest {
         FileUtils.createDirectory(GAME_FILE_DIRECTORY_DIR);
         FileUtils.createDirectory(SETTING_DIR);
         FileUtils.createDirectory(CONTROLLER_DIR);
+        FileUtils.createDirectory(INSTALL_DIR);
         FileUtils.createDirectory(STYLE_DIR);
         FileUtils.createDirectory(DEBUG_DIR);
         FileUtils.createDirectory(INNER_GAME_DIR);

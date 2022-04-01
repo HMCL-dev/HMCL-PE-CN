@@ -91,6 +91,7 @@ public class UIManager {
         if (uis.size() > 1){
             uis.get(uis.size() - 2).onStop();
         }
+        System.out.println("-----------------------------------------------------------------------------------------------------------------------------switch to new ui");
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data){

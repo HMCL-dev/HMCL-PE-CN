@@ -47,7 +47,6 @@ public class InitializeSetting {
                             @Override
                             public void onSuccess() {
                                 activity.loadingHandler.sendEmptyMessage(0);
-                                activity.loadingHandler.sendEmptyMessage(1);
                             }
 
                             @Override
@@ -58,7 +57,6 @@ public class InitializeSetting {
                     }
                     else {
                         activity.loadingHandler.sendEmptyMessage(0);
-                        activity.loadingHandler.sendEmptyMessage(1);
                     }
                 }
                 @Override
@@ -73,7 +71,6 @@ public class InitializeSetting {
                     @Override
                     public void onSuccess() {
                         activity.loadingHandler.sendEmptyMessage(0);
-                        activity.loadingHandler.sendEmptyMessage(1);
                     }
 
                     @Override
@@ -84,7 +81,6 @@ public class InitializeSetting {
             }
             else {
                 activity.loadingHandler.sendEmptyMessage(0);
-                activity.loadingHandler.sendEmptyMessage(1);
             }
         }
     }
@@ -164,7 +160,7 @@ public class InitializeSetting {
                 currentVersion = "";
             }
             Account account = new Account(0,"","","","","","","","","","","");
-            publicGameSetting = new PublicGameSetting(account,AppManifest.LAUNCHER_DIR,currentVersion);
+            publicGameSetting = new PublicGameSetting(account,AppManifest.DEBUG_DIR,currentVersion);
             GsonUtils.savePublicGameSetting(publicGameSetting,AppManifest.SETTING_DIR + "/public_game_setting.json");
         }
         return publicGameSetting;

@@ -132,10 +132,12 @@ public class MenuFloat extends View {
                 else {
                     targetY = screenHeight - getMeasuredHeight();
                 }
-                setX(targetX);
-                setY(targetY);
-                if (callback != null){
-                    callback.onMove(getX() / (screenWidth - getMeasuredWidth()),getY() / (screenHeight - getMeasuredHeight()));
+                if (menuHelper.gameMenuSetting.menuFloatSetting.movable) {
+                    setX(targetX);
+                    setY(targetY);
+                    if (callback != null){
+                        callback.onMove(getX() / (screenWidth - getMeasuredWidth()),getY() / (screenHeight - getMeasuredHeight()));
+                    }
                 }
                 pressed = true;
                 break;

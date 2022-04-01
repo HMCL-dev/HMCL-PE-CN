@@ -42,6 +42,10 @@ public class DownloadTaskListAdapter extends RecyclerView.Adapter<DownloadTaskLi
         return list.size();
     }
 
+    public DownloadTaskListBean getItem(int i) {
+        return list.get(i);
+    }
+
     public void addDownloadTask(DownloadTaskListBean bean) {
         list.add(bean);
         this.notifyItemInserted(list.size() - 1);
