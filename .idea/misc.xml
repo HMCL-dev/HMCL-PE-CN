@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudio/HMCL-PE/HMCLPE/src/main/res/layout/dialog_install_game.xml" value="0.2246376811594203" />
+        <entry key="..\:/AndroidStudio/HMCL-PE/HMCLPE/src/main/res/layout/ui_game_manager.xml" value="0.2246376811594203" />
+        <entry key="..\:/AndroidStudio/HMCL-PE/HMCLPE/src/main/res/layout/ui_game_manager_game.xml" value="0.2246376811594203" />
+        <entry key="..\:/AndroidStudio/HMCL-PE/HMCLPE/src/main/res/layout/ui_setting.xml" value="0.2246376811594203" />
+        <entry key="..\:/AndroidStudio/HMCL-PE/HMCLPE/src/main/res/layout/ui_setting_global_game.xml" value="0.2246376811594203" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/control_button.xml" value="0.13" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/control_keyboard.xml" value="0.13" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/game_float_window.xml" value="0.1265" />

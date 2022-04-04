@@ -18,6 +18,7 @@ public class LoadMe {
 	public static native int dlopen(String name);
     public static native void setLibraryPath(String path);
 	public static native void patchLinker();
+	public static native void setGLName(String name);
 
     static {
         System.loadLibrary("boat");
@@ -26,7 +27,18 @@ public class LoadMe {
     public static int launchMinecraft(Context context,String javaPath, String home, boolean highVersion, Vector<String> args, String renderer) {
 
         BOAT_LIB_DIR = context.getDir("runtime",0).getAbsolutePath() + "/boat";
-
+        switch (renderer){
+            case "libGL112.so.1":
+            case "libGL115.so.1":
+                setGLName("libGL.so.1");
+                break;
+            case "libgl4es_114.so":
+                setGLName("libgl04es.so");
+                break;
+            case "libvgpu.so":
+                setGLName("libvgpu.so");
+                break;
+        }
 		patchLinker();
 
         try {

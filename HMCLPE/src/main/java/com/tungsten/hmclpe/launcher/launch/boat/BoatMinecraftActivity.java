@@ -98,15 +98,15 @@ public class BoatMinecraftActivity extends BoatActivity {
 
     @Override
     public void onBackPressed() {
-        BoatInput.setKey(BoatKeycodes.BOAT_KEYBOARD_Escape,0,true);
-        BoatInput.setKey(BoatKeycodes.BOAT_KEYBOARD_Escape,0,false);
+        BoatInput.setKey(BoatKeycodes.KEY_ESC,0,true);
+        BoatInput.setKey(BoatKeycodes.KEY_ESC,0,false);
     }
 
     @Override
     protected void onPause() {
         if (menuHelper.viewManager != null && menuHelper.viewManager.gameCursorMode == 1) {
-            BoatInput.setKey(BoatKeycodes.BOAT_KEYBOARD_Escape,0,true);
-            BoatInput.setKey(BoatKeycodes.BOAT_KEYBOARD_Escape,0,false);
+            BoatInput.setKey(BoatKeycodes.KEY_ESC,0,true);
+            BoatInput.setKey(BoatKeycodes.KEY_ESC,0,false);
         }
         super.onPause();
     }

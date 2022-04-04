@@ -1,5 +1,7 @@
 package com.tungsten.hmclpe.control;
 
+import android.util.Log;
+
 import net.kdt.pojavlaunch.LWJGLGLFWKeycode;
 
 import org.lwjgl.glfw.CallbackBridge;
@@ -16,6 +18,7 @@ public class InputBridge {
     public static final int MOUSE_SCROLL_DOWN = 4;
 
     public static void sendEvent(int launcher,int keyCode,boolean press) {
+        Log.e("键值",keyCode+"");
         if (keyCode == 0 || keyCode == 1 || keyCode == 2 || keyCode == 3 || keyCode == 4) {
             sendMouseEvent(launcher,keyCode,press);
         }
@@ -26,6 +29,7 @@ public class InputBridge {
 
     public static void sendKeycode(int launcher,int keyCode,boolean press){
         if (launcher == 1){
+            Log.e("转换后的键值",keyCode+"");
             BoatInput.setKey(keyCode,0,press);
         }
         if (launcher == 2){
@@ -122,213 +126,263 @@ public class InputBridge {
             int code;
             switch (raw) {
                 case LWJGLGLFWKeycode.GLFW_KEY_F1:
-                    code = BoatKeycodes.BOAT_KEYBOARD_F1;
+                    code = BoatKeycodes.KEY_F1;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_F2:
-                    code = BoatKeycodes.BOAT_KEYBOARD_F2;
+                    code = BoatKeycodes.KEY_F2;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_F3:
-                    code = BoatKeycodes.BOAT_KEYBOARD_F3;
+                    code = BoatKeycodes.KEY_F3;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_F4:
-                    code = BoatKeycodes.BOAT_KEYBOARD_F4;
+                    code = BoatKeycodes.KEY_F4;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_F5:
-                    code = BoatKeycodes.BOAT_KEYBOARD_F5;
+                    code = BoatKeycodes.KEY_F5;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_F6:
-                    code = BoatKeycodes.BOAT_KEYBOARD_F6;
+                    code = BoatKeycodes.KEY_F6;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_F7:
-                    code = BoatKeycodes.BOAT_KEYBOARD_F7;
+                    code = BoatKeycodes.KEY_F7;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_F8:
-                    code = BoatKeycodes.BOAT_KEYBOARD_F8;
+                    code = BoatKeycodes.KEY_F8;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_F9:
-                    code = BoatKeycodes.BOAT_KEYBOARD_F9;
+                    code = BoatKeycodes.KEY_F9;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_F10:
-                    code = BoatKeycodes.BOAT_KEYBOARD_F10;
+                    code = BoatKeycodes.KEY_F10;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_F11:
-                    code = BoatKeycodes.BOAT_KEYBOARD_F11;
+                    code = BoatKeycodes.KEY_F11;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_F12:
-                    code = BoatKeycodes.BOAT_KEYBOARD_F12;
+                    code = BoatKeycodes.KEY_F12;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_ESCAPE:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Escape;
-                    break;
-                case LWJGLGLFWKeycode.GLFW_KEY_PRINT_SCREEN:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Print;
+                    code = BoatKeycodes.KEY_ESC;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_SCROLL_LOCK:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Scroll_Lock;
+                    code = BoatKeycodes.KEY_SCROLLLOCK;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_PAUSE:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Pause;
+                    code = BoatKeycodes.KEY_PAUSE;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_GRAVE_ACCENT:
-                    code = BoatKeycodes.BOAT_KEYBOARD_grave;
+                    code = BoatKeycodes.KEY_GRAVE;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_MINUS:
-                    code = BoatKeycodes.BOAT_KEYBOARD_minus;
+                    code = BoatKeycodes.KEY_MINUS;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_EQUAL:
-                    code = BoatKeycodes.BOAT_KEYBOARD_equal;
+                    code = BoatKeycodes.KEY_EQUAL;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_BACKSPACE:
-                    code = BoatKeycodes.BOAT_KEYBOARD_BackSpace;
+                    code = BoatKeycodes.KEY_BACKSPACE;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_TAB:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Tab;
+                    code = BoatKeycodes.KEY_TAB;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_LEFT_BRACKET:
-                    code = BoatKeycodes.BOAT_KEYBOARD_bracketleft;
+                    code = BoatKeycodes.KEY_LEFTBRACE;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_RIGHT_BRACKET:
-                    code = BoatKeycodes.BOAT_KEYBOARD_bracketright;
+                    code = BoatKeycodes.KEY_RIGHTBRACE;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_BACKSLASH:
-                    code = BoatKeycodes.BOAT_KEYBOARD_backslash;
+                    code = BoatKeycodes.KEY_BACKSLASH;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_CAPS_LOCK:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Caps_Lock;
+                    code = BoatKeycodes.KEY_CAPSLOCK;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_SEMICOLON:
-                    code = BoatKeycodes.BOAT_KEYBOARD_semicolon;
+                    code = BoatKeycodes.KEY_SEMICOLON;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_APOSTROPHE:
-                    code = BoatKeycodes.BOAT_KEYBOARD_apostrophe;
+                    code = BoatKeycodes.KEY_APOSTROPHE;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_ENTER:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Return;
+                    code = BoatKeycodes.KEY_ENTER;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_LEFT_SHIFT:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Shift_L;
+                    code = BoatKeycodes.KEY_LEFTSHIFT;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_COMMA:
-                    code = BoatKeycodes.BOAT_KEYBOARD_comma;
+                    code = BoatKeycodes.KEY_COMMA;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_PERIOD:
-                    code = BoatKeycodes.BOAT_KEYBOARD_period;
+                    code = BoatKeycodes.KEY_DOT;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_SLASH:
-                    code = BoatKeycodes.BOAT_KEYBOARD_slash;
+                    code = BoatKeycodes.KEY_SLASH;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_RIGHT_SHIFT:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Shift_R;
+                    code = BoatKeycodes.KEY_RIGHTSHIFT;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_LEFT_CONTROL:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Control_L;
-                    break;
-                case LWJGLGLFWKeycode.GLFW_KEY_LEFT_SUPER:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Super_L;
+                    code = BoatKeycodes.KEY_LEFTCTRL;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_LEFT_ALT:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Alt_L;
+                    code = BoatKeycodes.KEY_LEFTALT;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_SPACE:
-                    code = BoatKeycodes.BOAT_KEYBOARD_space;
+                    code = BoatKeycodes.KEY_SPACE;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_RIGHT_ALT:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Alt_R;
-                    break;
-                case LWJGLGLFWKeycode.GLFW_KEY_RIGHT_SUPER:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Super_R;
-                    break;
-                case LWJGLGLFWKeycode.GLFW_KEY_MENU:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Menu;
+                    code = BoatKeycodes.KEY_RIGHTALT;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_RIGHT_CONTROL:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Control_R;
+                    code = BoatKeycodes.KEY_RIGHTCTRL;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_INSERT:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Insert;
+                    code = BoatKeycodes.KEY_INSERT;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_HOME:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Home;
+                    code = BoatKeycodes.KEY_HOME;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_PAGE_UP:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Page_Up;
+                    code = BoatKeycodes.KEY_PAGEUP;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_DELETE:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Delete;
+                    code = BoatKeycodes.KEY_DELETE;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_END:
-                    code = BoatKeycodes.BOAT_KEYBOARD_End;
+                    code = BoatKeycodes.KEY_END;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_PAGE_DOWN:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Page_Down;
+                    code = BoatKeycodes.KEY_PAGEDOWN;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_UP:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Up;
+                    code = BoatKeycodes.KEY_UP;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_DOWN:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Down;
+                    code = BoatKeycodes.KEY_DOWN;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_LEFT:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Left;
+                    code = BoatKeycodes.KEY_LEFT;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_RIGHT:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Right;
+                    code = BoatKeycodes.KEY_RIGHT;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_NUM_LOCK:
-                    code = BoatKeycodes.BOAT_KEYBOARD_Num_Lock;
+                    code = BoatKeycodes.KEY_NUMLOCK;
                     break;
-                case LWJGLGLFWKeycode.GLFW_KEY_KP_DIVIDE:
-                    code = BoatKeycodes.BOAT_KEYBOARD_KP_Divide;
+                case LWJGLGLFWKeycode.GLFW_KEY_A:
+                    code = BoatKeycodes.KEY_A;
                     break;
-                case LWJGLGLFWKeycode.GLFW_KEY_KP_MULTIPLY:
-                    code = BoatKeycodes.BOAT_KEYBOARD_KP_Multiply;
+                case LWJGLGLFWKeycode.GLFW_KEY_B:
+                    code = BoatKeycodes.KEY_B;
                     break;
-                case LWJGLGLFWKeycode.GLFW_KEY_KP_SUBTRACT:
-                    code = BoatKeycodes.BOAT_KEYBOARD_KP_Subtract;
+                case LWJGLGLFWKeycode.GLFW_KEY_C:
+                    code = BoatKeycodes.KEY_C;
                     break;
-                case LWJGLGLFWKeycode.GLFW_KEY_KP_ADD:
-                    code = BoatKeycodes.BOAT_KEYBOARD_KP_Add;
+                case LWJGLGLFWKeycode.GLFW_KEY_D:
+                    code = BoatKeycodes.KEY_D;
                     break;
-                case LWJGLGLFWKeycode.GLFW_KEY_KP_ENTER:
-                    code = BoatKeycodes.BOAT_KEYBOARD_KP_Enter;
+                case LWJGLGLFWKeycode.GLFW_KEY_E:
+                    code = BoatKeycodes.KEY_E;
                     break;
-                case LWJGLGLFWKeycode.GLFW_KEY_KP_EQUAL:
-                    code = BoatKeycodes.BOAT_KEYBOARD_KP_Equal;
+                case LWJGLGLFWKeycode.GLFW_KEY_F:
+                    code = BoatKeycodes.KEY_F;
                     break;
-                case LWJGLGLFWKeycode.GLFW_KEY_KP_0:
-                    code = BoatKeycodes.BOAT_KEYBOARD_KP_0;
+                case LWJGLGLFWKeycode.GLFW_KEY_G:
+                    code = BoatKeycodes.KEY_G;
                     break;
-                case LWJGLGLFWKeycode.GLFW_KEY_KP_1:
-                    code = BoatKeycodes.BOAT_KEYBOARD_KP_1;
+                case LWJGLGLFWKeycode.GLFW_KEY_H:
+                    code = BoatKeycodes.KEY_H;
                     break;
-                case LWJGLGLFWKeycode.GLFW_KEY_KP_2:
-                    code = BoatKeycodes.BOAT_KEYBOARD_KP_2;
+                case LWJGLGLFWKeycode.GLFW_KEY_I:
+                    code = BoatKeycodes.KEY_I;
                     break;
-                case LWJGLGLFWKeycode.GLFW_KEY_KP_3:
-                    code = BoatKeycodes.BOAT_KEYBOARD_KP_3;
+                case LWJGLGLFWKeycode.GLFW_KEY_J:
+                    code = BoatKeycodes.KEY_J;
                     break;
-                case LWJGLGLFWKeycode.GLFW_KEY_KP_4:
-                    code = BoatKeycodes.BOAT_KEYBOARD_KP_4;
+                case LWJGLGLFWKeycode.GLFW_KEY_K:
+                    code = BoatKeycodes.KEY_K;
                     break;
-                case LWJGLGLFWKeycode.GLFW_KEY_KP_5:
-                    code = BoatKeycodes.BOAT_KEYBOARD_KP_5;
+                case LWJGLGLFWKeycode.GLFW_KEY_L:
+                    code = BoatKeycodes.KEY_L;
                     break;
-                case LWJGLGLFWKeycode.GLFW_KEY_KP_6:
-                    code = BoatKeycodes.BOAT_KEYBOARD_KP_6;
+                case LWJGLGLFWKeycode.GLFW_KEY_M:
+                    code = BoatKeycodes.KEY_M;
                     break;
-                case LWJGLGLFWKeycode.GLFW_KEY_KP_7:
-                    code = BoatKeycodes.BOAT_KEYBOARD_KP_7;
+                case LWJGLGLFWKeycode.GLFW_KEY_N:
+                    code = BoatKeycodes.KEY_N;
                     break;
-                case LWJGLGLFWKeycode.GLFW_KEY_KP_8:
-                    code = BoatKeycodes.BOAT_KEYBOARD_KP_8;
+                case LWJGLGLFWKeycode.GLFW_KEY_O:
+                    code = BoatKeycodes.KEY_O;
                     break;
-                case LWJGLGLFWKeycode.GLFW_KEY_KP_9:
-                    code = BoatKeycodes.BOAT_KEYBOARD_KP_9;
+                case LWJGLGLFWKeycode.GLFW_KEY_P:
+                    code = BoatKeycodes.KEY_P;
                     break;
+                case LWJGLGLFWKeycode.GLFW_KEY_Q:
+                    code = BoatKeycodes.KEY_Q;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_R:
+                    code = BoatKeycodes.KEY_R;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_S:
+                    code = BoatKeycodes.KEY_S;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_T:
+                    code = BoatKeycodes.KEY_T;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_U:
+                    code = BoatKeycodes.KEY_U;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_V:
+                    code = BoatKeycodes.KEY_V;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_W:
+                    code = BoatKeycodes.KEY_W;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_X:
+                    code = BoatKeycodes.KEY_X;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_Y:
+                    code = BoatKeycodes.KEY_Y;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_Z:
+                    code = BoatKeycodes.KEY_Z;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_0:
+                    code = BoatKeycodes.KEY_0;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_1:
+                    code = BoatKeycodes.KEY_1;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_2:
+                    code = BoatKeycodes.KEY_2;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_3:
+                    code = BoatKeycodes.KEY_3;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_4:
+                    code = BoatKeycodes.KEY_4;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_5:
+                    code = BoatKeycodes.KEY_5;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_6:
+                    code = BoatKeycodes.KEY_6;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_7:
+                    code = BoatKeycodes.KEY_7;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_8:
+                    code = BoatKeycodes.KEY_8;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_9:
+                    code = BoatKeycodes.KEY_9;
+                    break;
+
                 default:
                     code = raw;
                     break;
             }
+
             return code;
         }
         else {

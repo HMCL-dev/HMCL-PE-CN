@@ -12,6 +12,15 @@ void* boatGetNativeDisplay(){
 	return mBoat.display;
 }
 
+char* boatGetGLName(){
+	__android_log_print(ANDROID_LOG_ERROR, "Boat", "boatGetGLName");
+	return mBoat.gl_lib_name;
+}
+
+void printLog(char *str){
+	__android_log_print(ANDROID_LOG_ERROR, "BoatPrintLog", "%s",str);
+}
+
 void boatGetCurrentEvent(BoatInputEvent* event){
 	memcpy(event, &mBoat.current_event, sizeof(BoatInputEvent));
 }
@@ -73,6 +82,94 @@ JNIEXPORT void JNICALL Java_cosine_boat_BoatInput_send(JNIEnv* env, jclass clazz
 		mBoat.current_event_processor();
 	}
 	
+}
+void boatSetPrimaryClipString(const char* string) {
+	__android_log_print(ANDROID_LOG_ERROR, "测试", "boatSetPrimaryClipString");
+	if (mBoat.android_jvm == 0) {
+		return;
+	}
+	JNIEnv* env = 0;
+
+	jint result = (*mBoat.android_jvm)->AttachCurrentThread(mBoat.android_jvm, &env, 0);
+
+	if (result != JNI_OK || env == 0) {
+		__android_log_print(ANDROID_LOG_ERROR, "Boat", "Failed to attach thread to JavaVM.");
+		abort();
+	}
+
+	jclass class_BoatInput = mBoat.class_BoatInput;
+
+	if (class_BoatInput == 0) {
+		__android_log_print(ANDROID_LOG_ERROR, "Boat", "Failed to find class: cosine/boat/BoatInput.");
+		abort();
+	}
+
+	jmethodID BoatInput_setPrimaryClipString = (*env)->GetStaticMethodID(env, class_BoatInput, "setPrimaryClipString", "(Ljava/lang/String;)V");
+
+	if (BoatInput_setPrimaryClipString == 0) {
+		__android_log_print(ANDROID_LOG_ERROR, "Boat", "Failed to find static method BoatInput::setPrimaryClipString");
+		abort();
+	}
+	(*env)->CallStaticVoidMethod(env, class_BoatInput, BoatInput_setPrimaryClipString, (*env)->NewStringUTF(env, string));
+
+	(*mBoat.android_jvm)->DetachCurrentThread(mBoat.android_jvm);
+}
+void boatSetCursorPos(int x, int y) {
+
+}
+const char* boatGetPrimaryClipString() {
+	__android_log_print(ANDROID_LOG_ERROR, "测试", "boatGetPrimaryClipString");
+	if (mBoat.android_jvm == 0){
+		return NULL;
+	}
+	JNIEnv* env = 0;
+
+	jint result = (*mBoat.android_jvm)->AttachCurrentThread(mBoat.android_jvm, &env, 0);
+
+	if (result != JNI_OK || env == 0) {
+		__android_log_print(ANDROID_LOG_ERROR, "Boat", "Failed to attach thread to JavaVM.");
+		abort();
+	}
+
+	jclass class_BoatInput = mBoat.class_BoatInput;
+
+	if (class_BoatInput == 0) {
+		__android_log_print(ANDROID_LOG_ERROR, "Boat", "Failed to find class: cosine/boat/BoatInput.");
+		abort();
+	}
+
+	jmethodID BoatInput_getPrimaryClipString = (*env)->GetStaticMethodID(env, class_BoatInput, "getPrimaryClipString", "()Ljava/lang/String;");
+
+	if (BoatInput_getPrimaryClipString == 0) {
+		__android_log_print(ANDROID_LOG_ERROR, "Boat", "Failed to find static method BoatInput::getPrimaryClipString");
+		abort();
+	}
+
+	if (mBoat.clipboard_string != NULL) {
+		free(mBoat.clipboard_string);
+		mBoat.clipboard_string = NULL;
+	}
+
+	jstring clipstr = (jstring)(*env)->CallStaticObjectMethod(env, class_BoatInput, BoatInput_getPrimaryClipString);
+
+	const char* string = NULL;
+	if (clipstr != NULL) {
+		string = (*env)->GetStringUTFChars(env, clipstr, NULL);
+		if (string != NULL) {
+			mBoat.clipboard_string = strdup(string);
+		}
+	}
+
+	(*mBoat.android_jvm)->DetachCurrentThread(mBoat.android_jvm);
+
+	return mBoat.clipboard_string;
+}
+JNIEXPORT void JNICALL Java_cosine_boat_LoadMe_setGLName(JNIEnv* env, jclass clazz, jstring name) {
+	char const* mName;
+	mName=(*env)->GetStringUTFChars(env,name,0);
+	mBoat.gl_lib_name=strdup(mName);
+	(*env)->ReleaseStringUTFChars(env, name, mName);
+	__android_log_print(ANDROID_LOG_ERROR, "Boat GLlibname", "%s", mBoat.gl_lib_name);
 }
 
 JNIEXPORT void JNICALL Java_cosine_boat_BoatActivity_setBoatNativeWindow(JNIEnv* env, jclass clazz, jobject surface) {

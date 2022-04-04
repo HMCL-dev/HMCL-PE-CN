@@ -34,7 +34,13 @@ public class BoatInput{
 	public static void setKey(int keyCode, int keyChar, boolean press){
 		send(System.nanoTime(), press ? KeyPress : KeyRelease, keyCode, keyChar);
 	}
+	public static void setPrimaryClipString(String string){
 
+	}
+
+	public static String getPrimaryClipString(){
+		return "";
+	}
 	public static native void send(long time, int type, int p1, int p2);
 
 }

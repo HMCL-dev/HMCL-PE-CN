@@ -191,6 +191,8 @@ typedef struct {
         BoatInputEvent current_event;
         
         const char* clipboard_string;
+        char* gl_lib_name;
+
 	
 } Boat;
 

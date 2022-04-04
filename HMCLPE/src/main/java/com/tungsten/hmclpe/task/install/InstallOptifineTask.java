@@ -146,8 +146,7 @@ public class InstallOptifineTask extends AsyncTask<OptifineVersion,Integer, Vers
         dialog.gameVersionJson = dialog.gameVersionJson.addPatch(version);
         if (dialog.forgeVersion != null) {
 
-        }
-        else {
+        } else {
             if (dialog.liteLoaderVersion != null) {
 
             }

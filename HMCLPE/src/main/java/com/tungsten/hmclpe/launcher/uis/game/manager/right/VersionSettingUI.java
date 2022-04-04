@@ -75,6 +75,8 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
 
     private RadioButton boatRendererGL4ES112;
     private RadioButton boatRendererGL4ES115;
+    private RadioButton boatRendererGL4ES114;
+    private RadioButton boatRendererVGPU;
 
     private RadioButton pojavRendererGL4ES114;
     private RadioButton pojavRendererGL4ES115;
@@ -141,6 +143,8 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
 
         boatRendererGL4ES112 = activity.findViewById(R.id.boat_renderer_gl4es_112_isolate);
         boatRendererGL4ES115 = activity.findViewById(R.id.boat_renderer_gl4es_115_isolate);
+        boatRendererGL4ES114 = activity.findViewById(R.id.boat_renderer_gl4es_114_isolate);
+        boatRendererVGPU = activity.findViewById(R.id.boat_renderer_vgpu_isolate);
 
         pojavRendererGL4ES114 = activity.findViewById(R.id.pojav_renderer_gl4es_114_isolate);
         pojavRendererGL4ES115 = activity.findViewById(R.id.pojav_renderer_gl4es_115_isolate);
@@ -175,6 +179,8 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
 
         boatRendererGL4ES112.setOnClickListener(this);
         boatRendererGL4ES115.setOnClickListener(this);
+        boatRendererGL4ES114.setOnClickListener(this);
+        boatRendererVGPU.setOnClickListener(this);
 
         pojavRendererGL4ES114.setOnClickListener(this);
         pojavRendererGL4ES115.setOnClickListener(this);
@@ -282,6 +288,12 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
 
         }
         if (v == boatRendererGL4ES115){
+
+        }
+        if (v == boatRendererGL4ES114){
+
+        }
+        if (v == boatRendererVGPU){
 
         }
         if (v == pojavRendererGL4ES114){
