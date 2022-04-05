@@ -118,7 +118,6 @@ void boatSetCursorPos(int x, int y) {
 
 }
 const char* boatGetPrimaryClipString() {
-	__android_log_print(ANDROID_LOG_ERROR, "测试", "boatGetPrimaryClipString");
 	if (mBoat.android_jvm == 0){
 		return NULL;
 	}
