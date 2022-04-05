@@ -13,7 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
-HMCLPE/src/main/assets/app_runtime/java/JRE17/lib/modules
 HMCLPE/release/HMCLPE-release.apk
-*.apk
 *.apk
