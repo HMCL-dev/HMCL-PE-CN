@@ -127,7 +127,7 @@ public class LoadMe {
             setLibraryPath(libraryPath);
             setupJLI();
 
-            redirectStdio(home + "/api_installer_log.txt");
+            redirectStdio(home + "/boat_api_installer_log.txt");
             chdir(home);
 
             String finalArgs[] = new String[args.size()];

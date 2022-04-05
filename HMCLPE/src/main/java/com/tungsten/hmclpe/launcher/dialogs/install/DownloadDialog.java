@@ -15,8 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.google.gson.Gson;
-import com.leo618.zip.IZipCallback;
-import com.leo618.zip.ZipManager;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.minecraft.fabric.FabricLoaderVersion;
@@ -28,29 +26,26 @@ import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
 import com.tungsten.hmclpe.launcher.game.Argument;
 import com.tungsten.hmclpe.launcher.game.Arguments;
 import com.tungsten.hmclpe.launcher.game.Artifact;
-import com.tungsten.hmclpe.launcher.game.Library;
 import com.tungsten.hmclpe.launcher.game.RuledArgument;
 import com.tungsten.hmclpe.launcher.game.Version;
+import com.tungsten.hmclpe.launcher.install.InstallOptifine;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListAdapter;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
 import com.tungsten.hmclpe.task.DownloadTask;
 import com.tungsten.hmclpe.task.install.DownloadMinecraftTask;
-import com.tungsten.hmclpe.task.install.InstallOptifineTask;
 import com.tungsten.hmclpe.utils.Lang;
 import com.tungsten.hmclpe.utils.file.AssetsUtils;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
-import com.tungsten.hmclpe.utils.file.FileUtils;
 import com.tungsten.hmclpe.utils.gson.JsonUtils;
-import com.tungsten.hmclpe.utils.io.DownloadUtil;
 import com.tungsten.hmclpe.utils.network.NetSpeed;
 import com.tungsten.hmclpe.utils.network.NetSpeedTimer;
 import com.tungsten.hmclpe.utils.platform.Bits;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -140,141 +135,61 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     public void downloadMinecraft(ArrayList<DownloadTaskListBean> tasks){
         startDownloadTask(tasks, () -> {
             downloadTaskListAdapter.onComplete(downloadTaskListAdapter.getItem(0));
-            if (optifineVersion != null) {
-                String mirror = "https://bmclapi2.bangbang93.com/optifine/" + optifineVersion.mcVersion + "/" + optifineVersion.type + "/" + optifineVersion.patch;
-                if (FileUtils.deleteDirectory(AppManifest.INSTALL_DIR)) {
-                    DownloadUtil.downloadSingleFile(context, new DownloadTaskListBean(optifineVersion.fileName, mirror, AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName), new DownloadTask.Feedback() {
-                        @Override
-                        public void addTask(DownloadTaskListBean bean) {
-                            activity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    downloadTaskListAdapter.addDownloadTask(bean);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void updateProgress(DownloadTaskListBean bean) {
-                            activity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    downloadTaskListAdapter.onProgress(bean);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void updateSpeed(String speed) {
-
-                        }
-
-                        @Override
-                        public void removeTask(DownloadTaskListBean bean) {
-                            activity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    downloadTaskListAdapter.onComplete(bean);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onFinished(Map<String, String> failedFile) {
-                            activity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    unZipOptifineInstaller();
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void onCancelled() {
-
-                        }
-                    });
-                }
-            }
-            else {
-                if (forgeVersion != null) {
-
-                }
-                else {
-                    if (liteLoaderVersion != null) {
-
-                    }
-                    else {
-                        if (fabricVersion != null) {
-
-                        }
-                        else {
-                            if (fabricAPIVersion != null) {
-
-                            }
-                            else {
-                                installJson();
-                            }
-                        }
-                    }
-                }
-            }
+            downloadOptifine();
         });
     }
 
-    public void unZipOptifineInstaller() {
-        downloadTaskListAdapter.addDownloadTask(new DownloadTaskListBean(context.getString(R.string.dialog_install_game_install_optifine),"",""));
-        ZipManager.unzip(AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName, AppManifest.INSTALL_DIR + "/optifine/installer", new IZipCallback() {
-            @Override
-            public void onStart() {
-
-            }
-
-            @Override
-            public void onProgress(int percentDone) {
-
-            }
-
-            @Override
-            public void onFinish(boolean success) {
-                if (success) {
-                    downloadTaskListAdapter.getItem(0).progress = 50;
-                    downloadTaskListAdapter.onProgress(downloadTaskListAdapter.getItem(0));
-                    InstallOptifineTask task = new InstallOptifineTask(context,activity,DownloadDialog.this);
-                    task.execute(optifineVersion);
+    public void downloadOptifine() {
+        if (optifineVersion != null) {
+            InstallOptifine installOptifine = new InstallOptifine(context, activity, optifineVersion, downloadTaskListAdapter, name, new InstallOptifine.InstallOptifineCallback() {
+                @Override
+                public void onFinish(boolean success,Version patch) {
+                    //downloadTaskListAdapter.onComplete(downloadTaskListAdapter.getItem(0));
+                    gameVersionJson = gameVersionJson.addPatch(patch);
+                    downloadForge();
                 }
-            }
-        });
+            });
+            installOptifine.install();
+        }
+        else {
+            downloadForge();
+        }
     }
 
-    public void downloadForge(ArrayList<DownloadTaskListBean> tasks){
-        startDownloadTask(tasks, () -> {
-            if (liteLoaderVersion != null) {
+    public void downloadForge(){
+        if (forgeVersion != null) {
 
-            }
-            else {
-                installJson();
-            }
-        });
+        }
+        else {
+            downloadLiteLoader();
+        }
     }
 
-    public void downloadLiteLoader(ArrayList<DownloadTaskListBean> tasks){
-        startDownloadTask(tasks, this::installJson);
+    public void downloadLiteLoader(){
+        if (liteLoaderVersion != null) {
+
+        }
+        else {
+            downloadFabric();
+        }
     }
 
-    public void downloadFabric(ArrayList<DownloadTaskListBean> tasks){
-        startDownloadTask(tasks, () -> {
-            if (liteLoaderVersion != null) {
+    public void downloadFabric(){
+        if (fabricVersion != null) {
 
-            }
-            else {
-                installJson();
-            }
-        });
+        }
+        else {
+            downloadFabricAPI();
+        }
     }
 
-    public void downloadFabricAPI(ArrayList<DownloadTaskListBean> tasks){
-        startDownloadTask(tasks, this::installJson);
+    public void downloadFabricAPI(){
+        if (fabricAPIVersion != null) {
+
+        }
+        else {
+            installJson();
+        }
     }
 
     public void installJson(){

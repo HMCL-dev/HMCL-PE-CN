@@ -2,7 +2,9 @@ package com.tungsten.hmclpe.launcher.download.minecraft.optifine;
 
 import com.google.gson.annotations.SerializedName;
 
-public class OptifineVersion {
+import java.io.Serializable;
+
+public class OptifineVersion implements Serializable {
 
     @SerializedName("_id")
     public String id;

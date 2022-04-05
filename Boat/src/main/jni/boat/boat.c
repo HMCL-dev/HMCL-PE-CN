@@ -4,7 +4,7 @@
 
 #include <boat.h>
 
-ANativeWindow* boatGetNativeWindow(){	
+ANativeWindow* boatGetNativeWindow(){
     return mBoat.window;
 }
 
@@ -34,9 +34,9 @@ void boatSetCursorMode(int mode){
 		return;
 	}
 	JNIEnv* env = 0;
-	
+
 	jint result = (*mBoat.android_jvm)->AttachCurrentThread(mBoat.android_jvm, &env, 0);
-	
+
 	if (result != JNI_OK || env == 0){
 		__android_log_print(ANDROID_LOG_ERROR, "Boat", "Failed to attach thread to JavaVM.");
 		abort();
@@ -56,8 +56,8 @@ void boatSetCursorMode(int mode){
 		abort();
 	}
 	(*env)->CallVoidMethod(env, mBoat.boatActivity, BoatActivity_setCursorMode, mode);
-	
-	
+
+
 	(*mBoat.android_jvm)->DetachCurrentThread(mBoat.android_jvm);
 }
 
@@ -195,14 +195,14 @@ JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 	mBoat.android_jvm = vm;
 	
 	JNIEnv* env = 0;
-	
+
 	jint result = (*mBoat.android_jvm)->AttachCurrentThread(mBoat.android_jvm, &env, 0);
-	
+
 	if (result != JNI_OK || env == 0){
 		__android_log_print(ANDROID_LOG_ERROR, "Boat", "Failed to attach thread to JavaVM.");
 		abort();
 	}
-	
+
 	jclass class_BoatInput = (*env)->FindClass(env, "cosine/boat/BoatInput");
 	if (class_BoatInput == 0){
 		__android_log_print(ANDROID_LOG_ERROR, "Boat", "Failed to find class: cosine/boat/BoatInput.");

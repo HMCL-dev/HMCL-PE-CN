@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import javax.microedition.khronos.egl.EGL10;
 import javax.microedition.khronos.egl.EGLConfig;
@@ -247,6 +248,32 @@ public class JREUtils {
         final int exitCode = VMLauncher.launchJVM((String[]) userArgs.toArray(new String[0]));
         Logger.getInstance(activity).appendToLog("Java Exit code: " + exitCode);
         return exitCode;
+    }
+
+    public static int launchAPIInstaller(Activity activity,String javaPath, Vector<String> args, String home) {
+        try {
+            redirectAndPrintJRELog(activity);
+            relocateLibPath(activity,javaPath);
+            Os.setenv("HOME", home, true);
+            Os.setenv("JAVA_HOME" , javaPath, true);
+            File serverFile = new File(javaPath + "/lib/server/libjvm.so");
+            jvmLibraryPath = javaPath + "/lib/" + (serverFile.exists() ? "server" : "client");
+            Log.d("DynamicLoader","Base LD_LIBRARY_PATH: "+LD_LIBRARY_PATH);
+            Log.d("DynamicLoader","Internal LD_LIBRARY_PATH: "+jvmLibraryPath+":"+LD_LIBRARY_PATH);
+            setLdLibraryPath(jvmLibraryPath+":"+LD_LIBRARY_PATH);
+            List<String> userArgs = new ArrayList<>();
+            userArgs.addAll(args);
+            initJavaRuntime(javaPath);
+            setupExitTrap(activity.getApplication());
+            chdir(home);
+            userArgs.add(0,"java");
+            final int exitCode = VMLauncher.launchJVM((String[]) userArgs.toArray(new String[0]));
+            Logger.getInstance(activity).appendToLog("Java Exit code: " + exitCode);
+            return exitCode;
+        } catch (ErrnoException | IOException e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 
     public static List<String> getJavaArgs(Context context) {
