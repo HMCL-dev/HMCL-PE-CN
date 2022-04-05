@@ -357,7 +357,8 @@
     <string name="universal_setting_ui_declare">Hello Minecraft! Launcher Pocket Edition 是一个免费、自由、开放源代码的 Minecraft 启动器。您的赞助将帮助 Hello Minecraft! Launcher Pocket Edition 获得更好的发展，还可以获得 HMCL-PE 的开发进展。</string>
     <string name="universal_setting_ui_update">启动器更新</string>
     <string name="universal_setting_ui_update_state_latest">当前版本为最新版本</string>
-    <string name="universal_setting_ui_update_state_update"></string>
+    <string name="universal_setting_ui_update_state_checking">正在检测...</string>
+    <string name="universal_setting_ui_update_state_update">检测到新版本</string>
     <string name="universal_setting_ui_update_rec">推荐版本</string>
     <string name="universal_setting_ui_update_beta">测试版</string>
     <string name="universal_setting_ui_beta_describe">开发版包含更多的功能以及错误修复，但也可能会包含其他的问题。</string>
@@ -369,6 +370,16 @@
     <string name="universal_setting_ui_lang_sys">跟随系统语言</string>
     <string name="universal_setting_ui_log">调试</string>
     <string name="universal_setting_ui_export_log">导出启动器日志</string>
+
+    <string name="dialog_update_title">检测到启动器有更新</string>
+    <string name="dialog_update_beta">测试版</string>
+    <string name="dialog_update_release">正式版</string>
+    <string name="dialog_update_version_name">版本：</string>
+    <string name="dialog_update_date">日期：</string>
+    <string name="dialog_update_type">类型：</string>
+    <string name="dialog_update_log">更新内容：</string>
+    <string name="dialog_update_update">更新</string>
+    <string name="dialog_update_ignore">忽略</string>
 
     <string-array name="launcher_languages">
         <item>English</item>

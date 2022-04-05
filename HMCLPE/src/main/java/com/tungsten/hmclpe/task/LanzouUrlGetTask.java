@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.tungsten.hmclpe.launcher.MainActivity;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,21 +16,25 @@ import org.jsoup.select.Elements;
 import java.lang.ref.WeakReference;
 
 public class LanzouUrlGetTask extends AsyncTask<String, Integer, String> {
+
     public interface Callback{
         void onStart();
         void onFinish(String url);
     }
-    private WeakReference<Context> ctx;
-    private Callback callback;
-    public LanzouUrlGetTask(Context ctx,Callback callback) {
-        this.ctx=new WeakReference<>(ctx);
-        this.callback=callback;
-    }
 
+    private WeakReference<Context> ctx;
+    private MainActivity activity;
+    private Callback callback;
+
+    public LanzouUrlGetTask(Context ctx, MainActivity activity, Callback callback) {
+        this.ctx = new WeakReference<>(ctx);
+        this.activity = activity;
+        this.callback = callback;
+    }
 
     @Override
     public void onPreExecute() {
-        ((Activity)ctx.get()).runOnUiThread(new Runnable() {
+        activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 callback.onStart();
@@ -75,7 +80,7 @@ public class LanzouUrlGetTask extends AsyncTask<String, Integer, String> {
 
     @Override
     public void onPostExecute(String result) {
-        ((Activity)ctx.get()).runOnUiThread(new Runnable() {
+        activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 callback.onFinish(result);
