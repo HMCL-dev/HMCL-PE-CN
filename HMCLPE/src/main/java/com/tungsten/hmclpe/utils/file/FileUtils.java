@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 public class FileUtils {
     public static void createDirectory(String path){
@@ -100,11 +101,11 @@ public class FileUtils {
                 return true;
             }
             File[] files = dirFile.listFiles();
-            if(files==null){
+            if(files == null){
                 return false;
             }
-            for (int i = 0; i < files.length; i++) {
-                deleteDirectory(files[i].toString());
+            for (File file : files) {
+                deleteDirectory(file.toString());
             }
             dirFile.delete();
             return true;
@@ -112,5 +113,25 @@ public class FileUtils {
         catch(Exception e){
             return false;
         }
+    }
+
+    public static ArrayList<File> getAllFiles(String path) {
+        ArrayList<File> list = new ArrayList<>();
+        File dirFile = new File(path);
+        if (!dirFile.exists()) {
+            return list;
+        }
+        if (dirFile.isFile()) {
+            list.add(dirFile);
+            return list;
+        }
+        File[] files = dirFile.listFiles();
+        if(files == null){
+            return list;
+        }
+        for (File file : files) {
+            list.addAll(getAllFiles(file.toString()));
+        }
+        return list;
     }
 }

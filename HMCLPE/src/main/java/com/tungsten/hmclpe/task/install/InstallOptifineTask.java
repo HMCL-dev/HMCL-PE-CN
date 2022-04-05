@@ -3,20 +3,27 @@ package com.tungsten.hmclpe.task.install;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.dialogs.install.DownloadDialog;
+import com.google.gson.Gson;
 import com.tungsten.hmclpe.launcher.download.minecraft.optifine.OptifineVersion;
+import com.tungsten.hmclpe.launcher.game.Argument;
 import com.tungsten.hmclpe.launcher.game.Arguments;
 import com.tungsten.hmclpe.launcher.game.Artifact;
 import com.tungsten.hmclpe.launcher.game.LibrariesDownloadInfo;
 import com.tungsten.hmclpe.launcher.game.Library;
 import com.tungsten.hmclpe.launcher.game.LibraryDownloadInfo;
+import com.tungsten.hmclpe.launcher.game.RuledArgument;
 import com.tungsten.hmclpe.launcher.game.Version;
 import com.tungsten.hmclpe.launcher.install.LibraryAnalyzer;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
+import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
+import com.tungsten.hmclpe.service.install.InstallOptifineService;
 import com.tungsten.hmclpe.task.DownloadTask;
+import com.tungsten.hmclpe.utils.file.FileStringUtils;
+import com.tungsten.hmclpe.utils.gson.JsonUtils;
 import com.tungsten.hmclpe.utils.io.FileUtils;
+import com.tungsten.hmclpe.utils.platform.Bits;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,16 +39,20 @@ import cosine.boat.LoadMe;
 public class InstallOptifineTask extends AsyncTask<OptifineVersion,Integer, Version> {
 
     private Context context;
-    private MainActivity activity;
-    private DownloadDialog dialog;
+    private String name;
+    private InstallOptifineService service;
+    private LauncherSetting launcherSetting;
 
     private Library optiFineLibrary;
     private Library optiFineInstallerLibrary;
 
-    public InstallOptifineTask(Context context,MainActivity activity,DownloadDialog dialog) {
+    private boolean success;
+
+    public InstallOptifineTask(Context context,String name,InstallOptifineService service) {
         this.context = context;
-        this.activity = activity;
-        this.dialog = dialog;
+        this.name = name;
+        this.service = service;
+        this.launcherSetting = InitializeSetting.initializeLauncherSetting();
     }
 
     @Override
@@ -66,7 +77,7 @@ public class InstallOptifineTask extends AsyncTask<OptifineVersion,Integer, Vers
         boolean hasLaunchWrapper = false;
         String tempFold = AppManifest.INSTALL_DIR + "/optifine/installer/";
         try {
-            FileUtils.copyFile(new File(AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName).toPath(), new File(activity.launcherSetting.gameFileDirectory + "/libraries/" + optiFineInstallerLibrary.getPath()).toPath());
+            FileUtils.copyFile(new File(AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName).toPath(), new File(launcherSetting.gameFileDirectory + "/libraries/" + optiFineInstallerLibrary.getPath()).toPath());
             if (new File(tempFold + "optifine/Patcher.class").exists()) {
                 String javaPath = AppManifest.JAVA_DIR + "/default";
                 String[] command = {
@@ -76,27 +87,29 @@ public class InstallOptifineTask extends AsyncTask<OptifineVersion,Integer, Vers
                         "-Djava.library.path=" + javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64",
                         "-Djava.io.tmpdir=" + AppManifest.INSTALL_DIR,
                         "optifine.Patcher",
-                        activity.launcherSetting.gameFileDirectory + "/versions/" + dialog.name + "/" + dialog.name + ".jar",
+                        launcherSetting.gameFileDirectory + "/versions/" + name + "/" + name + ".jar",
                         AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName,
-                        activity.launcherSetting.gameFileDirectory + "/libraries/" + optiFineLibrary.getPath()
+                        launcherSetting.gameFileDirectory + "/libraries/" + optiFineLibrary.getPath()
                 };
-                Vector<String> args = new Vector<String>();
+                Vector<String> args = new Vector<>();
                 Collections.addAll(args, command);
                 args.add("-Xms1024M");
                 args.add("-Xmx1024M");
                 int exitCode = LoadMe.launchJVM(javaPath,args,AppManifest.DEBUG_DIR);
+                //int exitCode = JREUtils.launchAPIInstaller(activity,javaPath,args,AppManifest.DEBUG_DIR);
                 if (exitCode != 0){
+                    success = false;
                     throw new IOException("OptiFine patcher failed");
                 }
             }
             else {
-                FileUtils.copyFile(new File(AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName).toPath(), new File(activity.launcherSetting.gameFileDirectory + "/libraries/" + optiFineLibrary.getPath()).toPath());
+                FileUtils.copyFile(new File(AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName).toPath(), new File(launcherSetting.gameFileDirectory + "/libraries/" + optiFineLibrary.getPath()).toPath());
             }
 
             Path launchWrapper2 = new File(tempFold + "launchwrapper-2.0.jar").toPath();
             if (Files.exists(launchWrapper2)) {
                 Library launchWrapper = new Library(new Artifact("optifine", "launchwrapper", "2.0"));
-                File launchWrapperFile = new File(activity.launcherSetting.gameFileDirectory + "/libraries/" + launchWrapper.getPath());
+                File launchWrapperFile = new File(launcherSetting.gameFileDirectory + "/libraries/" + launchWrapper.getPath());
                 FileUtils.makeDirectory(launchWrapperFile.getAbsoluteFile().getParentFile());
                 FileUtils.copyFile(launchWrapper2, launchWrapperFile.toPath());
                 hasLaunchWrapper = true;
@@ -111,7 +124,7 @@ public class InstallOptifineTask extends AsyncTask<OptifineVersion,Integer, Vers
                 Library launchWrapper = new Library(new Artifact("optifine", "launchwrapper-of", launchWrapperVersion));
 
                 if (Files.exists(launchWrapperJar)) {
-                    File launchWrapperFile = new File(activity.launcherSetting.gameFileDirectory + "/libraries/" + launchWrapper.getPath());
+                    File launchWrapperFile = new File(launcherSetting.gameFileDirectory + "/libraries/" + launchWrapper.getPath());
                     FileUtils.makeDirectory(launchWrapperFile.getAbsoluteFile().getParentFile());
                     FileUtils.copyFile(launchWrapperJar, launchWrapperFile.toPath());
 
@@ -122,37 +135,46 @@ public class InstallOptifineTask extends AsyncTask<OptifineVersion,Integer, Vers
             if (!hasLaunchWrapper) {
                 Library launchWrapperLib = new Library(new Artifact("net.minecraft", "launchwrapper", "1.12"));
                 libraries.add(launchWrapperLib);
-                DownloadTask.downloadFileMonitored(DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.LIBRARIES) + "/" + launchWrapperLib.getPath(),activity.launcherSetting.gameFileDirectory + "/libraries/" + launchWrapperLib.getPath(),null);
+                DownloadTask.downloadFileMonitored(DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(launcherSetting.downloadUrlSource),DownloadUrlSource.LIBRARIES) + "/" + launchWrapperLib.getPath(),launcherSetting.gameFileDirectory + "/libraries/" + launchWrapperLib.getPath(),null);
             }
+            success = true;
         }
         catch (IOException e) {
+            success = false;
             e.printStackTrace();
         }
 
-        return new Version(
-                LibraryAnalyzer.LibraryType.OPTIFINE.getPatchId(),
-                optifineVersion.type + "_" + optifineVersion.patch,
-                10000,
-                new Arguments().addGameArguments("--tweakClass", "optifine.OptiFineTweaker"),
-                LibraryAnalyzer.LAUNCH_WRAPPER_MAIN,
-                libraries
-        );
+        if (success) {
+            return new Version(
+                    LibraryAnalyzer.LibraryType.OPTIFINE.getPatchId(),
+                    optifineVersion.type + "_" + optifineVersion.patch,
+                    10000,
+                    new Arguments().addGameArguments("--tweakClass", "optifine.OptiFineTweaker"),
+                    LibraryAnalyzer.LAUNCH_WRAPPER_MAIN,
+                    libraries
+            );
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
     protected void onPostExecute(Version version) {
         super.onPostExecute(version);
-        dialog.downloadTaskListAdapter.onComplete(dialog.downloadTaskListAdapter.getItem(0));
-        dialog.gameVersionJson = dialog.gameVersionJson.addPatch(version);
-        if (dialog.forgeVersion != null) {
-
+        if (version == null) {
+            FileStringUtils.writeFile(AppManifest.INSTALL_DIR + "/optifine/temp.json","failed");
         } else {
-            if (dialog.liteLoaderVersion != null) {
-
-            }
-            else {
-                dialog.installJson();
-            }
+            Gson gson = JsonUtils.defaultGsonBuilder()
+                    .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
+                    .registerTypeAdapter(Bits.class, new Bits.Serializer())
+                    .registerTypeAdapter(RuledArgument.class, new RuledArgument.Serializer())
+                    .registerTypeAdapter(Argument.class, new Argument.Deserializer())
+                    .create();
+            String string = gson.toJson(version);
+            FileStringUtils.writeFile(AppManifest.INSTALL_DIR + "/optifine/temp.json",string);
         }
+        System.out.println("-------------------------------------------------------------------------------------------------service destroyed!");
+        service.stopSelf();
     }
 }

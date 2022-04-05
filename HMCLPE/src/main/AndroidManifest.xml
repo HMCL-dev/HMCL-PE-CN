@@ -4,9 +4,11 @@
     package="com.tungsten.hmclpe">
 
     <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE" />
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
     <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
@@ -88,6 +90,11 @@
             android:screenOrientation="sensorLandscape"
             android:name="net.kdt.pojavlaunch.ExitActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"/>
+        <service
+            android:name=".service.install.InstallOptifineService"
+            android:process=":installOptifineService"
+            android:enabled="true"
+            android:exported="true" />
         <service
             android:name="utils.logcat.LogcatService"
             android:process=":logcatprocess"
