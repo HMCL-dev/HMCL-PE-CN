@@ -6,6 +6,6 @@ public class AppInfo {
     public final static String APP_VERSION_NAME = "v1.0.0";
     public final static int APP_VERSION_CODE = 1;
     public final static int JAVA_8_VERSION = 1;
-    public final static int JAVA_17_VERSION = 0;
+    public final static int JAVA_17_VERSION = 1;
 
 }

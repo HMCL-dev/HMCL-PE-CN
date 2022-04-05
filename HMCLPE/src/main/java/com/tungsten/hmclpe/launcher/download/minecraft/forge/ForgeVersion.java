@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import com.google.gson.JsonParseException;
 import com.tungsten.hmclpe.utils.gson.tools.Validation;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author huangyuhui
  */
-public class ForgeVersion implements Validation {
+public class ForgeVersion implements Validation, Serializable {
 
     private final String branch;
     private final int build;

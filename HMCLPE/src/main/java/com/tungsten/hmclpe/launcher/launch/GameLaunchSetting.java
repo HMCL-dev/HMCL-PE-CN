@@ -97,7 +97,7 @@ public class GameLaunchSetting {
                     .registerTypeAdapter(Argument.class, new Argument.Deserializer())
                     .create();
             Version version = gson.fromJson(versionJson, Version.class);
-            if (version.getJavaVersion().getMajorVersion() == 8){
+            if (version.getJavaVersion() == null || version.getJavaVersion().getMajorVersion() == 8){
                 javaPath = AppManifest.JAVA_DIR + "/default";
             }
             else {
