@@ -86,7 +86,7 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
             update.setEnabled(false);
             ignore.setEnabled(false);
             progressBar.setVisibility(View.VISIBLE);
-            LanzouUrlGetTask task=new LanzouUrlGetTask(getContext(),activity, new LanzouUrlGetTask.Callback() {
+            LanzouUrlGetTask task=new LanzouUrlGetTask(activity, new LanzouUrlGetTask.Callback() {
                 @Override
                 public void onStart() {
 
@@ -94,9 +94,17 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
 
                 @Override
                 public void onFinish(String url) {
+                    if (url==null){
+                        if (version.url.size()>1){
+                            url=version.url.get(1);
+                        } else {
+                            return;
+                        }
+                    }
+                    String finalUrl = url;
                     new Thread(() -> {
                         if (FileUtils.deleteDirectory(AppManifest.DEFAULT_CACHE_DIR + "/update")) {
-                            DownloadUtil.downloadSingleFile(getContext(), new DownloadTaskListBean("", url, AppManifest.DEFAULT_CACHE_DIR + "/update/latest.apk"), new DownloadTask.Feedback() {
+                            DownloadUtil.downloadSingleFile(getContext(), new DownloadTaskListBean("", finalUrl, AppManifest.DEFAULT_CACHE_DIR + "/update/latest.apk"), new DownloadTask.Feedback() {
                                 @Override
                                 public void addTask(DownloadTaskListBean bean) {
 
@@ -141,7 +149,7 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
                     }).start();
                 }
             });
-            task.execute(version.url);
+            task.execute(version.url.get(0));
         }
         if (view == ignore) {
             dismiss();

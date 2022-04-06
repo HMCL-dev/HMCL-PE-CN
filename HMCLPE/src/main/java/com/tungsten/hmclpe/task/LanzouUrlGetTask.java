@@ -31,21 +31,19 @@ public class LanzouUrlGetTask extends AsyncTask<String, Integer, String> {
         void onFinish(String url);
     }
 
-    private WeakReference<Context> ctx;
-    private MainActivity activity;
+    private WeakReference<Activity> activity;
     private Callback callback;
     private String fianalUrl=null;
     private WebView web;
 
-    public LanzouUrlGetTask(Context ctx, MainActivity activity, Callback callback) {
-        this.ctx = new WeakReference<>(ctx);
-        this.activity = activity;
+    public LanzouUrlGetTask(Activity activity, Callback callback) {
+        this.activity = new WeakReference<>(activity);
         this.callback = callback;
     }
 
     @Override
     public void onPreExecute() {
-        activity.runOnUiThread(new Runnable() {
+        activity.get().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 callback.onStart();
@@ -86,10 +84,10 @@ public class LanzouUrlGetTask extends AsyncTask<String, Integer, String> {
                 Elements elements1 = doc.getElementsByTag("a");
                 url=elements1.get(0).attr("href");
                 String finalUrl = url;
-                ((Activity)ctx.get()).runOnUiThread(new Runnable() {
+                activity.get().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        web=new WebView(ctx.get());
+                        web=new WebView(activity.get());
                         web.getSettings().setJavaScriptEnabled(true);
                         web.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0");
                         web.setWebViewClient(new WebViewClient(){
@@ -138,7 +136,7 @@ public class LanzouUrlGetTask extends AsyncTask<String, Integer, String> {
 
     @Override
     public void onPostExecute(String result) {
-        activity.runOnUiThread(new Runnable() {
+        activity.get().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 callback.onFinish(result);
