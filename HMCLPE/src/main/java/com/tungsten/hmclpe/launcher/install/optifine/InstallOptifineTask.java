@@ -1,6 +1,5 @@
-package com.tungsten.hmclpe.task.install;
+package com.tungsten.hmclpe.launcher.install.optifine;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
@@ -18,7 +17,6 @@ import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
-import com.tungsten.hmclpe.service.install.InstallOptifineService;
 import com.tungsten.hmclpe.task.DownloadTask;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
 import com.tungsten.hmclpe.utils.gson.JsonUtils;
@@ -38,7 +36,6 @@ import cosine.boat.LoadMe;
 
 public class InstallOptifineTask extends AsyncTask<OptifineVersion,Integer, Version> {
 
-    private Context context;
     private String name;
     private InstallOptifineService service;
     private LauncherSetting launcherSetting;
@@ -48,8 +45,7 @@ public class InstallOptifineTask extends AsyncTask<OptifineVersion,Integer, Vers
 
     private boolean success;
 
-    public InstallOptifineTask(Context context,String name,InstallOptifineService service) {
-        this.context = context;
+    public InstallOptifineTask(String name,InstallOptifineService service) {
         this.name = name;
         this.service = service;
         this.launcherSetting = InitializeSetting.initializeLauncherSetting();

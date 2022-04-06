@@ -28,13 +28,13 @@ import com.tungsten.hmclpe.launcher.game.Arguments;
 import com.tungsten.hmclpe.launcher.game.Artifact;
 import com.tungsten.hmclpe.launcher.game.RuledArgument;
 import com.tungsten.hmclpe.launcher.game.Version;
-import com.tungsten.hmclpe.launcher.install.InstallOptifine;
+import com.tungsten.hmclpe.launcher.install.forge.InstallForge;
+import com.tungsten.hmclpe.launcher.install.optifine.InstallOptifine;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListAdapter;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
 import com.tungsten.hmclpe.task.DownloadTask;
-import com.tungsten.hmclpe.task.install.DownloadMinecraftTask;
+import com.tungsten.hmclpe.launcher.install.game.DownloadMinecraftTask;
 import com.tungsten.hmclpe.utils.Lang;
 import com.tungsten.hmclpe.utils.file.AssetsUtils;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
@@ -44,7 +44,6 @@ import com.tungsten.hmclpe.utils.network.NetSpeedTimer;
 import com.tungsten.hmclpe.utils.platform.Bits;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
@@ -135,30 +134,42 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     public void downloadMinecraft(ArrayList<DownloadTaskListBean> tasks){
         startDownloadTask(tasks, () -> {
             downloadTaskListAdapter.onComplete(downloadTaskListAdapter.getItem(0));
-            downloadOptifine();
-        });
-    }
-
-    public void downloadOptifine() {
-        if (optifineVersion != null) {
-            InstallOptifine installOptifine = new InstallOptifine(context, activity, optifineVersion, downloadTaskListAdapter, name, new InstallOptifine.InstallOptifineCallback() {
-                @Override
-                public void onFinish(boolean success,Version patch) {
-                    //downloadTaskListAdapter.onComplete(downloadTaskListAdapter.getItem(0));
-                    gameVersionJson = gameVersionJson.addPatch(patch);
-                    downloadForge();
-                }
-            });
-            installOptifine.install();
-        }
-        else {
             downloadForge();
-        }
+        });
     }
 
     public void downloadForge(){
         if (forgeVersion != null) {
+            InstallForge installForge = new InstallForge(context, activity, downloadTaskListAdapter, forgeVersion,name, (success, patch) -> {
+                gameVersionJson = gameVersionJson.addPatch(patch);
+                downloadOptifine();
+            });
+            installForge.install();
+        }
+        else {
+            downloadOptifine();
+        }
+    }
 
+    public void downloadOptifine() {
+        if (optifineVersion != null) {
+            DownloadTaskListBean bean = new DownloadTaskListBean(context.getString(R.string.dialog_install_game_install_optifine),"","");
+            downloadTaskListAdapter.addDownloadTask(bean);
+            InstallOptifine installOptifine = new InstallOptifine(context, activity, optifineVersion, name, new InstallOptifine.InstallOptifineCallback() {
+                @Override
+                public void onProgress(int progress) {
+                    bean.progress = progress;
+                    downloadTaskListAdapter.onProgress(bean);
+                }
+
+                @Override
+                public void onFinish(boolean success,Version patch) {
+                    downloadTaskListAdapter.onComplete(bean);
+                    gameVersionJson = gameVersionJson.addPatch(patch);
+                    downloadLiteLoader();
+                }
+            });
+            installOptifine.install();
         }
         else {
             downloadLiteLoader();
@@ -210,7 +221,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
                 minecraftArgumentPriority = v.getPriority();
             }
         }
-        gameVersionJson.setMinecraftArguments(minecraftArgument);
+        gameVersionJson = gameVersionJson.setMinecraftArguments(minecraftArgument);
         gameVersionJson = gameVersionJson.setMainClass(mainClass);
         for (Version v : gameVersionJson.getPatches()) {
             if (gameVersionJson.getArguments().isPresent() && v.getArguments().isPresent() && !v.getId().equals("game")) {

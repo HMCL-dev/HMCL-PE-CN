@@ -18,6 +18,8 @@
         android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission
         android:name="android.permission.VIBRATE"/>
+    <uses-permission
+        android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:allowBackup="true"
@@ -91,8 +93,13 @@
             android:name="net.kdt.pojavlaunch.ExitActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"/>
         <service
-            android:name=".service.install.InstallOptifineService"
+            android:name=".launcher.install.optifine.InstallOptifineService"
             android:process=":installOptifineService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".launcher.install.forge.InstallForgeService"
+            android:process=":installForgeService"
             android:enabled="true"
             android:exported="true" />
         <service

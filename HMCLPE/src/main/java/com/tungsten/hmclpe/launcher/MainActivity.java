@@ -38,6 +38,7 @@ import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
 import com.tungsten.hmclpe.launcher.uis.tools.UIManager;
 import com.tungsten.hmclpe.launcher.uis.universal.setting.right.launcher.ExteriorSettingUI;
+import com.tungsten.hmclpe.update.UpdateChecker;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -51,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public LauncherSetting launcherSetting;
     public PublicGameSetting publicGameSetting;
     public PrivateGameSetting privateGameSetting;
+
+    public UpdateChecker updateChecker;
 
     public Toolbar appBar;
     public LinearLayout appBarTitle;
@@ -106,6 +109,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 launcherSetting = InitializeSetting.initializeLauncherSetting();
                 publicGameSetting = InitializeSetting.initializePublicGameSetting(MainActivity.this,MainActivity.this);
                 privateGameSetting = InitializeSetting.initializePrivateGameSetting(MainActivity.this);
+
+                runOnUiThread(() -> {
+                    updateChecker = new UpdateChecker(MainActivity.this,MainActivity.this);
+                });
 
                 DownloadUrlSource.getBalancedSource(MainActivity.this);
 

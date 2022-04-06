@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.launcher.install;
+package com.tungsten.hmclpe.launcher.install.optifine;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,18 +12,15 @@ import androidx.annotation.Nullable;
 import com.google.gson.Gson;
 import com.leo618.zip.IZipCallback;
 import com.leo618.zip.ZipManager;
-import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.minecraft.optifine.OptifineVersion;
 import com.tungsten.hmclpe.launcher.game.Argument;
 import com.tungsten.hmclpe.launcher.game.Artifact;
 import com.tungsten.hmclpe.launcher.game.RuledArgument;
 import com.tungsten.hmclpe.launcher.game.Version;
-import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListAdapter;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
-import com.tungsten.hmclpe.service.install.InstallOptifineService;
 import com.tungsten.hmclpe.task.DownloadTask;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
 import com.tungsten.hmclpe.utils.file.FileUtils;
@@ -33,7 +30,6 @@ import com.tungsten.hmclpe.utils.platform.Bits;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.util.Map;
 
 public class InstallOptifine {
@@ -41,17 +37,15 @@ public class InstallOptifine {
     private Context context;
     private MainActivity activity;
     private OptifineVersion optifineVersion;
-    private DownloadTaskListAdapter downloadTaskListAdapter;
     private String name;
     private InstallOptifineCallback callback;
 
     private Handler handler = new Handler();
 
-    public InstallOptifine (Context context, MainActivity activity, OptifineVersion optifineVersion, DownloadTaskListAdapter downloadTaskListAdapter,String name, InstallOptifineCallback callback) {
+    public InstallOptifine (Context context, MainActivity activity, OptifineVersion optifineVersion,String name, InstallOptifineCallback callback) {
         this.context = context;
         this.activity = activity;
         this.optifineVersion = optifineVersion;
-        this.downloadTaskListAdapter = downloadTaskListAdapter;
         this.name = name;
         this.callback = callback;
     }
@@ -70,12 +64,7 @@ public class InstallOptifine {
             DownloadUtil.downloadSingleFile(context, new DownloadTaskListBean(optifineVersion.fileName, mirror, AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName), new DownloadTask.Feedback() {
                 @Override
                 public void addTask(DownloadTaskListBean bean) {
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            downloadTaskListAdapter.addDownloadTask(bean);
-                        }
-                    });
+
                 }
 
                 @Override
@@ -83,7 +72,7 @@ public class InstallOptifine {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            downloadTaskListAdapter.onProgress(bean);
+                            callback.onProgress(bean.progress / 3);
                         }
                     });
                 }
@@ -95,12 +84,7 @@ public class InstallOptifine {
 
                 @Override
                 public void removeTask(DownloadTaskListBean bean) {
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            downloadTaskListAdapter.onComplete(bean);
-                        }
-                    });
+
                 }
 
                 @Override
@@ -122,7 +106,6 @@ public class InstallOptifine {
     }
 
     public void unZipOptifineInstaller() {
-        downloadTaskListAdapter.addDownloadTask(new DownloadTaskListBean(context.getString(R.string.dialog_install_game_install_optifine),"",""));
         ZipManager.unzip(AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName, AppManifest.INSTALL_DIR + "/optifine/installer", new IZipCallback() {
             @Override
             public void onStart() {
@@ -135,14 +118,17 @@ public class InstallOptifine {
 
             @Override
             public void onProgress(int percentDone) {
-
+                if (percentDone != 100 && percentDone != 0) {
+                    callback.onProgress((percentDone / 3) + (100 / 3));
+                }
+                else if (percentDone == 100) {
+                    callback.onProgress(200 / 3);
+                }
             }
 
             @Override
             public void onFinish(boolean success) {
                 if (success) {
-                    downloadTaskListAdapter.getItem(0).progress = 50;
-                    downloadTaskListAdapter.onProgress(downloadTaskListAdapter.getItem(0));
                     Intent service = new Intent(context, InstallOptifineService.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("name", name);
@@ -205,6 +191,7 @@ public class InstallOptifine {
     }
 
     public interface InstallOptifineCallback{
+        void onProgress(int progress);
         void onFinish(boolean success, Version patch);
     }
 

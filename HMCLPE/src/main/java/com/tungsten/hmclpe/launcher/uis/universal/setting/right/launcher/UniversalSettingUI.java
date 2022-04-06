@@ -5,6 +5,7 @@ import static android.app.Activity.RESULT_OK;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.text.Editable;
@@ -27,6 +28,7 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
+import com.tungsten.hmclpe.update.UpdateChecker;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.animation.HiddenAnimationUtils;
 import com.tungsten.hmclpe.utils.file.UriUtils;
@@ -60,6 +62,24 @@ public class UniversalSettingUI extends BaseUI implements View.OnClickListener, 
 
     private int updateSettingHeight;
     private int cacheSettingHeight;
+
+    private UpdateChecker.UpdateCallback updateCallback = new UpdateChecker.UpdateCallback() {
+        @Override
+        public void onCheck() {
+            updateStateText.setText(context.getString(R.string.universal_setting_ui_update_state_checking));
+        }
+
+        @Override
+        public void onFinish(boolean latest) {
+            if (latest) {
+                updateStateText.setText(context.getString(R.string.universal_setting_ui_update_state_latest));
+            }
+            else {
+                updateStateText.setText(context.getString(R.string.universal_setting_ui_update_state_update));
+                updateStateText.setTextColor(Color.RED);
+            }
+        }
+    };
 
     public UniversalSettingUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -117,6 +137,8 @@ public class UniversalSettingUI extends BaseUI implements View.OnClickListener, 
                 cacheSetting.setVisibility(View.GONE);
             }
         });
+
+        activity.updateChecker.check(activity.launcherSetting.getBetaVersion,updateCallback);
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -126,6 +148,14 @@ public class UniversalSettingUI extends BaseUI implements View.OnClickListener, 
         CustomAnimationUtils.showViewFromLeft(universalSettingUI,activity,context,false);
         if (activity.isLoaded){
             activity.uiManager.settingUI.startUniversalSettingUI.setBackground(context.getResources().getDrawable(R.drawable.launcher_button_white));
+        }
+        if (activity.launcherSetting.getBetaVersion){
+            checkBeta.setChecked(true);
+            checkRelease.setChecked(false);
+        }
+        else {
+            checkBeta.setChecked(false);
+            checkRelease.setChecked(true);
         }
         if (activity.launcherSetting.cachePath.equals(AppManifest.DEFAULT_CACHE_DIR)){
             checkDefault.setChecked(true);
@@ -192,18 +222,18 @@ public class UniversalSettingUI extends BaseUI implements View.OnClickListener, 
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (buttonView == checkRelease){
             if (isChecked){
-
-            }
-            else {
-
+                checkBeta.setChecked(false);
+                activity.launcherSetting.getBetaVersion = false;
+                GsonUtils.saveLauncherSetting(activity.launcherSetting,AppManifest.SETTING_DIR + "/launcher_setting.json");
+                activity.updateChecker.check(false,updateCallback);
             }
         }
         if (buttonView == checkBeta){
             if (isChecked){
-
-            }
-            else {
-
+                checkRelease.setChecked(false);
+                activity.launcherSetting.getBetaVersion = true;
+                GsonUtils.saveLauncherSetting(activity.launcherSetting,AppManifest.SETTING_DIR + "/launcher_setting.json");
+                activity.updateChecker.check(true,updateCallback);
             }
         }
         if (buttonView == checkDefault){
