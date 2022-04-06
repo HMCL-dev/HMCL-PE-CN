@@ -51,6 +51,7 @@ public class InstallOptifine {
     }
 
     public void install() {
+        finish = false;
         int source = DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource);
         String start;
         if (source == 2) {
@@ -168,26 +169,31 @@ public class InstallOptifine {
         fileObserver.startWatching();
     }
 
+    boolean finish;
+
     public void notifyListeners(){
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                String string = FileStringUtils.getStringFromFile(AppManifest.INSTALL_DIR + "/optifine/temp.json");
-                if (string.equals("failed")) {
-                    callback.onFinish(false,null);
+        if (!finish) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    finish = true;
+                    String string = FileStringUtils.getStringFromFile(AppManifest.INSTALL_DIR + "/optifine/temp.json");
+                    if (string == null || string.equals("failed")) {
+                        callback.onFinish(false,null);
+                    }
+                    else {
+                        Gson gson = JsonUtils.defaultGsonBuilder()
+                                .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
+                                .registerTypeAdapter(Bits.class, new Bits.Serializer())
+                                .registerTypeAdapter(RuledArgument.class, new RuledArgument.Serializer())
+                                .registerTypeAdapter(Argument.class, new Argument.Deserializer())
+                                .create();
+                        Version version = gson.fromJson(string,Version.class);
+                        callback.onFinish(true,version);
+                    }
                 }
-                else {
-                    Gson gson = JsonUtils.defaultGsonBuilder()
-                            .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
-                            .registerTypeAdapter(Bits.class, new Bits.Serializer())
-                            .registerTypeAdapter(RuledArgument.class, new RuledArgument.Serializer())
-                            .registerTypeAdapter(Argument.class, new Argument.Deserializer())
-                            .create();
-                    Version version = gson.fromJson(string,Version.class);
-                    callback.onFinish(true,version);
-                }
-            }
-        });
+            });
+        }
     }
 
     public interface InstallOptifineCallback{

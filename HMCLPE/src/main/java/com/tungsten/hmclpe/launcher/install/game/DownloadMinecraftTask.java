@@ -51,11 +51,10 @@ public class DownloadMinecraftTask extends AsyncTask<VersionManifest.Version, Do
         ArrayList<DownloadTaskListBean> allTaskList = new ArrayList<>();
         try {
             VersionManifest.Version gameVersion = versions[0];
-            String versionJsonUrl = gameVersion.url;
+            String versionJsonUrl = DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.VERSION_JSON) + gameVersion.url.replace("https://launchermeta.mojang.com","");
             String gameFilePath = activity.launcherSetting.gameFileDirectory;
             //getting tasks
             String versionJson = NetworkUtils.doGet(NetworkUtils.toURL(versionJsonUrl));
-            //FileStringUtils.writeFile(gameFilePath + "/versions/" + name + "/" + name + ".json",response);
             Gson gson = JsonUtils.defaultGsonBuilder()
                     .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
                     .registerTypeAdapter(Bits.class, new Bits.Serializer())
@@ -63,24 +62,23 @@ public class DownloadMinecraftTask extends AsyncTask<VersionManifest.Version, Do
                     .registerTypeAdapter(Argument.class, new Argument.Deserializer())
                     .create();
             version = gson.fromJson(versionJson, Version.class);
-            String assetIndexJson = NetworkUtils.doGet(NetworkUtils.toURL(version.getAssetIndex().getUrl()));
+            String assetIndexUrl = DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.ASSETS_INDEX_JSON) + version.getAssetIndex().getUrl().replace("https://launchermeta.mojang.com","");
+            String assetIndexJson = NetworkUtils.doGet(NetworkUtils.toURL(assetIndexUrl));
             AssetIndex assetIndex = gson.fromJson(assetIndexJson,AssetIndex.class);
             //assetIndex.json
             allTaskList.add(new DownloadTaskListBean(version.getAssetIndex().id + ".json",
-                    version.getAssetIndex().getUrl(),
+                    assetIndexUrl,
                     gameFilePath + "/assets/indexes/" + version.getAssetIndex().id + ".json"));
             //version.jar
             allTaskList.add(new DownloadTaskListBean(dialog.name + ".jar",
-                    version.getDownloadInfo().getUrl(),
+                    DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.VERSION_JAR) + version.getDownloadInfo().getUrl().replace("https://launcher.mojang.com",""),
                     gameFilePath + "/versions/" + dialog.name + "/" + dialog.name + ".jar"));
             //libraries
             for (Library library : version.getLibraries()){
-                if (library.getDownload().getUrl() != null && !library.getDownload().getUrl().equals("")) {
-                    DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
-                            library.getDownload().getUrl(),
-                            activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath());
-                    allTaskList.add(bean);
-                }
+                DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
+                        DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.LIBRARIES) + "/" + library.getPath(),
+                        activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath());
+                allTaskList.add(bean);
             }
             //assets
             for (AssetObject object : assetIndex.getObjects().values()){

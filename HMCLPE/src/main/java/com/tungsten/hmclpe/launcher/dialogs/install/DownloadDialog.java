@@ -26,6 +26,7 @@ import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
 import com.tungsten.hmclpe.launcher.game.Argument;
 import com.tungsten.hmclpe.launcher.game.Arguments;
 import com.tungsten.hmclpe.launcher.game.Artifact;
+import com.tungsten.hmclpe.launcher.game.Library;
 import com.tungsten.hmclpe.launcher.game.RuledArgument;
 import com.tungsten.hmclpe.launcher.game.Version;
 import com.tungsten.hmclpe.launcher.install.forge.InstallForge;
@@ -45,6 +46,7 @@ import com.tungsten.hmclpe.utils.platform.Bits;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -141,7 +143,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     public void downloadForge(){
         if (forgeVersion != null) {
             InstallForge installForge = new InstallForge(context, activity, downloadTaskListAdapter, forgeVersion,name, (success, patch) -> {
-                gameVersionJson = gameVersionJson.addPatch(patch);
+                mergePatch(patch);
                 downloadOptifine();
             });
             installForge.install();
@@ -165,7 +167,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
                 @Override
                 public void onFinish(boolean success,Version patch) {
                     downloadTaskListAdapter.onComplete(bean);
-                    gameVersionJson = gameVersionJson.addPatch(patch);
+                    mergeOptifinePatch(patch);
                     downloadLiteLoader();
                 }
             });
@@ -205,37 +207,6 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
 
     public void installJson(){
         String gameFilePath = activity.launcherSetting.gameFileDirectory;
-        String mainClass = gameVersionJson.getMainClass();
-        String minecraftArgument = null;
-        int mainClassPriority = 0;
-        int minecraftArgumentPriority = 0;
-        for (Version v : gameVersionJson.getPatches()) {
-            if (v.getPriority() > mainClassPriority) {
-                mainClass = v.getMainClass();
-                mainClassPriority = v.getPriority();
-            }
-        }
-        for (Version v : gameVersionJson.getPatches()) {
-            if (v.getMinecraftArguments().isPresent() && v.getPriority() >= minecraftArgumentPriority) {
-                minecraftArgument = v.getMinecraftArguments().get();
-                minecraftArgumentPriority = v.getPriority();
-            }
-        }
-        gameVersionJson = gameVersionJson.setMinecraftArguments(minecraftArgument);
-        gameVersionJson = gameVersionJson.setMainClass(mainClass);
-        for (Version v : gameVersionJson.getPatches()) {
-            if (gameVersionJson.getArguments().isPresent() && v.getArguments().isPresent() && !v.getId().equals("game")) {
-                gameVersionJson = gameVersionJson.setArguments(Arguments.merge(gameVersionJson.getArguments().get(),v.getArguments().get()));
-            }
-            if (!gameVersionJson.getArguments().isPresent() && v.getArguments().isPresent()) {
-                gameVersionJson = gameVersionJson.setArguments(v.getArguments().get());
-            }
-        }
-        for (Version v : gameVersionJson.getPatches()) {
-            if (!v.getId().equals("game")) {
-                gameVersionJson = gameVersionJson.setLibraries(Lang.merge(gameVersionJson.getLibraries(), v.getLibraries()));
-            }
-        }
         Gson gson = JsonUtils.defaultGsonBuilder()
                 .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
                 .registerTypeAdapter(Bits.class, new Bits.Serializer())
@@ -245,6 +216,81 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
         String string = gson.toJson(gameVersionJson);
         FileStringUtils.writeFile(gameFilePath + "/versions/" + name + "/" + name + ".json",string);
         dismiss();
+    }
+
+    public void mergePatch(Version patch) {
+        gameVersionJson = gameVersionJson.addPatch(patch);
+        gameVersionJson = gameVersionJson.setMainClass(patch.getMainClass());
+        if (patch.getMinecraftArguments().isPresent()) {
+            gameVersionJson = gameVersionJson.setMinecraftArguments(patch.getMinecraftArguments().get());
+        }
+        if (patch.getArguments().isPresent()) {
+            if (gameVersionJson.getArguments().isPresent()) {
+                gameVersionJson = gameVersionJson.setArguments(Arguments.merge(gameVersionJson.getArguments().get(),patch.getArguments().get()));
+            }
+            else {
+                gameVersionJson = gameVersionJson.setArguments(patch.getArguments().get());
+            }
+        }
+        List<Library> libraries = new ArrayList<>(Lang.merge(gameVersionJson.getLibraries(), patch.getLibraries()));
+        for (Library library : gameVersionJson.getLibraries()) {
+            for (Library lib : patch.getLibraries()) {
+                if (library.equals(lib)) {
+                    libraries.remove(lib);
+                }
+                if (library.getArtifactId().equals(lib.getArtifactId()) && !library.getVersion().equals(lib.getVersion())) {
+                    libraries.remove(library);
+                }
+            }
+        }
+        gameVersionJson = gameVersionJson.setLibraries(libraries);
+    }
+
+    public void mergeOptifinePatch(Version patch) {
+        boolean forge = false;
+        for (Version v : gameVersionJson.getPatches()) {
+            if (v.getId().equals("forge")) {
+                forge = true;
+                break;
+            }
+        }
+        gameVersionJson = gameVersionJson.addPatch(patch);
+        gameVersionJson = gameVersionJson.setMainClass(patch.getMainClass());
+        if (patch.getMinecraftArguments().isPresent()) {
+            gameVersionJson = gameVersionJson.setMinecraftArguments(patch.getMinecraftArguments().get());
+        }
+        if (forge) {
+            if (patch.getArguments().isPresent()) {
+                if (gameVersionJson.getArguments().isPresent()) {
+                    gameVersionJson = gameVersionJson.setArguments(Arguments.merge(gameVersionJson.getArguments().get(),new Arguments().addGameArguments("--tweakClass", "optifine.OptiFineForgeTweaker")));
+                }
+                else {
+                    gameVersionJson = gameVersionJson.setArguments(new Arguments().addGameArguments("--tweakClass", "optifine.OptiFineForgeTweaker"));
+                }
+            }
+        }
+        else {
+            if (patch.getArguments().isPresent()) {
+                if (gameVersionJson.getArguments().isPresent()) {
+                    gameVersionJson = gameVersionJson.setArguments(Arguments.merge(gameVersionJson.getArguments().get(),patch.getArguments().get()));
+                }
+                else {
+                    gameVersionJson = gameVersionJson.setArguments(patch.getArguments().get());
+                }
+            }
+        }
+        List<Library> libraries = new ArrayList<>(Lang.merge(gameVersionJson.getLibraries(), patch.getLibraries()));
+        for (Library library : gameVersionJson.getLibraries()) {
+            for (Library lib : patch.getLibraries()) {
+                if (library.equals(lib)) {
+                    libraries.remove(lib);
+                }
+                if (library.getArtifactId().equals(lib.getArtifactId()) && !library.getVersion().equals(lib.getVersion())) {
+                    libraries.remove(library);
+                }
+            }
+        }
+        gameVersionJson = gameVersionJson.setLibraries(libraries);
     }
 
     public void startDownloadTask(ArrayList<DownloadTaskListBean> tasks,OnDownloadFinishListener onDownloadFinishListener) {

@@ -17,6 +17,7 @@ public class DownloadUrlSource {
     public static int ASSETS_INDEX_JSON = 3;
     public static int ASSETS_OBJ = 4;
     public static int LIBRARIES = 5;
+    public static int FORGE_LIBRARIES = 6;
 
     public static String[] OFFICIAL_URLS = {
             "https://launchermeta.mojang.com/mc/game/version_manifest.json",
@@ -24,7 +25,8 @@ public class DownloadUrlSource {
             "https://launcher.mojang.com",
             "https://launchermeta.mojang.com",
             "https://resources.download.minecraft.net",
-            "https://libraries.minecraft.net"
+            "https://libraries.minecraft.net",
+            "https://maven.minecraftforge.net"
     };
 
     public static String[] BMCLAPI_URLS = {
@@ -33,6 +35,7 @@ public class DownloadUrlSource {
             "https://bmclapi2.bangbang93.com",
             "https://bmclapi2.bangbang93.com",
             "https://bmclapi2.bangbang93.com/assets",
+            "https://bmclapi2.bangbang93.com/maven",
             "https://bmclapi2.bangbang93.com/maven"
     };
 
@@ -42,6 +45,7 @@ public class DownloadUrlSource {
             "https://download.mcbbs.net",
             "https://download.mcbbs.net",
             "https://download.mcbbs.net/assets",
+            "https://download.mcbbs.net/maven",
             "https://download.mcbbs.net/maven"
     };
 

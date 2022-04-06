@@ -214,9 +214,9 @@ public class InstallForge {
             Version patch = installProfile.getVersionInfo();
             ArrayList<DownloadTaskListBean> list = new ArrayList<>();
             for (Library library : patch.getLibraries()){
-                if (library.getDownload().getUrl() != null && !library.getDownload().getUrl().equals("") && !library.getPath().equals(installProfile.getInstall().getPath().getPath())) {
+                if (!library.getPath().equals(installProfile.getInstall().getPath().getPath())) {
                     DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
-                            library.getDownload().getUrl(),
+                            DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.FORGE_LIBRARIES) + "/" + library.getPath(),
                             activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath());
                     list.add(bean);
                 }

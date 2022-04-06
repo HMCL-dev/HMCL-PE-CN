@@ -94,10 +94,11 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
 
                 @Override
                 public void onFinish(String url) {
-                    if (url==null){
-                        if (version.url.size()>1){
-                            url=version.url.get(1);
-                        } else {
+                    if (url == null){
+                        if (version.url.size() > 1) {
+                            url = version.url.get(1);
+                        }
+                        else {
                             return;
                         }
                     }

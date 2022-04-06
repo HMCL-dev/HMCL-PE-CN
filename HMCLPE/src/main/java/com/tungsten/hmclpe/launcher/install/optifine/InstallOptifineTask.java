@@ -140,19 +140,14 @@ public class InstallOptifineTask extends AsyncTask<OptifineVersion,Integer, Vers
             e.printStackTrace();
         }
 
-        if (success) {
-            return new Version(
-                    LibraryAnalyzer.LibraryType.OPTIFINE.getPatchId(),
-                    optifineVersion.type + "_" + optifineVersion.patch,
-                    10000,
-                    new Arguments().addGameArguments("--tweakClass", "optifine.OptiFineTweaker"),
-                    LibraryAnalyzer.LAUNCH_WRAPPER_MAIN,
-                    libraries
-            );
-        }
-        else {
-            return null;
-        }
+        return new Version(
+                LibraryAnalyzer.LibraryType.OPTIFINE.getPatchId(),
+                optifineVersion.type + "_" + optifineVersion.patch,
+                10000,
+                new Arguments().addGameArguments("--tweakClass", "optifine.OptiFineTweaker"),
+                LibraryAnalyzer.LAUNCH_WRAPPER_MAIN,
+                libraries
+        );
     }
 
     @Override
@@ -160,7 +155,8 @@ public class InstallOptifineTask extends AsyncTask<OptifineVersion,Integer, Vers
         super.onPostExecute(version);
         if (version == null) {
             FileStringUtils.writeFile(AppManifest.INSTALL_DIR + "/optifine/temp.json","failed");
-        } else {
+        }
+        else {
             Gson gson = JsonUtils.defaultGsonBuilder()
                     .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
                     .registerTypeAdapter(Bits.class, new Bits.Serializer())
