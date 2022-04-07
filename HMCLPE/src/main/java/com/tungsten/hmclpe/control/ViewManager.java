@@ -142,6 +142,13 @@ public class ViewManager implements SensorEventListener {
         }
     }
 
+    public void loadButton (BaseButtonInfo baseButtonInfo,int visibility) {
+        BaseButton baseButton = new BaseButton(context,screenWidth,screenHeight,baseButtonInfo,menuHelper);
+        baseButton.setIsShowing(visibility == View.VISIBLE);
+        layoutPanel.addView(baseButton);
+        baseButton.updateSizeAndPosition(baseButtonInfo);
+    }
+
     public void addRocker (BaseRockerViewInfo baseRockerViewInfo,int visibility) {
         BaseRockerView baseRockerView = new BaseRockerView(context,screenWidth,screenHeight,baseRockerViewInfo,menuHelper);
         baseRockerView.setIsShowing(visibility == View.VISIBLE);
@@ -168,7 +175,7 @@ public class ViewManager implements SensorEventListener {
                 Gson gson = new Gson();
                 ChildLayout childLayout = gson.fromJson(string, ChildLayout.class);
                 for (BaseButtonInfo buttonInfo : childLayout.baseButtonList) {
-                    addButton(buttonInfo, View.VISIBLE);
+                    loadButton(buttonInfo, View.VISIBLE);
                 }
                 for (BaseRockerViewInfo rockerViewInfo : childLayout.baseRockerViewList) {
                     addRocker(rockerViewInfo, View.VISIBLE);

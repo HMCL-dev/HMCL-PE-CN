@@ -4,7 +4,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -62,7 +64,13 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
         versionName.setText(version.versionName);
         date.setText(version.date);
         type.setText(getType(isBeta));
-        log.setText(version.updateLog);
+        CharSequence charSequence;
+        if (Build.VERSION.SDK_INT >= 24) {
+            charSequence = Html.fromHtml(version.updateLog, 0);
+        } else {
+            charSequence = Html.fromHtml(version.updateLog);
+        }
+        log.setText(charSequence);
 
         progressBar = findViewById(R.id.update_progress);
         update = findViewById(R.id.update);
