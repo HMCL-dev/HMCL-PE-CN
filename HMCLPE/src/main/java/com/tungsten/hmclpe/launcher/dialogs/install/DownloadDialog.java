@@ -29,6 +29,7 @@ import com.tungsten.hmclpe.launcher.game.Artifact;
 import com.tungsten.hmclpe.launcher.game.Library;
 import com.tungsten.hmclpe.launcher.game.RuledArgument;
 import com.tungsten.hmclpe.launcher.game.Version;
+import com.tungsten.hmclpe.launcher.install.fabric.InstallFabric;
 import com.tungsten.hmclpe.launcher.install.forge.InstallForge;
 import com.tungsten.hmclpe.launcher.install.optifine.InstallOptifine;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListAdapter;
@@ -189,7 +190,11 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
 
     public void downloadFabric(){
         if (fabricVersion != null) {
-
+            InstallFabric installFabric = new InstallFabric(context,activity,fabricVersion, version.id,downloadTaskListAdapter, (success, patch) -> {
+                mergePatch(patch);
+                downloadFabricAPI();
+            });
+            installFabric.install();
         }
         else {
             downloadFabricAPI();
@@ -255,7 +260,6 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
             }
         }
         gameVersionJson = gameVersionJson.addPatch(patch);
-        gameVersionJson = gameVersionJson.setMainClass(patch.getMainClass());
         if (patch.getMinecraftArguments().isPresent()) {
             gameVersionJson = gameVersionJson.setMinecraftArguments(patch.getMinecraftArguments().get());
         }
@@ -270,6 +274,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
             }
         }
         else {
+            gameVersionJson = gameVersionJson.setMainClass(patch.getMainClass());
             if (patch.getArguments().isPresent()) {
                 if (gameVersionJson.getArguments().isPresent()) {
                     gameVersionJson = gameVersionJson.setArguments(Arguments.merge(gameVersionJson.getArguments().get(),patch.getArguments().get()));

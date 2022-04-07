@@ -22,6 +22,7 @@ import com.tungsten.hmclpe.launcher.download.minecraft.fabric.FabricLoaderVersio
 import com.tungsten.hmclpe.launcher.download.minecraft.forge.ForgeVersion;
 import com.tungsten.hmclpe.launcher.list.download.minecraft.fabric.DownloadFabricListAdapter;
 import com.tungsten.hmclpe.launcher.list.download.minecraft.forge.DownloadForgeListAdapter;
+import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.io.NetworkUtils;
@@ -43,8 +44,11 @@ public class DownloadFabricUI extends BaseUI implements View.OnClickListener {
     private ProgressBar progressBar;
     private TextView back;
 
-    private static final String LOADER_META_URL = "https://meta.fabricmc.net/v2/versions/loader";
-    private static final String GAME_META_URL = "https://meta.fabricmc.net/v2/versions/game";
+    private static final String OFFICIAL_LOADER_META_URL = "https://meta.fabricmc.net/v2/versions/loader";
+    private static final String OFFICIAL_GAME_META_URL = "https://meta.fabricmc.net/v2/versions/game";
+
+    private static final String BMCLAPI_LOADER_META_URL = "https://bmclapi2.bangbang93.com/fabric-meta/v2/versions/loader";
+    private static final String BMCLAPI_GAME_META_URL = "https://bmclapi2.bangbang93.com/fabric-meta/v2/versions/game";
 
     public DownloadFabricUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -84,10 +88,20 @@ public class DownloadFabricUI extends BaseUI implements View.OnClickListener {
             @Override
             public void run() {
                 loadingHandler.sendEmptyMessage(0);
+                String loaderUrl;
+                String gameUrl;
+                if (DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource) == 0) {
+                    loaderUrl = OFFICIAL_LOADER_META_URL;
+                    gameUrl = OFFICIAL_GAME_META_URL;
+                }
+                else {
+                    loaderUrl = BMCLAPI_LOADER_META_URL;
+                    gameUrl = BMCLAPI_GAME_META_URL;
+                }
                 ArrayList<FabricGameVersion> gameVersions = new ArrayList<>();
                 ArrayList<FabricLoaderVersion> loaderVersions = new ArrayList<>();
                 try {
-                    String gameResponse = NetworkUtils.doGet(NetworkUtils.toURL(GAME_META_URL));
+                    String gameResponse = NetworkUtils.doGet(NetworkUtils.toURL(gameUrl));
                     Gson gson = new Gson();
                     FabricGameVersion[] fabricGameVersions = gson.fromJson(gameResponse, FabricGameVersion[].class);
                     gameVersions.addAll(Arrays.asList(fabricGameVersions));
@@ -95,7 +109,7 @@ public class DownloadFabricUI extends BaseUI implements View.OnClickListener {
                     for (FabricGameVersion version : gameVersions){
                         mcVersions.add(version.version);
                     }
-                    String loaderResponse = NetworkUtils.doGet(NetworkUtils.toURL(LOADER_META_URL));
+                    String loaderResponse = NetworkUtils.doGet(NetworkUtils.toURL(loaderUrl));
                     FabricLoaderVersion[] fabricLoaderVersions = gson.fromJson(loaderResponse, FabricLoaderVersion[].class);
                     loaderVersions.addAll(Arrays.asList(fabricLoaderVersions));
                     if (!mcVersions.contains(version)){

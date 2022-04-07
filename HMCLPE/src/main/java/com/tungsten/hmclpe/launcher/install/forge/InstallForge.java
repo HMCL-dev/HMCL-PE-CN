@@ -216,14 +216,28 @@ public class InstallForge {
             ArrayList<DownloadTaskListBean> list = new ArrayList<>();
             if (FileUtils.deleteDirectory(activity.launcherSetting.gameFileDirectory + "/versions/" + installProfile.getVersion())) {
                 for (Library library : patch.getLibraries()){
+                    String url;
+                    if (DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource) == 0 && library.getDownload().getUrl() != null && !library.getDownload().getUrl().equals("")) {
+                        url = library.getDownload().getUrl();
+                    }
+                    else {
+                        url = DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.FORGE_LIBRARIES) + "/" + library.getPath();
+                    }
                     DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
-                            DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.FORGE_LIBRARIES) + "/" + library.getPath(),
+                            url,
                             activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath());
                     list.add(bean);
                 }
                 for (Library library : installProfile.getLibraries()){
+                    String url;
+                    if (DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource) == 0 && library.getDownload().getUrl() != null && !library.getDownload().getUrl().equals("")) {
+                        url = library.getDownload().getUrl();
+                    }
+                    else {
+                        url = DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.FORGE_LIBRARIES) + "/" + library.getPath();
+                    }
                     DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
-                            DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.FORGE_LIBRARIES) + "/" + library.getPath(),
+                            url,
                             activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath());
                     list.add(bean);
                 }
@@ -239,9 +253,16 @@ public class InstallForge {
             ArrayList<DownloadTaskListBean> list = new ArrayList<>();
             for (Library library : patch.getLibraries()){
                 if (!library.getPath().equals(installProfile.getInstall().getPath().getPath())) {
+                    String url;
+                    if (DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource) == 0 && library.getDownload().getUrl() != null && !library.getDownload().getUrl().equals("")) {
+                        url = library.getDownload().getUrl();
+                    }
+                    else {
+                        url = DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.FORGE_LIBRARIES) + "/" + library.getPath();
+                    }
                     DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
-                            DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.FORGE_LIBRARIES) + "/" + library.getPath(),
-                            activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath());
+                            url,
+                            activity.launcherSetting.gameFileDirectory + "/libraries/" + library.getPath());
                     list.add(bean);
                 }
             }
@@ -311,7 +332,7 @@ public class InstallForge {
                         callback.onFinish(false,null);
                     }
                     else if (string.equals("success")){
-                        callback.onFinish(true,patch);
+                        callback.onFinish(true,patch.setId("forge").setVersion(version.getVersion()).setPriority(30000));
                     }
                     adapter.onComplete(bean);
                 });
