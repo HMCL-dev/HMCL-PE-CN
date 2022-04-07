@@ -59,6 +59,17 @@ public class AssetsUtils {
         return this;
     }
 
+    public AssetsUtils copyOnMainThread(final String srcPath, final String sdPath) {
+        copyAssetsToDst(context, srcPath, sdPath);
+        if (isSuccess) {
+            handler.obtainMessage(SUCCESS).sendToTarget();
+        }
+        else {
+            handler.obtainMessage(FAILED, errorStr).sendToTarget();
+        }
+        return this;
+    }
+
     public void setFileOperateCallback(FileOperateCallback callback) {
         this.callback = callback;
     }

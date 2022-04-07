@@ -81,7 +81,7 @@ public class InstallOptifineTask extends AsyncTask<OptifineVersion,Integer, Vers
                         "-cp",
                         AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName,
                         "-Djava.library.path=" + javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64",
-                        "-Djava.io.tmpdir=" + AppManifest.INSTALL_DIR,
+                        "-Djava.io.tmpdir=" + AppManifest.DEFAULT_CACHE_DIR,
                         "optifine.Patcher",
                         launcherSetting.gameFileDirectory + "/versions/" + name + "/" + name + ".jar",
                         AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName,

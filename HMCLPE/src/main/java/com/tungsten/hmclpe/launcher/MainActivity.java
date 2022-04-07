@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 DownloadUrlSource.getBalancedSource(MainActivity.this);
 
+                InitializeSetting.generatePlugin(MainActivity.this);
                 InitializeSetting.checkLauncherFiles(MainActivity.this);
             }
         }.start();

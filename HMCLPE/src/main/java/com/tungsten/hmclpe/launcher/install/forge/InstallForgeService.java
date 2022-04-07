@@ -26,7 +26,9 @@ public class InstallForgeService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         AppManifest.initializeManifest(getApplicationContext());
         String name = intent.getExtras().getString("name");
-        ForgeVersion optifineVersion = (ForgeVersion) intent.getExtras().getSerializable("version");
+        //ForgeVersion forgeVersion = (ForgeVersion) intent.getExtras().getSerializable("version");
+        InstallForgeTask installForgeTask = new InstallForgeTask(name,this);
+        installForgeTask.execute();
         return super.onStartCommand(intent, flags, startId);
     }
 

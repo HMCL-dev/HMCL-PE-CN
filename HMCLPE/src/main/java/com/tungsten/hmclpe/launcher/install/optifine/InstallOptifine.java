@@ -145,7 +145,7 @@ public class InstallOptifine {
     public void getOptifineInstallResult() {
         FileObserver fileObserver;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            fileObserver = new FileObserver(new File(AppManifest.INSTALL_DIR + "/optifine/temp.json"), FileObserver.ALL_EVENTS) {
+            fileObserver = new FileObserver(new File(AppManifest.INSTALL_DIR + "/optifine/temp.json"), FileObserver.MODIFY) {
                 @Override
                 public void onEvent(int i, @Nullable String s) {
                     AppManifest.initializeManifest(context);
@@ -173,24 +173,21 @@ public class InstallOptifine {
 
     public void notifyListeners(){
         if (!finish) {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    finish = true;
-                    String string = FileStringUtils.getStringFromFile(AppManifest.INSTALL_DIR + "/optifine/temp.json");
-                    if (string == null || string.equals("failed")) {
-                        callback.onFinish(false,null);
-                    }
-                    else {
-                        Gson gson = JsonUtils.defaultGsonBuilder()
-                                .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
-                                .registerTypeAdapter(Bits.class, new Bits.Serializer())
-                                .registerTypeAdapter(RuledArgument.class, new RuledArgument.Serializer())
-                                .registerTypeAdapter(Argument.class, new Argument.Deserializer())
-                                .create();
-                        Version version = gson.fromJson(string,Version.class);
-                        callback.onFinish(true,version);
-                    }
+            handler.post(() -> {
+                finish = true;
+                String string = FileStringUtils.getStringFromFile(AppManifest.INSTALL_DIR + "/optifine/temp.json");
+                if (string == null || string.equals("failed")) {
+                    callback.onFinish(false,null);
+                }
+                else {
+                    Gson gson = JsonUtils.defaultGsonBuilder()
+                            .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
+                            .registerTypeAdapter(Bits.class, new Bits.Serializer())
+                            .registerTypeAdapter(RuledArgument.class, new RuledArgument.Serializer())
+                            .registerTypeAdapter(Argument.class, new Argument.Deserializer())
+                            .create();
+                    Version version = gson.fromJson(string,Version.class);
+                    callback.onFinish(true,version);
                 }
             });
         }

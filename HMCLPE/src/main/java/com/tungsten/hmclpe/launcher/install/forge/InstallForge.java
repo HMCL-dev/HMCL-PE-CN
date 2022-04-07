@@ -1,8 +1,14 @@
 package com.tungsten.hmclpe.launcher.install.forge;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.FileObserver;
 import android.os.Handler;
 import android.util.ArrayMap;
+
+import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.leo618.zip.IZipCallback;
@@ -205,8 +211,26 @@ public class InstallForge {
         if (isNew) {
             String vString = FileStringUtils.getStringFromFile(AppManifest.INSTALL_DIR + "/forge/installer/version.json");
             String iString = FileStringUtils.getStringFromFile(AppManifest.INSTALL_DIR + "/forge/installer/install_profile.json");
-            Version versionJson = gson.fromJson(vString,Version.class);
+            Version patch = gson.fromJson(vString,Version.class);
             ForgeNewInstallProfile installProfile = gson.fromJson(iString,ForgeNewInstallProfile.class);
+            ArrayList<DownloadTaskListBean> list = new ArrayList<>();
+            if (FileUtils.deleteDirectory(activity.launcherSetting.gameFileDirectory + "/versions/" + installProfile.getVersion())) {
+                for (Library library : patch.getLibraries()){
+                    DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
+                            DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.FORGE_LIBRARIES) + "/" + library.getPath(),
+                            activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath());
+                    list.add(bean);
+                }
+                for (Library library : installProfile.getLibraries()){
+                    DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
+                            DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.FORGE_LIBRARIES) + "/" + library.getPath(),
+                            activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath());
+                    list.add(bean);
+                }
+                startDownloadTask(list, () -> {
+                    installNewForge(installProfile,patch);
+                });
+            }
         }
         else {
             String iString = FileStringUtils.getStringFromFile(AppManifest.INSTALL_DIR + "/forge/installer/install_profile.json");
@@ -231,16 +255,68 @@ public class InstallForge {
         universalName = install.getFilePath();
         FileUtils.createDirectory(new File(activity.launcherSetting.gameFileDirectory + "/libraries/" + install.getPath().getPath()).getParent());
         if (FileUtils.copyFile(AppManifest.INSTALL_DIR + "/forge/installer/" + universalName,activity.launcherSetting.gameFileDirectory + "/libraries/" + install.getPath().getPath())) {
-            adapter.onComplete(bean);
             callback.onFinish(true,patch.setId("forge").setVersion(version.getVersion()).setPriority(30000));
         }
         else {
             callback.onFinish(false,null);
         }
+        adapter.onComplete(bean);
     }
 
-    public void installNewForge() {
+    public void installNewForge(ForgeNewInstallProfile installProfile,Version patch) {
+        Intent service = new Intent(context, InstallForgeService.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("name", name);
+        service.putExtras(bundle);
+        getForgeInstallResult(installProfile,patch);
+        context.startService(service);
+    }
 
+    public void getForgeInstallResult(ForgeNewInstallProfile installProfile,Version patch) {
+        FileObserver fileObserver;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            fileObserver = new FileObserver(new File(AppManifest.INSTALL_DIR + "/forge/temp.json"), FileObserver.MODIFY) {
+                @Override
+                public void onEvent(int i, @Nullable String s) {
+                    AppManifest.initializeManifest(context);
+                    System.out.println("-------------------------------------------message received!");
+                    notifyListeners(installProfile,patch);
+                    this.stopWatching();
+                }
+            };
+        }
+        else {
+            fileObserver = new FileObserver(AppManifest.INSTALL_DIR + "/forge/temp.json", FileObserver.MODIFY) {
+                @Override
+                public void onEvent(int i, @Nullable String s) {
+                    AppManifest.initializeManifest(context);
+                    System.out.println("-------------------------------------------message received!");
+                    notifyListeners(installProfile,patch);
+                    this.stopWatching();
+                }
+            };
+        }
+        fileObserver.startWatching();
+    }
+
+    boolean finish;
+
+    public void notifyListeners(ForgeNewInstallProfile installProfile,Version patch){
+        if (!finish) {
+            if (FileUtils.deleteDirectory(activity.launcherSetting.gameFileDirectory + "/versions/" + installProfile.getVersion())) {
+                handler.post(() -> {
+                    finish = true;
+                    String string = FileStringUtils.getStringFromFile(AppManifest.INSTALL_DIR + "/forge/temp.json");
+                    if (string == null || string.equals("") || string.equals("failed")) {
+                        callback.onFinish(false,null);
+                    }
+                    else if (string.equals("success")){
+                        callback.onFinish(true,patch);
+                    }
+                    adapter.onComplete(bean);
+                });
+            }
+        }
     }
 
     public void startDownloadTask(ArrayList<DownloadTaskListBean> tasks,OnDownloadFinishListener onDownloadFinishListener) {
