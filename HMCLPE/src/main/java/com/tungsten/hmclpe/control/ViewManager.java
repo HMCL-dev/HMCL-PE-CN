@@ -159,6 +159,13 @@ public class ViewManager implements SensorEventListener {
         }
     }
 
+    public void loadRocker (BaseRockerViewInfo baseRockerViewInfo,int visibility) {
+        BaseRockerView baseRockerView = new BaseRockerView(context,screenWidth,screenHeight,baseRockerViewInfo,menuHelper);
+        baseRockerView.setIsShowing(visibility == View.VISIBLE);
+        layoutPanel.addView(baseRockerView);
+        baseRockerView.updateSizeAndPosition(baseRockerViewInfo);
+    }
+
     public void refreshLayout (String pattern,String child,boolean editMode) {
         ArrayList<View> views = new ArrayList<>();
         for (int i = 0;i < layoutPanel.getChildCount();i++) {
@@ -178,17 +185,17 @@ public class ViewManager implements SensorEventListener {
                     loadButton(buttonInfo, View.VISIBLE);
                 }
                 for (BaseRockerViewInfo rockerViewInfo : childLayout.baseRockerViewList) {
-                    addRocker(rockerViewInfo, View.VISIBLE);
+                    loadRocker(rockerViewInfo, View.VISIBLE);
                 }
             }
             else {
                 ArrayList<ChildLayout> childLayouts = SettingUtils.getChildList(pattern);
                 for (ChildLayout layout : childLayouts) {
                     for (BaseButtonInfo buttonInfo : layout.baseButtonList) {
-                        addButton(buttonInfo,layout.visibility);
+                        loadButton(buttonInfo,layout.visibility);
                     }
                     for (BaseRockerViewInfo rockerViewInfo : layout.baseRockerViewList) {
-                        addRocker(rockerViewInfo,layout.visibility);
+                        loadRocker(rockerViewInfo,layout.visibility);
                     }
                 }
             }
