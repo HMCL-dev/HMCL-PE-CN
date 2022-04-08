@@ -19,8 +19,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.download.resources.modrinth.Modrinth;
-import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
+import com.tungsten.hmclpe.launcher.mod.modrinth.Modrinth;
+import com.tungsten.hmclpe.launcher.mod.ModListBean;
 import com.tungsten.hmclpe.launcher.list.download.minecraft.fabric.DownloadFabricAPIListAdapter;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;

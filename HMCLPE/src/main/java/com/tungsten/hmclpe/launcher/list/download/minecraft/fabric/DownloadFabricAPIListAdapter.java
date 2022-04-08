@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
+import com.tungsten.hmclpe.launcher.mod.ModListBean;
 import com.tungsten.hmclpe.utils.string.StringUtils;
 
 import java.util.ArrayList;

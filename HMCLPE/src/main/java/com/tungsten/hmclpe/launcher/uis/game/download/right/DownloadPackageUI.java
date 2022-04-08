@@ -15,8 +15,8 @@ import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.download.resources.SearchTools;
-import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
+import com.tungsten.hmclpe.launcher.mod.SearchTools;
+import com.tungsten.hmclpe.launcher.mod.ModListBean;
 import com.tungsten.hmclpe.launcher.list.download.modpack.DownloadPackageListAdapter;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;

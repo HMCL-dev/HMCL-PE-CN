@@ -8,6 +8,7 @@ import com.tungsten.hmclpe.launcher.setting.game.child.RamSetting;
 
 public class PrivateGameSetting {
 
+    public boolean forceEnable;
     public boolean enable;
     public boolean log;
     public boolean notCheckJvm;
@@ -25,7 +26,8 @@ public class PrivateGameSetting {
     public String controlLayout;
     public float scaleFactor;
 
-    public PrivateGameSetting (boolean enable,boolean log,boolean notCheckJvm,boolean notCheckMinecraft,boolean notCheckForge,JavaSetting javaSetting,String extraJavaFlags,String extraMinecraftFlags,String server,GameDirSetting gameDirSetting,BoatLauncherSetting boatLauncherSetting,PojavLauncherSetting pojavLauncherSetting,RamSetting ramSetting,int controlType,String controlLayout,float scaleFactor){
+    public PrivateGameSetting (boolean forceEnable,boolean enable,boolean log,boolean notCheckJvm,boolean notCheckMinecraft,boolean notCheckForge,JavaSetting javaSetting,String extraJavaFlags,String extraMinecraftFlags,String server,GameDirSetting gameDirSetting,BoatLauncherSetting boatLauncherSetting,PojavLauncherSetting pojavLauncherSetting,RamSetting ramSetting,int controlType,String controlLayout,float scaleFactor){
+        this.forceEnable = forceEnable;
         this.enable = enable;
         this.log = log;
         this.notCheckJvm = notCheckJvm;
@@ -42,6 +44,18 @@ public class PrivateGameSetting {
         this.controlType = controlType;
         this.controlLayout = controlLayout;
         this.scaleFactor = scaleFactor;
+    }
+
+    public static String getGameDir(String gameFileDir,String currentVersion,GameDirSetting gameDirSetting) {
+        if (gameDirSetting.type == 0) {
+            return gameFileDir;
+        }
+        else if (gameDirSetting.type == 1) {
+            return currentVersion;
+        }
+        else {
+            return gameDirSetting.path;
+        }
     }
 
 }

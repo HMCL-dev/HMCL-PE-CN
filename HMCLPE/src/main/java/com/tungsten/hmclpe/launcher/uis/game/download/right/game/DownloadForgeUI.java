@@ -17,7 +17,7 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.download.minecraft.forge.ForgeVersion;
+import com.tungsten.hmclpe.launcher.download.forge.ForgeVersion;
 import com.tungsten.hmclpe.launcher.list.download.minecraft.forge.DownloadForgeListAdapter;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;

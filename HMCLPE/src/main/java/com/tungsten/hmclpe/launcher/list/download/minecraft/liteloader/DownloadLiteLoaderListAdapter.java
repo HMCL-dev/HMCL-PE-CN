@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.download.minecraft.liteloader.LiteLoaderVersion;
+import com.tungsten.hmclpe.launcher.download.liteloader.LiteLoaderVersion;
 
 import java.util.ArrayList;
 

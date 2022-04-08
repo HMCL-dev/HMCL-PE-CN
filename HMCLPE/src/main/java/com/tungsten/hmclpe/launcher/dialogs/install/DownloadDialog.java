@@ -17,26 +17,28 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.download.minecraft.fabric.FabricLoaderVersion;
-import com.tungsten.hmclpe.launcher.download.minecraft.forge.ForgeVersion;
-import com.tungsten.hmclpe.launcher.download.minecraft.game.VersionManifest;
-import com.tungsten.hmclpe.launcher.download.minecraft.liteloader.LiteLoaderVersion;
-import com.tungsten.hmclpe.launcher.download.minecraft.optifine.OptifineVersion;
-import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
+import com.tungsten.hmclpe.launcher.download.fabric.FabricLoaderVersion;
+import com.tungsten.hmclpe.launcher.download.fabric.InstallFabricAPI;
+import com.tungsten.hmclpe.launcher.download.forge.ForgeVersion;
+import com.tungsten.hmclpe.launcher.download.game.VersionManifest;
+import com.tungsten.hmclpe.launcher.download.liteloader.LiteLoaderVersion;
+import com.tungsten.hmclpe.launcher.download.optifine.OptifineVersion;
+import com.tungsten.hmclpe.launcher.mod.ModListBean;
 import com.tungsten.hmclpe.launcher.game.Argument;
 import com.tungsten.hmclpe.launcher.game.Arguments;
 import com.tungsten.hmclpe.launcher.game.Artifact;
 import com.tungsten.hmclpe.launcher.game.Library;
 import com.tungsten.hmclpe.launcher.game.RuledArgument;
 import com.tungsten.hmclpe.launcher.game.Version;
-import com.tungsten.hmclpe.launcher.install.fabric.InstallFabric;
-import com.tungsten.hmclpe.launcher.install.forge.InstallForge;
-import com.tungsten.hmclpe.launcher.install.optifine.InstallOptifine;
+import com.tungsten.hmclpe.launcher.download.fabric.InstallFabric;
+import com.tungsten.hmclpe.launcher.download.forge.InstallForge;
+import com.tungsten.hmclpe.launcher.download.liteloader.InstallLiteLoader;
+import com.tungsten.hmclpe.launcher.download.optifine.InstallOptifine;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListAdapter;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
 import com.tungsten.hmclpe.task.DownloadTask;
-import com.tungsten.hmclpe.launcher.install.game.DownloadMinecraftTask;
+import com.tungsten.hmclpe.launcher.download.game.DownloadMinecraftTask;
 import com.tungsten.hmclpe.utils.Lang;
 import com.tungsten.hmclpe.utils.file.AssetsUtils;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
@@ -137,8 +139,21 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     public void downloadMinecraft(ArrayList<DownloadTaskListBean> tasks){
         startDownloadTask(tasks, () -> {
             downloadTaskListAdapter.onComplete(downloadTaskListAdapter.getItem(0));
-            downloadForge();
+            downloadLiteLoader();
         });
+    }
+
+    public void downloadLiteLoader(){
+        if (liteLoaderVersion != null) {
+            InstallLiteLoader installLiteLoader = new InstallLiteLoader(context, activity, downloadTaskListAdapter, liteLoaderVersion, (success, patch) -> {
+                mergePatch(patch);
+                downloadForge();
+            });
+            installLiteLoader.install();
+        }
+        else {
+            downloadForge();
+        }
     }
 
     public void downloadForge(){
@@ -169,19 +184,10 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
                 public void onFinish(boolean success,Version patch) {
                     downloadTaskListAdapter.onComplete(bean);
                     mergeOptifinePatch(patch);
-                    downloadLiteLoader();
+                    downloadFabric();
                 }
             });
             installOptifine.install();
-        }
-        else {
-            downloadLiteLoader();
-        }
-    }
-
-    public void downloadLiteLoader(){
-        if (liteLoaderVersion != null) {
-
         }
         else {
             downloadFabric();
@@ -203,7 +209,10 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
 
     public void downloadFabricAPI(){
         if (fabricAPIVersion != null) {
-
+            InstallFabricAPI installFabricAPI = new InstallFabricAPI(context, activity,name, downloadTaskListAdapter, fabricAPIVersion, success -> {
+                installJson();
+            });
+            installFabricAPI.install();
         }
         else {
             installJson();

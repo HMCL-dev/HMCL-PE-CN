@@ -1,6 +1,9 @@
 package com.tungsten.hmclpe.launcher.setting.game;
 
 import com.tungsten.hmclpe.auth.Account;
+import com.tungsten.hmclpe.utils.gson.GsonUtils;
+
+import java.io.File;
 
 public class PublicGameSetting {
 
@@ -12,5 +15,19 @@ public class PublicGameSetting {
         this.account = account;
         this.home = home;
         this.currentVersion = currentVersion;
+    }
+
+    public static boolean isUsingIsolateSetting(String currentVersion){
+        if (new File(currentVersion + "/hmclpe.cfg").exists()) {
+            if (GsonUtils.getPrivateGameSettingFromFile(currentVersion + "/hmclpe.cfg").forceEnable || GsonUtils.getPrivateGameSettingFromFile(currentVersion + "/hmclpe.cfg").enable) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
     }
 }
