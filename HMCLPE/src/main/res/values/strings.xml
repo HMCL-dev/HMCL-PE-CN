@@ -122,6 +122,8 @@
     <string name="version_setting_ui_check">启用游戏特定设置（不影响其他游戏版本）</string>
     <string name="version_setting_ui_global">编辑全局版本设置</string>
 
+    <string name="version_install_ui_local">从本地文件安装/升级</string>
+
     <string name="version_list_ui_title">版本列表</string>
     <string name="version_list_ui_add_dir">添加游戏目录</string>
     <string name="version_list_ui_download_new_version">安装新游戏版本</string>
