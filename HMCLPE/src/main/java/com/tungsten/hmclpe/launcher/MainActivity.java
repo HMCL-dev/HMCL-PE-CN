@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -45,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public RelativeLayout loadingLayout;
     public LinearLayout launcherLayout;
+
+    public ProgressBar loadingProgress;
+    public TextView loadingText;
 
     public boolean isLoaded = false;
     public boolean dialogMode = false;
@@ -77,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loadingLayout = findViewById(R.id.loading_layout);
         launcherLayout = findViewById(R.id.launcher_layout);
 
+        loadingProgress = findViewById(R.id.download_resource_progress);
+        loadingText = findViewById(R.id.launcher_loading_text);
+
         requestPermission();
     }
 
@@ -105,18 +112,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new Thread(){
             @Override
             public void run(){
+                runOnUiThread(() -> {
+                    loadingText.setText(getString(R.string.loading_hint_setting));
+                });
+
                 AppManifest.initializeManifest(MainActivity.this);
                 launcherSetting = InitializeSetting.initializeLauncherSetting();
                 publicGameSetting = InitializeSetting.initializePublicGameSetting(MainActivity.this,MainActivity.this);
                 privateGameSetting = InitializeSetting.initializePrivateGameSetting(MainActivity.this);
 
                 runOnUiThread(() -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        if (launcherSetting.fullscreen) {
+                            getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+                        } else {
+                            getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
+                        }
+                    }
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
                     updateChecker = new UpdateChecker(MainActivity.this,MainActivity.this);
                 });
 
                 DownloadUrlSource.getBalancedSource(MainActivity.this);
 
-                InitializeSetting.generatePlugin(MainActivity.this);
                 InitializeSetting.checkLauncherFiles(MainActivity.this);
             }
         }.start();

@@ -10,6 +10,14 @@
     
     <string name="loading_title">欢迎使用</string>
     <string name="loading_hint">加载中...</string>
+    <string name="loading_hint_setting">正在检查配置文件...</string>
+    <string name="loading_hint_plugin">正在检查启动器补丁...</string>
+    <string name="loading_hint_control">正在检查启动器控制布局...</string>
+    <string name="loading_hint_lib">正在检查游戏本地库...</string>
+    <string name="loading_hint_java_8">正在检查 Java 8...</string>
+    <string name="loading_hint_java_17">正在检查 Java 17...</string>
+    <string name="loading_hint_java_17_install">正在下载 Java 17...</string>
+    <string name="loading_hint_java_17_unzip">正在解压 Java 17...</string>
 
     <string name="launcher_scroll_text_account">账户</string>
     <string name="launcher_scroll_account_name">没有游戏账户</string>

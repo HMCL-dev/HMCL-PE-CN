@@ -1,15 +1,25 @@
 package com.tungsten.hmclpe.launcher.setting;
 
+import static com.tungsten.hmclpe.update.UpdateChecker.UPDATE_URL;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
+import android.view.View;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.FileProvider;
 
+import com.google.gson.Gson;
+import com.leo618.zip.IZipCallback;
+import com.leo618.zip.ZipManager;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.info.contents.ContentListBean;
+import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.manifest.info.AppInfo;
 import com.tungsten.hmclpe.launcher.setting.game.child.BoatLauncherSetting;
@@ -23,72 +33,198 @@ import com.tungsten.hmclpe.launcher.setting.game.child.RamSetting;
 import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
 import com.tungsten.hmclpe.launcher.setting.launcher.child.BackgroundSetting;
 import com.tungsten.hmclpe.launcher.setting.launcher.child.SourceSetting;
+import com.tungsten.hmclpe.task.DownloadTask;
+import com.tungsten.hmclpe.task.LanzouUrlGetTask;
+import com.tungsten.hmclpe.update.LauncherVersion;
+import com.tungsten.hmclpe.update.UpdateJSON;
 import com.tungsten.hmclpe.utils.file.AssetsUtils;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
 import com.tungsten.hmclpe.utils.file.FileUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
+import com.tungsten.hmclpe.utils.io.DownloadUtil;
+import com.tungsten.hmclpe.utils.io.NetworkUtils;
 import com.tungsten.hmclpe.utils.platform.MemoryUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 
 public class InitializeSetting {
 
-    public static void generatePlugin(Context context){
+    public static void checkLauncherFiles(MainActivity activity){
+        /*
+         *检查forge-install-bootstrapper.jar
+         */
+        activity.runOnUiThread(() -> {
+            activity.loadingText.setText(activity.getString(R.string.loading_hint_plugin));
+        });
         if (!new File(AppManifest.PLUGIN_DIR + "/installer/forge-install-bootstrapper.jar").exists()) {
-            AssetsUtils.getInstance(context).copyOnMainThread("plugin",AppManifest.PLUGIN_DIR);
+            AssetsUtils.getInstance(activity).copyOnMainThread("plugin",AppManifest.PLUGIN_DIR);
+        }
+        /*
+         *检查布局方案，如果没有，就生产一个默认布局
+         */
+        activity.runOnUiThread(() -> {
+            activity.loadingText.setText(activity.getString(R.string.loading_hint_control));
+        });
+        if (SettingUtils.getControlPatternList().size() == 0) {
+            AssetsUtils.getInstance(activity.getApplicationContext()).copyOnMainThread("control", AppManifest.CONTROLLER_DIR);
+        }
+        /*
+         *检查除Java外的运行环境，这些文件一定会被内置进启动器，所以进行统一处理
+         */
+        activity.runOnUiThread(() -> {
+            activity.loadingText.setText(activity.getString(R.string.loading_hint_lib));
+        });
+        if (!new File(AppManifest.DEFAULT_RUNTIME_DIR + "/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.DEFAULT_RUNTIME_DIR + "/version"))) < AppInfo.RUNTIME_VERSION) {
+            FileUtils.deleteDirectory(AppManifest.BOAT_LIB_DIR);
+            FileUtils.deleteDirectory(AppManifest.POJAV_LIB_DIR);
+            FileUtils.deleteDirectory(AppManifest.CACIOCAVALLO_DIR);
+            if (new File(AppManifest.DEFAULT_RUNTIME_DIR + "/version").exists()) {
+                new File(AppManifest.DEFAULT_RUNTIME_DIR + "/version").delete();
+            }
+            AssetsUtils.getInstance(activity).copyOnMainThread("app_runtime/boat",AppManifest.BOAT_LIB_DIR);
+            AssetsUtils.getInstance(activity).copyOnMainThread("app_runtime/pojav",AppManifest.POJAV_LIB_DIR);
+            AssetsUtils.getInstance(activity).copyOnMainThread("app_runtime/caciocavallo",AppManifest.CACIOCAVALLO_DIR);
+            AssetsUtils.getInstance(activity).copyOnMainThread("app_runtime/version",AppManifest.DEFAULT_RUNTIME_DIR + "/version");
+        }
+        /*
+         *检查Java运行时，Java可能内置在启动器也可能需要下载，因此单独处理
+         */
+        checkJava8(activity);
+        checkJava17(activity);
+    }
+
+    public static void checkJava8(MainActivity activity){
+        activity.runOnUiThread(() -> {
+            activity.loadingText.setText(activity.getString(R.string.loading_hint_java_8));
+        });
+        if (!new File(AppManifest.JAVA_DIR + "/default").exists() || !new File(AppManifest.JAVA_DIR + "/default/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.JAVA_DIR + "/default/version"))) < AppInfo.JAVA_8_VERSION) {
+            FileUtils.deleteDirectory(AppManifest.JAVA_DIR + "/default");
+            AssetsUtils.getInstance(activity).copyOnMainThread("app_runtime/java/default",AppManifest.JAVA_DIR + "/default");
         }
     }
 
-    public static void checkLauncherFiles(MainActivity activity){
-        if (SettingUtils.getJavaVersionInfo().size() < 2 || Integer.parseInt(Objects.requireNonNull(FileStringUtils.replaceBlank(FileStringUtils.getStringFromFile(AppManifest.DEFAULT_RUNTIME_DIR + "/java/default/version")))) < AppInfo.JAVA_8_VERSION || Integer.parseInt(Objects.requireNonNull(FileStringUtils.replaceBlank(FileStringUtils.getStringFromFile(AppManifest.DEFAULT_RUNTIME_DIR + "/java/JRE17/version")))) < AppInfo.JAVA_17_VERSION){
-            FileUtils.deleteDirectory(AppManifest.DEFAULT_RUNTIME_DIR);
-            AssetsUtils.getInstance(activity.getApplicationContext()).copyAssetsToSD("resolv.conf", new File(new File(AppManifest.DEFAULT_RUNTIME_DIR).getParent(),"resolv.conf").getAbsolutePath());
-            AssetsUtils.getInstance(activity.getApplicationContext()).copyAssetsToSD("app_runtime", AppManifest.DEFAULT_RUNTIME_DIR).setFileOperateCallback(new AssetsUtils.FileOperateCallback() {
-                @Override
-                public void onSuccess() {
-                    if (SettingUtils.getControlPatternList().size() == 0) {
-                        initializeControlPattern(activity, new AssetsUtils.FileOperateCallback() {
-                            @Override
-                            public void onSuccess() {
-                                activity.loadingHandler.sendEmptyMessage(0);
-                            }
-
-                            @Override
-                            public void onFailed(String error) {
-
-                            }
-                        });
-                    }
-                    else {
-                        activity.loadingHandler.sendEmptyMessage(0);
-                    }
-                }
-                @Override
-                public void onFailed(String error) {
-
-                }
-            });
-        }
-        else {
-            if (SettingUtils.getControlPatternList().size() == 0) {
-                initializeControlPattern(activity, new AssetsUtils.FileOperateCallback() {
+    public static void checkJava17(MainActivity activity){
+        activity.runOnUiThread(() -> {
+            activity.loadingText.setText(activity.getString(R.string.loading_hint_java_17));
+        });
+        try {
+            String updateJson = NetworkUtils.doGet(NetworkUtils.toURL(UPDATE_URL));
+            UpdateJSON json = new Gson().fromJson(updateJson,UpdateJSON.class);
+            LauncherVersion latest = json.latestJava17;
+            if (!new File(AppManifest.JAVA_DIR + "/JRE17").exists() || !new File(AppManifest.JAVA_DIR + "/JRE17/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.JAVA_DIR + "/JRE17/version"))) < latest.versionCode) {
+                activity.runOnUiThread(() -> {
+                    activity.loadingText.setText(activity.getString(R.string.loading_hint_java_17_install));
+                    activity.loadingProgress.setVisibility(View.VISIBLE);
+                });
+                FileUtils.deleteDirectory(AppManifest.JAVA_DIR + "/JRE17");
+                FileUtils.deleteDirectory(AppManifest.DEFAULT_CACHE_DIR + "/java");
+                LanzouUrlGetTask task = new LanzouUrlGetTask(activity, new LanzouUrlGetTask.Callback() {
                     @Override
-                    public void onSuccess() {
-                        activity.loadingHandler.sendEmptyMessage(0);
+                    public void onStart() {
+
                     }
 
                     @Override
-                    public void onFailed(String error) {
+                    public void onFinish(String url) {
+                        if (url == null){
+                            if (latest.url.size() > 1) {
+                                url = latest.url.get(1);
+                            }
+                            else {
+                                return;
+                            }
+                        }
+                        String finalUrl = url;
+                        new Thread(() -> {
+                                DownloadUtil.downloadSingleFile(activity, new DownloadTaskListBean("", finalUrl, AppManifest.DEFAULT_CACHE_DIR + "/java/JRE17.zip"), new DownloadTask.Feedback() {
+                                    @Override
+                                    public void addTask(DownloadTaskListBean bean) {
 
+                                    }
+
+                                    @Override
+                                    public void updateProgress(DownloadTaskListBean bean) {
+                                        activity.runOnUiThread(() -> {
+                                            activity.loadingProgress.setProgress(bean.progress);
+                                        });
+                                    }
+
+                                    @Override
+                                    public void updateSpeed(String speed) {
+
+                                    }
+
+                                    @Override
+                                    public void removeTask(DownloadTaskListBean bean) {
+
+                                    }
+
+                                    @Override
+                                    public void onFinished(Map<String, String> failedFile) {
+                                        activity.runOnUiThread(() -> {
+                                            activity.loadingProgress.setProgress(0);
+                                            unZipJava(activity,"JRE17.zip");
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onCancelled() {
+
+                                    }
+                                });
+                        }).start();
                     }
+                });
+                activity.runOnUiThread(() -> {
+                    task.execute(latest.url.get(0));
                 });
             }
             else {
+                /*
+                 *检查完成，进入启动器
+                 */
                 activity.loadingHandler.sendEmptyMessage(0);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+
+    public static void unZipJava(MainActivity activity,String name){
+        activity.loadingText.setText(activity.getString(R.string.loading_hint_java_17_unzip));
+        ZipManager.unzip(AppManifest.DEFAULT_CACHE_DIR + "/java/" + name, AppManifest.JAVA_DIR, new IZipCallback() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onProgress(int percentDone) {
+                activity.loadingProgress.setProgress(percentDone);
+            }
+
+            @Override
+            public void onFinish(boolean success) {
+                if (success) {
+                    /*
+                     *检查完成，进入启动器
+                     */
+                    activity.loadingProgress.setProgress(100);
+                    new Thread(() -> {
+                        if (new File(AppManifest.JAVA_DIR + "/java17").exists()) {
+                            FileUtils.rename(AppManifest.JAVA_DIR + "/java17","JRE17");
+                        }
+                        activity.loadingProgress.setProgress(0);
+                        activity.loadingProgress.setVisibility(View.GONE);
+                        activity.loadingHandler.sendEmptyMessage(0);
+                    }).start();
+                }
+            }
+        });
     }
 
     public static void initializeControlPattern (Activity activity, AssetsUtils.FileOperateCallback callback) {

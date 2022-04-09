@@ -89,7 +89,7 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
             update.setEnabled(false);
             ignore.setEnabled(false);
             progressBar.setVisibility(View.VISIBLE);
-            LanzouUrlGetTask task=new LanzouUrlGetTask(activity, new LanzouUrlGetTask.Callback() {
+            LanzouUrlGetTask task = new LanzouUrlGetTask(activity, new LanzouUrlGetTask.Callback() {
                 @Override
                 public void onStart() {
 

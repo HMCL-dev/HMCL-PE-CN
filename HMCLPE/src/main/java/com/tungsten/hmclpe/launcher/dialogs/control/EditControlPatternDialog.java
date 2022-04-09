@@ -92,7 +92,7 @@ public class EditControlPatternDialog extends Dialog implements View.OnClickList
                         editAuthor.getText().toString(),
                         editVersion.getText().toString(),
                         editDescribe.getText().toString(),
-                        AppInfo.APP_VERSION_CODE);
+                        AppInfo.CONTROL_VERSION_CODE);
                 onPatternInfoChangeListener.OnInfoChange(controlPattern);
                 dismiss();
             }
