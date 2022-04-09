@@ -1,6 +1,7 @@
 package com.tungsten.hmclpe.launcher.uis.game.manager;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -13,6 +14,7 @@ public class GameManagerUI extends BaseUI implements View.OnClickListener {
 
     public LinearLayout gameManagerUI;
     public GameManagerUIManager gameManagerUIManager;
+    public String versionPath;
     public String versionName;
 
     public LinearLayout startGameSetting;
@@ -94,6 +96,14 @@ public class GameManagerUI extends BaseUI implements View.OnClickListener {
     }
 
     private void init(){
-
+        String newVersionPath = activity.launcherSetting.gameFileDirectory + "/versions/" + versionName;
+        if (!newVersionPath.equals(versionPath)) {
+            gameManagerUIManager.versionSettingUI.refresh(versionName);
+            gameManagerUIManager.modManagerUI.refresh(versionName);
+            gameManagerUIManager.autoInstallUI.refresh(versionName);
+            gameManagerUIManager.worldManagerUI.refresh(versionName);
+            versionPath = newVersionPath;
+            Log.e("gameManager","refresh!");
+        }
     }
 }

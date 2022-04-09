@@ -359,47 +359,29 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             }
         });
 
-        javaSetting.post(new Runnable() {
-            @Override
-            public void run() {
-                javaSettingHeight = javaSetting.getHeight();
-                javaSetting.setVisibility(View.GONE);
-            }
+        javaSetting.post(() -> {
+            javaSettingHeight = javaSetting.getHeight();
+            javaSetting.setVisibility(View.GONE);
         });
-        gameDirSetting.post(new Runnable() {
-            @Override
-            public void run() {
-                gameDirSettingHeight = gameDirSetting.getHeight();
-                gameDirSetting.setVisibility(View.GONE);
-            }
+        gameDirSetting.post(() -> {
+            gameDirSettingHeight = gameDirSetting.getHeight();
+            gameDirSetting.setVisibility(View.GONE);
         });
-        controlSetting.post(new Runnable() {
-            @Override
-            public void run() {
-                controlSettingHeight = controlSetting.getHeight();
-                controlSetting.setVisibility(View.GONE);
-            }
+        controlSetting.post(() -> {
+            controlSettingHeight = controlSetting.getHeight();
+            controlSetting.setVisibility(View.GONE);
         });
-        gameLauncherSetting.post(new Runnable() {
-            @Override
-            public void run() {
-                gameLauncherSettingHeight = gameLauncherSetting.getHeight();
-                gameLauncherSetting.setVisibility(View.GONE);
-            }
+        gameLauncherSetting.post(() -> {
+            gameLauncherSettingHeight = gameLauncherSetting.getHeight();
+            gameLauncherSetting.setVisibility(View.GONE);
         });
-        boatRendererSetting.post(new Runnable() {
-            @Override
-            public void run() {
-                boatRendererSettingHeight = boatRendererSetting.getHeight();
-                boatRendererSetting.setVisibility(View.GONE);
-            }
+        boatRendererSetting.post(() -> {
+            boatRendererSettingHeight = boatRendererSetting.getHeight();
+            boatRendererSetting.setVisibility(View.GONE);
         });
-        pojavRendererSetting.post(new Runnable() {
-            @Override
-            public void run() {
-                pojavRendererSettingHeight = pojavRendererSetting.getHeight();
-                pojavRendererSetting.setVisibility(View.GONE);
-            }
+        pojavRendererSetting.post(() -> {
+            pojavRendererSettingHeight = pojavRendererSetting.getHeight();
+            pojavRendererSetting.setVisibility(View.GONE);
         });
     }
 
