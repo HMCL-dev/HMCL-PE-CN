@@ -78,7 +78,7 @@ public class InitializeSetting {
         activity.runOnUiThread(() -> {
             activity.loadingText.setText(activity.getString(R.string.loading_hint_lib));
         });
-        if (!new File(AppManifest.DEFAULT_RUNTIME_DIR + "/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.DEFAULT_RUNTIME_DIR + "/version"))) < AppInfo.RUNTIME_VERSION) {
+        if (!new File(AppManifest.DEFAULT_RUNTIME_DIR + "/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.DEFAULT_RUNTIME_DIR + "/version"))) < Integer.parseInt(Objects.requireNonNull(AssetsUtils.readAssetsTxt(activity, "app_runtime/version")))) {
             FileUtils.deleteDirectory(AppManifest.BOAT_LIB_DIR);
             FileUtils.deleteDirectory(AppManifest.POJAV_LIB_DIR);
             FileUtils.deleteDirectory(AppManifest.CACIOCAVALLO_DIR);
@@ -101,7 +101,7 @@ public class InitializeSetting {
         activity.runOnUiThread(() -> {
             activity.loadingText.setText(activity.getString(R.string.loading_hint_java_8));
         });
-        if (!new File(AppManifest.JAVA_DIR + "/default").exists() || !new File(AppManifest.JAVA_DIR + "/default/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.JAVA_DIR + "/default/version"))) < AppInfo.JAVA_8_VERSION) {
+        if (!new File(AppManifest.JAVA_DIR + "/default").exists() || !new File(AppManifest.JAVA_DIR + "/default/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.JAVA_DIR + "/default/version"))) < Integer.parseInt(Objects.requireNonNull(AssetsUtils.readAssetsTxt(activity, "app_runtime/java/default/version")))) {
             FileUtils.deleteDirectory(AppManifest.JAVA_DIR + "/default");
             AssetsUtils.getInstance(activity).copyOnMainThread("app_runtime/java/default",AppManifest.JAVA_DIR + "/default");
         }
