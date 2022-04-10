@@ -18,6 +18,7 @@
     <string name="loading_hint_java_17">正在检查 Java 17...</string>
     <string name="loading_hint_java_17_install">正在下载 Java 17...</string>
     <string name="loading_hint_java_17_unzip">正在解压 Java 17...</string>
+    <string name="loading_hint_failed">核心资源安装/更新失败，请检查网络并重启应用，如果无效，请联系开发者</string>
 
     <string name="launcher_scroll_text_account">账户</string>
     <string name="launcher_scroll_account_name">没有游戏账户</string>

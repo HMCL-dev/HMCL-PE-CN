@@ -5,6 +5,7 @@ import static com.tungsten.hmclpe.update.UpdateChecker.UPDATE_URL;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.view.View;
@@ -111,86 +112,84 @@ public class InitializeSetting {
         activity.runOnUiThread(() -> {
             activity.loadingText.setText(activity.getString(R.string.loading_hint_java_17));
         });
-        try {
-            String updateJson = NetworkUtils.doGet(NetworkUtils.toURL(UPDATE_URL));
-            UpdateJSON json = new Gson().fromJson(updateJson,UpdateJSON.class);
-            LauncherVersion latest = json.latestJava17;
-            if (!new File(AppManifest.JAVA_DIR + "/JRE17").exists() || !new File(AppManifest.JAVA_DIR + "/JRE17/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.JAVA_DIR + "/JRE17/version"))) < latest.versionCode) {
-                activity.runOnUiThread(() -> {
-                    activity.loadingText.setText(activity.getString(R.string.loading_hint_java_17_install));
-                    activity.loadingProgress.setVisibility(View.VISIBLE);
-                });
-                FileUtils.deleteDirectory(AppManifest.JAVA_DIR + "/JRE17");
-                FileUtils.deleteDirectory(AppManifest.DEFAULT_CACHE_DIR + "/java");
-                LanzouUrlGetTask task = new LanzouUrlGetTask(activity, new LanzouUrlGetTask.Callback() {
-                    @Override
-                    public void onStart() {
+        if (!new File(AppManifest.JAVA_DIR + "/JRE17").exists() || !new File(AppManifest.JAVA_DIR + "/JRE17/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.JAVA_DIR + "/JRE17/version"))) < AppInfo.JAVA_17_VERSION_CODE) {
+            activity.runOnUiThread(() -> {
+                activity.loadingText.setText(activity.getString(R.string.loading_hint_java_17_install));
+                activity.loadingProgress.setVisibility(View.VISIBLE);
+            });
+            FileUtils.deleteDirectory(AppManifest.JAVA_DIR + "/JRE17");
+            FileUtils.deleteDirectory(AppManifest.DEFAULT_CACHE_DIR + "/java");
+            LanzouUrlGetTask task = new LanzouUrlGetTask(activity, new LanzouUrlGetTask.Callback() {
+                @Override
+                public void onStart() {
 
+                }
+
+                @Override
+                public void onFinish(String url) {
+                    if (url == null){
+                        activity.loadingText.setText(activity.getString(R.string.loading_hint_failed));
+                        activity.loadingText.setTextColor(Color.RED);
                     }
-
-                    @Override
-                    public void onFinish(String url) {
-                        if (url == null){
-                            if (latest.url.size() > 1) {
-                                url = latest.url.get(1);
-                            }
-                            else {
-                                return;
-                            }
-                        }
-                        String finalUrl = url;
+                    else {
                         new Thread(() -> {
-                                DownloadUtil.downloadSingleFile(activity, new DownloadTaskListBean("", finalUrl, AppManifest.DEFAULT_CACHE_DIR + "/java/JRE17.zip"), new DownloadTask.Feedback() {
-                                    @Override
-                                    public void addTask(DownloadTaskListBean bean) {
+                            DownloadUtil.downloadSingleFile(activity, new DownloadTaskListBean("", url, AppManifest.DEFAULT_CACHE_DIR + "/java/JRE17.zip"), new DownloadTask.Feedback() {
+                                @Override
+                                public void addTask(DownloadTaskListBean bean) {
 
-                                    }
+                                }
 
-                                    @Override
-                                    public void updateProgress(DownloadTaskListBean bean) {
+                                @Override
+                                public void updateProgress(DownloadTaskListBean bean) {
+                                    activity.runOnUiThread(() -> {
+                                        activity.loadingProgress.setProgress(bean.progress);
+                                    });
+                                }
+
+                                @Override
+                                public void updateSpeed(String speed) {
+
+                                }
+
+                                @Override
+                                public void removeTask(DownloadTaskListBean bean) {
+
+                                }
+
+                                @Override
+                                public void onFinished(Map<String, String> failedFile) {
+                                    if (failedFile.containsKey(url)) {
                                         activity.runOnUiThread(() -> {
-                                            activity.loadingProgress.setProgress(bean.progress);
+                                            activity.loadingText.setText(activity.getString(R.string.loading_hint_failed));
+                                            activity.loadingText.setTextColor(Color.RED);
                                         });
                                     }
-
-                                    @Override
-                                    public void updateSpeed(String speed) {
-
-                                    }
-
-                                    @Override
-                                    public void removeTask(DownloadTaskListBean bean) {
-
-                                    }
-
-                                    @Override
-                                    public void onFinished(Map<String, String> failedFile) {
+                                    else {
                                         activity.runOnUiThread(() -> {
                                             activity.loadingProgress.setProgress(0);
                                             unZipJava(activity,"JRE17.zip");
                                         });
                                     }
+                                }
 
-                                    @Override
-                                    public void onCancelled() {
+                                @Override
+                                public void onCancelled() {
 
-                                    }
-                                });
+                                }
+                            });
                         }).start();
                     }
-                });
-                activity.runOnUiThread(() -> {
-                    task.execute(latest.url.get(0));
-                });
-            }
-            else {
-                /*
-                 *检查完成，进入启动器
-                 */
-                activity.loadingHandler.sendEmptyMessage(0);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+                }
+            });
+            activity.runOnUiThread(() -> {
+                task.execute(AppInfo.JAVA_17_DOWNLOAD_URL);
+            });
+        }
+        else {
+            /*
+             *检查完成，进入启动器
+             */
+            activity.loadingHandler.sendEmptyMessage(0);
         }
     }
 
@@ -218,10 +217,16 @@ public class InitializeSetting {
                         if (new File(AppManifest.JAVA_DIR + "/java17").exists()) {
                             FileUtils.rename(AppManifest.JAVA_DIR + "/java17","JRE17");
                         }
-                        activity.loadingProgress.setProgress(0);
-                        activity.loadingProgress.setVisibility(View.GONE);
+                        activity.runOnUiThread(() -> {
+                            activity.loadingProgress.setProgress(0);
+                            activity.loadingProgress.setVisibility(View.GONE);
+                        });
                         activity.loadingHandler.sendEmptyMessage(0);
                     }).start();
+                }
+                else {
+                    activity.loadingText.setText(activity.getString(R.string.loading_hint_failed));
+                    activity.loadingText.setTextColor(Color.RED);
                 }
             }
         });
