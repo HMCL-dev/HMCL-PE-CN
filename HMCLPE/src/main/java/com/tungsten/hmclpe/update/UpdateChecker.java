@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class UpdateChecker {
 
-    public static final String UPDATE_URL = "http://www.shirosakimio.tk/launcher/launcherInfo.json";
+    public static final String UPDATE_URL = "http://101.43.66.4/launcherInfo.json";
 
     private Context context;
     private MainActivity activity;
