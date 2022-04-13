@@ -10,35 +10,21 @@ public class LoadMe {
     @SuppressLint("SdCardPath")
     public static String BOAT_LIB_DIR;
 
-    public static native int chdir(String str);
-    public static native int jliLaunch(String[] strArr);
+    public static native int chdir(String path);
     public static native void redirectStdio(String file);
-    public static native void setenv(String str, String str2);
-	public static native void setupJLI();
-	public static native int dlopen(String name);
-    public static native void setLibraryPath(String path);
-	public static native void patchLinker();
-	public static native void setGLName(String name);
+    public static native void setenv(String name, String value);
+    public static native int dlopen(String name);
+    public static native void patchLinker();
+    public static native int dlexec(String[] args);
 
     static {
-        System.loadLibrary("boat");
+        System.loadLibrary("loadme");
     }
 
     public static int launchMinecraft(Context context,String javaPath, String home, boolean highVersion, Vector<String> args, String renderer) {
 
         BOAT_LIB_DIR = context.getDir("runtime",0).getAbsolutePath() + "/boat";
-        switch (renderer){
-            case "libGL112.so.1":
-            case "libGL115.so.1":
-                setGLName("libGL.so.1");
-                break;
-            case "libgl4es_114.so":
-                setGLName("libgl04es.so");
-                break;
-            case "libvgpu.so":
-                setGLName("libvgpu.so");
-                break;
-        }
+
 		patchLinker();
 
         try {
@@ -74,15 +60,12 @@ public class LoadMe {
             }
             else {
                 libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64:" + BOAT_LIB_DIR + "/lwjgl-3:" + BOAT_LIB_DIR + "/renderer";
-                dlopen(BOAT_LIB_DIR + "/libglfw.so");
+                dlopen(BOAT_LIB_DIR + "/libglfw.so.3");
                 dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl.so");
                 dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl_stb.so");
                 dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl_tinyfd.so");
                 dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl_opengl.so");
             }
-
-            setLibraryPath(libraryPath);
-			setupJLI();
 
             redirectStdio(home + "/boat_latest_log.txt");
             chdir(home);
@@ -94,7 +77,7 @@ public class LoadMe {
                     System.out.println("Minecraft Args:" + finalArgs[i]);
                 }
 			}
-            System.out.println("OpenJDK exited with code : " + jliLaunch(finalArgs));
+            System.out.println("OpenJDK exited with code : " + dlexec(finalArgs));
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -124,9 +107,6 @@ public class LoadMe {
 
             String libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64";
 
-            setLibraryPath(libraryPath);
-            setupJLI();
-
             redirectStdio(home + "/boat_api_installer_log.txt");
             chdir(home);
 
@@ -137,7 +117,7 @@ public class LoadMe {
                     System.out.println("JVM Args:" + finalArgs[i]);
                 }
             }
-            System.out.println("OpenJDK exited with code : " + jliLaunch(finalArgs));
+            System.out.println("OpenJDK exited with code : " + dlexec(finalArgs));
         }
         catch (Exception e) {
             e.printStackTrace();

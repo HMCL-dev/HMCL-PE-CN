@@ -24,23 +24,61 @@ public class BoatInput{
     }
 	
 	public static void setMouseButton(int button, boolean press) {
-        send(System.nanoTime(), press ? ButtonPress : ButtonRelease, button, 0);
+        pushEventMouseButton(button,press);
     }
 
 	public static void setPointer(int x, int y) {
-        send(System.nanoTime(), MotionNotify, x, y);
+        pushEventPointer(x,y);
     }
     
 	public static void setKey(int keyCode, int keyChar, boolean press){
-		send(System.nanoTime(), press ? KeyPress : KeyRelease, keyCode, keyChar);
-	}
-	public static void setPrimaryClipString(String string){
-
+		pushEventKey(keyCode,keyChar,press);
 	}
 
-	public static String getPrimaryClipString(){
-		return "";
+	public static native void setEventPipe();
+	public static native void pushEvent(long time, int type, int p1, int p2);
+
+	public static void pushEventMouseButton(int button, boolean press) {
+		BoatInput.pushEvent(System.nanoTime(), press ? ButtonPress : ButtonRelease, button, 0);
 	}
-	public static native void send(long time, int type, int p1, int p2);
+	public static void pushEventPointer(int x, int y) {
+		BoatInput.pushEvent(System.nanoTime(), MotionNotify, x, y);
+	}
+	public static void pushEventKey(int keyCode, int keyChar, boolean press) {
+		BoatInput.pushEvent(System.nanoTime(), press ? KeyPress : KeyRelease, keyCode, keyChar);
+	}
+	/*
+	public static void pushEventWindow(int width, int height) {
+		BoatInput.pushEvent(System.nanoTime(), ConfigureNotify, width, height);
+	}
+	public static void pushEventMessage(int msg) {
+		BoatInput.pushEvent(System.nanoTime(), BoatMessage, msg, 0);
+	}
+
+	 */
+
+	public static void setPrimaryClipString(String string) {
+		/*
+		BoatActivity boat_activity = BoatActivity.getCurrentInstance();
+		ClipboardManager clipboard = (ClipboardManager)boat_activity.getSystemService(Context.CLIPBOARD_SERVICE);
+		ClipData clip = ClipData.newPlainText("Boat Clipboard", string);
+		clipboard.setPrimaryClip(clip);
+
+		 */
+	}
+
+	public static String getPrimaryClipString() {
+		/*
+		BoatActivity boat_activity = BoatActivity.getCurrentInstance();
+		ClipboardManager clipboard = (ClipboardManager)boat_activity.getSystemService(Context.CLIPBOARD_SERVICE);
+		if (!clipboard.hasPrimaryClip()) {
+			return null;
+		}
+		ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
+		return item.getText().toString();
+
+		 */
+		return null;
+	}
 
 }

@@ -128,8 +128,10 @@ public class InitializeSetting {
                 @Override
                 public void onFinish(String url) {
                     if (url == null){
-                        activity.loadingText.setText(activity.getString(R.string.loading_hint_failed));
-                        activity.loadingText.setTextColor(Color.RED);
+                        activity.runOnUiThread(() -> {
+                            activity.loadingText.setText(activity.getString(R.string.loading_hint_failed));
+                            activity.loadingText.setTextColor(Color.RED);
+                        });
                     }
                     else {
                         new Thread(() -> {
