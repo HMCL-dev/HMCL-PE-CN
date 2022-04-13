@@ -35,6 +35,10 @@ public class LoadMe {
 			setenv("LIBGL_NORMALIZE","1");
 			setenv("LIBGL_GL","21");
 
+            chdir(home);
+
+            redirectStdio(home + "/boat_latest_log.txt");
+
             // openjdk
             dlopen(javaPath + "/lib/aarch64/libpng16.so.16");
             dlopen(javaPath + "/lib/aarch64/libpng16.so");
@@ -52,23 +56,17 @@ public class LoadMe {
             dlopen(BOAT_LIB_DIR + "/libopenal.so.1");
             dlopen(BOAT_LIB_DIR + "/renderer/" + renderer);
 
-            String libraryPath;
-
             if (!highVersion) {
-                libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64:" + BOAT_LIB_DIR + "/lwjgl-2:" + BOAT_LIB_DIR + "/renderer";
                 dlopen(BOAT_LIB_DIR + "/lwjgl-2/liblwjgl.so");
             }
             else {
-                libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64:" + BOAT_LIB_DIR + "/lwjgl-3:" + BOAT_LIB_DIR + "/renderer";
-                dlopen(BOAT_LIB_DIR + "/libglfw.so.3");
+                dlopen(BOAT_LIB_DIR + "/libglfw.so");
                 dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl.so");
                 dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl_stb.so");
                 dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl_tinyfd.so");
                 dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl_opengl.so");
+                dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl_opengles.so");
             }
-
-            redirectStdio(home + "/boat_latest_log.txt");
-            chdir(home);
 
 			String finalArgs[] = new String[args.size()];
 			for (int i = 0; i < args.size(); i++) {
@@ -104,8 +102,6 @@ public class LoadMe {
             dlopen(javaPath + "/lib/aarch64/libawt.so");
             dlopen(javaPath + "/lib/aarch64/libawt_headless.so");
             dlopen(javaPath + "/lib/aarch64/libfontmanager.so");
-
-            String libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64";
 
             redirectStdio(home + "/boat_api_installer_log.txt");
             chdir(home);

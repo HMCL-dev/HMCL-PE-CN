@@ -38,7 +38,8 @@ public class BoatLauncher {
             args.add("-Djava.library.path=" + libraryPath);
             args.add("-Dfml.earlyprogresswindow=false");
             args.add("-Dorg.lwjgl.opengl.libname=" + gameLaunchSetting.boatRenderer);
-            args.add("-Dorg.lwjgl.glfw.libname=libglfw.so.3");
+            args.add("-Dlwjgl.platform=Boat");
+            args.add("-Dos.name=Linux");
             args.add("-Djava.io.tmpdir=" + AppManifest.DEFAULT_CACHE_DIR);
             args.add("-Xms" + gameLaunchSetting.minRam + "M");
             args.add("-Xmx" + gameLaunchSetting.maxRam + "M");
