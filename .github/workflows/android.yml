@@ -2,7 +2,12 @@ name: auto build HMCLPE - Android CI
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - 'master'
+      - 'main'
+    # 在push tag时触发
+    tags:
+      - '*'
   pull_request:
     branches: [ main ]
 
