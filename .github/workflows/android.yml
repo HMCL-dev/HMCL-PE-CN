@@ -29,5 +29,5 @@ jobs:
     - name: Upload APK
       uses: actions/upload-artifact@v1
       with:
-        name: app
-        path: app/build/outputs/apk/release/HMCLPE-release.apk
+        name: HMCLPE
+        path: HMCLPE/build/outputs/apk/release/HMCLPE-release.apk
