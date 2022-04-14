@@ -25,7 +25,7 @@ jobs:
     - name: Build with Gradle
       run: cd HMCLPE&&../gradlew build
     - name: WTFITD
-      run: bash -c 'tree >treeall.txt'
+      run: bash -c 'tree >treeall.txt'&&find . -name HMCL*release*apk -type f
     #step：上传apk 到action，在右上角查看
       # 官方文档 https://help.github.com/cn/actions/automating-your-workflow-with-github-actions/persisting-workflow-data-using-artifacts#uploading-build-and-test-artifacts
     - name: Upload tree.txt
