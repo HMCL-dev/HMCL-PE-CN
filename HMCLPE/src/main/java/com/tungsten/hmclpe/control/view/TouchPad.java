@@ -193,12 +193,7 @@ public class TouchPad extends View {
                         handler.postDelayed(runnable,400);
                     }
                     if (menuHelper.gameMenuSetting.mouseMode == 0 && menuHelper.viewManager.gameCursorMode == 0){
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,true);
-                            }
-                        },50);
+                        new Handler().postDelayed(() -> InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,true),50);
                     }
                     break;
                 case MotionEvent.ACTION_MOVE:

@@ -5,9 +5,11 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class AssetsUtils {
@@ -44,6 +46,22 @@ public class AssetsUtils {
             }
         }
     };
+
+    public static String readAssetsTxt(Context context,String fileName){
+        try {
+            InputStream is = context.getAssets().open(fileName);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            String text = new String(buffer, "utf-8");
+            Log.e("latest",text);
+            return text;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public AssetsUtils copyAssetsToSD(final String srcPath, final String sdPath) {
         new Thread(new Runnable() {

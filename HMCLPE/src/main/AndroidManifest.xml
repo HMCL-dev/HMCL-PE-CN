@@ -93,12 +93,12 @@
             android:name="net.kdt.pojavlaunch.ExitActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"/>
         <service
-            android:name=".launcher.install.optifine.InstallOptifineService"
+            android:name=".launcher.download.optifine.InstallOptifineService"
             android:process=":installOptifineService"
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".launcher.install.forge.InstallForgeService"
+            android:name=".launcher.download.forge.InstallForgeService"
             android:process=":installForgeService"
             android:enabled="true"
             android:exported="true" />

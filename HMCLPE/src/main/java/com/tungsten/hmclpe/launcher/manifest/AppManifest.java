@@ -29,6 +29,7 @@ public class AppManifest {
     public static String DEFAULT_RUNTIME_DIR;
 
     public static String JAVA_DIR;
+    public static String CACIOCAVALLO_DIR;
     public static String BOAT_LIB_DIR;
     public static String POJAV_LIB_DIR;
 
@@ -52,6 +53,7 @@ public class AppManifest {
         DEFAULT_RUNTIME_DIR = context.getDir("runtime",0).getAbsolutePath();
 
         JAVA_DIR = DEFAULT_RUNTIME_DIR + "/java";
+        CACIOCAVALLO_DIR = DEFAULT_RUNTIME_DIR + "/caciocavallo";
         BOAT_LIB_DIR = DEFAULT_RUNTIME_DIR + "/boat";
         POJAV_LIB_DIR = DEFAULT_RUNTIME_DIR + "/pojav";
 
@@ -77,6 +79,7 @@ public class AppManifest {
         FileUtils.createDirectory(DEFAULT_RUNTIME_DIR);
 
         FileUtils.createDirectory(JAVA_DIR);
+        FileUtils.createDirectory(CACIOCAVALLO_DIR);
         FileUtils.createDirectory(BOAT_LIB_DIR);
         FileUtils.createDirectory(POJAV_LIB_DIR);
     }

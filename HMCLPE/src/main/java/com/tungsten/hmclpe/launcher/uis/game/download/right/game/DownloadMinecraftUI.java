@@ -20,7 +20,7 @@ import androidx.annotation.RequiresApi;
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.download.minecraft.game.VersionManifest;
+import com.tungsten.hmclpe.launcher.download.game.VersionManifest;
 import com.tungsten.hmclpe.launcher.list.download.minecraft.game.DownloadGameListAdapter;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;

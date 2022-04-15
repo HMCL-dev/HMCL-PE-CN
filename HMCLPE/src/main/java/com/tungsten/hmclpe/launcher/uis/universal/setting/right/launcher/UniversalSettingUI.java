@@ -31,6 +31,7 @@ import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.update.UpdateChecker;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.animation.HiddenAnimationUtils;
+import com.tungsten.hmclpe.utils.file.FileUtils;
 import com.tungsten.hmclpe.utils.file.UriUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
@@ -123,19 +124,13 @@ public class UniversalSettingUI extends BaseUI implements View.OnClickListener, 
         editCacheContent.addTextChangedListener(this);
         selectCachePath.setOnClickListener(this);
 
-        updateSetting.post(new Runnable() {
-            @Override
-            public void run() {
-                updateSettingHeight = updateSetting.getHeight();
-                updateSetting.setVisibility(View.GONE);
-            }
+        updateSetting.post(() -> {
+            updateSettingHeight = updateSetting.getHeight();
+            updateSetting.setVisibility(View.GONE);
         });
-        cacheSetting.post(new Runnable() {
-            @Override
-            public void run() {
-                cacheSettingHeight = cacheSetting.getHeight();
-                cacheSetting.setVisibility(View.GONE);
-            }
+        cacheSetting.post(() -> {
+            cacheSettingHeight = cacheSetting.getHeight();
+            cacheSetting.setVisibility(View.GONE);
         });
 
         activity.updateChecker.check(activity.launcherSetting.getBetaVersion,updateCallback);
@@ -195,7 +190,7 @@ public class UniversalSettingUI extends BaseUI implements View.OnClickListener, 
             HiddenAnimationUtils.newInstance(context,cacheSetting,showCache,cacheSettingHeight).toggle();
         }
         if (v == clearCache){
-
+            FileUtils.deleteDirectory(AppManifest.DEFAULT_CACHE_DIR);
         }
         if (v == exportLog){
 

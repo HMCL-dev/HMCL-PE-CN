@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
 
 import com.tungsten.hmclpe.R;
-import com.tungsten.hmclpe.launcher.download.resources.curse.CurseModManager;
+import com.tungsten.hmclpe.launcher.mod.curse.CurseModManager;
 
 import java.util.ArrayList;
 

@@ -13,8 +13,7 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.download.minecraft.forge.ForgeVersion;
-import com.tungsten.hmclpe.launcher.download.minecraft.game.VersionManifest;
+import com.tungsten.hmclpe.launcher.download.game.VersionManifest;
 import com.tungsten.hmclpe.utils.string.StringUtils;
 
 import java.util.ArrayList;

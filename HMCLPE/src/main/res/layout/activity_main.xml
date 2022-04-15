@@ -238,18 +238,33 @@
                 android:text="@string/app_full_name"
                 android:textColor="@color/colorAccent"/>
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="40dp"/>
+
             <ProgressBar
-                android:layout_marginTop="60dp"
+                android:max="100"
+                android:visibility="gone"
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_gravity="center"
+                android:id="@+id/download_resource_progress"/>
+
+            <ProgressBar
+                android:layout_marginTop="40dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:indeterminate="true"
                 android:layout_gravity="center"/>
 
             <TextView
+                android:id="@+id/launcher_loading_text"
                 android:layout_marginTop="20dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:gravity="center"
                 android:textSize="@dimen/text_size_middle"
                 android:text="@string/loading_hint"
                 android:textColor="@color/colorPureBlack"/>

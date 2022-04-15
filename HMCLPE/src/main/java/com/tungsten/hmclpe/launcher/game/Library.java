@@ -44,6 +44,10 @@ public class Library implements Comparable<Library>, Validation {
         this(artifact, null, null);
     }
 
+    public Library(Artifact artifact, String url) {
+        this(artifact,url,null);
+    }
+
     public Library(Artifact artifact, String url, LibrariesDownloadInfo downloads) {
         this(artifact, url, downloads, null, null, null, null, null, null);
     }

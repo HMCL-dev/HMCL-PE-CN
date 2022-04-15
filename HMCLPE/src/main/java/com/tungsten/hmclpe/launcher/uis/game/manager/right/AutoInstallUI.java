@@ -43,4 +43,8 @@ public class AutoInstallUI extends BaseUI {
         }
     }
 
+    public void refresh(String versionName){
+
+    }
+
 }

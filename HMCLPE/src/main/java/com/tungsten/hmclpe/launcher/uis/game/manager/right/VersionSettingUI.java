@@ -2,25 +2,54 @@ package com.tungsten.hmclpe.launcher.uis.game.manager.right;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.dialogs.control.ControllerManagerDialog;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.animation.HiddenAnimationUtils;
+import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
-public class VersionSettingUI extends BaseUI implements View.OnClickListener {
+import java.io.File;
+import java.util.ArrayList;
+
+public class VersionSettingUI extends BaseUI implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
 
     public LinearLayout versionSettingUI;
+
+    public static final int PICK_GAME_DIR_REQUEST_ISOLATED = 7300;
+
+    public String versionName;
+
+    private ImageView icon;
+    private ImageButton editVersionIcon;
+    private ImageButton deleteVersionIcon;
+
+    private CheckBox checkIsolateSetting;
+    private Button switchToGlobalSetting;
+
+    private LinearLayout isolateSettingLayout;
+
+    private PrivateGameSetting privateGameSetting;
 
     private LinearLayout showJavaSetting;
     private TextView javaPathText;
@@ -84,6 +113,28 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
     private RadioButton pojavRendererVGPU;
     private RadioButton pojavRendererVirGL;
 
+    private CheckBox checkAutoRam;
+    private SeekBar ramSeekBar;
+    private EditText editRam;
+    private ProgressBar ramProgressBar;
+    private TextView usedRamText;
+    private TextView actualRamText;
+
+    private SeekBar scaleFactorSeekBar;
+    private EditText editScaleFactor;
+
+    private SwitchCompat checkLog;
+
+    private SwitchCompat notCheckGameFile;
+    private SwitchCompat notCheckForge;
+    private SwitchCompat notCheckJVM;
+
+    private EditText editServer;
+
+    private Button manageController;
+    private TextView currentControlPattern;
+    private ControllerManagerDialog controllerManagerDialog;
+
     public VersionSettingUI(Context context, MainActivity activity) {
         super(context, activity);
     }
@@ -93,6 +144,14 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
     public void onCreate() {
         super.onCreate();
         versionSettingUI = activity.findViewById(R.id.ui_version_setting);
+
+        icon = activity.findViewById(R.id.version_icon_view);
+        editVersionIcon = activity.findViewById(R.id.edit_version_icon);
+        deleteVersionIcon = activity.findViewById(R.id.reset_version_icon);
+
+        checkIsolateSetting = activity.findViewById(R.id.check_isolated_setting);
+        switchToGlobalSetting = activity.findViewById(R.id.start_global_game_setting_from_private);
+        isolateSettingLayout = activity.findViewById(R.id.isolate_game_setting);
 
         showJavaSetting = activity.findViewById(R.id.show_java_selector_isolate);
         javaPathText = activity.findViewById(R.id.java_path_text_isolate);
@@ -152,6 +211,12 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
         pojavRendererVGPU = activity.findViewById(R.id.pojav_renderer_vgpu_isolate);
         pojavRendererVirGL = activity.findViewById(R.id.pojav_renderer_virgl_isolate);
 
+        editVersionIcon.setOnClickListener(this);
+        deleteVersionIcon.setOnClickListener(this);
+
+        checkIsolateSetting.setOnCheckedChangeListener(this);
+        switchToGlobalSetting.setOnClickListener(this);
+
         showJavaSetting.setOnClickListener(this);
         showJava.setOnClickListener(this);
         showGameDirSetting.setOnClickListener(this);
@@ -188,47 +253,29 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
         pojavRendererVGPU.setOnClickListener(this);
         pojavRendererVirGL.setOnClickListener(this);
 
-        javaSetting.post(new Runnable() {
-            @Override
-            public void run() {
-                javaSettingHeight = javaSetting.getHeight();
-                javaSetting.setVisibility(View.GONE);
-            }
+        javaSetting.post(() -> {
+            javaSettingHeight = javaSetting.getHeight();
+            javaSetting.setVisibility(View.GONE);
         });
-        gameDirSetting.post(new Runnable() {
-            @Override
-            public void run() {
-                gameDirSettingHeight = gameDirSetting.getHeight();
-                gameDirSetting.setVisibility(View.GONE);
-            }
+        gameDirSetting.post(() -> {
+            gameDirSettingHeight = gameDirSetting.getHeight();
+            gameDirSetting.setVisibility(View.GONE);
         });
-        controlSetting.post(new Runnable() {
-            @Override
-            public void run() {
-                controlSettingHeight = controlSetting.getHeight();
-                controlSetting.setVisibility(View.GONE);
-            }
+        controlSetting.post(() -> {
+            controlSettingHeight = controlSetting.getHeight();
+            controlSetting.setVisibility(View.GONE);
         });
-        gameLauncherSetting.post(new Runnable() {
-            @Override
-            public void run() {
-                gameLauncherSettingHeight = gameLauncherSetting.getHeight();
-                gameLauncherSetting.setVisibility(View.GONE);
-            }
+        gameLauncherSetting.post(() -> {
+            gameLauncherSettingHeight = gameLauncherSetting.getHeight();
+            gameLauncherSetting.setVisibility(View.GONE);
         });
-        boatRendererSetting.post(new Runnable() {
-            @Override
-            public void run() {
-                boatRendererSettingHeight = boatRendererSetting.getHeight();
-                boatRendererSetting.setVisibility(View.GONE);
-            }
+        boatRendererSetting.post(() -> {
+            boatRendererSettingHeight = boatRendererSetting.getHeight();
+            boatRendererSetting.setVisibility(View.GONE);
         });
-        pojavRendererSetting.post(new Runnable() {
-            @Override
-            public void run() {
-                pojavRendererSettingHeight = pojavRendererSetting.getHeight();
-                pojavRendererSetting.setVisibility(View.GONE);
-            }
+        pojavRendererSetting.post(() -> {
+            pojavRendererSettingHeight = pojavRendererSetting.getHeight();
+            pojavRendererSetting.setVisibility(View.GONE);
         });
     }
 
@@ -258,8 +305,62 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
         activity.uiManager.gameManagerUI.startGameSetting.setBackground(context.getResources().getDrawable(R.drawable.launcher_button_white));
     }
 
+    public void refresh(String versionName){
+        this.versionName = versionName;
+        String settingPath = activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/hmclpe.cfg";
+        if (new File(settingPath).exists() && (GsonUtils.getPrivateGameSettingFromFile(settingPath).forceEnable || GsonUtils.getPrivateGameSettingFromFile(settingPath).enable)) {
+            checkIsolateSetting.setChecked(true);
+            enableSettingLayout();
+            privateGameSetting = GsonUtils.getPrivateGameSettingFromFile(settingPath);
+        }
+        else {
+            checkIsolateSetting.setChecked(false);
+            disableSettingLayout();
+            privateGameSetting = null;
+        }
+    }
+
+    private void enableSettingLayout(){
+        for (View view : getAllChild(isolateSettingLayout)) {
+            view.setAlpha(1f);
+            view.setEnabled(true);
+        }
+        Log.e("enable","true");
+    }
+
+    private void disableSettingLayout(){
+        for (View view : getAllChild(isolateSettingLayout)) {
+            if (!(view instanceof ViewGroup)) {
+                view.setAlpha(0.4f);
+            }
+            view.setEnabled(false);
+        }
+        Log.e("disable","true");
+    }
+
+    private ArrayList<View> getAllChild(ViewGroup viewGroup) {
+        ArrayList<View> list = new ArrayList<>();
+        for (int i = 0;i < viewGroup.getChildCount();i++) {
+            if (viewGroup.getChildAt(i) instanceof ViewGroup) {
+                list.addAll(getAllChild((ViewGroup) viewGroup.getChildAt(i)));
+            }
+            list.add(viewGroup.getChildAt(i));
+        }
+        return list;
+    }
+
     @Override
     public void onClick(View v) {
+        if (v == editVersionIcon) {
+
+        }
+        if (v == deleteVersionIcon) {
+
+        }
+        if (v == switchToGlobalSetting) {
+            activity.uiManager.switchMainUI(activity.uiManager.settingUI);
+            activity.uiManager.settingUI.settingUIManager.switchSettingUIs(activity.uiManager.settingUI.settingUIManager.universalGameSettingUI);
+        }
         if (v == showJavaSetting || v == showJava){
             HiddenAnimationUtils.newInstance(context,javaSetting,showJava,javaSettingHeight).toggle();
         }
@@ -311,5 +412,46 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener {
         if (v == pojavRendererVirGL){
 
         }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        if (compoundButton == checkIsolateSetting) {
+            String settingPath = activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/hmclpe.cfg";
+            if (b) {
+                enableSettingLayout();
+                if (!new File(settingPath).exists()) {
+                    GsonUtils.savePrivateGameSetting(activity.privateGameSetting,settingPath);
+                }
+                privateGameSetting = GsonUtils.getPrivateGameSettingFromFile(settingPath);
+                privateGameSetting.enable = true;
+                GsonUtils.savePrivateGameSetting(privateGameSetting,settingPath);
+            }
+            else {
+                disableSettingLayout();
+                if (new File(settingPath).exists()) {
+                    privateGameSetting = GsonUtils.getPrivateGameSettingFromFile(settingPath);
+                    privateGameSetting.enable = false;
+                    GsonUtils.savePrivateGameSetting(privateGameSetting,settingPath);
+                }
+                privateGameSetting = null;
+            }
+            Log.e("check",Boolean.toString(b));
+        }
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
     }
 }

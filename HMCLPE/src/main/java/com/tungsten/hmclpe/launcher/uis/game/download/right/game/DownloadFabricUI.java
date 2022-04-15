@@ -17,11 +17,9 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.download.minecraft.fabric.FabricGameVersion;
-import com.tungsten.hmclpe.launcher.download.minecraft.fabric.FabricLoaderVersion;
-import com.tungsten.hmclpe.launcher.download.minecraft.forge.ForgeVersion;
+import com.tungsten.hmclpe.launcher.download.fabric.FabricGameVersion;
+import com.tungsten.hmclpe.launcher.download.fabric.FabricLoaderVersion;
 import com.tungsten.hmclpe.launcher.list.download.minecraft.fabric.DownloadFabricListAdapter;
-import com.tungsten.hmclpe.launcher.list.download.minecraft.forge.DownloadForgeListAdapter;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
@@ -30,7 +28,6 @@ import com.tungsten.hmclpe.utils.io.NetworkUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class DownloadFabricUI extends BaseUI implements View.OnClickListener {
 

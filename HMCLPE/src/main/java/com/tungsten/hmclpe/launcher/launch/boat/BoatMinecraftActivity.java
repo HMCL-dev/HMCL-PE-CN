@@ -64,6 +64,7 @@ public class BoatMinecraftActivity extends BoatActivity {
             public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
                 surface.setDefaultBufferSize((int) (width * scaleFactor), (int) (height * scaleFactor));
                 BoatActivity.setBoatNativeWindow(new Surface(surface));
+                BoatInput.setEventPipe();
                 startGame(gameLaunchSetting.javaPath,
                         gameLaunchSetting.home,
                         GameLaunchSetting.isHighVersion(gameLaunchSetting),

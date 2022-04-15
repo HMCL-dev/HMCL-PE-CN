@@ -43,4 +43,8 @@ public class ModManagerUI extends BaseUI {
         }
     }
 
+    public void refresh(String versionName){
+
+    }
+
 }

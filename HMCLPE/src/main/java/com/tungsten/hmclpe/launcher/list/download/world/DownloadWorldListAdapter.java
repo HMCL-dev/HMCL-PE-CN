@@ -18,7 +18,7 @@ import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.download.resources.mods.ModListBean;
+import com.tungsten.hmclpe.launcher.mod.ModListBean;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.download.minecraft.fabric.FabricLoaderVersion;
+import com.tungsten.hmclpe.launcher.download.fabric.FabricLoaderVersion;
 
 import java.util.ArrayList;
 

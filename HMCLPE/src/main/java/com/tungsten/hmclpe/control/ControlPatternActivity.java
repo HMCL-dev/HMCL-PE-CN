@@ -19,6 +19,7 @@ import com.tungsten.hmclpe.control.view.LayoutPanel;
 public class ControlPatternActivity extends AppCompatActivity implements View.OnTouchListener {
 
     public static final int CONTROL_PATTERN_REQUEST_CODE = 3000;
+    public static final int CONTROL_PATTERN_REQUEST_CODE_ISOLATE = 7700;
 
     private DrawerLayout drawerLayout;
     private LayoutPanel baseLayout;

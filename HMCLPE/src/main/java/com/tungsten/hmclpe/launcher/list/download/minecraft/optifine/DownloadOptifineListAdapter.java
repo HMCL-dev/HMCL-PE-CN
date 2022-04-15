@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.download.minecraft.optifine.OptifineVersion;
+import com.tungsten.hmclpe.launcher.download.optifine.OptifineVersion;
 
 import java.util.ArrayList;
 

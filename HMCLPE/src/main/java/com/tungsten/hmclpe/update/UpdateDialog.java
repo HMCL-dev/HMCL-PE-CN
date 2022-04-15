@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.text.Html;
 import android.view.View;
@@ -65,11 +64,7 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
         date.setText(version.date);
         type.setText(getType(isBeta));
         CharSequence charSequence;
-        if (Build.VERSION.SDK_INT >= 24) {
-            charSequence = Html.fromHtml(version.updateLog, 0);
-        } else {
-            charSequence = Html.fromHtml(version.updateLog);
-        }
+        charSequence = Html.fromHtml(version.updateLog, 0);
         log.setText(charSequence);
 
         progressBar = findViewById(R.id.update_progress);
@@ -94,7 +89,7 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
             update.setEnabled(false);
             ignore.setEnabled(false);
             progressBar.setVisibility(View.VISIBLE);
-            LanzouUrlGetTask task=new LanzouUrlGetTask(activity, new LanzouUrlGetTask.Callback() {
+            LanzouUrlGetTask task = new LanzouUrlGetTask(activity, new LanzouUrlGetTask.Callback() {
                 @Override
                 public void onStart() {
 

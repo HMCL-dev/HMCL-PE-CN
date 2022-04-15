@@ -72,7 +72,7 @@ public class CreateControlPatternDialog extends Dialog implements View.OnClickLi
                         editAuthor.getText().toString(),
                         editVersion.getText().toString(),
                         editDescribe.getText().toString(),
-                        AppInfo.APP_VERSION_CODE);
+                        AppInfo.CONTROL_VERSION_CODE);
                 onPatternCreateListener.OnPatternCreate(controlPattern);
                 dismiss();
             }
