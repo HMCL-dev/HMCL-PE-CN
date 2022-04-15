@@ -43,6 +43,8 @@ public class BoatLauncher {
             args.add("-Dos.name=Linux");
             args.add("-Dlwjgl.platform=Boat");
             args.add("-Dorg.lwjgl.opengl.libname=" + gameLaunchSetting.boatRenderer);
+            args.add("-Dlwjgl.platform=Boat");
+            args.add("-Dos.name=Linux");
             args.add("-Djava.io.tmpdir=" + AppManifest.DEFAULT_CACHE_DIR);
             args.add("-Xms" + gameLaunchSetting.minRam + "M");
             args.add("-Xmx" + gameLaunchSetting.maxRam + "M");
