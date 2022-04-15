@@ -13,9 +13,9 @@ android {
     signingConfigs {
         release {
             keyAlias key
-            keypassword "zj091105"
-            storeFile "HMCLPE/key.jks"
-            storePassword "zj091105"
+            keypassword 'zj091105'
+            storeFile file('HMCLPE/key.jks')
+            storePassword 'zj091105'
         }
     }
     defaultConfig {
