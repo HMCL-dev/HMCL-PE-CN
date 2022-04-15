@@ -12,8 +12,8 @@ android {
     compileSdk 32
     signingConfigs {
         release {
-            keyAlias "key"
-            keypassword 'zj091105'
+            keyAlias 'key'
+            keyPassword 'zj091105'
             storeFile file('HMCLPE/key.jks')
             storePassword 'zj091105'
         }
