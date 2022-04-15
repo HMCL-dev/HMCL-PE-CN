@@ -2,9 +2,26 @@ plugins {
     id 'com.android.application'
 }
 
+def keyProps = new Properties()
+//def keyPropsFile = rootProject.file('HMCLPE/keystore.properties')
+if (keyPropsFile.exists()) {
+    keyProps.load(new FileInputStream(keyPropsFile))
+}
+
 android {
     compileSdk 32
-
+    signingConfigs {
+        release {
+            /*keyAlias keyProps['keyAlias']
+            keyPassword keyProps['keyPassword']
+            storeFile keyProps['storeFile'] ? file(keyProps['storeFile']) : null
+            storePassword keyProps['storePassword']*/
+            keyAlias key
+            keypassword "zj091105"
+            storeFile "HMCLPE/key.jks"
+            storePassword "zj091105"
+        }
+    }
     defaultConfig {
         applicationId "com.tungsten.hmclpe"
         minSdk 26
