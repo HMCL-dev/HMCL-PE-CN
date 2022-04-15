@@ -91,7 +91,7 @@ JNIEXPORT int JNICALL Java_cosine_boat_LoadMe_dlexec(JNIEnv* env, jclass clazz, 
     return ret;
 }
 
-#ifdef __aarch64__
+
 unsigned gen_ldr_pc(unsigned rt, signed long off) {
     // 33 222 2 22 2222111111111100000 00000
     // 10 987 6 54 3210987654321098765 43210
@@ -172,13 +172,11 @@ unsigned gen_mov_imm(unsigned tr, signed short imm) {
 void stub() {
 
 }
-#endif
 JNIEXPORT void JNICALL Java_cosine_boat_LoadMe_patchLinker(JNIEnv *env, jclass clazz) {
 
-#ifdef __aarch64__
 #define PAGE_START(x) ((void*)((unsigned long)(x) & ~((unsigned long)getpagesize() - 1)))
 
-    void* libdl_handle = dlopen("libdl.so", RTLD_LAZY);
+    void* libdl_handle = dlopen("libdl.so", RTLD_GLOBAL);
 
     unsigned* dlopen_addr = (unsigned*)dlsym(libdl_handle, "dlopen");
     unsigned* dlsym_addr = (unsigned*)dlsym(libdl_handle, "dlsym");
@@ -236,8 +234,5 @@ JNIEXPORT void JNICALL Java_cosine_boat_LoadMe_patchLinker(JNIEnv *env, jclass c
         __android_log_print(ANDROID_LOG_ERROR, "Boat", "dlvsym() not patched");
     }
 #undef PAGE_START
-#else  // !__aarch64__
-    __android_log_print(ANDROID_LOG_ERROR, "Boat", "Nothing to patch.");
-#endif  // __aarch64__
 }
 
