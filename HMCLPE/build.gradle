@@ -14,7 +14,7 @@ android {
         release {
             keyAlias 'key'
             keyPassword 'zj091105'
-            storeFile file('HMCLPE/key.jks')
+            storeFile file('key.jks')
             storePassword 'zj091105'
         }
     }
