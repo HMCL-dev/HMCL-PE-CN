@@ -28,8 +28,14 @@ public class BoatLauncher {
                 classPath = AppManifest.BOAT_LIB_DIR + "/lwjgl-2/lwjgl.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-2/lwjgl_util.jar:" + version.getClassPath(gameLaunchSetting.gameFileDirectory);
             }
             else {
-                libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3:" + AppManifest.BOAT_LIB_DIR + "/renderer";
-                classPath = AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-vulkan.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-jemalloc.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-tinyfd.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-opengles.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-opengl.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-openal.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-glfw.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-stb.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-egl.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl.jar:" +  version.getClassPath(gameLaunchSetting.gameFileDirectory);
+                boolean isJava17 = javaPath.endsWith("JRE17");
+                if (isJava17) {
+                    libraryPath = javaPath + "/lib:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3:" + AppManifest.BOAT_LIB_DIR + "/renderer";
+                }
+                else {
+                    libraryPath = javaPath + "/lib/jli:" + javaPath + "/lib:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3:" + AppManifest.BOAT_LIB_DIR + "/renderer";
+                }
+                classPath = AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-jemalloc.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-tinyfd.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-opengl.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-openal.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-glfw.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl-stb.jar:" + AppManifest.BOAT_LIB_DIR + "/lwjgl-3/lwjgl.jar:" +  version.getClassPath(gameLaunchSetting.gameFileDirectory);
             }
             Vector<String> args = new Vector<String>();
             args.add(javaPath + "/bin/java");
@@ -37,6 +43,11 @@ public class BoatLauncher {
             args.add(classPath);
             args.add("-Djava.library.path=" + libraryPath);
             args.add("-Dfml.earlyprogresswindow=false");
+            args.add("-Dorg.lwjgl.util.DebugLoader=true");
+            args.add("-Dorg.lwjgl.util.Debug=true");
+            args.add("-Dorg.lwjgl.opengl.maxVersion=3.2");
+            args.add("-Dos.name=Linux");
+            args.add("-Dlwjgl.platform=Boat");
             args.add("-Dorg.lwjgl.opengl.libname=" + gameLaunchSetting.boatRenderer);
             args.add("-Dlwjgl.platform=Boat");
             args.add("-Dos.name=Linux");

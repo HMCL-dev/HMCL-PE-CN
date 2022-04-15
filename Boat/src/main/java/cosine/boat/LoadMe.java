@@ -25,6 +25,8 @@ public class LoadMe {
 
         BOAT_LIB_DIR = context.getDir("runtime",0).getAbsolutePath() + "/boat";
 
+        boolean isJava17 = javaPath.endsWith("JRE17");
+
 		patchLinker();
 
         try {
@@ -33,28 +35,48 @@ public class LoadMe {
 			setenv("JAVA_HOME" , javaPath);
 			setenv("LIBGL_MIPMAP","3");
 			setenv("LIBGL_NORMALIZE","1");
-			setenv("LIBGL_GL","21");
-
-            chdir(home);
-
-            redirectStdio(home + "/boat_latest_log.txt");
+            setenv("LIBGL_GL","32");
 
             // openjdk
-            dlopen(javaPath + "/lib/aarch64/libpng16.so.16");
-            dlopen(javaPath + "/lib/aarch64/libpng16.so");
-            dlopen(javaPath + "/lib/aarch64/libfreetype.so");
-			dlopen(javaPath + "/lib/aarch64/jli/libjli.so");
-			dlopen(javaPath + "/lib/aarch64/server/libjvm.so");
-			dlopen(javaPath + "/lib/aarch64/libverify.so");
-			dlopen(javaPath + "/lib/aarch64/libjava.so");
-			dlopen(javaPath + "/lib/aarch64/libnet.so");
-			dlopen(javaPath + "/lib/aarch64/libnio.so");
-			dlopen(javaPath + "/lib/aarch64/libawt.so");
-			dlopen(javaPath + "/lib/aarch64/libawt_headless.so");
-            dlopen(javaPath + "/lib/aarch64/libinstrument.so");
-            dlopen(javaPath + "/lib/aarch64/libfontmanager.so");
+            if (isJava17) {
+                setenv("LIBGL_ES","3");
+                setenv("LIBGL_SHADERCONVERTER", "1");
+
+                dlopen(javaPath + "/lib/libpng16.so.16");
+                dlopen(javaPath + "/lib/libpng16.so");
+                dlopen(javaPath + "/lib/libfreetype.so");
+                dlopen(javaPath + "/lib/libjli.so");
+                dlopen(javaPath + "/lib/server/libjvm.so");
+                dlopen(javaPath + "/lib/libverify.so");
+                dlopen(javaPath + "/lib/libjava.so");
+                dlopen(javaPath + "/lib/libnet.so");
+                dlopen(javaPath + "/lib/libnio.so");
+                dlopen(javaPath + "/lib/libawt.so");
+                dlopen(javaPath + "/lib/libawt_headless.so");
+                dlopen(javaPath + "/lib/libinstrument.so");
+                dlopen(javaPath + "/lib/libfontmanager.so");
+
+                dlopen(BOAT_LIB_DIR + "/libglslang.so.11");
+                dlopen(BOAT_LIB_DIR + "/libglslconv.so");
+            }
+            else {
+                dlopen(javaPath + "/lib/aarch64/libpng16.so.16");
+                dlopen(javaPath + "/lib/aarch64/libpng16.so");
+                dlopen(javaPath + "/lib/aarch64/libfreetype.so");
+                dlopen(javaPath + "/lib/aarch64/jli/libjli.so");
+                dlopen(javaPath + "/lib/aarch64/server/libjvm.so");
+                dlopen(javaPath + "/lib/aarch64/libverify.so");
+                dlopen(javaPath + "/lib/aarch64/libjava.so");
+                dlopen(javaPath + "/lib/aarch64/libnet.so");
+                dlopen(javaPath + "/lib/aarch64/libnio.so");
+                dlopen(javaPath + "/lib/aarch64/libawt.so");
+                dlopen(javaPath + "/lib/aarch64/libawt_headless.so");
+                dlopen(javaPath + "/lib/aarch64/libinstrument.so");
+                dlopen(javaPath + "/lib/aarch64/libfontmanager.so");
+            }
             dlopen(BOAT_LIB_DIR + "/libopenal.so.1");
-            dlopen(BOAT_LIB_DIR + "/renderer/" + renderer);
+            dlopen(BOAT_LIB_DIR + "/renderer/libGL112.so.1");
+            dlopen(BOAT_LIB_DIR + "/libEGL.so.1");
 
             if (!highVersion) {
                 dlopen(BOAT_LIB_DIR + "/lwjgl-2/liblwjgl.so");
@@ -65,8 +87,10 @@ public class LoadMe {
                 dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl_stb.so");
                 dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl_tinyfd.so");
                 dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl_opengl.so");
-                dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl_opengles.so");
             }
+
+            redirectStdio(home + "/boat_latest_log.txt");
+            chdir(home);
 
 			String finalArgs[] = new String[args.size()];
 			for (int i = 0; i < args.size(); i++) {
@@ -102,6 +126,8 @@ public class LoadMe {
             dlopen(javaPath + "/lib/aarch64/libawt.so");
             dlopen(javaPath + "/lib/aarch64/libawt_headless.so");
             dlopen(javaPath + "/lib/aarch64/libfontmanager.so");
+
+            String libraryPath = javaPath + "/lib/jli:" + javaPath + "/lib/aarch64";
 
             redirectStdio(home + "/boat_api_installer_log.txt");
             chdir(home);
