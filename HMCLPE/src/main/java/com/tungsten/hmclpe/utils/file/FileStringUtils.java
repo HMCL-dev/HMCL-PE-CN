@@ -1,5 +1,7 @@
 package com.tungsten.hmclpe.utils.file;
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -34,6 +36,7 @@ public class FileStringUtils {
         }
         catch (IOException e) {
             e.printStackTrace();
+            Log.e("writeFile",e.toString());
         }
     }
 

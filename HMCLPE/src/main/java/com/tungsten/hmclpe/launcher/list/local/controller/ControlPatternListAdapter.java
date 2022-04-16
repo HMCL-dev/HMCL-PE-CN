@@ -44,14 +44,16 @@ public class ControlPatternListAdapter extends BaseAdapter {
     private ArrayList<ControlPattern> list;
     private String currentPattern;
     private boolean fullscreen;
+    private boolean isolate;
 
-    public ControlPatternListAdapter(Context context, MainActivity activity, ControllerManagerDialog dialog, ArrayList<ControlPattern> list, String currentPattern, boolean fullscreen){
+    public ControlPatternListAdapter(Context context, MainActivity activity, ControllerManagerDialog dialog, ArrayList<ControlPattern> list, String currentPattern, boolean fullscreen,boolean isolate){
         this.context = context;
         this.activity = activity;
         this.dialog = dialog;
         this.list = list;
         this.currentPattern = currentPattern;
         this.fullscreen = fullscreen;
+        this.isolate = isolate;
     }
 
     private static String getMimeType(String filePath) {
@@ -148,7 +150,8 @@ public class ControlPatternListAdapter extends BaseAdapter {
                 bundle.putString("initial", currentPattern);
                 bundle.putBoolean("fullscreen",fullscreen);
                 intent.putExtras(bundle);
-                activity.startActivityForResult(intent,ControlPatternActivity.CONTROL_PATTERN_REQUEST_CODE);
+                int code = isolate ? ControlPatternActivity.CONTROL_PATTERN_REQUEST_CODE_ISOLATE : ControlPatternActivity.CONTROL_PATTERN_REQUEST_CODE;
+                activity.startActivityForResult(intent,code);
             }
         });
         viewHolder.share.setOnClickListener(new View.OnClickListener() {

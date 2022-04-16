@@ -1,6 +1,8 @@
 package com.tungsten.hmclpe.launcher.setting.game.child;
 
-public class GameDirSetting {
+import androidx.annotation.NonNull;
+
+public class GameDirSetting implements Cloneable{
 
     public int type;
     public String path;
@@ -10,4 +12,9 @@ public class GameDirSetting {
         this.path = path;
     }
 
+    @NonNull
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

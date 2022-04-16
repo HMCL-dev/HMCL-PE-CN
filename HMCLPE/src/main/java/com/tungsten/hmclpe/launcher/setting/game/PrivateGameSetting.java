@@ -1,12 +1,14 @@
 package com.tungsten.hmclpe.launcher.setting.game;
 
+import androidx.annotation.NonNull;
+
 import com.tungsten.hmclpe.launcher.setting.game.child.BoatLauncherSetting;
 import com.tungsten.hmclpe.launcher.setting.game.child.GameDirSetting;
 import com.tungsten.hmclpe.launcher.setting.game.child.JavaSetting;
 import com.tungsten.hmclpe.launcher.setting.game.child.PojavLauncherSetting;
 import com.tungsten.hmclpe.launcher.setting.game.child.RamSetting;
 
-public class PrivateGameSetting {
+public class PrivateGameSetting implements Cloneable{
 
     public boolean forceEnable;
     public boolean enable;
@@ -58,4 +60,15 @@ public class PrivateGameSetting {
         }
     }
 
+    @NonNull
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        PrivateGameSetting privateGameSetting = (PrivateGameSetting) super.clone();
+        privateGameSetting.javaSetting = (JavaSetting) javaSetting.clone();
+        privateGameSetting.gameDirSetting = (GameDirSetting) gameDirSetting.clone();
+        privateGameSetting.boatLauncherSetting = (BoatLauncherSetting) boatLauncherSetting.clone();
+        privateGameSetting.pojavLauncherSetting = (PojavLauncherSetting) pojavLauncherSetting.clone();
+        privateGameSetting.ramSetting = (RamSetting) ramSetting.clone();
+        return privateGameSetting;
+    }
 }

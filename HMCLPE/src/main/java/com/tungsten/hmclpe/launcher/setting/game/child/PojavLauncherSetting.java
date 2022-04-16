@@ -1,6 +1,8 @@
 package com.tungsten.hmclpe.launcher.setting.game.child;
 
-public class PojavLauncherSetting {
+import androidx.annotation.NonNull;
+
+public class PojavLauncherSetting implements Cloneable {
 
     public boolean enable;
     public String renderer;
@@ -34,5 +36,11 @@ public class PojavLauncherSetting {
 
     public String getJava() {
         return java;
+    }
+
+    @NonNull
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
