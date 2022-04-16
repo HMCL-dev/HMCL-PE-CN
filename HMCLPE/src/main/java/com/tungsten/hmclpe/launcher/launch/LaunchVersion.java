@@ -1,5 +1,7 @@
 package com.tungsten.hmclpe.launcher.launch;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -150,9 +152,10 @@ public class LaunchVersion {
         int count = 0;
         String libraries_path = gameFileDir + "/libraries/";
         for (Library lib : this.libraries) {
-            if (lib.name == null || lib.name.equals("")) {
+            if (lib.name == null || lib.name.equals("") || lib.name.contains("java-objc-bridge") || lib.name.contains("lwjgl")) {
                 continue;
             }
+            Log.e("boat",lib.name);
             String names[] = lib.name.split(":");
             String packageName = names[0];
             String mainName = names[1];

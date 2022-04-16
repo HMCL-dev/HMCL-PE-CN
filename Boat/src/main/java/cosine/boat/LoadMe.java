@@ -36,6 +36,9 @@ public class LoadMe {
 			setenv("LIBGL_MIPMAP","3");
 			setenv("LIBGL_NORMALIZE","1");
             setenv("LIBGL_GL","32");
+            setenv("LIBGL_SILENTSTUB","0");
+            setenv("LIBGL_COMMENTS","1");
+            setenv("LIBGL_LOGSHADERERROR","1");
 
             // openjdk
             if (isJava17) {
