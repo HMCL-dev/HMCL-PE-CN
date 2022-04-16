@@ -1,6 +1,8 @@
 package com.tungsten.hmclpe.launcher.setting.game.child;
 
-public class RamSetting {
+import androidx.annotation.NonNull;
+
+public class RamSetting implements Cloneable {
 
     public int minRam;
     public int maxRam;
@@ -12,4 +14,9 @@ public class RamSetting {
         this.autoRam = autoRam;
     }
 
+    @NonNull
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

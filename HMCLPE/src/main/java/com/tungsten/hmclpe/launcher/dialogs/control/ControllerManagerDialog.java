@@ -41,23 +41,26 @@ import java.util.ArrayList;
 public class ControllerManagerDialog extends Dialog implements View.OnClickListener {
 
     public static final int IMPORT_PATTERN_REQUEST_CODE = 3200;
+    public static final int IMPORT_PATTERN_REQUEST_CODE_ISOLATED = 3900;
 
     private MainActivity activity;
     private boolean fullscreen;
     public String currentPattern;
     public OnPatternChangeListener onPatternChangeListener;
+    private boolean isolate;
 
     private ListView patternList;
     private Button importPattern;
     private Button createNewPattern;
     private Button exit;
 
-    public ControllerManagerDialog(@NonNull Context context, MainActivity activity, boolean fullscreen, String currentPattern, OnPatternChangeListener onPatternChangeListener) {
+    public ControllerManagerDialog(@NonNull Context context, MainActivity activity, boolean fullscreen, String currentPattern, OnPatternChangeListener onPatternChangeListener,boolean isolate) {
         super(context);
         this.activity = activity;
         this.fullscreen = fullscreen;
         this.currentPattern = currentPattern;
         this.onPatternChangeListener = onPatternChangeListener;
+        this.isolate = isolate;
         setContentView(R.layout.dialog_manage_controller);
         setCancelable(false);
         init();
@@ -78,7 +81,7 @@ public class ControllerManagerDialog extends Dialog implements View.OnClickListe
 
     public void loadList(){
         ArrayList<ControlPattern> list = SettingUtils.getControlPatternList();
-        ControlPatternListAdapter adapter = new ControlPatternListAdapter(getContext(),activity,this,list,currentPattern,fullscreen);
+        ControlPatternListAdapter adapter = new ControlPatternListAdapter(getContext(),activity,this,list,currentPattern,fullscreen,isolate);
         patternList.setAdapter(adapter);
     }
 

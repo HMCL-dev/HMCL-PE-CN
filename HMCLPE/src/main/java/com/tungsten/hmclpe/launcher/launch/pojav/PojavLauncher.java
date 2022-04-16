@@ -27,7 +27,8 @@ public class PojavLauncher {
             String javaPath = gameLaunchSetting.javaPath;
             JREUtils.relocateLibPath(context,javaPath);
             String libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64:" + AppManifest.POJAV_LIB_DIR + "/lwjgl3:" + JREUtils.LD_LIBRARY_PATH + ":" + AppManifest.POJAV_LIB_DIR + "/lwjgl3";;
-            String classPath = getLWJGL3ClassPath() + ":" + version.getClassPath(gameLaunchSetting.gameFileDirectory);
+            boolean isJava17 = javaPath.endsWith("JRE17");
+            String classPath = getLWJGL3ClassPath() + ":" + version.getClassPath(gameLaunchSetting.gameFileDirectory,isJava17);
             Vector<String> args = new Vector<String>();
             if (JREUtils.jreReleaseList.get("JAVA_VERSION").equals("1.8.0")) {
                 Tools.getCacioJavaArgs(context,args, false);
@@ -42,12 +43,22 @@ public class PojavLauncher {
             args.addAll(JREUtils.getJavaArgs(context));
             args.add("-Dnet.minecraft.clientmodname=" + AppInfo.APP_NAME);
             args.add("-Dfml.earlyprogresswindow=false");
+            /*
+            String[] JVMArgs;
+            JVMArgs = version.getJVMArguments(gameLaunchSetting);
+            for (int i = 0;i < JVMArgs.length;i++) {
+                if (JVMArgs[i].startsWith("-DignoreList") && !JVMArgs[i].endsWith("," + new File(gameLaunchSetting.currentVersion).getName() + ".jar")) {
+                    JVMArgs[i] = JVMArgs[i] + "," + new File(gameLaunchSetting.currentVersion).getName() + ".jar";
+                }
+            }
+            Collections.addAll(args, JVMArgs);
+            
+             */
             args.add("-Xms" + gameLaunchSetting.minRam + "M");
             args.add("-Xmx" + gameLaunchSetting.maxRam + "M");
             args.add("-Dorg.lwjgl.opengl.libname=" + JREUtils.loadGraphicsLibrary(gameLaunchSetting.pojavRenderer));
             args.add("-cp");
             args.add(classPath);
-
             args.add(version.mainClass);
             String[] minecraftArgs;
             minecraftArgs = version.getMinecraftArguments(gameLaunchSetting, isHighVersion(gameLaunchSetting));

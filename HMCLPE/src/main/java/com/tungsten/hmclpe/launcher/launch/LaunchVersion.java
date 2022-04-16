@@ -50,6 +50,7 @@ public class LaunchVersion {
 
     public class Arguments {
         private Object[] game;
+        private Object[] jvm;
     }
 
     public Arguments arguments;
@@ -147,12 +148,12 @@ public class LaunchVersion {
         }
     }
 
-    public String getClassPath(String gameFileDir) {
+    public String getClassPath(String gameFileDir,boolean isJava17) {
         String cp = "";
         int count = 0;
         String libraries_path = gameFileDir + "/libraries/";
         for (Library lib : this.libraries) {
-            if (lib.name == null || lib.name.equals("") || lib.name.contains("java-objc-bridge") || lib.name.contains("lwjgl")) {
+            if (lib.name == null || lib.name.equals("") || (isJava17 && (lib.name.contains("java-objc-bridge") || lib.name.contains("lwjgl")))) {
                 continue;
             }
             Log.e("boat",lib.name);
@@ -180,6 +181,108 @@ public class LaunchVersion {
         }
         cp = minecraftPath + cp;
         return cp;
+    }
+
+    public String[] getJVMArguments(GameLaunchSetting gameLaunchSetting) {
+        StringBuilder test = new StringBuilder();
+        if (arguments != null && arguments.jvm != null) {
+            Object[] jvmObjs = this.arguments.jvm;
+            for (Object obj : jvmObjs) {
+                if (obj instanceof String && !((String) obj).startsWith("-Djava.library.path") && !((String) obj).startsWith("-cp") && !((String) obj).startsWith("${classpath}")) {
+                    test.append(obj.toString()).append(" ");
+                }
+            }
+        }
+        else {
+            return new String[0];
+        }
+        String result = "";
+
+        int state = 0;
+        int start = 0;
+        int stop = 0;
+        for (int i = 0; i < test.length(); i++) {
+            if (state == 0) {
+                if (test.charAt(i) != '$') {
+                    result = result + test.charAt(i);
+
+                } else {
+                    if (i + 1 < test.length() && test.charAt(i + 1) == '{') {
+                        state = 1;
+                        start = i;
+                    } else {
+                        result = result + test.charAt(i);
+                    }
+                }
+                continue;
+            } else {
+                if (test.charAt(i) == '}') {
+                    stop = i;
+
+                    String key = test.substring(start + 2, stop);
+
+                    String value = "";
+
+                    if (key.equals("version_name")) {
+                        value = id;
+                    }
+                    else if (key.equals("launcher_name")) {
+                        value = "HMCL-PE";
+                    }
+                    else if (key.equals("launcher_version")) {
+                        value = "1.0.0";
+                    }
+                    else if (key.equals("version_type")) {
+                        value = type;
+                    }
+                    else if (key.equals("assets_index_name")) {
+                        if (assetIndex != null) {
+                            value = assetIndex.id;
+                        }
+                        else {
+                            value = assets;
+                        }
+                    }
+                    else if (key.equals("game_directory")) {
+                        value = gameLaunchSetting.game_directory;
+                    }
+                    else if (key.equals("assets_root")) {
+                        value = gameLaunchSetting.gameFileDirectory + "/assets";
+                    }
+                    else if (key.equals("user_properties")) {
+                        value = "{}";
+                    }
+                    else if (key.equals("auth_player_name")) {
+                        value = gameLaunchSetting.account.auth_player_name;
+                    }
+                    else if (key.equals("auth_session")) {
+                        value = gameLaunchSetting.account.auth_session;
+                    }
+                    else if (key.equals("auth_uuid")) {
+                        value = gameLaunchSetting.account.auth_uuid;
+                    }
+                    else if (key.equals("auth_access_token")) {
+                        value = gameLaunchSetting.account.auth_access_token;
+                    }
+                    else if (key.equals("primary_jar_name")) {
+                        value = new File(gameLaunchSetting.currentVersion).getName() + ".jar";
+                    }
+                    else if (key.equals("library_directory")) {
+                        value = gameLaunchSetting.gameFileDirectory + "/libraries";
+                    }
+                    else if (key.equals("classpath_separator")) {
+                        value = ":";
+                    }
+                    else {
+                        value = "";
+                    }
+                    result = result + value;
+                    i = stop;
+                    state = 0;
+                }
+            }
+        }
+        return result.split(" ");
     }
 
     public String[] getMinecraftArguments(GameLaunchSetting gameLaunchSetting, boolean isHighVer) {
@@ -225,6 +328,12 @@ public class LaunchVersion {
                     if (key.equals("version_name")) {
                         value = id;
                     }
+                    else if (key.equals("launcher_name")) {
+                        value = "HMCL-PE";
+                    }
+                    else if (key.equals("launcher_version")) {
+                        value = "1.0.0";
+                    }
                     else if (key.equals("version_type")) {
                         value = type;
                     }
@@ -256,6 +365,15 @@ public class LaunchVersion {
                     }
                     else if (key.equals("auth_access_token")) {
                         value = gameLaunchSetting.account.auth_access_token;
+                    }
+                    else if (key.equals("primary_jar_name")) {
+                        value = new File(gameLaunchSetting.currentVersion).getName() + ".jar";
+                    }
+                    else if (key.equals("library_directory")) {
+                        value = gameLaunchSetting.gameFileDirectory + "/libraries";
+                    }
+                    else if (key.equals("classpath_separator")) {
+                        value = ":";
                     }
                     else {
                         value = "";

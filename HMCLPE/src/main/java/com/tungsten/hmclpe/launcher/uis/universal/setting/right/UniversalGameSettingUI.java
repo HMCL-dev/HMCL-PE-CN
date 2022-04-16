@@ -814,7 +814,7 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
                     activity.privateGameSetting.controlLayout = pattern;
                     GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
                 }
-            });
+            },false);
             controllerManagerDialog.show();
         }
     }

@@ -352,7 +352,7 @@
     <string name="game_setting_ui_game_launcher">游戏启动方式</string>
     <string name="game_setting_ui_game_launcher_boat" translatable="false">Boat</string>
     <string name="game_setting_ui_game_launcher_pojav" translatable="false">PojavLauncher</string>
-    <string name="game_setting_ui_game_launcher_hint">Boat 启动器暂时未支持1.13，1.14，1.17及更新的版本。</string>
+    <string name="game_setting_ui_game_launcher_hint">推荐使用 Boat 启动器。</string>
     <string name="game_setting_ui_boat_renderer">Boat 渲染方式</string>
     <string name="game_setting_ui_boat_renderer_gl4es_112" translatable="false">GL4ES-1.1.2 (OpenGL 2.0)</string>
     <string name="game_setting_ui_boat_renderer_gl4es_115" translatable="false">GL4ES-1.1.5 (OpenGL 2.1)</string>

@@ -1,6 +1,8 @@
 package com.tungsten.hmclpe.launcher.setting.game.child;
 
-public class JavaSetting {
+import androidx.annotation.NonNull;
+
+public class JavaSetting implements Cloneable{
 
     public boolean autoSelect;
     public String name;
@@ -10,4 +12,9 @@ public class JavaSetting {
         this.name = name;
     }
 
+    @NonNull
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }
