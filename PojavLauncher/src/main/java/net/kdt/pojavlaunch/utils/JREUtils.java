@@ -170,9 +170,9 @@ public class JREUtils {
         // On certain GLES drivers, overloading default functions shader hack fails, so disable it
         envMap.put("LIBGL_NOINTOVLHACK", "1");
 
-        envMap.put("LIBGL_SHRINK","0");
+        //envMap.put("LIBGL_SHRINK","0");
 
-        envMap.put("LIBGL_USEVBO","0");
+        //envMap.put("LIBGL_USEVBO","0");
 
         // Fix white color on banner and sheep, since GL4ES 1.1.5
         envMap.put("LIBGL_NORMALIZE", "1");

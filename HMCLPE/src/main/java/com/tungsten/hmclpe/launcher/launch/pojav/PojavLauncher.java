@@ -42,7 +42,7 @@ public class PojavLauncher {
             args.add("-Dpojav.path.minecraft=" + gameLaunchSetting.gameFileDirectory);
             args.addAll(JREUtils.getJavaArgs(context));
             args.add("-Dnet.minecraft.clientmodname=" + AppInfo.APP_NAME);
-            //args.add("-Dfml.earlyprogresswindow=false");
+            args.add("-Dfml.earlyprogresswindow=false");
             String[] JVMArgs;
             JVMArgs = version.getJVMArguments(gameLaunchSetting);
             for (int i = 0;i < JVMArgs.length;i++) {

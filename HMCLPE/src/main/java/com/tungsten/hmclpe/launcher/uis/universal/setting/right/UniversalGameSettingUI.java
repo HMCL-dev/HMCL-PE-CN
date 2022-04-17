@@ -828,7 +828,8 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             editRam.setText(progress + "");
         }
         if (seekBar == scaleFactorSeekBar && fromUser){
-            activity.privateGameSetting.scaleFactor = (progress + 250.0F) / 1000F;
+            activity.privateGameSetting.scaleFactor =
+                    (progress + 250.0F) / 1000F;
             editScaleFactor.setText(((progress / 10) + 25) + "");
         }
         GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");

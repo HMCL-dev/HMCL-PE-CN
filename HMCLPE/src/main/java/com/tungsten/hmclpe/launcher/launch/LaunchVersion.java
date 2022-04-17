@@ -264,6 +264,9 @@ public class LaunchVersion {
                     else if (key.equals("auth_access_token")) {
                         value = gameLaunchSetting.account.auth_access_token;
                     }
+                    else if (key.equals("user_type")) {
+                        value = gameLaunchSetting.account.user_type;
+                    }
                     else if (key.equals("primary_jar_name")) {
                         value = new File(gameLaunchSetting.currentVersion).getName() + ".jar";
                     }
@@ -365,6 +368,9 @@ public class LaunchVersion {
                     }
                     else if (key.equals("auth_access_token")) {
                         value = gameLaunchSetting.account.auth_access_token;
+                    }
+                    else if (key.equals("user_type")) {
+                        value = gameLaunchSetting.account.user_type;
                     }
                     else if (key.equals("primary_jar_name")) {
                         value = new File(gameLaunchSetting.currentVersion).getName() + ".jar";
