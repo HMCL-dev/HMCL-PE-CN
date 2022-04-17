@@ -61,8 +61,8 @@ public class LanzouUrlGetTask extends AsyncTask<String, Integer, String> {
                     .get();
             Elements elements = doc.getElementsByClass("ifr2");
             for (Element element:elements){
-                url=url.substring(0,url.indexOf(".com")+4)+element.attr("src");
-                WebClient webClient=new WebClient(BrowserVersion.CHROME);
+                url = url.substring(0,url.indexOf(".com") + 4) + element.attr("src");
+                WebClient webClient = new WebClient(BrowserVersion.CHROME);
                 HtmlPage page;
                 page=webClient.getPage(url);
                 webClient.getOptions().setJavaScriptEnabled(true);
