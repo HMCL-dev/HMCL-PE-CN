@@ -35,10 +35,9 @@ public class LoadMe {
 			setenv("JAVA_HOME" , javaPath);
 			setenv("LIBGL_MIPMAP","3");
 			setenv("LIBGL_NORMALIZE","1");
-            setenv("LIBGL_GL","32");
-            setenv("LIBGL_SILENTSTUB","0");
-            setenv("LIBGL_COMMENTS","1");
-            setenv("LIBGL_LOGSHADERERROR","1");
+			if (highVersion) {
+                setenv("LIBGL_GL","32");
+            }
 
             // openjdk
             if (isJava17) {
