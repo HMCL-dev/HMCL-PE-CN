@@ -45,7 +45,6 @@ public class BoatLauncher {
             args.add("-Dfml.earlyprogresswindow=false");
             args.add("-Dorg.lwjgl.util.DebugLoader=true");
             args.add("-Dorg.lwjgl.util.Debug=true");
-            args.add("-Dorg.lwjgl.opengl.maxVersion=3.2");
             String[] JVMArgs;
             JVMArgs = version.getJVMArguments(gameLaunchSetting);
             for (int i = 0;i < JVMArgs.length;i++) {
@@ -56,7 +55,7 @@ public class BoatLauncher {
             Collections.addAll(args, JVMArgs);
             args.add("-Dos.name=Linux");
             args.add("-Dlwjgl.platform=Boat");
-            args.add("-Dorg.lwjgl.opengl.libname=libGL112.so.1");
+            args.add("-Dorg.lwjgl.opengl.libname=libGL.so.1");
             args.add("-Dlwjgl.platform=Boat");
             args.add("-Dos.name=Linux");
             args.add("-Djava.io.tmpdir=" + AppManifest.DEFAULT_CACHE_DIR);

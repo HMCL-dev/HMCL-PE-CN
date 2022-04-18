@@ -38,11 +38,22 @@ public class LoadMe {
 			if (highVersion) {
                 setenv("LIBGL_GL","32");
             }
-
+			setenv("LIBGL_VSYNC","1");
+			setenv("MESA_LOADER_DRIVER_OVERRIDE","virtio_gpu");
+            setenv("LIBGL_DRIVERS_PATH",BOAT_LIB_DIR + "/renderer/virgl/");
+//            setenv("REGAL_GL_VENDOR", "Android");
+//            setenv("REGAL_GL_RENDERER", "Regal");
+//            setenv("REGAL_GL_VERSION", "4.5");
+//            setenv("force_glsl_extensions_warn", "true");
+//            setenv("allow_higher_compat_version", "true");
+//            setenv("allow_glsl_extension_directive_midshader", "true");
+////            setenv("MESA_LOADER_DRIVER_OVERRIDE", "zink");
+            setenv("VIRGL_VTEST_SOCKET_NAME", BOAT_LIB_DIR + "/renderer/virgl/virgl_test_server");
+            setenv("GALLIUM_DRIVER","virpipe");
             // openjdk
             if (isJava17) {
-                setenv("LIBGL_ES","3");
-                setenv("LIBGL_SHADERCONVERTER", "1");
+//                setenv("LIBGL_ES","3");
+//                setenv("LIBGL_SHADERCONVERTER", "1");
 
                 dlopen(javaPath + "/lib/libpng16.so.16");
                 dlopen(javaPath + "/lib/libpng16.so");
@@ -77,8 +88,19 @@ public class LoadMe {
                 dlopen(javaPath + "/lib/aarch64/libfontmanager.so");
             }
             dlopen(BOAT_LIB_DIR + "/libopenal.so.1");
-            dlopen(BOAT_LIB_DIR + "/renderer/libGL112.so.1");
-            dlopen(BOAT_LIB_DIR + "/libEGL.so.1");
+//            dlopen(BOAT_LIB_DIR + "/renderer/libGL112.so.1");
+//            dlopen(BOAT_LIB_DIR + "/libEGL.so.1");
+            dlopen(BOAT_LIB_DIR + "/renderer/virgl/libexpat.so.1");
+            dlopen(BOAT_LIB_DIR + "/renderer/virgl/libepoxy.so.0");
+            dlopen(BOAT_LIB_DIR + "/renderer/virgl/libglapi.so.0");
+            dlopen(BOAT_LIB_DIR + "/renderer/virgl/libGLESv2.so.2");
+            dlopen(BOAT_LIB_DIR + "/renderer/virgl/libGLESv1_CM.so.1");
+            dlopen(BOAT_LIB_DIR + "/renderer/virgl/swrast_dri.so");
+            dlopen(BOAT_LIB_DIR + "/renderer/virgl/libvirglrenderer.so");
+            dlopen(BOAT_LIB_DIR + "/renderer/libGL.so.1");
+            dlopen(BOAT_LIB_DIR + "/renderer/virgl/libEGL.so.1");
+            dlopen(BOAT_LIB_DIR + "/renderer/virgl/virgl_test_server");
+
 
             if (!highVersion) {
                 dlopen(BOAT_LIB_DIR + "/lwjgl-2/liblwjgl.so");
