@@ -70,6 +70,7 @@ public class BoatMinecraftActivity extends BoatActivity {
                 MCOptionUtils.load(gameLaunchSetting.game_directory);
                 MCOptionUtils.set("overrideWidth", String.valueOf((int) (width * scaleFactor)));
                 MCOptionUtils.set("overrideHeight", String.valueOf((int) (height * scaleFactor)));
+                MCOptionUtils.set("fullscreen", "false");
                 MCOptionUtils.save(gameLaunchSetting.game_directory);
 
                 BoatActivity.setBoatNativeWindow(new Surface(surface));
