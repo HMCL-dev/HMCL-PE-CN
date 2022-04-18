@@ -1,7 +1,6 @@
 package com.tungsten.hmclpe.task;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.webkit.DownloadListener;
@@ -12,7 +11,6 @@ import android.webkit.WebViewClient;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.tungsten.hmclpe.launcher.MainActivity;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -28,6 +26,7 @@ public class LanzouUrlGetTask extends AsyncTask<String, Integer, String> {
 
     public interface Callback{
         void onStart();
+        void onError(Exception e);
         void onFinish(String url);
     }
 
@@ -125,6 +124,7 @@ public class LanzouUrlGetTask extends AsyncTask<String, Integer, String> {
         } catch (Exception e) {
             e.printStackTrace();
             Log.e("测试",e.toString());
+            activity.get().runOnUiThread(() -> callback.onError(e));
         }
         return null;
     }

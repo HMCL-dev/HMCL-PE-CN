@@ -126,12 +126,104 @@ public class InitializeSetting {
                 }
 
                 @Override
+                public void onError(Exception e) {
+                    new Thread(() -> {
+                        DownloadUtil.downloadSingleFile(activity, new DownloadTaskListBean("", AppInfo.JAVA_17_DOWNLOAD_URL_GITHUB, AppManifest.DEFAULT_CACHE_DIR + "/java/JRE17.zip"), new DownloadTask.Feedback() {
+                            @Override
+                            public void addTask(DownloadTaskListBean bean) {
+
+                            }
+
+                            @Override
+                            public void updateProgress(DownloadTaskListBean bean) {
+                                activity.runOnUiThread(() -> {
+                                    activity.loadingProgress.setProgress(bean.progress);
+                                });
+                            }
+
+                            @Override
+                            public void updateSpeed(String speed) {
+
+                            }
+
+                            @Override
+                            public void removeTask(DownloadTaskListBean bean) {
+
+                            }
+
+                            @Override
+                            public void onFinished(Map<String, String> failedFile) {
+                                if (failedFile.containsKey(AppInfo.JAVA_17_DOWNLOAD_URL_GITHUB)) {
+                                    activity.runOnUiThread(() -> {
+                                        activity.loadingText.setText(activity.getString(R.string.loading_hint_failed));
+                                        activity.loadingText.setTextColor(Color.RED);
+                                    });
+                                }
+                                else {
+                                    activity.runOnUiThread(() -> {
+                                        activity.loadingProgress.setProgress(0);
+                                        unZipJava(activity,"JRE17.zip");
+                                    });
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled() {
+
+                            }
+                        });
+                    }).start();
+                }
+
+                @Override
                 public void onFinish(String url) {
                     if (url == null){
-                        activity.runOnUiThread(() -> {
-                            activity.loadingText.setText(activity.getString(R.string.loading_hint_failed));
-                            activity.loadingText.setTextColor(Color.RED);
-                        });
+                        new Thread(() -> {
+                            DownloadUtil.downloadSingleFile(activity, new DownloadTaskListBean("", AppInfo.JAVA_17_DOWNLOAD_URL_GITHUB, AppManifest.DEFAULT_CACHE_DIR + "/java/JRE17.zip"), new DownloadTask.Feedback() {
+                                @Override
+                                public void addTask(DownloadTaskListBean bean) {
+
+                                }
+
+                                @Override
+                                public void updateProgress(DownloadTaskListBean bean) {
+                                    activity.runOnUiThread(() -> {
+                                        activity.loadingProgress.setProgress(bean.progress);
+                                    });
+                                }
+
+                                @Override
+                                public void updateSpeed(String speed) {
+
+                                }
+
+                                @Override
+                                public void removeTask(DownloadTaskListBean bean) {
+
+                                }
+
+                                @Override
+                                public void onFinished(Map<String, String> failedFile) {
+                                    if (failedFile.containsKey(AppInfo.JAVA_17_DOWNLOAD_URL_GITHUB)) {
+                                        activity.runOnUiThread(() -> {
+                                            activity.loadingText.setText(activity.getString(R.string.loading_hint_failed));
+                                            activity.loadingText.setTextColor(Color.RED);
+                                        });
+                                    }
+                                    else {
+                                        activity.runOnUiThread(() -> {
+                                            activity.loadingProgress.setProgress(0);
+                                            unZipJava(activity,"JRE17.zip");
+                                        });
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled() {
+
+                                }
+                            });
+                        }).start();
                     }
                     else {
                         new Thread(() -> {
