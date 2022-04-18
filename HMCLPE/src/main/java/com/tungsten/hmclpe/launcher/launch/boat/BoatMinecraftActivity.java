@@ -1,6 +1,7 @@
 package com.tungsten.hmclpe.launcher.launch.boat;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
@@ -123,5 +124,12 @@ public class BoatMinecraftActivity extends BoatActivity {
             }
         }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Intent virGLService = new Intent(this, VirGLService.class);
+        stopService(virGLService);
     }
 }

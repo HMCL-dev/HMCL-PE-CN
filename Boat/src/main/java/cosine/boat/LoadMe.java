@@ -35,22 +35,27 @@ public class LoadMe {
 			setenv("JAVA_HOME" , javaPath);
 			setenv("LIBGL_MIPMAP","3");
 			setenv("LIBGL_NORMALIZE","1");
-			if (highVersion) {
-                setenv("LIBGL_GL","32");
+
+			if (renderer.equals("VirGL")) {
+                setenv("LIBGL_DRIVERS_PATH",BOAT_LIB_DIR + "/renderer/virgl/");
+                setenv("MESA_GL_VERSION_OVERRIDE","4.3");
+                setenv("MESA_GLSL_VERSION_OVERRIDE","430");
+                setenv("VIRGL_VTEST_SOCKET_NAME", context.getCacheDir().getAbsolutePath() + "/.virgl_test");
+                setenv("GALLIUM_DRIVER","virpipe");
+                setenv("MESA_GLSL_CACHE_DIR",context.getCacheDir().getAbsolutePath());
             }
-			//setenv("LIBGL_VSYNC","1");
-			//setenv("MESA_LOADER_DRIVER_OVERRIDE","virtio_gpu");
-            setenv("LIBGL_DRIVERS_PATH",BOAT_LIB_DIR + "/renderer/virgl/");
-			setenv("MESA_GL_VERSION_OVERRIDE","3.2");
-			setenv("MESA_GLSL_VERSION_OVERRIDE","150");
-            setenv("VIRGL_VTEST_SOCKET_NAME", context.getCacheDir().getAbsolutePath() + "/.virgl_test");
-            setenv("GALLIUM_DRIVER","virpipe");
-            setenv("MESA_GLSL_CACHE_DIR",context.getCacheDir().getAbsolutePath());
+			else {
+                if (highVersion) {
+                    setenv("LIBGL_GL","32");
+                }
+            }
 
             // openjdk
             if (isJava17) {
-//                setenv("LIBGL_ES","3");
-//                setenv("LIBGL_SHADERCONVERTER", "1");
+                if (!renderer.equals("VirGL")) {
+                    setenv("LIBGL_ES","3");
+                    setenv("LIBGL_SHADERCONVERTER", "1");
+                }
 
                 dlopen(javaPath + "/lib/libpng16.so.16");
                 dlopen(javaPath + "/lib/libpng16.so");
@@ -66,8 +71,10 @@ public class LoadMe {
                 dlopen(javaPath + "/lib/libinstrument.so");
                 dlopen(javaPath + "/lib/libfontmanager.so");
 
-                dlopen(BOAT_LIB_DIR + "/libglslang.so.11");
-                dlopen(BOAT_LIB_DIR + "/libglslconv.so");
+                if (!renderer.equals("VirGL")) {
+                    dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libglslang.so.11");
+                    dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libglslconv.so");
+                }
             }
             else {
                 dlopen(javaPath + "/lib/aarch64/libpng16.so.16");
@@ -85,17 +92,18 @@ public class LoadMe {
                 dlopen(javaPath + "/lib/aarch64/libfontmanager.so");
             }
             dlopen(BOAT_LIB_DIR + "/libopenal.so.1");
-//            dlopen(BOAT_LIB_DIR + "/renderer/libGL112.so.1");
-//            dlopen(BOAT_LIB_DIR + "/libEGL.so.1");
-            dlopen(BOAT_LIB_DIR + "/renderer/virgl/libexpat.so.1");
-            dlopen(BOAT_LIB_DIR + "/renderer/virgl/libglapi.so.0");
-            //dlopen(BOAT_LIB_DIR + "/renderer/virgl/libGLESv2.so.2");
-            //dlopen(BOAT_LIB_DIR + "/renderer/virgl/libGLESv1_CM.so.1");
-            dlopen(BOAT_LIB_DIR + "/renderer/libGL.so.1");
-            dlopen(BOAT_LIB_DIR + "/renderer/virgl/libEGL.so.1");
-            dlopen(BOAT_LIB_DIR + "/renderer/virgl/swrast_dri.so");
-            //dlopen(BOAT_LIB_DIR + "/renderer/virgl/virgl_test_server");
 
+            if (!renderer.equals("VirGL")) {
+                dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libGL.so.1");
+                dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libEGL.so.1");
+            }
+            else {
+                dlopen(BOAT_LIB_DIR + "/renderer/virgl/libexpat.so.1");
+                dlopen(BOAT_LIB_DIR + "/renderer/virgl/libglapi.so.0");
+                dlopen(BOAT_LIB_DIR + "/renderer/virgl/libGL.so.1");
+                dlopen(BOAT_LIB_DIR + "/renderer/virgl/libEGL.so.1");
+                dlopen(BOAT_LIB_DIR + "/renderer/virgl/swrast_dri.so");
+            }
 
             if (!highVersion) {
                 dlopen(BOAT_LIB_DIR + "/lwjgl-2/liblwjgl.so");

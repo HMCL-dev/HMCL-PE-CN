@@ -986,7 +986,6 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/game_setting_ui_boat_renderer_gl4es_112"
                             android:textSize="@dimen/text_size_middle"
                             android:id="@+id/current_boat_renderer"
                             android:layout_weight="1"/>
@@ -1013,26 +1012,6 @@
 
                     <RadioButton
                         android:tag="tint_accent_color"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/game_setting_ui_boat_renderer_gl4es_112"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:id="@+id/boat_renderer_gl4es_112"/>
-
-                    <RadioButton
-                        android:layout_marginStart="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/game_setting_ui_boat_renderer_gl4es_114"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:id="@+id/boat_renderer_gl4es_114"/>
-
-                    <RadioButton
-                        android:tag="tint_accent_color"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -1045,10 +1024,10 @@
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/game_setting_ui_boat_renderer_vgpu"
+                        android:text="@string/game_setting_ui_boat_renderer_virgl"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"
-                        android:id="@+id/boat_renderer_vgpu"/>
+                        android:id="@+id/boat_renderer_virgl"/>
 
                 </LinearLayout>
 

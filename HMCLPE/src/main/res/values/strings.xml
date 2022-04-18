@@ -354,10 +354,8 @@
     <string name="game_setting_ui_game_launcher_pojav" translatable="false">PojavLauncher</string>
     <string name="game_setting_ui_game_launcher_hint">推荐使用 Boat 启动器。</string>
     <string name="game_setting_ui_boat_renderer">Boat 渲染方式</string>
-    <string name="game_setting_ui_boat_renderer_gl4es_112" translatable="false">GL4ES-1.1.2 (OpenGL 2.0)</string>
     <string name="game_setting_ui_boat_renderer_gl4es_115" translatable="false">GL4ES-1.1.5 (OpenGL 2.1)</string>
-    <string name="game_setting_ui_boat_renderer_gl4es_114" translatable="false">GL4ES-1.1.4 (OpenGL 2.0)</string>
-    <string name="game_setting_ui_boat_renderer_vgpu" translatable="false">VGPU (OpenGL 3.0)</string>
+    <string name="game_setting_ui_boat_renderer_virgl" translatable="false">VirGLRenderer (OpenGL 4.3)</string>
     <string name="game_setting_ui_pojav_renderer">PojavLauncher 渲染方式</string>
     <string name="game_setting_ui_pojav_renderer_gl4es_114" translatable="false">GL4ES-1.1.4 (OpenGL 2.1)</string>
     <string name="game_setting_ui_pojav_renderer_gl4es_115" translatable="false">GL4ES-1.1.5 (OpenGL 2.1)</string>
