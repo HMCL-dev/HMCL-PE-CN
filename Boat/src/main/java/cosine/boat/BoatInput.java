@@ -7,6 +7,7 @@ public class BoatInput{
 	public static final int ButtonPress           = 4;
 	public static final int ButtonRelease	      = 5;
 	public static final int MotionNotify          = 6;
+	public static final int ConfigureNotify       = 22;
 
 	public static final int Button1               = 1;
 	public static final int Button2               = 2;
@@ -47,10 +48,10 @@ public class BoatInput{
 	public static void pushEventKey(int keyCode, int keyChar, boolean press) {
 		BoatInput.pushEvent(System.nanoTime(), press ? KeyPress : KeyRelease, keyCode, keyChar);
 	}
-	/*
 	public static void pushEventWindow(int width, int height) {
 		BoatInput.pushEvent(System.nanoTime(), ConfigureNotify, width, height);
 	}
+	/*
 	public static void pushEventMessage(int msg) {
 		BoatInput.pushEvent(System.nanoTime(), BoatMessage, msg, 0);
 	}
