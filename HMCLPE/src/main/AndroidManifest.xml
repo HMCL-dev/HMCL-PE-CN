@@ -20,6 +20,8 @@
         android:name="android.permission.VIBRATE"/>
     <uses-permission
         android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -92,6 +94,11 @@
             android:screenOrientation="sensorLandscape"
             android:name="net.kdt.pojavlaunch.ExitActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"/>
+        <service
+            android:name="cosine.boat.BoatService"
+            android:process=":virglprocess"
+            android:enabled="true"
+            android:exported="true" />
         <service
             android:name=".launcher.download.optifine.InstallOptifineService"
             android:process=":installOptifineService"

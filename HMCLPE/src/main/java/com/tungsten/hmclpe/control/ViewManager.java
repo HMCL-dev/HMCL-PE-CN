@@ -289,7 +289,7 @@ public class ViewManager implements SensorEventListener {
                 angle[1] += sensorEvent.values[1] * dT;
                 float angleX = (float) Math.toDegrees(angle[0]);
                 float angleY = (float) Math.toDegrees(angle[1]);
-                InputBridge.setPointer(launcher,(int) (currentX + angleX * menuHelper.gameMenuSetting.sensitivity),(int) (currentY + angleY * menuHelper.gameMenuSetting.sensitivity));
+                InputBridge.setPointer(launcher,(int) (currentX - angleX * menuHelper.gameMenuSetting.sensitivity),(int) (currentY + angleY * menuHelper.gameMenuSetting.sensitivity));
             }
             timestamp = sensorEvent.timestamp;
         }

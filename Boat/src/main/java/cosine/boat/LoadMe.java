@@ -38,18 +38,15 @@ public class LoadMe {
 			if (highVersion) {
                 setenv("LIBGL_GL","32");
             }
-			setenv("LIBGL_VSYNC","1");
-			setenv("MESA_LOADER_DRIVER_OVERRIDE","virtio_gpu");
+			//setenv("LIBGL_VSYNC","1");
+			//setenv("MESA_LOADER_DRIVER_OVERRIDE","virtio_gpu");
             setenv("LIBGL_DRIVERS_PATH",BOAT_LIB_DIR + "/renderer/virgl/");
-//            setenv("REGAL_GL_VENDOR", "Android");
-//            setenv("REGAL_GL_RENDERER", "Regal");
-//            setenv("REGAL_GL_VERSION", "4.5");
-//            setenv("force_glsl_extensions_warn", "true");
-//            setenv("allow_higher_compat_version", "true");
-//            setenv("allow_glsl_extension_directive_midshader", "true");
-////            setenv("MESA_LOADER_DRIVER_OVERRIDE", "zink");
-            setenv("VIRGL_VTEST_SOCKET_NAME", BOAT_LIB_DIR + "/renderer/virgl/virgl_test_server");
+			setenv("MESA_GL_VERSION_OVERRIDE","3.2");
+			setenv("MESA_GLSL_VERSION_OVERRIDE","150");
+            setenv("VIRGL_VTEST_SOCKET_NAME", context.getCacheDir().getAbsolutePath() + "/.virgl_test");
             setenv("GALLIUM_DRIVER","virpipe");
+            setenv("MESA_GLSL_CACHE_DIR",context.getCacheDir().getAbsolutePath());
+
             // openjdk
             if (isJava17) {
 //                setenv("LIBGL_ES","3");
@@ -91,15 +88,13 @@ public class LoadMe {
 //            dlopen(BOAT_LIB_DIR + "/renderer/libGL112.so.1");
 //            dlopen(BOAT_LIB_DIR + "/libEGL.so.1");
             dlopen(BOAT_LIB_DIR + "/renderer/virgl/libexpat.so.1");
-            dlopen(BOAT_LIB_DIR + "/renderer/virgl/libepoxy.so.0");
             dlopen(BOAT_LIB_DIR + "/renderer/virgl/libglapi.so.0");
-            dlopen(BOAT_LIB_DIR + "/renderer/virgl/libGLESv2.so.2");
-            dlopen(BOAT_LIB_DIR + "/renderer/virgl/libGLESv1_CM.so.1");
-            dlopen(BOAT_LIB_DIR + "/renderer/virgl/swrast_dri.so");
-            dlopen(BOAT_LIB_DIR + "/renderer/virgl/libvirglrenderer.so");
+            //dlopen(BOAT_LIB_DIR + "/renderer/virgl/libGLESv2.so.2");
+            //dlopen(BOAT_LIB_DIR + "/renderer/virgl/libGLESv1_CM.so.1");
             dlopen(BOAT_LIB_DIR + "/renderer/libGL.so.1");
             dlopen(BOAT_LIB_DIR + "/renderer/virgl/libEGL.so.1");
-            dlopen(BOAT_LIB_DIR + "/renderer/virgl/virgl_test_server");
+            dlopen(BOAT_LIB_DIR + "/renderer/virgl/swrast_dri.so");
+            //dlopen(BOAT_LIB_DIR + "/renderer/virgl/virgl_test_server");
 
 
             if (!highVersion) {
@@ -132,6 +127,37 @@ public class LoadMe {
 		return 0;
     }
 
+    public static int startVirGLService (Context context,String home,String tmpdir) {
+
+        BOAT_LIB_DIR = context.getDir("runtime",0).getAbsolutePath() + "/boat";
+
+        patchLinker();
+
+        try {
+            redirectStdio(home + "/boat_service_log.txt");
+
+            setenv("HOME", home);
+            setenv("TMPDIR", tmpdir);
+            setenv("VIRGL_VTEST_SOCKET_NAME",context.getCacheDir().getAbsolutePath() + "/.virgl_test");
+
+            dlopen(BOAT_LIB_DIR + "/renderer/virgl/libepoxy.so.0");
+            dlopen(BOAT_LIB_DIR + "/renderer/virgl/libvirglrenderer.so");
+
+            chdir(home);
+            String[] finalArgs = new String[]{BOAT_LIB_DIR + "/renderer/virgl/libvirgl_test_server.so",
+                    "--no-loop-or-fork",
+                    "--use-gles",
+                    "--socket-name",
+                    context.getCacheDir().getAbsolutePath() + "/.virgl_test"};
+            System.out.println("Exited with code : " + dlexec(finalArgs));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return 1;
+        }
+        return 0;
+    }
+
     public static int launchJVM (String javaPath,Vector<String> args,String home) {
 
         patchLinker();
@@ -150,8 +176,6 @@ public class LoadMe {
             dlopen(javaPath + "/lib/aarch64/libawt.so");
             dlopen(javaPath + "/lib/aarch64/libawt_headless.so");
             dlopen(javaPath + "/lib/aarch64/libfontmanager.so");
-
-            String libraryPath = javaPath + "/lib/jli:" + javaPath + "/lib/aarch64";
 
             redirectStdio(home + "/boat_api_installer_log.txt");
             chdir(home);

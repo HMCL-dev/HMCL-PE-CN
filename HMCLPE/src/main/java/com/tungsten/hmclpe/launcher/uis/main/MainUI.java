@@ -34,6 +34,8 @@ import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
 import java.util.ArrayList;
 
+import cosine.boat.BoatService;
+
 public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     public LinearLayout mainUI;
@@ -207,8 +209,10 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         }
         if (v == startGame){
             Intent intent;
+            Intent virGLService = new Intent(context, BoatService.class);
             if (activity.privateGameSetting.boatLauncherSetting.enable){
                 intent = new Intent(context, BoatMinecraftActivity.class);
+                context.startService(virGLService);
             }
             else {
                 intent = new Intent(context, PojavMinecraftActivity.class);
