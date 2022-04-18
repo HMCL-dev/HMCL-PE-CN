@@ -20,6 +20,8 @@ import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.control.view.LayoutPanel;
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
 
+import net.kdt.pojavlaunch.utils.MCOptionUtils;
+
 import cosine.boat.BoatActivity;
 import cosine.boat.BoatInput;
 import cosine.boat.keyboard.BoatKeycodes;
@@ -64,6 +66,12 @@ public class BoatMinecraftActivity extends BoatActivity {
             @Override
             public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
                 surface.setDefaultBufferSize((int) (width * scaleFactor), (int) (height * scaleFactor));
+
+                MCOptionUtils.load(gameLaunchSetting.game_directory);
+                MCOptionUtils.set("overrideWidth", String.valueOf((int) (width * scaleFactor)));
+                MCOptionUtils.set("overrideHeight", String.valueOf((int) (height * scaleFactor)));
+                MCOptionUtils.save(gameLaunchSetting.game_directory);
+
                 BoatActivity.setBoatNativeWindow(new Surface(surface));
                 BoatInput.setEventPipe();
                 startGame(gameLaunchSetting.javaPath,
