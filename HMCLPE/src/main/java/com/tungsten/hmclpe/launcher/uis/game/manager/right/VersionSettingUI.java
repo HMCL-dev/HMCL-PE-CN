@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.tungsten.filepicker.Constants;
+import com.tungsten.filepicker.FileChooser;
 import com.tungsten.filepicker.FolderChooser;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.ControlPatternActivity;
@@ -36,6 +38,8 @@ import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.animation.HiddenAnimationUtils;
+import com.tungsten.hmclpe.utils.file.DrawableUtils;
+import com.tungsten.hmclpe.utils.file.FileUtils;
 import com.tungsten.hmclpe.utils.file.UriUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 import com.tungsten.hmclpe.utils.platform.MemoryUtils;
@@ -48,6 +52,7 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
     public LinearLayout versionSettingUI;
 
     public static final int PICK_GAME_DIR_REQUEST_ISOLATED = 7300;
+    public static final int SELECT_ICON_REQUEST = 8600;
 
     public String versionName;
 
@@ -202,9 +207,9 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
         editGameDir = activity.findViewById(R.id.edit_game_dir_path_isolate);
         selectGameDir = activity.findViewById(R.id.select_game_dir_path_isolate);
 
-        checkControlTypeTouch = activity.findViewById(R.id.control_type_touch);
-        checkControlTypeKeyboard = activity.findViewById(R.id.control_type_keyboard);
-        checkControlTypeHandle = activity.findViewById(R.id.control_type_handle);
+        checkControlTypeTouch = activity.findViewById(R.id.control_type_touch_isolate);
+        checkControlTypeKeyboard = activity.findViewById(R.id.control_type_keyboard_isolate);
+        checkControlTypeHandle = activity.findViewById(R.id.control_type_handle_isolate);
 
         launchByBoat = activity.findViewById(R.id.launch_by_boat_isolate);
         launchByPojav = activity.findViewById(R.id.launch_by_pojav_isolate);
@@ -468,12 +473,24 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
         if (requestCode == ControllerManagerDialog.IMPORT_PATTERN_REQUEST_CODE_ISOLATED && controllerManagerDialog != null && data != null){
             controllerManagerDialog.onResult(requestCode,resultCode,data);
         }
+        if (requestCode == SELECT_ICON_REQUEST && data != null) {
+            if (resultCode == RESULT_OK) {
+                Uri uri = data.getData();
+                String path = UriUtils.getRealPathFromUri_AboveApi19(context,uri);
+                new Thread(() -> {
+                    FileUtils.copyFile(path,activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/icon.png");
+                    activity.runOnUiThread(() -> {
+                        icon.setBackground(DrawableUtils.getDrawableFromFile(activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/icon.png"));
+                    });
+                }).start();
+            }
+        }
     }
 
     public void refresh(String versionName){
         this.versionName = versionName;
         String settingPath = activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/hmclpe.cfg";
-        if (new File(settingPath).exists() && (GsonUtils.getPrivateGameSettingFromFile(settingPath).forceEnable || GsonUtils.getPrivateGameSettingFromFile(settingPath).enable)) {
+        if (new File(settingPath).exists() && GsonUtils.getPrivateGameSettingFromFile(settingPath) != null && (GsonUtils.getPrivateGameSettingFromFile(settingPath).forceEnable || GsonUtils.getPrivateGameSettingFromFile(settingPath).enable)) {
             checkIsolateSetting.setChecked(true);
             enableSettingLayout();
             privateGameSetting = GsonUtils.getPrivateGameSettingFromFile(settingPath);
@@ -504,8 +521,15 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
         Log.e("disable","true");
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
     private void onRefresh() {
+        if (new File(activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/icon.png").exists()) {
+            icon.setBackground(DrawableUtils.getDrawableFromFile(activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/icon.png"));
+        }
+        else {
+            icon.setBackground(context.getDrawable(R.drawable.ic_furnace));
+        }
+
         PrivateGameSetting setting = privateGameSetting == null ? activity.privateGameSetting : privateGameSetting;
         checkAutoRam.setChecked(setting.ramSetting.autoRam);
         ramProgressBar.setProgress(MemoryUtils.getTotalDeviceMemory(context) - MemoryUtils.getFreeDeviceMemory(context));
@@ -657,14 +681,21 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
         return list;
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
     @Override
     public void onClick(View v) {
         if (v == editVersionIcon) {
-
+            Intent intent = new Intent(context, FileChooser.class);
+            intent.putExtra(Constants.SELECTION_MODE, Constants.SELECTION_MODES.SINGLE_SELECTION.ordinal());
+            intent.putExtra(Constants.ALLOWED_FILE_EXTENSIONS, "png;jpg");
+            intent.putExtra(Constants.INITIAL_DIRECTORY, Environment.getExternalStorageDirectory().getAbsolutePath());
+            activity.startActivityForResult(intent, SELECT_ICON_REQUEST);
         }
         if (v == deleteVersionIcon) {
-
+            if (new File(activity.publicGameSetting.currentVersion + "/icon.png").exists()) {
+                new File(activity.publicGameSetting.currentVersion + "/icon.png").delete();
+            }
+            icon.setBackground(context.getDrawable(R.drawable.ic_furnace));
         }
         if (v == switchToGlobalSetting) {
             activity.uiManager.switchMainUI(activity.uiManager.settingUI);
@@ -853,23 +884,34 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         if (compoundButton == checkIsolateSetting) {
             String settingPath = activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/hmclpe.cfg";
+            Log.e("privateSettingPath",settingPath);
             if (b) {
                 enableSettingLayout();
-                if (!new File(settingPath).exists()) {
-                    GsonUtils.savePrivateGameSetting(activity.privateGameSetting,settingPath);
+                if (!new File(settingPath).exists() || GsonUtils.getPrivateGameSettingFromFile(settingPath) == null) {
+                    if (GsonUtils.getPrivateGameSettingFromFile(settingPath) == null) {
+                        Log.e("setting","null");
+                    }
+                    try {
+                        privateGameSetting = (PrivateGameSetting) activity.privateGameSetting.clone();
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    }
                 }
-                privateGameSetting = GsonUtils.getPrivateGameSettingFromFile(settingPath);
+                else {
+                    Log.e("setting","exist");
+                    privateGameSetting = GsonUtils.getPrivateGameSettingFromFile(settingPath);
+                }
                 privateGameSetting.enable = true;
                 GsonUtils.savePrivateGameSetting(privateGameSetting,settingPath);
             }
             else {
                 disableSettingLayout();
-                if (new File(settingPath).exists()) {
+                if (new File(settingPath).exists() && GsonUtils.getPrivateGameSettingFromFile(settingPath) != null) {
                     privateGameSetting = GsonUtils.getPrivateGameSettingFromFile(settingPath);
                     privateGameSetting.enable = false;
                     GsonUtils.savePrivateGameSetting(privateGameSetting,settingPath);
                 }
-                privateGameSetting = null;
+                //privateGameSetting = null;
             }
             onRefresh();
         }
@@ -896,12 +938,12 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
     @SuppressLint("SetTextI18n")
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        if (seekBar == ramSeekBar && b){
+        if (seekBar == ramSeekBar && b && privateGameSetting != null){
             privateGameSetting.ramSetting.minRam = i;
             privateGameSetting.ramSetting.maxRam = i;
             editRam.setText(i + "");
         }
-        if (seekBar == scaleFactorSeekBar && b){
+        if (seekBar == scaleFactorSeekBar && b && privateGameSetting != null){
             privateGameSetting.scaleFactor = (i + 250.0F) / 1000F;
             editScaleFactor.setText(((i / 10) + 25) + "");
         }

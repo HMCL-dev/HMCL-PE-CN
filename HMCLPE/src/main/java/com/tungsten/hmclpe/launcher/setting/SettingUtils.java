@@ -3,15 +3,18 @@ package com.tungsten.hmclpe.launcher.setting;
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.control.bean.button.ButtonStyle;
 import com.tungsten.hmclpe.control.bean.rocker.RockerStyle;
+import com.tungsten.hmclpe.launcher.game.Argument;
+import com.tungsten.hmclpe.launcher.game.Artifact;
+import com.tungsten.hmclpe.launcher.game.RuledArgument;
+import com.tungsten.hmclpe.launcher.game.Version;
 import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
 import com.tungsten.hmclpe.launcher.list.local.controller.ControlPattern;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
 import com.tungsten.hmclpe.launcher.list.local.java.JavaListBean;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.tungsten.hmclpe.utils.gson.JsonUtils;
+import com.tungsten.hmclpe.utils.platform.Bits;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,27 +30,47 @@ public class SettingUtils {
         String[] string = new File(path + "/versions/").list();
         if (new File(path + "/versions/").exists()){
             for (String str : string){
-                GameListBean bean = new GameListBean("","","",false);
-                bean.name = str;
-                if (new File(path + "/versions/" + str + "/icon.png").exists()){
-                    bean.iconPath = path + "/versions/" + str + "/icon.png";
-                }
-                if (new File(path + "/versions/" + str +"/" + str + ".json").exists()){
-                    String gameJsonText = FileStringUtils.getStringFromFile(path + "/versions/" + str +"/" + str + ".json");
-                    try {
-                        JSONObject object = new JSONObject(gameJsonText);
-                        bean.version = "unknown";
-                        bean.version = object.getString("id");
-                        bean.version = object.getString("inheritsFrom");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                if (new File(path + "/versions/" + str + "/" + str + ".json").exists()) {
+                    GameListBean bean = new GameListBean("","","",false);
+                    bean.name = str;
+                    if (new File(path + "/versions/" + str + "/icon.png").exists()){
+                        bean.iconPath = path + "/versions/" + str + "/icon.png";
                     }
+                    String gameJsonText = FileStringUtils.getStringFromFile(path + "/versions/" + str +"/" + str + ".json");
+                    Gson gson = JsonUtils.defaultGsonBuilder()
+                            .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
+                            .registerTypeAdapter(Bits.class, new Bits.Serializer())
+                            .registerTypeAdapter(RuledArgument.class, new RuledArgument.Serializer())
+                            .registerTypeAdapter(Argument.class, new Argument.Deserializer())
+                            .create();
+                    Version version = gson.fromJson(gameJsonText, Version.class);
+                    if (version.getPatches() != null) {
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (Version p : version.getPatches()) {
+                            if (p.getId().equals("game")) {
+                                stringBuilder.append(p.getVersion());
+                            }
+                            else if (p.getId().equals("forge")) {
+                                stringBuilder.append(", Forge: " + p.getVersion());
+                            }
+                            else if (p.getId().equals("optifine")) {
+                                stringBuilder.append(", OptiFine: " + p.getVersion());
+                            }
+                            else if (p.getId().equals("fabric")) {
+                                stringBuilder.append(", Fabric: " + p.getVersion());
+                            }
+                            else if (p.getId().equals("liteloader")) {
+                                stringBuilder.append(", LiteLoader: " + p.getVersion());
+                            }
+                        }
+                        bean.version = stringBuilder.toString();
+                    }
+                    else {
+                        bean.version = version.getId();
+                    }
+                    bean.isSelected = currentVersion.equals(bean.name);
+                    list.add(bean);
                 }
-                else {
-                    bean.version = "unknown";
-                }
-                bean.isSelected = currentVersion.equals(bean.name);
-                list.add(bean);
             }
         }
         return list;

@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.utils.network;
+package com.tungsten.hmclpe.utils.io;
 
 import java.util.Timer;
 import java.util.TimerTask;

@@ -1,8 +1,7 @@
-package com.tungsten.hmclpe.utils.resources;
+package com.tungsten.hmclpe.utils.file;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 

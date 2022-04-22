@@ -154,6 +154,22 @@
     <string name="dialog_rename_version_confirm">确定</string>
     <string name="dialog_rename_version_cancel">取消</string>
     <string name="dialog_rename_version_alert">名字不合法</string>
+
+    <string name="dialog_copy_version_title">请输入新游戏实例名称</string>
+    <string name="dialog_copy_version_alert">提示</string>
+    <string name="dialog_copy_version_alert_text">将锁定复制产生的新游戏实例：强制版本隔离、游戏设置独立。</string>
+    <string name="dialog_copy_version_exist">此版本已经存在，请换一个名字</string>
+    <string name="dialog_copy_version_copy_world">复制存档</string>
+    <string name="dialog_copy_version_positive">确定</string>
+    <string name="dialog_copy_version_negative">取消</string>
+
+    <string name="dialog_delete_version_title">警告</string>
+    <string name="dialog_delete_version_pri">真的要删除版本</string>
+    <string name="dialog_delete_version_sec">吗？你将无法找回被删除的文件！</string>
+    <string name="dialog_delete_version_isolate_pri">由于该游戏使用了版本隔离，所以删除该版本将导致该游戏的存档等数据一同被删除，真的要删除版本</string>
+    <string name="dialog_delete_version_isolate_sec">吗？</string>
+    <string name="dialog_delete_version_positive">删除</string>
+    <string name="dialog_delete_version_negative">取消</string>
     
     <string name="default_game_file_directory_list_pri">公有目录</string>
     <string name="default_game_file_directory_list_pri_path">/storage/emulated/0/HMCLPE/.minecraft</string>

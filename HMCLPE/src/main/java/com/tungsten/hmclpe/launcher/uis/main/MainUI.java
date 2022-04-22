@@ -28,11 +28,15 @@ import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
 import com.tungsten.hmclpe.launcher.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
+import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
+import com.tungsten.hmclpe.launcher.view.spinner.VersionSpinnerAdapter;
 import com.tungsten.hmclpe.skin.draw2d.Avatar;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
+import com.tungsten.hmclpe.utils.file.DrawableUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -57,6 +61,8 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
     private ImageView versionIcon;
     private LinearLayout noVersionAlert;
     private TextView currentVersionText;
+
+    private VersionSpinnerAdapter versionSpinnerAdapter;
 
     public MainUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -118,30 +124,36 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         activity.hideBarTitle();
 
         ArrayList<GameListBean> gameList = SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory,activity.publicGameSetting.currentVersion);
-        ArrayList<String> names = new ArrayList<>();
-        String currentVersion = "";
+        GameListBean currentVersion = new GameListBean("","","",true);
         if (!activity.publicGameSetting.currentVersion.equals("")){
-            currentVersion = activity.publicGameSetting.currentVersion.substring(activity.publicGameSetting.currentVersion.lastIndexOf("/") + 1);
+            for (int i = 0;i < gameList.size();i++) {
+                if (gameList.get(i).name.equals(activity.publicGameSetting.currentVersion.substring(activity.publicGameSetting.currentVersion.lastIndexOf("/") + 1))) {
+                    currentVersion = gameList.get(i);
+                }
+            }
         }
-        for (int i = 0;i < gameList.size();i++){
-            names.add(gameList.get(i).name);
-        }
-        ArrayAdapter<String> launcherVersionAdapter = new ArrayAdapter<>(context,android.R.layout.simple_spinner_item,names);
-        launcherVersionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        versionSpinnerAdapter = new VersionSpinnerAdapter(context,gameList);
         Spinner gameVersionSpinner = activity.findViewById(R.id.launcher_spinner_version);
-        gameVersionSpinner.setAdapter(launcherVersionAdapter);
-        gameVersionSpinner.setSelection(launcherVersionAdapter.getPosition(currentVersion));
+        gameVersionSpinner.setAdapter(versionSpinnerAdapter);
+        gameVersionSpinner.setSelection(versionSpinnerAdapter.getPosition(currentVersion));
         gameVersionSpinner.setOnItemSelectedListener(this);
-        if (!currentVersion.equals("") && names.contains(currentVersion)){
+        if (!currentVersion.equals("") && !currentVersion.name.equals("")){
             noVersionAlert.setVisibility(View.GONE);
             currentVersionText.setVisibility(View.VISIBLE);
-            currentVersionText.setText(currentVersion);
-            launchVersionText.setText(currentVersion);
+            currentVersionText.setText(currentVersion.name);
+            launchVersionText.setText(currentVersion.name);
+            if (!currentVersion.iconPath.equals("") && new File(currentVersion.iconPath).exists()) {
+                versionIcon.setBackground(DrawableUtils.getDrawableFromFile(currentVersion.iconPath));
+            }
+            else {
+                versionIcon.setBackground(context.getDrawable(R.drawable.ic_furnace));
+            }
         }
         else {
             noVersionAlert.setVisibility(View.VISIBLE);
             currentVersionText.setVisibility(View.GONE);
             launchVersionText.setText(context.getString(R.string.launcher_button_current_version));
+            versionIcon.setBackground(context.getDrawable(R.drawable.ic_grass));
         }
 
         switch (activity.publicGameSetting.account.loginType){
@@ -208,9 +220,20 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         }
         if (v == startGame){
             Intent intent;
-            if (activity.privateGameSetting.boatLauncherSetting.enable){
+            PrivateGameSetting privateGameSetting;
+            String settingPath = activity.publicGameSetting.currentVersion + "/hmclpe.cfg";
+            String finalPath;
+            if (new File(settingPath).exists() && GsonUtils.getPrivateGameSettingFromFile(settingPath) != null && (GsonUtils.getPrivateGameSettingFromFile(settingPath).forceEnable || GsonUtils.getPrivateGameSettingFromFile(settingPath).enable)) {
+                finalPath = settingPath;
+                privateGameSetting = GsonUtils.getPrivateGameSettingFromFile(settingPath);
+            }
+            else {
+                finalPath = AppManifest.SETTING_DIR + "/private_game_setting.json";
+                privateGameSetting = activity.privateGameSetting;
+            }
+            if (privateGameSetting.boatLauncherSetting.enable){
                 intent = new Intent(context, BoatMinecraftActivity.class);
-                if (activity.privateGameSetting.boatLauncherSetting.renderer.equals("VirGL")) {
+                if (privateGameSetting.boatLauncherSetting.renderer.equals("VirGL")) {
                     Intent virGLService = new Intent(context, VirGLService.class);
                     context.startService(virGLService);
                 }
@@ -219,22 +242,29 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
                 intent = new Intent(context, PojavMinecraftActivity.class);
             }
             Bundle bundle = new Bundle();
-            bundle.putString("setting_path",AppManifest.SETTING_DIR + "/private_game_setting.json");
+            bundle.putString("setting_path",finalPath);
+            bundle.putBoolean("test",false);
             intent.putExtras(bundle);
             context.startActivity(intent);
         }
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        activity.publicGameSetting.currentVersion = activity.launcherSetting.gameFileDirectory + "/versions/" + parent.getItemAtPosition(position).toString();
+        activity.publicGameSetting.currentVersion = activity.launcherSetting.gameFileDirectory + "/versions/" + ((GameListBean) versionSpinnerAdapter.getItem(position)).name;
         if (activity.privateGameSetting.gameDirSetting.type == 1){
-            activity.uiManager.settingUI.settingUIManager.universalGameSettingUI.gameDirText.setText(activity.launcherSetting.gameFileDirectory + "/versions/" + parent.getItemAtPosition(position).toString());
+            activity.uiManager.settingUI.settingUIManager.universalGameSettingUI.gameDirText.setText(activity.launcherSetting.gameFileDirectory + "/versions/" + ((GameListBean) versionSpinnerAdapter.getItem(position)).name);
         }
         GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");
-        currentVersionText.setText(parent.getItemAtPosition(position).toString());
-        launchVersionText.setText(parent.getItemAtPosition(position).toString());
+        currentVersionText.setText(((GameListBean) versionSpinnerAdapter.getItem(position)).name);
+        launchVersionText.setText(((GameListBean) versionSpinnerAdapter.getItem(position)).name);
+        if (!((GameListBean) versionSpinnerAdapter.getItem(position)).iconPath.equals("") && new File(((GameListBean) versionSpinnerAdapter.getItem(position)).iconPath).exists()) {
+            versionIcon.setBackground(DrawableUtils.getDrawableFromFile(((GameListBean) versionSpinnerAdapter.getItem(position)).iconPath));
+        }
+        else {
+            versionIcon.setBackground(context.getDrawable(R.drawable.ic_furnace));
+        }
     }
 
     @Override

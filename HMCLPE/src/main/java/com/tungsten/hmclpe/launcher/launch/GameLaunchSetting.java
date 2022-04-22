@@ -40,10 +40,11 @@ public class GameLaunchSetting {
     public int controlType;
     public String controlLayout;
     public boolean fullscreen;
+    public boolean log;
 
     public String gameFileDirectory;
 
-    public GameLaunchSetting(Account account,String home,String currentVersion,String javaPath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,String boatRenderer,String pojavRenderer,float scaleFactor,String gameFileDirectory,int minRam,int maxRam,int controlType,String controlLayout,String server,boolean fullscreen){
+    public GameLaunchSetting(Account account,String home,String currentVersion,String javaPath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,String boatRenderer,String pojavRenderer,float scaleFactor,String gameFileDirectory,int minRam,int maxRam,int controlType,String controlLayout,String server,boolean fullscreen,boolean log){
         this.account = account;
         this.home = home;
         this.currentVersion = currentVersion;
@@ -61,6 +62,7 @@ public class GameLaunchSetting {
         this.controlType = controlType;
         this.controlLayout = controlLayout;
         this.fullscreen = fullscreen;
+        this.log = log;
 
         this.gameFileDirectory = gameFileDirectory;
     }
@@ -71,7 +73,7 @@ public class GameLaunchSetting {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static GameLaunchSetting getGameLaunchSetting(String privatePath){
+    public static GameLaunchSetting getGameLaunchSetting(String privatePath,String v){
         LauncherSetting launcherSetting = GsonUtils.getLauncherSettingFromFile(AppManifest.SETTING_DIR + "/launcher_setting.json");
         PublicGameSetting publicGameSetting = GsonUtils.getPublicGameSettingFromFile(AppManifest.SETTING_DIR + "/public_game_setting.json");
         PrivateGameSetting privateGameSetting = GsonUtils.getPrivateGameSettingFromFile(privatePath);
@@ -81,7 +83,7 @@ public class GameLaunchSetting {
             gameDir = launcherSetting.gameFileDirectory;
         }
         else if (privateGameSetting.gameDirSetting.type == 1){
-            gameDir = publicGameSetting.currentVersion;
+            gameDir = (v == null || v.equals("")) ? publicGameSetting.currentVersion : v;
         }
         else {
             gameDir = privateGameSetting.gameDirSetting.path;
@@ -89,7 +91,7 @@ public class GameLaunchSetting {
 
         String javaPath = "";
         if (privateGameSetting.javaSetting.autoSelect){
-            String versionJson = FileStringUtils.getStringFromFile(publicGameSetting.currentVersion + "/" + (new File(publicGameSetting.currentVersion)).getName() + ".json");
+            String versionJson = FileStringUtils.getStringFromFile(((v == null || v.equals("")) ? publicGameSetting.currentVersion : v) + "/" + (new File(((v == null || v.equals("")) ? publicGameSetting.currentVersion : v))).getName() + ".json");
             Gson gson = JsonUtils.defaultGsonBuilder()
                     .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
                     .registerTypeAdapter(Bits.class, new Bits.Serializer())
@@ -108,9 +110,9 @@ public class GameLaunchSetting {
             javaPath = AppManifest.JAVA_DIR + "/" + privateGameSetting.javaSetting.name;
         }
 
-        GameLaunchSetting gameLaunchSetting = new GameLaunchSetting(publicGameSetting.account,
+        return new GameLaunchSetting(publicGameSetting.account,
                 publicGameSetting.home,
-                publicGameSetting.currentVersion,
+                (v == null || v.equals("")) ? publicGameSetting.currentVersion : v,
                 javaPath,
                 privateGameSetting.extraJavaFlags,
                 privateGameSetting.extraMinecraftFlags,
@@ -124,8 +126,8 @@ public class GameLaunchSetting {
                 privateGameSetting.controlType,
                 privateGameSetting.controlLayout,
                 privateGameSetting.server,
-                launcherSetting.fullscreen);
-        return gameLaunchSetting;
+                launcherSetting.fullscreen,
+                privateGameSetting.log);
     }
 
 }

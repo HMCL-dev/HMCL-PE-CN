@@ -40,7 +40,11 @@ public class BoatMinecraftActivity extends BoatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        gameLaunchSetting = GameLaunchSetting.getGameLaunchSetting(getIntent().getExtras().getString("setting_path"));
+        gameLaunchSetting = GameLaunchSetting.getGameLaunchSetting(getIntent().getExtras().getString("setting_path"),getIntent().getExtras().getString("version"));
+
+        if (getIntent().getExtras().getBoolean("test") || gameLaunchSetting.log) {
+
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             if (gameLaunchSetting.fullscreen) {

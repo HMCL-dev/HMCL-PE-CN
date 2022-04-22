@@ -43,8 +43,8 @@ import com.tungsten.hmclpe.utils.Lang;
 import com.tungsten.hmclpe.utils.file.AssetsUtils;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
 import com.tungsten.hmclpe.utils.gson.JsonUtils;
-import com.tungsten.hmclpe.utils.network.NetSpeed;
-import com.tungsten.hmclpe.utils.network.NetSpeedTimer;
+import com.tungsten.hmclpe.utils.io.NetSpeed;
+import com.tungsten.hmclpe.utils.io.NetSpeedTimer;
 import com.tungsten.hmclpe.utils.platform.Bits;
 
 import java.io.File;

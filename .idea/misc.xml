@@ -91,11 +91,14 @@
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_download_world_list.xml" value="0.1125" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_fast_text.xml" value="0.115625" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_local_version.xml" value="0.1125" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_local_version_spinner.xml" value="0.1125" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_profile.xml" value="0.13858695652173914" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_rocker_style.xml" value="0.22282608695652173" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_spinner.xml" value="0.2223731884057971" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_spinner_drop_down.xml" value="0.2223731884057971" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_spinner_drop_down_small.xml" value="0.2223731884057971" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/spinner_item_local_version.xml" value="0.1125" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/spinner_item_server_list.xml" value="0.1125" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_account.xml" value="0.1125" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_add_game_directory.xml" value="0.2151268115942029" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_download.xml" value="0.2151268115942029" />
@@ -124,6 +127,7 @@
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_setting_universal.xml" value="0.1125" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_version_list.xml" value="0.2151268115942029" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/view_group_keyboard.xml" value="0.22282608695652173" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/menu/local_version_menu.xml" value="0.1125" />
         <entry key="..\:/Projects/Android/HMCL-PE/PojavLauncher/src/main/res/drawable/no_focus_shown.xml" value="0.1855" />
         <entry key="..\:/Projects/Android/HMCL-PE/PojavLauncher/src/main/res/layout/activity_pojav.xml" value="0.11354166666666667" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/Boat/src/main/res/layout/activity_boat.xml" value="0.264" />
