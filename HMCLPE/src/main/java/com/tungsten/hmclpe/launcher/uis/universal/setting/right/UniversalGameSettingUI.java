@@ -123,6 +123,8 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
 
     private EditText editServer;
 
+    private EditText editJVMArgs;
+
     private Button manageController;
     private TextView currentControlPattern;
     private ControllerManagerDialog controllerManagerDialog;
@@ -232,6 +234,25 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             @Override
             public void afterTextChanged(Editable editable) {
                 activity.privateGameSetting.server = editServer.getText().toString();
+                GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+            }
+        });
+
+        editJVMArgs = activity.findViewById(R.id.edit_jvm_arg);
+        editJVMArgs.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                activity.privateGameSetting.extraJavaFlags = editJVMArgs.getText().toString();
                 GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
             }
         });
@@ -468,6 +489,7 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         notCheckJVM.setChecked(activity.privateGameSetting.notCheckJvm);
         editGameDir.setText(activity.privateGameSetting.gameDirSetting.path);
         editServer.setText(activity.privateGameSetting.server);
+        editJVMArgs.setText(activity.privateGameSetting.extraJavaFlags);
         currentControlPattern.setText(activity.privateGameSetting.controlLayout);
         if (activity.privateGameSetting.javaSetting.autoSelect){
             javaPathText.setText(context.getString(R.string.game_setting_ui_java_path_auto));

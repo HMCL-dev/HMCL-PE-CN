@@ -21,7 +21,7 @@ public class LoadMe {
         System.loadLibrary("loadme");
     }
 
-    public static int launchMinecraft(Context context,String javaPath, String home, boolean highVersion, Vector<String> args, String renderer) {
+    public static int launchMinecraft(Context context,String javaPath, String home, boolean highVersion, Vector<String> args, String renderer,String gameDir) {
 
         BOAT_LIB_DIR = context.getDir("runtime",0).getAbsolutePath() + "/boat";
 
@@ -117,7 +117,7 @@ public class LoadMe {
             }
 
             redirectStdio(home + "/boat_latest_log.txt");
-            chdir(home);
+            chdir(gameDir);
 
 			String finalArgs[] = new String[args.size()];
 			for (int i = 0; i < args.size(); i++) {

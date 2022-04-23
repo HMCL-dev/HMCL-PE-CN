@@ -145,6 +145,8 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
 
     private EditText editServer;
 
+    private EditText editJVMArgs;
+
     private Button manageController;
     private TextView currentControlPattern;
     private ControllerManagerDialog controllerManagerDialog;
@@ -263,6 +265,27 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
             public void afterTextChanged(Editable editable) {
                 if (privateGameSetting != null) {
                     privateGameSetting.server = editServer.getText().toString();
+                    GsonUtils.savePrivateGameSetting(privateGameSetting, activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/hmclpe.cfg");
+                }
+            }
+        });
+
+        editJVMArgs = activity.findViewById(R.id.edit_jvm_arg_isolate);
+        editJVMArgs.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (privateGameSetting != null) {
+                    privateGameSetting.extraJavaFlags = editJVMArgs.getText().toString();
                     GsonUtils.savePrivateGameSetting(privateGameSetting, activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/hmclpe.cfg");
                 }
             }
@@ -545,6 +568,7 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
         notCheckJVM.setChecked(setting.notCheckJvm);
         editGameDir.setText(setting.gameDirSetting.path);
         editServer.setText(setting.server);
+        editJVMArgs.setText(setting.extraJavaFlags);
         currentControlPattern.setText(setting.controlLayout);
         if (setting.javaSetting.autoSelect){
             javaPathText.setText(context.getString(R.string.game_setting_ui_java_path_auto));

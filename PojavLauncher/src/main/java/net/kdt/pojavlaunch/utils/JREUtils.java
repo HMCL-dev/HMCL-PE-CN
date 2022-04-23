@@ -229,7 +229,7 @@ public class JREUtils {
         // return ldLibraryPath;
     }
     
-    public static int launchJavaVM(final Activity activity,String javaPath,String home,String renderer,final List<String> JVMArgs) throws Throwable {
+    public static int launchJavaVM(final Activity activity,String javaPath,String home,String renderer,final List<String> JVMArgs,String gameDir) throws Throwable {
         relocateLibPath(activity,javaPath);
 
         setJavaEnvironment(activity,javaPath,home,renderer);
@@ -242,7 +242,7 @@ public class JREUtils {
         
         initJavaRuntime(javaPath);
         setupExitTrap(activity.getApplication());
-        chdir(home);
+        chdir(gameDir);
         userArgs.add(0,"java");
 
         final int exitCode = VMLauncher.launchJVM((String[]) userArgs.toArray(new String[0]));

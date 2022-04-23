@@ -51,6 +51,10 @@ public class PojavLauncher {
                 }
             }
             Collections.addAll(args, JVMArgs);
+            if (!gameLaunchSetting.extraJavaFlags.equals("")) {
+                String[] extraJavaFlags = gameLaunchSetting.extraJavaFlags.split(" ");
+                Collections.addAll(args, extraJavaFlags);
+            }
             args.add("-Xms" + gameLaunchSetting.minRam + "M");
             args.add("-Xmx" + gameLaunchSetting.maxRam + "M");
             args.add("-Dorg.lwjgl.opengl.libname=" + JREUtils.loadGraphicsLibrary(gameLaunchSetting.pojavRenderer));
@@ -71,8 +75,6 @@ public class PojavLauncher {
                 args.add("--port");
                 args.add(ser.length > 1 ? ser[1] : "25565");
             }
-            String[] extraJavaFlags = gameLaunchSetting.extraJavaFlags.split(" ");
-            Collections.addAll(args, extraJavaFlags);
             String[] extraMinecraftArgs = gameLaunchSetting.extraMinecraftFlags.split(" ");
             Collections.addAll(args, extraMinecraftArgs);
             return args;

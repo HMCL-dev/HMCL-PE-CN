@@ -83,7 +83,8 @@ public class BoatMinecraftActivity extends BoatActivity {
                         gameLaunchSetting.home,
                         GameLaunchSetting.isHighVersion(gameLaunchSetting),
                         BoatLauncher.getMcArgs(gameLaunchSetting,BoatMinecraftActivity.this,(int) (width * scaleFactor), (int) (height * scaleFactor),gameLaunchSetting.server),
-                        gameLaunchSetting.boatRenderer);
+                        gameLaunchSetting.boatRenderer,
+                        gameLaunchSetting.game_directory);
             }
 
             @Override

@@ -27,6 +27,7 @@
     <color name="colorTextBlue">#D5F1FF</color>
     <color name="colorStartRockerBlue">#1A00C4FF</color>
     <color name="colorEndRockerBlue">#3300C4FF</color>
+    <color name="colorBrown">#835300</color>
 
     <color name="launcher_ui_background">#9AFFFFFF</color>
     <color name="launcher_ui_background_light">#4DFFFFFF</color>

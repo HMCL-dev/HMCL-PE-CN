@@ -54,6 +54,10 @@ public class BoatLauncher {
                 }
             }
             Collections.addAll(args, JVMArgs);
+            if (!gameLaunchSetting.extraJavaFlags.equals("")) {
+                String[] extraJavaFlags = gameLaunchSetting.extraJavaFlags.split(" ");
+                Collections.addAll(args, extraJavaFlags);
+            }
             args.add("-Dos.name=Linux");
             args.add("-Dlwjgl.platform=Boat");
             args.add("-Dorg.lwjgl.opengl.libname=libGL.so.1");
@@ -77,8 +81,6 @@ public class BoatLauncher {
                 args.add("--port");
                 args.add(ser.length > 1 ? ser[1] : "25565");
             }
-            String[] extraJavaFlags = gameLaunchSetting.extraJavaFlags.split(" ");
-            Collections.addAll(args, extraJavaFlags);
             String[] extraMinecraftArgs = gameLaunchSetting.extraMinecraftFlags.split(" ");
             Collections.addAll(args, extraMinecraftArgs);
             return args;

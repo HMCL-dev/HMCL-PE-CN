@@ -62,9 +62,9 @@ public class BaseMainActivity extends AppCompatActivity {
         });
     }
 
-    public void startGame(String javaPath,String home,boolean highVersion,final Vector<String> args, String renderer) throws Throwable {
+    public void startGame(String javaPath,String home,boolean highVersion,final Vector<String> args, String renderer,String gameDir) throws Throwable {
         JREUtils.redirectAndPrintJRELog(this);
-        Tools.launchMinecraft(this, javaPath,home,renderer, args);
+        Tools.launchMinecraft(this, javaPath,home,renderer, args,gameDir);
     }
 
     @Override

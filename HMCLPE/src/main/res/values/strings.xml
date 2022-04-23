@@ -354,9 +354,14 @@
     <string name="game_setting_ui_server_hint">默认，启动游戏后可以直接进入对应服务器</string>
     <string name="game_setting_ui_advance_setting">高级设置</string>
     <string name="game_setting_ui_debug_setting">调试选项</string>
+    <string name="game_setting_ui_debug_setting_alert">警告</string>
+    <string name="game_setting_ui_debug_setting_alert_text">调试选项仅提供给专业玩家使用。调试选项可能会导致游戏无法启动。除非你知道你在做什么，否则请你不要修改这些选项。</string>
     <string name="game_setting_ui_check_game">不检查游戏完整性</string>
     <string name="game_setting_ui_check_java">不检查 JVM 与游戏的兼容性</string>
     <string name="game_setting_ui_check_forge">不检查 Forge 动画禁用情况</string>
+    <string name="game_setting_ui_jvm_setting">Java 虚拟机设置</string>
+    <string name="game_setting_ui_jvm_setting_arg">Java 虚拟机参数</string>
+    <string name="game_setting_ui_jvm_setting_arg_hint">填写此处可以覆盖默认设置</string>
     <string name="game_setting_ui_control_setting">控制选项</string>
     <string name="game_setting_ui_control_type">游戏控制方式</string>
     <string name="game_setting_ui_control_type_touch">触控</string>

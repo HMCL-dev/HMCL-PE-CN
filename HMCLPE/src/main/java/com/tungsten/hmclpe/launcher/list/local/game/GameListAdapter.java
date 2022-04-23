@@ -27,6 +27,7 @@ import com.tungsten.filepicker.Constants;
 import com.tungsten.filepicker.FileBrowser;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.dialogs.CopyVersionDialog;
 import com.tungsten.hmclpe.launcher.dialogs.RenameVersionDialog;
 import com.tungsten.hmclpe.launcher.launch.boat.BoatMinecraftActivity;
 import com.tungsten.hmclpe.launcher.launch.boat.VirGLService;
@@ -202,7 +203,30 @@ public class GameListAdapter extends BaseAdapter {
                         dialog.show();
                         return true;
                     case R.id.local_version_menu_copy:
-
+                        PrivateGameSetting ps;
+                        String spa = activity.launcherSetting.gameFileDirectory + "/versions/" + list.get(position).name + "/hmclpe.cfg";
+                        if (new File(spa).exists() && GsonUtils.getPrivateGameSettingFromFile(spa) != null && (GsonUtils.getPrivateGameSettingFromFile(spa).forceEnable || GsonUtils.getPrivateGameSettingFromFile(spa).enable)) {
+                            ps = GsonUtils.getPrivateGameSettingFromFile(spa);
+                        }
+                        else {
+                            ps = activity.privateGameSetting;
+                        }
+                        String gd;
+                        if (ps.gameDirSetting.type == 0){
+                            gd = activity.launcherSetting.gameFileDirectory;
+                        }
+                        else if (ps.gameDirSetting.type == 1){
+                            gd = activity.launcherSetting.gameFileDirectory + "/versions/" + list.get(position).name;
+                        }
+                        else {
+                            gd = ps.gameDirSetting.path;
+                        }
+                        CopyVersionDialog copyVersionDialog = new CopyVersionDialog(context, list,ps,gd, activity.launcherSetting.gameFileDirectory + "/versions/", list.get(position).name, () -> {
+                            new Thread(() -> {
+                                activity.uiManager.versionListUI.refreshVersionList();
+                            }).start();
+                        });
+                        copyVersionDialog.show();
                         return true;
                     case R.id.local_version_menu_delete:
                         PrivateGameSetting s;

@@ -81,7 +81,8 @@ public class PojavMinecraftActivity extends BaseMainActivity {
                                 gameLaunchSetting.home,
                                 GameLaunchSetting.isHighVersion(gameLaunchSetting),
                                 PojavLauncher.getMcArgs(gameLaunchSetting, PojavMinecraftActivity.this,(int) (width * scaleFactor),(int) (height * scaleFactor),gameLaunchSetting.server),
-                                gameLaunchSetting.pojavRenderer);
+                                gameLaunchSetting.pojavRenderer,
+                                gameLaunchSetting.game_directory);
                     } catch (Throwable e) {
                         e.printStackTrace();
                     }
