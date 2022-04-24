@@ -1,12 +1,15 @@
 package com.tungsten.hmclpe.launcher.launch;
 
+import android.util.ArrayMap;
 import android.util.Log;
 
 import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cosine.boat.BoatUtils;
@@ -399,5 +402,39 @@ public class LaunchVersion {
             }
         }
         return result.split(" ");
+    }
+    public List<String> getLibraries() {
+        List<String> libs=new ArrayList<>();
+        for (Library lib : this.libraries) {
+            if (lib.name == null || lib.name.equals("") || lib.name.contains("net.java.jinput") || lib.name.contains("org.lwjgl")||lib.name.contains("platform")) {
+                continue;
+            }
+            libs.add(parseLibNameToPath(lib.name));
+        }
+        return libs;
+    }
+    private Map<String,String> SHAs;
+    public String getSHA1(String libName){
+        if (SHAs==null){
+            SHAs=new ArrayMap<>();
+            for (Library lib : this.libraries) {
+                if (lib.name == null || lib.name.equals("") || lib.name.contains("net.java.jinput") || lib.name.contains("org.lwjgl")||lib.name.contains("platform")) {
+                    continue;
+                }
+                String sha1;
+                try {
+                    sha1=lib.downloads.get("artifact").sha1;
+                }catch (Exception e){
+                    continue;
+                }
+                SHAs.put(parseLibNameToPath(lib.name),sha1);
+            }
+        }
+        return SHAs.get(libName);
+    }
+
+    public String parseLibNameToPath(String libName){
+        String[] tmp=libName.split(":");
+        return tmp[0].replace(".","/")+"/"+tmp[1]+"/"+tmp[2]+"/"+tmp[1]+"-"+tmp[2]+".jar";
     }
 }
