@@ -22,7 +22,7 @@ import com.tungsten.hmclpe.launcher.game.RuledArgument;
 import com.tungsten.hmclpe.launcher.game.Version;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListAdapter;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
 import com.tungsten.hmclpe.task.DownloadTask;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
@@ -70,7 +70,7 @@ public class InstallForge {
     }
 
     public void install() {
-        bean = new DownloadTaskListBean(context.getString(R.string.dialog_install_game_install_forge),"","");
+        bean = new DownloadTaskListBean(context.getString(R.string.dialog_install_game_install_forge),"","","");
         adapter.addDownloadTask(bean);
         new Thread(new Runnable() {
             @Override
@@ -80,7 +80,7 @@ public class InstallForge {
                     @Override
                     public void run() {
                         if (FileUtils.deleteDirectory(AppManifest.INSTALL_DIR + "/forge")) {
-                            DownloadUtil.downloadSingleFile(context, new DownloadTaskListBean("forge-installer.jar", url, AppManifest.INSTALL_DIR + "/forge/forge-installer.jar"), new DownloadTask.Feedback() {
+                            DownloadUtil.downloadSingleFile(context, new DownloadTaskListBean("forge-installer.jar", url, AppManifest.INSTALL_DIR + "/forge/forge-installer.jar",null), new DownloadTask.Feedback() {
                                 @Override
                                 public void addTask(DownloadTaskListBean bean) {
                                     handler.post(new Runnable() {
@@ -117,7 +117,7 @@ public class InstallForge {
                                 }
 
                                 @Override
-                                public void onFinished(Map<String, String> failedFile) {
+                                public void onFinished(ArrayList<DownloadTaskListBean> failedFile) {
                                     handler.post(new Runnable() {
                                         @Override
                                         public void run() {
@@ -224,7 +224,8 @@ public class InstallForge {
                     }
                     DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
                             url,
-                            activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath());
+                            activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath(),
+                            library.getDownload().getSha1());
                     list.add(bean);
                 }
                 for (Library library : installProfile.getLibraries()){
@@ -237,7 +238,8 @@ public class InstallForge {
                     }
                     DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
                             url,
-                            activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath());
+                            activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath(),
+                            library.getDownload().getSha1());
                     list.add(bean);
                 }
                 startDownloadTask(list, () -> {
@@ -261,7 +263,8 @@ public class InstallForge {
                     }
                     DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
                             url,
-                            activity.launcherSetting.gameFileDirectory + "/libraries/" + library.getPath());
+                            activity.launcherSetting.gameFileDirectory + "/libraries/" + library.getPath(),
+                            library.getDownload().getSha1());
                     list.add(bean);
                 }
             }
@@ -340,10 +343,6 @@ public class InstallForge {
     }
 
     public void startDownloadTask(ArrayList<DownloadTaskListBean> tasks,OnDownloadFinishListener onDownloadFinishListener) {
-        ArrayMap<String,String> map = new ArrayMap<>();
-        for (DownloadTaskListBean bean : tasks){
-            map.put(bean.url,bean.path);
-        }
         DownloadTask downloadTask = new DownloadTask(context, new DownloadTask.Feedback() {
             @Override
             public void addTask(DownloadTaskListBean bean) {
@@ -381,7 +380,7 @@ public class InstallForge {
             }
 
             @Override
-            public void onFinished(Map<String, String> failedFile) {
+            public void onFinished(ArrayList<DownloadTaskListBean> failedFile) {
                 onDownloadFinishListener.onFinish();
             }
 
@@ -395,7 +394,7 @@ public class InstallForge {
             maxDownloadTask = 64;
         }
         downloadTask.setMaxTask(maxDownloadTask);
-        downloadTask.execute(new Map[]{map});
+        downloadTask.execute(tasks);
     }
 
     public interface InstallForgeCallback{

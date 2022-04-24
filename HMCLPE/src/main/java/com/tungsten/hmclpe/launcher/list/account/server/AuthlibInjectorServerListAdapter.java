@@ -15,7 +15,7 @@ import com.tungsten.hmclpe.auth.Account;
 import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddAuthlibInjectorAccountDialog;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
 import org.apache.commons.lang3.StringUtils;

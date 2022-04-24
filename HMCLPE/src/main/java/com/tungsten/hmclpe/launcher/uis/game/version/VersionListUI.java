@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
@@ -42,6 +43,7 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
     private LinearLayout startGlobalSettingUI;
 
     private TextView startDownloadMcUIText;
+    private ProgressBar progressBar;
 
     public VersionListUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -66,6 +68,7 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
         refresh.setOnClickListener(this);
         startGlobalSettingUI = activity.findViewById(R.id.start_ui_global_setting);
         startGlobalSettingUI.setOnClickListener(this);
+        progressBar = activity.findViewById(R.id.loading_local_version_progress);
 
         contentListParent = activity.findViewById(R.id.content_list_parent);
         startAddGameDirUI.post(new Runnable() {
@@ -100,7 +103,7 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
             activity.uiManager.switchMainUI(activity.uiManager.addGameDirectoryUI);
         }
         if (v == refresh){
-            refreshVersionList();
+            new Thread(this::refreshVersionList).start();
         }
         if (v == startGlobalSettingUI){
             activity.uiManager.switchMainUI(activity.uiManager.settingUI);
@@ -112,10 +115,15 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
         contentList = InitializeSetting.initializeContents(context);
         contentListAdapter = new ContentListAdapter(context,activity,contentList);
         gameDirList.setAdapter(contentListAdapter);
-        refreshVersionList();
+        new Thread(this::refreshVersionList).start();
     }
 
     public void refreshVersionList(){
+        activity.runOnUiThread(() -> {
+            progressBar.setVisibility(View.VISIBLE);
+            startDownloadMcUIText.setVisibility(View.GONE);
+            versionList.setVisibility(View.GONE);
+        });
         gameList = SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory,activity.publicGameSetting.currentVersion);
         activity.runOnUiThread(() -> {
             gameListAdapter = new GameListAdapter(context,activity,gameList);
@@ -128,6 +136,7 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
                 startDownloadMcUIText.setVisibility(View.VISIBLE);
                 versionList.setVisibility(View.GONE);
             }
+            progressBar.setVisibility(View.GONE);
         });
     }
 }

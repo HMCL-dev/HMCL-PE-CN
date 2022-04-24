@@ -18,7 +18,7 @@ import com.tungsten.hmclpe.launcher.game.Artifact;
 import com.tungsten.hmclpe.launcher.game.RuledArgument;
 import com.tungsten.hmclpe.launcher.game.Version;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
 import com.tungsten.hmclpe.task.DownloadTask;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
@@ -29,6 +29,7 @@ import com.tungsten.hmclpe.utils.platform.Bits;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class InstallOptifine {
@@ -61,7 +62,7 @@ public class InstallOptifine {
         }
         String mirror = start + "/optifine/" + optifineVersion.mcVersion + "/" + optifineVersion.type + "/" + optifineVersion.patch;
         if (FileUtils.deleteDirectory(AppManifest.INSTALL_DIR)) {
-            DownloadUtil.downloadSingleFile(context, new DownloadTaskListBean(optifineVersion.fileName, mirror, AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName), new DownloadTask.Feedback() {
+            DownloadUtil.downloadSingleFile(context, new DownloadTaskListBean(optifineVersion.fileName, mirror, AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName,null), new DownloadTask.Feedback() {
                 @Override
                 public void addTask(DownloadTaskListBean bean) {
 
@@ -88,7 +89,7 @@ public class InstallOptifine {
                 }
 
                 @Override
-                public void onFinished(Map<String, String> failedFile) {
+                public void onFinished(ArrayList<DownloadTaskListBean> failedFile) {
                     activity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

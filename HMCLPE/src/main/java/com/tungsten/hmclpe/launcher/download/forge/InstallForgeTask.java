@@ -2,7 +2,7 @@ package com.tungsten.hmclpe.launcher.download.forge;
 
 import android.os.AsyncTask;
 
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;

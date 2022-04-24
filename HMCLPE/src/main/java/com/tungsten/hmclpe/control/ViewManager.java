@@ -22,7 +22,7 @@ import com.tungsten.hmclpe.control.view.MenuFloat;
 import com.tungsten.hmclpe.control.view.MenuView;
 import com.tungsten.hmclpe.control.view.TouchPad;
 import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.setting.game.GameMenuSetting;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;

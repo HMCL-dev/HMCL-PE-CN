@@ -2,7 +2,7 @@ package com.tungsten.hmclpe.launcher.setting.game;
 
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.control.view.MenuView;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.game.child.MenuFloatSetting;
 import com.tungsten.hmclpe.launcher.setting.game.child.MenuViewSetting;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;

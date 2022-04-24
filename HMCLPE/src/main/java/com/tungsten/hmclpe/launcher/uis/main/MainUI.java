@@ -6,11 +6,8 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -25,7 +22,7 @@ import com.tungsten.hmclpe.launcher.launch.boat.BoatMinecraftActivity;
 import com.tungsten.hmclpe.launcher.launch.boat.VirGLService;
 import com.tungsten.hmclpe.launcher.launch.pojav.PojavMinecraftActivity;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
@@ -132,12 +129,17 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
                 }
             }
         }
+        if (gameList.size() > 0 && currentVersion.name.equals("")) {
+            currentVersion = gameList.get(0);
+            activity.publicGameSetting.currentVersion = activity.launcherSetting.gameFileDirectory + "/versions/" + currentVersion.name;
+            GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");
+        }
         versionSpinnerAdapter = new VersionSpinnerAdapter(context,gameList);
         Spinner gameVersionSpinner = activity.findViewById(R.id.launcher_spinner_version);
         gameVersionSpinner.setAdapter(versionSpinnerAdapter);
         gameVersionSpinner.setSelection(versionSpinnerAdapter.getPosition(currentVersion));
         gameVersionSpinner.setOnItemSelectedListener(this);
-        if (!currentVersion.equals("") && !currentVersion.name.equals("")){
+        if (!currentVersion.name.equals("")){
             noVersionAlert.setVisibility(View.GONE);
             currentVersionText.setVisibility(View.VISIBLE);
             currentVersionText.setText(currentVersion.name);
@@ -271,12 +273,4 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
-    @SuppressLint("HandlerLeak")
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-        }
-    };
 }

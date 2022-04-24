@@ -3,13 +3,10 @@ package com.tungsten.hmclpe.launcher.list.local.game;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -19,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.PopupMenu;
 
@@ -32,7 +28,7 @@ import com.tungsten.hmclpe.launcher.dialogs.RenameVersionDialog;
 import com.tungsten.hmclpe.launcher.launch.boat.BoatMinecraftActivity;
 import com.tungsten.hmclpe.launcher.launch.boat.VirGLService;
 import com.tungsten.hmclpe.launcher.launch.pojav.PojavMinecraftActivity;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.utils.file.FileUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
@@ -236,6 +232,11 @@ public class GameListAdapter extends BaseAdapter {
                         deleteAlertBuilder.setPositiveButton(context.getString(R.string.dialog_delete_version_positive), (dialogInterface, i) -> {
                             new Thread(() -> {
                                 FileUtils.deleteDirectory(activity.launcherSetting.gameFileDirectory + "/versions/" + list.get(position).name);
+                                if (activity.publicGameSetting.currentVersion.equals(activity.launcherSetting.gameFileDirectory + "/versions/" + list.get(position).name) && list.size() > 1) {
+                                    list.remove(position);
+                                    activity.publicGameSetting.currentVersion = activity.launcherSetting.gameFileDirectory + "/versions/" + list.get(0).name;
+                                    GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");
+                                }
                                 activity.uiManager.versionListUI.refreshVersionList();
                             }).start();
                         });

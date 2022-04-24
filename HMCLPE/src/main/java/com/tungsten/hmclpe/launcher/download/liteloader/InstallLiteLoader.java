@@ -39,7 +39,7 @@ public class InstallLiteLoader {
     }
 
     public void install(){
-        bean = new DownloadTaskListBean(context.getString(R.string.dialog_install_game_install_lite_loader),"","");
+        bean = new DownloadTaskListBean(context.getString(R.string.dialog_install_game_install_lite_loader),"","","");
         adapter.addDownloadTask(bean);
         Library library = new Library(
                 new Artifact("com.mumfrey", "liteloader", liteLoaderVersion.getVersion()),
@@ -77,7 +77,8 @@ public class InstallLiteLoader {
             }
             DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
                     url,
-                    activity.launcherSetting.gameFileDirectory + "/libraries/" + library.getPath());
+                    activity.launcherSetting.gameFileDirectory + "/libraries/" + library.getPath(),
+                    library.getDownload().getSha1());
             list.add(bean);
         }
         startDownloadTask(list, () -> {
@@ -87,10 +88,6 @@ public class InstallLiteLoader {
     }
 
     public void startDownloadTask(ArrayList<DownloadTaskListBean> tasks, OnDownloadFinishListener onDownloadFinishListener) {
-        ArrayMap<String,String> map = new ArrayMap<>();
-        for (DownloadTaskListBean bean : tasks){
-            map.put(bean.url,bean.path);
-        }
         DownloadTask downloadTask = new DownloadTask(context, new DownloadTask.Feedback() {
             @Override
             public void addTask(DownloadTaskListBean bean) {
@@ -128,7 +125,7 @@ public class InstallLiteLoader {
             }
 
             @Override
-            public void onFinished(Map<String, String> failedFile) {
+            public void onFinished(ArrayList<DownloadTaskListBean> failedFile) {
                 onDownloadFinishListener.onFinish();
             }
 
@@ -142,7 +139,7 @@ public class InstallLiteLoader {
             maxDownloadTask = 64;
         }
         downloadTask.setMaxTask(maxDownloadTask);
-        downloadTask.execute(new Map[]{map});
+        downloadTask.execute(tasks);
     }
 
     public interface InstallLiteLoaderCallback{

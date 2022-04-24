@@ -171,7 +171,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
 
     public void downloadOptifine() {
         if (optifineVersion != null) {
-            DownloadTaskListBean bean = new DownloadTaskListBean(context.getString(R.string.dialog_install_game_install_optifine),"","");
+            DownloadTaskListBean bean = new DownloadTaskListBean(context.getString(R.string.dialog_install_game_install_optifine),"","","");
             downloadTaskListAdapter.addDownloadTask(bean);
             InstallOptifine installOptifine = new InstallOptifine(context, activity, optifineVersion, name, new InstallOptifine.InstallOptifineCallback() {
                 @Override
@@ -308,10 +308,6 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     }
 
     public void startDownloadTask(ArrayList<DownloadTaskListBean> tasks,OnDownloadFinishListener onDownloadFinishListener) {
-        ArrayMap<String,String> map = new ArrayMap<>();
-        for (DownloadTaskListBean bean : tasks){
-            map.put(bean.url,bean.path);
-        }
         DownloadTask downloadTask = new DownloadTask(context, new DownloadTask.Feedback() {
             @Override
             public void addTask(DownloadTaskListBean bean) {
@@ -349,7 +345,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
             }
 
             @Override
-            public void onFinished(Map<String, String> failedFile) {
+            public void onFinished(ArrayList<DownloadTaskListBean> failedFile) {
                 onDownloadFinishListener.onFinish();
             }
 
@@ -362,7 +358,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
             maxDownloadTask = 64;
         }
         downloadTask.setMaxTask(maxDownloadTask);
-        downloadTask.execute(new Map[]{map});
+        downloadTask.execute(tasks);
     }
 
     @Override

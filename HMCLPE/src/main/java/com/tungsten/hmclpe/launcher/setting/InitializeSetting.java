@@ -1,19 +1,13 @@
 package com.tungsten.hmclpe.launcher.setting;
 
-import static com.tungsten.hmclpe.update.UpdateChecker.UPDATE_URL;
-
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.view.View;
 
 import androidx.annotation.RequiresApi;
-import androidx.core.content.FileProvider;
 
-import com.google.gson.Gson;
 import com.leo618.zip.IZipCallback;
 import com.leo618.zip.ZipManager;
 import com.tungsten.hmclpe.R;
@@ -21,8 +15,8 @@ import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.info.contents.ContentListBean;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
-import com.tungsten.hmclpe.launcher.manifest.info.AppInfo;
+import com.tungsten.hmclpe.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.info.AppInfo;
 import com.tungsten.hmclpe.launcher.setting.game.child.BoatLauncherSetting;
 import com.tungsten.hmclpe.launcher.setting.game.child.GameDirSetting;
 import com.tungsten.hmclpe.launcher.setting.game.child.JavaSetting;
@@ -36,18 +30,14 @@ import com.tungsten.hmclpe.launcher.setting.launcher.child.BackgroundSetting;
 import com.tungsten.hmclpe.launcher.setting.launcher.child.SourceSetting;
 import com.tungsten.hmclpe.task.DownloadTask;
 import com.tungsten.hmclpe.task.LanzouUrlGetTask;
-import com.tungsten.hmclpe.update.LauncherVersion;
-import com.tungsten.hmclpe.update.UpdateJSON;
 import com.tungsten.hmclpe.utils.file.AssetsUtils;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
 import com.tungsten.hmclpe.utils.file.FileUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 import com.tungsten.hmclpe.utils.io.DownloadUtil;
-import com.tungsten.hmclpe.utils.io.NetworkUtils;
 import com.tungsten.hmclpe.utils.platform.MemoryUtils;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
@@ -128,7 +118,7 @@ public class InitializeSetting {
                 @Override
                 public void onError(Exception e) {
                     new Thread(() -> {
-                        DownloadUtil.downloadSingleFile(activity, new DownloadTaskListBean("", AppInfo.JAVA_17_DOWNLOAD_URL_GITHUB, AppManifest.DEFAULT_CACHE_DIR + "/java/JRE17.zip"), new DownloadTask.Feedback() {
+                        DownloadUtil.downloadSingleFile(activity, new DownloadTaskListBean("", AppInfo.JAVA_17_DOWNLOAD_URL_GITHUB, AppManifest.DEFAULT_CACHE_DIR + "/java/JRE17.zip",AppInfo.JAVA_17_SHA1), new DownloadTask.Feedback() {
                             @Override
                             public void addTask(DownloadTaskListBean bean) {
 
@@ -152,8 +142,8 @@ public class InitializeSetting {
                             }
 
                             @Override
-                            public void onFinished(Map<String, String> failedFile) {
-                                if (failedFile.containsKey(AppInfo.JAVA_17_DOWNLOAD_URL_GITHUB)) {
+                            public void onFinished(ArrayList<DownloadTaskListBean> failedFile) {
+                                if (failedFile.size() > 0) {
                                     activity.runOnUiThread(() -> {
                                         activity.loadingText.setText(activity.getString(R.string.loading_hint_failed));
                                         activity.loadingText.setTextColor(Color.RED);
@@ -179,7 +169,7 @@ public class InitializeSetting {
                 public void onFinish(String url) {
                     if (url == null){
                         new Thread(() -> {
-                            DownloadUtil.downloadSingleFile(activity, new DownloadTaskListBean("", AppInfo.JAVA_17_DOWNLOAD_URL_GITHUB, AppManifest.DEFAULT_CACHE_DIR + "/java/JRE17.zip"), new DownloadTask.Feedback() {
+                            DownloadUtil.downloadSingleFile(activity, new DownloadTaskListBean("", AppInfo.JAVA_17_DOWNLOAD_URL_GITHUB, AppManifest.DEFAULT_CACHE_DIR + "/java/JRE17.zip",AppInfo.JAVA_17_SHA1), new DownloadTask.Feedback() {
                                 @Override
                                 public void addTask(DownloadTaskListBean bean) {
 
@@ -203,8 +193,8 @@ public class InitializeSetting {
                                 }
 
                                 @Override
-                                public void onFinished(Map<String, String> failedFile) {
-                                    if (failedFile.containsKey(AppInfo.JAVA_17_DOWNLOAD_URL_GITHUB)) {
+                                public void onFinished(ArrayList<DownloadTaskListBean> failedFile) {
+                                    if (failedFile.size() > 0) {
                                         activity.runOnUiThread(() -> {
                                             activity.loadingText.setText(activity.getString(R.string.loading_hint_failed));
                                             activity.loadingText.setTextColor(Color.RED);
@@ -227,7 +217,7 @@ public class InitializeSetting {
                     }
                     else {
                         new Thread(() -> {
-                            DownloadUtil.downloadSingleFile(activity, new DownloadTaskListBean("", url, AppManifest.DEFAULT_CACHE_DIR + "/java/JRE17.zip"), new DownloadTask.Feedback() {
+                            DownloadUtil.downloadSingleFile(activity, new DownloadTaskListBean("", url, AppManifest.DEFAULT_CACHE_DIR + "/java/JRE17.zip",AppInfo.JAVA_17_SHA1), new DownloadTask.Feedback() {
                                 @Override
                                 public void addTask(DownloadTaskListBean bean) {
 
@@ -251,8 +241,8 @@ public class InitializeSetting {
                                 }
 
                                 @Override
-                                public void onFinished(Map<String, String> failedFile) {
-                                    if (failedFile.containsKey(url)) {
+                                public void onFinished(ArrayList<DownloadTaskListBean> failedFile) {
+                                    if (failedFile.size() > 0) {
                                         activity.runOnUiThread(() -> {
                                             activity.loadingText.setText(activity.getString(R.string.loading_hint_failed));
                                             activity.loadingText.setTextColor(Color.RED);

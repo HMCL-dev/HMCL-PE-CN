@@ -12,7 +12,7 @@ import com.tungsten.hmclpe.launcher.game.LibraryDownloadInfo;
 import com.tungsten.hmclpe.launcher.game.RuledArgument;
 import com.tungsten.hmclpe.launcher.game.Version;
 import com.tungsten.hmclpe.launcher.download.LibraryAnalyzer;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
@@ -130,7 +130,7 @@ public class InstallOptifineTask extends AsyncTask<OptifineVersion,Integer, Vers
             if (!hasLaunchWrapper) {
                 Library launchWrapperLib = new Library(new Artifact("net.minecraft", "launchwrapper", "1.12"));
                 libraries.add(launchWrapperLib);
-                DownloadTask.downloadFileMonitored(DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(launcherSetting.downloadUrlSource),DownloadUrlSource.LIBRARIES) + "/" + launchWrapperLib.getPath(),launcherSetting.gameFileDirectory + "/libraries/" + launchWrapperLib.getPath(),null);
+                DownloadTask.downloadFileMonitored(DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(launcherSetting.downloadUrlSource),DownloadUrlSource.LIBRARIES) + "/" + launchWrapperLib.getPath(),launcherSetting.gameFileDirectory + "/libraries/" + launchWrapperLib.getPath(),null,null);
             }
             success = true;
         }

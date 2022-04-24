@@ -21,7 +21,7 @@ import com.tungsten.hmclpe.launcher.dialogs.account.AddOfflineAccountDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddVerifyServerDialog;
 import com.tungsten.hmclpe.launcher.list.account.AccountListAdapter;
 import com.tungsten.hmclpe.launcher.list.account.server.AuthlibInjectorServerListAdapter;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;

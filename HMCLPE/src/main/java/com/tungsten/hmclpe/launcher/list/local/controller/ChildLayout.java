@@ -3,7 +3,7 @@ package com.tungsten.hmclpe.launcher.list.local.controller;
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.control.bean.BaseButtonInfo;
 import com.tungsten.hmclpe.control.bean.BaseRockerViewInfo;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
 
 import java.util.ArrayList;

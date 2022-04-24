@@ -6,7 +6,7 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListAdapter;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.mod.ModListBean;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.setting.game.PublicGameSetting;
@@ -14,6 +14,7 @@ import com.tungsten.hmclpe.task.DownloadTask;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 import com.tungsten.hmclpe.utils.io.DownloadUtil;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class InstallFabricAPI {
@@ -37,7 +38,7 @@ public class InstallFabricAPI {
     }
 
     public void install(){
-        bean = new DownloadTaskListBean(context.getString(R.string.dialog_install_game_install_fabric_api),"","");
+        bean = new DownloadTaskListBean(context.getString(R.string.dialog_install_game_install_fabric_api),"","","");
         adapter.addDownloadTask(bean);
         String path;
         if (PublicGameSetting.isUsingIsolateSetting(activity.launcherSetting.gameFileDirectory + "/versions/" + name)) {
@@ -48,7 +49,7 @@ public class InstallFabricAPI {
         }
         String modPath = path + "/mods/" + fabricAPIVersion.getFile().getFilename();
         String url = fabricAPIVersion.getFile().getUrl();
-        DownloadUtil.downloadSingleFile(context, new DownloadTaskListBean(fabricAPIVersion.getFile().getFilename(), url, modPath), new DownloadTask.Feedback() {
+        DownloadUtil.downloadSingleFile(context, new DownloadTaskListBean(fabricAPIVersion.getFile().getFilename(), url, modPath,null), new DownloadTask.Feedback() {
             @Override
             public void addTask(DownloadTaskListBean downloadTaskListBean) {
                 activity.runOnUiThread(() -> {
@@ -76,9 +77,9 @@ public class InstallFabricAPI {
             }
 
             @Override
-            public void onFinished(Map<String, String> failedFile) {
+            public void onFinished(ArrayList<DownloadTaskListBean> failedFile) {
                 adapter.onComplete(bean);
-                callback.onFinish(!failedFile.containsKey(url));
+                callback.onFinish(failedFile.size() == 0);
             }
 
             @Override

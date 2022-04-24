@@ -47,7 +47,7 @@ public class InstallFabric {
     }
 
     public void install() {
-        bean = new DownloadTaskListBean(context.getString(R.string.dialog_install_game_install_fabric),"","");
+        bean = new DownloadTaskListBean(context.getString(R.string.dialog_install_game_install_fabric),"","","");
         adapter.addDownloadTask(bean);
         new Thread(() -> {
             String url = "https://meta.fabricmc.net/v2/versions/loader/" + mcVersion + "/" + fabricVersion.version + "/profile/json";
@@ -87,7 +87,8 @@ public class InstallFabric {
             }
             DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
                     url,
-                    activity.launcherSetting.gameFileDirectory + "/libraries/" + library.getPath());
+                    activity.launcherSetting.gameFileDirectory + "/libraries/" + library.getPath(),
+                    library.getDownload().getSha1());
             list.add(bean);
         }
         startDownloadTask(list, () -> {
@@ -97,10 +98,6 @@ public class InstallFabric {
     }
 
     public void startDownloadTask(ArrayList<DownloadTaskListBean> tasks, OnDownloadFinishListener onDownloadFinishListener) {
-        ArrayMap<String,String> map = new ArrayMap<>();
-        for (DownloadTaskListBean bean : tasks){
-            map.put(bean.url,bean.path);
-        }
         DownloadTask downloadTask = new DownloadTask(context, new DownloadTask.Feedback() {
             @Override
             public void addTask(DownloadTaskListBean bean) {
@@ -138,7 +135,7 @@ public class InstallFabric {
             }
 
             @Override
-            public void onFinished(Map<String, String> failedFile) {
+            public void onFinished(ArrayList<DownloadTaskListBean> failedFile) {
                 onDownloadFinishListener.onFinish();
             }
 
@@ -152,7 +149,7 @@ public class InstallFabric {
             maxDownloadTask = 64;
         }
         downloadTask.setMaxTask(maxDownloadTask);
-        downloadTask.execute(new Map[]{map});
+        downloadTask.execute(tasks);
     }
 
     public interface InstallFabricCallback{

@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.launcher.manifest;
+package com.tungsten.hmclpe.manifest;
 
 import android.content.Context;
 import android.os.Environment;

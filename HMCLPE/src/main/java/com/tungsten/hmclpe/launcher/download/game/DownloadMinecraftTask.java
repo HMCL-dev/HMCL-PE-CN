@@ -41,7 +41,7 @@ public class DownloadMinecraftTask extends AsyncTask<VersionManifest.Version, Do
 
     @Override
     protected void onPreExecute() {
-        dialog.downloadTaskListAdapter.addDownloadTask(new DownloadTaskListBean(context.getString(R.string.dialog_install_game_install_game),"",""));
+        dialog.downloadTaskListAdapter.addDownloadTask(new DownloadTaskListBean(context.getString(R.string.dialog_install_game_install_game),"","",""));
         super.onPreExecute();
     }
 
@@ -67,23 +67,27 @@ public class DownloadMinecraftTask extends AsyncTask<VersionManifest.Version, Do
             //assetIndex.json
             allTaskList.add(new DownloadTaskListBean(version.getAssetIndex().id + ".json",
                     assetIndexUrl,
-                    gameFilePath + "/assets/indexes/" + version.getAssetIndex().id + ".json"));
+                    gameFilePath + "/assets/indexes/" + version.getAssetIndex().id + ".json",
+                    version.getAssetIndex().getSha1()));
             //version.jar
             allTaskList.add(new DownloadTaskListBean(dialog.name + ".jar",
                     DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.VERSION_JAR) + version.getDownloadInfo().getUrl().replace("https://launcher.mojang.com",""),
-                    gameFilePath + "/versions/" + dialog.name + "/" + dialog.name + ".jar"));
+                    gameFilePath + "/versions/" + dialog.name + "/" + dialog.name + ".jar",
+                    version.getDownloadInfo().getSha1()));
             //libraries
             for (Library library : version.getLibraries()){
                 DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
                         DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.LIBRARIES) + "/" + library.getPath(),
-                        activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath());
+                        activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath(),
+                        library.getDownload().getSha1());
                 allTaskList.add(bean);
             }
             //assets
             for (AssetObject object : assetIndex.getObjects().values()){
                 DownloadTaskListBean bean = new DownloadTaskListBean(object.getHash(),
                         DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.ASSETS_OBJ) + "/" + object.getLocation(),
-                        gameFilePath + "/assets/objects/" + object.getLocation());
+                        gameFilePath + "/assets/objects/" + object.getLocation(),
+                        object.getHash());
                 allTaskList.add(bean);
             }
             return allTaskList;

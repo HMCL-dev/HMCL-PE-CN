@@ -17,13 +17,14 @@ import androidx.core.content.FileProvider;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.task.DownloadTask;
 import com.tungsten.hmclpe.task.LanzouUrlGetTask;
 import com.tungsten.hmclpe.utils.file.FileUtils;
 import com.tungsten.hmclpe.utils.io.DownloadUtil;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class UpdateDialog extends Dialog implements View.OnClickListener {
@@ -106,7 +107,7 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
                     }
                     new Thread(() -> {
                         if (FileUtils.deleteDirectory(AppManifest.DEFAULT_CACHE_DIR + "/update")) {
-                            DownloadUtil.downloadSingleFile(getContext(), new DownloadTaskListBean("", finalUrl, AppManifest.DEFAULT_CACHE_DIR + "/update/latest.apk"), new DownloadTask.Feedback() {
+                            DownloadUtil.downloadSingleFile(getContext(), new DownloadTaskListBean("", finalUrl, AppManifest.DEFAULT_CACHE_DIR + "/update/latest.apk",null), new DownloadTask.Feedback() {
                                 @Override
                                 public void addTask(DownloadTaskListBean bean) {
 
@@ -128,7 +129,7 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
                                 }
 
                                 @Override
-                                public void onFinished(Map<String, String> failedFile) {
+                                public void onFinished(ArrayList<DownloadTaskListBean> failedFile) {
                                     handler.post(() -> {
                                         update.setEnabled(true);
                                         ignore.setEnabled(true);
@@ -164,7 +165,7 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
                     String finalUrl = url;
                     new Thread(() -> {
                         if (FileUtils.deleteDirectory(AppManifest.DEFAULT_CACHE_DIR + "/update")) {
-                            DownloadUtil.downloadSingleFile(getContext(), new DownloadTaskListBean("", finalUrl, AppManifest.DEFAULT_CACHE_DIR + "/update/latest.apk"), new DownloadTask.Feedback() {
+                            DownloadUtil.downloadSingleFile(getContext(), new DownloadTaskListBean("", finalUrl, AppManifest.DEFAULT_CACHE_DIR + "/update/latest.apk",null), new DownloadTask.Feedback() {
                                 @Override
                                 public void addTask(DownloadTaskListBean bean) {
 
@@ -186,7 +187,7 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
                                 }
 
                                 @Override
-                                public void onFinished(Map<String, String> failedFile) {
+                                public void onFinished(ArrayList<DownloadTaskListBean> failedFile) {
                                     handler.post(() -> {
                                         update.setEnabled(true);
                                         ignore.setEnabled(true);

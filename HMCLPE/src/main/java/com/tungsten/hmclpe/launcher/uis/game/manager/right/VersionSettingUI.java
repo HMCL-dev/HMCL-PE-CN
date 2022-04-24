@@ -33,7 +33,7 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.ControlPatternActivity;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.control.ControllerManagerDialog;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
@@ -601,7 +601,7 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
         else if (setting.gameDirSetting.type == 1){
             editGameDir.setEnabled(false);
             selectGameDir.setEnabled(false);
-            gameDirText.setText(activity.publicGameSetting.currentVersion);
+            gameDirText.setText(activity.launcherSetting.gameFileDirectory + "/versions/" + versionName);
             checkGameDirDefault.setChecked(false);
             checkGameDirIsolate.setChecked(true);
             checkGameDirCustom.setChecked(false);
@@ -716,8 +716,8 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
             activity.startActivityForResult(intent, SELECT_ICON_REQUEST);
         }
         if (v == deleteVersionIcon) {
-            if (new File(activity.publicGameSetting.currentVersion + "/icon.png").exists()) {
-                new File(activity.publicGameSetting.currentVersion + "/icon.png").delete();
+            if (new File(activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/icon.png").exists()) {
+                new File(activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/icon.png").delete();
             }
             icon.setBackground(context.getDrawable(R.drawable.ic_furnace));
         }
@@ -778,7 +778,7 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
         if (v == checkGameDirIsolate && privateGameSetting != null){
             editGameDir.setEnabled(false);
             selectGameDir.setEnabled(false);
-            gameDirText.setText(activity.publicGameSetting.currentVersion);
+            gameDirText.setText(activity.launcherSetting.gameFileDirectory + "/versions/" + versionName);
             checkGameDirDefault.setChecked(false);
             checkGameDirCustom.setChecked(false);
             privateGameSetting.gameDirSetting.type = 1;
