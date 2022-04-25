@@ -76,6 +76,19 @@ public class SettingUtils {
         return list;
     }
 
+    public static ArrayList<String> getLocalVersionNames(String path){
+        ArrayList<String> list = new ArrayList<>();
+        String[] string = new File(path + "/versions/").list();
+        if (new File(path + "/versions/").exists()){
+            for (String str : string){
+                if (new File(path + "/versions/" + str + "/" + str + ".json").exists()) {
+                    list.add(str);
+                }
+            }
+        }
+        return list;
+    }
+
     public static ArrayList<JavaListBean> getJavaVersionInfo(){
         ArrayList<JavaListBean> list = new ArrayList<>();
         String javaPath = AppManifest.JAVA_DIR + "/";

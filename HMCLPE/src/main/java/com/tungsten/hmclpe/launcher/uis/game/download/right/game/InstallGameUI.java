@@ -186,12 +186,7 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
             activity.uiManager.switchMainUI(activity.uiManager.downloadFabricAPIUI);
         }
         if (v == install){
-            boolean exist = false;
-            for (int i = 0;i < SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory,activity.publicGameSetting.currentVersion).size();i++){
-                if (editName.getText().toString().equals(SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory,activity.publicGameSetting.currentVersion).get(i).name)){
-                    exist = true;
-                }
-            }
+            boolean exist = SettingUtils.getLocalVersionNames(activity.launcherSetting.gameFileDirectory).contains(editName.getText().toString());
             if (exist){
                 Toast.makeText(context,context.getString(R.string.install_game_ui_exist),Toast.LENGTH_SHORT).show();
             }

@@ -39,8 +39,7 @@
         android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"
         tools:ignore="UnusedAttribute">
         <activity
-            android:name=".launcher.MainActivity"
-            android:launchMode="singleTask"
+            android:name=".launcher.SplashActivity"
             android:screenOrientation="sensorLandscape"
             android:exported="true">
             <intent-filter>
@@ -63,6 +62,10 @@
                 <data android:mimeType="application/*"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".launcher.MainActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"/>
         <activity
             android:name=".auth.microsoft.MicrosoftLoginActivity"
             android:screenOrientation="sensorLandscape"

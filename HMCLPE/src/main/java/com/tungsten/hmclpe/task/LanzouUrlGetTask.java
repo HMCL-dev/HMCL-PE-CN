@@ -114,7 +114,7 @@ public class LanzouUrlGetTask extends AsyncTask<String, Integer, String> {
                         web.loadUrl(finalUrl);
                     }
                 });
-                while (fianalUrl==null){
+                while (fianalUrl == null){
 
                 }
                 webClient.closeAllWindows();

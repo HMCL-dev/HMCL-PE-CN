@@ -70,7 +70,7 @@ public class DownloadTask extends AsyncTask<ArrayList<DownloadTaskListBean>, Int
             String path = bean.path;
             String sha1 = bean.sha1;
             threadPool.execute(() -> {
-                if (!new File(path).exists()) {
+                if (!new File(path).exists() || (new File(path).exists() && !Objects.equals(FileUtils.getFileSha1(path), sha1))) {
                     int tryTimes = 5;
                     for (int i = 0; i < tryTimes; i++) {
                         if (isCancelled()) {

@@ -2,30 +2,21 @@ package com.tungsten.hmclpe.launcher;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Settings;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.appthemeengine.ATE;
@@ -44,11 +35,7 @@ import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public RelativeLayout loadingLayout;
     public LinearLayout launcherLayout;
-
-    public ProgressBar loadingProgress;
-    public TextView loadingText;
 
     public boolean isLoaded = false;
     public boolean dialogMode = false;
@@ -78,64 +65,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_main);
 
-        loadingLayout = findViewById(R.id.loading_layout);
         launcherLayout = findViewById(R.id.launcher_layout);
 
-        loadingProgress = findViewById(R.id.download_resource_progress);
-        loadingText = findViewById(R.id.launcher_loading_text);
-
-        requestPermission();
-    }
-
-    private void requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            // 先判断有没有权限
-            if (Environment.isExternalStorageManager()) {
-                init();
-            } else {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                intent.setData(Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent, 1000);
-            }
-        } else {
-            // 先判断有没有权限
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                init();
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
-            }
-        }
+        init();
     }
 
     private void init(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            if (getIntent().getExtras().getBoolean("fullscreen")) {
+                getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            } else {
+                getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
+            }
+        }
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
         new Thread(){
             @Override
             public void run(){
-                runOnUiThread(() -> {
-                    loadingText.setText(getString(R.string.loading_hint_setting));
-                });
-
                 AppManifest.initializeManifest(MainActivity.this);
                 launcherSetting = InitializeSetting.initializeLauncherSetting();
                 publicGameSetting = InitializeSetting.initializePublicGameSetting(MainActivity.this,MainActivity.this);
                 privateGameSetting = InitializeSetting.initializePrivateGameSetting(MainActivity.this);
 
                 runOnUiThread(() -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        if (launcherSetting.fullscreen) {
-                            getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
-                        } else {
-                            getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
-                        }
-                    }
-                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
                     updateChecker = new UpdateChecker(MainActivity.this,MainActivity.this);
                 });
 
                 DownloadUrlSource.getBalancedSource(MainActivity.this);
 
-                InitializeSetting.checkLauncherFiles(MainActivity.this);
+                loadingHandler.sendEmptyMessage(0);
             }
         }.start();
     }
@@ -171,17 +129,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     exteriorConfig.apply(MainActivity.this);
 
                     isLoaded = true;
-                    enterLauncher();
+                    onLoad();
                 }
             }
         }
     };
 
-    public void enterLauncher(){
+    public void onLoad(){
         uiManager.gameManagerUI.gameManagerUIManager.versionSettingUI.onLoaded();
         uiManager.downloadUI.downloadUIManager.downloadMinecraftUI.onLoaded();
         uiManager.settingUI.settingUIManager.universalGameSettingUI.onLoaded();
-        loadingLayout.setVisibility(View.GONE);
     }
 
     public void showBarTitle(String title,boolean home,boolean close){
@@ -312,19 +269,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isLoaded){
             uiManager.onActivityResult(requestCode,resultCode,data);
         }
-        if (requestCode == 1000 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (Environment.isExternalStorageManager()) {
-                init();
-            } else {
-                new AlertDialog.Builder(this)
-                        .setMessage(R.string.storage_permissions_remind)
-                        .setPositiveButton("OK", (dialog1, which) ->
-                                requestPermission())
-                        .setNegativeButton("Cancel", null)
-                        .create()
-                        .show();
-            }
-        }
     }
 
     @Override
@@ -333,31 +277,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Uri data = intent.getData();
         if (data != null && data.getScheme().equals("ms-xal-00000000402b5328") && data.getHost().equals("auth")) {
 
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        //通过requestCode来识别是否同一个请求
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1000) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //用户同意，执行操作
-                init();
-            } else {
-                //用户不同意，向用户展示该权限作用
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    new AlertDialog.Builder(this)
-                            .setMessage(R.string.storage_permissions_remind)
-                            .setPositiveButton("OK", (dialog1, which) ->
-                                    ActivityCompat.requestPermissions(this,
-                                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                            1000))
-                            .setNegativeButton("Cancel", null)
-                            .create()
-                            .show();
-                }
-            }
         }
     }
 

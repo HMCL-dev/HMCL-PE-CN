@@ -1,6 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">HMCL-PE</string>
     <string name="app_full_name" translatable="false">Hello Minecraft! Launcher : Pocket Edition</string>
+    <string name="app_name_pri" translatable="false">Hello Minecraft! Launcher</string>
+    <string name="app_name_sec" translatable="false">Pocket Edition</string>
     <string name="version_name" translatable="false">v1.0.0</string>
     <string name="app_bar_title" translatable="false">Hello Minecraft! Launcher Pocket Edition v1.0.0</string>
 
@@ -9,15 +11,24 @@
     <string name="storage_permissions_remind">请授予启动器读写权限，否则可能无法正常运行</string>
     
     <string name="loading_title">欢迎使用</string>
-    <string name="loading_hint">加载中...</string>
-    <string name="loading_hint_setting">正在检查配置文件...</string>
-    <string name="loading_hint_plugin">正在检查启动器补丁...</string>
-    <string name="loading_hint_control">正在检查启动器控制布局...</string>
-    <string name="loading_hint_lib">正在检查游戏本地库...</string>
-    <string name="loading_hint_java_8">正在检查 Java 8...</string>
-    <string name="loading_hint_java_17">正在检查 Java 17...</string>
-    <string name="loading_hint_java_17_install">正在下载 Java 17...</string>
-    <string name="loading_hint_java_17_unzip">正在解压 Java 17...</string>
+    <string name="loading_hint">加载中…</string>
+    <string name="loading_hint_setting">正在检查配置文件…</string>
+    <string name="loading_hint_plugin">正在检查启动器补丁…</string>
+    <string name="loading_hint_control">正在检查启动器控制布局…</string>
+    <string name="loading_hint_lib">正在检查游戏本地库…</string>
+    <string name="loading_hint_java_8">正在检查 Java 8…</string>
+    <string name="loading_hint_select">选择 Java 17 安装方式</string>
+    <string name="loading_hint_download">下载安装</string>
+    <string name="loading_hint_local">本地安装</string>
+    <string name="loading_hint_java_17">正在检查 Java 17…</string>
+    <string name="loading_hint_java_17_select">请选择…</string>
+    <string name="loading_hint_java_17_check">正在检查文件…</string>
+    <string name="loading_hint_java_17_error">请选择官方提供的 Java 17 文件，如果你没有此文件，请加入官方群获取</string>
+    <string name="loading_hint_java_17_get">正在获取 Java 17 链接…</string>
+    <string name="loading_hint_java_17_install">正在下载 Java 17…</string>
+    <string name="loading_hint_java_17_download_failed">下载失败，请重试</string>
+    <string name="loading_hint_java_17_unzip">正在解压 Java 17…</string>
+    <string name="loading_hint_ready">准备就绪，即将进入启动器…</string>
     <string name="loading_hint_failed">核心资源安装/更新失败，请检查网络并重启应用，如果无效，请联系开发者</string>
 
     <string name="launcher_scroll_text_account">账户</string>
