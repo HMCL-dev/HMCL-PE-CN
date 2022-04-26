@@ -120,43 +120,47 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         CustomAnimationUtils.showViewFromLeft(mainUI,activity,context,true);
         activity.hideBarTitle();
 
-        ArrayList<GameListBean> gameList = SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory,activity.publicGameSetting.currentVersion);
-        GameListBean currentVersion = new GameListBean("","","",true);
-        if (!activity.publicGameSetting.currentVersion.equals("")){
-            for (int i = 0;i < gameList.size();i++) {
-                if (gameList.get(i).name.equals(activity.publicGameSetting.currentVersion.substring(activity.publicGameSetting.currentVersion.lastIndexOf("/") + 1))) {
-                    currentVersion = gameList.get(i);
+        new Thread(() -> {
+            ArrayList<GameListBean> gameList = SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory,activity.publicGameSetting.currentVersion);
+            activity.runOnUiThread(() -> {
+                GameListBean currentVersion = new GameListBean("","","",true);
+                if (!activity.publicGameSetting.currentVersion.equals("")){
+                    for (int i = 0;i < gameList.size();i++) {
+                        if (gameList.get(i).name.equals(activity.publicGameSetting.currentVersion.substring(activity.publicGameSetting.currentVersion.lastIndexOf("/") + 1))) {
+                            currentVersion = gameList.get(i);
+                        }
+                    }
                 }
-            }
-        }
-        if (gameList.size() > 0 && currentVersion.name.equals("")) {
-            currentVersion = gameList.get(0);
-            activity.publicGameSetting.currentVersion = activity.launcherSetting.gameFileDirectory + "/versions/" + currentVersion.name;
-            GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");
-        }
-        versionSpinnerAdapter = new VersionSpinnerAdapter(context,gameList);
-        Spinner gameVersionSpinner = activity.findViewById(R.id.launcher_spinner_version);
-        gameVersionSpinner.setAdapter(versionSpinnerAdapter);
-        gameVersionSpinner.setSelection(versionSpinnerAdapter.getPosition(currentVersion));
-        gameVersionSpinner.setOnItemSelectedListener(this);
-        if (!currentVersion.name.equals("")){
-            noVersionAlert.setVisibility(View.GONE);
-            currentVersionText.setVisibility(View.VISIBLE);
-            currentVersionText.setText(currentVersion.name);
-            launchVersionText.setText(currentVersion.name);
-            if (!currentVersion.iconPath.equals("") && new File(currentVersion.iconPath).exists()) {
-                versionIcon.setBackground(DrawableUtils.getDrawableFromFile(currentVersion.iconPath));
-            }
-            else {
-                versionIcon.setBackground(context.getDrawable(R.drawable.ic_furnace));
-            }
-        }
-        else {
-            noVersionAlert.setVisibility(View.VISIBLE);
-            currentVersionText.setVisibility(View.GONE);
-            launchVersionText.setText(context.getString(R.string.launcher_button_current_version));
-            versionIcon.setBackground(context.getDrawable(R.drawable.ic_grass));
-        }
+                if (gameList.size() > 0 && currentVersion.name.equals("")) {
+                    currentVersion = gameList.get(0);
+                    activity.publicGameSetting.currentVersion = activity.launcherSetting.gameFileDirectory + "/versions/" + currentVersion.name;
+                    GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");
+                }
+                versionSpinnerAdapter = new VersionSpinnerAdapter(context,gameList);
+                Spinner gameVersionSpinner = activity.findViewById(R.id.launcher_spinner_version);
+                gameVersionSpinner.setAdapter(versionSpinnerAdapter);
+                gameVersionSpinner.setSelection(versionSpinnerAdapter.getPosition(currentVersion));
+                gameVersionSpinner.setOnItemSelectedListener(this);
+                if (!currentVersion.name.equals("")){
+                    noVersionAlert.setVisibility(View.GONE);
+                    currentVersionText.setVisibility(View.VISIBLE);
+                    currentVersionText.setText(currentVersion.name);
+                    launchVersionText.setText(currentVersion.name);
+                    if (!currentVersion.iconPath.equals("") && new File(currentVersion.iconPath).exists()) {
+                        versionIcon.setBackground(DrawableUtils.getDrawableFromFile(currentVersion.iconPath));
+                    }
+                    else {
+                        versionIcon.setBackground(context.getDrawable(R.drawable.ic_furnace));
+                    }
+                }
+                else {
+                    noVersionAlert.setVisibility(View.VISIBLE);
+                    currentVersionText.setVisibility(View.GONE);
+                    launchVersionText.setText(context.getString(R.string.launcher_button_current_version));
+                    versionIcon.setBackground(context.getDrawable(R.drawable.ic_grass));
+                }
+            });
+        }).start();
 
         switch (activity.publicGameSetting.account.loginType){
             case 1:

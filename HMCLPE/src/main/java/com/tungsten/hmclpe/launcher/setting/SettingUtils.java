@@ -44,23 +44,25 @@ public class SettingUtils {
                             .registerTypeAdapter(Argument.class, new Argument.Deserializer())
                             .create();
                     Version version = gson.fromJson(gameJsonText, Version.class);
-                    if (version.getPatches() != null) {
+                    if (version.getPatches() != null && version.getPatches().size() > 0) {
                         StringBuilder stringBuilder = new StringBuilder();
                         for (Version p : version.getPatches()) {
-                            if (p.getId().equals("game")) {
-                                stringBuilder.append(p.getVersion());
-                            }
-                            else if (p.getId().equals("forge")) {
-                                stringBuilder.append(", Forge: " + p.getVersion());
-                            }
-                            else if (p.getId().equals("optifine")) {
-                                stringBuilder.append(", OptiFine: " + p.getVersion());
-                            }
-                            else if (p.getId().equals("fabric")) {
-                                stringBuilder.append(", Fabric: " + p.getVersion());
-                            }
-                            else if (p.getId().equals("liteloader")) {
-                                stringBuilder.append(", LiteLoader: " + p.getVersion());
+                            switch (p.getId()) {
+                                case "game":
+                                    stringBuilder.append(p.getVersion());
+                                    break;
+                                case "forge":
+                                    stringBuilder.append(", Forge: ").append(p.getVersion());
+                                    break;
+                                case "optifine":
+                                    stringBuilder.append(", OptiFine: ").append(p.getVersion());
+                                    break;
+                                case "fabric":
+                                    stringBuilder.append(", Fabric: ").append(p.getVersion());
+                                    break;
+                                case "liteloader":
+                                    stringBuilder.append(", LiteLoader: ").append(p.getVersion());
+                                    break;
                             }
                         }
                         bean.version = stringBuilder.toString();

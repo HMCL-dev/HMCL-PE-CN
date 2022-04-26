@@ -77,6 +77,8 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
                 gameDirList.setMaxHeight(contentListParent.getHeight() - startAddGameDirUI.getHeight() - ConvertUtils.dip2px(context,10));
             }
         });
+
+        refreshVersionList();
     }
 
     @Override
@@ -115,7 +117,7 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
         contentList = InitializeSetting.initializeContents(context);
         contentListAdapter = new ContentListAdapter(context,activity,contentList);
         gameDirList.setAdapter(contentListAdapter);
-        new Thread(this::refreshVersionList).start();
+        gameListAdapter.refreshCurrentVersion(activity.publicGameSetting.currentVersion);
     }
 
     public void refreshVersionList(){
@@ -125,8 +127,8 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
             versionList.setVisibility(View.GONE);
         });
         gameList = SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory,activity.publicGameSetting.currentVersion);
+        gameListAdapter = new GameListAdapter(context,activity,gameList);
         activity.runOnUiThread(() -> {
-            gameListAdapter = new GameListAdapter(context,activity,gameList);
             versionList.setAdapter(gameListAdapter);
             if (gameList.size() != 0){
                 startDownloadMcUIText.setVisibility(View.GONE);

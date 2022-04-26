@@ -83,13 +83,6 @@ public class FileBrowserWithCustomHandler extends AppCompatActivity implements O
 
         mContext = this;
 
-        // Get File Storage Permission
-        Intent in = new Intent(this, Permissions.class);
-        Bundle bundle = new Bundle();
-        bundle.putStringArray(Constants.APP_PREMISSION_KEY, Constants.APP_PREMISSIONS);
-        in.putExtras(bundle);
-        startActivityForResult(in, APP_PERMISSION_REQUEST);
-
         // Initialize Stuff
         mNavigationHelper = new NavigationHelper(mContext);
         mNavigationHelper.setmChangeDirectoryListener(this);
@@ -104,6 +97,8 @@ public class FileBrowserWithCustomHandler extends AppCompatActivity implements O
         }
 
         mFileList = mNavigationHelper.getFilesItemsInCurrentDirectory();
+
+        loadUi();
     }
 
     @Override
@@ -116,16 +111,6 @@ public class FileBrowserWithCustomHandler extends AppCompatActivity implements O
 
         if (!mNavigationHelper.navigateBack()) {
             super.onBackPressed();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == APP_PERMISSION_REQUEST) {
-            if (resultCode != Activity.RESULT_OK)
-                Toast.makeText(mContext, mContext.getString(R.string.error_no_permissions), Toast.LENGTH_LONG).show();
-            loadUi();
         }
     }
 

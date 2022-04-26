@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.FileObserver;
 import android.os.Handler;
-import android.util.ArrayMap;
 
 import androidx.annotation.Nullable;
 
@@ -197,6 +196,13 @@ public class InstallForge {
     }
 
     public boolean isNewInstaller() {
+        String string = FileStringUtils.getStringFromFile(AppManifest.INSTALL_DIR + "/forge/installer/install_profile.json");
+        Map<?, ?> installProfile = JsonUtils.fromNonNullJson(string, Map.class);
+        if (installProfile.containsKey("spec")) {
+            return true;
+        } else if (installProfile.containsKey("install") && installProfile.containsKey("versionInfo")) {
+            return false;
+        }
         return new File(AppManifest.INSTALL_DIR + "/forge/installer/version.json").exists();
     }
 

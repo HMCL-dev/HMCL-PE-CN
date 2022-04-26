@@ -90,6 +90,18 @@ public class GameListAdapter extends BaseAdapter {
         context.startActivity(intent);
     }
 
+    public void refreshCurrentVersion(String currentVersion){
+        for (int i = 0;i < list.size();i++) {
+            if (list.get(i).name.equals(currentVersion.substring(currentVersion.lastIndexOf("/" + 1)))) {
+                list.get(i).isSelected = true;
+            }
+            else {
+                list.get(i).isSelected = false;
+            }
+        }
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return list.size();
