@@ -67,21 +67,47 @@
 
         </LinearLayout>
 
-        <ImageButton
+        <RelativeLayout
+            android:id="@+id/refresh_layout"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/ic_baseline_refresh_black"
-            android:layout_gravity="center"
-            android:id="@+id/refresh"/>
+            android:layout_height="20dp">
 
-        <ImageButton
+            <ProgressBar
+                android:visibility="gone"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/refresh_account_progress"/>
+
+            <ImageButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_baseline_refresh_black"
+                android:id="@+id/refresh"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/upload_layout"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/ic_baseline_hanger_black"
-            android:layout_gravity="center"
-            android:id="@+id/skin"/>
+            android:layout_height="20dp">
+
+            <ProgressBar
+                android:visibility="gone"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/upload_skin_progress"/>
+
+            <ImageButton
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_baseline_hanger_black"
+                android:id="@+id/skin"/>
+
+        </RelativeLayout>
 
         <ImageButton
             android:layout_marginStart="10dp"

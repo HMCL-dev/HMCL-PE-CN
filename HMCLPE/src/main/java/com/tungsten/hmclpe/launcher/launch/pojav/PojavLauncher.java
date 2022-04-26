@@ -51,12 +51,12 @@ public class PojavLauncher {
                 }
             }
             Collections.addAll(args, JVMArgs);
+            args.add("-Xms" + gameLaunchSetting.minRam + "M");
+            args.add("-Xmx" + gameLaunchSetting.maxRam + "M");
             if (!gameLaunchSetting.extraJavaFlags.equals("")) {
                 String[] extraJavaFlags = gameLaunchSetting.extraJavaFlags.split(" ");
                 Collections.addAll(args, extraJavaFlags);
             }
-            args.add("-Xms" + gameLaunchSetting.minRam + "M");
-            args.add("-Xmx" + gameLaunchSetting.maxRam + "M");
             args.add("-Dorg.lwjgl.opengl.libname=" + JREUtils.loadGraphicsLibrary(gameLaunchSetting.pojavRenderer));
             args.add("-cp");
             args.add(classPath);

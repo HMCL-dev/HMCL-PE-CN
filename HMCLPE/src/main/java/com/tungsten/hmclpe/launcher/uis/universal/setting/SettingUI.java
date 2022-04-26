@@ -104,6 +104,6 @@ public class SettingUI extends BaseUI implements View.OnClickListener {
     }
 
     private void init(){
-
+        settingUIManager.universalGameSettingUI.refresh();
     }
 }

@@ -3,6 +3,7 @@ package com.tungsten.hmclpe.launcher.uis.account;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -25,11 +26,14 @@ import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
+import com.tungsten.hmclpe.utils.file.UriUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
 import java.util.ArrayList;
 
 public class AccountUI extends BaseUI implements View.OnClickListener {
+
+    public static final int SELECT_SKIN_REQUEST = 6900;
 
     public LinearLayout accountUI;
 
@@ -92,8 +96,15 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == MicrosoftLoginActivity.AUTHENTICATE_MICROSOFT_REQUEST && resultCode == Activity.RESULT_OK) {
+        if (requestCode == MicrosoftLoginActivity.AUTHENTICATE_MICROSOFT_REQUEST && resultCode == Activity.RESULT_OK) {
             addMicrosoftAccountDialog.login(data);
+        }
+        if (requestCode == SELECT_SKIN_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            Uri uri = data.getData();
+            String path = UriUtils.getRealPathFromUri_AboveApi19(context,uri);
+            if (path != null && accountListAdapter != null){
+                accountListAdapter.uploadSkin(path);
+            }
         }
     }
 

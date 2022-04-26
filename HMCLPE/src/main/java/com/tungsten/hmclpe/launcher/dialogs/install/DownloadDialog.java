@@ -1,7 +1,9 @@
 package com.tungsten.hmclpe.launcher.dialogs.install;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
 import android.util.ArrayMap;
@@ -229,7 +231,18 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
                 .create();
         String string = gson.toJson(gameVersionJson);
         FileStringUtils.writeFile(gameFilePath + "/versions/" + name + "/" + name + ".json",string);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(context.getString(R.string.dialog_install_success_title));
+        builder.setMessage(context.getString(R.string.dialog_install_success_text));
+        builder.setCancelable(false);
+        builder.setPositiveButton(context.getString(R.string.dialog_install_success_positive), (dialogInterface, i) -> {
+            activity.backToLastUI();
+            new Thread(() -> {
+                activity.uiManager.versionListUI.refreshVersionList();
+            }).start();
+        });
         dismiss();
+        builder.create().show();
     }
 
     public void mergePatch(Version patch) {

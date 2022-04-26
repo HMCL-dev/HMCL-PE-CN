@@ -45,6 +45,10 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
 
     public static final int PICK_GAME_DIR_REQUEST = 1500;
 
+    private LinearLayout isolateAlertLayout;
+    private TextView isolateAlertText;
+    private TextView switchToIsolateSetting;
+
     private LinearLayout showJavaSetting;
     private TextView javaPathText;
     private ImageView showJava;
@@ -138,6 +142,11 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
     public void onCreate() {
         super.onCreate();
         universalGameSettingUI = activity.findViewById(R.id.ui_setting_global_game);
+
+        isolateAlertLayout = activity.findViewById(R.id.isolate_alert_layout);
+        isolateAlertText = activity.findViewById(R.id.isolate_alert_text);
+        switchToIsolateSetting = activity.findViewById(R.id.switch_to_isolate_setting);
+        switchToIsolateSetting.setOnClickListener(this);
 
         showJavaSetting = activity.findViewById(R.id.show_java_selector);
         javaPathText = activity.findViewById(R.id.java_path_text);
@@ -473,8 +482,21 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
     }
 
+    public void refresh() {
+        String settingPath = activity.publicGameSetting.currentVersion + "/hmclpe.cfg";
+        if (new File(settingPath).exists() && GsonUtils.getPrivateGameSettingFromFile(settingPath) != null && (GsonUtils.getPrivateGameSettingFromFile(settingPath).forceEnable || GsonUtils.getPrivateGameSettingFromFile(settingPath).enable)) {
+            isolateAlertLayout.setVisibility(View.VISIBLE);
+            isolateAlertText.setText(context.getString(R.string.game_setting_ui_alert_text).replace("%s",activity.publicGameSetting.currentVersion.substring(activity.publicGameSetting.currentVersion.lastIndexOf("/") + 1)));
+        }
+        else {
+            isolateAlertLayout.setVisibility(View.GONE);
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     private void init(){
+        refresh();
+
         checkAutoRam.setChecked(activity.privateGameSetting.ramSetting.autoRam);
         ramProgressBar.setProgress(MemoryUtils.getTotalDeviceMemory(context) - MemoryUtils.getFreeDeviceMemory(context));
         ramSeekBar.setProgress(activity.privateGameSetting.ramSetting.minRam);
@@ -618,6 +640,11 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
     @SuppressLint("SetTextI18n")
     @Override
     public void onClick(View v) {
+        if (v == switchToIsolateSetting) {
+            activity.uiManager.gameManagerUI.versionName = activity.publicGameSetting.currentVersion.substring(activity.publicGameSetting.currentVersion.lastIndexOf("/") + 1);
+            activity.uiManager.switchMainUI(activity.uiManager.gameManagerUI);
+            activity.uiManager.gameManagerUI.gameManagerUIManager.switchGameManagerUIs(activity.uiManager.gameManagerUI.gameManagerUIManager.versionSettingUI);
+        }
         if (v == showJavaSetting || v == showJava){
             HiddenAnimationUtils.newInstance(context,javaSetting,showJava,javaSettingHeight).toggle();
         }

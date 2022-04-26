@@ -97,6 +97,15 @@
     <string name="dialog_add_authlib_injector_account_empty_warn">用户名或密码不得为空</string>
     <string name="dialog_add_authlib_injector_account_exist_warn">当前用户已存在，无法重复添加</string>
     <string name="dialog_add_authlib_injector_account_failed">登录失败，无效的用户名或密码</string>
+    <string name="dialog_add_authlib_injector_account_none">该帐号没有角色</string>
+
+    <string name="dialog_upload_skin_failed">皮肤上传失败</string>
+    <string name="dialog_upload_skin_invalid_skin">无法识别的皮肤文件</string>
+
+    <string name="dialog_relogin_title">请输入您的密码</string>
+    <string name="dialog_relogin_hint">密码</string>
+    <string name="dialog_relogin_positive">确定</string>
+    <string name="dialog_relogin_negative">取消</string>
 
     <string name="dialog_add_verify_server_title">添加认证服务器</string>
     <string name="dialog_add_verify_server_hint">服务器地址</string>
@@ -247,6 +256,10 @@
     <string name="dialog_install_game_install_fabric_api">正在安装 Fabric API</string>
     <string name="dialog_install_game_exit">取消</string>
 
+    <string name="dialog_install_success_title">提示</string>
+    <string name="dialog_install_success_text">安装成功</string>
+    <string name="dialog_install_success_positive">确定</string>
+
     <string name="download_mod_ui_game">游戏</string>
     <string name="download_mod_ui_source">下载源</string>
     <string name="download_mod_ui_name">名称</string>
@@ -342,7 +355,10 @@
     <string name="setting_ui_feedback">反馈</string>
     <string name="setting_ui_donate">赞助</string>
     <string name="setting_ui_about">关于</string>
-    
+
+    <string name="game_setting_ui_alert">警告</string>
+    <string name="game_setting_ui_alert_text">当前游戏版本 %s 启用了游戏特定设置，因此本页面选项不对该游戏生效。点击链接前往该游戏版本的游戏特定设置页</string>
+    <string name="game_setting_ui_alert_jump">编辑游戏特点设置</string>
     <string name="game_setting_ui_java_path">Java 路径</string>
     <string name="game_setting_ui_java_path_auto">自动选择合适的 Java</string>
     <string name="game_setting_ui_java_path_8">1.8.0 (64位)</string>

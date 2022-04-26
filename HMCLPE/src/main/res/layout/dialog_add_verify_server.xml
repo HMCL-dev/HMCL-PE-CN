@@ -58,15 +58,28 @@
                     android:background="@drawable/launcher_button_parent"
                     android:id="@+id/cancel"/>
 
-                <Button
+                <RelativeLayout
                     android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:gravity="center"
-                    android:text="@string/dialog_add_verify_server_next"
-                    android:textSize="15sp"
-                    android:textColor="@color/colorLinkBlue"
-                    android:background="@drawable/launcher_button_parent"
-                    android:id="@+id/next"/>
+                    android:layout_height="40dp">
+
+                    <ProgressBar
+                        android:visibility="gone"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerInParent="true"
+                        android:id="@+id/verify_progress"/>
+
+                    <Button
+                        android:id="@+id/next"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/launcher_button_parent"
+                        android:gravity="center"
+                        android:text="@string/dialog_add_verify_server_next"
+                        android:textColor="@color/colorLinkBlue"
+                        android:textSize="15sp" />
+
+                </RelativeLayout>
 
             </LinearLayout>
 

@@ -21,6 +21,7 @@ import com.tungsten.hmclpe.utils.gson.GsonUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class AuthlibInjectorServerListAdapter extends BaseAdapter {
 
@@ -116,10 +117,12 @@ public class AuthlibInjectorServerListAdapter extends BaseAdapter {
                 activity.uiManager.accountUI.serverList.remove(authlibInjectorServer);
                 activity.uiManager.accountUI.serverListAdapter.notifyDataSetChanged();
                 GsonUtils.saveServer(activity.uiManager.accountUI.serverList, AppManifest.ACCOUNT_DIR + "/authlib_injector_server.json");
-                for (Account account : activity.uiManager.accountUI.accounts){
+                Iterator<Account> iterator = activity.uiManager.accountUI.accounts.iterator();
+                while(iterator.hasNext()){
+                    Account account = iterator.next();
                     if (account.loginServer.equals(authlibInjectorServer.getUrl())){
                         boolean isSelected = account.email.equals(activity.publicGameSetting.account.email) && account.auth_player_name.equals(activity.publicGameSetting.account.auth_player_name) && account.auth_uuid.equals(activity.publicGameSetting.account.auth_uuid) && account.loginServer.equals(activity.publicGameSetting.account.loginServer);
-                        activity.uiManager.accountUI.accounts.remove(account);
+                        iterator.remove();
                         GsonUtils.saveAccounts(activity.uiManager.accountUI.accounts,AppManifest.ACCOUNT_DIR + "/accounts.json");
                         if (activity.uiManager.accountUI.accounts.size() == 0){
                             activity.publicGameSetting.account = new Account(0,"","","","","","","","","","","");

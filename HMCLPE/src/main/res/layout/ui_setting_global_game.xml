@@ -17,6 +17,71 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/isolate_alert_layout"
+                android:layout_marginBottom="10dp"
+                android:padding="10dp"
+                android:background="@drawable/launcher_view_yellow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_outline_alert_black"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:text="@string/game_setting_ui_alert"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorBrown"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/isolate_alert_text"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_middle"
+                    android:textColor="@color/colorBrown"/>
+
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_baseline_jump_black"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/colorLinkBlue"
+                        android:id="@+id/switch_to_isolate_setting"
+                        android:text="@string/game_setting_ui_alert_jump"
+                        android:layout_marginStart="7dp"
+                        android:textSize="@dimen/text_size_middle"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"

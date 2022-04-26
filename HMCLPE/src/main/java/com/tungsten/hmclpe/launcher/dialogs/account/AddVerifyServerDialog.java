@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class AddVerifyServerDialog extends Dialog implements View.OnClickListene
     private Button cancelSec;
     private Button back;
     private Button positive;
+    private ProgressBar progressBar;
 
     private AuthlibInjectorServer authlibInjectorServer;
 
@@ -58,6 +60,7 @@ public class AddVerifyServerDialog extends Dialog implements View.OnClickListene
         cancelSec = findViewById(R.id.cancel_sec);
         back = findViewById(R.id.back);
         positive = findViewById(R.id.add_verify_server);
+        progressBar = findViewById(R.id.verify_progress);
 
         cancel.setOnClickListener(this);
         next.setOnClickListener(this);
@@ -90,28 +93,25 @@ public class AddVerifyServerDialog extends Dialog implements View.OnClickListene
                 Toast.makeText(getContext(), getContext().getString(R.string.dialog_add_verify_server_empty), Toast.LENGTH_SHORT).show();
             }
             else {
-                new Thread(){
-                    @Override
-                    public void run() {
-                        try {
-                            AuthlibInjectorServer authlibInjectorServer = AuthlibInjectorServer.locateServer(editVerifyServer.getText().toString());
-                            loginHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    next(authlibInjectorServer);
-                                }
-                            });
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            loginHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(getContext(), getContext().getString(R.string.dialog_add_verify_server_invalid), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
+                new Thread(() -> {
+                    loginHandler.post(() -> {
+                        progressBar.setVisibility(View.VISIBLE);
+                        next.setVisibility(View.GONE);
+                        cancel.setEnabled(false);
+                    });
+                    try {
+                        AuthlibInjectorServer authlibInjectorServer = AuthlibInjectorServer.locateServer(editVerifyServer.getText().toString());
+                        loginHandler.post(() -> next(authlibInjectorServer));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        loginHandler.post(() -> Toast.makeText(getContext(), getContext().getString(R.string.dialog_add_verify_server_invalid), Toast.LENGTH_SHORT).show());
                     }
-                }.start();
+                    loginHandler.post(() -> {
+                        progressBar.setVisibility(View.GONE);
+                        next.setVisibility(View.VISIBLE);
+                        cancel.setEnabled(true);
+                    });
+                }).start();
             }
         }
         if (v == back){

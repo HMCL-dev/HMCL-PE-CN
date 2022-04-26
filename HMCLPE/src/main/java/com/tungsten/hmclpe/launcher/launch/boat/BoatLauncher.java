@@ -54,10 +54,6 @@ public class BoatLauncher {
                 }
             }
             Collections.addAll(args, JVMArgs);
-            if (!gameLaunchSetting.extraJavaFlags.equals("")) {
-                String[] extraJavaFlags = gameLaunchSetting.extraJavaFlags.split(" ");
-                Collections.addAll(args, extraJavaFlags);
-            }
             args.add("-Dos.name=Linux");
             args.add("-Dlwjgl.platform=Boat");
             args.add("-Dorg.lwjgl.opengl.libname=libGL.so.1");
@@ -66,6 +62,10 @@ public class BoatLauncher {
             args.add("-Djava.io.tmpdir=" + AppManifest.DEFAULT_CACHE_DIR);
             args.add("-Xms" + gameLaunchSetting.minRam + "M");
             args.add("-Xmx" + gameLaunchSetting.maxRam + "M");
+            if (!gameLaunchSetting.extraJavaFlags.equals("")) {
+                String[] extraJavaFlags = gameLaunchSetting.extraJavaFlags.split(" ");
+                Collections.addAll(args, extraJavaFlags);
+            }
             args.add(version.mainClass);
             String[] minecraftArgs;
             minecraftArgs = version.getMinecraftArguments(gameLaunchSetting, highVersion);

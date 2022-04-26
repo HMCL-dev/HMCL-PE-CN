@@ -531,6 +531,7 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
             view.setAlpha(1f);
             view.setEnabled(true);
         }
+        switchToGlobalSetting.setEnabled(false);
         Log.e("enable","true");
     }
 
@@ -541,6 +542,7 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
             }
             view.setEnabled(false);
         }
+        switchToGlobalSetting.setEnabled(true);
         Log.e("disable","true");
     }
 
