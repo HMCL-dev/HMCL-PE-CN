@@ -53,6 +53,7 @@
     <string name="account_microsoft_login">微软账户</string>
     <string name="account_external_login">添加认证服务器</string>
     <string name="account_auth_lib_injector">外置登录(authlib-injector)</string>
+    <string name="account_nide_8_auth">外置登录(nide8auth)</string>
 
     <string name="dialog_add_offline_account_title">添加离线模式账户</string>
     <string name="dialog_add_offline_account_name">用户名</string>
@@ -107,6 +108,17 @@
     <string name="dialog_relogin_positive">确定</string>
     <string name="dialog_relogin_negative">取消</string>
 
+    <string name="dialog_add_verify_server_nide_title">添加认证服务器（统一通行证）</string>
+    <string name="dialog_add_verify_server_nide_hint">32 位服务器 ID</string>
+    <string name="dialog_add_verify_server_nide_cancel">取消</string>
+    <string name="dialog_add_verify_server_nide_next">下一步 ></string>
+    <string name="dialog_add_verify_server_nide_empty">服务器 ID 不合法</string>
+    <string name="dialog_add_verify_server_nide_invalid">无法连接认证服务器，可能是网络故障或 ID 输入错误</string>
+    <string name="dialog_add_verify_server_nide_url">服务器地址</string>
+    <string name="dialog_add_verify_server_nide_name">服务器名称</string>
+    <string name="dialog_add_verify_server_nide_positive">完成</string>
+    <string name="dialog_add_verify_server_nide_back">&#60; 上一步</string>
+
     <string name="dialog_add_verify_server_title">添加认证服务器</string>
     <string name="dialog_add_verify_server_hint">服务器地址</string>
     <string name="dialog_add_verify_server_cancel">取消</string>
@@ -136,6 +148,7 @@
     <string name="item_account_type_mojang">Mojang 账户</string>
     <string name="item_account_type_microsoft">微软登录</string>
     <string name="item_account_type_auth_lib">外置登录 (authlib-injector)</string>
+    <string name="item_account_type_nide_8_auth">外置登录 (nide8auth)</string>
     <string name="item_account_login_server">认证服务器:</string>
 
     <string name="game_manager_ui_title">游戏管理</string>

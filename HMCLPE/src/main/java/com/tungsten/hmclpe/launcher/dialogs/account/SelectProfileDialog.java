@@ -26,11 +26,12 @@ public class SelectProfileDialog extends Dialog implements View.OnClickListener 
     public String url;
     private ArrayList<Bitmap> bitmaps;
     private AddAuthlibInjectorAccountDialog.OnAuthlibInjectorAccountAddListener onAuthlibInjectorAccountAddListener;
+    private boolean isNide;
 
     private ListView listView;
     private Button cancel;
 
-    public SelectProfileDialog(@NonNull Context context, YggdrasilService yggdrasilService, YggdrasilSession yggdrasilSession, String email, String password, String url, ArrayList<Bitmap> bitmaps, AddAuthlibInjectorAccountDialog.OnAuthlibInjectorAccountAddListener onAuthlibInjectorAccountAddListener) {
+    public SelectProfileDialog(@NonNull Context context, YggdrasilService yggdrasilService, YggdrasilSession yggdrasilSession, String email, String password, String url, ArrayList<Bitmap> bitmaps, AddAuthlibInjectorAccountDialog.OnAuthlibInjectorAccountAddListener onAuthlibInjectorAccountAddListener,boolean isNide) {
         super(context);
         setContentView(R.layout.dialog_select_profile);
         setCancelable(false);
@@ -41,6 +42,7 @@ public class SelectProfileDialog extends Dialog implements View.OnClickListener 
         this.url = url;
         this.bitmaps = bitmaps;
         this.onAuthlibInjectorAccountAddListener = onAuthlibInjectorAccountAddListener;
+        this.isNide = isNide;
         init();
     }
 
@@ -53,7 +55,7 @@ public class SelectProfileDialog extends Dialog implements View.OnClickListener 
     }
 
     private void refreshList(){
-        ProfileListAdapter adapter = new ProfileListAdapter(getContext(),yggdrasilSession.getAvailableProfiles(),bitmaps,onAuthlibInjectorAccountAddListener,this);
+        ProfileListAdapter adapter = new ProfileListAdapter(getContext(),yggdrasilSession.getAvailableProfiles(),bitmaps,onAuthlibInjectorAccountAddListener,this,isNide);
         listView.setAdapter(adapter);
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.width = getMaxWidth(listView);

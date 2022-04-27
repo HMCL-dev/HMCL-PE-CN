@@ -9,7 +9,7 @@
  * 
  * - Implements glfwSetCursorPos() to handle grab camera pos correctly.
  */
-
+ 
 #include <stdlib.h>
 #include <jni.h>
 #include <assert.h>
@@ -56,9 +56,9 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
         runtimeJavaVMPtr = vm;
         (*vm)->GetEnv(vm, (void**) &runtimeJNIEnvPtr_JRE, JNI_VERSION_1_4);
     }
-
+    
     isGrabbing = JNI_FALSE;
-
+    
     return JNI_VERSION_1_4;
 }
 
@@ -110,7 +110,7 @@ jboolean attachThread(bool isAndroid, JNIEnv** secondJNIEnvPtr) {
         (*dalvikJavaVMPtr)->AttachCurrentThread(dalvikJavaVMPtr, secondJNIEnvPtr, NULL);
         return JNI_TRUE;
     }
-
+    
     return JNI_FALSE;
 }
 
@@ -135,11 +135,11 @@ void sendData(int type, int i1, int i2, int i3, int i4) {
         return;
     }
     (*runtimeJNIEnvPtr_ANDROID)->CallStaticVoidMethod(
-            runtimeJNIEnvPtr_ANDROID,
-            inputBridgeClass_ANDROID,
-            inputBridgeMethod_ANDROID,
-            type,
-            i1, i2, i3, i4
+        runtimeJNIEnvPtr_ANDROID,
+        inputBridgeClass_ANDROID,
+        inputBridgeMethod_ANDROID,
+        type,
+        i1, i2, i3, i4
     );
 }
 
@@ -179,12 +179,12 @@ JNIEXPORT jboolean JNICALL Java_org_lwjgl_glfw_CallbackBridge_nativeAttachThread
         result = attachThread(false, &dalvikJNIEnvPtr_JRE);
         // getJavaInputBridge(&inputBridgeClass_JRE, &inputBridgeMethod_JRE);
     }
-
+    
     if (isUseStackQueueCall && isAndroid && result) {
         isPrepareGrabPos = true;
     }
     getJavaInputBridge(&inputBridgeClass_ANDROID, &inputBridgeMethod_ANDROID);
-
+    
     return result;
 }
 
@@ -200,7 +200,7 @@ JNIEXPORT jstring JNICALL Java_org_lwjgl_glfw_CallbackBridge_nativeClipboard(JNI
     LOGD("Clipboard: Obtaining method\n");
     jmethodID bridgeMethod = (* dalvikEnv)->GetStaticMethodID(dalvikEnv, bridgeClazz, "accessAndroidClipboard", "(ILjava/lang/String;)Ljava/lang/String;");
     assert(bridgeMethod != NULL);
-
+    
     LOGD("Clipboard: Converting string\n");
     jstring copyDst = convertStringJVM(env, dalvikEnv, copySrc);
     LOGD("Clipboard: Calling 2nd\n");
@@ -289,10 +289,10 @@ JNIEXPORT void JNICALL Java_org_lwjgl_glfw_CallbackBridge_nativeSendCursorPos(JN
                 grabCursorX += x - lastCursorX;
                 grabCursorY += y - lastCursorY;
             }
-
+            
             lastCursorX = x;
             lastCursorY = y;
-
+            
             if (isPrepareGrabPos) {
                 isPrepareGrabPos = false;
                 return;
@@ -304,7 +304,7 @@ JNIEXPORT void JNICALL Java_org_lwjgl_glfw_CallbackBridge_nativeSendCursorPos(JN
         } else {
             sendData(EVENT_TYPE_CURSOR_POS, (isGrabbing ? grabCursorX : x), (isGrabbing ? grabCursorY : y), 0, 0);
         }
-
+        
         lastCursorX = x;
         lastCursorY = y;
     }
@@ -340,7 +340,7 @@ JNIEXPORT void JNICALL Java_org_lwjgl_glfw_CallbackBridge_nativeSendMouseButton(
 JNIEXPORT void JNICALL Java_org_lwjgl_glfw_CallbackBridge_nativeSendScreenSize(JNIEnv* env, jclass clazz, jint width, jint height) {
     savedWidth = width;
     savedHeight = height;
-
+    
     if (isInputReady) {
         if (GLFW_invoke_FramebufferSize) {
             if (isUseStackQueueCall) {
@@ -349,7 +349,7 @@ JNIEXPORT void JNICALL Java_org_lwjgl_glfw_CallbackBridge_nativeSendScreenSize(J
                 GLFW_invoke_FramebufferSize((void*) showingWindow, width, height);
             }
         }
-
+        
         if (GLFW_invoke_WindowSize) {
             if (isUseStackQueueCall) {
                 sendData(EVENT_TYPE_WINDOW_SIZE, width, height, 0, 0);
@@ -358,7 +358,7 @@ JNIEXPORT void JNICALL Java_org_lwjgl_glfw_CallbackBridge_nativeSendScreenSize(J
             }
         }
     }
-
+    
     // return (isInputReady && (GLFW_invoke_FramebufferSize || GLFW_invoke_WindowSize));
 }
 
@@ -387,8 +387,8 @@ JNIEXPORT void JNICALL Java_org_lwjgl_glfw_CallbackBridge_nativeSetWindowAttrib(
     assert(glfwMethod != NULL);
 
     (*runtimeJNIEnvPtr_JRE)->CallStaticVoidMethod(
-            runtimeJNIEnvPtr_JRE,
-            glfwClazz, glfwMethod,
-            (jlong) showingWindow, attrib, value
+        runtimeJNIEnvPtr_JRE,
+        glfwClazz, glfwMethod,
+        (jlong) showingWindow, attrib, value
     );
 }

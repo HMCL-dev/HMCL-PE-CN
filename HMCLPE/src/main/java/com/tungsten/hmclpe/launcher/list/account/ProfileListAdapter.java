@@ -27,13 +27,15 @@ public class ProfileListAdapter extends BaseAdapter {
     private ArrayList<Bitmap> bitmaps;
     private AddAuthlibInjectorAccountDialog.OnAuthlibInjectorAccountAddListener onAuthlibInjectorAccountAddListener;
     private SelectProfileDialog dialog;
+    private boolean isNide;
 
-    public ProfileListAdapter (Context context, List<GameProfile> list, ArrayList<Bitmap> bitmaps, AddAuthlibInjectorAccountDialog.OnAuthlibInjectorAccountAddListener onAuthlibInjectorAccountAddListener, SelectProfileDialog dialog) {
+    public ProfileListAdapter (Context context, List<GameProfile> list, ArrayList<Bitmap> bitmaps, AddAuthlibInjectorAccountDialog.OnAuthlibInjectorAccountAddListener onAuthlibInjectorAccountAddListener, SelectProfileDialog dialog,boolean isNide) {
         this.context = context;
         this.list = list;
         this.bitmaps = bitmaps;
         this.onAuthlibInjectorAccountAddListener = onAuthlibInjectorAccountAddListener;
         this.dialog = dialog;
+        this.isNide = isNide;
     }
 
     private class ViewHolder{
@@ -77,25 +79,22 @@ public class ProfileListAdapter extends BaseAdapter {
         Bitmap skin = bitmaps.get(i);
         viewHolder.name.setText(gameProfile.getName());
         Avatar.setAvatar(Avatar.bitmapToString(skin),viewHolder.face,viewHolder.hat);
-        viewHolder.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String skinTexture = Avatar.bitmapToString(skin);
-                Account account = new Account(4,
-                        dialog.email,
-                        dialog.password,
-                        "mojang",
-                        "0",
-                        gameProfile.getName(),
-                        gameProfile.getId().toString(),
-                        dialog.yggdrasilSession.getAccessToken(),
-                        dialog.yggdrasilSession.getClientToken(),
-                        "",
-                        dialog.url,
-                        skinTexture);
-                onAuthlibInjectorAccountAddListener.onAccountAdd(account);
-                dialog.dismiss();
-            }
+        viewHolder.item.setOnClickListener(view1 -> {
+            String skinTexture = Avatar.bitmapToString(skin);
+            Account account = new Account(isNide ? 5 : 4,
+                    dialog.email,
+                    dialog.password,
+                    "mojang",
+                    "0",
+                    gameProfile.getName(),
+                    gameProfile.getId().toString(),
+                    dialog.yggdrasilSession.getAccessToken(),
+                    dialog.yggdrasilSession.getClientToken(),
+                    "",
+                    dialog.url,
+                    skinTexture);
+            onAuthlibInjectorAccountAddListener.onAccountAdd(account);
+            dialog.dismiss();
         });
         return view;
     }

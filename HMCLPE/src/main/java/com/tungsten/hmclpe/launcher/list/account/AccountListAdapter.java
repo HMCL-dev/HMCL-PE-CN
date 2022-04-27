@@ -37,6 +37,7 @@ import com.tungsten.hmclpe.auth.yggdrasil.TextureType;
 import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilService;
 import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilSession;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.dialogs.account.AddNide8AuthServerDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.ReLoginDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.SkinPreviewDialog;
 import com.tungsten.hmclpe.launcher.uis.account.AccountUI;
@@ -257,6 +258,11 @@ public class AccountListAdapter extends BaseAdapter {
             viewHolder.type.setText(context.getString(R.string.item_account_type_auth_lib) + ", " + context.getString(R.string.item_account_login_server) + " " + getServerFromUrl(account.loginServer).getName());
             Avatar.setAvatar(account.texture, viewHolder.face, viewHolder.hat);
         }
+        if (account.loginType == 5){
+            viewHolder.name.setText(account.email + " - " +account.auth_player_name);
+            viewHolder.type.setText(context.getString(R.string.item_account_type_nide_8_auth) + ", " + context.getString(R.string.item_account_login_server) + " " + getServerFromUrl(account.loginServer).getName());
+            Avatar.setAvatar(account.texture, viewHolder.face, viewHolder.hat);
+        }
         viewHolder.check.setChecked(isSelected);
         viewHolder.check.setOnClickListener(v -> {
             activity.publicGameSetting.account = account;
@@ -331,13 +337,14 @@ public class AccountListAdapter extends BaseAdapter {
                     });
                 }).start();
             }
-            if (account.loginType == 4){
+            if (account.loginType == 4 || account.loginType == 5){
                 new Thread(() -> {
                     handler.post(() -> {
                         viewHolder.refreshProgress.setVisibility(View.VISIBLE);
                         viewHolder.refresh.setVisibility(View.GONE);
                     });
                     try {
+                        boolean isNide = account.loginType == 5;
                         YggdrasilService yggdrasilService = Objects.requireNonNull(getServerFromUrl(account.loginServer)).getYggdrasilService();
                         YggdrasilSession yggdrasilSession = yggdrasilService.refresh(account.auth_access_token, account.auth_client_token,null);
                         if (yggdrasilSession.getAvailableProfiles().size() > 1) {
@@ -478,7 +485,7 @@ public class AccountListAdapter extends BaseAdapter {
                 SkinPreviewDialog skinPreviewDialog = new SkinPreviewDialog(context,activity,account);
                 skinPreviewDialog.show();
             }
-            else if (account.loginType == 4) {
+            else if (account.loginType == 4 || account.loginType == 5) {
                 skinPosition = position;
                 skinButton = viewHolder.skin;
                 skinProgress = viewHolder.uploadProgress;

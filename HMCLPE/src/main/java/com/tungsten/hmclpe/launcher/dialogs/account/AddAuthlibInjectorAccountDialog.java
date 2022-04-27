@@ -68,6 +68,8 @@ public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnCl
 
     private Account account;
 
+    public static final String NIDE_8_AUTH_SIGN_UP_PAGE = "https://login2.nide8.com:233/";
+
     public AddAuthlibInjectorAccountDialog(@NonNull Context context, MainActivity activity,OnAuthlibInjectorAccountAddListener onAuthlibInjectorAccountAddListener,ArrayList<AuthlibInjectorServer> list,AuthlibInjectorServer authlibInjectorServer) {
         super(context);
         this.activity = activity;
@@ -108,7 +110,7 @@ public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnCl
             getContext().startActivity(intent);
         }
         if (v == addServer){
-            AddVerifyServerDialog addVerifyServerDialog = new AddVerifyServerDialog(getContext(), new AddVerifyServerDialog.OnAuthlibInjectorServerAddListener() {
+            AddAuthLibServerDialog addVerifyServerDialog = new AddAuthLibServerDialog(getContext(), new AddAuthLibServerDialog.OnAuthlibInjectorServerAddListener() {
                 @Override
                 public void onServerAdd(AuthlibInjectorServer authlibInjectorServer) {
                     if (!activity.uiManager.accountUI.serverList.contains(authlibInjectorServer)){
@@ -127,6 +129,7 @@ public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnCl
             else {
                 String email = editEmail.getText().toString();
                 String password = editPassword.getText().toString();
+                boolean isNide = authlibInjectorServer.getUrl().startsWith(AddNide8AuthServerDialog.NIDE_8_AUTH_SERVER);
                 new Thread(() -> {
                     loginHandler.post(() -> {
                         progressBar.setVisibility(View.VISIBLE);
@@ -163,7 +166,7 @@ public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnCl
                                 }
                             }
                             loginHandler.post(() -> {
-                                SelectProfileDialog dialog = new SelectProfileDialog(getContext(),yggdrasilService,yggdrasilSession,email,password,authlibInjectorServer.getUrl(),bitmaps,onAuthlibInjectorAccountAddListener);
+                                SelectProfileDialog dialog = new SelectProfileDialog(getContext(),yggdrasilService,yggdrasilSession,email,password,authlibInjectorServer.getUrl(),bitmaps,onAuthlibInjectorAccountAddListener,isNide);
                                 dialog.show();
                                 dismiss();
                             });
@@ -193,7 +196,7 @@ public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnCl
                             }
                             loginHandler.post(() -> {
                                 String skinTexture = Avatar.bitmapToString(skin);
-                                account = new Account(4,
+                                account = new Account(isNide ? 5 : 4,
                                         email,
                                         password,
                                         "mojang",
@@ -233,6 +236,9 @@ public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnCl
         if (parent == editServer){
             authlibInjectorServer = (AuthlibInjectorServer) serverListAdapter.getItem(position);
             signUpUrl = authlibInjectorServer.getLinks().get("register");
+            if (authlibInjectorServer.getUrl().startsWith(AddNide8AuthServerDialog.NIDE_8_AUTH_SERVER)) {
+                signUpUrl = NIDE_8_AUTH_SIGN_UP_PAGE + authlibInjectorServer.getUrl().substring(authlibInjectorServer.getUrl().length() - 33);
+            }
             if (signUpUrl == null){
                 signUp.setVisibility(View.GONE);
             }

@@ -937,7 +937,7 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
                     privateGameSetting.enable = false;
                     GsonUtils.savePrivateGameSetting(privateGameSetting,settingPath);
                 }
-                //privateGameSetting = null;
+                privateGameSetting = null;
             }
             onRefresh();
         }
