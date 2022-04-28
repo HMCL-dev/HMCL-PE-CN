@@ -35,7 +35,7 @@ import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilSession;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.account.server.AuthlibInjectorServerSpinnerAdapter;
 import com.tungsten.hmclpe.manifest.AppManifest;
-import com.tungsten.hmclpe.skin.draw2d.Avatar;
+import com.tungsten.hmclpe.utils.skin.Avatar;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
 import java.io.IOException;

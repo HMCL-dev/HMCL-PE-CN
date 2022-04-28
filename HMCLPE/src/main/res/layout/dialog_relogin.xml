@@ -24,6 +24,7 @@
         android:textSize="@dimen/text_size_middle" />
 
     <EditText
+        android:inputType="textPassword"
         android:layout_marginTop="15dp"
         android:textSize="@dimen/text_size_middle"
         android:hint="@string/dialog_relogin_hint"

@@ -124,52 +124,6 @@
             android:layout_weight="1"/>
 
         <LinearLayout
-            android:padding="10dp"
-            android:background="@drawable/launcher_button_parent"
-            android:focusable="true"
-            android:clickable="true"
-            android:id="@+id/add_login_server_nide"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_gravity="center"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/ic_outline_add_black"/>
-
-            <LinearLayout
-                android:layout_marginLeft="12dp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:weightSum="2"
-                android:layout_gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:singleLine="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@color/colorPureBlack"
-                    android:text="@string/account_external_login"
-                    android:textSize="@dimen/text_size_middle"/>
-
-                <TextView
-                    android:singleLine="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/account_nide_8_auth"
-                    android:textSize="@dimen/text_size_small"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
             android:layout_marginBottom="10dp"
             android:padding="10dp"
             android:background="@drawable/launcher_button_parent"
@@ -209,7 +163,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/account_auth_lib_injector"
+                    android:text="@string/account_external_login_hint"
                     android:textSize="@dimen/text_size_small"/>
 
             </LinearLayout>

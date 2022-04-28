@@ -170,6 +170,8 @@ public class JREUtils {
         // On certain GLES drivers, overloading default functions shader hack fails, so disable it
         envMap.put("LIBGL_NOINTOVLHACK", "1");
 
+        envMap.put("LIBGL_GL", "21");
+
         //envMap.put("LIBGL_SHRINK","0");
 
         //envMap.put("LIBGL_USEVBO","0");

@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.skin.draw2d;
+package com.tungsten.hmclpe.utils.skin;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
@@ -7,7 +7,6 @@ import android.graphics.Matrix;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Base64;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -17,30 +16,27 @@ import java.io.ByteArrayOutputStream;
 public class Avatar {
 
     public static void setAvatar(String texture, ImageView face,ImageView hat){
-        face.post(new Runnable() {
-            @Override
-            public void run() {
-                Bitmap skin = stringToBitmap(texture);
-                Bitmap faceBitmap;
-                Bitmap faceBitmapSec;
-                faceBitmap = Bitmap.createBitmap(skin, 8, 8, 8, 8, (Matrix)null, false);
-                faceBitmapSec = Bitmap.createBitmap(skin, 40, 8, 8, 8, (Matrix)null, false);
-                Matrix matrix = new Matrix();
-                float scale = (face.getWidth() / 8);
-                Matrix matrixSec = new Matrix();
-                float scaleSec = (hat.getWidth() / 8);
-                matrix.postScale(scale,scale);
-                Bitmap newBitmap = Bitmap.createBitmap(faceBitmap,0,0,8,8,matrix,false);
-                matrixSec.postScale(scaleSec,scaleSec);
-                Bitmap newBitmapSec = Bitmap.createBitmap(faceBitmapSec,0,0,8,8,matrixSec,false);
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        face.setImageBitmap(newBitmap);
-                        hat.setImageBitmap(newBitmapSec);
-                    }
-                });
-            }
+        face.post(() -> {
+            Bitmap skin = stringToBitmap(texture);
+            Bitmap faceBitmap;
+            Bitmap faceBitmapSec;
+            faceBitmap = Bitmap.createBitmap(skin, 8, 8, 8, 8, (Matrix)null, false);
+            faceBitmapSec = Bitmap.createBitmap(skin, 40, 8, 8, 8, (Matrix)null, false);
+            Matrix matrix = new Matrix();
+            float scale = (face.getWidth() / 8);
+            Matrix matrixSec = new Matrix();
+            float scaleSec = (hat.getWidth() / 8);
+            matrix.postScale(scale,scale);
+            Bitmap newBitmap = Bitmap.createBitmap(faceBitmap,0,0,8,8,matrix,false);
+            matrixSec.postScale(scaleSec,scaleSec);
+            Bitmap newBitmapSec = Bitmap.createBitmap(faceBitmapSec,0,0,8,8,matrixSec,false);
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    face.setImageBitmap(newBitmap);
+                    hat.setImageBitmap(newBitmapSec);
+                }
+            });
         });
     }
 

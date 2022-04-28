@@ -52,8 +52,11 @@
     <string name="account_mojang_login">Mojang 账号</string>
     <string name="account_microsoft_login">微软账户</string>
     <string name="account_external_login">添加认证服务器</string>
-    <string name="account_auth_lib_injector">外置登录(authlib-injector)</string>
-    <string name="account_nide_8_auth">外置登录(nide8auth)</string>
+    <string name="account_external_login_hint">外置登录</string>
+
+    <string name="account_server_type">选择认证服务器类型</string>
+    <string name="account_auth_lib_injector">皮肤站 (authlib-injector)</string>
+    <string name="account_nide_8_auth">统一通行证 (nide8auth)</string>
 
     <string name="dialog_add_offline_account_title">添加离线模式账户</string>
     <string name="dialog_add_offline_account_name">用户名</string>

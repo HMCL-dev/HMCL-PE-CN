@@ -28,7 +28,7 @@ import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.launcher.view.spinner.VersionSpinnerAdapter;
-import com.tungsten.hmclpe.skin.draw2d.Avatar;
+import com.tungsten.hmclpe.utils.skin.Avatar;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.file.DrawableUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
@@ -179,6 +179,7 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
                 Avatar.setAvatar(activity.publicGameSetting.account.texture, accountSkinFace, accountSkinHat);
                 break;
             case 4:
+            case 5:
                 accountName.setText(activity.publicGameSetting.account.auth_player_name);
                 accountType.setText(getServerFromUrl(activity.publicGameSetting.account.loginServer).getName());
                 Avatar.setAvatar(activity.publicGameSetting.account.texture, accountSkinFace, accountSkinHat);

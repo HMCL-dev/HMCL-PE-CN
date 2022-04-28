@@ -37,14 +37,13 @@ import com.tungsten.hmclpe.auth.yggdrasil.TextureType;
 import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilService;
 import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilSession;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.dialogs.account.AddNide8AuthServerDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.ReLoginDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.SkinPreviewDialog;
 import com.tungsten.hmclpe.launcher.uis.account.AccountUI;
 import com.tungsten.hmclpe.manifest.AppManifest;
-import com.tungsten.hmclpe.skin.InvalidSkinException;
-import com.tungsten.hmclpe.skin.NormalizedSkin;
-import com.tungsten.hmclpe.skin.draw2d.Avatar;
+import com.tungsten.hmclpe.utils.skin.InvalidSkinException;
+import com.tungsten.hmclpe.utils.skin.NormalizedSkin;
+import com.tungsten.hmclpe.utils.skin.Avatar;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
 import java.io.File;
@@ -52,7 +51,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
@@ -344,10 +342,10 @@ public class AccountListAdapter extends BaseAdapter {
                         viewHolder.refresh.setVisibility(View.GONE);
                     });
                     try {
-                        boolean isNide = account.loginType == 5;
+                        //boolean isNide = account.loginType == 5;
                         YggdrasilService yggdrasilService = Objects.requireNonNull(getServerFromUrl(account.loginServer)).getYggdrasilService();
                         YggdrasilSession yggdrasilSession = yggdrasilService.refresh(account.auth_access_token, account.auth_client_token,null);
-                        if (yggdrasilSession.getAvailableProfiles().size() > 1) {
+                        if (yggdrasilSession.getAvailableProfiles() != null && yggdrasilSession.getAvailableProfiles().size() > 1) {
                             for (GameProfile gameProfile : yggdrasilSession.getAvailableProfiles()) {
                                 if (gameProfile.getName().equals(account.auth_player_name)) {
                                     Bitmap skin;
@@ -477,7 +475,7 @@ public class AccountListAdapter extends BaseAdapter {
                 }).start();
             }
         });
-        if (account.loginType == 3) {
+        if (account.loginType == 3 || account.loginType == 5) {
             ((View) viewHolder.skin.getParent()).setVisibility(View.GONE);
         }
         viewHolder.skin.setOnClickListener(v -> {
@@ -485,7 +483,7 @@ public class AccountListAdapter extends BaseAdapter {
                 SkinPreviewDialog skinPreviewDialog = new SkinPreviewDialog(context,activity,account);
                 skinPreviewDialog.show();
             }
-            else if (account.loginType == 4 || account.loginType == 5) {
+            else if (account.loginType == 4) {
                 skinPosition = position;
                 skinButton = viewHolder.skin;
                 skinProgress = viewHolder.uploadProgress;

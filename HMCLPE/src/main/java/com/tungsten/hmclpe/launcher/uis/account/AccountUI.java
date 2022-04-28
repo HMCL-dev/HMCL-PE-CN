@@ -18,6 +18,7 @@ import com.tungsten.hmclpe.launcher.dialogs.account.AddMojangAccountDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddNide8AuthServerDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddOfflineAccountDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddAuthLibServerDialog;
+import com.tungsten.hmclpe.launcher.dialogs.account.SelectServerTypeDialog;
 import com.tungsten.hmclpe.launcher.list.account.AccountListAdapter;
 import com.tungsten.hmclpe.launcher.list.account.server.AuthlibInjectorServerListAdapter;
 import com.tungsten.hmclpe.manifest.AppManifest;
@@ -38,7 +39,6 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
     private LinearLayout addOfflineAccount;
     private LinearLayout addMojangAccount;
     private LinearLayout addMicrosoftAccount;
-    private LinearLayout addLoginServerNide;
     private LinearLayout addLoginServer;
 
     private ListView externalServerList;
@@ -65,13 +65,11 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
         addMojangAccount = activity.findViewById(R.id.add_mojang_account);
         addMicrosoftAccount = activity.findViewById(R.id.add_microsoft_account);
         addLoginServer = activity.findViewById(R.id.add_login_server);
-        addLoginServerNide = activity.findViewById(R.id.add_login_server_nide);
 
         addOfflineAccount.setOnClickListener(this);
         addMojangAccount.setOnClickListener(this);
         addMicrosoftAccount.setOnClickListener(this);
         addLoginServer.setOnClickListener(this);
-        addLoginServerNide.setOnClickListener(this);
 
         externalServerList = activity.findViewById(R.id.external_server_list);
         accountList = activity.findViewById(R.id.account_list);
@@ -159,24 +157,14 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
             addMicrosoftAccountDialog.show();
         }
         if (v == addLoginServer){
-            AddAuthLibServerDialog addAuthLibServerDialog = new AddAuthLibServerDialog(context, authlibInjectorServer -> {
-                if (!serverList.contains(authlibInjectorServer)){
-                    serverList.add(authlibInjectorServer);
+            SelectServerTypeDialog dialog = new SelectServerTypeDialog(context, server -> {
+                if (!serverList.contains(server)){
+                    serverList.add(server);
                     serverListAdapter.notifyDataSetChanged();
                     GsonUtils.saveServer(serverList,AppManifest.ACCOUNT_DIR + "/authlib_injector_server.json");
                 }
             });
-            addAuthLibServerDialog.show();
-        }
-        if (v == addLoginServerNide){
-            AddNide8AuthServerDialog addNide8AuthServerDialog = new AddNide8AuthServerDialog(context, authlibInjectorServer -> {
-                if (!serverList.contains(authlibInjectorServer)){
-                    serverList.add(authlibInjectorServer);
-                    serverListAdapter.notifyDataSetChanged();
-                    GsonUtils.saveServer(serverList,AppManifest.ACCOUNT_DIR + "/authlib_injector_server.json");
-                }
-            });
-            addNide8AuthServerDialog.show();
+            dialog.show();
         }
     }
 }

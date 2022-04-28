@@ -21,7 +21,7 @@ import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.Account;
-import com.tungsten.hmclpe.skin.draw2d.Avatar;
+import com.tungsten.hmclpe.utils.skin.Avatar;
 
 import java.io.IOException;
 import java.io.InputStream;

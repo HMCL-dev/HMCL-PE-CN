@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.skin;
+package com.tungsten.hmclpe.utils.skin;
 
 public class InvalidSkinException extends Exception {
 

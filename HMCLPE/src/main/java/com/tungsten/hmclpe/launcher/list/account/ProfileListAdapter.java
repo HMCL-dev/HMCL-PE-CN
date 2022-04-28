@@ -15,7 +15,7 @@ import com.tungsten.hmclpe.auth.Account;
 import com.tungsten.hmclpe.auth.yggdrasil.GameProfile;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddAuthlibInjectorAccountDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.SelectProfileDialog;
-import com.tungsten.hmclpe.skin.draw2d.Avatar;
+import com.tungsten.hmclpe.utils.skin.Avatar;
 
 import java.util.ArrayList;
 import java.util.List;
