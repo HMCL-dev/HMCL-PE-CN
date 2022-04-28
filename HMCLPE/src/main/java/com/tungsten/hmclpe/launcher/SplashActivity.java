@@ -36,6 +36,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
     public Button local;
     public ProgressBar loadingProgress;
     public TextView loadingText;
+    public TextView loadingProgressText;
 
     public LauncherSetting launcherSetting;
 
@@ -49,6 +50,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
         local = findViewById(R.id.install_by_local);
         loadingProgress = findViewById(R.id.loading_progress_bar);
         loadingText = findViewById(R.id.loading_text);
+        loadingProgressText = findViewById(R.id.loading_progress_text);
 
         download.setOnClickListener(this);
         local.setOnClickListener(this);
@@ -174,5 +176,19 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onBackPressed() {
         //do nothing
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        }
     }
 }
