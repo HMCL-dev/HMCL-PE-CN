@@ -49,7 +49,7 @@ public class PojavLauncher {
                 if (JVMArgs[i].startsWith("-DignoreList") && !JVMArgs[i].endsWith("," + new File(gameLaunchSetting.currentVersion).getName() + ".jar")) {
                     JVMArgs[i] = JVMArgs[i] + "," + new File(gameLaunchSetting.currentVersion).getName() + ".jar";
                 }
-                if (!JVMArgs[i].startsWith("-DFabricMcEmu")) {
+                if (!JVMArgs[i].startsWith("-DFabricMcEmu") && !JVMArgs[i].startsWith("net.minecraft.client.main.Main")) {
                     args.add(JVMArgs[i]);
                 }
             }
