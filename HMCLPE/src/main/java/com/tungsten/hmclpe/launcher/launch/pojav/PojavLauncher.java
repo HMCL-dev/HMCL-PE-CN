@@ -49,8 +49,10 @@ public class PojavLauncher {
                 if (JVMArgs[i].startsWith("-DignoreList") && !JVMArgs[i].endsWith("," + new File(gameLaunchSetting.currentVersion).getName() + ".jar")) {
                     JVMArgs[i] = JVMArgs[i] + "," + new File(gameLaunchSetting.currentVersion).getName() + ".jar";
                 }
+                if (!JVMArgs[i].startsWith("-DFabricMcEmu")) {
+                    args.add(JVMArgs[i]);
+                }
             }
-            Collections.addAll(args, JVMArgs);
             args.add("-Xms" + gameLaunchSetting.minRam + "M");
             args.add("-Xmx" + gameLaunchSetting.maxRam + "M");
             if (!gameLaunchSetting.extraJavaFlags.equals("")) {
