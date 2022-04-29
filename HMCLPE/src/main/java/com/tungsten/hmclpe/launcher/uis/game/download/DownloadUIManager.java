@@ -1,6 +1,7 @@
 package com.tungsten.hmclpe.launcher.uis.game.download;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.uis.game.download.right.game.DownloadMinecraftUI;
@@ -45,6 +46,24 @@ public class DownloadUIManager {
             else {
                 downloadUIs[i].onStop();
             }
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        for (BaseUI ui : downloadUIs){
+            ui.onActivityResult(requestCode,resultCode,data);
+        }
+    }
+
+    public void onPause(){
+        for (BaseUI ui : downloadUIs){
+            ui.onPause();
+        }
+    }
+
+    public void onResume(){
+        for (BaseUI ui : downloadUIs){
+            ui.onResume();
         }
     }
 }

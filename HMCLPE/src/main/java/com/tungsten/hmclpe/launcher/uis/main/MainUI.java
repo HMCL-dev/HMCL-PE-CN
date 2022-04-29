@@ -28,7 +28,7 @@ import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.launcher.view.spinner.VersionSpinnerAdapter;
-import com.tungsten.hmclpe.utils.skin.Avatar;
+import com.tungsten.hmclpe.skin.utils.Avatar;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.file.DrawableUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;

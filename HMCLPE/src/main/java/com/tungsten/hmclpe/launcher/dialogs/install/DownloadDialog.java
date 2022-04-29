@@ -75,8 +75,6 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     private RecyclerView taskListView;
     public DownloadTaskListAdapter downloadTaskListAdapter;
 
-    private DownloadTask downloadTask;
-
     private NetSpeedTimer netSpeedTimer;
     private TextView speedText;
     private Button cancelButton;

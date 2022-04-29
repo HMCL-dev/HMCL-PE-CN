@@ -78,6 +78,18 @@ public class GameManagerUI extends BaseUI implements View.OnClickListener {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        gameManagerUIManager.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        gameManagerUIManager.onResume();
+    }
+
+    @Override
     public void onClick(View v) {
         if (v == startGameSetting){
             gameManagerUIManager.switchGameManagerUIs(gameManagerUIManager.versionSettingUI);

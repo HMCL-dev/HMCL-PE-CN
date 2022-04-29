@@ -99,4 +99,16 @@ public class UIManager {
             ui.onActivityResult(requestCode,resultCode,data);
         }
     }
+
+    public void onPause(){
+        for (BaseUI ui : mainUIs){
+            ui.onPause();
+        }
+    }
+
+    public void onResume(){
+        for (BaseUI ui : mainUIs){
+            ui.onResume();
+        }
+    }
 }

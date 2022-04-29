@@ -2,17 +2,17 @@ package com.tungsten.hmclpe.launcher.dialogs.account;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.PixelFormat;
+import android.opengl.GLSurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.crone.skineditorforminecraftpe.minecraftskinrender.MinecraftSkinRenderer;
-import com.crone.skineditorforminecraftpe.minecraftskinrender.SkinGLSurfaceView;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.Account;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.skin.MinecraftSkinRenderer;
+import com.tungsten.hmclpe.skin.SkinGLSurfaceView;
 
 public class SkinPreviewDialog implements View.OnClickListener {
 
@@ -59,10 +59,15 @@ public class SkinPreviewDialog implements View.OnClickListener {
         skinParentView = activity.findViewById(R.id.skin_parent_view);
 
         SkinGLSurfaceView skinGLSurfaceView = new SkinGLSurfaceView(context);
-        MinecraftSkinRenderer renderer = new MinecraftSkinRenderer(context,R.drawable.alex,true);
+        skinGLSurfaceView.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+        skinGLSurfaceView.getHolder().setFormat(PixelFormat.RGBA_8888);
+        skinGLSurfaceView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+        skinGLSurfaceView.setZOrderOnTop(true);
+        MinecraftSkinRenderer renderer = new MinecraftSkinRenderer(context,R.drawable.skin_steve,false);
         skinGLSurfaceView.setRenderer(renderer,5f);
+        skinGLSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        skinGLSurfaceView.setPreserveEGLContextOnPause(true);
         skinParentView.addView(skinGLSurfaceView);
-        //Bitmap bitmap = BitmapFactory.decodeFile("/sdcard/alex.png");
         //renderer.updateTexture(bitmap);
 
         positive = activity.findViewById(R.id.edit_skin_positive);

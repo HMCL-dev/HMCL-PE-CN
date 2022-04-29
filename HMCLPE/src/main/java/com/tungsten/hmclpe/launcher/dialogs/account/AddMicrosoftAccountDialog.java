@@ -27,7 +27,7 @@ import com.tungsten.hmclpe.auth.microsoft.Msa;
 import com.tungsten.hmclpe.auth.yggdrasil.Texture;
 import com.tungsten.hmclpe.auth.yggdrasil.TextureType;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.utils.skin.Avatar;
+import com.tungsten.hmclpe.skin.utils.Avatar;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;

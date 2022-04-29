@@ -304,6 +304,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (isLoaded){
+            uiManager.onPause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isLoaded){
+            uiManager.onResume();
+        }
+    }
+
+    @Override
     protected void onPostResume() {
         super.onPostResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && launcherSetting != null) {

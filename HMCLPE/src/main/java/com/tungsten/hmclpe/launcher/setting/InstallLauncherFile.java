@@ -80,8 +80,9 @@ public class InstallLauncherFile {
         checkJava17(activity);
     }
 
+    @SuppressLint("SetTextI18n")
     public static void checkJava8(SplashActivity activity){
-        @SuppressLint("SetTextI18n") AssetsUtils.ProgressCallback progressCallback = progress -> activity.runOnUiThread(() -> {
+        AssetsUtils.ProgressCallback progressCallback = progress -> activity.runOnUiThread(() -> {
             activity.loadingProgress.setProgress(progress);
             activity.loadingProgressText.setText(progress + " %");
         });
@@ -160,7 +161,8 @@ public class InstallLauncherFile {
         DownloadUtil.downloadSingleFile(activity, new DownloadTaskListBean("", url, AppManifest.DEFAULT_CACHE_DIR + "/java/JRE17.zip",AppInfo.JAVA_17_SHA1), new DownloadTask.Feedback() {
             @Override
             public void addTask(DownloadTaskListBean bean) {
-
+                System.out.println(bean.url);
+                System.out.println(bean.path);
             }
 
             @SuppressLint("SetTextI18n")

@@ -72,15 +72,12 @@ public class AssetsUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                copyAssetsToDst(context, srcPath, sdPath);
-                if (isSuccess)
-                    handler.obtainMessage(SUCCESS).sendToTarget();
-                else
-                    handler.obtainMessage(FAILED, errorStr).sendToTarget();
-            }
+        new Thread(() -> {
+            copyAssetsToDst(context, srcPath, sdPath);
+            if (isSuccess)
+                handler.obtainMessage(SUCCESS).sendToTarget();
+            else
+                handler.obtainMessage(FAILED, errorStr).sendToTarget();
         }).start();
         return this;
     }
@@ -138,7 +135,9 @@ public class AssetsUtils {
                     fos.write(buffer, 0, byteCount);
                     if (progressCallback != null) {
                         long cur = 100L * currentPosition;
-                        progressCallback.onProgress((int) (cur / totalSize));
+                        handler.post(() -> {
+                            progressCallback.onProgress((int) (cur / totalSize));
+                        });
                     }
                 }
                 fos.flush();

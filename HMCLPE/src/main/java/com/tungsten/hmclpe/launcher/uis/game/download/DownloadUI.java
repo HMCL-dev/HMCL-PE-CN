@@ -1,6 +1,7 @@
 package com.tungsten.hmclpe.launcher.uis.game.download;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -57,6 +58,24 @@ public class DownloadUI extends BaseUI implements View.OnClickListener {
     public void onStop() {
         super.onStop();
         CustomAnimationUtils.hideViewToLeft(downloadUI,activity,context,true);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        downloadUIManager.onActivityResult(requestCode,resultCode,data);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        downloadUIManager.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        downloadUIManager.onResume();
     }
 
     private void init(){

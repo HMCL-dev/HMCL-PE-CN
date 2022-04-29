@@ -41,9 +41,9 @@ import com.tungsten.hmclpe.launcher.dialogs.account.ReLoginDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.SkinPreviewDialog;
 import com.tungsten.hmclpe.launcher.uis.account.AccountUI;
 import com.tungsten.hmclpe.manifest.AppManifest;
-import com.tungsten.hmclpe.utils.skin.InvalidSkinException;
-import com.tungsten.hmclpe.utils.skin.NormalizedSkin;
-import com.tungsten.hmclpe.utils.skin.Avatar;
+import com.tungsten.hmclpe.skin.utils.InvalidSkinException;
+import com.tungsten.hmclpe.skin.utils.NormalizedSkin;
+import com.tungsten.hmclpe.skin.utils.Avatar;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
 import java.io.File;
@@ -121,23 +121,20 @@ public class AccountListAdapter extends BaseAdapter {
                 InputStream inputStream = httpURLConnection.getInputStream();
                 skin = BitmapFactory.decodeStream(inputStream);
             }
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    String skinTexture = Avatar.bitmapToString(skin);
-                    newAccount = new Account(rawAccount.loginType,
-                            rawAccount.email,
-                            rawAccount.password,
-                            rawAccount.user_type,
-                            rawAccount.auth_session,
-                            authInfo.getUsername(),
-                            authInfo.getUUID().toString(),
-                            authInfo.getAccessToken(),
-                            yggdrasilSession.getClientToken(),
-                            rawAccount.refresh_token,
-                            rawAccount.loginServer,
-                            skinTexture);
-                }
+            handler.post(() -> {
+                String skinTexture = Avatar.bitmapToString(skin);
+                newAccount = new Account(rawAccount.loginType,
+                        rawAccount.email,
+                        rawAccount.password,
+                        rawAccount.user_type,
+                        rawAccount.auth_session,
+                        authInfo.getUsername(),
+                        authInfo.getUUID().toString(),
+                        authInfo.getAccessToken(),
+                        yggdrasilSession.getClientToken(),
+                        rawAccount.refresh_token,
+                        rawAccount.loginServer,
+                        skinTexture);
             });
         } catch (AuthenticationException | IOException e) {
             e.printStackTrace();
