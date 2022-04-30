@@ -201,11 +201,11 @@
         android:background="#73252525"/>
 
     <include
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         layout="@layout/dialog_offline_skin"
         android:layout_centerHorizontal="true"
-        android:layout_width="540dp"
+        android:layout_width="600dp"
         android:layout_height="match_parent"/>
 
 </RelativeLayout>

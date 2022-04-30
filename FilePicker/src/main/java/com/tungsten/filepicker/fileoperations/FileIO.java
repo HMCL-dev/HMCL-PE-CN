@@ -63,7 +63,7 @@ public class FileIO {
                 }
             });
         } else {
-            UIUtils.ShowToast(mContext.getString(R.string.permission_error),mContext);
+            //UIUtils.ShowToast(mContext.getString(R.string.permission_error),mContext);
         }
     }
 
@@ -180,7 +180,7 @@ public class FileIO {
                 UIUtils.ShowToast(mContext.getString(R.string.no_items_selected), mContext);
             }
         } else {
-            UIUtils.ShowToast(mContext.getString(R.string.permission_error),mContext);
+            //UIUtils.ShowToast(mContext.getString(R.string.permission_error),mContext);
         }
     }
 

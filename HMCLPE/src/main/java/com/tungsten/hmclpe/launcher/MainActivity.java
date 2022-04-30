@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.Config;
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.launcher.dialogs.account.SkinPreviewDialog;
 import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
@@ -268,6 +269,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isLoaded){
             uiManager.onActivityResult(requestCode,resultCode,data);
         }
+        if (SkinPreviewDialog.getInstance() != null) {
+            SkinPreviewDialog.getInstance().onActivityResult(requestCode,resultCode,data);
+        }
     }
 
     @Override
@@ -309,6 +313,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isLoaded){
             uiManager.onPause();
         }
+        if (SkinPreviewDialog.getInstance() != null) {
+            SkinPreviewDialog.getInstance().onPause();
+        }
     }
 
     @Override
@@ -316,6 +323,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         if (isLoaded){
             uiManager.onResume();
+        }
+        if (SkinPreviewDialog.getInstance() != null) {
+            SkinPreviewDialog.getInstance().onResume();
         }
     }
 

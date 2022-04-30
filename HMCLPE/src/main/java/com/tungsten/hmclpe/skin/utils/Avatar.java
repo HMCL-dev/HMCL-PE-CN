@@ -1,12 +1,14 @@
 package com.tungsten.hmclpe.skin.utils;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Base64;
+import android.util.TypedValue;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -62,6 +64,14 @@ public class Avatar {
         byte[]bytes=bStream.toByteArray();
         string=Base64.encodeToString(bytes,Base64.DEFAULT);
         return string;
+    }
+
+    public static Bitmap getBitmapFromRes(Context context,int id) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        TypedValue value = new TypedValue();
+        options.inTargetDensity = value.density;
+        options.inScaled=false;
+        return BitmapFactory.decodeResource(context.getResources(),id,options);
     }
 
     @SuppressLint("HandlerLeak")
