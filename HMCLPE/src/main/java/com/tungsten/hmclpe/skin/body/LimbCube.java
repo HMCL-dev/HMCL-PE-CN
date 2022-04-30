@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.skin;
+package com.tungsten.hmclpe.skin.body;
 
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class Cube1
+public class LimbCube
 {
     protected int[] face_indecies;
     protected float[] face_vertices;
@@ -32,11 +32,11 @@ public class Cube1
     protected float sub_step_value;
     private float[] vertices;
     
-    public Cube1(final float n, final float n2, final float n3, final float n4, final float n5, final float n6) {
+    public LimbCube(final float n, final float n2, final float n3, final float n4, final float n5, final float n6) {
         this.mScale = new float[] { 0.0f, 0.0f, 0.0f };
         this.mOffset = new float[] { 0.0f, 0.0f, 0.0f };
         this.mMainAngle = 0.0f;
-        this.main_step_value = -0.15f;
+        this.main_step_value = -3.0f;
         this.main_max_angle = 3.0f;
         this.main_min_angle = -3.0f;
         this.main_angle_axis = new float[] { 0.0f, 0.0f, 0.0f };
@@ -68,7 +68,7 @@ public class Cube1
         this.mNormalVertexBuffer.position(0);
     }
     
-    public Cube1(final float n, final float n2, final float n3, final float n4, final float n5, final float n6, final float main_step_value, final float n7, final float n8, final float n9, final float main_max_angle, final float main_min_angle, final float sub_step_value, final float sub_max_angle, final float sub_min_angle, final boolean isFixOneAxis, final float fixedDir) {
+    public LimbCube(final float n, final float n2, final float n3, final float n4, final float n5, final float n6, final float main_step_value, final float n7, final float n8, final float n9, final float main_max_angle, final float main_min_angle, final float sub_step_value, final float sub_max_angle, final float sub_min_angle, final boolean isFixOneAxis, final float fixedDir) {
         this(n, n2, n3, n4, n5, n6);
         this.main_step_value = main_step_value;
         this.main_angle_axis[0] = n7;
@@ -110,40 +110,8 @@ public class Cube1
             final float n3 = this.vertices[n * 3 + 2] * this.mScale[2] / 2.0f;
             float n4;
             float n5;
-            if (b) {
-                if (n != 0 && n != 1 && n != 4 && n != 5) {
-                    n4 = n2;
-                    n5 = n3;
-                }
-                else {
-                    final float n6 = (float)(n2 * Math.cos(this.mSubAngle / 180.0f * 2.0f * 3.141592653589793) + n3 * Math.sin(this.mSubAngle / 180.0f * 2.0f * 3.141592653589793));
-                    final float n7 = (float)(n3 * Math.cos(this.mSubAngle / 180.0f * 2.0f * 3.141592653589793) - n2 * Math.sin(this.mSubAngle / 180.0f * 2.0f * 3.141592653589793));
-                    n4 = n6;
-                    n5 = n7;
-                    if (this.isFixOneAxis) {
-                        if (this.fixedDir > 0.0f && this.mSubAngle > 0.0f) {
-                            n4 = n2;
-                            n5 = n3;
-                        }
-                        else {
-                            n4 = n6;
-                            n5 = n7;
-                            if (this.fixedDir < 0.0f) {
-                                n4 = n6;
-                                n5 = n7;
-                                if (this.mSubAngle < 0.0f) {
-                                    n4 = n2;
-                                    n5 = n3;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else {
-                n4 = n2;
-                n5 = n3;
-            }
+            n4 = n2;
+            n5 = n3;
             this.mVertexBuffer.put(i * 3, this.vertices[n * 3] * this.mScale[0] / 2.0f);
             this.mVertexBuffer.put(i * 3 + 1, n4);
             this.mVertexBuffer.put(i * 3 + 2, n5);

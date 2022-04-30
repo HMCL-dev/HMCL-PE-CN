@@ -1,21 +1,22 @@
 package com.tungsten.hmclpe.skin;
 
-import com.tungsten.hmclpe.skin.body.Body;
-import com.tungsten.hmclpe.skin.body.BodyOverlay;
-import com.tungsten.hmclpe.skin.body.Hat;
-import com.tungsten.hmclpe.skin.body.Head;
-import com.tungsten.hmclpe.skin.body.LLeg;
-import com.tungsten.hmclpe.skin.body.LLegOverlay;
-import com.tungsten.hmclpe.skin.body.RLeg;
-import com.tungsten.hmclpe.skin.body.RLegOverlay;
-import com.tungsten.hmclpe.skin.body.alex.AlexLArm;
-import com.tungsten.hmclpe.skin.body.alex.AlexLArmOverlay;
-import com.tungsten.hmclpe.skin.body.alex.AlexRArm;
-import com.tungsten.hmclpe.skin.body.alex.AlexRArmOverlay;
-import com.tungsten.hmclpe.skin.body.steve.LArm;
-import com.tungsten.hmclpe.skin.body.steve.LArmOverlay;
-import com.tungsten.hmclpe.skin.body.steve.RArm;
-import com.tungsten.hmclpe.skin.body.steve.RArmOverlay;
+import com.tungsten.hmclpe.skin.body.cube.Body;
+import com.tungsten.hmclpe.skin.body.cube.BodyOverlay;
+import com.tungsten.hmclpe.skin.body.BodyPart;
+import com.tungsten.hmclpe.skin.body.cube.Hat;
+import com.tungsten.hmclpe.skin.body.cube.Head;
+import com.tungsten.hmclpe.skin.body.cube.LLeg;
+import com.tungsten.hmclpe.skin.body.cube.LLegOverlay;
+import com.tungsten.hmclpe.skin.body.cube.RLeg;
+import com.tungsten.hmclpe.skin.body.cube.RLegOverlay;
+import com.tungsten.hmclpe.skin.body.cube.alex.AlexLArm;
+import com.tungsten.hmclpe.skin.body.cube.alex.AlexLArmOverlay;
+import com.tungsten.hmclpe.skin.body.cube.alex.AlexRArm;
+import com.tungsten.hmclpe.skin.body.cube.alex.AlexRArmOverlay;
+import com.tungsten.hmclpe.skin.body.cube.steve.LArm;
+import com.tungsten.hmclpe.skin.body.cube.steve.LArmOverlay;
+import com.tungsten.hmclpe.skin.body.cube.steve.RArm;
+import com.tungsten.hmclpe.skin.body.cube.steve.RArmOverlay;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -123,7 +124,7 @@ public class GameCharacter
         this.mRLegOverlay = new RLegOverlay();
     }
     
-    public GameCharacter(final boolean mCheckAlexorSteave) {
+    public GameCharacter(final boolean mCheckAlexOrSteve) {
         this.isAlexSkin = false;
         this.isRunning = false;
         this.mBodyOverlayVisible = true;
@@ -140,7 +141,7 @@ public class GameCharacter
         this.mRLegVisible = true;
         this.mRotate = new float[] { 0.0f, 0.0f, 0.0f };
         this.rotate_step = new float[] { 5.0f, 5.0f, 5.0f };
-        if (!(this.mCheckAlexOrSteve = mCheckAlexorSteave)) {
+        if (!(this.mCheckAlexOrSteve = mCheckAlexOrSteve)) {
             this.mHead = new Head();
             this.mHat = new Hat();
             this.mBody = new Body();

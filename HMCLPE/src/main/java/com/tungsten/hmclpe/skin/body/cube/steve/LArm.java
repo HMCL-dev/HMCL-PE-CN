@@ -1,14 +1,14 @@
-package com.tungsten.hmclpe.skin.body.steve;
+package com.tungsten.hmclpe.skin.body.cube.steve;
 
-import com.tungsten.hmclpe.skin.Cube1;
+import com.tungsten.hmclpe.skin.body.LimbCube;
 
-public class LArm extends Cube1
+public class LArm extends LimbCube
 {
     protected float[] larm1_texcoords;
     protected float[] larm_texcoords;
     
     public LArm() {
-        super(4.0f, 12.0f, 4.0f, 6.0f, 2.0f, 0.0f, -0.5f, 1.0f, 0.0f, 0.0f, 10.0f, -10.0f, 1.0f, 20.0f, -20.0f, true, -1.0f);
+        super(4.0f, 12.0f, 4.0f, 6.0f, 2.0f, 0.0f, -1.5f, 1.0f, 0.0f, 0.0f, 10.0f, -10.0f, 1.0f, 20.0f, -20.0f, true, -1.0f);
         this.larm1_texcoords = new float[] { 0.8125f, 1.0f, 0.8125f, 0.90625f, 0.875f, 0.90625f, 0.875f, 1.0f, 0.8125f, 0.90625f, 0.8125f, 0.8125f, 0.875f, 0.8125f, 0.875f, 0.90625f, 0.8125f, 0.8125f, 0.8125f, 0.75f, 0.875f, 0.75f, 0.875f, 0.8125f, 0.875f, 0.8125f, 0.875f, 0.75f, 0.9375f, 0.75f, 0.9375f, 0.8125f, 0.875f, 1.0f, 0.875f, 0.90625f, 0.9375f, 0.90625f, 0.9375f, 1.0f, 0.875f, 0.90625f, 0.875f, 0.8125f, 0.9375f, 0.8125f, 0.9375f, 0.90625f, 0.75f, 1.0f, 0.75f, 0.90625f, 0.8125f, 0.90625f, 0.8125f, 1.0f, 0.75f, 0.90625f, 0.75f, 0.8125f, 0.8125f, 0.8125f, 0.8125f, 0.90625f, 0.9375f, 1.0f, 0.9375f, 0.90625f, 1.0f, 0.90625f, 1.0f, 1.0f, 0.9375f, 0.90625f, 0.9375f, 0.8125f, 1.0f, 0.8125f, 1.0f, 0.90625f };
         this.AddTextures(this.larm_texcoords = new float[] { 0.5625f, 1.0f, 0.5625f, 0.90625f, 0.625f, 0.90625f, 0.625f, 1.0f, 0.5625f, 0.90625f, 0.5625f, 0.8125f, 0.625f, 0.8125f, 0.625f, 0.90625f, 0.5625f, 0.8125f, 0.5625f, 0.75f, 0.625f, 0.75f, 0.625f, 0.8125f, 0.625f, 0.8125f, 0.625f, 0.75f, 0.6875f, 0.75f, 0.6875f, 0.8125f, 0.625f, 1.0f, 0.625f, 0.90625f, 0.6875f, 0.90625f, 0.6875f, 1.0f, 0.625f, 0.90625f, 0.625f, 0.8125f, 0.6875f, 0.8125f, 0.6875f, 0.90625f, 0.5f, 1.0f, 0.5f, 0.90625f, 0.5625f, 0.90625f, 0.5625f, 1.0f, 0.5f, 0.90625f, 0.5f, 0.8125f, 0.5625f, 0.8125f, 0.5625f, 0.90625f, 0.6875f, 1.0f, 0.6875f, 0.90625f, 0.75f, 0.90625f, 0.75f, 1.0f, 0.6875f, 0.90625f, 0.6875f, 0.8125f, 0.75f, 0.8125f, 0.75f, 0.90625f });
     }

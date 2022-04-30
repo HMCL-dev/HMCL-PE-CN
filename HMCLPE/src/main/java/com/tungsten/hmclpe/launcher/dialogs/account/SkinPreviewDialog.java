@@ -21,15 +21,15 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.crone.skineditorforminecraftpe.minecraftskinrender.GameCharacter;
-import com.crone.skineditorforminecraftpe.minecraftskinrender.MinecraftSkinRenderer;
-import com.crone.skineditorforminecraftpe.minecraftskinrender.SkinGLSurfaceView;
 import com.tungsten.filepicker.Constants;
 import com.tungsten.filepicker.FileChooser;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.Account;
 import com.tungsten.hmclpe.auth.offline.OfflineSkinSetting;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.skin.GameCharacter;
+import com.tungsten.hmclpe.skin.MinecraftSkinRenderer;
+import com.tungsten.hmclpe.skin.SkinGLSurfaceView;
 import com.tungsten.hmclpe.skin.utils.Avatar;
 import com.tungsten.hmclpe.skin.utils.InvalidSkinException;
 import com.tungsten.hmclpe.skin.utils.NormalizedSkin;
@@ -226,7 +226,7 @@ public class SkinPreviewDialog implements View.OnClickListener {
                     else {
                         bitmap = Avatar.getBitmapFromRes(context,R.drawable.skin_alex);
                     }
-                    
+
                 }
             }
         });

@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.skin;
+package com.tungsten.hmclpe.skin.body;
 
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class Cube
+public class MainCube
 {
     protected float[] angle_axis;
     protected float[] face_vertices;
@@ -23,7 +23,7 @@ public class Cube
     protected float[] normal_vertices;
     protected float step_value;
     
-    public Cube(final float n, final float n2, final float n3, final float n4, final float n5, final float n6) {
+    public MainCube(final float n, final float n2, final float n3, final float n4, final float n5, final float n6) {
         this.mScale = new float[] { 0.0f, 0.0f, 0.0f };
         this.mOffset = new float[] { 0.0f, 0.0f, 0.0f };
         this.mAngle = 0.0f;
@@ -55,7 +55,7 @@ public class Cube
         this.mNormalVertexBuffer.position(0);
     }
     
-    public Cube(final float n, final float n2, final float n3, final float n4, final float n5, final float n6, final float step_value, final float n7, final float n8, final float n9, final float max_angle, final float min_angle) {
+    public MainCube(final float n, final float n2, final float n3, final float n4, final float n5, final float n6, final float step_value, final float n7, final float n8, final float n9, final float max_angle, final float min_angle) {
         this(n, n2, n3, n4, n5, n6);
         this.step_value = step_value;
         this.max_angle = max_angle;
@@ -90,6 +90,7 @@ public class Cube
         gl10.glPushMatrix();
         gl10.glTranslatef(this.mOffset[0], this.mOffset[1], this.mOffset[2]);
         if (b) {
+            /*
             gl10.glRotatef(this.mAngle, this.angle_axis[0], this.angle_axis[1], this.angle_axis[2]);
             this.mAngle += this.step_value;
             if (this.mAngle >= this.max_angle) {
@@ -100,6 +101,8 @@ public class Cube
                 this.step_value *= -1.0f;
                 this.mAngle = this.min_angle;
             }
+
+             */
         }
         for (int i = 0; i < this.mTextureBuffers.size(); ++i) {
             gl10.glTexCoordPointer(2, 5126, 0, (Buffer)this.mTextureBuffers.get(i));

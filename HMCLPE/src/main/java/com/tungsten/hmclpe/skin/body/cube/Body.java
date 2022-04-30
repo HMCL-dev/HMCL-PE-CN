@@ -1,8 +1,8 @@
-package com.tungsten.hmclpe.skin.body;
+package com.tungsten.hmclpe.skin.body.cube;
 
-import com.tungsten.hmclpe.skin.Cube;
+import com.tungsten.hmclpe.skin.body.MainCube;
 
-public class Body extends Cube
+public class Body extends MainCube
 {
     protected float[] body_texcoords;
     protected float[] jacket_texcoords;
