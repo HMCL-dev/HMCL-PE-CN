@@ -70,7 +70,7 @@ public class Avatar {
         BitmapFactory.Options options = new BitmapFactory.Options();
         TypedValue value = new TypedValue();
         options.inTargetDensity = value.density;
-        options.inScaled=false;
+        options.inScaled = false;
         return BitmapFactory.decodeResource(context.getResources(),id,options);
     }
 

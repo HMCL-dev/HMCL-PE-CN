@@ -186,18 +186,26 @@ public class SkinPreviewDialog implements View.OnClickListener {
             public void afterTextChanged(Editable editable) {
                 if (offlineSkinSetting.type == 3) {
                     offlineSkinSetting.skinPath = editSkinPath.getText().toString();
-                    Bitmap bitmap;
+                    Bitmap skin;
+                    Bitmap cape;
                     if (new File(offlineSkinSetting.skinPath).exists()) {
-                        bitmap = BitmapFactory.decodeFile(offlineSkinSetting.skinPath);
+                        skin = BitmapFactory.decodeFile(offlineSkinSetting.skinPath);
                     }
                     else {
-                        bitmap = Avatar.getBitmapFromRes(context,R.drawable.skin_alex);
+                        skin = Avatar.getBitmapFromRes(context,R.drawable.skin_alex);
+                    }
+                    if (new File(offlineSkinSetting.capePath).exists()) {
+                        cape = (BitmapFactory.decodeFile(offlineSkinSetting.capePath).getWidth() == 64 && BitmapFactory.decodeFile(offlineSkinSetting.capePath).getHeight() == 32) ? BitmapFactory.decodeFile(offlineSkinSetting.capePath) : null;
+                    }
+                    else {
+                        cape = null;
                     }
                     try {
-                        NormalizedSkin normalizedSkin = new NormalizedSkin(bitmap);
+                        NormalizedSkin normalizedSkin = new NormalizedSkin(skin);
                         renderer.mCharacter = new GameCharacter(normalizedSkin.isSlim());
-                        renderer.updateTexture(normalizedSkin.isOldFormat() ? normalizedSkin.getNormalizedTexture() : normalizedSkin.getOriginalTexture());
+                        renderer.updateTexture(normalizedSkin.isOldFormat() ? normalizedSkin.getNormalizedTexture() : normalizedSkin.getOriginalTexture(),cape);
                         offlineSkinSetting.skin = Avatar.bitmapToString(normalizedSkin.isOldFormat() ? normalizedSkin.getNormalizedTexture() : normalizedSkin.getOriginalTexture());
+                        offlineSkinSetting.cape = (cape == null) ? "" : Avatar.bitmapToString(cape);
                     } catch (InvalidSkinException e) {
                         e.printStackTrace();
                     }
@@ -219,14 +227,29 @@ public class SkinPreviewDialog implements View.OnClickListener {
             public void afterTextChanged(Editable editable) {
                 if (offlineSkinSetting.type == 3) {
                     offlineSkinSetting.capePath = editCapePath.getText().toString();
-                    Bitmap bitmap;
+                    Bitmap skin;
+                    Bitmap cape;
                     if (new File(offlineSkinSetting.skinPath).exists()) {
-                        bitmap = BitmapFactory.decodeFile(offlineSkinSetting.skinPath);
+                        skin = BitmapFactory.decodeFile(offlineSkinSetting.skinPath);
                     }
                     else {
-                        bitmap = Avatar.getBitmapFromRes(context,R.drawable.skin_alex);
+                        skin = Avatar.getBitmapFromRes(context,R.drawable.skin_alex);
                     }
-
+                    if (new File(offlineSkinSetting.capePath).exists()) {
+                        cape = (BitmapFactory.decodeFile(offlineSkinSetting.capePath).getWidth() == 64 && BitmapFactory.decodeFile(offlineSkinSetting.capePath).getHeight() == 32) ? BitmapFactory.decodeFile(offlineSkinSetting.capePath) : null;
+                    }
+                    else {
+                        cape = null;
+                    }
+                    try {
+                        NormalizedSkin normalizedSkin = new NormalizedSkin(skin);
+                        renderer.mCharacter = new GameCharacter(normalizedSkin.isSlim());
+                        renderer.updateTexture(normalizedSkin.isOldFormat() ? normalizedSkin.getNormalizedTexture() : normalizedSkin.getOriginalTexture(),cape);
+                        offlineSkinSetting.skin = Avatar.bitmapToString(normalizedSkin.isOldFormat() ? normalizedSkin.getNormalizedTexture() : normalizedSkin.getOriginalTexture());
+                        offlineSkinSetting.cape = (cape == null) ? "" : Avatar.bitmapToString(cape);
+                    } catch (InvalidSkinException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -244,7 +267,7 @@ public class SkinPreviewDialog implements View.OnClickListener {
             }
         }
 
-        renderer.updateTexture(Avatar.stringToBitmap(account.texture));
+        renderer.updateTexture(Avatar.stringToBitmap(account.texture),null);
 
         switch (offlineSkinSetting.type) {
             case 0:
@@ -329,7 +352,7 @@ public class SkinPreviewDialog implements View.OnClickListener {
         localSkinLayout.setVisibility(View.GONE);
 
         renderer.mCharacter = new GameCharacter(true);
-        renderer.updateTexture(Avatar.getBitmapFromRes(context,R.drawable.skin_alex));
+        renderer.updateTexture(Avatar.getBitmapFromRes(context,R.drawable.skin_alex),null);
         offlineSkinSetting.type = 0;
     }
 
@@ -344,7 +367,7 @@ public class SkinPreviewDialog implements View.OnClickListener {
         localSkinLayout.setVisibility(View.GONE);
 
         renderer.mCharacter = new GameCharacter(false);
-        renderer.updateTexture(Avatar.getBitmapFromRes(context,R.drawable.skin_steve));
+        renderer.updateTexture(Avatar.getBitmapFromRes(context,R.drawable.skin_steve),null);
         offlineSkinSetting.type = 1;
     }
 
@@ -359,7 +382,7 @@ public class SkinPreviewDialog implements View.OnClickListener {
         localSkinLayout.setVisibility(View.GONE);
 
         renderer.mCharacter = new GameCharacter(true);
-        renderer.updateTexture(Avatar.getBitmapFromRes(context,R.drawable.skin_alex));
+        renderer.updateTexture(Avatar.getBitmapFromRes(context,R.drawable.skin_alex),null);
         offlineSkinSetting.type = 2;
     }
 
@@ -376,18 +399,26 @@ public class SkinPreviewDialog implements View.OnClickListener {
         editSkinPath.setText(offlineSkinSetting.skinPath);
         editCapePath.setText(offlineSkinSetting.capePath);
 
-        Bitmap bitmap;
+        Bitmap skin;
+        Bitmap cape;
         if (new File(offlineSkinSetting.skinPath).exists()) {
-            bitmap = BitmapFactory.decodeFile(offlineSkinSetting.skinPath);
+            skin = BitmapFactory.decodeFile(offlineSkinSetting.skinPath);
         }
         else {
-            bitmap = Avatar.getBitmapFromRes(context,R.drawable.skin_alex);
+            skin = Avatar.getBitmapFromRes(context,R.drawable.skin_alex);
+        }
+        if (new File(offlineSkinSetting.capePath).exists()) {
+            cape = (BitmapFactory.decodeFile(offlineSkinSetting.capePath).getWidth() == 64 && BitmapFactory.decodeFile(offlineSkinSetting.capePath).getHeight() == 32) ? BitmapFactory.decodeFile(offlineSkinSetting.capePath) : null;
+        }
+        else {
+            cape = null;
         }
         try {
-            NormalizedSkin normalizedSkin = new NormalizedSkin(bitmap);
+            NormalizedSkin normalizedSkin = new NormalizedSkin(skin);
             renderer.mCharacter = new GameCharacter(normalizedSkin.isSlim());
-            renderer.updateTexture(normalizedSkin.isOldFormat() ? normalizedSkin.getNormalizedTexture() : normalizedSkin.getOriginalTexture());
+            renderer.updateTexture(normalizedSkin.isOldFormat() ? normalizedSkin.getNormalizedTexture() : normalizedSkin.getOriginalTexture(),cape);
             offlineSkinSetting.skin = Avatar.bitmapToString(normalizedSkin.isOldFormat() ? normalizedSkin.getNormalizedTexture() : normalizedSkin.getOriginalTexture());
+            offlineSkinSetting.cape = (cape == null) ? "" : Avatar.bitmapToString(cape);
             offlineSkinSetting.type = 3;
         } catch (InvalidSkinException e) {
             e.printStackTrace();

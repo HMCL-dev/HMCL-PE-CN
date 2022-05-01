@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
+import android.util.Log;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -16,17 +17,29 @@ public class TextureHelper
         TextureHelper.isLoadingError = false;
     }
     
-    public static int loadGLTextureFromBitmap(final Bitmap bitmap, final GL10 gl10) {
-        final int[] array = { 0 };
-        gl10.glGenTextures(1, array, 0);
+    public static int[] loadGLTextureFromBitmap(final Bitmap skin,final Bitmap cape, final GL10 gl10) {
+        final int[] array = cape == null ? new int[]{0} : new int[]{ 0 , 0 };
+        gl10.glGenTextures(cape == null ? 1 : 2, array, 0);
         gl10.glBindTexture(3553, array[0]);
         gl10.glTexParameterf(3553, 10241, 9728.0f);
         gl10.glTexParameterf(3553, 10240, 9728.0f);
-        GLUtils.texImage2D(3553, 0, bitmap, 0);
-        return array[0];
+        GLUtils.texImage2D(3553, 0, skin, 0);
+        if (cape != null) {
+            gl10.glBindTexture(3553, array[1]);
+            gl10.glTexParameterf(3553, 10241, 9728.0f);
+            gl10.glTexParameterf(3553, 10240, 9728.0f);
+            GLUtils.texImage2D(3553, 0, cape, 0);
+        }
+        if (array[0] == 0 || (array.length > 1 && array[1] == 0)) {
+            throw new RuntimeException("Error loading texture.");
+        }
+        else {
+            Log.e("loadTex","success");
+        }
+        return array;
     }
     
-    public static int loadTexture(final Context context, final int n) {
+    public static int[] loadTexture(final Context context, final int n) {
         TextureHelper.isLoadingError = false;
         final int[] array = { 0 };
         GLES20.glGenTextures(1, array, 0);
@@ -43,7 +56,7 @@ public class TextureHelper
         if (array[0] == 0) {
             throw new RuntimeException("Error loading texture.");
         }
-        return array[0];
+        return array;
     }
     
     public static int loadTexture(final Context context, final Bitmap bitmap) {

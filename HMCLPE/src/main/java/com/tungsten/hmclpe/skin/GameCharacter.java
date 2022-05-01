@@ -17,6 +17,8 @@ import com.tungsten.hmclpe.skin.body.cube.steve.LArm;
 import com.tungsten.hmclpe.skin.body.cube.steve.LArmOverlay;
 import com.tungsten.hmclpe.skin.body.cube.steve.RArm;
 import com.tungsten.hmclpe.skin.body.cube.steve.RArmOverlay;
+import com.tungsten.hmclpe.skin.cape.CapePart;
+import com.tungsten.hmclpe.skin.cape.cube.Cape;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -54,8 +56,12 @@ public class GameCharacter
     private RLegOverlay mRLegOverlay;
     private boolean mRLegOverlayVisible;
     private boolean mRLegVisible;
+    private Cape mCape;
+    private boolean mCapeVisible;
     private float[] mRotate;
     private float[] rotate_step;
+
+    public float scale = 1f;
     
     static {
         GameCharacter.selected_resource = 2131165201;
@@ -76,20 +82,22 @@ public class GameCharacter
         this.mRArmVisible = true;
         this.mRLegOverlayVisible = true;
         this.mRLegVisible = true;
+        this.mCapeVisible = true;
         this.mRotate = new float[] { 0.0f, 0.0f, 0.0f };
         this.rotate_step = new float[] { 5.0f, 5.0f, 5.0f };
-        this.mHead = new Head();
-        this.mHat = new Hat();
-        this.mBody = new Body();
-        this.mBodyOverlay = new BodyOverlay();
-        this.mLArm = new LArm();
-        this.mRArm = new RArm();
-        this.mLArmOverlay = new LArmOverlay();
-        this.mRArmOverlay = new RArmOverlay();
-        this.mLLeg = new LLeg();
-        this.mRLeg = new RLeg();
-        this.mLLegOverlay = new LLegOverlay();
-        this.mRLegOverlay = new RLegOverlay();
+        this.mHead = new Head(scale);
+        this.mHat = new Hat(scale);
+        this.mBody = new Body(scale);
+        this.mBodyOverlay = new BodyOverlay(scale);
+        this.mLArm = new LArm(scale);
+        this.mRArm = new RArm(scale);
+        this.mLArmOverlay = new LArmOverlay(scale);
+        this.mRArmOverlay = new RArmOverlay(scale);
+        this.mLLeg = new LLeg(scale);
+        this.mRLeg = new RLeg(scale);
+        this.mLLegOverlay = new LLegOverlay(scale);
+        this.mRLegOverlay = new RLegOverlay(scale);
+        this.mCape = new Cape(scale);
     }
     
     public GameCharacter(final int selected_resource) {
@@ -107,21 +115,23 @@ public class GameCharacter
         this.mRArmVisible = true;
         this.mRLegOverlayVisible = true;
         this.mRLegVisible = true;
+        this.mCapeVisible = true;
         this.mRotate = new float[] { 0.0f, 0.0f, 0.0f };
         this.rotate_step = new float[] { 5.0f, 5.0f, 5.0f };
         GameCharacter.selected_resource = selected_resource;
-        this.mHead = new Head();
-        this.mHat = new Hat();
-        this.mBody = new Body();
-        this.mBodyOverlay = new BodyOverlay();
-        this.mLArm = new LArm();
-        this.mRArm = new RArm();
-        this.mLArmOverlay = new LArmOverlay();
-        this.mRArmOverlay = new RArmOverlay();
-        this.mLLeg = new LLeg();
-        this.mRLeg = new RLeg();
-        this.mLLegOverlay = new LLegOverlay();
-        this.mRLegOverlay = new RLegOverlay();
+        this.mHead = new Head(scale);
+        this.mHat = new Hat(scale);
+        this.mBody = new Body(scale);
+        this.mBodyOverlay = new BodyOverlay(scale);
+        this.mLArm = new LArm(scale);
+        this.mRArm = new RArm(scale);
+        this.mLArmOverlay = new LArmOverlay(scale);
+        this.mRArmOverlay = new RArmOverlay(scale);
+        this.mLLeg = new LLeg(scale);
+        this.mRLeg = new RLeg(scale);
+        this.mLLegOverlay = new LLegOverlay(scale);
+        this.mRLegOverlay = new RLegOverlay(scale);
+        this.mCape = new Cape(scale);
     }
     
     public GameCharacter(final boolean mCheckAlexOrSteve) {
@@ -139,35 +149,38 @@ public class GameCharacter
         this.mRArmVisible = true;
         this.mRLegOverlayVisible = true;
         this.mRLegVisible = true;
+        this.mCapeVisible = true;
         this.mRotate = new float[] { 0.0f, 0.0f, 0.0f };
         this.rotate_step = new float[] { 5.0f, 5.0f, 5.0f };
         if (!(this.mCheckAlexOrSteve = mCheckAlexOrSteve)) {
-            this.mHead = new Head();
-            this.mHat = new Hat();
-            this.mBody = new Body();
-            this.mBodyOverlay = new BodyOverlay();
-            this.mLArm = new LArm();
-            this.mRArm = new RArm();
-            this.mLArmOverlay = new LArmOverlay();
-            this.mRArmOverlay = new RArmOverlay();
-            this.mLLeg = new LLeg();
-            this.mRLeg = new RLeg();
-            this.mLLegOverlay = new LLegOverlay();
-            this.mRLegOverlay = new RLegOverlay();
+            this.mHead = new Head(scale);
+            this.mHat = new Hat(scale);
+            this.mBody = new Body(scale);
+            this.mBodyOverlay = new BodyOverlay(scale);
+            this.mLArm = new LArm(scale);
+            this.mRArm = new RArm(scale);
+            this.mLArmOverlay = new LArmOverlay(scale);
+            this.mRArmOverlay = new RArmOverlay(scale);
+            this.mLLeg = new LLeg(scale);
+            this.mRLeg = new RLeg(scale);
+            this.mLLegOverlay = new LLegOverlay(scale);
+            this.mRLegOverlay = new RLegOverlay(scale);
+            this.mCape = new Cape(scale);
             return;
         }
-        this.mHead = new Head();
-        this.mHat = new Hat();
-        this.mBody = new Body();
-        this.mBodyOverlay = new BodyOverlay();
-        this.mAlexLArm = new AlexLArm();
-        this.mAlexRArm = new AlexRArm();
-        this.mAlexLArmOverlay = new AlexLArmOverlay();
-        this.mAlexRArmOverlay = new AlexRArmOverlay();
-        this.mLLeg = new LLeg();
-        this.mRLeg = new RLeg();
-        this.mLLegOverlay = new LLegOverlay();
-        this.mRLegOverlay = new RLegOverlay();
+        this.mHead = new Head(scale);
+        this.mHat = new Hat(scale);
+        this.mBody = new Body(scale);
+        this.mBodyOverlay = new BodyOverlay(scale);
+        this.mAlexLArm = new AlexLArm(scale);
+        this.mAlexRArm = new AlexRArm(scale);
+        this.mAlexLArmOverlay = new AlexLArmOverlay(scale);
+        this.mAlexRArmOverlay = new AlexRArmOverlay(scale);
+        this.mLLeg = new LLeg(scale);
+        this.mRLeg = new RLeg(scale);
+        this.mLLegOverlay = new LLegOverlay(scale);
+        this.mRLegOverlay = new RLegOverlay(scale);
+        this.mCape = new Cape(scale);
     }
     
     public GameCharacter(final boolean mCheckAlexOrSteve, final int selected_resource) {
@@ -185,67 +198,103 @@ public class GameCharacter
         this.mRArmVisible = true;
         this.mRLegOverlayVisible = true;
         this.mRLegVisible = true;
+        this.mCapeVisible = true;
         this.mRotate = new float[] { 0.0f, 0.0f, 0.0f };
         this.rotate_step = new float[] { 5.0f, 5.0f, 5.0f };
         this.mCheckAlexOrSteve = mCheckAlexOrSteve;
         GameCharacter.selected_resource = selected_resource;
         if (!mCheckAlexOrSteve) {
-            this.mHead = new Head();
-            this.mHat = new Hat();
-            this.mBody = new Body();
-            this.mBodyOverlay = new BodyOverlay();
-            this.mLArm = new LArm();
-            this.mRArm = new RArm();
-            this.mLArmOverlay = new LArmOverlay();
-            this.mRArmOverlay = new RArmOverlay();
-            this.mLLeg = new LLeg();
-            this.mRLeg = new RLeg();
-            this.mLLegOverlay = new LLegOverlay();
-            this.mRLegOverlay = new RLegOverlay();
+            this.mHead = new Head(scale);
+            this.mHat = new Hat(scale);
+            this.mBody = new Body(scale);
+            this.mBodyOverlay = new BodyOverlay(scale);
+            this.mLArm = new LArm(scale);
+            this.mRArm = new RArm(scale);
+            this.mLArmOverlay = new LArmOverlay(scale);
+            this.mRArmOverlay = new RArmOverlay(scale);
+            this.mLLeg = new LLeg(scale);
+            this.mRLeg = new RLeg(scale);
+            this.mLLegOverlay = new LLegOverlay(scale);
+            this.mRLegOverlay = new RLegOverlay(scale);
+            this.mCape = new Cape(scale);
             return;
         }
-        this.mHead = new Head();
-        this.mHat = new Hat();
-        this.mBody = new Body();
-        this.mBodyOverlay = new BodyOverlay();
-        this.mAlexLArm = new AlexLArm();
-        this.mAlexRArm = new AlexRArm();
-        this.mAlexLArmOverlay = new AlexLArmOverlay();
-        this.mAlexRArmOverlay = new AlexRArmOverlay();
-        this.mLLeg = new LLeg();
-        this.mRLeg = new RLeg();
-        this.mLLegOverlay = new LLegOverlay();
-        this.mRLegOverlay = new RLegOverlay();
+        this.mHead = new Head(scale);
+        this.mHat = new Hat(scale);
+        this.mBody = new Body(scale);
+        this.mBodyOverlay = new BodyOverlay(scale);
+        this.mAlexLArm = new AlexLArm(scale);
+        this.mAlexRArm = new AlexRArm(scale);
+        this.mAlexLArmOverlay = new AlexLArmOverlay(scale);
+        this.mAlexRArmOverlay = new AlexRArmOverlay(scale);
+        this.mLLeg = new LLeg(scale);
+        this.mRLeg = new RLeg(scale);
+        this.mLLegOverlay = new LLegOverlay(scale);
+        this.mRLegOverlay = new RLegOverlay(scale);
+        this.mCape = new Cape(scale);
     }
     
     public void ResetRunForBody() {
         if (!this.mCheckAlexOrSteve) {
-            this.mHead = new Head();
-            this.mHat = new Hat();
-            this.mBody = new Body();
-            this.mBodyOverlay = new BodyOverlay();
-            this.mLArm = new LArm();
-            this.mRArm = new RArm();
-            this.mLArmOverlay = new LArmOverlay();
-            this.mRArmOverlay = new RArmOverlay();
-            this.mLLeg = new LLeg();
-            this.mRLeg = new RLeg();
-            this.mLLegOverlay = new LLegOverlay();
-            this.mRLegOverlay = new RLegOverlay();
+            this.mHead = new Head(scale);
+            this.mHat = new Hat(scale);
+            this.mBody = new Body(scale);
+            this.mBodyOverlay = new BodyOverlay(scale);
+            this.mLArm = new LArm(scale);
+            this.mRArm = new RArm(scale);
+            this.mLArmOverlay = new LArmOverlay(scale);
+            this.mRArmOverlay = new RArmOverlay(scale);
+            this.mLLeg = new LLeg(scale);
+            this.mRLeg = new RLeg(scale);
+            this.mLLegOverlay = new LLegOverlay(scale);
+            this.mRLegOverlay = new RLegOverlay(scale);
             return;
         }
-        this.mHead = new Head();
-        this.mHat = new Hat();
-        this.mBody = new Body();
-        this.mBodyOverlay = new BodyOverlay();
-        this.mAlexLArm = new AlexLArm();
-        this.mAlexRArm = new AlexRArm();
-        this.mAlexLArmOverlay = new AlexLArmOverlay();
-        this.mAlexRArmOverlay = new AlexRArmOverlay();
-        this.mLLeg = new LLeg();
-        this.mRLeg = new RLeg();
-        this.mLLegOverlay = new LLegOverlay();
-        this.mRLegOverlay = new RLegOverlay();
+        this.mHead = new Head(scale);
+        this.mHat = new Hat(scale);
+        this.mBody = new Body(scale);
+        this.mBodyOverlay = new BodyOverlay(scale);
+        this.mAlexLArm = new AlexLArm(scale);
+        this.mAlexRArm = new AlexRArm(scale);
+        this.mAlexLArmOverlay = new AlexLArmOverlay(scale);
+        this.mAlexRArmOverlay = new AlexRArmOverlay(scale);
+        this.mLLeg = new LLeg(scale);
+        this.mRLeg = new RLeg(scale);
+        this.mLLegOverlay = new LLegOverlay(scale);
+        this.mRLegOverlay = new RLegOverlay(scale);
+    }
+
+    public void setScale(float scale) {
+        this.scale = scale;
+        if (!mCheckAlexOrSteve) {
+            this.mHead = new Head(scale);
+            this.mHat = new Hat(scale);
+            this.mBody = new Body(scale);
+            this.mBodyOverlay = new BodyOverlay(scale);
+            this.mLArm = new LArm(scale);
+            this.mRArm = new RArm(scale);
+            this.mLArmOverlay = new LArmOverlay(scale);
+            this.mRArmOverlay = new RArmOverlay(scale);
+            this.mLLeg = new LLeg(scale);
+            this.mRLeg = new RLeg(scale);
+            this.mLLegOverlay = new LLegOverlay(scale);
+            this.mRLegOverlay = new RLegOverlay(scale);
+            this.mCape = new Cape(scale);
+            return;
+        }
+        this.mHead = new Head(scale);
+        this.mHat = new Hat(scale);
+        this.mBody = new Body(scale);
+        this.mBodyOverlay = new BodyOverlay(scale);
+        this.mAlexLArm = new AlexLArm(scale);
+        this.mAlexRArm = new AlexRArm(scale);
+        this.mAlexLArmOverlay = new AlexLArmOverlay(scale);
+        this.mAlexRArmOverlay = new AlexRArmOverlay(scale);
+        this.mLLeg = new LLeg(scale);
+        this.mRLeg = new RLeg(scale);
+        this.mLLegOverlay = new LLegOverlay(scale);
+        this.mRLegOverlay = new RLegOverlay(scale);
+        this.mCape = new Cape(scale);
     }
     
     public void SetRotate(final float n, final float n2, final float n3) {
@@ -269,7 +318,7 @@ public class GameCharacter
         this.isRunning = isRunning;
     }
     
-    public void draw(final GL10 gl10) {
+    public void drawBody(final GL10 gl10) {
         gl10.glMatrixMode(5888);
         gl10.glRotatef(this.mRotate[0], 1.0f, 0.0f, 0.0f);
         gl10.glRotatef(this.mRotate[1], 0.0f, 1.0f, 0.0f);
@@ -330,6 +379,12 @@ public class GameCharacter
             this.mBodyOverlay.draw(gl10, this.isRunning);
         }
     }
+
+    public void drawCape(final GL10 gl10) {
+        if (this.mCapeVisible) {
+            this.mCape.draw(gl10, this.isRunning);
+        }
+    }
     
     public Boolean getRunning() {
         return this.isRunning;
@@ -385,6 +440,12 @@ public class GameCharacter
             this.mRLegOverlayVisible = b;
         }
     }
+
+    public void hideCapePart(final CapePart capePart, final boolean b) {
+        if (capePart == CapePart.CAPE) {
+            this.mCapeVisible = b;
+        }
+    }
     
     public void setXRotation(final int n) {
         this.mRotate[0] = n;
@@ -411,5 +472,6 @@ public class GameCharacter
         this.mRLegVisible = true;
         this.mLLegOverlayVisible = true;
         this.mRLegOverlayVisible = true;
+        this.mCapeVisible = true;
     }
 }

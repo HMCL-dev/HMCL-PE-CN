@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.tungsten.hmclpe.skin.utils.TextureHelper;
 import com.tungsten.hmclpe.skin.utils.Utils;
@@ -17,12 +18,13 @@ public class MinecraftSkinRenderer implements GLSurfaceView.Renderer {
     public boolean changeSkinImage;
     private int mBackTexData;
     public GameCharacter mCharacter;
-    private int mCharacterTexData;
+    private int[] mCharacterTexData;
     private Context mContext;
     public String path;
     public float[] plane_texcords;
     protected float[] plane_vertices;
     public Bitmap skin;
+    public Bitmap cape;
     boolean superRun;
     boolean updateBitmapSkin;
 
@@ -70,18 +72,12 @@ public class MinecraftSkinRenderer implements GLSurfaceView.Renderer {
         this.mCharacter = new GameCharacter(b);
     }
 
-    public void updateTexture(final String s) {
-        this.mCharacterTexData = TextureHelper.loadTextureFromFile(s, this.mCharacterTexData);
-        this.updateBitmapSkin = true;
-    }
-
     public void onDrawFrame(final GL10 gl10) {
         if (this.changeSkinImage) {
-            this.updateTexture(this.path);
             this.changeSkinImage = false;
         }
         if (this.updateBitmapSkin) {
-            this.mCharacterTexData = TextureHelper.loadGLTextureFromBitmap(this.skin, gl10);
+            mCharacterTexData = TextureHelper.loadGLTextureFromBitmap(this.skin,this.cape, gl10);
             this.updateBitmapSkin = false;
         }
         gl10.glClear(16640);
@@ -90,14 +86,18 @@ public class MinecraftSkinRenderer implements GLSurfaceView.Renderer {
         gl10.glColor4f(0.63671875f, 0.76953125f, 0.22265625f, 1.0f);
         gl10.glTranslatef(0.0f, 0.0f, -60.0f);
         gl10.glPushMatrix();
-        gl10.glBindTexture(3553, this.mCharacterTexData);
-        this.mCharacter.draw(gl10);
+        gl10.glBindTexture(3553, mCharacterTexData[0]);
+        this.mCharacter.drawBody(gl10);
+        if (cape != null && cape.getWidth() == 64 && cape.getHeight() == 32) {
+            gl10.glBindTexture(3553, mCharacterTexData[1]);
+            this.mCharacter.drawCape(gl10);
+        }
         gl10.glPopMatrix();
         gl10.glLoadIdentity();
         if (this.superRun) {
             GLU.gluLookAt(gl10, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
             gl10.glRotatef(0.09f * (int) (SystemClock.uptimeMillis() % 4000L), 0.0f, 0.0f, 1.0f);
-            this.mCharacter.draw(gl10);
+            this.mCharacter.drawBody(gl10);
         }
     }
 
@@ -133,12 +133,9 @@ public class MinecraftSkinRenderer implements GLSurfaceView.Renderer {
         this.superRun = superRun;
     }
 
-    public void updateTexture(final int n) {
-        this.mCharacterTexData = TextureHelper.loadTexture(this.mContext, n);
-    }
-
-    public void updateTexture(final Bitmap skin) {
-        this.updateBitmapSkin = true;
+    public void updateTexture(final Bitmap skin,Bitmap cape) {
         this.skin = skin;
+        this.cape = cape;
+        this.updateBitmapSkin = true;
     }
 }

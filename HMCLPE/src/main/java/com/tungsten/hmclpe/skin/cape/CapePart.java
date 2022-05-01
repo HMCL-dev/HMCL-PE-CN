@@ -28,12 +28,12 @@ public enum CapePart {
 
     public enum CapeSkin
     {
-        BACK("BACK", 2, 2, "Back", 32, 20, 10, 16),
-        BOTTOM("BOTTOM", 5, 5, "Bottom", 28, 14, 10, 1),
-        FRONT("FRONT", 0, 0, "Front", 20, 20, 10, 16),
-        LEFT("LEFT", 3, 3, "Left", 28, 20, 1, 16),
-        RIGHT("RIGHT", 1, 1, "Right", 16, 20, 1, 16),
-        TOP("TOP", 4, 4, "Top", 20, 14, 10, 1);
+        BACK("BACK", 2, 2, "Back", 1, 1, 10, 16),
+        BOTTOM("BOTTOM", 5, 5, "Bottom", 11, 0, 10, 1),
+        FRONT("FRONT", 0, 0, "Front", 12, 1, 10, 16),
+        LEFT("LEFT", 3, 3, "Left", 0, 1, 1, 16),
+        RIGHT("RIGHT", 1, 1, "Right", 11, 1, 1, 16),
+        TOP("TOP", 4, 4, "Top", 1, 0, 10, 1);
 
         private String displayName;
         private int height;
