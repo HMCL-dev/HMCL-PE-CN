@@ -31,6 +31,7 @@ import com.tungsten.hmclpe.auth.AuthInfo;
 import com.tungsten.hmclpe.auth.AuthenticationException;
 import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
 import com.tungsten.hmclpe.auth.microsoft.Msa;
+import com.tungsten.hmclpe.auth.offline.OfflineSkinSetting;
 import com.tungsten.hmclpe.auth.yggdrasil.GameProfile;
 import com.tungsten.hmclpe.auth.yggdrasil.Texture;
 import com.tungsten.hmclpe.auth.yggdrasil.TextureType;
@@ -475,9 +476,21 @@ public class AccountListAdapter extends BaseAdapter {
         if (account.loginType == 3 || account.loginType == 5) {
             ((View) viewHolder.skin.getParent()).setVisibility(View.GONE);
         }
+        else {
+            ((View) viewHolder.skin.getParent()).setVisibility(View.VISIBLE);
+        }
         viewHolder.skin.setOnClickListener(v -> {
             if (account.loginType == 1){
-                SkinPreviewDialog skinPreviewDialog = new SkinPreviewDialog(context,activity,account);
+                SkinPreviewDialog skinPreviewDialog = new SkinPreviewDialog(context, activity, account, offlineSkinSetting -> {
+                    account.offlineSkinSetting = offlineSkinSetting;
+                    if (isSelected) {
+                        activity.publicGameSetting.account = account;
+                        GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");
+                    }
+                    activity.uiManager.accountUI.accounts.get(position).refresh(account);
+                    GsonUtils.saveAccounts(activity.uiManager.accountUI.accounts,AppManifest.ACCOUNT_DIR + "/accounts.json");
+                    activity.uiManager.accountUI.accountListAdapter.notifyDataSetChanged();
+                });
                 skinPreviewDialog.show();
             }
             else if (account.loginType == 4) {

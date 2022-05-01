@@ -142,6 +142,10 @@
     <string name="dialog_offline_skin_blessing_skin">Blessing Skin 服务器</string>
     <string name="dialog_offline_skin_local_skin">皮肤</string>
     <string name="dialog_offline_skin_local_cape">披风</string>
+    <string name="dialog_offline_skin_alert">提示</string>
+    <string name="dialog_offline_skin_alert_text">你需要在皮肤站中创建并使用和该离线账户角色同名角色，此时离线账户皮肤将为皮肤站上角色所设定的皮肤。</string>
+    <string name="dialog_offline_skin_blessing_server">服务器地址</string>
+    <string name="dialog_offline_skin_blessing_hint">CustomSkinAPI 地址</string>
     <string name="dialog_offline_skin_url">LittleSkin 皮肤站</string>
     <string name="dialog_offline_skin_confirm">确定</string>
     <string name="dialog_offline_skin_cancel">取消</string>
@@ -374,6 +378,8 @@
     <string name="setting_ui_donate">赞助</string>
     <string name="setting_ui_about">关于</string>
 
+    <string name="game_setting_ui_skin_alert">提示</string>
+    <string name="game_setting_ui_skin_alert_text">现已支持离线账户更换皮肤，你可以到账户页面更改离线账户的皮肤和披风（多人游戏下其他玩家无法看到你的皮肤）</string>
     <string name="game_setting_ui_alert">警告</string>
     <string name="game_setting_ui_alert_text">当前游戏版本 %s 启用了游戏特定设置，因此本页面选项不对该游戏生效。点击链接前往该游戏版本的游戏特定设置页</string>
     <string name="game_setting_ui_alert_jump">编辑游戏特点设置</string>

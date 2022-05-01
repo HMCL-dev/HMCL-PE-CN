@@ -15,21 +15,17 @@ public class OfflineSkinSetting implements Cloneable{
     public String skinPath;
     public String capePath;
     public String server;
-    public String skin;
-    public String cape;
 
     public OfflineSkinSetting(Context context){
-        this(0,TextureModel.ALEX,"","","", Avatar.bitmapToString(Avatar.getBitmapFromRes(context, R.drawable.skin_alex)),"");
+        this(0,TextureModel.ALEX,"","","");
     }
 
-    public OfflineSkinSetting(int type,TextureModel model,String skinPath,String capePath,String server,String skin,String cape) {
+    public OfflineSkinSetting(int type,TextureModel model,String skinPath,String capePath,String server) {
         this.type = type;
         this.model = model;
         this.skinPath = skinPath;
         this.capePath = capePath;
         this.server = server;
-        this.skin = skin;
-        this.cape = cape;
     }
 
     @NonNull

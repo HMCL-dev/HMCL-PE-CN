@@ -18,19 +18,19 @@ public class TextureHelper
     }
     
     public static int[] loadGLTextureFromBitmap(final Bitmap skin,final Bitmap cape, final GL10 gl10) {
-        final int[] array = cape == null ? new int[]{0} : new int[]{ 0 , 0 };
-        gl10.glGenTextures(cape == null ? 1 : 2, array, 0);
+        final int[] array = { 0 , 0 };
+        gl10.glGenTextures(2, array, 0);
         gl10.glBindTexture(3553, array[0]);
         gl10.glTexParameterf(3553, 10241, 9728.0f);
         gl10.glTexParameterf(3553, 10240, 9728.0f);
         GLUtils.texImage2D(3553, 0, skin, 0);
+        gl10.glBindTexture(3553, array[1]);
+        gl10.glTexParameterf(3553, 10241, 9728.0f);
+        gl10.glTexParameterf(3553, 10240, 9728.0f);
         if (cape != null) {
-            gl10.glBindTexture(3553, array[1]);
-            gl10.glTexParameterf(3553, 10241, 9728.0f);
-            gl10.glTexParameterf(3553, 10240, 9728.0f);
             GLUtils.texImage2D(3553, 0, cape, 0);
         }
-        if (array[0] == 0 || (array.length > 1 && array[1] == 0)) {
+        if (array[0] == 0 || (cape != null && array[1] == 0)) {
             throw new RuntimeException("Error loading texture.");
         }
         else {
