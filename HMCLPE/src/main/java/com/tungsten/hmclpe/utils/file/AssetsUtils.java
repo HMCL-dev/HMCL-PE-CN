@@ -133,12 +133,15 @@ public class AssetsUtils {
                 while ((byteCount = is.read(buffer)) != -1) {
                     currentPosition += byteCount;
                     fos.write(buffer, 0, byteCount);
+                    /*
                     if (progressCallback != null) {
                         long cur = 100L * currentPosition;
                         handler.post(() -> {
                             progressCallback.onProgress((int) (cur / totalSize));
                         });
                     }
+
+                     */
                 }
                 fos.flush();
                 is.close();
