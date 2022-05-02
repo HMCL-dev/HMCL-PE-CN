@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.FileObserver;
 import android.os.Handler;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -71,69 +72,49 @@ public class InstallForge {
     public void install() {
         bean = new DownloadTaskListBean(context.getString(R.string.dialog_install_game_install_forge),"","","");
         adapter.addDownloadTask(bean);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String url = getInstallerUrl();
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (FileUtils.deleteDirectory(AppManifest.INSTALL_DIR + "/forge")) {
-                            DownloadUtil.downloadSingleFile(context, new DownloadTaskListBean("forge-installer.jar", url, AppManifest.INSTALL_DIR + "/forge/forge-installer.jar",null), new DownloadTask.Feedback() {
-                                @Override
-                                public void addTask(DownloadTaskListBean bean) {
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            adapter.addDownloadTask(bean);
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void updateProgress(DownloadTaskListBean bean) {
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            adapter.onProgress(bean);
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void updateSpeed(String speed) {
-
-                                }
-
-                                @Override
-                                public void removeTask(DownloadTaskListBean bean) {
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            adapter.onComplete(bean);
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void onFinished(ArrayList<DownloadTaskListBean> failedFile) {
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            unZipForgeInstaller();
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void onCancelled() {
-
-                                }
-                            });
+        new Thread(() -> {
+            String url = getInstallerUrl();
+            handler.post(() -> {
+                if (FileUtils.deleteDirectory(AppManifest.INSTALL_DIR + "/forge")) {
+                    DownloadTaskListBean bean = new DownloadTaskListBean("forge-installer.jar", url, AppManifest.INSTALL_DIR + "/forge/forge-installer.jar",null);
+                    DownloadUtil.downloadSingleFile(context, bean, new DownloadTask.Feedback() {
+                        @Override
+                        public void addTask(DownloadTaskListBean bean) {
+                            handler.post(() -> adapter.addDownloadTask(bean));
                         }
-                    }
-                });
-            }
+
+                        @Override
+                        public void updateProgress(DownloadTaskListBean bean) {
+                            handler.post(() -> adapter.onProgress(bean));
+                        }
+
+                        @Override
+                        public void updateSpeed(String speed) {
+
+                        }
+
+                        @Override
+                        public void removeTask(DownloadTaskListBean bean) {
+                            handler.post(() -> adapter.onComplete(bean));
+                        }
+
+                        @Override
+                        public void onFinished(ArrayList<DownloadTaskListBean> failedFile) {
+                            if (!failedFile.contains(bean)){
+                                handler.post(() -> unZipForgeInstaller());
+                            }
+                            else {
+                                Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled() {
+
+                        }
+                    });
+                }
+            });
         }).start();
     }
 

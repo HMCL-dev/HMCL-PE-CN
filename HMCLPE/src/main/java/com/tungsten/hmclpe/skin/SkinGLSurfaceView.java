@@ -31,7 +31,7 @@ public class SkinGLSurfaceView extends GLSurfaceView
             final float x = motionEvent.getX();
             final float y = motionEvent.getY();
             if (motionEvent.getAction() == 2 && this.mRenderer != null) {
-                this.mRenderer.mCharacter.SetRotateStep((x - this.mPreviousX) / this.mDensity / 1.0f, (y - this.mPreviousY) / this.mDensity / 5.1f);
+                this.mRenderer.mCharacter.SetRotateStep((x - this.mPreviousX) / this.mDensity / 1.0f, (y - this.mPreviousY) / this.mDensity / 3.0f);
             }
             this.mPreviousX = x;
             this.mPreviousY = y;

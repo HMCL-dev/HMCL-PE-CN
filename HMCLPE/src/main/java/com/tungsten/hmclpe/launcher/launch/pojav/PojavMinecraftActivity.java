@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.Surface;
 import android.view.WindowManager;
 
-import androidx.annotation.RequiresApi;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.tungsten.hmclpe.R;
@@ -21,6 +20,8 @@ import net.kdt.pojavlaunch.utils.MCOptionUtils;
 
 import org.lwjgl.glfw.CallbackBridge;
 
+import java.util.Vector;
+
 public class PojavMinecraftActivity extends BaseMainActivity {
 
     private GameLaunchSetting gameLaunchSetting;
@@ -30,7 +31,6 @@ public class PojavMinecraftActivity extends BaseMainActivity {
 
     public MenuHelper menuHelper;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,41 +68,38 @@ public class PojavMinecraftActivity extends BaseMainActivity {
                 CallbackBridge.windowHeight = (int) (height * scaleFactor);
                 surface.setDefaultBufferSize(CallbackBridge.windowWidth, CallbackBridge.windowHeight);
 
-                MCOptionUtils.load(gameLaunchSetting.game_directory);
-                MCOptionUtils.set("overrideWidth", String.valueOf(CallbackBridge.windowWidth));
-                MCOptionUtils.set("overrideHeight", String.valueOf(CallbackBridge.windowHeight));
-                MCOptionUtils.save(gameLaunchSetting.game_directory);
+                new Thread(() -> {
+                    Vector<String> args = PojavLauncher.getMcArgs(gameLaunchSetting, PojavMinecraftActivity.this,(int) (width * scaleFactor),(int) (height * scaleFactor),gameLaunchSetting.server);
+                    runOnUiThread(() -> {
+                        MCOptionUtils.load(gameLaunchSetting.game_directory);
+                        MCOptionUtils.set("overrideWidth", String.valueOf(CallbackBridge.windowWidth));
+                        MCOptionUtils.set("overrideHeight", String.valueOf(CallbackBridge.windowHeight));
+                        MCOptionUtils.save(gameLaunchSetting.game_directory);
 
-                //CallbackBridge.sendUpdateWindowSize(CallbackBridge.windowWidth, CallbackBridge.windowHeight);
-                JREUtils.setupBridgeWindow(new Surface(surface));
-                Thread JVMThread = new Thread(() -> {
-                    try {
+                        //CallbackBridge.sendUpdateWindowSize(CallbackBridge.windowWidth, CallbackBridge.windowHeight);
+                        JREUtils.setupBridgeWindow(new Surface(surface));
                         startGame(gameLaunchSetting.javaPath,
                                 gameLaunchSetting.home,
                                 GameLaunchSetting.isHighVersion(gameLaunchSetting),
-                                PojavLauncher.getMcArgs(gameLaunchSetting, PojavMinecraftActivity.this,(int) (width * scaleFactor),(int) (height * scaleFactor),gameLaunchSetting.server),
+                                args,
                                 gameLaunchSetting.pojavRenderer,
                                 gameLaunchSetting.game_directory);
-                    } catch (Throwable e) {
-                        e.printStackTrace();
-                    }
-                }, "JVM Main thread");
-                JVMThread.setPriority(Thread.MAX_PRIORITY);
-                JVMThread.start();
 
-                Thread virtualMouseGrabThread = new Thread(() -> {
-                    while (true) {
-                        if (!CallbackBridge.isGrabbing() && menuHelper != null && menuHelper.viewManager != null && menuHelper.viewManager.gameCursorMode == 1) {
-                            mouseModeHandler.sendEmptyMessage(1);
-                        }else{
-                            if (CallbackBridge.isGrabbing() && menuHelper != null && menuHelper.viewManager != null && menuHelper.viewManager.gameCursorMode == 0) {
-                                mouseModeHandler.sendEmptyMessage(0);
+                        Thread virtualMouseGrabThread = new Thread(() -> {
+                            while (true) {
+                                if (!CallbackBridge.isGrabbing() && menuHelper != null && menuHelper.viewManager != null && menuHelper.viewManager.gameCursorMode == 1) {
+                                    mouseModeHandler.sendEmptyMessage(1);
+                                }else{
+                                    if (CallbackBridge.isGrabbing() && menuHelper != null && menuHelper.viewManager != null && menuHelper.viewManager.gameCursorMode == 0) {
+                                        mouseModeHandler.sendEmptyMessage(0);
+                                    }
+                                }
                             }
-                        }
-                    }
-                }, "VirtualMouseGrabThread");
-                virtualMouseGrabThread.setPriority(Thread.MIN_PRIORITY);
-                virtualMouseGrabThread.start();
+                        }, "VirtualMouseGrabThread");
+                        virtualMouseGrabThread.setPriority(Thread.MIN_PRIORITY);
+                        virtualMouseGrabThread.start();
+                    });
+                }).start();
             }
 
             @Override

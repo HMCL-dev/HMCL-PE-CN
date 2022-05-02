@@ -2,6 +2,7 @@ package com.tungsten.hmclpe.launcher.launch.boat;
 
 import android.content.Context;
 
+import com.tungsten.hmclpe.launcher.launch.AccountPatch;
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
 import com.tungsten.hmclpe.launcher.launch.LaunchVersion;
 import com.tungsten.hmclpe.manifest.AppManifest;
@@ -46,6 +47,15 @@ public class BoatLauncher {
             args.add("-Dfml.earlyprogresswindow=false");
             args.add("-Dorg.lwjgl.util.DebugLoader=true");
             args.add("-Dorg.lwjgl.util.Debug=true");
+            args.add("-Dos.name=Linux");
+            args.add("-Dlwjgl.platform=Boat");
+            args.add("-Dorg.lwjgl.opengl.libname=libGL.so.1");
+            args.add("-Dlwjgl.platform=Boat");
+            args.add("-Dos.name=Linux");
+            args.add("-Djava.io.tmpdir=" + AppManifest.DEFAULT_CACHE_DIR);
+            String[] accountArgs;
+            accountArgs = AccountPatch.getAccountArgs(context,gameLaunchSetting.account);
+            Collections.addAll(args,accountArgs);
             String[] JVMArgs;
             JVMArgs = version.getJVMArguments(gameLaunchSetting);
             for (int i = 0;i < JVMArgs.length;i++) {
@@ -56,12 +66,6 @@ public class BoatLauncher {
                     args.add(JVMArgs[i]);
                 }
             }
-            args.add("-Dos.name=Linux");
-            args.add("-Dlwjgl.platform=Boat");
-            args.add("-Dorg.lwjgl.opengl.libname=libGL.so.1");
-            args.add("-Dlwjgl.platform=Boat");
-            args.add("-Dos.name=Linux");
-            args.add("-Djava.io.tmpdir=" + AppManifest.DEFAULT_CACHE_DIR);
             args.add("-Xms" + gameLaunchSetting.minRam + "M");
             args.add("-Xmx" + gameLaunchSetting.maxRam + "M");
             if (!gameLaunchSetting.extraJavaFlags.equals("")) {

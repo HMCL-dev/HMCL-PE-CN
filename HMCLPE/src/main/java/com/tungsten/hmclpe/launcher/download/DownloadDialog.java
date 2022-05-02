@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.launcher.dialogs.install;
+package com.tungsten.hmclpe.launcher.download;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

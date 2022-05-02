@@ -68,8 +68,9 @@ public class LoadMe {
                 dlopen(javaPath + "/lib/libnio.so");
                 dlopen(javaPath + "/lib/libawt.so");
                 dlopen(javaPath + "/lib/libawt_headless.so");
-                dlopen(javaPath + "/lib/libinstrument.so");
                 dlopen(javaPath + "/lib/libfontmanager.so");
+                dlopen(javaPath + "/lib/libtinyiconv.so");
+                dlopen(javaPath + "/lib/libinstrument.so");
 
                 if (!renderer.equals("VirGL")) {
                     dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libglslang.so.11");
@@ -88,8 +89,9 @@ public class LoadMe {
                 dlopen(javaPath + "/lib/aarch64/libnio.so");
                 dlopen(javaPath + "/lib/aarch64/libawt.so");
                 dlopen(javaPath + "/lib/aarch64/libawt_headless.so");
-                dlopen(javaPath + "/lib/aarch64/libinstrument.so");
                 dlopen(javaPath + "/lib/aarch64/libfontmanager.so");
+                dlopen(javaPath + "/lib/aarch64/libtinyiconv.so");
+                dlopen(javaPath + "/lib/aarch64/libinstrument.so");
             }
             dlopen(BOAT_LIB_DIR + "/libopenal.so.1");
 

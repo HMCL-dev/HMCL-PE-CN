@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.dialogs.install.DownloadDialog;
+import com.tungsten.hmclpe.launcher.download.DownloadDialog;
 import com.tungsten.hmclpe.launcher.game.Argument;
 import com.tungsten.hmclpe.launcher.game.Artifact;
 import com.tungsten.hmclpe.launcher.game.AssetIndex;

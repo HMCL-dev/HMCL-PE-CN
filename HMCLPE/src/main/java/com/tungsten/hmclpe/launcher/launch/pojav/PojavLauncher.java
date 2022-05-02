@@ -5,6 +5,7 @@ import static com.tungsten.hmclpe.launcher.launch.GameLaunchSetting.isHighVersio
 import android.content.Context;
 import android.os.Build;
 
+import com.tungsten.hmclpe.launcher.launch.AccountPatch;
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
 import com.tungsten.hmclpe.launcher.launch.LaunchVersion;
 import com.tungsten.hmclpe.manifest.AppManifest;
@@ -43,6 +44,9 @@ public class PojavLauncher {
             args.addAll(JREUtils.getJavaArgs(context));
             args.add("-Dnet.minecraft.clientmodname=" + AppInfo.APP_NAME);
             args.add("-Dfml.earlyprogresswindow=false");
+            String[] accountArgs;
+            accountArgs = AccountPatch.getAccountArgs(context,gameLaunchSetting.account);
+            Collections.addAll(args,accountArgs);
             String[] JVMArgs;
             JVMArgs = version.getJVMArguments(gameLaunchSetting);
             for (int i = 0;i < JVMArgs.length;i++) {

@@ -44,7 +44,21 @@ public class InstallLauncherFile {
             activity.loadingText.setText(activity.getString(R.string.loading_hint_plugin));
         });
         if (!new File(AppManifest.PLUGIN_DIR + "/installer/forge-install-bootstrapper.jar").exists()) {
-            AssetsUtils.getInstance(activity).copyOnMainThread("plugin",AppManifest.PLUGIN_DIR).setProgressCallback(progressCallback);
+            AssetsUtils.getInstance(activity).copyOnMainThread("plugin/installer",AppManifest.PLUGIN_DIR + "/installer").setProgressCallback(progressCallback);
+        }
+        /*
+         *检查authlib-injector.jar
+         */
+        if (!new File(AppManifest.PLUGIN_DIR + "/login/authlib-injector").exists() || !new File(AppManifest.PLUGIN_DIR + "/login/authlib-injector/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.PLUGIN_DIR + "/login/authlib-injector/version"))) < Integer.parseInt(Objects.requireNonNull(AssetsUtils.readAssetsTxt(activity, "plugin/login/authlib-injector/version")))) {
+            FileUtils.deleteDirectory(AppManifest.PLUGIN_DIR + "/login/authlib-injector");
+            AssetsUtils.getInstance(activity).copyOnMainThread("plugin/login/authlib-injector",AppManifest.PLUGIN_DIR + "/login/authlib-injector").setProgressCallback(progressCallback);
+        }
+        /*
+         *检查nide8auth.jar
+         */
+        if (!new File(AppManifest.PLUGIN_DIR + "/login/nide8auth").exists() || !new File(AppManifest.PLUGIN_DIR + "/login/nide8auth/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.PLUGIN_DIR + "/login/nide8auth/version"))) < Integer.parseInt(Objects.requireNonNull(AssetsUtils.readAssetsTxt(activity, "plugin/login/nide8auth/version")))) {
+            FileUtils.deleteDirectory(AppManifest.PLUGIN_DIR + "/login/nide8auth");
+            AssetsUtils.getInstance(activity).copyOnMainThread("plugin/login/nide8auth",AppManifest.PLUGIN_DIR + "/login/nide8auth").setProgressCallback(progressCallback);
         }
         /*
          *检查布局方案，如果没有，就生产一个默认布局

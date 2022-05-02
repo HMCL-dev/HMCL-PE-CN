@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.dialogs.install.DownloadDialog;
+import com.tungsten.hmclpe.launcher.download.DownloadDialog;
 import com.tungsten.hmclpe.launcher.download.fabric.FabricLoaderVersion;
 import com.tungsten.hmclpe.launcher.download.forge.ForgeVersion;
 import com.tungsten.hmclpe.launcher.download.game.VersionManifest;
