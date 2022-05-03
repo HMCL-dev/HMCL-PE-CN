@@ -89,7 +89,7 @@ public class GameLaunchSetting {
             gameDir = privateGameSetting.gameDirSetting.path;
         }
 
-        String javaPath = "";
+        String javaPath;
         if (privateGameSetting.javaSetting.autoSelect){
             String versionJson = FileStringUtils.getStringFromFile(((v == null || v.equals("")) ? publicGameSetting.currentVersion : v) + "/" + (new File(((v == null || v.equals("")) ? publicGameSetting.currentVersion : v))).getName() + ".json");
             Gson gson = JsonUtils.defaultGsonBuilder()

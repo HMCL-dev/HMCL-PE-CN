@@ -110,17 +110,14 @@ public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnCl
             getContext().startActivity(intent);
         }
         if (v == addServer){
-            AddAuthLibServerDialog addVerifyServerDialog = new AddAuthLibServerDialog(getContext(), new AddAuthLibServerDialog.OnAuthlibInjectorServerAddListener() {
-                @Override
-                public void onServerAdd(AuthlibInjectorServer authlibInjectorServer) {
-                    if (!activity.uiManager.accountUI.serverList.contains(authlibInjectorServer)){
-                        activity.uiManager.accountUI.serverList.add(authlibInjectorServer);
-                        activity.uiManager.accountUI.serverListAdapter.notifyDataSetChanged();
-                        GsonUtils.saveServer(activity.uiManager.accountUI.serverList, AppManifest.ACCOUNT_DIR + "/authlib_injector_server.json");
-                    }
+            SelectServerTypeDialog dialog = new SelectServerTypeDialog(getContext(), server -> {
+                if (!activity.uiManager.accountUI.serverList.contains(server)){
+                    activity.uiManager.accountUI.serverList.add(server);
+                    activity.uiManager.accountUI.serverListAdapter.notifyDataSetChanged();
+                    GsonUtils.saveServer(activity.uiManager.accountUI.serverList, AppManifest.ACCOUNT_DIR + "/authlib_injector_server.json");
                 }
             });
-            addVerifyServerDialog.show();
+            dialog.show();
         }
         if (v == login){
             if (editEmail.getText().toString().equals("") || editPassword.getText().toString().equals("")){

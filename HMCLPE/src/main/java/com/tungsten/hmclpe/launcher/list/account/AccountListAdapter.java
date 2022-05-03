@@ -266,9 +266,6 @@ public class AccountListAdapter extends BaseAdapter {
             notifyDataSetChanged();
         });
         viewHolder.refresh.setOnClickListener(v -> {
-            if (account.loginType == 1){
-
-            }
             if (account.loginType == 3){
                 new Thread(() -> {
                     handler.post(() -> {

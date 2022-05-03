@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.launcher.view.listview;
+package com.tungsten.hmclpe.launcher.view.list;
 
 import android.content.Context;
 import android.content.res.TypedArray;

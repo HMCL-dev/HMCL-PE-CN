@@ -42,12 +42,7 @@ public class LanzouUrlGetTask extends AsyncTask<String, Integer, String> {
 
     @Override
     public void onPreExecute() {
-        activity.get().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                callback.onStart();
-            }
-        });
+        activity.get().runOnUiThread(() -> callback.onStart());
     }
 
     @Override
@@ -136,12 +131,7 @@ public class LanzouUrlGetTask extends AsyncTask<String, Integer, String> {
 
     @Override
     public void onPostExecute(String result) {
-        activity.get().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                callback.onFinish(result);
-            }
-        });
+        activity.get().runOnUiThread(() -> callback.onFinish(result));
     }
 
 }

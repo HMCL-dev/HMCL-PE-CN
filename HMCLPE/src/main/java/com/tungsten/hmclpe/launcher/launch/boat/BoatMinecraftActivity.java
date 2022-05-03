@@ -42,7 +42,7 @@ public class BoatMinecraftActivity extends BoatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        gameLaunchSetting = GameLaunchSetting.getGameLaunchSetting(getIntent().getExtras().getString("setting_path"),getIntent().getExtras().getString("version"));
+        gameLaunchSetting = GameLaunchSetting.getGameLaunchSetting(getIntent().getExtras().getString("setting_path"), getIntent().getExtras().getString("version"));
 
         if (getIntent().getExtras().getBoolean("test") || gameLaunchSetting.log) {
 
@@ -61,8 +61,8 @@ public class BoatMinecraftActivity extends BoatActivity {
 
         DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.MATCH_PARENT, DrawerLayout.LayoutParams.MATCH_PARENT);
 
-        drawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_control_pattern,null) ;
-        addContentView(drawerLayout,params);
+        drawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_control_pattern, null);
+        addContentView(drawerLayout, params);
 
         baseLayout = findViewById(R.id.base_layout);
 
@@ -74,7 +74,7 @@ public class BoatMinecraftActivity extends BoatActivity {
                 surface.setDefaultBufferSize((int) (width * scaleFactor), (int) (height * scaleFactor));
 
                 new Thread(() -> {
-                    Vector<String> args = BoatLauncher.getMcArgs(gameLaunchSetting,BoatMinecraftActivity.this,(int) (width * scaleFactor), (int) (height * scaleFactor),gameLaunchSetting.server);
+                    Vector<String> args = BoatLauncher.getMcArgs(gameLaunchSetting, BoatMinecraftActivity.this, (int) (width * scaleFactor), (int) (height * scaleFactor), gameLaunchSetting.server);
                     runOnUiThread(() -> {
                         MCOptionUtils.load(gameLaunchSetting.game_directory);
                         MCOptionUtils.set("overrideWidth", String.valueOf((int) (width * scaleFactor)));
@@ -103,18 +103,18 @@ public class BoatMinecraftActivity extends BoatActivity {
 
         init();
 
-        menuHelper = new MenuHelper(this,this,gameLaunchSetting.fullscreen,gameLaunchSetting.game_directory,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout,1,scaleFactor);
+        menuHelper = new MenuHelper(this, this, gameLaunchSetting.fullscreen, gameLaunchSetting.game_directory, drawerLayout, baseLayout, false, gameLaunchSetting.controlLayout, 1, scaleFactor);
     }
 
     @SuppressLint("HandlerLeak")
-    private final Handler cursorModeHandler = new Handler(){
+    private final Handler cursorModeHandler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            if (msg.what == BoatInput.CursorDisabled && menuHelper.viewManager != null){
+            if (msg.what == BoatInput.CursorDisabled && menuHelper.viewManager != null) {
                 menuHelper.viewManager.disableCursor();
             }
-            if (msg.what == BoatInput.CursorEnabled && menuHelper.viewManager != null){
+            if (msg.what == BoatInput.CursorEnabled && menuHelper.viewManager != null) {
                 menuHelper.viewManager.enableCursor();
             }
         }
@@ -122,15 +122,15 @@ public class BoatMinecraftActivity extends BoatActivity {
 
     @Override
     public void onBackPressed() {
-        BoatInput.setKey(BoatKeycodes.KEY_ESC,0,true);
-        BoatInput.setKey(BoatKeycodes.KEY_ESC,0,false);
+        BoatInput.setKey(BoatKeycodes.KEY_ESC, 0, true);
+        BoatInput.setKey(BoatKeycodes.KEY_ESC, 0, false);
     }
 
     @Override
     protected void onPause() {
         if (menuHelper.viewManager != null && menuHelper.viewManager.gameCursorMode == 1) {
-            BoatInput.setKey(BoatKeycodes.KEY_ESC,0,true);
-            BoatInput.setKey(BoatKeycodes.KEY_ESC,0,false);
+            BoatInput.setKey(BoatKeycodes.KEY_ESC, 0, true);
+            BoatInput.setKey(BoatKeycodes.KEY_ESC, 0, false);
         }
         super.onPause();
     }

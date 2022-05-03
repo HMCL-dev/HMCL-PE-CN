@@ -313,7 +313,7 @@ public class SkinPreviewDialog implements View.OnClickListener {
                             SkinJson result = JsonUtils.GSON.fromJson(resultText, SkinJson.class);
                             Bitmap skin;
                             Bitmap cape;
-                            if (result.hasSkin()) {
+                            if (result != null && result.hasSkin()) {
                                 if (result.getHash() == null) {
                                     skin = Avatar.getBitmapFromRes(context,R.drawable.skin_alex);
                                 }
@@ -531,7 +531,7 @@ public class SkinPreviewDialog implements View.OnClickListener {
                 SkinJson result = JsonUtils.GSON.fromJson(resultText, SkinJson.class);
                 Bitmap skin;
                 Bitmap cape;
-                if (result.hasSkin()) {
+                if (result != null && result.hasSkin()) {
                     if (result.getHash() == null) {
                         skin = Avatar.getBitmapFromRes(context,R.drawable.skin_alex);
                     }

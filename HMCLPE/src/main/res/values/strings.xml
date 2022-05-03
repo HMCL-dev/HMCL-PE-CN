@@ -46,6 +46,20 @@
     <string name="launcher_button_current_version">没有游戏版本</string>
     <string name="launcher_spinner_text">▲</string>
 
+    <string name="launch_check_dialog_title">启动游戏</string>
+    <string name="launch_check_dialog_java">检测 Java 版本</string>
+    <string name="launch_check_dialog_lib">处理游戏依赖</string>
+    <string name="launch_check_dialog_login">登录</string>
+    <string name="launch_check_dialog_launch">等待游戏启动</string>
+    <string name="launch_check_dialog_cancel">取消</string>
+    <string name="launch_check_dialog_exception_assets_failed">资源文件下载失败，请检查网络并重新安装该版本</string>
+    <string name="launch_check_dialog_exception_lib_failed">当前版本缺少必要文件，请检查网络并重新安装该版本</string>
+    <string name="launch_check_dialog_exception_no_account">请先添加一个用户</string>
+
+    <string name="launch_failed_dialog_title">警告</string>
+    <string name="launch_failed_dialog_msg">启动失败：</string>
+    <string name="launch_failed_dialog_positive">确认</string>
+
     <string name="account_ui_title">账户列表</string>
     <string name="account_scroll_add_account">添加账户</string>
     <string name="account_offline_login">离线模式</string>

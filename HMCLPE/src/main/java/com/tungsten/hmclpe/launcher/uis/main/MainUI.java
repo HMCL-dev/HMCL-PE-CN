@@ -20,6 +20,8 @@ import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.launch.boat.BoatMinecraftActivity;
 import com.tungsten.hmclpe.launcher.launch.boat.VirGLService;
+import com.tungsten.hmclpe.launcher.launch.check.LaunchTask;
+import com.tungsten.hmclpe.launcher.launch.check.LaunchTools;
 import com.tungsten.hmclpe.launcher.launch.pojav.PojavMinecraftActivity;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
 import com.tungsten.hmclpe.manifest.AppManifest;
@@ -162,6 +164,11 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
             });
         }).start();
 
+        refreshAccount();
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public void refreshAccount() {
         switch (activity.publicGameSetting.account.loginType){
             case 1:
                 accountName.setText(activity.publicGameSetting.account.auth_player_name);
@@ -226,33 +233,18 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
             activity.uiManager.switchMainUI(activity.uiManager.settingUI);
         }
         if (v == startGame){
-            Intent intent;
-            PrivateGameSetting privateGameSetting;
             String settingPath = activity.publicGameSetting.currentVersion + "/hmclpe.cfg";
             String finalPath;
             if (new File(settingPath).exists() && GsonUtils.getPrivateGameSettingFromFile(settingPath) != null && (GsonUtils.getPrivateGameSettingFromFile(settingPath).forceEnable || GsonUtils.getPrivateGameSettingFromFile(settingPath).enable)) {
                 finalPath = settingPath;
-                privateGameSetting = GsonUtils.getPrivateGameSettingFromFile(settingPath);
             }
             else {
                 finalPath = AppManifest.SETTING_DIR + "/private_game_setting.json";
-                privateGameSetting = activity.privateGameSetting;
-            }
-            if (privateGameSetting.boatLauncherSetting.enable){
-                intent = new Intent(context, BoatMinecraftActivity.class);
-                if (privateGameSetting.boatLauncherSetting.renderer.equals("VirGL")) {
-                    Intent virGLService = new Intent(context, VirGLService.class);
-                    context.startService(virGLService);
-                }
-            }
-            else {
-                intent = new Intent(context, PojavMinecraftActivity.class);
             }
             Bundle bundle = new Bundle();
             bundle.putString("setting_path",finalPath);
             bundle.putBoolean("test",false);
-            intent.putExtras(bundle);
-            context.startActivity(intent);
+            LaunchTools.launch(context,activity,activity.publicGameSetting.currentVersion,bundle);
         }
     }
 

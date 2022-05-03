@@ -150,6 +150,7 @@ public class InstallLauncherFile {
 
             @Override
             public void onError(Exception e) {
+                FileStringUtils.writeFile(AppManifest.DEBUG_DIR + "/lanzou_exception.txt",e.toString());
                 downloadJava17(activity,AppInfo.JAVA_17_DOWNLOAD_URL_FASTGIT);
             }
 

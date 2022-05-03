@@ -13,7 +13,7 @@ import com.tungsten.hmclpe.launcher.list.info.contents.ContentListAdapter;
 import com.tungsten.hmclpe.launcher.list.info.contents.ContentListBean;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListAdapter;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
-import com.tungsten.hmclpe.launcher.view.listview.ContentListView;
+import com.tungsten.hmclpe.launcher.view.list.ContentListView;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;

@@ -27,6 +27,7 @@ import com.tungsten.hmclpe.launcher.dialogs.CopyVersionDialog;
 import com.tungsten.hmclpe.launcher.dialogs.RenameVersionDialog;
 import com.tungsten.hmclpe.launcher.launch.boat.BoatMinecraftActivity;
 import com.tungsten.hmclpe.launcher.launch.boat.VirGLService;
+import com.tungsten.hmclpe.launcher.launch.check.LaunchTools;
 import com.tungsten.hmclpe.launcher.launch.pojav.PojavMinecraftActivity;
 import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
@@ -60,34 +61,19 @@ public class GameListAdapter extends BaseAdapter {
     }
 
     private void testGame(String name) {
-        Intent intent;
-        PrivateGameSetting privateGameSetting;
         String settingPath = activity.launcherSetting.gameFileDirectory + "/versions/" + name + "/hmclpe.cfg";
         String finalPath;
         if (new File(settingPath).exists() && GsonUtils.getPrivateGameSettingFromFile(settingPath) != null && (GsonUtils.getPrivateGameSettingFromFile(settingPath).forceEnable || GsonUtils.getPrivateGameSettingFromFile(settingPath).enable)) {
             finalPath = settingPath;
-            privateGameSetting = GsonUtils.getPrivateGameSettingFromFile(settingPath);
         }
         else {
             finalPath = AppManifest.SETTING_DIR + "/private_game_setting.json";
-            privateGameSetting = activity.privateGameSetting;
-        }
-        if (privateGameSetting.boatLauncherSetting.enable){
-            intent = new Intent(context, BoatMinecraftActivity.class);
-            if (privateGameSetting.boatLauncherSetting.renderer.equals("VirGL")) {
-                Intent virGLService = new Intent(context, VirGLService.class);
-                context.startService(virGLService);
-            }
-        }
-        else {
-            intent = new Intent(context, PojavMinecraftActivity.class);
         }
         Bundle bundle = new Bundle();
         bundle.putString("setting_path",finalPath);
         bundle.putBoolean("test",true);
         bundle.putString("version",activity.launcherSetting.gameFileDirectory + "/versions/" + name);
-        intent.putExtras(bundle);
-        context.startActivity(intent);
+        LaunchTools.launch(context,activity,activity.launcherSetting.gameFileDirectory + "/versions/" + name,bundle);
     }
 
     public void refreshCurrentVersion(String currentVersion){

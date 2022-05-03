@@ -137,7 +137,7 @@ public class AccountPatch {
                 try {
                     String resultText = NetworkUtils.doGet(NetworkUtils.toURL(StringUtils.removeSuffix(cslApi, "/") + "/" + name + ".json"));
                     SkinJson result = JsonUtils.GSON.fromJson(resultText, SkinJson.class);
-                    if (result.hasSkin()) {
+                    if (result != null && result.hasSkin()) {
                         if (result.getHash() == null) {
                             skin = Avatar.getBitmapFromRes(context,R.drawable.skin_alex);
                         }
@@ -169,6 +169,9 @@ public class AccountPatch {
                             e.printStackTrace();
                             return null;
                         }
+                    }
+                    else {
+                        return null;
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
