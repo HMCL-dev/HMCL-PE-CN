@@ -112,7 +112,7 @@ public class DownloadTask extends AsyncTask<ArrayList<DownloadTaskListBean>, Int
         }
         threadPool.shutdown();
         try {
-            threadPool.awaitTermination(1, TimeUnit.HOURS);
+            threadPool.awaitTermination(2, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
