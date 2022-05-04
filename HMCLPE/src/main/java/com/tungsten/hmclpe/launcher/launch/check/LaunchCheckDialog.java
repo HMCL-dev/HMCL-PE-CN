@@ -8,9 +8,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,12 +31,14 @@ import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.view.list.MaxHeightRecyclerView;
 import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
+import com.tungsten.hmclpe.utils.io.NetSpeed;
+import com.tungsten.hmclpe.utils.io.NetSpeedTimer;
 
 import java.io.File;
 import java.util.Objects;
 import java.util.Vector;
 
-public class LaunchCheckDialog extends Dialog implements View.OnClickListener {
+public class LaunchCheckDialog extends Dialog implements View.OnClickListener, Handler.Callback {
 
     private MainActivity activity;
     private String launchVersion;
@@ -48,6 +53,8 @@ public class LaunchCheckDialog extends Dialog implements View.OnClickListener {
     private boolean lib = false;
     private boolean login = false;
 
+    private NetSpeedTimer netSpeedTimer;
+    private TextView speedText;
     private Button cancel;
 
     private MaxHeightRecyclerView recyclerView;
@@ -73,11 +80,16 @@ public class LaunchCheckDialog extends Dialog implements View.OnClickListener {
         loginState = findViewById(R.id.check_account_state);
         launchState = findViewById(R.id.check_launch_state);
 
+        speedText = findViewById(R.id.download_speed_text);
         cancel = findViewById(R.id.cancel_launch_game);
         cancel.setOnClickListener(this);
 
         recyclerView = findViewById(R.id.download_task_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        Handler handler = new Handler(this);
+        netSpeedTimer = new NetSpeedTimer(getContext(), new NetSpeed(), handler).setDelayTime(0).setPeriodTime(1000);
+        netSpeedTimer.startSpeedTimer();
 
         startCheckTasks();
     }
@@ -246,6 +258,19 @@ public class LaunchCheckDialog extends Dialog implements View.OnClickListener {
             launchTask.cancel(true);
         }
         dismiss();
+    }
+
+    @Override
+    public boolean handleMessage(@NonNull Message msg) {
+        switch (msg.what) {
+            case NetSpeedTimer.NET_SPEED_TIMER_DEFAULT:
+                String speed = (String)msg.obj;
+                speedText.setText(speed);
+                break;
+            default:
+                break;
+        }
+        return false;
     }
 
     @Override

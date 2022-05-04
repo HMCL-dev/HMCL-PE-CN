@@ -52,6 +52,7 @@
     <string name="launch_check_dialog_login">登录</string>
     <string name="launch_check_dialog_launch">等待游戏启动</string>
     <string name="launch_check_dialog_cancel">取消</string>
+    <string name="launch_check_dialog_exception_error_java">错误的 Java 版本</string>
     <string name="launch_check_dialog_exception_assets_failed">资源文件下载失败，请检查网络并重新安装该版本</string>
     <string name="launch_check_dialog_exception_lib_failed">当前版本缺少必要文件，请检查网络并重新安装该版本</string>
     <string name="launch_check_dialog_exception_no_account">请先添加一个用户</string>
@@ -67,6 +68,8 @@
     <string name="account_microsoft_login">微软账户</string>
     <string name="account_external_login">添加认证服务器</string>
     <string name="account_external_login_hint">外置登录</string>
+
+    <string name="account_refresh_exception_network">刷新失败，请检查网络</string>
 
     <string name="account_server_type">选择认证服务器类型</string>
     <string name="account_auth_lib_injector">皮肤站 (authlib-injector)</string>

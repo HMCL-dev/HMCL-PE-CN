@@ -3,6 +3,7 @@ package com.tungsten.hmclpe.launcher.launch.check;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
+import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.game.Argument;
 import com.tungsten.hmclpe.launcher.game.Artifact;
@@ -83,11 +84,11 @@ public class CheckJavaTask extends AsyncTask<Object,Integer,Exception> {
             else {
                 java = privateGameSetting.javaSetting.name.equals("default") ? 8 : 17;
             }
-            if (java == expectedJava) {
+            if (java == expectedJava || (java == 17 && expectedJava == 16)) {
                 return null;
             }
             else {
-                return new Exception("incorrect java version");
+                return new Exception(activity.getString(R.string.launch_check_dialog_exception_error_java));
             }
         }
         catch (Exception e) {
