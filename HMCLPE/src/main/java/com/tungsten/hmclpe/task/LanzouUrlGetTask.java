@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.tungsten.hmclpe.manifest.AppManifest;
-import com.tungsten.hmclpe.utils.ShellUtils;
 
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -42,6 +41,7 @@ public class LanzouUrlGetTask extends AsyncTask<String, Integer, String> {
     private WeakReference<Activity> activity;
     private Callback callback;
     private String fianalUrl=null;
+    private String UA="Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.78 Safari/537.36";
 
     public LanzouUrlGetTask(Activity activity, Callback callback) {
         this.activity = new WeakReference<>(activity);
@@ -60,14 +60,14 @@ public class LanzouUrlGetTask extends AsyncTask<String, Integer, String> {
             String url = args[0];
             Document doc= null;
             doc = Jsoup.connect(url)
-                    .userAgent("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.78 Safari/537.36")
+                    .userAgent(UA)
                     .get();
             Elements elements = doc.getElementsByClass("ifr2");
             for (Element element:elements){
                 url = url.substring(0,url.indexOf(".com") + 4) + element.attr("src");
                 String postUrl=url.substring(0,url.indexOf(".com")+4)+"/ajaxm.php";
                 doc = Jsoup.connect(url)
-                        .userAgent("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.78 Safari/537.36")
+                        .userAgent(UA)
                         .get();
                 OkHttpClient client=new OkHttpClient().newBuilder().followRedirects(false).build();
                 Pattern p =null;
@@ -96,7 +96,7 @@ public class LanzouUrlGetTask extends AsyncTask<String, Integer, String> {
                 Request request=new Request.Builder()
                         .url(postUrl)
                         .post(body)
-                        .header("User-Agent","Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.78 Safari/537.36")
+                        .header("User-Agent",UA)
                         .header("referer",url)
                         .header("accept","application/json, text/javascript, */*")
                         .header("Accept-Language","zh-CN,zh;q=0.9")
@@ -113,7 +113,7 @@ public class LanzouUrlGetTask extends AsyncTask<String, Integer, String> {
                 request=new Request.Builder().url(fianalUrl)
                         .header("accept","application/json, text/javascript, */*")
                         .header("Accept-Language","zh-CN,zh;q=0.9")
-                        .header("User-Agent","Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.78 Safari/537.36")
+                        .header("User-Agent",UA)
                         .get().build();
                 response=client.newCall(request).execute();
                 Log.e("LanzouUrlGetTask",""+response.headers().toString());
