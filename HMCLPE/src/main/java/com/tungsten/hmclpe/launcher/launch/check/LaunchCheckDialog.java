@@ -239,7 +239,7 @@ public class LaunchCheckDialog extends Dialog implements View.OnClickListener, H
         exit();
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(getContext().getString(R.string.launch_failed_dialog_title));
-        builder.setMessage(getContext().getString(R.string.launch_failed_dialog_msg) + " " + e.toString());
+        builder.setMessage(e.toString());
         builder.setPositiveButton(getContext().getString(R.string.launch_failed_dialog_positive), (dialogInterface, i) -> {});
         builder.create().show();
     }

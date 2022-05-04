@@ -85,31 +85,34 @@ public class ContentListAdapter extends BaseAdapter {
                 }
                 list.get(position).selected = true;
                 GsonUtils.saveContents(list, AppManifest.GAME_FILE_DIRECTORY_DIR + "/game_file_directories.json");
-                activity.uiManager.versionListUI.refreshVersionList();
+                new Thread(() -> {
+                    activity.uiManager.versionListUI.refreshVersionList();
+                }).start();
                 notifyDataSetChanged();
             }
         });
-        viewHolder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean select = list.get(position).selected;
-                list.remove(position);
-                if (select && list.size() != 0){
-                    activity.launcherSetting.gameFileDirectory = list.get(0).path;
-                    GsonUtils.saveLauncherSetting(activity.launcherSetting,AppManifest.SETTING_DIR + "/launcher_setting.json");
-                    list.get(0).selected = true;
+        viewHolder.delete.setOnClickListener(v -> {
+            boolean select = list.get(position).selected;
+            list.remove(position);
+            if (select && list.size() != 0){
+                activity.launcherSetting.gameFileDirectory = list.get(0).path;
+                GsonUtils.saveLauncherSetting(activity.launcherSetting,AppManifest.SETTING_DIR + "/launcher_setting.json");
+                list.get(0).selected = true;
+                new Thread(() -> {
                     activity.uiManager.versionListUI.refreshVersionList();
-                }
-                if (list.size() == 0){
-                    list.add(new ContentListBean(context.getString(R.string.default_game_file_directory_list_pri),AppManifest.DEFAULT_GAME_DIR,true));
-                    list.add(new ContentListBean(context.getString(R.string.default_game_file_directory_list_sec),AppManifest.INNER_GAME_DIR,false));
-                    activity.launcherSetting.gameFileDirectory = list.get(0).path;
-                    GsonUtils.saveLauncherSetting(activity.launcherSetting,AppManifest.SETTING_DIR + "/launcher_setting.json");
-                    activity.uiManager.versionListUI.refreshVersionList();
-                }
-                GsonUtils.saveContents(list, AppManifest.GAME_FILE_DIRECTORY_DIR + "/game_file_directories.json");
-                notifyDataSetChanged();
+                }).start();
             }
+            if (list.size() == 0){
+                list.add(new ContentListBean(context.getString(R.string.default_game_file_directory_list_pri),AppManifest.DEFAULT_GAME_DIR,true));
+                list.add(new ContentListBean(context.getString(R.string.default_game_file_directory_list_sec),AppManifest.INNER_GAME_DIR,false));
+                activity.launcherSetting.gameFileDirectory = list.get(0).path;
+                GsonUtils.saveLauncherSetting(activity.launcherSetting,AppManifest.SETTING_DIR + "/launcher_setting.json");
+                new Thread(() -> {
+                    activity.uiManager.versionListUI.refreshVersionList();
+                }).start();
+            }
+            GsonUtils.saveContents(list, AppManifest.GAME_FILE_DIRECTORY_DIR + "/game_file_directories.json");
+            notifyDataSetChanged();
         });
         return convertView;
     }

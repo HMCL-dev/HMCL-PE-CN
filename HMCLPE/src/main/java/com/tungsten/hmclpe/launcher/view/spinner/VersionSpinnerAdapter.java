@@ -1,5 +1,6 @@
 package com.tungsten.hmclpe.launcher.view.spinner;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +56,7 @@ public class VersionSpinnerAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         final ViewHolder viewHolder;
@@ -72,6 +74,14 @@ public class VersionSpinnerAdapter extends BaseAdapter {
         GameListBean bean = list.get(i);
         if (!bean.iconPath.equals("") && new File(bean.iconPath).exists()) {
             viewHolder.icon.setBackground(DrawableUtils.getDrawableFromFile(bean.iconPath));
+        }
+        else {
+            if (!bean.version.contains(",")) {
+                viewHolder.icon.setBackground(context.getDrawable(R.drawable.ic_grass));
+            }
+            else {
+                viewHolder.icon.setBackground(context.getDrawable(R.drawable.ic_furnace));
+            }
         }
         viewHolder.name.setText(bean.name);
         viewHolder.version.setText(bean.version);

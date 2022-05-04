@@ -86,27 +86,24 @@ public class AuthlibInjectorServerListAdapter extends BaseAdapter {
         viewHolder.name.setText(authlibInjectorServer.getName());
         viewHolder.url.setText(getSimplifiedUrl(authlibInjectorServer.getUrl()));
         viewHolder.add.setOnClickListener(v -> {
-            AddAuthlibInjectorAccountDialog addAuthlibInjectorAccountDialog = new AddAuthlibInjectorAccountDialog(context, activity, new AddAuthlibInjectorAccountDialog.OnAuthlibInjectorAccountAddListener() {
-                @Override
-                public void onAccountAdd(Account account) {
-                    boolean exist = false;
-                    for (Account a : activity.uiManager.accountUI.accounts){
-                        if (a.loginType == 4){
-                            if (a.loginServer.equals(authlibInjectorServer.getUrl())){
-                                exist = (a.email.equals(account.email) && a.auth_player_name.equals(account.auth_player_name));
-                                if (exist){
-                                    break;
-                                }
+            AddAuthlibInjectorAccountDialog addAuthlibInjectorAccountDialog = new AddAuthlibInjectorAccountDialog(context, activity, account -> {
+                boolean exist = false;
+                for (Account a : activity.uiManager.accountUI.accounts){
+                    if (a.loginType == 4){
+                        if (a.loginServer.equals(authlibInjectorServer.getUrl())){
+                            exist = (a.email.equals(account.email) && a.auth_player_name.equals(account.auth_player_name));
+                            if (exist){
+                                break;
                             }
                         }
                     }
-                    if (!exist) {
-                        activity.publicGameSetting.account = account;
-                        GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");
-                        activity.uiManager.accountUI.accounts.add(account);
-                        activity.uiManager.accountUI.accountListAdapter.notifyDataSetChanged();
-                        GsonUtils.saveAccounts(activity.uiManager.accountUI.accounts,AppManifest.ACCOUNT_DIR + "/accounts.json");
-                    }
+                }
+                if (!exist) {
+                    activity.publicGameSetting.account = account;
+                    GsonUtils.savePublicGameSetting(activity.publicGameSetting, AppManifest.SETTING_DIR + "/public_game_setting.json");
+                    activity.uiManager.accountUI.accounts.add(account);
+                    activity.uiManager.accountUI.accountListAdapter.notifyDataSetChanged();
+                    GsonUtils.saveAccounts(activity.uiManager.accountUI.accounts,AppManifest.ACCOUNT_DIR + "/accounts.json");
                 }
             },list,authlibInjectorServer);
             addAuthlibInjectorAccountDialog.show();
