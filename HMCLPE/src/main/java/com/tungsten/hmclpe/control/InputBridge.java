@@ -161,6 +161,12 @@ public class InputBridge {
                 case LWJGLGLFWKeycode.GLFW_KEY_F12:
                     code = BoatKeycodes.KEY_F12;
                     break;
+                case LWJGLGLFWKeycode.GLFW_KEY_F13:
+                    code = BoatKeycodes.KEY_F13;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_F14:
+                    code = BoatKeycodes.KEY_F14;
+                    break;
                 case LWJGLGLFWKeycode.GLFW_KEY_ESCAPE:
                     code = BoatKeycodes.KEY_ESC;
                     break;

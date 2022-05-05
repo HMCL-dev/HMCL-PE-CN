@@ -132,11 +132,6 @@ public class CheckLibTask extends AsyncTask<RecyclerView,Integer,Exception> {
             DownloadTaskListAdapter downloadTaskListAdapter = new DownloadTaskListAdapter(activity);
             activity.runOnUiThread(() -> {
                 recyclerViews[0].setAdapter(downloadTaskListAdapter);
-                Objects.requireNonNull(recyclerViews[0].getItemAnimator()).setAddDuration(0L);
-                recyclerViews[0].getItemAnimator().setChangeDuration(0L);
-                recyclerViews[0].getItemAnimator().setMoveDuration(0L);
-                recyclerViews[0].getItemAnimator().setRemoveDuration(0L);
-                ((SimpleItemAnimator)recyclerViews[0].getItemAnimator()).setSupportsChangeAnimations(false);
                 recyclerViews[0].setVisibility(View.VISIBLE);
             });
             ArrayList<DownloadTaskListBean> failedFile = new ArrayList<>();

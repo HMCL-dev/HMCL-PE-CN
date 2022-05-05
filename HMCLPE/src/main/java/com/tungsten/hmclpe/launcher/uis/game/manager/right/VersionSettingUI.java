@@ -958,9 +958,12 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
             else {
                 disableSettingLayout();
                 if (new File(settingPath).exists() && GsonUtils.getPrivateGameSettingFromFile(settingPath) != null) {
-                    privateGameSetting = GsonUtils.getPrivateGameSettingFromFile(settingPath);
                     privateGameSetting.enable = false;
-                    GsonUtils.savePrivateGameSetting(privateGameSetting,settingPath);
+                    try {
+                        GsonUtils.savePrivateGameSetting((PrivateGameSetting) privateGameSetting.clone(),settingPath);
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    }
                 }
                 privateGameSetting = null;
             }

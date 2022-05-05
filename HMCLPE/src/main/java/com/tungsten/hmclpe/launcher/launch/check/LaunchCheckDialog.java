@@ -86,6 +86,11 @@ public class LaunchCheckDialog extends Dialog implements View.OnClickListener, H
 
         recyclerView = findViewById(R.id.download_task_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        Objects.requireNonNull(recyclerView.getItemAnimator()).setAddDuration(0L);
+        recyclerView.getItemAnimator().setChangeDuration(0L);
+        recyclerView.getItemAnimator().setMoveDuration(0L);
+        recyclerView.getItemAnimator().setRemoveDuration(0L);
+        ((SimpleItemAnimator)recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         Handler handler = new Handler(this);
         netSpeedTimer = new NetSpeedTimer(getContext(), new NetSpeed(), handler).setDelayTime(0).setPeriodTime(1000);
@@ -180,9 +185,9 @@ public class LaunchCheckDialog extends Dialog implements View.OnClickListener, H
                 }
             }
         });
-        checkJavaTask.execute();
-        checkLibTask.execute(recyclerView);
-        checkAccountTask.execute(activity.publicGameSetting.account);
+        checkJavaTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        checkLibTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,recyclerView);
+        checkAccountTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,activity.publicGameSetting.account);
     }
 
     private AuthlibInjectorServer getServerFromUrl(String url){
