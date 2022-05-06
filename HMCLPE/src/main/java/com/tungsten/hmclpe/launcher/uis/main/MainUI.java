@@ -114,7 +114,6 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         return null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onStart() {
@@ -152,7 +151,12 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
                         versionIcon.setBackground(DrawableUtils.getDrawableFromFile(currentVersion.iconPath));
                     }
                     else {
-                        versionIcon.setBackground(context.getDrawable(R.drawable.ic_furnace));
+                        if (!currentVersion.version.contains(",")) {
+                            versionIcon.setBackground(context.getDrawable(R.drawable.ic_grass));
+                        }
+                        else {
+                            versionIcon.setBackground(context.getDrawable(R.drawable.ic_furnace));
+                        }
                     }
                 }
                 else {
@@ -262,7 +266,12 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
             versionIcon.setBackground(DrawableUtils.getDrawableFromFile(((GameListBean) versionSpinnerAdapter.getItem(position)).iconPath));
         }
         else {
-            versionIcon.setBackground(context.getDrawable(R.drawable.ic_furnace));
+            if (!((GameListBean) versionSpinnerAdapter.getItem(position)).version.contains(",")) {
+                versionIcon.setBackground(context.getDrawable(R.drawable.ic_grass));
+            }
+            else {
+                versionIcon.setBackground(context.getDrawable(R.drawable.ic_furnace));
+            }
         }
     }
 

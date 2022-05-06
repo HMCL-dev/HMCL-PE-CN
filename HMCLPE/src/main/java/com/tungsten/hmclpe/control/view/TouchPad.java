@@ -49,6 +49,10 @@ public class TouchPad extends View {
             if (menuHelper.gameMenuSetting.touchMode == 1){
                 InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,true);
             }
+            /*
+            InputBridge.sendKeycode(launcher,LWJGLGLFWKeycode.GLFW_KEY_F14,true);
+
+             */
         }
     };
 
@@ -252,6 +256,10 @@ public class TouchPad extends View {
                             if (menuHelper.gameMenuSetting.touchMode == 1){
                                 InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,false);
                             }
+                            /*
+                            InputBridge.sendKeycode(launcher,LWJGLGLFWKeycode.GLFW_KEY_F14,false);
+
+                             */
                         }
                         if (System.currentTimeMillis() - downTime <= 200 && Math.abs(event.getX() - initialX) <= 10 && Math.abs(event.getY() - initialY) <= 10){
                             if (menuHelper.gameMenuSetting.mouseMode == 1 && menuHelper.viewManager.gameCursorMode == 0){
@@ -267,6 +275,11 @@ public class TouchPad extends View {
                                     InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,true);
                                     InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);
                                 }
+                                /*
+                                InputBridge.sendKeycode(launcher,LWJGLGLFWKeycode.GLFW_KEY_F13,true);
+                                InputBridge.sendKeycode(launcher,LWJGLGLFWKeycode.GLFW_KEY_F13,false);
+
+                                 */
                             }
                         }
                     }

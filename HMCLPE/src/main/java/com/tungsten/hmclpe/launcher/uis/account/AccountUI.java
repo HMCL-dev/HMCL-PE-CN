@@ -19,6 +19,7 @@ import com.tungsten.hmclpe.launcher.dialogs.account.AddNide8AuthServerDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddOfflineAccountDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.AddAuthLibServerDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.SelectServerTypeDialog;
+import com.tungsten.hmclpe.launcher.launch.check.LaunchTools;
 import com.tungsten.hmclpe.launcher.list.account.AccountListAdapter;
 import com.tungsten.hmclpe.launcher.list.account.server.AuthlibInjectorServerListAdapter;
 import com.tungsten.hmclpe.manifest.AppManifest;
@@ -75,6 +76,8 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
         accountList = activity.findViewById(R.id.account_list);
 
         addMojangAccount.setVisibility(View.GONE);
+
+        init();
     }
 
     @Override
@@ -95,7 +98,12 @@ public class AccountUI extends BaseUI implements View.OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == MicrosoftLoginActivity.AUTHENTICATE_MICROSOFT_REQUEST && resultCode == Activity.RESULT_OK) {
-            addMicrosoftAccountDialog.login(data);
+            if (addMicrosoftAccountDialog != null && addMicrosoftAccountDialog.isShowing()) {
+                addMicrosoftAccountDialog.login(data);
+            }
+            if (LaunchTools.addAccountDialog != null && LaunchTools.addAccountDialog.isShowing()) {
+                LaunchTools.addAccountDialog.login(data);
+            }
         }
         if (requestCode == SELECT_SKIN_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             Uri uri = data.getData();

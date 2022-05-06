@@ -103,7 +103,7 @@ public class GameListAdapter extends BaseAdapter {
         return 0;
     }
 
-    @SuppressLint("NonConstantResourceId")
+    @SuppressLint({"NonConstantResourceId", "UseCompatLoadingForDrawables"})
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder viewHolder;
@@ -157,6 +157,14 @@ public class GameListAdapter extends BaseAdapter {
         });
         if (!list.get(position).iconPath.equals("") || new File(list.get(position).iconPath).exists()){
             viewHolder.icon.setBackground(DrawableUtils.getDrawableFromFile(list.get(position).iconPath));
+        }
+        else {
+            if (!list.get(position).version.contains(",")) {
+                viewHolder.icon.setBackground(context.getDrawable(R.drawable.ic_grass));
+            }
+            else {
+                viewHolder.icon.setBackground(context.getDrawable(R.drawable.ic_furnace));
+            }
         }
         viewHolder.name.setText(list.get(position).name);
         viewHolder.version.setText(list.get(position).version);

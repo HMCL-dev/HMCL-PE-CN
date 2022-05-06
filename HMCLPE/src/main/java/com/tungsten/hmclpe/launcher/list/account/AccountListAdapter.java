@@ -323,6 +323,9 @@ public class AccountListAdapter extends BaseAdapter {
                     }
                     catch (Exception e){
                         e.printStackTrace();
+                        handler.post(() -> {
+                            Toast.makeText(context, context.getString(R.string.account_refresh_exception_network), Toast.LENGTH_SHORT).show();
+                        });
                     }
                     handler.post(() -> {
                         viewHolder.refreshProgress.setVisibility(View.GONE);
@@ -441,7 +444,7 @@ public class AccountListAdapter extends BaseAdapter {
                             viewHolder.refreshProgress.setVisibility(View.GONE);
                             viewHolder.refresh.setVisibility(View.VISIBLE);
                         });
-                    }catch (AuthenticationException | IOException e){
+                    }catch (AuthenticationException e){
                         e.printStackTrace();
                         handler.post(() -> {
                             ReLoginDialog dialog = new ReLoginDialog(context, account.email, Objects.requireNonNull(getServerFromUrl(account.loginServer)).getYggdrasilService(),account, new ReLoginDialog.ReloginCallback() {
@@ -465,6 +468,11 @@ public class AccountListAdapter extends BaseAdapter {
                                 }
                             });
                             dialog.show();
+                        });
+                    }catch (IOException e) {
+                        e.printStackTrace();
+                        handler.post(() -> {
+                            Toast.makeText(context, context.getString(R.string.account_refresh_exception_network), Toast.LENGTH_SHORT).show();
                         });
                     }
                 }).start();

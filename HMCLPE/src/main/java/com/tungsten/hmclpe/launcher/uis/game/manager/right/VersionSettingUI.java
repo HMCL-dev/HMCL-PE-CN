@@ -33,6 +33,7 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.ControlPatternActivity;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.control.ControllerManagerDialog;
+import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
 import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
@@ -552,7 +553,19 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
             icon.setBackground(DrawableUtils.getDrawableFromFile(activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/icon.png"));
         }
         else {
-            icon.setBackground(context.getDrawable(R.drawable.ic_furnace));
+            String v = null;
+            for (GameListBean bean : activity.uiManager.versionListUI.gameList) {
+                if (bean.name.equals(versionName)) {
+                    v = bean.version;
+                    break;
+                }
+            }
+            if (v == null || !v.contains(",")) {
+                icon.setBackground(context.getDrawable(R.drawable.ic_grass));
+            }
+            else {
+                icon.setBackground(context.getDrawable(R.drawable.ic_furnace));
+            }
         }
 
         PrivateGameSetting setting = privateGameSetting == null ? activity.privateGameSetting : privateGameSetting;
@@ -721,7 +734,19 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
             if (new File(activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/icon.png").exists()) {
                 new File(activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/icon.png").delete();
             }
-            icon.setBackground(context.getDrawable(R.drawable.ic_furnace));
+            String ve = null;
+            for (GameListBean bean : activity.uiManager.versionListUI.gameList) {
+                if (bean.name.equals(versionName)) {
+                    ve = bean.version;
+                    break;
+                }
+            }
+            if (ve == null || !ve.contains(",")) {
+                icon.setBackground(context.getDrawable(R.drawable.ic_grass));
+            }
+            else {
+                icon.setBackground(context.getDrawable(R.drawable.ic_furnace));
+            }
         }
         if (v == switchToGlobalSetting) {
             activity.uiManager.switchMainUI(activity.uiManager.settingUI);
@@ -933,9 +958,12 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
             else {
                 disableSettingLayout();
                 if (new File(settingPath).exists() && GsonUtils.getPrivateGameSettingFromFile(settingPath) != null) {
-                    privateGameSetting = GsonUtils.getPrivateGameSettingFromFile(settingPath);
                     privateGameSetting.enable = false;
-                    GsonUtils.savePrivateGameSetting(privateGameSetting,settingPath);
+                    try {
+                        GsonUtils.savePrivateGameSetting((PrivateGameSetting) privateGameSetting.clone(),settingPath);
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    }
                 }
                 privateGameSetting = null;
             }

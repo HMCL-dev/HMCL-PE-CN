@@ -52,13 +52,14 @@
     <string name="launch_check_dialog_login">登录</string>
     <string name="launch_check_dialog_launch">等待游戏启动</string>
     <string name="launch_check_dialog_cancel">取消</string>
+    <string name="launch_check_dialog_exception_error_java">错误的 Java 版本</string>
     <string name="launch_check_dialog_exception_assets_failed">资源文件下载失败，请检查网络并重新安装该版本</string>
     <string name="launch_check_dialog_exception_lib_failed">当前版本缺少必要文件，请检查网络并重新安装该版本</string>
     <string name="launch_check_dialog_exception_no_account">请先添加一个用户</string>
+    <string name="launch_check_dialog_exception_no_game">没有可启动的游戏，你可以点击左侧边栏内的下载按钮安装游戏</string>
 
-    <string name="launch_failed_dialog_title">警告</string>
-    <string name="launch_failed_dialog_msg">启动失败：</string>
-    <string name="launch_failed_dialog_positive">确认</string>
+    <string name="launch_failed_dialog_title">启动失败</string>
+    <string name="launch_failed_dialog_positive">确定</string>
 
     <string name="account_ui_title">账户列表</string>
     <string name="account_scroll_add_account">添加账户</string>
@@ -68,9 +69,18 @@
     <string name="account_external_login">添加认证服务器</string>
     <string name="account_external_login_hint">外置登录</string>
 
+    <string name="account_refresh_exception_network">刷新失败，请检查网络</string>
+
     <string name="account_server_type">选择认证服务器类型</string>
     <string name="account_auth_lib_injector">皮肤站 (authlib-injector)</string>
     <string name="account_nide_8_auth">统一通行证 (nide8auth)</string>
+    
+    <string name="dialog_add_account_title">添加账户</string>
+    <string name="dialog_add_account_type_offline">离线模式</string>
+    <string name="dialog_add_account_type_microsoft">微软账户</string>
+    <string name="dialog_add_account_type_external">外置登录</string>
+    <string name="dialog_add_account_login">登录</string>
+    <string name="dialog_add_account_cancel">取消</string>
 
     <string name="dialog_add_offline_account_title">添加离线模式账户</string>
     <string name="dialog_add_offline_account_name">用户名</string>
@@ -112,6 +122,7 @@
     <string name="dialog_add_authlib_injector_account_sign_up">注册</string>
     <string name="dialog_add_authlib_injector_account_login">登录</string>
     <string name="dialog_add_authlib_injector_account_cancel">取消</string>
+    <string name="dialog_add_authlib_injector_account_server_warn">尚未添加或选择认证服务器</string>
     <string name="dialog_add_authlib_injector_account_empty_warn">用户名或密码不得为空</string>
     <string name="dialog_add_authlib_injector_account_exist_warn">当前用户已存在，无法重复添加</string>
     <string name="dialog_add_authlib_injector_account_failed">登录失败，无效的用户名或密码</string>
