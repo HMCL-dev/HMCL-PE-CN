@@ -7,7 +7,7 @@ import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 import cosine.boat.LoadMe;
 
@@ -32,7 +32,7 @@ public class InstallForgeTask extends AsyncTask<ForgeVersion,Integer,Boolean> {
     protected Boolean doInBackground(ForgeVersion... forgeVersions) {
         boolean success = true;
         String javaPath = AppManifest.JAVA_DIR + "/default";
-        Vector<String> args = new Vector<>();
+        ArrayList<String> args = new ArrayList<>();
         args.add(javaPath + "/bin/java");
         args.add("-Djava.io.tmpdir=" + AppManifest.DEFAULT_CACHE_DIR);
         args.add("-Dos.name=Linux");

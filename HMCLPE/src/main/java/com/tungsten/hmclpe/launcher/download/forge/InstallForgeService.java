@@ -8,10 +8,12 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.tungsten.hmclpe.manifest.AppManifest;
-import com.tungsten.hmclpe.utils.SocketServer;
+import com.tungsten.hmclpe.utils.io.SocketServer;
 
 public class InstallForgeService extends Service {
+
     SocketServer server;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -28,10 +30,11 @@ public class InstallForgeService extends Service {
         AppManifest.initializeManifest(getApplicationContext());
         String name = intent.getExtras().getString("name");
         //ForgeVersion forgeVersion = (ForgeVersion) intent.getExtras().getSerializable("version");
-        server=new SocketServer(new SocketServer.Listerner() {
+        server = new SocketServer("127.0.0.1",6666,new SocketServer.Listener() {
             @Override
             public void onReceive(String msg) {
                 Log.e("SocketServer",msg);
+
             }
         });
         server.start();

@@ -6,8 +6,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.game.Library;
 import com.tungsten.hmclpe.launcher.game.Version;
@@ -31,17 +29,17 @@ public class InstallFabricTask extends AsyncTask<Version,Integer, Version> {
 
     private Context context;
     private MainActivity activity;
-    private RecyclerView recyclerView;
+    private DownloadTaskListAdapter adapter;
     private String mcVersion;
     private FabricLoaderVersion fabricVersion;
     private InstallFabricCallback callback;
 
     private Handler handler;
 
-    public InstallFabricTask (Context context,MainActivity activity,RecyclerView recyclerView,String mcVersion,FabricLoaderVersion fabricVersion,InstallFabricCallback callback) {
+    public InstallFabricTask (Context context,MainActivity activity,DownloadTaskListAdapter adapter,String mcVersion,FabricLoaderVersion fabricVersion,InstallFabricCallback callback) {
         this.context = context;
         this.activity = activity;
-        this.recyclerView = recyclerView;
+        this.adapter = adapter;
         this.mcVersion = mcVersion;
         this.fabricVersion = fabricVersion;
         this.callback = callback;
@@ -57,10 +55,6 @@ public class InstallFabricTask extends AsyncTask<Version,Integer, Version> {
 
     @Override
     protected Version doInBackground(Version... rawPatch) {
-        DownloadTaskListAdapter adapter = new DownloadTaskListAdapter(context);
-        activity.runOnUiThread(() -> {
-            recyclerView.setAdapter(adapter);
-        });
         Version patch = rawPatch[0];
         ArrayList<DownloadTaskListBean> list = new ArrayList<>();
         String head;

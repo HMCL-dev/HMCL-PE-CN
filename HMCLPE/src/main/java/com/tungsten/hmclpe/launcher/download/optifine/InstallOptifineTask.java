@@ -29,7 +29,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Vector;
 
 import cosine.boat.LoadMe;
 
@@ -86,7 +85,7 @@ public class InstallOptifineTask extends AsyncTask<OptifineVersion,Integer, Vers
                         AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName,
                         launcherSetting.gameFileDirectory + "/libraries/" + optiFineLibrary.getPath()
                 };
-                Vector<String> args = new Vector<>();
+                ArrayList<String> args = new ArrayList<>();
                 Collections.addAll(args, command);
                 args.add("-Xms1024M");
                 args.add("-Xmx1024M");

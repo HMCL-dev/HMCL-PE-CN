@@ -101,6 +101,11 @@
             android:enabled="true"
             android:exported="true" />
         <service
+            android:name=".launcher.download.ApiService"
+            android:process=":apiService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
             android:name=".launcher.download.optifine.InstallOptifineService"
             android:process=":installOptifineService"
             android:enabled="true"
@@ -110,10 +115,6 @@
             android:process=":installForgeService"
             android:enabled="true"
             android:exported="true" />
-        <service
-            android:name="utils.logcat.LogcatService"
-            android:process=":logcatprocess"
-            tools:ignore="MissingClass" />
     </application>
 
 </manifest>

@@ -168,7 +168,7 @@ public class LoadMe {
         return 0;
     }
 
-    public static int launchJVM (String javaPath,Vector<String> args,String home) {
+    public static int launchJVM (String javaPath,ArrayList<String> args,String home) {
 
         patchLinker();
 

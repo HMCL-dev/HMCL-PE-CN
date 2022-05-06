@@ -78,7 +78,8 @@ public class GameListAdapter extends BaseAdapter {
 
     public void refreshCurrentVersion(String currentVersion){
         for (int i = 0;i < list.size();i++) {
-            if (!currentVersion.endsWith("/") && list.get(i).name.equals(currentVersion.substring(currentVersion.lastIndexOf("/" + 1)))) {
+            System.out.println(currentVersion);
+            if (!currentVersion.endsWith("/") && list.get(i).name.equals(currentVersion.substring(currentVersion.lastIndexOf("/") + 1))) {
                 list.get(i).isSelected = true;
             }
             else {

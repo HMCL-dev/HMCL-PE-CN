@@ -43,7 +43,8 @@ public class InstallLauncherFile {
         activity.runOnUiThread(() -> {
             activity.loadingText.setText(activity.getString(R.string.loading_hint_plugin));
         });
-        if (!new File(AppManifest.PLUGIN_DIR + "/installer/forge-install-bootstrapper.jar").exists()) {
+        if (!new File(AppManifest.PLUGIN_DIR + "/installer").exists() || !new File(AppManifest.PLUGIN_DIR + "/installer/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.PLUGIN_DIR + "/installer/version"))) < Integer.parseInt(Objects.requireNonNull(AssetsUtils.readAssetsTxt(activity, "plugin/installer/version")))) {
+            FileUtils.deleteDirectory(AppManifest.PLUGIN_DIR + "/installer");
             AssetsUtils.getInstance(activity).copyOnMainThread("plugin/installer",AppManifest.PLUGIN_DIR + "/installer").setProgressCallback(progressCallback);
         }
         /*
