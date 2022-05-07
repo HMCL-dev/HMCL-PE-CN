@@ -1,6 +1,8 @@
 package com.tungsten.hmclpe.launcher.list.install;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
 import java.util.ArrayList;
 
@@ -35,6 +38,18 @@ public class DownloadTaskListAdapter extends RecyclerView.Adapter<DownloadTaskLi
         DownloadTaskListBean downloadTaskListBean = list.get(position);
         holder.progressBar.setProgress(downloadTaskListBean.progress);
         holder.fileName.setText(downloadTaskListBean.name);
+        if ((downloadTaskListBean.path == null || downloadTaskListBean.path.equals("")) && (downloadTaskListBean.url == null || downloadTaskListBean.url.equals("")) && (downloadTaskListBean.sha1 == null || downloadTaskListBean.sha1.equals(""))) {
+            holder.progressBar.setIndeterminate(true);
+            ViewGroup.LayoutParams layoutParams = holder.progressBar.getLayoutParams();
+            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            holder.progressBar.setLayoutParams(layoutParams);
+        }
+        else {
+            holder.progressBar.setIndeterminate(false);
+            ViewGroup.LayoutParams layoutParams = holder.progressBar.getLayoutParams();
+            layoutParams.height = ConvertUtils.dip2px(context,3);
+            holder.progressBar.setLayoutParams(layoutParams);
+        }
     }
 
     @Override

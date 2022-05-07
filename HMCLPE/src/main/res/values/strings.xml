@@ -296,6 +296,8 @@
 
     <string name="dialog_install_game_title">安装新游戏版本</string>
     <string name="dialog_install_game_install_game">正在安装 Minecraft</string>
+    <string name="dialog_install_game_install_game_libs">正在安装游戏依赖</string>
+    <string name="dialog_install_game_install_game_assets">正在下载游戏资源</string>
     <string name="dialog_install_game_install_forge">正在安装 Forge</string>
     <string name="dialog_install_game_install_lite_loader">正在安装 LiteLoader</string>
     <string name="dialog_install_game_install_optifine">正在安装 Optifine</string>

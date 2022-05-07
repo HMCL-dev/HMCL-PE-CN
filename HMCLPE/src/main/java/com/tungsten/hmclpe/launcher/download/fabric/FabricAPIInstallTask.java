@@ -2,6 +2,7 @@ package com.tungsten.hmclpe.launcher.download.fabric;
 
 import android.os.AsyncTask;
 
+import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListAdapter;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
@@ -15,24 +16,29 @@ import com.tungsten.hmclpe.utils.io.DownloadUtil;
 
 import java.io.IOException;
 
-public class InstallFabricAPITask extends AsyncTask<ModListBean.Version,Integer,Exception> {
+public class FabricAPIInstallTask extends AsyncTask<ModListBean.Version,Integer,Exception> {
 
     private MainActivity activity;
     private String name;
     private DownloadTaskListAdapter adapter;
     private InstallFabricAPICallback callback;
 
-    public InstallFabricAPITask (MainActivity activity,String name,DownloadTaskListAdapter adapter,InstallFabricAPICallback callback) {
+    private DownloadTaskListBean bean;
+
+    public FabricAPIInstallTask(MainActivity activity, String name, DownloadTaskListAdapter adapter, InstallFabricAPICallback callback) {
         this.activity = activity;
         this.name = name;
         this.adapter = adapter;
         this.callback = callback;
+
+        this.bean = new DownloadTaskListBean(activity.getString(R.string.dialog_install_game_install_fabric_api),"","","");
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
         callback.onStart();
+        adapter.addDownloadTask(bean);
     }
 
     @Override
@@ -104,6 +110,7 @@ public class InstallFabricAPITask extends AsyncTask<ModListBean.Version,Integer,
     @Override
     protected void onPostExecute(Exception e) {
         super.onPostExecute(e);
+        adapter.onComplete(bean);
         callback.onFinish(e);
     }
 

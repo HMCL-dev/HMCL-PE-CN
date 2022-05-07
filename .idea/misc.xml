@@ -13,6 +13,7 @@
         <entry key="..\:/AndroidStudio/HMCL-PE/HMCLPE/src/main/res/layout/ui_setting_global_game.xml" value="0.2246376811594203" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/control_button.xml" value="0.13" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/control_keyboard.xml" value="0.13" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/download_progress.xml" value="0.19" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/game_float_window.xml" value="0.1265" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/game_input_dialog.xml" value="0.1265" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_add_black.xml" value="0.1855" />
@@ -50,6 +51,8 @@
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/launcher_view_light_gray.xml" value="0.192" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/launcher_view_white.xml" value="0.192" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/launcher_view_yellow.xml" value="0.184" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/progress_download.xml" value="0.19" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/progress_indeterminate.xml" value="0.19" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/activity_control_pattern.xml" value="0.25" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/activity_main.xml" value="0.1526268115942029" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/activity_microsoft_login.xml" value="0.1721014492753623" />
@@ -147,6 +150,8 @@
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/menu/local_version_menu.xml" value="0.1125" />
         <entry key="..\:/Projects/Android/HMCL-PE/PojavLauncher/src/main/res/drawable/no_focus_shown.xml" value="0.1855" />
         <entry key="..\:/Projects/Android/HMCL-PE/PojavLauncher/src/main/res/layout/activity_pojav.xml" value="0.11354166666666667" />
+        <entry key="..\:/Software/Android/Sdk/platforms/android-32/data/res/drawable/progress_horizontal.xml" value="0.1235" />
+        <entry key="..\:/Software/Android/Sdk/platforms/android-32/data/res/drawable/progress_indeterminate_horizontal.xml" value="0.19" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/Boat/src/main/res/layout/activity_boat.xml" value="0.264" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_add_24.xml" value="0.14583333333333334" />
         <entry key="..\:/Users/Tungsten/Desktop/Projects/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_server_black.xml" value="0.14583333333333334" />

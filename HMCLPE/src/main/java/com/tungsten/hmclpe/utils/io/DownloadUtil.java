@@ -1,6 +1,10 @@
 package com.tungsten.hmclpe.utils.io;
 
+import static com.tungsten.hmclpe.task.DownloadTask.downloadFileMonitored;
+
+import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
 import com.tungsten.hmclpe.task.DownloadTask;
@@ -15,6 +19,11 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class DownloadUtil {
 
@@ -23,6 +32,77 @@ public class DownloadUtil {
         list.add(bean);
         DownloadTask downloadTask = new DownloadTask(context,feedback);
         downloadTask.execute(list);
+    }
+
+    public static ArrayList<DownloadTaskListBean> downloadMultipleFiles(ArrayList<DownloadTaskListBean> list, int maxTask, AsyncTask task, Activity activity,DownloadMultipleFilesCallback callback) {
+        BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<>(maxTask);
+        ExecutorService threadPool = new ThreadPoolExecutor(maxTask,
+                maxTask,
+                0,
+                TimeUnit.SECONDS,
+                workQueue,
+                new ThreadPoolExecutor.DiscardPolicy());
+        ArrayList<DownloadTaskListBean> failedFile = new ArrayList<>();
+        for (int j = 0; j < list.size(); j++) {
+            DownloadTaskListBean bean = list.get(j);
+            String url = bean.url;
+            String path = bean.path;
+            String sha1 = bean.sha1;
+            threadPool.execute(() -> {
+                if (!new File(path).exists() || (new File(path).exists() && !Objects.equals(FileUtils.getFileSha1(path), sha1))) {
+                    int tryTimes = 5;
+                    for (int i = 0; i < tryTimes; i++) {
+                        if (task.isCancelled()) {
+                            threadPool.shutdownNow();
+                            return;
+                        }
+                        activity.runOnUiThread(() -> {
+                            callback.onTaskStart(bean);
+                        });
+                        DownloadTask.DownloadFeedback fb = new DownloadTask.DownloadFeedback() {
+                            @Override
+                            public void updateProgress(long curr, long max) {
+                                long progress = 100 * curr / max;
+                                bean.progress = (int) progress;
+                                activity.runOnUiThread(() -> {
+                                    callback.onTaskProgress(bean);
+                                });
+                            }
+
+                            @Override
+                            public void updateSpeed(String speed) {
+
+                            }
+                        };
+                        if (downloadFileMonitored(url, path, sha1, fb)) {
+                            activity.runOnUiThread(() -> {
+                                callback.onTaskFinish(bean);
+                            });
+                            break;
+                        }
+                        else {
+                            if (i == tryTimes - 1) {
+                                failedFile.add(bean);
+                            }
+                            activity.runOnUiThread(() -> {
+                                callback.onTaskFinish(bean);
+                            });
+                        }
+                    }
+                }
+            });
+            while (!workQueue.isEmpty()) {
+                ;
+            }
+        }
+        threadPool.shutdown();
+        try {
+            threadPool.awaitTermination(1, TimeUnit.HOURS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            callback.onFailed(e);
+        }
+        return failedFile;
     }
 
     public static boolean downloadFile(String url,String nameOutput,String sha1, DownloadTask.DownloadFeedback monitor) throws IOException {
@@ -101,6 +181,13 @@ public class DownloadUtil {
             fileSizeString = df.format((double) fileS / 1073741824) + "G";
         }
         return fileSizeString;
+    }
+
+    public interface DownloadMultipleFilesCallback{
+        void onTaskStart(DownloadTaskListBean bean);
+        void onTaskProgress(DownloadTaskListBean bean);
+        void onTaskFinish(DownloadTaskListBean bean);
+        void onFailed(Exception e);
     }
 
 }
