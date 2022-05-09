@@ -32,12 +32,9 @@ public class Avatar {
             Bitmap newBitmap = Bitmap.createBitmap(faceBitmap,0,0,8,8,matrix,false);
             matrixSec.postScale(scaleSec,scaleSec);
             Bitmap newBitmapSec = Bitmap.createBitmap(faceBitmapSec,0,0,8,8,matrixSec,false);
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    face.setImageBitmap(newBitmap);
-                    hat.setImageBitmap(newBitmapSec);
-                }
+            handler.post(() -> {
+                face.setImageBitmap(newBitmap);
+                hat.setImageBitmap(newBitmapSec);
             });
         });
     }

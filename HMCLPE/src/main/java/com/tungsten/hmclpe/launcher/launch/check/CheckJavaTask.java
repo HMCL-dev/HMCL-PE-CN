@@ -72,7 +72,7 @@ public class CheckJavaTask extends AsyncTask<Object,Integer,Exception> {
                     .registerTypeAdapter(Argument.class, new Argument.Deserializer())
                     .create();
             Version version = gson.fromJson(versionJson, Version.class);
-            expectedJava = version.getJavaVersion().getMajorVersion();
+            expectedJava = version.getMinimumLauncherVersion() < 9 ? 8 : version.getJavaVersion().getMajorVersion();
             if (privateGameSetting.javaSetting.autoSelect){
                 if (version.getJavaVersion() == null || version.getJavaVersion().getMajorVersion() == 8){
                     java = 8;

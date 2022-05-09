@@ -66,7 +66,7 @@ public class MinecraftInstallTask extends AsyncTask<VersionManifest.Version,Inte
             versionJson = NetworkUtils.doGet(NetworkUtils.toURL(versionJsonUrl));
         } catch (IOException e) {
             e.printStackTrace();
-            callback.onFailed(e);
+            if (!isCancelled()) callback.onFailed(e);
             cancel(true);
         }
         Gson gson = JsonUtils.defaultGsonBuilder()
@@ -83,7 +83,7 @@ public class MinecraftInstallTask extends AsyncTask<VersionManifest.Version,Inte
             assetIndexJson = NetworkUtils.doGet(NetworkUtils.toURL(assetIndexUrl));
         } catch (IOException e) {
             e.printStackTrace();
-            callback.onFailed(e);
+            if (!isCancelled()) callback.onFailed(e);
             cancel(true);
         }
         AssetIndex assetIndex = gson.fromJson(assetIndexJson,AssetIndex.class);
@@ -94,7 +94,7 @@ public class MinecraftInstallTask extends AsyncTask<VersionManifest.Version,Inte
                 activity.launcherSetting.gameFileDirectory + "/versions/" + name + "/" + name + ".jar",
                 rawPatch.getDownloadInfo().getSha1()));
         for (Library library : rawPatch.getLibraries()){
-            if (!library.getPath().contains("tv/twitch")) {
+            if (!library.getPath().contains("tv/twitch") && !library.getPath().contains("lwjgl-platform-2.9.1-nightly")) {
                 DownloadTaskListBean bean = new DownloadTaskListBean(library.getArtifactFileName(),
                         DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.LIBRARIES) + "/" + library.getPath(),
                         activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath(),
@@ -140,7 +140,7 @@ public class MinecraftInstallTask extends AsyncTask<VersionManifest.Version,Inte
             @Override
             public void onFailed(Exception e) {
                 e.printStackTrace();
-                callback.onFailed(e);
+                if (!isCancelled()) callback.onFailed(e);
                 cancel(true);
             }
         };
@@ -153,11 +153,11 @@ public class MinecraftInstallTask extends AsyncTask<VersionManifest.Version,Inte
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("The following files failed to download:");
             for (DownloadTaskListBean bean : failedLibs) {
-                stringBuilder.append("\n  ").append(bean.name);
+                stringBuilder.append("\n\n  ").append(bean.name);
             }
             Exception e = new Exception(stringBuilder.toString());
             e.printStackTrace();
-            callback.onFailed(e);
+            if (!isCancelled()) callback.onFailed(e);
             cancel(true);
         }
 
@@ -169,11 +169,11 @@ public class MinecraftInstallTask extends AsyncTask<VersionManifest.Version,Inte
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("The following files failed to download:");
             for (DownloadTaskListBean bean : failedAssets) {
-                stringBuilder.append("\n  ").append(bean.name);
+                stringBuilder.append("\n\n  ").append(bean.name);
             }
             Exception e = new Exception(stringBuilder.toString());
             e.printStackTrace();
-            callback.onFailed(e);
+            if (!isCancelled()) callback.onFailed(e);
             cancel(true);
         }
 

@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.launcher.download.fabric;
+package com.tungsten.hmclpe.launcher.download.optifine;
 
 import android.os.AsyncTask;
 
@@ -6,32 +6,28 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListAdapter;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
-import com.tungsten.hmclpe.launcher.mod.ModListBean;
-import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
-import com.tungsten.hmclpe.launcher.setting.game.PublicGameSetting;
+import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
 import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.task.DownloadTask;
-import com.tungsten.hmclpe.utils.gson.GsonUtils;
+import com.tungsten.hmclpe.utils.file.FileUtils;
 import com.tungsten.hmclpe.utils.io.DownloadUtil;
 
 import java.io.IOException;
 
-public class FabricAPIInstallTask extends AsyncTask<ModListBean.Version,Integer,Exception> {
+public class OptifineDownloadTask extends AsyncTask<OptifineVersion,Integer,Exception> {
 
     private MainActivity activity;
-    private String name;
     private DownloadTaskListAdapter adapter;
-    private InstallFabricAPICallback callback;
+    private DownloadOptifineCallback callback;
 
     private DownloadTaskListBean bean;
 
-    public FabricAPIInstallTask(MainActivity activity, String name, DownloadTaskListAdapter adapter, InstallFabricAPICallback callback) {
+    public OptifineDownloadTask (MainActivity activity,DownloadTaskListAdapter adapter, DownloadOptifineCallback callback) {
         this.activity = activity;
-        this.name = name;
         this.adapter = adapter;
         this.callback = callback;
 
-        this.bean = new DownloadTaskListBean(activity.getString(R.string.dialog_install_game_install_fabric_api),"","","");
+        this.bean = new DownloadTaskListBean(activity.getString(R.string.dialog_install_game_download_optifine),"","","");
     }
 
     @Override
@@ -42,18 +38,20 @@ public class FabricAPIInstallTask extends AsyncTask<ModListBean.Version,Integer,
     }
 
     @Override
-    protected Exception doInBackground(ModListBean.Version... versions) {
-        ModListBean.Version fabricAPIVersion = versions[0];
-        String path;
-        if (PublicGameSetting.isUsingIsolateSetting(activity.launcherSetting.gameFileDirectory + "/versions/" + name)) {
-            path = PrivateGameSetting.getGameDir(activity.launcherSetting.gameFileDirectory,activity.launcherSetting.gameFileDirectory + "/versions/" + name, GsonUtils.getPrivateGameSettingFromFile(activity.launcherSetting.gameFileDirectory + "/versions/" + name + "/hmclpe.cfg").gameDirSetting);
+    protected Exception doInBackground(OptifineVersion... optifineVersions) {
+        OptifineVersion optifineVersion = optifineVersions[0];
+        int source = DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource);
+        String start;
+        if (source == 2) {
+            start = "https://download.mcbbs.net";
         }
         else {
-            path = PrivateGameSetting.getGameDir(activity.launcherSetting.gameFileDirectory,activity.launcherSetting.gameFileDirectory + "/versions/" + name,GsonUtils.getPrivateGameSettingFromFile(AppManifest.SETTING_DIR + "/private_game_setting.json").gameDirSetting);
+            start = "https://bmclapi2.bangbang93.com";
         }
-        String modPath = path + "/mods/" + fabricAPIVersion.getFile().getFilename();
-        String url = fabricAPIVersion.getFile().getUrl();
-        DownloadTaskListBean bean = new DownloadTaskListBean(fabricAPIVersion.getFile().getFilename(), url, modPath,null);
+        String mirror = start + "/optifine/" + optifineVersion.mcVersion + "/" + optifineVersion.type + "/" + optifineVersion.patch;
+        String path = AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName;
+        FileUtils.deleteDirectory(AppManifest.INSTALL_DIR);
+        DownloadTaskListBean bean = new DownloadTaskListBean(optifineVersion.fileName, mirror,path,null);
         DownloadTask.DownloadFeedback feedback = new DownloadTask.DownloadFeedback() {
             @Override
             public void updateProgress(long curr, long max) {
@@ -74,7 +72,7 @@ public class FabricAPIInstallTask extends AsyncTask<ModListBean.Version,Integer,
                 activity.runOnUiThread(() -> {
                     adapter.addDownloadTask(bean);
                 });
-                if (DownloadUtil.downloadFile(url,modPath,null,feedback)) {
+                if (DownloadUtil.downloadFile(mirror,path,null,feedback)) {
                     activity.runOnUiThread(() -> {
                         adapter.onComplete(bean);
                     });
@@ -85,7 +83,7 @@ public class FabricAPIInstallTask extends AsyncTask<ModListBean.Version,Integer,
                         adapter.onComplete(bean);
                     });
                     if (i == 4) {
-                        if (!isCancelled()) return new Exception("Failed to download " + fabricAPIVersion.getFile().getFilename());
+                        if (!isCancelled()) return new Exception("Failed to download " + optifineVersion.fileName);
                     }
                 }
             }
@@ -115,7 +113,7 @@ public class FabricAPIInstallTask extends AsyncTask<ModListBean.Version,Integer,
         callback.onFinish(e);
     }
 
-    public interface InstallFabricAPICallback{
+    public interface DownloadOptifineCallback{
         void onStart();
         void onFinish(Exception e);
     }

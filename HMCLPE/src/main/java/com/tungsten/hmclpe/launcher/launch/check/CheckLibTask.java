@@ -103,7 +103,7 @@ public class CheckLibTask extends AsyncTask<RecyclerView,Integer,Exception> {
                     version.getDownloadInfo().getSha1()));
         }
         for (Library library : version.getLibraries()) {
-            if (!isRightFile(activity.launcherSetting.gameFileDirectory + "/libraries/" + library.getPath(),library.getDownload().getSha1()) && !library.getPath().contains("tv/twitch")) {
+            if (!isRightFile(activity.launcherSetting.gameFileDirectory + "/libraries/" + library.getPath(),library.getDownload().getSha1()) && !library.getPath().contains("tv/twitch") && !library.getPath().contains("lwjgl-platform-2.9.1-nightly")) {
                 String libUrl;
                 if (library.getDownload().getUrl() != null && !library.getDownload().getUrl().equals("")) {
                     libUrl = library.getDownload().getUrl();

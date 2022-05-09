@@ -15,7 +15,7 @@ public class SocketServer {
 	private Listener mListener;
 
 	public interface Listener{
-		void onReceive(String msg);
+		void onReceive(SocketServer server,String msg);
 	}
 
 	private Handler mHandler = new Handler(){
@@ -23,7 +23,7 @@ public class SocketServer {
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
 			String s = (String)msg.obj;
-			mListener.onReceive(s);
+			mListener.onReceive(SocketServer.this,s);
 		}
 	};
 	

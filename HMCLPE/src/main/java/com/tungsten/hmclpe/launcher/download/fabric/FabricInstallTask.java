@@ -1,6 +1,5 @@
 package com.tungsten.hmclpe.launcher.download.fabric;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import com.google.gson.Gson;
@@ -25,7 +24,6 @@ import java.util.ArrayList;
 @SuppressWarnings("ALL")
 public class FabricInstallTask extends AsyncTask<FabricLoaderVersion,Integer, Version> {
 
-    private Context context;
     private MainActivity activity;
     private DownloadTaskListAdapter adapter;
     private String mcVersion;
@@ -33,14 +31,13 @@ public class FabricInstallTask extends AsyncTask<FabricLoaderVersion,Integer, Ve
 
     private DownloadTaskListBean bean;
 
-    public FabricInstallTask(Context context, MainActivity activity, DownloadTaskListAdapter adapter, String mcVersion, InstallFabricCallback callback) {
-        this.context = context;
+    public FabricInstallTask(MainActivity activity, DownloadTaskListAdapter adapter, String mcVersion, InstallFabricCallback callback) {
         this.activity = activity;
         this.adapter = adapter;
         this.mcVersion = mcVersion;
         this.callback = callback;
 
-        bean = new DownloadTaskListBean(context.getString(R.string.dialog_install_game_install_fabric),"","","");
+        bean = new DownloadTaskListBean(activity.getString(R.string.dialog_install_game_install_fabric),"","","");
     }
 
     @Override
@@ -108,23 +105,12 @@ public class FabricInstallTask extends AsyncTask<FabricLoaderVersion,Integer, Ve
                 @Override
                 public void onFailed(Exception e) {
                     e.printStackTrace();
-                    callback.onFailed(e);
+                    if (!isCancelled()) callback.onFailed(e);
                     cancel(true);
                 }
             };
 
             ArrayList<DownloadTaskListBean> failedFiles = DownloadUtil.downloadMultipleFiles(list, maxDownloadTask, this, activity, downloadCallback);
-            if (failedFiles.size() > 0) {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append("The following files failed to download:");
-                for (DownloadTaskListBean bean : failedFiles) {
-                    stringBuilder.append("\n  ").append(bean.name);
-                }
-                Exception e = new Exception(stringBuilder.toString());
-                e.printStackTrace();
-                callback.onFailed(e);
-                cancel(true);
-            }
             if (failedFiles.size() == 0) {
                 return patch.setId("fabric").setVersion(fabricVersion.version).setPriority(30000);
             }
@@ -132,16 +118,16 @@ public class FabricInstallTask extends AsyncTask<FabricLoaderVersion,Integer, Ve
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("The following files failed to download:");
                 for (DownloadTaskListBean bean : failedFiles) {
-                    stringBuilder.append("\n  " + bean.name);
+                    stringBuilder.append("\n\n  " + bean.name);
                 }
                 Exception e = new Exception(stringBuilder.toString());
                 e.printStackTrace();
-                callback.onFailed(e);
+                if (!isCancelled()) callback.onFailed(e);
                 cancel(true);
             }
         } catch (IOException e) {
             e.printStackTrace();
-            callback.onFailed(e);
+            if (!isCancelled()) callback.onFailed(e);
             cancel(true);
         }
         return null;

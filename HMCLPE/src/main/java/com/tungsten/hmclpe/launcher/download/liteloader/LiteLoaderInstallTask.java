@@ -105,7 +105,7 @@ public class LiteLoaderInstallTask extends AsyncTask<LiteLoaderVersion,Integer, 
             @Override
             public void onFailed(Exception e) {
                 e.printStackTrace();
-                callback.onFailed(e);
+                if (!isCancelled()) callback.onFailed(e);
                 cancel(true);
             }
         };
@@ -115,11 +115,11 @@ public class LiteLoaderInstallTask extends AsyncTask<LiteLoaderVersion,Integer, 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("The following files failed to download:");
             for (DownloadTaskListBean bean : failedFiles) {
-                stringBuilder.append("\n  ").append(bean.name);
+                stringBuilder.append("\n\n  ").append(bean.name);
             }
             Exception e = new Exception(stringBuilder.toString());
             e.printStackTrace();
-            callback.onFailed(e);
+            if (!isCancelled()) callback.onFailed(e);
             cancel(true);
         }
         return rawPatch;

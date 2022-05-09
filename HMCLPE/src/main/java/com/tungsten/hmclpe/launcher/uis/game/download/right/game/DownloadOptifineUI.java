@@ -104,43 +104,35 @@ public class DownloadOptifineUI extends BaseUI implements View.OnClickListener, 
     private void init(){
         ArrayList<OptifineVersion> list = new ArrayList<>();
         allList = new ArrayList<>();
-        new Thread(){
-            @Override
-            public void run(){
-                loadingHandler.sendEmptyMessage(0);
-                try {
-                    String response = NetworkUtils.doGet(NetworkUtils.toURL(OPTIFINE_VERSION_MANIFEST));
-                    Gson gson = new Gson();
-                    OptifineVersion[] optifineVersions = gson.fromJson(response,OptifineVersion[].class);
-                    for (OptifineVersion versions : optifineVersions){
-                        if (versions.mcVersion.equals(version) && checkRelease.isChecked() && !(versions.patch.startsWith("pre") || versions.patch.startsWith("alpha"))){
-                            list.add(versions);
-                        }
-                        if (versions.mcVersion.equals(version) && checkSnapshot.isChecked() && (versions.patch.startsWith("pre") || versions.patch.startsWith("alpha"))){
-                            list.add(versions);
-                        }
-                        if (versions.mcVersion.equals(version)){
-                            allList.add(versions);
-                        }
+        new Thread(() -> {
+            loadingHandler.sendEmptyMessage(0);
+            try {
+                String response = NetworkUtils.doGet(NetworkUtils.toURL(OPTIFINE_VERSION_MANIFEST));
+                Gson gson = new Gson();
+                OptifineVersion[] optifineVersions = gson.fromJson(response,OptifineVersion[].class);
+                for (OptifineVersion versions : optifineVersions){
+                    if (versions.mcVersion.equals(version) && checkRelease.isChecked() && !(versions.patch.startsWith("pre") || versions.patch.startsWith("alpha"))){
+                        list.add(versions);
                     }
-                    DownloadOptifineListAdapter downloadOptifineListAdapter = new DownloadOptifineListAdapter(context,activity,list);
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            optifineListView.setAdapter(downloadOptifineListAdapter);
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    if (versions.mcVersion.equals(version) && checkSnapshot.isChecked() && (versions.patch.startsWith("pre") || versions.patch.startsWith("alpha"))){
+                        list.add(versions);
+                    }
+                    if (versions.mcVersion.equals(version)){
+                        allList.add(versions);
+                    }
                 }
-                if (allList.size() == 0){
-                    loadingHandler.sendEmptyMessage(2);
-                }
-                else {
-                    loadingHandler.sendEmptyMessage(1);
-                }
+                DownloadOptifineListAdapter downloadOptifineListAdapter = new DownloadOptifineListAdapter(context,activity,list);
+                activity.runOnUiThread(() -> optifineListView.setAdapter(downloadOptifineListAdapter));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }.start();
+            if (allList.size() == 0){
+                loadingHandler.sendEmptyMessage(2);
+            }
+            else {
+                loadingHandler.sendEmptyMessage(1);
+            }
+        }).start();
     }
 
     private void refresh(){

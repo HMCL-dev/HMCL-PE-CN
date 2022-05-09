@@ -77,36 +77,28 @@ public class DownloadForgeUI extends BaseUI implements View.OnClickListener {
     }
 
     private void init(){
-        new Thread(){
-            @Override
-            public void run() {
-                String manifestUrl = FORGE_VERSION_MANIFEST + version;
-                loadingHandler.sendEmptyMessage(0);
-                ArrayList<ForgeVersion> list = new ArrayList<>();
-                try {
-                    String response = NetworkUtils.doGet(NetworkUtils.toURL(manifestUrl));
-                    Gson gson = new Gson();
-                    ForgeVersion[] forgeVersion = gson.fromJson(response, ForgeVersion[].class);
-                    list.addAll(Arrays.asList(forgeVersion));
-                    Collections.sort(list,new ForgeCompareTool());
-                    DownloadForgeListAdapter downloadForgeListAdapter = new DownloadForgeListAdapter(context,activity,list);
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            forgeListView.setAdapter(downloadForgeListAdapter);
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (list.size() == 0){
-                    loadingHandler.sendEmptyMessage(2);
-                }
-                else {
-                    loadingHandler.sendEmptyMessage(1);
-                }
+        new Thread(() -> {
+            String manifestUrl = FORGE_VERSION_MANIFEST + version;
+            loadingHandler.sendEmptyMessage(0);
+            ArrayList<ForgeVersion> list = new ArrayList<>();
+            try {
+                String response = NetworkUtils.doGet(NetworkUtils.toURL(manifestUrl));
+                Gson gson = new Gson();
+                ForgeVersion[] forgeVersion = gson.fromJson(response, ForgeVersion[].class);
+                list.addAll(Arrays.asList(forgeVersion));
+                Collections.sort(list,new ForgeCompareTool());
+                DownloadForgeListAdapter downloadForgeListAdapter = new DownloadForgeListAdapter(context,activity,list);
+                activity.runOnUiThread(() -> forgeListView.setAdapter(downloadForgeListAdapter));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }.start();
+            if (list.size() == 0){
+                loadingHandler.sendEmptyMessage(2);
+            }
+            else {
+                loadingHandler.sendEmptyMessage(1);
+            }
+        }).start();
     }
 
     @Override

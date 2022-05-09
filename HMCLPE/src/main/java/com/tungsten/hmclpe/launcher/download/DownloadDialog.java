@@ -3,10 +3,9 @@ package com.tungsten.hmclpe.launcher.download;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
-import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,11 +18,18 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.download.fabric.FabricAPIInstallTask;
+import com.tungsten.hmclpe.launcher.download.fabric.FabricInstallTask;
 import com.tungsten.hmclpe.launcher.download.fabric.FabricLoaderVersion;
-import com.tungsten.hmclpe.launcher.download.fabric.InstallFabricAPI;
+import com.tungsten.hmclpe.launcher.download.forge.ForgeDownloadTask;
+import com.tungsten.hmclpe.launcher.download.forge.ForgeInstallTask;
 import com.tungsten.hmclpe.launcher.download.forge.ForgeVersion;
+import com.tungsten.hmclpe.launcher.download.game.MinecraftInstallTask;
 import com.tungsten.hmclpe.launcher.download.game.VersionManifest;
+import com.tungsten.hmclpe.launcher.download.liteloader.LiteLoaderInstallTask;
 import com.tungsten.hmclpe.launcher.download.liteloader.LiteLoaderVersion;
+import com.tungsten.hmclpe.launcher.download.optifine.OptifineDownloadTask;
+import com.tungsten.hmclpe.launcher.download.optifine.OptifineInstallTask;
 import com.tungsten.hmclpe.launcher.download.optifine.OptifineVersion;
 import com.tungsten.hmclpe.launcher.mod.ModListBean;
 import com.tungsten.hmclpe.launcher.game.Argument;
@@ -32,15 +38,8 @@ import com.tungsten.hmclpe.launcher.game.Artifact;
 import com.tungsten.hmclpe.launcher.game.Library;
 import com.tungsten.hmclpe.launcher.game.RuledArgument;
 import com.tungsten.hmclpe.launcher.game.Version;
-import com.tungsten.hmclpe.launcher.download.fabric.InstallFabric;
-import com.tungsten.hmclpe.launcher.download.forge.InstallForge;
-import com.tungsten.hmclpe.launcher.download.liteloader.InstallLiteLoader;
-import com.tungsten.hmclpe.launcher.download.optifine.InstallOptifine;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListAdapter;
-import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
-import com.tungsten.hmclpe.task.DownloadTask;
-import com.tungsten.hmclpe.launcher.download.game.DownloadMinecraftTask;
 import com.tungsten.hmclpe.utils.Lang;
 import com.tungsten.hmclpe.utils.file.AssetsUtils;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
@@ -52,7 +51,6 @@ import com.tungsten.hmclpe.utils.platform.Bits;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class DownloadDialog extends Dialog implements View.OnClickListener, Handler.Callback {
@@ -60,20 +58,27 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     private Context context;
     private MainActivity activity;
 
-    public int maxDownloadTask;
+    private String name;
+    private VersionManifest.Version version;
+    private ForgeVersion forgeVersion;
+    private OptifineVersion optifineVersion;
+    private LiteLoaderVersion liteLoaderVersion;
+    private FabricLoaderVersion fabricVersion;
+    private ModListBean.Version fabricAPIVersion;
+    
+    private MinecraftInstallTask minecraftInstallTask;
+    private LiteLoaderInstallTask liteLoaderInstallTask;
+    private ForgeDownloadTask forgeDownloadTask;
+    private ForgeInstallTask forgeInstallTask;
+    private OptifineDownloadTask optifineDownloadTask;
+    private OptifineInstallTask optifineInstallTask;
+    private FabricInstallTask fabricInstallTask;
+    private FabricAPIInstallTask fabricAPIInstallTask;
 
-    public String name;
-    public VersionManifest.Version version;
-    public ForgeVersion forgeVersion;
-    public OptifineVersion optifineVersion;
-    public LiteLoaderVersion liteLoaderVersion;
-    public FabricLoaderVersion fabricVersion;
-    public ModListBean.Version fabricAPIVersion;
-
-    public Version gameVersionJson;
+    private Version gameVersionJson;
 
     private RecyclerView taskListView;
-    public DownloadTaskListAdapter downloadTaskListAdapter;
+    private DownloadTaskListAdapter downloadTaskListAdapter;
 
     private NetSpeedTimer netSpeedTimer;
     private TextView speedText;
@@ -83,7 +88,6 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
         super(context);
         this.context = context;
         this.activity = activity;
-        this.maxDownloadTask = activity.launcherSetting.maxDownloadTask;
         this.name = name;
         this.version = version;
         this.forgeVersion = forgeVersion;
@@ -99,8 +103,11 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     @Override
     public void onClick(View v) {
         if (v == cancelButton){
-            netSpeedTimer.stopSpeedTimer();
-            this.dismiss();
+            exit();
+            activity.backToLastUI();
+            new Thread(() -> {
+                activity.uiManager.versionListUI.refreshVersionList();
+            }).start();
         }
     }
 
@@ -132,24 +139,50 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
         if (!new File(activity.launcherSetting.gameFileDirectory + "/launcher_profiles.json").exists()) {
             AssetsUtils.getInstance(activity.getApplicationContext()).copyAssetsToSD("launcher_profiles.json", activity.launcherSetting.gameFileDirectory + "/launcher_profiles.json");
         }
-        DownloadMinecraftTask downloadMinecraftTask = new DownloadMinecraftTask(context,activity,this);
-        downloadMinecraftTask.execute(version);
+        downloadMinecraft();
     }
 
-    public void downloadMinecraft(ArrayList<DownloadTaskListBean> tasks){
-        startDownloadTask(tasks, () -> {
-            downloadTaskListAdapter.onComplete(downloadTaskListAdapter.getItem(0));
-            downloadLiteLoader();
+    public void downloadMinecraft(){
+        minecraftInstallTask = new MinecraftInstallTask(activity, name, downloadTaskListAdapter, new MinecraftInstallTask.InstallMinecraftCallback() {
+            @Override
+            public void onStart() {
+                
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                throwException(e);
+            }
+
+            @Override
+            public void onFinish(Version version) {
+                gameVersionJson = version;
+                downloadLiteLoader();
+            }
         });
+        minecraftInstallTask.execute(version);
     }
 
     public void downloadLiteLoader(){
         if (liteLoaderVersion != null) {
-            InstallLiteLoader installLiteLoader = new InstallLiteLoader(context, activity, downloadTaskListAdapter, liteLoaderVersion, (success, patch) -> {
-                mergePatch(patch);
-                downloadForge();
+            liteLoaderInstallTask = new LiteLoaderInstallTask(activity, downloadTaskListAdapter, new LiteLoaderInstallTask.InstallLiteLoaderCallback() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onFailed(Exception e) {
+                    throwException(e);
+                }
+
+                @Override
+                public void onFinish(Version version) {
+                    mergePatch(version);
+                    downloadForge();
+                }
             });
-            installLiteLoader.install();
+            liteLoaderInstallTask.execute(liteLoaderVersion);
         }
         else {
             downloadForge();
@@ -158,49 +191,116 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
 
     public void downloadForge(){
         if (forgeVersion != null) {
-            InstallForge installForge = new InstallForge(context, activity, downloadTaskListAdapter, forgeVersion,name, (success, patch) -> {
-                mergePatch(patch);
-                downloadOptifine();
+            forgeDownloadTask = new ForgeDownloadTask(activity, downloadTaskListAdapter, new ForgeDownloadTask.DownloadForgeCallback() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onFinish(Exception e) {
+                    if (e == null) {
+                        installForge();
+                    }
+                    else {
+                        throwException(e);
+                    }
+                }
             });
-            installForge.install();
+            forgeDownloadTask.execute(forgeVersion);
         }
         else {
             downloadOptifine();
         }
     }
 
+    public void installForge() {
+        forgeInstallTask = new ForgeInstallTask(activity, name, downloadTaskListAdapter, new ForgeInstallTask.InstallForgeCallback() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                throwException(e);
+            }
+
+            @Override
+            public void onFinish(Version version) {
+                mergePatch(version);
+                downloadOptifine();
+            }
+        });
+        forgeInstallTask.install(forgeVersion);
+    }
+
     public void downloadOptifine() {
         if (optifineVersion != null) {
-            DownloadTaskListBean bean = new DownloadTaskListBean(context.getString(R.string.dialog_install_game_install_optifine),"","","");
-            downloadTaskListAdapter.addDownloadTask(bean);
-            InstallOptifine installOptifine = new InstallOptifine(context, activity, optifineVersion, name, new InstallOptifine.InstallOptifineCallback() {
+            optifineDownloadTask = new OptifineDownloadTask(activity, downloadTaskListAdapter, new OptifineDownloadTask.DownloadOptifineCallback() {
                 @Override
-                public void onProgress(int progress) {
-                    bean.progress = progress;
-                    downloadTaskListAdapter.onProgress(bean);
+                public void onStart() {
+
                 }
 
                 @Override
-                public void onFinish(boolean success,Version patch) {
-                    downloadTaskListAdapter.onComplete(bean);
-                    mergeOptifinePatch(patch);
-                    downloadFabric();
+                public void onFinish(Exception e) {
+                    if (e == null) {
+                        installOptifine();
+                    }
+                    else {
+                        throwException(e);
+                    }
                 }
             });
-            installOptifine.install();
+            optifineDownloadTask.execute(optifineVersion);
         }
         else {
             downloadFabric();
         }
     }
 
+    public void installOptifine() {
+        optifineInstallTask = new OptifineInstallTask(activity, name, downloadTaskListAdapter, new OptifineInstallTask.InstallOptifineCallback() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onFailed(Exception e) {
+                throwException(e);
+            }
+
+            @Override
+            public void onFinish(Version version) {
+                mergeOptifinePatch(version);
+                downloadFabric();
+            }
+        });
+        optifineInstallTask.install(optifineVersion);
+    }
+
     public void downloadFabric(){
         if (fabricVersion != null) {
-            InstallFabric installFabric = new InstallFabric(context,activity,fabricVersion, version.id,downloadTaskListAdapter, (success, patch) -> {
-                mergePatch(patch);
-                downloadFabricAPI();
+            fabricInstallTask = new FabricInstallTask(activity, downloadTaskListAdapter, version.id, new FabricInstallTask.InstallFabricCallback() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onFailed(Exception e) {
+                    throwException(e);
+                }
+
+                @Override
+                public void onFinish(Version version) {
+                    mergePatch(version);
+                    downloadFabricAPI();
+                }
             });
-            installFabric.install();
+            fabricInstallTask.execute(fabricVersion);
         }
         else {
             downloadFabricAPI();
@@ -209,10 +309,23 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
 
     public void downloadFabricAPI(){
         if (fabricAPIVersion != null) {
-            InstallFabricAPI installFabricAPI = new InstallFabricAPI(context, activity,name, downloadTaskListAdapter, fabricAPIVersion, success -> {
-                installJson();
+            fabricAPIInstallTask = new FabricAPIInstallTask(activity, name, downloadTaskListAdapter, new FabricAPIInstallTask.InstallFabricAPICallback() {
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onFinish(Exception e) {
+                    if (e == null) {
+                        installJson();
+                    }
+                    else {
+                        throwException(e);
+                    }
+                }
             });
-            installFabricAPI.install();
+            fabricAPIInstallTask.execute(fabricAPIVersion);
         }
         else {
             installJson();
@@ -239,8 +352,54 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
                 activity.uiManager.versionListUI.refreshVersionList();
             }).start();
         });
-        dismiss();
+        exit();
         builder.create().show();
+    }
+    
+    public void throwException(Exception e) {
+        activity.runOnUiThread(() -> {
+            exit();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle(getContext().getString(R.string.dialog_install_fail_title));
+            builder.setMessage(e.toString());
+            builder.setPositiveButton(getContext().getString(R.string.dialog_install_fail_positive), (dialogInterface, i) -> {});
+            builder.create().show();
+        });
+    }
+
+    private void exit(){
+        if (minecraftInstallTask != null && minecraftInstallTask.getStatus() != null && minecraftInstallTask.getStatus() == AsyncTask.Status.RUNNING) {
+            minecraftInstallTask.cancel(true);
+        }
+        if (liteLoaderInstallTask != null && liteLoaderInstallTask.getStatus() != null && liteLoaderInstallTask.getStatus() == AsyncTask.Status.RUNNING) {
+            liteLoaderInstallTask.cancel(true);
+        }
+        if (forgeDownloadTask != null && forgeDownloadTask.getStatus() != null && forgeDownloadTask.getStatus() == AsyncTask.Status.RUNNING) {
+            forgeDownloadTask.cancel(true);
+        }
+        if (forgeInstallTask != null && forgeInstallTask.getStatus() != null && forgeInstallTask.getStatus() == AsyncTask.Status.RUNNING) {
+            forgeInstallTask.cancel(true);
+        }
+        if (optifineDownloadTask != null && optifineDownloadTask.getStatus() != null && optifineDownloadTask.getStatus() == AsyncTask.Status.RUNNING) {
+            optifineDownloadTask.cancel(true);
+        }
+        if (optifineInstallTask != null && optifineInstallTask.getStatus() != null && optifineInstallTask.getStatus() == AsyncTask.Status.RUNNING) {
+            optifineInstallTask.cancel(true);
+        }
+        if (fabricInstallTask != null && fabricInstallTask.getStatus() != null && fabricInstallTask.getStatus() == AsyncTask.Status.RUNNING) {
+            fabricInstallTask.cancel(true);
+        }
+        if (fabricAPIInstallTask != null && fabricAPIInstallTask.getStatus() != null && fabricAPIInstallTask.getStatus() == AsyncTask.Status.RUNNING) {
+            fabricAPIInstallTask.cancel(true);
+        }
+        if (forgeInstallTask != null) {
+            forgeInstallTask.cancelBuild();
+        }
+        if (optifineInstallTask != null) {
+            optifineInstallTask.cancelBuild();
+        }
+        netSpeedTimer.stopSpeedTimer();
+        dismiss();
     }
 
     public void mergePatch(Version patch) {
@@ -318,60 +477,6 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
         gameVersionJson = gameVersionJson.setLibraries(libraries);
     }
 
-    public void startDownloadTask(ArrayList<DownloadTaskListBean> tasks,OnDownloadFinishListener onDownloadFinishListener) {
-        DownloadTask downloadTask = new DownloadTask(context, new DownloadTask.Feedback() {
-            @Override
-            public void addTask(DownloadTaskListBean bean) {
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        downloadTaskListAdapter.addDownloadTask(bean);
-                    }
-                });
-            }
-
-            @Override
-            public void updateProgress(DownloadTaskListBean bean) {
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        downloadTaskListAdapter.onProgress(bean);
-                    }
-                });
-            }
-
-            @Override
-            public void updateSpeed(String speed) {
-
-            }
-
-            @Override
-            public void removeTask(DownloadTaskListBean bean) {
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        downloadTaskListAdapter.onComplete(bean);
-                    }
-                });
-            }
-
-            @Override
-            public void onFinished(ArrayList<DownloadTaskListBean> failedFile) {
-                onDownloadFinishListener.onFinish();
-            }
-
-            @Override
-            public void onCancelled() {
-
-            }
-        });
-        if (activity.launcherSetting.autoDownloadTaskQuantity) {
-            maxDownloadTask = 64;
-        }
-        downloadTask.setMaxTask(maxDownloadTask);
-        downloadTask.execute(tasks);
-    }
-
     @Override
     public boolean handleMessage(@NonNull Message msg) {
         switch (msg.what) {
@@ -383,10 +488,6 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
                 break;
         }
         return false;
-    }
-
-    public interface OnDownloadFinishListener{
-        void onFinish();
     }
 
 }

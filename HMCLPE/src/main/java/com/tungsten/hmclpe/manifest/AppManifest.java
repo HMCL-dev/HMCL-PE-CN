@@ -43,7 +43,6 @@ public class AppManifest {
         GAME_FILE_DIRECTORY_DIR = INNER_FILE_DIR + "/paths";
         SETTING_DIR = INNER_FILE_DIR + "/settings";
         CONTROLLER_DIR = INNER_FILE_DIR + "/control";
-        INSTALL_DIR = INNER_FILE_DIR + "/install";
         PLUGIN_DIR = INNER_FILE_DIR + "/plugin";
         STYLE_DIR = INNER_FILE_DIR + "/style";
         DEBUG_DIR = context.getExternalFilesDir("debug").getAbsolutePath();
@@ -51,6 +50,7 @@ public class AppManifest {
 
         DEFAULT_CACHE_DIR = context.getCacheDir().getAbsolutePath();
         DEFAULT_RUNTIME_DIR = context.getDir("runtime",0).getAbsolutePath();
+        INSTALL_DIR = DEFAULT_CACHE_DIR + "/install";
 
         JAVA_DIR = DEFAULT_RUNTIME_DIR + "/java";
         CACIOCAVALLO_DIR = DEFAULT_RUNTIME_DIR + "/caciocavallo";

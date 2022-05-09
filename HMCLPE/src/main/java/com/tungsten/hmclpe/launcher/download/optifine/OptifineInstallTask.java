@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.leo618.zip.IZipCallback;
+import com.leo618.zip.ZipManager;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.ApiService;
@@ -45,6 +47,8 @@ public class OptifineInstallTask extends AsyncTask<OptifineVersion,Integer, Vers
 
     private ArrayList<String> args;
 
+    private SocketServer server;
+
     public OptifineInstallTask(MainActivity activity,String name,DownloadTaskListAdapter adapter, InstallOptifineCallback callback) {
         this.activity = activity;
         this.name = name;
@@ -54,10 +58,43 @@ public class OptifineInstallTask extends AsyncTask<OptifineVersion,Integer, Vers
         this.bean = new DownloadTaskListBean(activity.getString(R.string.dialog_install_game_install_optifine),"","","");
     }
 
+    public void install(OptifineVersion optifineVersion) {
+        callback.onStart();
+        adapter.addDownloadTask(bean);
+        ZipManager.unzip(AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName, AppManifest.INSTALL_DIR + "/optifine/installer/", new IZipCallback() {
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onProgress(int percentDone) {
+
+            }
+
+            @Override
+            public void onFinish(boolean success) {
+                if (success) {
+                    execute(optifineVersion);
+                }
+                else {
+                    if (!isCancelled()) callback.onFailed(new Exception("Failed to unzip installer"));
+                }
+            }
+        });
+    }
+
+    public void cancelBuild() {
+        if (server != null) {
+            server.stop();
+        }
+        Intent service = new Intent(activity, ApiService.class);
+        activity.stopService(service);
+    }
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        callback.onStart();
     }
 
     @Override
@@ -134,7 +171,7 @@ public class OptifineInstallTask extends AsyncTask<OptifineVersion,Integer, Vers
         }
         catch (IOException e) {
             e.printStackTrace();
-            callback.onFailed(e);
+            if (!isCancelled()) callback.onFailed(e);
             cancel(true);
         }
         return new Version(
@@ -153,6 +190,16 @@ public class OptifineInstallTask extends AsyncTask<OptifineVersion,Integer, Vers
     }
 
     @Override
+    protected void onCancelled() {
+        super.onCancelled();
+        if (server != null) {
+            server.stop();
+        }
+        Intent service = new Intent(activity, ApiService.class);
+        activity.stopService(service);
+    }
+
+    @Override
     protected void onPostExecute(Version version) {
         super.onPostExecute(version);
         if (args != null) {
@@ -160,7 +207,7 @@ public class OptifineInstallTask extends AsyncTask<OptifineVersion,Integer, Vers
             Bundle bundle = new Bundle();
             bundle.putStringArrayList("commands",args);
             service.putExtras(bundle);
-            SocketServer server = new SocketServer("127.0.0.1",6666, msg -> {
+            server = new SocketServer("127.0.0.1", ApiService.API_SERVICE_PORT, (server1, msg) -> {
                 adapter.onComplete(bean);
                 if (Integer.parseInt(msg) != 0){
                     callback.onFailed(new IOException("OptiFine patcher failed"));
@@ -168,6 +215,7 @@ public class OptifineInstallTask extends AsyncTask<OptifineVersion,Integer, Vers
                 else {
                     callback.onFinish(version);
                 }
+                server1.stop();
             });
             server.start();
             activity.startService(service);
