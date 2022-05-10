@@ -71,14 +71,9 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
         progressBar = activity.findViewById(R.id.loading_local_version_progress);
 
         contentListParent = activity.findViewById(R.id.content_list_parent);
-        startAddGameDirUI.post(new Runnable() {
-            @Override
-            public void run() {
-                gameDirList.setMaxHeight(contentListParent.getHeight() - startAddGameDirUI.getHeight() - ConvertUtils.dip2px(context,10));
-            }
-        });
+        startAddGameDirUI.post(() -> gameDirList.setMaxHeight(contentListParent.getHeight() - startAddGameDirUI.getHeight() - ConvertUtils.dip2px(context,10)));
 
-        refreshVersionList();
+        new Thread(this::refreshVersionList).start();
     }
 
     @Override

@@ -21,20 +21,28 @@
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_arrow_white.xml" value="0.128" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_clock_black.xml" value="0.1855" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_close_black.xml" value="0.128" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_create_black.xml" value="0.1875" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_done_black.xml" value="0.128" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_exterior_black.xml" value="0.1915" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_folder_black.xml" value="0.128" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_horizontal_black.xml" value="0.1855" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_keyboard_arrow_up_black.xml" value="0.195" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_keyboard_blue.xml" value="0.195" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_launch_black.xml" value="0.1875" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_local_fire_department_black.xml" value="0.128" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_pack_black.xml" value="0.128" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_refresh_black.xml" value="0.128" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_screenshot_black.xml" value="0.1875" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_share_black.xml" value="0.195" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_texture_box_black.xml" value="0.1875" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_baseline_update_black.xml" value="0.1855" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_game_float_window.xml" value="0.1235" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_outline_alert_black.xml" value="0.184" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_outline_copy_black.xml" value="0.1875" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_outline_extension_black.xml" value="0.1875" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_outline_folder_open_black.xml" value="0.128" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_outline_settings_black.xml" value="0.1875" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/ic_outline_settings_black_24.xml" value="0.1875" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/launcher_button_blue.xml" value="0.192" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/launcher_button_gray.xml" value="0.192" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/drawable/launcher_button_gray_blue.xml" value="0.1245" />
@@ -151,7 +159,9 @@
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_setting_universal.xml" value="0.1125" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_version_list.xml" value="0.2151268115942029" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/view_group_keyboard.xml" value="0.22282608695652173" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/menu/browse_menu.xml" value="0.25364583333333335" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/menu/local_version_menu.xml" value="0.1125" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/menu/manage_menu.xml" value="0.25364583333333335" />
         <entry key="..\:/Projects/Android/HMCL-PE/PojavLauncher/src/main/res/drawable/no_focus_shown.xml" value="0.1855" />
         <entry key="..\:/Projects/Android/HMCL-PE/PojavLauncher/src/main/res/layout/activity_pojav.xml" value="0.11354166666666667" />
         <entry key="..\:/Software/Android/Sdk/platforms/android-32/data/res/drawable/progress_horizontal.xml" value="0.1235" />

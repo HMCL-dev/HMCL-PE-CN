@@ -188,21 +188,16 @@ public class GameListAdapter extends BaseAdapter {
                         activity.uiManager.gameManagerUI.gameManagerUIManager.switchGameManagerUIs(activity.uiManager.gameManagerUI.gameManagerUIManager.versionSettingUI);
                         return true;
                     case R.id.local_version_menu_rename:
-                        RenameVersionDialog dialog = new RenameVersionDialog(context, list.get(position).name, new RenameVersionDialog.OnVersionRenameListener() {
-                            @Override
-                            public void onRename(String name) {
-                                new Thread(() -> {
-                                    FileUtils.rename(activity.launcherSetting.gameFileDirectory + "/versions/" + list.get(position).name + "/" + list.get(position).name + ".jar",name + ".jar");
-                                    FileUtils.rename(activity.launcherSetting.gameFileDirectory + "/versions/" + list.get(position).name + "/" + list.get(position).name + ".json",name + ".json");
-                                    FileUtils.rename(activity.launcherSetting.gameFileDirectory + "/versions/" + list.get(position).name,name);
-                                    if (list.get(position).isSelected) {
-                                        activity.publicGameSetting.currentVersion = activity.launcherSetting.gameFileDirectory + "/versions/" + name;
-                                        GsonUtils.savePublicGameSetting(activity.publicGameSetting,AppManifest.SETTING_DIR + "/public_game_setting.json");
-                                    }
-                                    activity.uiManager.versionListUI.refreshVersionList();
-                                }).start();
+                        RenameVersionDialog dialog = new RenameVersionDialog(context, list.get(position).name, name -> new Thread(() -> {
+                            FileUtils.rename(activity.launcherSetting.gameFileDirectory + "/versions/" + list.get(position).name + "/" + list.get(position).name + ".jar",name + ".jar");
+                            FileUtils.rename(activity.launcherSetting.gameFileDirectory + "/versions/" + list.get(position).name + "/" + list.get(position).name + ".json",name + ".json");
+                            FileUtils.rename(activity.launcherSetting.gameFileDirectory + "/versions/" + list.get(position).name,name);
+                            if (list.get(position).isSelected) {
+                                activity.publicGameSetting.currentVersion = activity.launcherSetting.gameFileDirectory + "/versions/" + name;
+                                GsonUtils.savePublicGameSetting(activity.publicGameSetting,AppManifest.SETTING_DIR + "/public_game_setting.json");
                             }
-                        });
+                            activity.uiManager.versionListUI.refreshVersionList();
+                        }).start());
                         dialog.show();
                         return true;
                     case R.id.local_version_menu_copy:

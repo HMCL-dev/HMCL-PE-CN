@@ -198,6 +198,22 @@
     <string name="game_manager_ui_browse">浏览</string>
     <string name="game_manager_ui_manage">管理</string>
     
+    <string name="browse_menu_game_dir">游戏文件夹</string>
+    <string name="browse_menu_mod_dir">MOD文件夹</string>
+    <string name="browse_menu_setting_dir">配置文件夹</string>
+    <string name="browse_menu_resource_dir">资源包文件夹</string>
+    <string name="browse_menu_screenshots_dir">截图文件夹</string>
+    <string name="browse_menu_saves_dir">存档文件夹</string>
+
+    <string name="manage_menu_test_game">测试游戏</string>
+    <string name="manage_menu_rename">重命名该版本</string>
+    <string name="manage_menu_copy">复制游戏实例</string>
+    <string name="manage_menu_delete">删除该版本</string>
+    <string name="manage_menu_export">导出整合包</string>
+    <string name="manage_menu_update">更新游戏资源文件</string>
+    <string name="manage_menu_delete_libs">删除所有库文件</string>
+    <string name="manage_menu_delete_logs">清理游戏目录</string>
+    
     <string name="version_setting_ui_icon">游戏图标</string>
     <string name="version_setting_ui_check">启用游戏特定设置（不影响其他游戏版本）</string>
     <string name="version_setting_ui_global">编辑全局版本设置</string>
