@@ -38,8 +38,10 @@ public class InstallerAnalyzer {
 
     public static void checkType(String path,CheckInstallerTypeCallback callback) {
         Handler handler = new Handler();
+        callback.onStart();
         new Thread(() -> {
             FileUtils.deleteDirectory(AppManifest.INSTALL_DIR);
+            FileUtils.createDirectory(AppManifest.INSTALL_DIR + "/local");
             if (FileUtils.copyFile(path, AppManifest.INSTALL_DIR + "/local/installer.jar")) {
                 handler.post(() -> {
                     ZipManager.unzip(AppManifest.INSTALL_DIR + "/local/installer.jar", AppManifest.INSTALL_DIR + "/local/installer", new IZipCallback() {
@@ -105,6 +107,7 @@ public class InstallerAnalyzer {
                         }
                         String mcVersion = profile.getMinecraft();
                         ForgeVersion forgeVersion = new ForgeVersion(null,0,mcVersion,null,version, Collections.emptyList());
+                        FileUtils.createDirectory(AppManifest.INSTALL_DIR + "/forge");
                         if (FileUtils.copyFile(AppManifest.INSTALL_DIR + "/local/installer.jar",AppManifest.INSTALL_DIR + "/forge/forge-installer.jar")) {
                             handler.post(() -> {
                                 callback.onFinish(Type.FORGE,forgeVersion);
@@ -133,6 +136,7 @@ public class InstallerAnalyzer {
                         }
                         String mcVersion = profile.getInstall().getMinecraft();
                         ForgeVersion forgeVersion = new ForgeVersion(null,0,mcVersion,null,version, Collections.emptyList());
+                        FileUtils.createDirectory(AppManifest.INSTALL_DIR + "/forge");
                         if (FileUtils.copyFile(AppManifest.INSTALL_DIR + "/local/installer.jar",AppManifest.INSTALL_DIR + "/forge/forge-installer.jar")) {
                             handler.post(() -> {
                                 callback.onFinish(Type.FORGE,forgeVersion);
@@ -180,6 +184,7 @@ public class InstallerAnalyzer {
                 String ofRelease = getOrDefault(constants, constants.indexOf("OF_RELEASE") + 1, null);
                 String preName = (ofRelease.contains("pre") || ofRelease.contains("alpha")) ? "preview_" : "";
                 OptifineVersion optifineVersion = new OptifineVersion("",mcVersion,ofRelease,ofEdition,0,preName + "OptiFine_" + mcVersion + "_" + ofEdition + "_" + ofRelease + ".jar");
+                FileUtils.createDirectory(AppManifest.INSTALL_DIR + "/optifine");
                 if (FileUtils.copyFile(AppManifest.INSTALL_DIR + "/local/installer.jar",AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName)) {
                     handler.post(() -> {
                         callback.onFinish(Type.OPTIFINE,optifineVersion);

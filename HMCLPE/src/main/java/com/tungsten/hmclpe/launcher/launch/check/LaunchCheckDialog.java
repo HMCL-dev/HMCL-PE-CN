@@ -267,13 +267,9 @@ public class LaunchCheckDialog extends Dialog implements View.OnClickListener, H
 
     @Override
     public boolean handleMessage(@NonNull Message msg) {
-        switch (msg.what) {
-            case NetSpeedTimer.NET_SPEED_TIMER_DEFAULT:
-                String speed = (String)msg.obj;
-                speedText.setText(speed);
-                break;
-            default:
-                break;
+        if (msg.what == NetSpeedTimer.NET_SPEED_TIMER_DEFAULT) {
+            String speed = (String) msg.obj;
+            speedText.setText(speed);
         }
         return false;
     }

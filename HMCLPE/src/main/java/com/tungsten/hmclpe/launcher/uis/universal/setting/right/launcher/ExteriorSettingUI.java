@@ -121,33 +121,30 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
             editBgPath.setEnabled(false);
             editBgUrl.setEnabled(true);
             selectBgPath.setEnabled(false);
-            new Thread(){
-                @Override
-                public void run() {
-                    try {
-                        URL url = new URL(activity.launcherSetting.launcherBackground.url);
-                        HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                        httpURLConnection.setDoInput(true);
-                        httpURLConnection.connect();
-                        InputStream inputStream = httpURLConnection.getInputStream();
-                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                activity.launcherLayout.setBackground(new BitmapDrawable(bitmap));
-                            }
-                        });
-                    } catch (IOException e) {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                activity.launcherLayout.setBackground(context.getDrawable(R.drawable.ic_background));
-                            }
-                        });
-                        e.printStackTrace();
-                    }
+            new Thread(() -> {
+                try {
+                    URL url = new URL(activity.launcherSetting.launcherBackground.url);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                    httpURLConnection.setDoInput(true);
+                    httpURLConnection.connect();
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            activity.launcherLayout.setBackground(new BitmapDrawable(bitmap));
+                        }
+                    });
+                } catch (IOException e) {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            activity.launcherLayout.setBackground(context.getDrawable(R.drawable.ic_background));
+                        }
+                    });
+                    e.printStackTrace();
                 }
-            }.start();
+            }).start();
         }
         editBgPath.setText(activity.launcherSetting.launcherBackground.path);
         editBgUrl.setText(activity.launcherSetting.launcherBackground.url);

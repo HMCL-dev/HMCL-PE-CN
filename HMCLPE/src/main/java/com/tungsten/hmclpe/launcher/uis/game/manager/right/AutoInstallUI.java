@@ -1,8 +1,11 @@
 package com.tungsten.hmclpe.launcher.uis.game.manager.right;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -10,8 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.tungsten.filepicker.Constants;
+import com.tungsten.filepicker.FileChooser;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.download.GameInstallLocalDialog;
+import com.tungsten.hmclpe.launcher.download.PatchMerger;
 import com.tungsten.hmclpe.launcher.game.Argument;
 import com.tungsten.hmclpe.launcher.game.Artifact;
 import com.tungsten.hmclpe.launcher.game.RuledArgument;
@@ -19,10 +26,18 @@ import com.tungsten.hmclpe.launcher.game.Version;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
+import com.tungsten.hmclpe.utils.file.UriUtils;
 import com.tungsten.hmclpe.utils.gson.JsonUtils;
 import com.tungsten.hmclpe.utils.platform.Bits;
 
+import java.io.File;
+
 public class AutoInstallUI extends BaseUI implements View.OnClickListener {
+
+    private static final int SELECT_INSTALLER_REQUEST_CODE = 4700;
+
+    private String versionName;
+    private Version version;
 
     public LinearLayout autoInstallUI;
 
@@ -37,7 +52,6 @@ public class AutoInstallUI extends BaseUI implements View.OnClickListener {
     private ImageButton deleteLiteLoaderVersion;
     private ImageButton deleteOptiFineVersion;
     private ImageButton deleteFabricVersion;
-    private ImageButton deleteFabricAPIVersion;
 
     private LinearLayout selectForgeVersion;
     private LinearLayout selectLiteLoaderVersion;
@@ -49,7 +63,6 @@ public class AutoInstallUI extends BaseUI implements View.OnClickListener {
     private ImageView selectLiteLoader;
     private ImageView selectOptiFine;
     private ImageView selectFabric;
-    private ImageView selectFabricAPI;
 
     private LinearLayout installLocal;
 
@@ -58,7 +71,6 @@ public class AutoInstallUI extends BaseUI implements View.OnClickListener {
     public String optifineVersion;
     public String liteLoaderVersion;
     public String fabricVersion;
-    public String fabricAPIVersion;
 
     public AutoInstallUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -83,12 +95,10 @@ public class AutoInstallUI extends BaseUI implements View.OnClickListener {
         deleteLiteLoaderVersion = activity.findViewById(R.id.uninstall_liteloader);
         deleteOptiFineVersion = activity.findViewById(R.id.uninstall_optifine);
         deleteFabricVersion = activity.findViewById(R.id.uninstall_fabric);
-        deleteFabricAPIVersion = activity.findViewById(R.id.uninstall_fabric_api);
         deleteForgeVersion.setOnClickListener(this);
         deleteLiteLoaderVersion.setOnClickListener(this);
         deleteOptiFineVersion.setOnClickListener(this);
         deleteFabricVersion.setOnClickListener(this);
-        deleteFabricAPIVersion.setOnClickListener(this);
 
         selectForgeVersion = activity.findViewById(R.id.update_forge_version);
         selectLiteLoaderVersion = activity.findViewById(R.id.update_liteloader_version);
@@ -105,7 +115,6 @@ public class AutoInstallUI extends BaseUI implements View.OnClickListener {
         selectLiteLoader = activity.findViewById(R.id.update_lite_loader);
         selectOptiFine = activity.findViewById(R.id.update_optifine);
         selectFabric = activity.findViewById(R.id.update_fabric);
-        selectFabricAPI = activity.findViewById(R.id.update_fabric_api);
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -131,9 +140,19 @@ public class AutoInstallUI extends BaseUI implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SELECT_INSTALLER_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+            Uri uri = data.getData();
+            GameInstallLocalDialog dialog = new GameInstallLocalDialog(context,activity,versionName,gameVersion,UriUtils.getRealPathFromUri_AboveApi19(context,uri));
+            dialog.show();
+        }
     }
 
     public void refresh(String versionName){
+        this.versionName = versionName;
+        this.forgeVersion = null;
+        this.liteLoaderVersion = null;
+        this.optifineVersion = null;
+        this.fabricVersion = null;
         String gameJsonText = FileStringUtils.getStringFromFile(activity.launcherSetting.gameFileDirectory + "/versions/" + versionName +"/" + versionName + ".json");
         Gson gson = JsonUtils.defaultGsonBuilder()
                 .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
@@ -141,7 +160,7 @@ public class AutoInstallUI extends BaseUI implements View.OnClickListener {
                 .registerTypeAdapter(RuledArgument.class, new RuledArgument.Serializer())
                 .registerTypeAdapter(Argument.class, new Argument.Deserializer())
                 .create();
-        Version version = gson.fromJson(gameJsonText, Version.class);
+        version = gson.fromJson(gameJsonText, Version.class);
         if (version.getPatches() != null && version.getPatches().size() > 0) {
             for (Version p : version.getPatches()) {
                 switch (p.getId()) {
@@ -180,7 +199,6 @@ public class AutoInstallUI extends BaseUI implements View.OnClickListener {
             deleteForgeVersion.setVisibility(forgeVersion != null ? View.VISIBLE : View.GONE);
             deleteOptiFineVersion.setVisibility(optifineVersion != null ? View.VISIBLE : View.GONE);
             selectFabric.setVisibility(View.GONE);
-            selectFabricAPI.setVisibility(View.GONE);
         }
         else {
             forgeVersionText.setText(context.getString(R.string.install_game_ui_none));
@@ -190,7 +208,6 @@ public class AutoInstallUI extends BaseUI implements View.OnClickListener {
             deleteForgeVersion.setVisibility(View.GONE);
             deleteOptiFineVersion.setVisibility(View.GONE);
             selectFabric.setVisibility(View.VISIBLE);
-            selectFabricAPI.setVisibility(View.VISIBLE);
         }
         if (fabricVersion != null){
             forgeVersionText.setText(context.getString(R.string.install_game_ui_fabric_not_compatible));
@@ -227,48 +244,61 @@ public class AutoInstallUI extends BaseUI implements View.OnClickListener {
             }
             deleteLiteLoaderVersion.setVisibility(View.GONE);
         }
-        if (forgeVersion != null || optifineVersion != null) {
-            fabricAPIVersionText.setText(optifineVersion != null ? context.getString(R.string.install_game_ui_optifine_not_compatible) : context.getString(R.string.install_game_ui_forge_not_compatible));
-            deleteFabricAPIVersion.setVisibility(View.GONE);
-            selectFabricAPI.setVisibility(View.GONE);
-        }
         selectForge.setBackground(deleteForgeVersion.getVisibility() == View.VISIBLE ? context.getDrawable(R.drawable.ic_baseline_update_black) : context.getDrawable(R.drawable.ic_baseline_arrow_forward_black));
         selectLiteLoader.setBackground(deleteLiteLoaderVersion.getVisibility() == View.VISIBLE ? context.getDrawable(R.drawable.ic_baseline_update_black) : context.getDrawable(R.drawable.ic_baseline_arrow_forward_black));
         selectOptiFine.setBackground(deleteOptiFineVersion.getVisibility() == View.VISIBLE ? context.getDrawable(R.drawable.ic_baseline_update_black) : context.getDrawable(R.drawable.ic_baseline_arrow_forward_black));
         selectFabric.setBackground(deleteFabricVersion.getVisibility() == View.VISIBLE ? context.getDrawable(R.drawable.ic_baseline_update_black) : context.getDrawable(R.drawable.ic_baseline_arrow_forward_black));
-        selectFabricAPI.setBackground(deleteFabricAPIVersion.getVisibility() == View.VISIBLE ? context.getDrawable(R.drawable.ic_baseline_update_black) : context.getDrawable(R.drawable.ic_baseline_arrow_forward_black));
+    }
+
+    public void uninstall(String id) {
+        version = PatchMerger.reMergePatch(context, version, null, id, () -> {});
+        String path = activity.launcherSetting.gameFileDirectory + "/versions/" + versionName +"/" + versionName + ".json";
+        Gson gson = JsonUtils.defaultGsonBuilder()
+                .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
+                .registerTypeAdapter(Bits.class, new Bits.Serializer())
+                .registerTypeAdapter(RuledArgument.class, new RuledArgument.Serializer())
+                .registerTypeAdapter(Argument.class, new Argument.Deserializer())
+                .create();
+        String s = gson.toJson(version);
+        FileStringUtils.writeFile(path,s);
+        refresh(versionName);
+        new Thread(() -> {
+            activity.uiManager.versionListUI.refreshVersionList();
+        }).start();
     }
 
     @Override
     public void onClick(View view) {
+        if (view == installLocal){
+            Intent intent = new Intent(context, FileChooser.class);
+            intent.putExtra(Constants.SELECTION_MODE, Constants.SELECTION_MODES.SINGLE_SELECTION.ordinal());
+            intent.putExtra(Constants.ALLOWED_FILE_EXTENSIONS, "jar");
+            intent.putExtra(Constants.INITIAL_DIRECTORY, new File(Environment.getExternalStorageDirectory().getAbsolutePath()).getAbsolutePath());
+            activity.startActivityForResult(intent, SELECT_INSTALLER_REQUEST_CODE);
+        }
+
         if (view == deleteForgeVersion){
             if (forgeVersion != null){
                 forgeVersion = null;
-                refreshView();
+                uninstall("forge");
             }
         }
         if (view == deleteLiteLoaderVersion){
             if (liteLoaderVersion != null){
                 liteLoaderVersion = null;
-                refreshView();
+                uninstall("liteloader");
             }
         }
         if (view == deleteOptiFineVersion){
             if (optifineVersion != null){
                 optifineVersion = null;
-                refreshView();
+                uninstall("optifine");
             }
         }
         if (view == deleteFabricVersion){
             if (fabricVersion != null){
                 fabricVersion = null;
-                refreshView();
-            }
-        }
-        if (view == deleteFabricAPIVersion){
-            if (fabricAPIVersion != null){
-                fabricAPIVersion = null;
-                refreshView();
+                uninstall("fabric");
             }
         }
         if (view == selectForgeVersion && fabricVersion == null){

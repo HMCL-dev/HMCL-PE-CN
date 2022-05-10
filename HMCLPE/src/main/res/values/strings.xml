@@ -6,6 +6,10 @@
     <string name="version_name" translatable="false">v1.0.0</string>
     <string name="app_bar_title" translatable="false">Hello Minecraft! Launcher Pocket Edition v1.0.0</string>
 
+    <string name="dialog_unknown_error_title">警告</string>
+    <string name="dialog_unknown_error_msg">启动器遇到无法处理的错误，请联系开发者解决。</string>
+    <string name="dialog_unknown_error_positive">确定</string>
+
     <string name="import_control_label">导入控制布局方案</string>
 
     <string name="storage_permissions_remind">请授予启动器读写权限，否则可能无法正常运行</string>
@@ -294,6 +298,9 @@
     <string name="fabric_api_list_ui_warn_text">警告: Fabric API 是一个 Mod，将会被安装到新游戏的 Mod 文件夹，请你在安装游戏后不要修改当前游戏的版本隔离/游戏运行路径设置，如果你在之后修改了相关设置，Fabric API 需要被重新安装</string>
     <string name="no_available_version">没有可供安装的版本，点击此处返回</string>
 
+    <string name="dialog_install_local_title">从本地文件安装/升级</string>
+    <string name="dialog_install_local_recognize">正在识别安装软件</string>
+
     <string name="dialog_install_game_title">安装新游戏版本</string>
     <string name="dialog_install_game_install_game">正在安装 Minecraft</string>
     <string name="dialog_install_game_install_game_libs">正在安装游戏依赖</string>
@@ -314,6 +321,18 @@
 
     <string name="dialog_install_fail_title">安装失败</string>
     <string name="dialog_install_fail_positive">确定</string>
+
+    <string name="dialog_incorrect_version_title">安装失败</string>
+    <string name="dialog_incorrect_version_msg">该软件需要的游戏版本为 %s1，但实际的游戏版本为 %s2。</string>
+    <string name="dialog_incorrect_version_positive">确定</string>
+
+    <string name="dialog_incorrect_installer_title">安装失败</string>
+    <string name="dialog_incorrect_installer_msg">无法识别要安装的软件。如果你要安装 Mod，你需要在模组管理页面安装模组。</string>
+    <string name="dialog_incorrect_installer_positive">确定</string>
+
+    <string name="dialog_incorrect_fabric_title">安装失败</string>
+    <string name="dialog_incorrect_fabric_msg">当前软件与 Fabric 不兼容，请先卸载 Fabric。</string>
+    <string name="dialog_incorrect_fabric_positive">确定</string>
 
     <string name="download_mod_ui_game">游戏</string>
     <string name="download_mod_ui_source">下载源</string>

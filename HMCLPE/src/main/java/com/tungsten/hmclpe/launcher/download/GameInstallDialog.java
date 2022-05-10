@@ -53,7 +53,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class DownloadDialog extends Dialog implements View.OnClickListener, Handler.Callback {
+public class GameInstallDialog extends Dialog implements View.OnClickListener, Handler.Callback {
 
     private Context context;
     private MainActivity activity;
@@ -84,7 +84,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     private TextView speedText;
     private Button cancelButton;
 
-    public DownloadDialog(@NonNull Context context, MainActivity activity, String name, VersionManifest.Version version,ForgeVersion forgeVersion,OptifineVersion optifineVersion,LiteLoaderVersion liteLoaderVersion,FabricLoaderVersion fabricVersion,ModListBean.Version fabricAPIVersion) {
+    public GameInstallDialog(@NonNull Context context, MainActivity activity, String name, VersionManifest.Version version, ForgeVersion forgeVersion, OptifineVersion optifineVersion, LiteLoaderVersion liteLoaderVersion, FabricLoaderVersion fabricVersion, ModListBean.Version fabricAPIVersion) {
         super(context);
         this.context = context;
         this.activity = activity;
@@ -178,7 +178,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
 
                 @Override
                 public void onFinish(Version version) {
-                    mergePatch(version);
+                    gameVersionJson = PatchMerger.mergePatch(gameVersionJson,version);
                     downloadForge();
                 }
             });
@@ -228,7 +228,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
 
             @Override
             public void onFinish(Version version) {
-                mergePatch(version);
+                gameVersionJson = PatchMerger.mergePatch(gameVersionJson,version);
                 downloadOptifine();
             }
         });
@@ -274,7 +274,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
 
             @Override
             public void onFinish(Version version) {
-                mergeOptifinePatch(version);
+                gameVersionJson = PatchMerger.mergeOptifinePatch(gameVersionJson,version);
                 downloadFabric();
             }
         });
@@ -296,7 +296,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
 
                 @Override
                 public void onFinish(Version version) {
-                    mergePatch(version);
+                    gameVersionJson = PatchMerger.mergePatch(gameVersionJson,version);
                     downloadFabricAPI();
                 }
             });
@@ -402,90 +402,11 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
         dismiss();
     }
 
-    public void mergePatch(Version patch) {
-        gameVersionJson = gameVersionJson.addPatch(patch);
-        gameVersionJson = gameVersionJson.setMainClass(patch.getMainClass());
-        if (patch.getMinecraftArguments().isPresent()) {
-            gameVersionJson = gameVersionJson.setMinecraftArguments(patch.getMinecraftArguments().get());
-        }
-        if (patch.getArguments().isPresent()) {
-            if (gameVersionJson.getArguments().isPresent()) {
-                gameVersionJson = gameVersionJson.setArguments(Arguments.merge(gameVersionJson.getArguments().get(),patch.getArguments().get()));
-            }
-            else {
-                gameVersionJson = gameVersionJson.setArguments(patch.getArguments().get());
-            }
-        }
-        List<Library> libraries = new ArrayList<>(Lang.merge(gameVersionJson.getLibraries(), patch.getLibraries()));
-        for (Library library : gameVersionJson.getLibraries()) {
-            for (Library lib : patch.getLibraries()) {
-                if (library.equals(lib)) {
-                    libraries.remove(lib);
-                }
-                if (library.getArtifactId().equals(lib.getArtifactId()) && !library.getVersion().equals(lib.getVersion())) {
-                    libraries.remove(library);
-                }
-            }
-        }
-        gameVersionJson = gameVersionJson.setLibraries(libraries);
-    }
-
-    public void mergeOptifinePatch(Version patch) {
-        boolean forge = false;
-        for (Version v : gameVersionJson.getPatches()) {
-            if (v.getId().equals("forge")) {
-                forge = true;
-                break;
-            }
-        }
-        gameVersionJson = gameVersionJson.addPatch(patch);
-        if (patch.getMinecraftArguments().isPresent()) {
-            gameVersionJson = gameVersionJson.setMinecraftArguments(patch.getMinecraftArguments().get());
-        }
-        if (forge) {
-            if (patch.getArguments().isPresent()) {
-                if (gameVersionJson.getArguments().isPresent()) {
-                    gameVersionJson = gameVersionJson.setArguments(Arguments.merge(gameVersionJson.getArguments().get(),new Arguments().addGameArguments("--tweakClass", "optifine.OptiFineForgeTweaker")));
-                }
-                else {
-                    gameVersionJson = gameVersionJson.setArguments(new Arguments().addGameArguments("--tweakClass", "optifine.OptiFineForgeTweaker"));
-                }
-            }
-        }
-        else {
-            gameVersionJson = gameVersionJson.setMainClass(patch.getMainClass());
-            if (patch.getArguments().isPresent()) {
-                if (gameVersionJson.getArguments().isPresent()) {
-                    gameVersionJson = gameVersionJson.setArguments(Arguments.merge(gameVersionJson.getArguments().get(),patch.getArguments().get()));
-                }
-                else {
-                    gameVersionJson = gameVersionJson.setArguments(patch.getArguments().get());
-                }
-            }
-        }
-        List<Library> libraries = new ArrayList<>(Lang.merge(gameVersionJson.getLibraries(), patch.getLibraries()));
-        for (Library library : gameVersionJson.getLibraries()) {
-            for (Library lib : patch.getLibraries()) {
-                if (library.equals(lib)) {
-                    libraries.remove(lib);
-                }
-                if (library.getArtifactId().equals(lib.getArtifactId()) && !library.getVersion().equals(lib.getVersion())) {
-                    libraries.remove(library);
-                }
-            }
-        }
-        gameVersionJson = gameVersionJson.setLibraries(libraries);
-    }
-
     @Override
     public boolean handleMessage(@NonNull Message msg) {
-        switch (msg.what) {
-            case NetSpeedTimer.NET_SPEED_TIMER_DEFAULT:
-                String speed = (String)msg.obj;
-                speedText.setText(speed);
-                break;
-            default:
-                break;
+        if (msg.what == NetSpeedTimer.NET_SPEED_TIMER_DEFAULT) {
+            String speed = (String) msg.obj;
+            speedText.setText(speed);
         }
         return false;
     }

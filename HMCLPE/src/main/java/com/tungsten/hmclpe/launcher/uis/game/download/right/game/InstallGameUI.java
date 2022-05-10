@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.download.DownloadDialog;
+import com.tungsten.hmclpe.launcher.download.GameInstallDialog;
 import com.tungsten.hmclpe.launcher.download.fabric.FabricLoaderVersion;
 import com.tungsten.hmclpe.launcher.download.forge.ForgeVersion;
 import com.tungsten.hmclpe.launcher.download.game.VersionManifest;
@@ -199,8 +199,8 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
                 if (forgeVersion != null || optifineVersion != null) {
                     fabricAPIVersion = null;
                 }
-                DownloadDialog downloadDialog = new DownloadDialog(context,activity,editName.getText().toString(),version,forgeVersion,optifineVersion,liteLoaderVersion,fabricVersion,fabricAPIVersion);
-                downloadDialog.show();
+                GameInstallDialog gameInstallDialog = new GameInstallDialog(context,activity,editName.getText().toString(),version,forgeVersion,optifineVersion,liteLoaderVersion,fabricVersion,fabricAPIVersion);
+                gameInstallDialog.show();
             }
         }
     }
