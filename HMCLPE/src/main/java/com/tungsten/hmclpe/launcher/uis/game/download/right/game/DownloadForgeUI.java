@@ -26,7 +26,6 @@ import com.tungsten.hmclpe.utils.io.NetworkUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 
 public class DownloadForgeUI extends BaseUI implements View.OnClickListener {
@@ -36,6 +35,7 @@ public class DownloadForgeUI extends BaseUI implements View.OnClickListener {
     public static final String FORGE_VERSION_MANIFEST = "https://bmclapi2.bangbang93.com/forge/minecraft/";
 
     public String version;
+    public boolean install;
 
     private LinearLayout hintLayout;
 
@@ -86,8 +86,8 @@ public class DownloadForgeUI extends BaseUI implements View.OnClickListener {
                 Gson gson = new Gson();
                 ForgeVersion[] forgeVersion = gson.fromJson(response, ForgeVersion[].class);
                 list.addAll(Arrays.asList(forgeVersion));
-                Collections.sort(list,new ForgeCompareTool());
-                DownloadForgeListAdapter downloadForgeListAdapter = new DownloadForgeListAdapter(context,activity,list);
+                list.sort(new ForgeCompareTool());
+                DownloadForgeListAdapter downloadForgeListAdapter = new DownloadForgeListAdapter(context,activity,list,install);
                 activity.runOnUiThread(() -> forgeListView.setAdapter(downloadForgeListAdapter));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -136,7 +136,7 @@ public class DownloadForgeUI extends BaseUI implements View.OnClickListener {
         }
     };
 
-    private class ForgeCompareTool implements Comparator<ForgeVersion> {
+    private static class ForgeCompareTool implements Comparator<ForgeVersion> {
         @Override
         public int compare(ForgeVersion versionPri, ForgeVersion versionSec) {
             if(versionPri.getBuild() > versionSec.getBuild()) {

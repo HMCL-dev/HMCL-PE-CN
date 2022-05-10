@@ -22,11 +22,13 @@ public class DownloadForgeListAdapter extends BaseAdapter {
     private Context context;
     private MainActivity activity;
     private ArrayList<ForgeVersion> versions;
+    private boolean install;
 
-    public DownloadForgeListAdapter(Context context,MainActivity activity,ArrayList<ForgeVersion> versions){
+    public DownloadForgeListAdapter(Context context,MainActivity activity,ArrayList<ForgeVersion> versions,boolean install){
         this.context = context;
         this.activity = activity;
         this.versions = versions;
+        this.install = install;
     }
 
     private String getReleaseTime(String time){
@@ -85,9 +87,11 @@ public class DownloadForgeListAdapter extends BaseAdapter {
         viewHolder.forgeId.setText(version.getVersion());
         viewHolder.mcVersion.setText(version.getGameVersion());
         viewHolder.releaseTime.setText(getReleaseTime(version.getModified()));
-        viewHolder.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        viewHolder.item.setOnClickListener(v -> {
+            if (install) {
+
+            }
+            else {
                 activity.uiManager.installGameUI.forgeVersion = version;
                 activity.backToLastUI();
             }

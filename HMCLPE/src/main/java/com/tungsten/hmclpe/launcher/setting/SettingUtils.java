@@ -30,7 +30,7 @@ public class SettingUtils {
         String[] string = new File(path + "/versions/").list();
         if (new File(path + "/versions/").exists()){
             for (String str : string){
-                if (new File(path + "/versions/" + str + "/" + str + ".json").exists()) {
+                if (new File(path + "/versions/" + str + "/" + str + ".json").exists() && new File(path + "/versions/" + str + "/" + str + ".jar").exists()) {
                     GameListBean bean = new GameListBean("","","",false);
                     bean.name = str;
                     if (new File(path + "/versions/" + str + "/icon.png").exists()){
@@ -83,7 +83,7 @@ public class SettingUtils {
         String[] string = new File(path + "/versions/").list();
         if (new File(path + "/versions/").exists()){
             for (String str : string){
-                if (new File(path + "/versions/" + str + "/" + str + ".json").exists()) {
+                if (new File(path + "/versions/" + str + "/" + str + ".json").exists() && new File(path + "/versions/" + str + "/" + str + ".jar").exists()) {
                     list.add(str);
                 }
             }

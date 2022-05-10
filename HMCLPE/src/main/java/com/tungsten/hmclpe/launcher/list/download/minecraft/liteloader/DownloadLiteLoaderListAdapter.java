@@ -22,12 +22,14 @@ public class DownloadLiteLoaderListAdapter extends BaseAdapter {
     private MainActivity activity;
     private String mcVersion;
     private ArrayList<LiteLoaderVersion> versions;
+    private boolean install;
 
-    public DownloadLiteLoaderListAdapter(Context context,MainActivity activity,String mcVersion,ArrayList<LiteLoaderVersion> versions){
+    public DownloadLiteLoaderListAdapter(Context context,MainActivity activity,String mcVersion,ArrayList<LiteLoaderVersion> versions,boolean install){
         this.context = context;
         this.activity = activity;
         this.mcVersion = mcVersion;
         this.versions = versions;
+        this.install = install;
     }
 
     private class ViewHolder{
@@ -72,9 +74,11 @@ public class DownloadLiteLoaderListAdapter extends BaseAdapter {
         viewHolder.icon.setImageDrawable(context.getDrawable(R.drawable.ic_chicken));
         viewHolder.liteLoaderId.setText(version.getVersion());
         viewHolder.mcVersion.setText(mcVersion);
-        viewHolder.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        viewHolder.item.setOnClickListener(v -> {
+            if (install) {
+
+            }
+            else {
                 activity.uiManager.installGameUI.liteLoaderVersion = version;
                 activity.backToLastUI();
             }

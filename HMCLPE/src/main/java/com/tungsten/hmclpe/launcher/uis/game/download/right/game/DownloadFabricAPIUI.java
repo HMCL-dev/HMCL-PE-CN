@@ -35,6 +35,7 @@ public class DownloadFabricAPIUI extends BaseUI implements View.OnClickListener 
     public LinearLayout downloadFabricAPIUI;
 
     public String version;
+    public boolean install;
 
     private LinearLayout hintLayout;
 
@@ -84,41 +85,33 @@ public class DownloadFabricAPIUI extends BaseUI implements View.OnClickListener 
         builder.setPositiveButton(R.string.fabric_api_list_ui_positive, (dialogInterface, i) -> { });
         AlertDialog dialog = builder.create();
         dialog.show();
-        new Thread(){
-            @Override
-            public void run() {
-                loadingHandler.sendEmptyMessage(0);
-                ArrayList<ModListBean.Version> apiVersions = new ArrayList<>();
-                ArrayList<ModListBean.Version> availableVersions = new ArrayList<>();
-                try {
-                    Stream<ModListBean.Version> stream = Modrinth.getRemoteVersionsById(FABRIC_API_ID);
-                    List<ModListBean.Version> list = stream.collect(toList());
-                    apiVersions.addAll(list);
-                    boolean exist = false;
-                    for (ModListBean.Version v : apiVersions) {
-                        if (v.getGameVersions().contains(version)){
-                            exist = true;
-                            availableVersions.add(v);
-                        }
+        new Thread(() -> {
+            loadingHandler.sendEmptyMessage(0);
+            ArrayList<ModListBean.Version> apiVersions = new ArrayList<>();
+            ArrayList<ModListBean.Version> availableVersions = new ArrayList<>();
+            try {
+                Stream<ModListBean.Version> stream = Modrinth.getRemoteVersionsById(FABRIC_API_ID);
+                List<ModListBean.Version> list = stream.collect(toList());
+                apiVersions.addAll(list);
+                boolean exist = false;
+                for (ModListBean.Version v : apiVersions) {
+                    if (v.getGameVersions().contains(version)){
+                        exist = true;
+                        availableVersions.add(v);
                     }
-                    if (exist) {
-                        DownloadFabricAPIListAdapter adapter = new DownloadFabricAPIListAdapter(context,activity,version,availableVersions);
-                        loadingHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                fabricAPIListView.setAdapter(adapter);
-                            }
-                        });
-                        loadingHandler.sendEmptyMessage(1);
-                    }
-                    else {
-                        loadingHandler.sendEmptyMessage(2);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
+                if (exist) {
+                    DownloadFabricAPIListAdapter adapter = new DownloadFabricAPIListAdapter(context,activity,version,availableVersions,install);
+                    loadingHandler.post(() -> fabricAPIListView.setAdapter(adapter));
+                    loadingHandler.sendEmptyMessage(1);
+                }
+                else {
+                    loadingHandler.sendEmptyMessage(2);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }.start();
+        }).start();
     }
 
     @Override

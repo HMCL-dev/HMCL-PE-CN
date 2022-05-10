@@ -27,6 +27,7 @@ import com.tungsten.hmclpe.utils.io.NetworkUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class DownloadOptifineUI extends BaseUI implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
@@ -35,6 +36,7 @@ public class DownloadOptifineUI extends BaseUI implements View.OnClickListener, 
     public static final String OPTIFINE_VERSION_MANIFEST = "https://bmclapi2.bangbang93.com/optifine/versionlist";
 
     public String version;
+    public boolean install;
 
     private LinearLayout hintLayout;
 
@@ -121,7 +123,8 @@ public class DownloadOptifineUI extends BaseUI implements View.OnClickListener, 
                         allList.add(versions);
                     }
                 }
-                DownloadOptifineListAdapter downloadOptifineListAdapter = new DownloadOptifineListAdapter(context,activity,list);
+                list.sort(new OptifineCompareTool());
+                DownloadOptifineListAdapter downloadOptifineListAdapter = new DownloadOptifineListAdapter(context,activity,list,install);
                 activity.runOnUiThread(() -> optifineListView.setAdapter(downloadOptifineListAdapter));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -145,7 +148,8 @@ public class DownloadOptifineUI extends BaseUI implements View.OnClickListener, 
                 list.add(versions);
             }
         }
-        DownloadOptifineListAdapter downloadOptifineListAdapter = new DownloadOptifineListAdapter(context,activity,list);
+        list.sort(new OptifineCompareTool());
+        DownloadOptifineListAdapter downloadOptifineListAdapter = new DownloadOptifineListAdapter(context,activity,list,install);
         optifineListView.setAdapter(downloadOptifineListAdapter);
     }
 
@@ -190,5 +194,72 @@ public class DownloadOptifineUI extends BaseUI implements View.OnClickListener, 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         refresh();
+    }
+
+    private static class OptifineCompareTool implements Comparator<OptifineVersion> {
+        @Override
+        public int compare(OptifineVersion versionPri, OptifineVersion versionSec) {
+            if ((versionPri.patch.length() == versionSec.patch.length()) || (versionPri.patch.startsWith("pre") && versionSec.patch.startsWith("pre"))) {
+                if (versionPri.patch.length() == 2) {
+                    if(versionPri.patch.charAt(0) > versionSec.patch.charAt(0)) {
+                        return -1;
+                    }
+                    else if(versionPri.patch.charAt(0) == versionSec.patch.charAt(0)) {
+                        return Character.compare(versionSec.patch.charAt(1), versionPri.patch.charAt(1));
+                    }
+                    else {
+                        return 1;
+                    }
+                }
+                else {
+                    if(versionPri.type.substring(versionPri.type.length() - 2).charAt(0) > versionSec.type.substring(versionSec.type.length() - 2).charAt(0)) {
+                        return -1;
+                    }
+                    else if(versionPri.type.substring(versionPri.type.length() - 2).charAt(0) == versionSec.type.substring(versionSec.type.length() - 2).charAt(0)) {
+                        if(versionPri.type.substring(versionPri.type.length() - 2).charAt(1) > versionSec.type.substring(versionSec.type.length() - 2).charAt(1)) {
+                            return -1;
+                        }
+                        else if(versionPri.type.substring(versionPri.type.length() - 2).charAt(1) == versionSec.type.substring(versionSec.type.length() - 2).charAt(1)) {
+                            return Integer.compare(Integer.parseInt(versionSec.patch.replace("pre", "")), Integer.parseInt(versionPri.patch.replace("pre", "")));
+                        }
+                        else {
+                            return 1;
+                        }
+                    }
+                    else {
+                        return 1;
+                    }
+                }
+            }
+            else {
+                String priPatch;
+                String secPatch;
+                if (versionPri.patch.startsWith("pre")) {
+                    priPatch = versionPri.type.substring(versionPri.type.length() - 2);
+                    secPatch = versionSec.patch;
+                }
+                else {
+                    priPatch = versionPri.patch;
+                    secPatch = versionSec.type.substring(versionSec.type.length() - 2);
+                }
+                if(priPatch.charAt(0) > secPatch.charAt(0)) {
+                    return -1;
+                }
+                else if(priPatch.charAt(0) == secPatch.charAt(0)) {
+                    if(priPatch.charAt(1) > secPatch.charAt(1)) {
+                        return -1;
+                    }
+                    else if(priPatch.charAt(1) == secPatch.charAt(1)) {
+                        return Integer.compare(versionPri.patch.length(),versionSec.patch.length());
+                    }
+                    else {
+                        return 1;
+                    }
+                }
+                else {
+                    return 1;
+                }
+            }
+        }
     }
 }

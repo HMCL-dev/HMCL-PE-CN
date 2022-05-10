@@ -22,12 +22,14 @@ public class DownloadFabricListAdapter extends BaseAdapter {
     private MainActivity activity;
     private String mcVersion;
     private ArrayList<FabricLoaderVersion> versions;
+    private boolean install;
 
-    public DownloadFabricListAdapter(Context context,MainActivity activity,String mcVersion,ArrayList<FabricLoaderVersion> versions){
+    public DownloadFabricListAdapter(Context context,MainActivity activity,String mcVersion,ArrayList<FabricLoaderVersion> versions,boolean install){
         this.context = context;
         this.activity = activity;
         this.mcVersion = mcVersion;
         this.versions = versions;
+        this.install = install;
     }
 
     private class ViewHolder{
@@ -72,9 +74,11 @@ public class DownloadFabricListAdapter extends BaseAdapter {
         viewHolder.icon.setImageDrawable(context.getDrawable(R.drawable.ic_fabric));
         viewHolder.fabricId.setText(version.version);
         viewHolder.mcVersion.setText(mcVersion);
-        viewHolder.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        viewHolder.item.setOnClickListener(v -> {
+            if (install) {
+
+            }
+            else {
                 activity.uiManager.installGameUI.fabricVersion = version;
                 activity.backToLastUI();
             }

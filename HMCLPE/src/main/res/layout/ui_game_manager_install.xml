@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
         android:background="@drawable/launcher_view_white">
@@ -73,7 +73,7 @@
                         android:scaleType="centerInside" />
 
                     <TextView
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginStart="12dp"
                         android:layout_gravity="center"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
@@ -89,6 +89,18 @@
                         android:text="@string/install_game_ui_none"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <ImageView
+                        android:layout_marginStart="12dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_baseline_update_black" />
 
                 </LinearLayout>
 
@@ -115,7 +127,7 @@
                         android:scaleType="centerInside" />
 
                     <TextView
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginStart="12dp"
                         android:layout_gravity="center"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
@@ -146,13 +158,12 @@
                         android:id="@+id/uninstall_forge"/>
 
                     <ImageView
-                        android:visibility="gone"
                         android:id="@+id/update_forge"
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginStart="12dp"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/ic_baseline_update_black" />
+                        android:background="@drawable/ic_baseline_arrow_forward_black" />
 
                 </LinearLayout>
 
@@ -179,7 +190,7 @@
                         android:scaleType="centerInside" />
 
                     <TextView
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginStart="12dp"
                         android:layout_gravity="center"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
@@ -210,13 +221,12 @@
                         android:id="@+id/uninstall_liteloader"/>
 
                     <ImageView
-                        android:visibility="gone"
                         android:id="@+id/update_lite_loader"
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginStart="12dp"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/ic_baseline_update_black" />
+                        android:background="@drawable/ic_baseline_arrow_forward_black" />
 
                 </LinearLayout>
 
@@ -243,7 +253,7 @@
                         android:scaleType="centerInside" />
 
                     <TextView
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginStart="12dp"
                         android:layout_gravity="center"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
@@ -274,13 +284,12 @@
                         android:id="@+id/uninstall_optifine"/>
 
                     <ImageView
-                        android:visibility="gone"
                         android:id="@+id/update_optifine"
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginStart="12dp"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/ic_baseline_update_black" />
+                        android:background="@drawable/ic_baseline_arrow_forward_black" />
 
                 </LinearLayout>
 
@@ -307,7 +316,7 @@
                         android:scaleType="centerInside" />
 
                     <TextView
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginStart="12dp"
                         android:layout_gravity="center"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
@@ -338,13 +347,12 @@
                         android:id="@+id/uninstall_fabric"/>
 
                     <ImageView
-                        android:visibility="gone"
                         android:id="@+id/update_fabric"
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginStart="12dp"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/ic_baseline_update_black" />
+                        android:background="@drawable/ic_baseline_arrow_forward_black" />
 
                 </LinearLayout>
 
@@ -371,7 +379,7 @@
                         android:scaleType="centerInside" />
 
                     <TextView
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginStart="12dp"
                         android:layout_gravity="center"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
@@ -402,13 +410,12 @@
                         android:id="@+id/uninstall_fabric_api"/>
 
                     <ImageView
-                        android:visibility="gone"
                         android:id="@+id/update_fabric_api"
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginStart="12dp"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/ic_baseline_update_black" />
+                        android:background="@drawable/ic_baseline_arrow_forward_black" />
 
                 </LinearLayout>
 

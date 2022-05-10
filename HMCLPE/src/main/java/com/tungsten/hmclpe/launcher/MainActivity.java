@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 uiManager.uis.remove(i);
             }
         }
-        uiManager.downloadUI.onStart();
+        uiManager.uis.get(uiManager.uis.size() - 1).onStart();
         if (uiManager.currentUI == uiManager.installGameUI){
             uiManager.installGameUI.onStop();
         }

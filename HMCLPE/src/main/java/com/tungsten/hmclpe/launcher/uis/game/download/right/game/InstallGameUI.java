@@ -167,22 +167,27 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
         }
         if (v == selectForgeVersion && fabricVersion == null){
             activity.uiManager.downloadForgeUI.version = version.id;
+            activity.uiManager.downloadForgeUI.install = false;
             activity.uiManager.switchMainUI(activity.uiManager.downloadForgeUI);
         }
         if (v == selectLiteLoaderVersion && fabricVersion == null){
             activity.uiManager.downloadLiteLoaderUI.version = version.id;
+            activity.uiManager.downloadLiteLoaderUI.install = false;
             activity.uiManager.switchMainUI(activity.uiManager.downloadLiteLoaderUI);
         }
         if (v == selectOptiFineVersion && fabricVersion == null){
             activity.uiManager.downloadOptifineUI.version = version.id;
+            activity.uiManager.downloadOptifineUI.install = false;
             activity.uiManager.switchMainUI(activity.uiManager.downloadOptifineUI);
         }
         if (v == selectFabricVersion && forgeVersion == null && optifineVersion == null){
             activity.uiManager.downloadFabricUI.version = version.id;
+            activity.uiManager.downloadFabricUI.install = false;
             activity.uiManager.switchMainUI(activity.uiManager.downloadFabricUI);
         }
         if (v == selectFabricAPIVersion && forgeVersion == null && optifineVersion == null){
             activity.uiManager.downloadFabricAPIUI.version = version.id;
+            activity.uiManager.downloadFabricAPIUI.install = false;
             activity.uiManager.switchMainUI(activity.uiManager.downloadFabricAPIUI);
         }
         if (v == install){

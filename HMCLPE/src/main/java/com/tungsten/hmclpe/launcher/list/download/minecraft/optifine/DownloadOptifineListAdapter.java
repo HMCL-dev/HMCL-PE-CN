@@ -21,11 +21,13 @@ public class DownloadOptifineListAdapter extends BaseAdapter {
     private Context context;
     private MainActivity activity;
     private ArrayList<OptifineVersion> versions;
+    private boolean install;
 
-    public DownloadOptifineListAdapter(Context context,MainActivity activity,ArrayList<OptifineVersion> versions){
+    public DownloadOptifineListAdapter(Context context,MainActivity activity,ArrayList<OptifineVersion> versions,boolean install){
         this.context = context;
         this.activity = activity;
         this.versions = versions;
+        this.install = install;
     }
 
     private class ViewHolder{
@@ -70,9 +72,11 @@ public class DownloadOptifineListAdapter extends BaseAdapter {
         viewHolder.icon.setImageDrawable(context.getDrawable(R.drawable.ic_command));
         viewHolder.optifineId.setText(version.type + "_" + version.patch);
         viewHolder.mcVersion.setText(version.mcVersion);
-        viewHolder.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        viewHolder.item.setOnClickListener(v -> {
+            if (install) {
+
+            }
+            else {
                 activity.uiManager.installGameUI.optifineVersion = version;
                 activity.backToLastUI();
             }

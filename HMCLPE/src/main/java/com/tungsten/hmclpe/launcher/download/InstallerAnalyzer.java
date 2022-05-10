@@ -178,7 +178,7 @@ public class InstallerAnalyzer {
                 String mcVersion = getOrDefault(constants, constants.indexOf("MC_VERSION") + 1, null);
                 String ofEdition = getOrDefault(constants, constants.indexOf("OF_EDITION") + 1, null);
                 String ofRelease = getOrDefault(constants, constants.indexOf("OF_RELEASE") + 1, null);
-                String preName = ofRelease.contains("pre") ? "preview_" : "";
+                String preName = (ofRelease.contains("pre") || ofRelease.contains("alpha")) ? "preview_" : "";
                 OptifineVersion optifineVersion = new OptifineVersion("",mcVersion,ofRelease,ofEdition,0,preName + "OptiFine_" + mcVersion + "_" + ofEdition + "_" + ofRelease + ".jar");
                 if (FileUtils.copyFile(AppManifest.INSTALL_DIR + "/local/installer.jar",AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName)) {
                     handler.post(() -> {

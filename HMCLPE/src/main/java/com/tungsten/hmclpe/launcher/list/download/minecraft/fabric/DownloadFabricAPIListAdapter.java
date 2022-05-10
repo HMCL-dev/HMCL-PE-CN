@@ -23,12 +23,14 @@ public class DownloadFabricAPIListAdapter extends BaseAdapter {
     private MainActivity activity;
     private String mcVersion;
     private ArrayList<ModListBean.Version> versions;
+    private boolean install;
 
-    public DownloadFabricAPIListAdapter(Context context,MainActivity activity,String mcVersion,ArrayList<ModListBean.Version> versions){
+    public DownloadFabricAPIListAdapter(Context context,MainActivity activity,String mcVersion,ArrayList<ModListBean.Version> versions,boolean install){
         this.context = context;
         this.activity = activity;
         this.mcVersion = mcVersion;
         this.versions = versions;
+        this.install = install;
     }
 
     private class ViewHolder{
@@ -86,9 +88,11 @@ public class DownloadFabricAPIListAdapter extends BaseAdapter {
         viewHolder.fabricAPIId.setText(version.getVersion());
         viewHolder.mcVersion.setText(mcVersion);
         viewHolder.time.setText(getReleaseTime(version.getDatePublished().toString()));
-        viewHolder.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        viewHolder.item.setOnClickListener(v -> {
+            if (install) {
+
+            }
+            else {
                 activity.uiManager.installGameUI.fabricAPIVersion = version;
                 activity.backToLastUI();
             }

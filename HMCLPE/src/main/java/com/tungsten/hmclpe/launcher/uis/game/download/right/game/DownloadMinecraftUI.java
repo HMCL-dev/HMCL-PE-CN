@@ -104,41 +104,38 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
     }
 
     private void init(){
-        new Thread(){
-            @Override
-            public void run(){
-                loadingHandler.sendEmptyMessage(0);
-                try {
-                    allList = new ArrayList<>();
-                    String response = NetworkUtils.doGet(NetworkUtils.toURL(DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.VERSION_MANIFEST)));
-                    Gson gson = new Gson();
-                    VersionManifest versionManifest = gson.fromJson(response,VersionManifest.class);
-                    ArrayList<VersionManifest.Version> list = new ArrayList<>();
-                    for (VersionManifest.Version versions : versionManifest.versions){
-                        if (checkRelease.isChecked() && versions.type.equals("release")){
-                            list.add(versions);
-                        }
-                        if (checkSnapshot.isChecked() && versions.type.equals("snapshot")){
-                            list.add(versions);
-                        }
-                        if (checkOld.isChecked() && (versions.type.equals("old_alpha") || versions.type.equals("old_beta"))){
-                            list.add(versions);
-                        }
-                        allList.add(versions);
+        new Thread(() -> {
+            loadingHandler.sendEmptyMessage(0);
+            try {
+                allList = new ArrayList<>();
+                String response = NetworkUtils.doGet(NetworkUtils.toURL(DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.VERSION_MANIFEST)));
+                Gson gson = new Gson();
+                VersionManifest versionManifest = gson.fromJson(response,VersionManifest.class);
+                ArrayList<VersionManifest.Version> list = new ArrayList<>();
+                for (VersionManifest.Version versions : versionManifest.versions){
+                    if (checkRelease.isChecked() && versions.type.equals("release")){
+                        list.add(versions);
                     }
-                    DownloadGameListAdapter downloadGameListAdapter = new DownloadGameListAdapter(context,activity,list);
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mcList.setAdapter(downloadGameListAdapter);
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    if (checkSnapshot.isChecked() && versions.type.equals("snapshot")){
+                        list.add(versions);
+                    }
+                    if (checkOld.isChecked() && (versions.type.equals("old_alpha") || versions.type.equals("old_beta"))){
+                        list.add(versions);
+                    }
+                    allList.add(versions);
                 }
-                loadingHandler.sendEmptyMessage(1);
+                DownloadGameListAdapter downloadGameListAdapter = new DownloadGameListAdapter(context,activity,list);
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mcList.setAdapter(downloadGameListAdapter);
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }.start();
+            loadingHandler.sendEmptyMessage(1);
+        }).start();
     }
 
     private void refresh(){
