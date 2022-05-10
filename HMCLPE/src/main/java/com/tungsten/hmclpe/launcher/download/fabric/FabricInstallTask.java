@@ -44,7 +44,7 @@ public class FabricInstallTask extends AsyncTask<FabricLoaderVersion,Integer, Ve
     protected void onPreExecute() {
         super.onPreExecute();
         callback.onStart();
-        adapter.addDownloadTask(bean);
+        if (!isCancelled()) adapter.addDownloadTask(bean);
     }
 
     @Override
@@ -89,17 +89,17 @@ public class FabricInstallTask extends AsyncTask<FabricLoaderVersion,Integer, Ve
             DownloadUtil.DownloadMultipleFilesCallback downloadCallback = new DownloadUtil.DownloadMultipleFilesCallback() {
                 @Override
                 public void onTaskStart(DownloadTaskListBean bean) {
-                    adapter.addDownloadTask(bean);
+                    if (!isCancelled()) adapter.addDownloadTask(bean);
                 }
 
                 @Override
                 public void onTaskProgress(DownloadTaskListBean bean) {
-                    adapter.onProgress(bean);
+                    if (!isCancelled()) adapter.onProgress(bean);
                 }
 
                 @Override
                 public void onTaskFinish(DownloadTaskListBean bean) {
-                    adapter.onComplete(bean);
+                    if (!isCancelled()) adapter.onComplete(bean);
                 }
 
                 @Override

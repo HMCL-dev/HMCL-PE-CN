@@ -43,7 +43,7 @@ public class ForgeDownloadTask extends AsyncTask<ForgeVersion,Integer,Exception>
     protected void onPreExecute() {
         super.onPreExecute();
         callback.onStart();
-        adapter.addDownloadTask(bean);
+        if (!isCancelled()) adapter.addDownloadTask(bean);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class ForgeDownloadTask extends AsyncTask<ForgeVersion,Integer,Exception>
                 long progress = 100 * curr / max;
                 bean.progress = (int) progress;
                 activity.runOnUiThread(() -> {
-                    adapter.onProgress(bean);
+                    if (!isCancelled()) adapter.onProgress(bean);
                 });
             }
 
@@ -101,17 +101,17 @@ public class ForgeDownloadTask extends AsyncTask<ForgeVersion,Integer,Exception>
         for (int i = 0;i < 5;i++) {
             try {
                 activity.runOnUiThread(() -> {
-                    adapter.addDownloadTask(bean);
+                    if (!isCancelled()) adapter.addDownloadTask(bean);
                 });
                 if (DownloadUtil.downloadFile(mirror,path,null,feedback)) {
                     activity.runOnUiThread(() -> {
-                        adapter.onComplete(bean);
+                        if (!isCancelled()) adapter.onComplete(bean);
                     });
                     if (!isCancelled()) return null;
                 }
                 else {
                     activity.runOnUiThread(() -> {
-                        adapter.onComplete(bean);
+                        if (!isCancelled()) adapter.onComplete(bean);
                     });
                     if (i == 4) {
                         if (!isCancelled()) return new Exception("Failed to download forge-installer.jar");
@@ -121,7 +121,7 @@ public class ForgeDownloadTask extends AsyncTask<ForgeVersion,Integer,Exception>
             catch (IOException e) {
                 e.printStackTrace();
                 activity.runOnUiThread(() -> {
-                    adapter.onComplete(bean);
+                    if (!isCancelled()) adapter.onComplete(bean);
                 });
                 if (i == 4) {
                     if (!isCancelled()) return e;

@@ -79,12 +79,14 @@ public class DownloadFabricAPIUI extends BaseUI implements View.OnClickListener 
     }
 
     private void init(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(R.string.fabric_api_list_ui_warn);
-        builder.setMessage(R.string.fabric_api_list_ui_warn_text);
-        builder.setPositiveButton(R.string.fabric_api_list_ui_positive, (dialogInterface, i) -> { });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        if (!install) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle(R.string.fabric_api_list_ui_warn);
+            builder.setMessage(R.string.fabric_api_list_ui_warn_text);
+            builder.setPositiveButton(R.string.fabric_api_list_ui_positive, (dialogInterface, i) -> { });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
         new Thread(() -> {
             loadingHandler.sendEmptyMessage(0);
             ArrayList<ModListBean.Version> apiVersions = new ArrayList<>();

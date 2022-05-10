@@ -124,17 +124,17 @@ public class MinecraftInstallTask extends AsyncTask<VersionManifest.Version,Inte
         DownloadUtil.DownloadMultipleFilesCallback downloadCallback = new DownloadUtil.DownloadMultipleFilesCallback() {
             @Override
             public void onTaskStart(DownloadTaskListBean bean) {
-                adapter.addDownloadTask(bean);
+                if (!isCancelled()) adapter.addDownloadTask(bean);
             }
 
             @Override
             public void onTaskProgress(DownloadTaskListBean bean) {
-                adapter.onProgress(bean);
+                if (!isCancelled()) adapter.onProgress(bean);
             }
 
             @Override
             public void onTaskFinish(DownloadTaskListBean bean) {
-                adapter.onComplete(bean);
+                if (!isCancelled()) adapter.onComplete(bean);
             }
 
             @Override
@@ -185,15 +185,15 @@ public class MinecraftInstallTask extends AsyncTask<VersionManifest.Version,Inte
         super.onProgressUpdate(values);
         switch (values[0]) {
             case 0:
-                adapter.addDownloadTask(priBean);
+                if (!isCancelled()) adapter.addDownloadTask(priBean);
                 break;
             case 1:
-                adapter.onComplete(priBean);
-                adapter.addDownloadTask(secBean);
+                if (!isCancelled()) adapter.onComplete(priBean);
+                if (!isCancelled()) adapter.addDownloadTask(secBean);
                 break;
             case 2:
-                adapter.onComplete(secBean);
-                adapter.addDownloadTask(thiBean);
+                if (!isCancelled()) adapter.onComplete(secBean);
+                if (!isCancelled()) adapter.addDownloadTask(thiBean);
                 break;
         }
     }
@@ -201,7 +201,7 @@ public class MinecraftInstallTask extends AsyncTask<VersionManifest.Version,Inte
     @Override
     protected void onPostExecute(Version version) {
         super.onPostExecute(version);
-        adapter.onComplete(thiBean);
+        if (!isCancelled()) adapter.onComplete(thiBean);
         callback.onFinish(version);
     }
 

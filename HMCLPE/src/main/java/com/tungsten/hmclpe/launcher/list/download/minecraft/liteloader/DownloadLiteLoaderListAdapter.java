@@ -1,6 +1,7 @@
 package com.tungsten.hmclpe.launcher.list.download.minecraft.liteloader;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.download.GameUpdateDialog;
 import com.tungsten.hmclpe.launcher.download.liteloader.LiteLoaderVersion;
 
 import java.util.ArrayList;
@@ -76,7 +78,21 @@ public class DownloadLiteLoaderListAdapter extends BaseAdapter {
         viewHolder.mcVersion.setText(mcVersion);
         viewHolder.item.setOnClickListener(v -> {
             if (install) {
-
+                if (activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.liteLoaderVersion != null) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle(context.getString(R.string.dialog_change_version_title));
+                    builder.setMessage(context.getString(R.string.dialog_change_version_msg).replace("%s","LiteLoader").replace("%v1",activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.liteLoaderVersion).replace("%v2",version.getVersion()));
+                    builder.setPositiveButton(context.getString(R.string.dialog_change_version_positive), (dialogInterface, i1) -> {
+                        update(version);
+                    });
+                    builder.setNegativeButton(context.getString(R.string.dialog_change_version_negative), (dialogInterface, i12) -> {
+                        activity.backToLastUI();
+                    });
+                    builder.create().show();
+                }
+                else {
+                    update(version);
+                }
             }
             else {
                 activity.uiManager.installGameUI.liteLoaderVersion = version;
@@ -84,5 +100,10 @@ public class DownloadLiteLoaderListAdapter extends BaseAdapter {
             }
         });
         return view;
+    }
+
+    private void update(LiteLoaderVersion liteLoaderVersion) {
+        GameUpdateDialog dialog = new GameUpdateDialog(context,activity,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.versionName,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.gameVersion,1,liteLoaderVersion);
+        dialog.show();
     }
 }

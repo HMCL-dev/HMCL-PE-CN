@@ -1,6 +1,7 @@
 package com.tungsten.hmclpe.launcher.list.download.minecraft.optifine;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.download.GameUpdateDialog;
 import com.tungsten.hmclpe.launcher.download.optifine.OptifineVersion;
 
 import java.util.ArrayList;
@@ -74,7 +76,21 @@ public class DownloadOptifineListAdapter extends BaseAdapter {
         viewHolder.mcVersion.setText(version.mcVersion);
         viewHolder.item.setOnClickListener(v -> {
             if (install) {
-
+                if (activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.optifineVersion != null) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle(context.getString(R.string.dialog_change_version_title));
+                    builder.setMessage(context.getString(R.string.dialog_change_version_msg).replace("%s","OptiFine").replace("%v1",activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.optifineVersion).replace("%v2",version.type + "_" + version.patch));
+                    builder.setPositiveButton(context.getString(R.string.dialog_change_version_positive), (dialogInterface, i1) -> {
+                        update(version);
+                    });
+                    builder.setNegativeButton(context.getString(R.string.dialog_change_version_negative), (dialogInterface, i12) -> {
+                        activity.backToLastUI();
+                    });
+                    builder.create().show();
+                }
+                else {
+                    update(version);
+                }
             }
             else {
                 activity.uiManager.installGameUI.optifineVersion = version;
@@ -82,5 +98,10 @@ public class DownloadOptifineListAdapter extends BaseAdapter {
             }
         });
         return view;
+    }
+
+    private void update(OptifineVersion optifineVersion) {
+        GameUpdateDialog dialog = new GameUpdateDialog(context,activity,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.versionName,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.gameVersion,2,optifineVersion);
+        dialog.show();
     }
 }

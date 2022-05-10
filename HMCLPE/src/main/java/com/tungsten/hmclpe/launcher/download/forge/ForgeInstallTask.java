@@ -45,6 +45,8 @@ public class ForgeInstallTask extends AsyncTask<ForgeVersion,Integer, Version> {
     private SocketServer server;
     private SocketServer progressServer;
 
+    boolean canceled = false;
+
     public ForgeInstallTask (MainActivity activity, String name, DownloadTaskListAdapter adapter, InstallForgeCallback callback) {
         this.activity = activity;
         this.name = name;
@@ -71,16 +73,17 @@ public class ForgeInstallTask extends AsyncTask<ForgeVersion,Integer, Version> {
             @Override
             public void onFinish(boolean success) {
                 if (success) {
-                    execute(forgeVersion);
+                    if (!canceled) execute(forgeVersion);
                 }
                 else {
-                    if (!isCancelled()) callback.onFailed(new Exception("Failed to unzip installer"));
+                    if (!canceled) callback.onFailed(new Exception("Failed to unzip installer"));
                 }
             }
         });
     }
 
     public void cancelBuild() {
+        canceled = true;
         if (server != null) {
             server.stop();
         }
@@ -192,17 +195,17 @@ public class ForgeInstallTask extends AsyncTask<ForgeVersion,Integer, Version> {
         DownloadUtil.DownloadMultipleFilesCallback downloadCallback = new DownloadUtil.DownloadMultipleFilesCallback() {
             @Override
             public void onTaskStart(DownloadTaskListBean bean) {
-                adapter.addDownloadTask(bean);
+                if (!isCancelled()) adapter.addDownloadTask(bean);
             }
 
             @Override
             public void onTaskProgress(DownloadTaskListBean bean) {
-                adapter.onProgress(bean);
+                if (!isCancelled()) adapter.onProgress(bean);
             }
 
             @Override
             public void onTaskFinish(DownloadTaskListBean bean) {
-                adapter.onComplete(bean);
+                if (!isCancelled()) adapter.onComplete(bean);
             }
 
             @Override

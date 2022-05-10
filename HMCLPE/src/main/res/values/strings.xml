@@ -301,18 +301,26 @@
     <string name="dialog_install_local_title">从本地文件安装/升级</string>
     <string name="dialog_install_local_recognize">正在识别安装软件</string>
 
+    <string name="dialog_install_update_title">更换版本</string>
+    <string name="dialog_install_update_state">安装 %s %v</string>
+
+    <string name="dialog_change_version_title">更换版本</string>
+    <string name="dialog_change_version_msg">你确定要将 %s 从 %v1 更换成 %v2 吗？</string>
+    <string name="dialog_change_version_positive">是</string>
+    <string name="dialog_change_version_negative">否</string>
+
     <string name="dialog_install_game_title">安装新游戏版本</string>
-    <string name="dialog_install_game_install_game">正在安装 Minecraft</string>
-    <string name="dialog_install_game_install_game_libs">正在安装游戏依赖</string>
-    <string name="dialog_install_game_install_game_assets">正在下载游戏资源</string>
-    <string name="dialog_install_game_download_forge">正在下载 forge-installer</string>
-    <string name="dialog_install_game_install_forge">正在安装 Forge</string>
+    <string name="dialog_install_game_install_game">安装 Minecraft</string>
+    <string name="dialog_install_game_install_game_libs">安装游戏依赖</string>
+    <string name="dialog_install_game_install_game_assets">下载游戏资源</string>
+    <string name="dialog_install_game_download_forge">下载 forge-installer</string>
+    <string name="dialog_install_game_install_forge">安装 Forge</string>
     <string name="dialog_install_game_install_forge_build">构建 Forge</string>
-    <string name="dialog_install_game_install_lite_loader">正在安装 LiteLoader</string>
-    <string name="dialog_install_game_download_optifine">正在下载 optifine-installer</string>
-    <string name="dialog_install_game_install_optifine">正在安装 Optifine</string>
-    <string name="dialog_install_game_install_fabric">正在安装 Fabric</string>
-    <string name="dialog_install_game_install_fabric_api">正在安装 Fabric API</string>
+    <string name="dialog_install_game_install_lite_loader">安装 LiteLoader</string>
+    <string name="dialog_install_game_download_optifine">下载 optifine-installer</string>
+    <string name="dialog_install_game_install_optifine">安装 Optifine</string>
+    <string name="dialog_install_game_install_fabric">安装 Fabric</string>
+    <string name="dialog_install_game_install_fabric_api">安装 Fabric API</string>
     <string name="dialog_install_game_exit">取消</string>
 
     <string name="dialog_install_success_title">提示</string>

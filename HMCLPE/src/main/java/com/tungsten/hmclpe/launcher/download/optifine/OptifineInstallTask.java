@@ -49,6 +49,8 @@ public class OptifineInstallTask extends AsyncTask<OptifineVersion,Integer, Vers
 
     private SocketServer server;
 
+    boolean canceled = false;
+
     public OptifineInstallTask(MainActivity activity,String name,DownloadTaskListAdapter adapter, InstallOptifineCallback callback) {
         this.activity = activity;
         this.name = name;
@@ -75,16 +77,17 @@ public class OptifineInstallTask extends AsyncTask<OptifineVersion,Integer, Vers
             @Override
             public void onFinish(boolean success) {
                 if (success) {
-                    execute(optifineVersion);
+                    if (!canceled) execute(optifineVersion);
                 }
                 else {
-                    if (!isCancelled()) callback.onFailed(new Exception("Failed to unzip installer"));
+                    if (!canceled) callback.onFailed(new Exception("Failed to unzip installer"));
                 }
             }
         });
     }
 
     public void cancelBuild() {
+        canceled = true;
         if (server != null) {
             server.stop();
         }

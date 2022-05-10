@@ -36,7 +36,7 @@ public class AutoInstallUI extends BaseUI implements View.OnClickListener {
 
     private static final int SELECT_INSTALLER_REQUEST_CODE = 4700;
 
-    private String versionName;
+    public String versionName;
     private Version version;
 
     public LinearLayout autoInstallUI;

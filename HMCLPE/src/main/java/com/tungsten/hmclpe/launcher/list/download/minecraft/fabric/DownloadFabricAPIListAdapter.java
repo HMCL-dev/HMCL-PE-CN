@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.download.GameUpdateDialog;
 import com.tungsten.hmclpe.launcher.mod.ModListBean;
 import com.tungsten.hmclpe.utils.string.StringUtils;
 
@@ -90,7 +91,8 @@ public class DownloadFabricAPIListAdapter extends BaseAdapter {
         viewHolder.time.setText(getReleaseTime(version.getDatePublished().toString()));
         viewHolder.item.setOnClickListener(v -> {
             if (install) {
-
+                GameUpdateDialog dialog = new GameUpdateDialog(context,activity,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.versionName,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.gameVersion,4,version);
+                dialog.show();
             }
             else {
                 activity.uiManager.installGameUI.fabricAPIVersion = version;

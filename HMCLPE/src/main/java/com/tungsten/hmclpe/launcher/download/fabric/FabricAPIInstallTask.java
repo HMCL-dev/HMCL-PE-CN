@@ -38,7 +38,7 @@ public class FabricAPIInstallTask extends AsyncTask<ModListBean.Version,Integer,
     protected void onPreExecute() {
         super.onPreExecute();
         callback.onStart();
-        adapter.addDownloadTask(bean);
+        if (!isCancelled()) adapter.addDownloadTask(bean);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class FabricAPIInstallTask extends AsyncTask<ModListBean.Version,Integer,
                 long progress = 100 * curr / max;
                 bean.progress = (int) progress;
                 activity.runOnUiThread(() -> {
-                    adapter.onProgress(bean);
+                    if (!isCancelled()) adapter.onProgress(bean);
                 });
             }
 
@@ -72,17 +72,17 @@ public class FabricAPIInstallTask extends AsyncTask<ModListBean.Version,Integer,
         for (int i = 0;i < 5;i++) {
             try {
                 activity.runOnUiThread(() -> {
-                    adapter.addDownloadTask(bean);
+                    if (!isCancelled()) adapter.addDownloadTask(bean);
                 });
                 if (DownloadUtil.downloadFile(url,modPath,null,feedback)) {
                     activity.runOnUiThread(() -> {
-                        adapter.onComplete(bean);
+                        if (!isCancelled()) adapter.onComplete(bean);
                     });
                     if (!isCancelled()) return null;
                 }
                 else {
                     activity.runOnUiThread(() -> {
-                        adapter.onComplete(bean);
+                        if (!isCancelled()) adapter.onComplete(bean);
                     });
                     if (i == 4) {
                         if (!isCancelled()) return new Exception("Failed to download " + fabricAPIVersion.getFile().getFilename());
@@ -92,7 +92,7 @@ public class FabricAPIInstallTask extends AsyncTask<ModListBean.Version,Integer,
             catch (IOException e) {
                 e.printStackTrace();
                 activity.runOnUiThread(() -> {
-                    adapter.onComplete(bean);
+                    if (!isCancelled()) adapter.onComplete(bean);
                 });
                 if (i == 4) {
                     if (!isCancelled()) return e;
