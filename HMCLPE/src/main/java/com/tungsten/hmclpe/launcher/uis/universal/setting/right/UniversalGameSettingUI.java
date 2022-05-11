@@ -104,9 +104,6 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
     private RadioButton boatRendererVirGL;
 
     private RadioButton pojavRendererGL4ES114;
-    private RadioButton pojavRendererGL4ES115;
-    private RadioButton pojavRendererGL4ES115P;
-    private RadioButton pojavRendererVGPU;
     private RadioButton pojavRendererVirGL;
 
     private CheckBox checkAutoRam;
@@ -199,9 +196,6 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         boatRendererVirGL = activity.findViewById(R.id.boat_renderer_virgl);
 
         pojavRendererGL4ES114 = activity.findViewById(R.id.pojav_renderer_gl4es_114);
-        pojavRendererGL4ES115 = activity.findViewById(R.id.pojav_renderer_gl4es_115);
-        pojavRendererGL4ES115P = activity.findViewById(R.id.pojav_renderer_gl4es_115p);
-        pojavRendererVGPU = activity.findViewById(R.id.pojav_renderer_vgpu);
         pojavRendererVirGL = activity.findViewById(R.id.pojav_renderer_virgl);
 
         checkAutoRam = activity.findViewById(R.id.check_auto_ram);
@@ -323,9 +317,6 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         boatRendererVirGL.setOnClickListener(this);
 
         pojavRendererGL4ES114.setOnClickListener(this);
-        pojavRendererGL4ES115.setOnClickListener(this);
-        pojavRendererGL4ES115P.setOnClickListener(this);
-        pojavRendererVGPU.setOnClickListener(this);
         pojavRendererVirGL.setOnClickListener(this);
 
         checkAutoRam.setOnCheckedChangeListener(this);
@@ -595,43 +586,13 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             boatRendererVirGL.setChecked(true);
             currentBoatRenderer.setText(context.getText(R.string.game_setting_ui_boat_renderer_virgl));
         }
-        if (activity.privateGameSetting.pojavLauncherSetting.renderer.equals("opengles2")){
+        if (activity.privateGameSetting.pojavLauncherSetting.renderer.equals("opengles2") || activity.privateGameSetting.pojavLauncherSetting.renderer.equals("opengles2_5") || activity.privateGameSetting.pojavLauncherSetting.renderer.equals("opengles3") || activity.privateGameSetting.pojavLauncherSetting.renderer.equals("opengles3_vgpu")){
             pojavRendererGL4ES114.setChecked(true);
-            pojavRendererGL4ES115.setChecked(false);
-            pojavRendererGL4ES115P.setChecked(false);
-            pojavRendererVGPU.setChecked(false);
             pojavRendererVirGL.setChecked(false);
             currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_gl4es_114));
         }
-        else if (activity.privateGameSetting.pojavLauncherSetting.renderer.equals("opengles2_5")){
-            pojavRendererGL4ES114.setChecked(false);
-            pojavRendererGL4ES115.setChecked(true);
-            pojavRendererGL4ES115P.setChecked(false);
-            pojavRendererVGPU.setChecked(false);
-            pojavRendererVirGL.setChecked(false);
-            currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_gl4es_115));
-        }
-        else if (activity.privateGameSetting.pojavLauncherSetting.renderer.equals("opengles3")){
-            pojavRendererGL4ES114.setChecked(false);
-            pojavRendererGL4ES115.setChecked(false);
-            pojavRendererGL4ES115P.setChecked(true);
-            pojavRendererVGPU.setChecked(false);
-            pojavRendererVirGL.setChecked(false);
-            currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_gl4es_115p));
-        }
-        else if (activity.privateGameSetting.pojavLauncherSetting.renderer.equals("opengles3_vgpu")){
-            pojavRendererGL4ES114.setChecked(false);
-            pojavRendererGL4ES115.setChecked(false);
-            pojavRendererGL4ES115P.setChecked(false);
-            pojavRendererVGPU.setChecked(true);
-            pojavRendererVirGL.setChecked(false);
-            currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_vgpu));
-        }
         else if (activity.privateGameSetting.pojavLauncherSetting.renderer.equals("opengles3_virgl")){
             pojavRendererGL4ES114.setChecked(false);
-            pojavRendererGL4ES115.setChecked(false);
-            pojavRendererGL4ES115P.setChecked(false);
-            pojavRendererVGPU.setChecked(false);
             pojavRendererVirGL.setChecked(true);
             currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_virgl));
         }
@@ -767,46 +728,13 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             currentBoatRenderer.setText(context.getText(R.string.game_setting_ui_boat_renderer_virgl));
         }
         if (v == pojavRendererGL4ES114){
-            pojavRendererGL4ES115.setChecked(false);
-            pojavRendererGL4ES115P.setChecked(false);
-            pojavRendererVGPU.setChecked(false);
             pojavRendererVirGL.setChecked(false);
             activity.privateGameSetting.pojavLauncherSetting.renderer = "opengles2";
             GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
             currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_gl4es_114));
         }
-        if (v == pojavRendererGL4ES115){
-            pojavRendererGL4ES114.setChecked(false);
-            pojavRendererGL4ES115P.setChecked(false);
-            pojavRendererVGPU.setChecked(false);
-            pojavRendererVirGL.setChecked(false);
-            activity.privateGameSetting.pojavLauncherSetting.renderer = "opengles2_5";
-            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
-            currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_gl4es_115));
-        }
-        if (v == pojavRendererGL4ES115P){
-            pojavRendererGL4ES114.setChecked(false);
-            pojavRendererGL4ES115.setChecked(false);
-            pojavRendererVGPU.setChecked(false);
-            pojavRendererVirGL.setChecked(false);
-            activity.privateGameSetting.pojavLauncherSetting.renderer = "opengles3";
-            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
-            currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_gl4es_115p));
-        }
-        if (v == pojavRendererVGPU){
-            pojavRendererGL4ES114.setChecked(false);
-            pojavRendererGL4ES115.setChecked(false);
-            pojavRendererGL4ES115P.setChecked(false);
-            pojavRendererVirGL.setChecked(false);
-            activity.privateGameSetting.pojavLauncherSetting.renderer = "opengles3_vgpu";
-            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
-            currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_vgpu));
-        }
         if (v == pojavRendererVirGL){
             pojavRendererGL4ES114.setChecked(false);
-            pojavRendererGL4ES115.setChecked(false);
-            pojavRendererGL4ES115P.setChecked(false);
-            pojavRendererVGPU.setChecked(false);
             activity.privateGameSetting.pojavLauncherSetting.renderer = "opengles3_virgl";
             GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
             currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_virgl));

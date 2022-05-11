@@ -83,7 +83,8 @@ public class PojavMinecraftActivity extends BaseMainActivity {
                                 GameLaunchSetting.isHighVersion(gameLaunchSetting),
                                 args,
                                 gameLaunchSetting.pojavRenderer,
-                                gameLaunchSetting.game_directory);
+                                gameLaunchSetting.game_directory,
+                                PojavLauncher.getGlVersion(gameLaunchSetting.currentVersion));
 
                         Thread virtualMouseGrabThread = new Thread(() -> {
                             while (true) {

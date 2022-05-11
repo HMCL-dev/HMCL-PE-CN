@@ -229,12 +229,7 @@ public class CheckLibTask extends AsyncTask<RecyclerView,Integer,Exception> {
     public static boolean isRightFile(String path,String sha1) {
         if (new File(path).exists()) {
             if (sha1 != null && !sha1.equals("")) {
-                if (Objects.equals(FileUtils.getFileSha1(path), sha1)) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+                return Objects.equals(FileUtils.getFileSha1(path), sha1);
             }
             else {
                 return true;

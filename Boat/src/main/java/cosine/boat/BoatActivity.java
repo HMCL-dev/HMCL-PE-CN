@@ -1,5 +1,6 @@
 package cosine.boat;
 
+import android.os.Handler;
 import android.view.TextureView;
 import android.graphics.SurfaceTexture;
 import android.view.Surface;
@@ -10,12 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Vector;
 
 
-public class BoatActivity extends AppCompatActivity implements TextureView.SurfaceTextureListener
-{
+public class BoatActivity extends AppCompatActivity implements TextureView.SurfaceTextureListener {
 
 	private TextureView mainTextureView;
 	public BoatCallback boatCallback;
 	public float scaleFactor = 1.0F;
+
+	int output = 0;
 
 	public void init(){
 		nOnCreate();
@@ -41,43 +43,51 @@ public class BoatActivity extends AppCompatActivity implements TextureView.Surfa
 	}
 
 	@Override
-	public void onSurfaceTextureSizeChanged(SurfaceTexture p1, int p2, int p3)
-	{
-		// TODO: Implement this method
+	public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+
 	}
 
 	@Override
-	public boolean onSurfaceTextureDestroyed(SurfaceTexture p1)
-	{
-		// TODO: Implement this method
+	public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
 		return false;
 	}
 
 	@Override
-	public void onSurfaceTextureUpdated(SurfaceTexture p1)
-	{
-		// TODO: Implement this method
+	public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+		if (output == 1) {
+			boatCallback.onPicOutput();
+			output++;
+		}
+		if (output < 1) {
+			output++;
+		}
 	}
 
 	public void startGame(final String javaPath,final String home,final boolean highVersion,final Vector<String> args,String renderer,String gameDir){
-		new Thread(){
+		Handler handler = new Handler();
+		new Thread(() -> LoadMe.launchMinecraft(handler, BoatActivity.this, javaPath, home, highVersion, args, renderer, gameDir, new BoatLaunchCallback() {
 			@Override
-			public void run(){
-				LoadMe.launchMinecraft(BoatActivity.this,javaPath,home,highVersion,args,renderer,gameDir);
+			public void onStart() {
+				boatCallback.onStart();
 			}
-		}.start();
+
+			@Override
+			public void onError(Exception e) {
+				boatCallback.onError(e);
+			}
+
+			@Override
+			public void onExit(int code) {
+				boatCallback.onExit(code);
+			}
+		})).start();
 	}
 
-	public void setCursorMode(int mode){
+	public void setCursorMode(int mode) {
 		boatCallback.onCursorModeChange(mode);
 	}
 
-	public interface BoatCallback{
-		void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height);
-		void onCursorModeChange(int mode);
-	}
-
-	public void setBoatCallback(BoatCallback callback){
+	public void setBoatCallback(BoatCallback callback) {
 		this.boatCallback = callback;
 	}
 
@@ -93,6 +103,15 @@ public class BoatActivity extends AppCompatActivity implements TextureView.Surfa
 							| View.SYSTEM_UI_FLAG_FULLSCREEN
 							| View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 		}
+	}
+
+	public interface BoatCallback{
+		void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height);
+		void onCursorModeChange(int mode);
+		void onStart();
+		void onPicOutput();
+		void onError(Exception e);
+		void onExit(int code);
 	}
 }
 

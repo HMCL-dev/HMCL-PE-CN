@@ -19,6 +19,7 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.CopyVersionDialog;
 import com.tungsten.hmclpe.launcher.dialogs.RenameVersionDialog;
+import com.tungsten.hmclpe.launcher.download.AssetsUpdateDialog;
 import com.tungsten.hmclpe.launcher.launch.check.LaunchTools;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
@@ -275,7 +276,8 @@ public class GameManagerUI extends BaseUI implements View.OnClickListener {
 
                         return true;
                     case R.id.manage_update_assets:
-                        
+                        AssetsUpdateDialog assetsUpdateDialog = new AssetsUpdateDialog(context,activity,versionName);
+                        assetsUpdateDialog.show();
                         return true;
                     case R.id.manage_delete_libs:
                         new Thread(() -> {

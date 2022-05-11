@@ -62,11 +62,11 @@ public class BaseMainActivity extends AppCompatActivity {
         });
     }
 
-    public void startGame(String javaPath,String home,boolean highVersion,final Vector<String> args, String renderer,String gameDir) {
+    public void startGame(String javaPath,String home,boolean highVersion,final Vector<String> args, String renderer,String gameDir,String glesVersion) {
         Thread JVMThread = new Thread(() -> {
             try {
                 JREUtils.redirectAndPrintJRELog(this);
-                Tools.launchMinecraft(this, javaPath,home,renderer, args,gameDir);
+                Tools.launchMinecraft(this, javaPath,home,renderer, args,gameDir,glesVersion);
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }

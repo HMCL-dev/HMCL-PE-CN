@@ -179,10 +179,7 @@ public class LaunchVersion {
             cp = cp + path;
             count++;
         }
-        if (count > 0) {
-            cp = ":" + cp;
-        }
-        cp = minecraftPath + cp;
+        cp = cp + ":" + minecraftPath;
         return cp;
     }
 
