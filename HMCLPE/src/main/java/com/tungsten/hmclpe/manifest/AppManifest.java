@@ -19,13 +19,15 @@ public class AppManifest {
     public static String GAME_FILE_DIRECTORY_DIR;
     public static String SETTING_DIR;
     public static String CONTROLLER_DIR;
-    public static String INSTALL_DIR;
     public static String PLUGIN_DIR;
     public static String STYLE_DIR;
     public static String DEBUG_DIR;
     public static String INNER_GAME_DIR;
 
     public static String DEFAULT_CACHE_DIR;
+    public static String INSTALL_DIR;
+    public static String SAVES_CACHE_DIR;
+
     public static String DEFAULT_RUNTIME_DIR;
 
     public static String JAVA_DIR;
@@ -49,8 +51,10 @@ public class AppManifest {
         INNER_GAME_DIR = context.getExternalFilesDir(".minecraft").getAbsolutePath();
 
         DEFAULT_CACHE_DIR = context.getCacheDir().getAbsolutePath();
-        DEFAULT_RUNTIME_DIR = context.getDir("runtime",0).getAbsolutePath();
         INSTALL_DIR = DEFAULT_CACHE_DIR + "/install";
+        SAVES_CACHE_DIR = DEFAULT_CACHE_DIR + "/saves";
+
+        DEFAULT_RUNTIME_DIR = context.getDir("runtime",0).getAbsolutePath();
 
         JAVA_DIR = DEFAULT_RUNTIME_DIR + "/java";
         CACIOCAVALLO_DIR = DEFAULT_RUNTIME_DIR + "/caciocavallo";
@@ -76,6 +80,9 @@ public class AppManifest {
         FileUtils.createDirectory(INNER_GAME_DIR);
 
         FileUtils.createDirectory(DEFAULT_CACHE_DIR);
+        FileUtils.createDirectory(INSTALL_DIR);
+        FileUtils.createDirectory(SAVES_CACHE_DIR);
+
         FileUtils.createDirectory(DEFAULT_RUNTIME_DIR);
 
         FileUtils.createDirectory(JAVA_DIR);
