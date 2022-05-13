@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import androidx.annotation.RequiresApi;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.mod.ModInfo;
 import com.tungsten.hmclpe.launcher.mod.ModListBean;
 import com.tungsten.hmclpe.utils.string.ModTranslations;
 
@@ -28,6 +30,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DownloadModListAdapter extends BaseAdapter {
 
@@ -118,7 +122,14 @@ public class DownloadModListAdapter extends BaseAdapter {
         viewHolder.modItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                new Thread(()->{
+                    try {
+                        ModInfo modInfo=new ModInfo(modList.get(position));
+                        Log.e("mod",modInfo.toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }).start();
             }
         });
         return convertView;
