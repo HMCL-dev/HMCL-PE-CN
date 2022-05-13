@@ -107,4 +107,8 @@ public class LayoutPanel extends RelativeLayout {
     public void showBackground(){
         showBackground = true;
     }
+
+    public void hideBackground() {
+        showBackground = false;
+    }
 }

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cosine.boat.BoatUtils;
+import cosine.boat.utils.BoatUtils;
 
 public class LaunchVersion {
 

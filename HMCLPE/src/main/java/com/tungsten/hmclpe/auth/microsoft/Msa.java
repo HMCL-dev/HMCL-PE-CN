@@ -22,7 +22,9 @@ import com.tungsten.hmclpe.utils.io.ResponseCodeException;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import net.kdt.pojavlaunch.*;
+
+import net.kdt.pojavlaunch.utils.Tools;
+
 import org.json.*;
 
 public class Msa {

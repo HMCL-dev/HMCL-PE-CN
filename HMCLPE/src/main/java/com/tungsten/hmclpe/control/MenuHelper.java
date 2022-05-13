@@ -132,7 +132,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
             currentPattern = SettingUtils.getControlPatternList().get(0).name;
         }
         currentChild = SettingUtils.getChildList(currentPattern).size() > 0 ? SettingUtils.getChildList(currentPattern).get(0).name : null;
-        if (editMode){
+        if (launcher == 0){
             baseLayout.showBackground();
         }
 
@@ -252,14 +252,11 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         childSpinner.setOnItemSelectedListener(this);
         addView.setOnClickListener(this);
 
-        baseLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                screenWidth = baseLayout.getWidth();
-                screenHeight = baseLayout.getHeight();
-                viewManager = new ViewManager(context,activity,MenuHelper.this,baseLayout,launcher);
-                checkOpenMenuSetting();
-            }
+        baseLayout.post(() -> {
+            screenWidth = baseLayout.getWidth();
+            screenHeight = baseLayout.getHeight();
+            viewManager = new ViewManager(context,activity,MenuHelper.this,baseLayout,launcher);
+            checkOpenMenuSetting();
         });
 
         if (gameMenuSetting.menuSlideSetting){

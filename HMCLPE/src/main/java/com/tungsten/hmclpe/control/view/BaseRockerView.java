@@ -28,7 +28,7 @@ import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
-import net.kdt.pojavlaunch.LWJGLGLFWKeycode;
+import net.kdt.pojavlaunch.keyboard.LWJGLGLFWKeycode;
 
 @SuppressLint("ViewConstructor")
 public class BaseRockerView extends RockerView{

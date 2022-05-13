@@ -16,8 +16,8 @@ import com.tungsten.hmclpe.control.InputBridge;
 import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
-import net.kdt.pojavlaunch.LWJGLGLFWKeycode;
-import net.kdt.pojavlaunch.utils.MCOptionUtils;
+import net.kdt.pojavlaunch.keyboard.LWJGLGLFWKeycode;
+import com.tungsten.hmclpe.launcher.launch.MCOptionUtils;
 
 public class TouchPad extends View {
 

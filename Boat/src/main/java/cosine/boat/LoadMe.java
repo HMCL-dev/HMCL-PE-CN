@@ -3,9 +3,10 @@ package cosine.boat;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 
 import java.util.*;
+
+import cosine.boat.function.BoatLaunchCallback;
 
 public class LoadMe {
 
@@ -17,6 +18,7 @@ public class LoadMe {
     public static native void setenv(String name, String value);
     public static native int dlopen(String name);
     public static native void patchLinker();
+    public static native void setupExitTrap(Context context);
     public static native int dlexec(String[] args);
 
     static {
@@ -122,6 +124,8 @@ public class LoadMe {
                 dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl_opengl.so");
             }
 
+            setupExitTrap(context);
+
             redirectStdio(home + "/boat_latest_log.txt");
             chdir(gameDir);
 
@@ -134,10 +138,6 @@ public class LoadMe {
 			}
             int exitCode = dlexec(finalArgs);
             System.out.println("OpenJDK exited with code : " + exitCode);
-            handler.post(() -> {
-                callback.onExit(exitCode);
-            });
-            Log.e("exitCode",exitCode + "");
         }
         catch (Exception e) {
             e.printStackTrace();

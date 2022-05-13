@@ -13,7 +13,7 @@ import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.manifest.info.AppInfo;
 import com.tungsten.hmclpe.utils.string.StringUtils;
 
-import net.kdt.pojavlaunch.Tools;
+import net.kdt.pojavlaunch.utils.Tools;
 import net.kdt.pojavlaunch.utils.JREUtils;
 
 import java.io.File;

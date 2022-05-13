@@ -77,6 +77,10 @@
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"/>
         <activity
+            android:name=".launcher.launch.ExitActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"/>
+        <activity
             android:launchMode="standard"
             android:multiprocess="true"
             android:name=".launcher.launch.boat.BoatMinecraftActivity"
@@ -92,11 +96,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"/>
-        <activity
-            android:theme="@style/Theme.AppCompat.Dialog"
-            android:screenOrientation="sensorLandscape"
-            android:name="net.kdt.pojavlaunch.ExitActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"/>
         <service
             android:name=".launcher.launch.boat.VirGLService"
             android:process=":virGLProcess"

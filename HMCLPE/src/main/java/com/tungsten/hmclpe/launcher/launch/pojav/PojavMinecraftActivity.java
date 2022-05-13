@@ -1,5 +1,8 @@
 package com.tungsten.hmclpe.launcher.launch.pojav;
 
+import static org.lwjgl.glfw.CallbackBridge.windowHeight;
+import static org.lwjgl.glfw.CallbackBridge.windowWidth;
+
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,9 +17,10 @@ import com.tungsten.hmclpe.control.view.LayoutPanel;
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
 
 import net.kdt.pojavlaunch.BaseMainActivity;
-import net.kdt.pojavlaunch.LWJGLGLFWKeycode;
+import net.kdt.pojavlaunch.keyboard.LWJGLGLFWKeycode;
+import net.kdt.pojavlaunch.function.PojavCallback;
 import net.kdt.pojavlaunch.utils.JREUtils;
-import net.kdt.pojavlaunch.utils.MCOptionUtils;
+import com.tungsten.hmclpe.launcher.launch.MCOptionUtils;
 
 import org.lwjgl.glfw.CallbackBridge;
 
@@ -61,22 +65,32 @@ public class PojavMinecraftActivity extends BaseMainActivity {
 
         scaleFactor = gameLaunchSetting.scaleFactor;
 
+        handleCallback();
+
+        menuHelper = new MenuHelper(this,this,gameLaunchSetting.fullscreen,gameLaunchSetting.game_directory,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout,2,scaleFactor);
+
+        init(gameLaunchSetting.game_directory, GameLaunchSetting.isHighVersion(gameLaunchSetting));
+
+    }
+
+    public void handleCallback() {
         pojavCallback = new PojavCallback() {
             @Override
             public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
                 CallbackBridge.windowWidth = (int) (width * scaleFactor);
                 CallbackBridge.windowHeight = (int) (height * scaleFactor);
                 surface.setDefaultBufferSize(CallbackBridge.windowWidth, CallbackBridge.windowHeight);
+                CallbackBridge.sendUpdateWindowSize(windowWidth, windowHeight);
+
+                MCOptionUtils.load(gameLaunchSetting.game_directory);
+                MCOptionUtils.set("overrideWidth", String.valueOf(CallbackBridge.windowWidth));
+                MCOptionUtils.set("overrideHeight", String.valueOf(CallbackBridge.windowHeight));
+                MCOptionUtils.set("fullscreen", "false");
+                MCOptionUtils.save(gameLaunchSetting.game_directory);
 
                 new Thread(() -> {
                     Vector<String> args = PojavLauncher.getMcArgs(gameLaunchSetting, PojavMinecraftActivity.this,(int) (width * scaleFactor),(int) (height * scaleFactor),gameLaunchSetting.server);
                     runOnUiThread(() -> {
-                        MCOptionUtils.load(gameLaunchSetting.game_directory);
-                        MCOptionUtils.set("overrideWidth", String.valueOf(CallbackBridge.windowWidth));
-                        MCOptionUtils.set("overrideHeight", String.valueOf(CallbackBridge.windowHeight));
-                        MCOptionUtils.save(gameLaunchSetting.game_directory);
-
-                        //CallbackBridge.sendUpdateWindowSize(CallbackBridge.windowWidth, CallbackBridge.windowHeight);
                         JREUtils.setupBridgeWindow(new Surface(surface));
                         startGame(gameLaunchSetting.javaPath,
                                 gameLaunchSetting.home,
@@ -85,39 +99,50 @@ public class PojavMinecraftActivity extends BaseMainActivity {
                                 gameLaunchSetting.pojavRenderer,
                                 gameLaunchSetting.game_directory,
                                 PojavLauncher.getGlVersion(gameLaunchSetting.currentVersion));
-
-                        Thread virtualMouseGrabThread = new Thread(() -> {
-                            while (true) {
-                                if (!CallbackBridge.isGrabbing() && menuHelper != null && menuHelper.viewManager != null && menuHelper.viewManager.gameCursorMode == 1) {
-                                    mouseModeHandler.sendEmptyMessage(1);
-                                }else{
-                                    if (CallbackBridge.isGrabbing() && menuHelper != null && menuHelper.viewManager != null && menuHelper.viewManager.gameCursorMode == 0) {
-                                        mouseModeHandler.sendEmptyMessage(0);
-                                    }
-                                }
-                            }
-                        }, "VirtualMouseGrabThread");
-                        virtualMouseGrabThread.setPriority(Thread.MIN_PRIORITY);
-                        virtualMouseGrabThread.start();
                     });
                 }).start();
             }
 
             @Override
-            public void onMouseModeChange(boolean mode) {
-                if (mode){
-                    menuHelper.viewManager.enableCursor();
-                }
-                else {
-                    menuHelper.viewManager.disableCursor();
+            public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+                CallbackBridge.windowWidth = (int) (width * scaleFactor);
+                CallbackBridge.windowHeight = (int) (height * scaleFactor);
+                surface.setDefaultBufferSize(CallbackBridge.windowWidth, CallbackBridge.windowHeight);
+                CallbackBridge.sendUpdateWindowSize(windowWidth, windowHeight);
+            }
+
+            @Override
+            public void onCursorModeChange(int mode) {
+                if (menuHelper != null && menuHelper.viewManager != null) {
+                    if (mode == 1){
+                        menuHelper.viewManager.enableCursor();
+                    }
+                    else {
+                        menuHelper.viewManager.disableCursor();
+                    }
                 }
             }
+
+            @Override
+            public void onStart() {
+                baseLayout.showBackground();
+            }
+
+            @Override
+            public void onPicOutput() {
+                baseLayout.hideBackground();
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+
+            @Override
+            public void onExit(int code) {
+
+            }
         };
-
-        menuHelper = new MenuHelper(this,this,gameLaunchSetting.fullscreen,gameLaunchSetting.game_directory,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout,2,scaleFactor);
-
-        init(gameLaunchSetting.game_directory, GameLaunchSetting.isHighVersion(gameLaunchSetting));
-
     }
 
     @Override

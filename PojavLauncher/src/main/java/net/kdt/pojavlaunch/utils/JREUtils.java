@@ -1,6 +1,6 @@
 package net.kdt.pojavlaunch.utils;
 
-import static net.kdt.pojavlaunch.Architecture.is64BitsDevice;
+import static net.kdt.pojavlaunch.utils.Architecture.is64BitsDevice;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,7 +13,6 @@ import android.view.Surface;
 import com.oracle.dalvik.VMLauncher;
 
 import net.kdt.pojavlaunch.Logger;
-import net.kdt.pojavlaunch.Tools;
 
 import org.lwjgl.glfw.CallbackBridge;
 
@@ -233,7 +232,7 @@ public class JREUtils {
         userArgs.addAll(JVMArgs);
         
         initJavaRuntime(javaPath);
-        setupExitTrap(activity.getApplication());
+        setupExitTrap(activity);
         chdir(gameDir);
         userArgs.add(0,"java");
 

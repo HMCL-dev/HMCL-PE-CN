@@ -20,7 +20,7 @@ import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.launcher.list.local.controller.FastTextAdapter;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 
-import net.kdt.pojavlaunch.LWJGLGLFWKeycode;
+import net.kdt.pojavlaunch.keyboard.LWJGLGLFWKeycode;
 
 import java.util.ArrayList;
 

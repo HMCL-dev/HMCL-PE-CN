@@ -3,7 +3,7 @@ package org.lwjgl.glfw;
 import android.os.Handler;
 import android.os.Looper;
 import net.kdt.pojavlaunch.*;
-import android.content.*;
+import net.kdt.pojavlaunch.keyboard.LWJGLGLFWKeycode;
 
 public class CallbackBridge {
     public static final int ANDROID_TYPE_GRAB_STATE = 0;

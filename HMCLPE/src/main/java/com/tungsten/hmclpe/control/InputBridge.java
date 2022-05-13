@@ -1,8 +1,6 @@
 package com.tungsten.hmclpe.control;
 
-import android.util.Log;
-
-import net.kdt.pojavlaunch.LWJGLGLFWKeycode;
+import net.kdt.pojavlaunch.keyboard.LWJGLGLFWKeycode;
 
 import org.lwjgl.glfw.CallbackBridge;
 
@@ -18,7 +16,6 @@ public class InputBridge {
     public static final int MOUSE_SCROLL_DOWN = 4;
 
     public static void sendEvent(int launcher,int keyCode,boolean press) {
-        Log.e("键值",keyCode+"");
         if (keyCode == 0 || keyCode == 1 || keyCode == 2 || keyCode == 3 || keyCode == 4) {
             sendMouseEvent(launcher,keyCode,press);
         }
@@ -29,7 +26,6 @@ public class InputBridge {
 
     public static void sendKeycode(int launcher,int keyCode,boolean press){
         if (launcher == 1){
-            Log.e("转换后的键值",keyCode+"");
             BoatInput.setKey(keyCode,0,press);
         }
         if (launcher == 2){

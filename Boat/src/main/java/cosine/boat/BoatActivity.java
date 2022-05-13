@@ -1,5 +1,6 @@
 package cosine.boat;
 
+import android.content.Context;
 import android.os.Handler;
 import android.view.TextureView;
 import android.graphics.SurfaceTexture;
@@ -10,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Vector;
 
+import cosine.boat.function.BoatCallback;
+import cosine.boat.function.BoatLaunchCallback;
 
 public class BoatActivity extends AppCompatActivity implements TextureView.SurfaceTextureListener {
 
@@ -35,16 +38,13 @@ public class BoatActivity extends AppCompatActivity implements TextureView.Surfa
 	}
 	
 	public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-
-		// TODO: Implement this method
 		System.out.println("SurfaceTexture is available!");
-
 		boatCallback.onSurfaceTextureAvailable(surface,width,height);
 	}
 
 	@Override
 	public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-
+		boatCallback.onSurfaceTextureSizeChanged(surface,width,height);
 	}
 
 	@Override
@@ -75,16 +75,15 @@ public class BoatActivity extends AppCompatActivity implements TextureView.Surfa
 			public void onError(Exception e) {
 				boatCallback.onError(e);
 			}
-
-			@Override
-			public void onExit(int code) {
-				boatCallback.onExit(code);
-			}
 		})).start();
 	}
 
 	public void setCursorMode(int mode) {
 		boatCallback.onCursorModeChange(mode);
+	}
+
+	public static void onExit(Context ctx, int code) {
+		((BoatActivity) ctx).boatCallback.onExit(code);
 	}
 
 	public void setBoatCallback(BoatCallback callback) {
@@ -105,13 +104,14 @@ public class BoatActivity extends AppCompatActivity implements TextureView.Surfa
 		}
 	}
 
-	public interface BoatCallback{
-		void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height);
-		void onCursorModeChange(int mode);
-		void onStart();
-		void onPicOutput();
-		void onError(Exception e);
-		void onExit(int code);
+	@Override
+	protected void onPostResume() {
+		super.onPostResume();
+		if (mainTextureView != null) {
+			mainTextureView.post(() -> {
+				boatCallback.onSurfaceTextureSizeChanged(mainTextureView.getSurfaceTexture(),mainTextureView.getWidth(),mainTextureView.getHeight());
+			});
+		}
 	}
 }
 
