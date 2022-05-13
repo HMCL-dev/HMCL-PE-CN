@@ -111,4 +111,12 @@ public class UIManager {
             ui.onResume();
         }
     }
+
+    public void removeUIIfExist(BaseUI ui) {
+        for (int i = 0;i < uis.size();i++){
+            if (uis.get(i) == ui){
+                uis.remove(i);
+            }
+        }
+    }
 }

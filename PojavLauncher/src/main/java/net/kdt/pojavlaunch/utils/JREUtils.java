@@ -159,7 +159,7 @@ public class JREUtils {
         LD_LIBRARY_PATH = ldLibraryPath.toString();
     }
 
-    public static void setJavaEnvironment(Activity activity,String javaPath,String home,String renderer) throws Throwable {
+    public static void setJavaEnvironment(Activity activity,String javaPath,String home,String renderer,String glesVersion) throws Throwable {
         Map<String, String> envMap = new ArrayMap<>();
         envMap.put("POJAV_NATIVEDIR", activity.getApplicationInfo().nativeLibraryDir);
         envMap.put("JAVA_HOME", javaPath);
@@ -178,6 +178,8 @@ public class JREUtils {
 
         // Fix white color on banner and sheep, since GL4ES 1.1.5
         envMap.put("LIBGL_NORMALIZE", "1");
+
+        envMap.put("LIBGL_ES",glesVersion);
    
         envMap.put("MESA_GLSL_CACHE_DIR", activity.getCacheDir().getAbsolutePath());
         if (renderer != null) {
@@ -197,26 +199,14 @@ public class JREUtils {
         envMap.put("REGAL_GL_RENDERER", "Regal");
         envMap.put("REGAL_GL_VERSION", "4.5");
         if(renderer != null) {
+            if (renderer.equals("opengles2_5") || renderer.equals("opengles3") || renderer.equals("opengles3_vgpu")) {
+                renderer = "opengles2";
+            }
             envMap.put("POJAV_RENDERER", renderer);
         }
         envMap.put("AWTSTUB_WIDTH", Integer.toString(CallbackBridge.windowWidth > 0 ? CallbackBridge.windowWidth : CallbackBridge.physicalWidth));
         envMap.put("AWTSTUB_HEIGHT", Integer.toString(CallbackBridge.windowHeight > 0 ? CallbackBridge.windowHeight : CallbackBridge.physicalHeight));
 
-        if(!envMap.containsKey("LIBGL_ES") && renderer != null) {
-            int glesMajor = getDetectedVersion();
-            Log.i("glesDetect","GLES version detected: "+glesMajor);
-
-            if (glesMajor < 3) {
-                //fallback to 2 since it's the minimum for the entire app
-                envMap.put("LIBGL_ES","2");
-            } else if (renderer.startsWith("opengles")) {
-                envMap.put("LIBGL_ES", renderer.replace("opengles", "").replace("_5", ""));
-            } else {
-                // TODO if can: other backends such as Vulkan.
-                // Sure, they should provide GLES 3 support.
-                envMap.put("LIBGL_ES", "3");
-            }
-        }
         for (Map.Entry<String, String> env : envMap.entrySet()) {
             Logger.getInstance(activity).appendToLog("Added custom env: " + env.getKey() + "=" + env.getValue());
             Os.setenv(env.getKey(), env.getValue(), true);
@@ -224,17 +214,17 @@ public class JREUtils {
 
         File serverFile = new File(javaPath + "/lib/server/libjvm.so");
         jvmLibraryPath = javaPath + "/lib/" + (serverFile.exists() ? "server" : "client");
-        Log.d("DynamicLoader","Base LD_LIBRARY_PATH: "+LD_LIBRARY_PATH);
-        Log.d("DynamicLoader","Internal LD_LIBRARY_PATH: "+jvmLibraryPath+":"+LD_LIBRARY_PATH);
-        setLdLibraryPath(jvmLibraryPath+":"+LD_LIBRARY_PATH);
+        Log.d("DynamicLoader","Base LD_LIBRARY_PATH: " + LD_LIBRARY_PATH);
+        Log.d("DynamicLoader","Internal LD_LIBRARY_PATH: " + jvmLibraryPath + ":" + LD_LIBRARY_PATH);
+        setLdLibraryPath(jvmLibraryPath + ":" + LD_LIBRARY_PATH);
 
         // return ldLibraryPath;
     }
     
-    public static int launchJavaVM(final Activity activity,String javaPath,String home,String renderer,final List<String> JVMArgs,String gameDir) throws Throwable {
+    public static int launchJavaVM(final Activity activity,String javaPath,String home,String renderer,final List<String> JVMArgs,String gameDir,String glesVersion) throws Throwable {
         relocateLibPath(activity,javaPath);
 
-        setJavaEnvironment(activity,javaPath,home,renderer);
+        setJavaEnvironment(activity,javaPath,home,renderer,glesVersion);
 
         loadGraphicsLibrary(renderer);
 
@@ -294,6 +284,23 @@ public class JREUtils {
         return userArguments;
     }
 
+    public static String getGraphicsLibrary(String renderer) {
+        String renderLibrary;
+        switch (renderer){
+            case "opengles2":
+            case "opengles2_5":
+            case "opengles3_vgpu" :
+            case "opengles3": renderLibrary = "libgl4es_114.so"; break;
+            case "opengles3_virgl":
+            case "vulkan_zink": renderLibrary = "libOSMesa_8.so"; break;
+            default:
+                Log.w("RENDER_LIBRARY", "No renderer selected, defaulting to opengles2");
+                renderLibrary = "libgl4es_114.so";
+                break;
+        }
+        return renderLibrary;
+    }
+
     /**
      * Open the render library in accordance to the settings.
      * It will fallback if it fails to load the library.
@@ -303,12 +310,12 @@ public class JREUtils {
         if(renderer == null) return null;
         String renderLibrary;
         switch (renderer){
-            case "opengles2": renderLibrary = "libgl4es_114.so"; break;
+            case "opengles2":
             case "opengles2_5":
-            case "opengles3": renderLibrary = "libgl4es_115.so"; break;
+            case "opengles3_vgpu" :
+            case "opengles3": renderLibrary = "libgl4es_114.so"; break;
             case "opengles3_virgl":
             case "vulkan_zink": renderLibrary = "libOSMesa_8.so"; break;
-            case "opengles3_vgpu" : renderLibrary = "libvgpu.so"; break;
             default:
                 Log.w("RENDER_LIBRARY", "No renderer selected, defaulting to opengles2");
                 renderLibrary = "libgl4es_114.so";
@@ -325,7 +332,7 @@ public class JREUtils {
     }
 
     public static String findInLdLibPath(String libName) {
-        if(Os.getenv("LD_LIBRARY_PATH")==null) {
+        if(Os.getenv("LD_LIBRARY_PATH") == null) {
             try {
                 if (LD_LIBRARY_PATH != null) {
                     Os.setenv("LD_LIBRARY_PATH", LD_LIBRARY_PATH, true);

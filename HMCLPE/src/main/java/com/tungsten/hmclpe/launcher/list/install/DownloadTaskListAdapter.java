@@ -36,7 +36,7 @@ public class DownloadTaskListAdapter extends RecyclerView.Adapter<DownloadTaskLi
         DownloadTaskListBean downloadTaskListBean = list.get(position);
         holder.progressBar.setProgress(downloadTaskListBean.progress);
         holder.fileName.setText(downloadTaskListBean.name);
-        if (!downloadTaskListBean.name.equals(context.getString(R.string.dialog_install_game_install_forge_build)) && (downloadTaskListBean.path == null || downloadTaskListBean.path.equals("")) && (downloadTaskListBean.url == null || downloadTaskListBean.url.equals("")) && (downloadTaskListBean.sha1 == null || downloadTaskListBean.sha1.equals(""))) {
+        if (!downloadTaskListBean.name.equals(context.getString(R.string.dialog_install_assets_check)) && !downloadTaskListBean.name.equals(context.getString(R.string.dialog_install_game_install_forge_build)) && (downloadTaskListBean.path == null || downloadTaskListBean.path.equals("")) && (downloadTaskListBean.url == null || downloadTaskListBean.url.equals("")) && (downloadTaskListBean.sha1 == null || downloadTaskListBean.sha1.equals(""))) {
             holder.progressBar.setIndeterminate(true);
         }
         else {

@@ -4,6 +4,7 @@ import static com.tungsten.hmclpe.launcher.launch.GameLaunchSetting.isHighVersio
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import com.tungsten.hmclpe.launcher.launch.AccountPatch;
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
@@ -16,7 +17,12 @@ import net.kdt.pojavlaunch.Tools;
 import net.kdt.pojavlaunch.utils.JREUtils;
 
 import java.io.File;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.Vector;
 
 public class PojavLauncher {
@@ -29,7 +35,7 @@ public class PojavLauncher {
             JREUtils.relocateLibPath(context,javaPath);
             String libraryPath = javaPath + "/lib/aarch64/jli:" + javaPath + "/lib/aarch64:" + AppManifest.POJAV_LIB_DIR + "/lwjgl3:" + JREUtils.LD_LIBRARY_PATH + ":" + AppManifest.POJAV_LIB_DIR + "/lwjgl3";;
             boolean isJava17 = javaPath.endsWith("JRE17");
-            String classPath = getLWJGL3ClassPath() + ":" + version.getClassPath(gameLaunchSetting.gameFileDirectory,isJava17);
+            String classPath = getLWJGL3ClassPath() + ":" + version.getClassPath(gameLaunchSetting.gameFileDirectory,isHighVersion(gameLaunchSetting),isJava17);
             Vector<String> args = new Vector<String>();
             if (JREUtils.jreReleaseList.get("JAVA_VERSION").equals("1.8.0")) {
                 Tools.getCacioJavaArgs(context,args, false);
@@ -63,7 +69,7 @@ public class PojavLauncher {
                 String[] extraJavaFlags = gameLaunchSetting.extraJavaFlags.split(" ");
                 Collections.addAll(args, extraJavaFlags);
             }
-            args.add("-Dorg.lwjgl.opengl.libname=" + JREUtils.loadGraphicsLibrary(gameLaunchSetting.pojavRenderer));
+            args.add("-Dorg.lwjgl.opengl.libname=" + JREUtils.getGraphicsLibrary(gameLaunchSetting.pojavRenderer));
             args.add("-cp");
             args.add(classPath);
             args.add(version.mainClass);
@@ -104,6 +110,23 @@ public class PojavLauncher {
         // Remove the ':' at the end
         libStr.setLength(libStr.length() - 1);
         return libStr.toString();
+    }
+
+    public static String getGlVersion(String currentVersion){
+        LaunchVersion version = LaunchVersion.fromDirectory(new File(currentVersion));
+        if (version == null) {
+            return "2";
+        }
+        String creationDate = version.time;
+        if(creationDate == null || creationDate.isEmpty()){
+            return "2";
+        }
+        try {
+            return Objects.requireNonNull(new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).parse(creationDate.substring(0, creationDate.indexOf("T")))).before(new Date(2011-1900, 6, 7)) ? "1" : "2";
+        }catch (ParseException exception){
+            Log.e("OPENGL SELECTION", exception.toString());
+            return "2";
+        }
     }
 
 }

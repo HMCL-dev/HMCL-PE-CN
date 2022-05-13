@@ -135,7 +135,7 @@ public class MenuView extends View {
                         public void run() {
                             moveMode = true;
                             initialY = event.getY();
-                            Vibrator vibrator = (Vibrator)getContext().getSystemService(Context.VIBRATOR_SERVICE);
+                            Vibrator vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
                             vibrator.vibrate(100);
                             if (menuCallback != null){
                                 menuCallback.onMoveModeStart();

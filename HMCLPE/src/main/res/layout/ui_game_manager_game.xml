@@ -1056,33 +1056,6 @@
                             android:layout_marginStart="12dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/game_setting_ui_pojav_renderer_gl4es_115"
-                            android:textSize="@dimen/text_size_middle"
-                            android:textColor="@color/colorPureBlack"
-                            android:id="@+id/pojav_renderer_gl4es_115_isolate"/>
-
-                        <RadioButton
-                            android:layout_marginStart="12dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/game_setting_ui_pojav_renderer_gl4es_115p"
-                            android:textSize="@dimen/text_size_middle"
-                            android:textColor="@color/colorPureBlack"
-                            android:id="@+id/pojav_renderer_gl4es_115p_isolate"/>
-
-                        <RadioButton
-                            android:layout_marginStart="12dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/game_setting_ui_pojav_renderer_vgpu"
-                            android:textSize="@dimen/text_size_middle"
-                            android:textColor="@color/colorPureBlack"
-                            android:id="@+id/pojav_renderer_vgpu_isolate"/>
-
-                        <RadioButton
-                            android:layout_marginStart="12dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:text="@string/game_setting_ui_pojav_renderer_virgl"
                             android:textSize="@dimen/text_size_middle"
                             android:textColor="@color/colorPureBlack"

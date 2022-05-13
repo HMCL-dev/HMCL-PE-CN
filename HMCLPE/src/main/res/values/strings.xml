@@ -314,6 +314,9 @@
     <string name="fabric_api_list_ui_warn_text">警告: Fabric API 是一个 Mod，将会被安装到新游戏的 Mod 文件夹，请你在安装游戏后不要修改当前游戏的版本隔离/游戏运行路径设置，如果你在之后修改了相关设置，Fabric API 需要被重新安装</string>
     <string name="no_available_version">没有可供安装的版本，点击此处返回</string>
 
+    <string name="dialog_install_assets_title">更新游戏资源文件</string>
+    <string name="dialog_install_assets_check">检查资源文件完整性</string>
+
     <string name="dialog_install_local_title">从本地文件安装/升级</string>
     <string name="dialog_install_local_recognize">正在识别安装软件</string>
 
@@ -506,9 +509,6 @@
     <string name="game_setting_ui_boat_renderer_virgl" translatable="false">VirGLRenderer (OpenGL 4.3)</string>
     <string name="game_setting_ui_pojav_renderer">PojavLauncher 渲染方式</string>
     <string name="game_setting_ui_pojav_renderer_gl4es_114" translatable="false">GL4ES-1.1.4 (OpenGL 2.1)</string>
-    <string name="game_setting_ui_pojav_renderer_gl4es_115" translatable="false">GL4ES-1.1.5 (OpenGL 2.1)</string>
-    <string name="game_setting_ui_pojav_renderer_gl4es_115p" translatable="false">GL4ES-1.1.5 (OpenGL 2.1 + partial 3.2)</string>
-    <string name="game_setting_ui_pojav_renderer_vgpu" translatable="false">VGPU (OpenGL 3.0)</string>
     <string name="game_setting_ui_pojav_renderer_virgl" translatable="false">VirGLRenderer (OpenGL 4.3)</string>
 
     <string name="universal_setting_ui_declare">Hello Minecraft! Launcher Pocket Edition 是一个免费、自由、开放源代码的 Minecraft 启动器。您的赞助将帮助 Hello Minecraft! Launcher Pocket Edition 获得更好的发展，还可以获得 HMCL-PE 的开发进展。</string>

@@ -198,36 +198,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void closeCurrentUI(){
-        for (int i = 0;i < uiManager.uis.size();i++){
-            if (uiManager.uis.get(i) == uiManager.installGameUI){
-                uiManager.uis.remove(i);
-            }
-        }
-        for (int i = 0;i < uiManager.uis.size();i++){
-            if (uiManager.uis.get(i) == uiManager.downloadForgeUI){
-                uiManager.uis.remove(i);
-            }
-        }
-        for (int i = 0;i < uiManager.uis.size();i++){
-            if (uiManager.uis.get(i) == uiManager.downloadFabricUI){
-                uiManager.uis.remove(i);
-            }
-        }
-        for (int i = 0;i < uiManager.uis.size();i++){
-            if (uiManager.uis.get(i) == uiManager.downloadFabricAPIUI){
-                uiManager.uis.remove(i);
-            }
-        }
-        for (int i = 0;i < uiManager.uis.size();i++){
-            if (uiManager.uis.get(i) == uiManager.downloadLiteLoaderUI){
-                uiManager.uis.remove(i);
-            }
-        }
-        for (int i = 0;i < uiManager.uis.size();i++){
-            if (uiManager.uis.get(i) == uiManager.downloadOptifineUI){
-                uiManager.uis.remove(i);
-            }
-        }
+        uiManager.removeUIIfExist(uiManager.installGameUI);
+        uiManager.removeUIIfExist(uiManager.downloadForgeUI);
+        uiManager.removeUIIfExist(uiManager.downloadFabricUI);
+        uiManager.removeUIIfExist(uiManager.downloadFabricAPIUI);
+        uiManager.removeUIIfExist(uiManager.downloadLiteLoaderUI);
+        uiManager.removeUIIfExist(uiManager.downloadOptifineUI);
         uiManager.uis.get(uiManager.uis.size() - 1).onStart();
         if (uiManager.currentUI == uiManager.installGameUI){
             uiManager.installGameUI.onStop();
@@ -247,6 +223,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (uiManager.currentUI == uiManager.downloadOptifineUI){
             uiManager.downloadOptifineUI.onStop();
         }
+        uiManager.currentUI = uiManager.uis.get(uiManager.uis.size() - 1);
     }
 
     public void backToDeskTop(){

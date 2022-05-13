@@ -201,7 +201,7 @@ public class TouchPad extends View {
                             InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,true);
                         }
                         if (launcher == 2) {
-                            new Handler().postDelayed(() -> InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,true),50);
+                            new Handler().postDelayed(() -> InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,true),20);
                         }
                     }
                     break;

@@ -12,7 +12,6 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.tungsten.hmclpe.R;
@@ -37,7 +36,6 @@ public class BoatMinecraftActivity extends BoatActivity {
 
     public MenuHelper menuHelper;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +97,27 @@ public class BoatMinecraftActivity extends BoatActivity {
             public void onCursorModeChange(int mode) {
                 cursorModeHandler.sendEmptyMessage(mode);
             }
+
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onPicOutput() {
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+
+            @Override
+            public void onExit(int code) {
+                Intent virGLService = new Intent(BoatMinecraftActivity.this, VirGLService.class);
+                stopService(virGLService);
+            }
         });
 
         init();
@@ -150,8 +169,8 @@ public class BoatMinecraftActivity extends BoatActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         Intent virGLService = new Intent(this, VirGLService.class);
         stopService(virGLService);
+        super.onDestroy();
     }
 }

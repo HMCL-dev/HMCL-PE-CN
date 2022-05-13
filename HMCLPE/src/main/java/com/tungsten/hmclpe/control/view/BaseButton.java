@@ -13,6 +13,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
@@ -61,19 +62,18 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
     private boolean isShowing = true;
 
     private final Handler deleteHandler = new Handler();
-    private final Runnable deleteRunnable = new Runnable() {
-        @Override
-        public void run() {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle(getContext().getString(R.string.dialog_delete_button_title));
-            builder.setMessage(getContext().getString(R.string.dialog_delete_button_content));
-            builder.setPositiveButton(getContext().getString(R.string.dialog_delete_button_positive), (dialogInterface, i) -> {
-                deleteButton();
-            });
-            builder.setNegativeButton(getContext().getString(R.string.dialog_delete_button_negative), (dialogInterface, i) -> {});
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
+    private final Runnable deleteRunnable = () -> {
+        Vibrator vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(100);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(getContext().getString(R.string.dialog_delete_button_title));
+        builder.setMessage(getContext().getString(R.string.dialog_delete_button_content));
+        builder.setPositiveButton(getContext().getString(R.string.dialog_delete_button_positive), (dialogInterface, i) -> {
+            deleteButton();
+        });
+        builder.setNegativeButton(getContext().getString(R.string.dialog_delete_button_negative), (dialogInterface, i) -> {});
+        AlertDialog dialog = builder.create();
+        dialog.show();
     };
 
     private final Handler clickHandler = new Handler();

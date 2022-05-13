@@ -26,7 +26,7 @@ import java.util.Vector;
 
 public final class Tools {
 
-    public static void launchMinecraft(final Activity activity,String javaPath,String home,String renderer, Vector<String> args,String gameDir) throws Throwable {
+    public static void launchMinecraft(final Activity activity,String javaPath,String home,String renderer, Vector<String> args,String gameDir,String glesVersion) throws Throwable {
 
         String[] launchArgs = new String[args.size()];
         for (int i = 0; i < args.size(); i++) {
@@ -40,7 +40,7 @@ public final class Tools {
         List<String> javaArgList = new ArrayList<String>();
 
         javaArgList.addAll(Arrays.asList(launchArgs));
-        JREUtils.launchJavaVM(activity,javaPath,home,renderer, javaArgList,gameDir);
+        JREUtils.launchJavaVM(activity,javaPath,home,renderer, javaArgList,gameDir,glesVersion);
     }
     
     public static void getCacioJavaArgs(Context context,List<String> javaArgList, boolean isHeadless) {

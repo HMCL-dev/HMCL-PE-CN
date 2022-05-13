@@ -1,6 +1,6 @@
 package com.tungsten.hmclpe.launcher.launch.check;
 
-/*
+/**
  * 启动流程
  * 判断当前版本是否启用特定设置，并获取当前版本设置
  *

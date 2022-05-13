@@ -225,6 +225,7 @@ public class LaunchCheckDialog extends Dialog implements View.OnClickListener, H
                         intent = new Intent(getContext(), BoatMinecraftActivity.class);
                         if (privateGameSetting.boatLauncherSetting.renderer.equals("VirGL")) {
                             Intent virGLService = new Intent(getContext(), VirGLService.class);
+                            getContext().stopService(virGLService);
                             getContext().startService(virGLService);
                         }
                     }
