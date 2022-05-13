@@ -1,9 +1,6 @@
 package com.tungsten.hmclpe.launcher.mod;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 
 import com.tungsten.hmclpe.launcher.mod.curse.CurseAddon;
 import com.tungsten.hmclpe.launcher.mod.curse.CurseModManager;
@@ -28,7 +25,6 @@ public class SearchTools {
     public static final int DEFAULT_PAGE_OFFSET = 0;
 
     @SuppressLint("NewApi")
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static Stream<ModListBean.Mod> searchImpl(String source, String gameVersion, int category, int section, int pageOffset, String searchFilter, int sort) throws Exception {
         if (StringUtils.CHINESE_PATTERN.matcher(searchFilter).find()) {
             List<ModTranslations.Mod> mods = ModTranslations.searchMod(searchFilter);
@@ -44,16 +40,17 @@ public class SearchTools {
                 if (count >= 3) break;
             }
             return search(source,gameVersion, category, section, pageOffset, String.join(" ", searchFilters), sort);
-        } else {
+        }
+        else {
             return search(source,gameVersion, category, section, pageOffset, searchFilter, sort);
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static Stream<ModListBean.Mod> search(String source, String gameVersion, int category, int section, int pageOffset, String searchFilter, int sort) throws Exception {
         if (source.equals("Modrinth")) {
             return Modrinth.searchPaginated(gameVersion, pageOffset, searchFilter).stream().map(Modrinth.ModResult::toMod);
-        } else {
+        }
+        else {
             return CurseModManager.searchPaginated(gameVersion, category, section, pageOffset, searchFilter, sort).stream().map(CurseAddon::toMod);
         }
     }

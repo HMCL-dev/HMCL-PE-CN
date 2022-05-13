@@ -81,29 +81,26 @@ public class DownloadPackageListAdapter extends BaseAdapter {
         }
         viewHolder.packageIcon.setImageDrawable(context.getDrawable(R.drawable.launcher_background_color_white));
         viewHolder.packageIcon.setTag(position);
-        new Thread(){
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL(packageList.get(position).getIconUrl());
-                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                    httpURLConnection.setDoInput(true);
-                    httpURLConnection.connect();
-                    InputStream inputStream = httpURLConnection.getInputStream();
-                    Bitmap icon = BitmapFactory.decodeStream(inputStream);
-                    if (viewHolder.packageIcon.getTag().equals(position)){
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                viewHolder.packageIcon.setImageBitmap(icon);
-                            }
-                        });
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+        new Thread(() -> {
+            try {
+                URL url = new URL(packageList.get(position).getIconUrl());
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                Bitmap icon = BitmapFactory.decodeStream(inputStream);
+                if (viewHolder.packageIcon.getTag().equals(position)){
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            viewHolder.packageIcon.setImageBitmap(icon);
+                        }
+                    });
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }.start();
+        }).start();
         String categories = "";
         for (int i = 0;i < packageList.get(position).getCategories().size();i++){
             //categories = categories + SearchTools.getCategoryFromID(context,worldList.get(position).getCategories().get(i)) + "  ";
@@ -111,11 +108,8 @@ public class DownloadPackageListAdapter extends BaseAdapter {
         viewHolder.packageCategories.setText(categories);
         viewHolder.packageName.setText(packageList.get(position).getTitle());
         viewHolder.packageIntroduction.setText(packageList.get(position).getDescription());
-        viewHolder.packageItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        viewHolder.packageItem.setOnClickListener(v -> {
 
-            }
         });
         return convertView;
     }

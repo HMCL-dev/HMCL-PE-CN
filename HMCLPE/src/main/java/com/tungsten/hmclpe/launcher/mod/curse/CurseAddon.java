@@ -1,9 +1,5 @@
 package com.tungsten.hmclpe.launcher.mod.curse;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import com.tungsten.hmclpe.launcher.mod.ModListBean;
 
 import java.io.IOException;
@@ -146,7 +142,6 @@ public class CurseAddon implements ModListBean.IMod {
         return isExperimental;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public List<ModListBean.Mod> loadDependencies() throws IOException {
         Set<Integer> dependencies = latestFiles.stream()
@@ -167,7 +162,6 @@ public class CurseAddon implements ModListBean.IMod {
                 .map(CurseAddon.LatestFile::toVersion);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public ModListBean.Mod toMod() {
         String iconUrl = null;
         for (CurseAddon.Attachment attachment : attachments) {
@@ -451,7 +445,6 @@ public class CurseAddon implements ModListBean.IMod {
             return serverPackFileId;
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.O)
         public Instant getParsedFileDate() {
             if (fileDataInstant == null) {
                 fileDataInstant = Instant.parse(fileDate);
@@ -459,7 +452,6 @@ public class CurseAddon implements ModListBean.IMod {
             return fileDataInstant;
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.O)
         public ModListBean.Version toVersion() {
             ModListBean.VersionType versionType;
             switch (getReleaseType()) {

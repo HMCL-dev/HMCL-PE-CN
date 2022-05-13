@@ -115,6 +115,7 @@
         </androidx.appcompat.widget.Toolbar>
 
         <RelativeLayout
+            android:id="@+id/main_ui_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

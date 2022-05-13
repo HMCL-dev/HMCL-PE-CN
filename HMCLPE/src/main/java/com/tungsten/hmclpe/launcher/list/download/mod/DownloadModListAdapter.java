@@ -4,10 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +15,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.mod.ModInfo;
 import com.tungsten.hmclpe.launcher.mod.ModListBean;
+import com.tungsten.hmclpe.launcher.uis.game.download.right.resource.DownloadResourceUI;
 import com.tungsten.hmclpe.utils.string.ModTranslations;
 
 import java.io.IOException;
@@ -30,8 +27,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class DownloadModListAdapter extends BaseAdapter {
 
@@ -69,7 +64,6 @@ public class DownloadModListAdapter extends BaseAdapter {
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder viewHolder;
@@ -89,29 +83,21 @@ public class DownloadModListAdapter extends BaseAdapter {
         }
         viewHolder.modIcon.setImageDrawable(context.getDrawable(R.drawable.launcher_background_color_white));
         viewHolder.modIcon.setTag(position);
-        new Thread(){
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL(modList.get(position).getIconUrl());
-                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                    httpURLConnection.setDoInput(true);
-                    httpURLConnection.connect();
-                    InputStream inputStream = httpURLConnection.getInputStream();
-                    Bitmap icon = BitmapFactory.decodeStream(inputStream);
-                    if (viewHolder.modIcon.getTag().equals(position)){
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                viewHolder.modIcon.setImageBitmap(icon);
-                            }
-                        });
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+        new Thread(() -> {
+            try {
+                URL url = new URL(modList.get(position).getIconUrl());
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                Bitmap icon = BitmapFactory.decodeStream(inputStream);
+                if (viewHolder.modIcon.getTag().equals(position)){
+                    handler.post(() -> viewHolder.modIcon.setImageBitmap(icon));
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }.start();
+        }).start();
         String categories = "";
         for (int i = 0;i < modList.get(position).getCategories().size();i++){
             //categories = categories + SearchTools.getCategoryFromID(context,modList.get(position).getCategories().get(i)) + "  ";
@@ -119,18 +105,9 @@ public class DownloadModListAdapter extends BaseAdapter {
         viewHolder.modCategories.setText(categories);
         viewHolder.modName.setText(ModTranslations.getDisplayName(modList.get(position).getTitle(),modList.get(position).getSlug()));
         viewHolder.modIntroduction.setText(modList.get(position).getDescription());
-        viewHolder.modItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Thread(()->{
-                    try {
-                        ModInfo modInfo=new ModInfo(modList.get(position));
-                        Log.e("mod",modInfo.toString());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }).start();
-            }
+        viewHolder.modItem.setOnClickListener(view -> {
+            DownloadResourceUI downloadResourceUI = new DownloadResourceUI(context,activity,modList.get(position));
+            activity.uiManager.switchMainUI(downloadResourceUI);
         });
         return convertView;
     }

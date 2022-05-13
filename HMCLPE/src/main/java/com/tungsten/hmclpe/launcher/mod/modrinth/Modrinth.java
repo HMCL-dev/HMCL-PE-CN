@@ -16,15 +16,10 @@ import java.time.Instant;
 import java.util.*;
 import java.util.stream.Stream;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 public final class Modrinth {
     private Modrinth() {
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static List<ModResult> searchPaginated(String gameVersion, int pageOffset, String searchFilter) throws IOException {
         Map<String, String> query = mapOf(
                 pair("query", searchFilter),
@@ -48,7 +43,6 @@ public final class Modrinth {
         return versions.stream().map(ModVersion::toVersion).flatMap(Lang::toStream);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static List<ModVersion> getFiles(ModResult mod) throws IOException {
         String id = StringUtils.removePrefix(mod.getModId(), "local-");
         List<ModVersion> versions = HttpRequest.GET("https://api.modrinth.com/api/v1/mod/" + id + "/version")
@@ -247,7 +241,6 @@ public final class Modrinth {
             return loaders;
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.N)
         public Optional<ModListBean.Version> toVersion() {
             ModListBean.VersionType type;
             if ("release".equals(versionType)) {
@@ -420,7 +413,6 @@ public final class Modrinth {
             return Collections.emptyList();
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.O)
         public Stream<ModListBean.Version> loadVersions() throws IOException {
             return Modrinth.getFiles(this).stream()
                     .map(ModVersion::toVersion)

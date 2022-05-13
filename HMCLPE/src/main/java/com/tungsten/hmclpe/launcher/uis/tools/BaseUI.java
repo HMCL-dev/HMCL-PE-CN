@@ -48,7 +48,7 @@ public class BaseUI implements UILifecycleCallbacks{
     }
 
     @Override
-    public void onDestory() {
+    public void onDestroy() {
 
     }
 

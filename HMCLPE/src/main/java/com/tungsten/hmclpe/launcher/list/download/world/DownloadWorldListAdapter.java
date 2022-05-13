@@ -81,29 +81,26 @@ public class DownloadWorldListAdapter extends BaseAdapter {
         }
         viewHolder.worldIcon.setImageDrawable(context.getDrawable(R.drawable.launcher_background_color_white));
         viewHolder.worldIcon.setTag(position);
-        new Thread(){
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL(worldList.get(position).getIconUrl());
-                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                    httpURLConnection.setDoInput(true);
-                    httpURLConnection.connect();
-                    InputStream inputStream = httpURLConnection.getInputStream();
-                    Bitmap icon = BitmapFactory.decodeStream(inputStream);
-                    if (viewHolder.worldIcon.getTag().equals(position)){
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                viewHolder.worldIcon.setImageBitmap(icon);
-                            }
-                        });
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+        new Thread(() -> {
+            try {
+                URL url = new URL(worldList.get(position).getIconUrl());
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                Bitmap icon = BitmapFactory.decodeStream(inputStream);
+                if (viewHolder.worldIcon.getTag().equals(position)){
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            viewHolder.worldIcon.setImageBitmap(icon);
+                        }
+                    });
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }.start();
+        }).start();
         String categories = "";
         for (int i = 0;i < worldList.get(position).getCategories().size();i++){
             //categories = categories + SearchTools.getCategoryFromID(context,worldList.get(position).getCategories().get(i)) + "  ";
@@ -111,11 +108,8 @@ public class DownloadWorldListAdapter extends BaseAdapter {
         viewHolder.worldCategories.setText(categories);
         viewHolder.worldName.setText(worldList.get(position).getTitle());
         viewHolder.worldIntroduction.setText(worldList.get(position).getDescription());
-        viewHolder.worldItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        viewHolder.worldItem.setOnClickListener(v -> {
 
-            }
         });
         return convertView;
     }

@@ -81,29 +81,26 @@ public class DownloadResourcePackListAdapter extends BaseAdapter {
         }
         viewHolder.resourcePackIcon.setImageDrawable(context.getDrawable(R.drawable.launcher_background_color_white));
         viewHolder.resourcePackIcon.setTag(position);
-        new Thread(){
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL(resourcePackList.get(position).getIconUrl());
-                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                    httpURLConnection.setDoInput(true);
-                    httpURLConnection.connect();
-                    InputStream inputStream = httpURLConnection.getInputStream();
-                    Bitmap icon = BitmapFactory.decodeStream(inputStream);
-                    if (viewHolder.resourcePackIcon.getTag().equals(position)){
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                viewHolder.resourcePackIcon.setImageBitmap(icon);
-                            }
-                        });
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+        new Thread(() -> {
+            try {
+                URL url = new URL(resourcePackList.get(position).getIconUrl());
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                Bitmap icon = BitmapFactory.decodeStream(inputStream);
+                if (viewHolder.resourcePackIcon.getTag().equals(position)){
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            viewHolder.resourcePackIcon.setImageBitmap(icon);
+                        }
+                    });
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }.start();
+        }).start();
         String categories = "";
         for (int i = 0;i < resourcePackList.get(position).getCategories().size();i++){
             //categories = categories + SearchTools.getCategoryFromID(context,worldList.get(position).getCategories().get(i)) + "  ";
@@ -111,11 +108,8 @@ public class DownloadResourcePackListAdapter extends BaseAdapter {
         viewHolder.resourcePackCategories.setText(categories);
         viewHolder.resourcePackName.setText(resourcePackList.get(position).getTitle());
         viewHolder.resourcePackIntroduction.setText(resourcePackList.get(position).getDescription());
-        viewHolder.resourcePackItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        viewHolder.resourcePackItem.setOnClickListener(v -> {
 
-            }
         });
         return convertView;
     }

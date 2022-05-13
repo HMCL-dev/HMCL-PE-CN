@@ -445,6 +445,10 @@
 
     <string name="download_mod_source_curse_forge" translatable="false">CurseForge</string>
     <string name="download_mod_source_modrinth" translatable="false">Modrinth</string>
+    
+    <string name="download_resource_mcmod">MC 百科</string>
+    <string name="download_resource_mcbbs">MCBBS</string>
+    <string name="download_resource_curse_forge">CurseForge</string>
 
     <string name="setting_ui_title">设置</string>
     <string name="setting_ui_public_game_setting">全局游戏设置</string>

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.appthemeengine.ATE;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public ImageButton backToDesktop;
     public ImageButton closeApp;
 
+    public RelativeLayout uiContainer;
     public UIManager uiManager;
 
     public Config exteriorConfig;
@@ -79,23 +81,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-        new Thread(){
-            @Override
-            public void run(){
-                AppManifest.initializeManifest(MainActivity.this);
-                launcherSetting = InitializeSetting.initializeLauncherSetting();
-                publicGameSetting = InitializeSetting.initializePublicGameSetting(MainActivity.this,MainActivity.this);
-                privateGameSetting = InitializeSetting.initializePrivateGameSetting(MainActivity.this);
+        new Thread(() -> {
+            AppManifest.initializeManifest(MainActivity.this);
+            launcherSetting = InitializeSetting.initializeLauncherSetting();
+            publicGameSetting = InitializeSetting.initializePublicGameSetting(MainActivity.this,MainActivity.this);
+            privateGameSetting = InitializeSetting.initializePrivateGameSetting(MainActivity.this);
 
-                runOnUiThread(() -> {
-                    updateChecker = new UpdateChecker(MainActivity.this,MainActivity.this);
-                });
+            runOnUiThread(() -> {
+                updateChecker = new UpdateChecker(MainActivity.this,MainActivity.this);
+            });
 
-                DownloadUrlSource.getBalancedSource(MainActivity.this);
+            DownloadUrlSource.getBalancedSource(MainActivity.this);
 
-                loadingHandler.sendEmptyMessage(0);
-            }
-        }.start();
+            loadingHandler.sendEmptyMessage(0);
+        }).start();
     }
 
     @SuppressLint("HandlerLeak")
@@ -122,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     backToDesktop.setOnClickListener(MainActivity.this);
                     closeApp.setOnClickListener(MainActivity.this);
 
+                    uiContainer = findViewById(R.id.main_ui_container);
                     uiManager = new UIManager(MainActivity.this,MainActivity.this);
 
                     exteriorConfig.primaryColor(Color.parseColor(ExteriorSettingUI.getThemeColor(MainActivity.this,launcherSetting.launcherTheme)));

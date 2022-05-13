@@ -3,10 +3,6 @@ package com.tungsten.hmclpe.launcher.mod.curse;
 import static com.tungsten.hmclpe.utils.Lang.mapOf;
 import static com.tungsten.hmclpe.utils.Pair.pair;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import com.google.gson.reflect.TypeToken;
 import com.tungsten.hmclpe.utils.gson.JsonUtils;
 import com.tungsten.hmclpe.utils.io.NetworkUtils;
@@ -19,7 +15,6 @@ public final class CurseModManager {
     private CurseModManager() {
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static List<CurseAddon> searchPaginated(String gameVersion, int category, int section, int pageOffset, String searchFilter, int sort) throws IOException {
         String response = NetworkUtils.doGet(new URL(NetworkUtils.withQuery("https://addons-ecs.forgesvc.net/api/v2/addon/search", mapOf(
                 pair("categoryId", Integer.toString(category)),
@@ -35,20 +30,17 @@ public final class CurseModManager {
         }.getType());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static CurseAddon getAddon(int id) throws IOException {
         String response = NetworkUtils.doGet(NetworkUtils.toURL("https://addons-ecs.forgesvc.net/api/v2/addon/" + id));
         return JsonUtils.fromNonNullJson(response, CurseAddon.class);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static List<CurseAddon.LatestFile> getFiles(CurseAddon addon) throws IOException {
         String response = NetworkUtils.doGet(NetworkUtils.toURL("https://addons-ecs.forgesvc.net/api/v2/addon/" + addon.getId() + "/files"));
         return JsonUtils.fromNonNullJson(response, new TypeToken<List<CurseAddon.LatestFile>>() {
         }.getType());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static List<Category> getCategories(int section) throws IOException {
         String response = NetworkUtils.doGet(NetworkUtils.toURL("https://addons-ecs.forgesvc.net/api/v2/category/section/" + section));
         List<Category> categories = JsonUtils.fromNonNullJson(response, new TypeToken<List<Category>>() {

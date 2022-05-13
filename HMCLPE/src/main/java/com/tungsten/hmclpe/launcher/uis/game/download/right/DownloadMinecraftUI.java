@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.launcher.uis.game.download.right.game;
+package com.tungsten.hmclpe.launcher.uis.game.download.right;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
