@@ -107,7 +107,7 @@ public class BoatActivity extends AppCompatActivity implements TextureView.Surfa
 	@Override
 	protected void onPostResume() {
 		super.onPostResume();
-		if (mainTextureView != null) {
+		if (mainTextureView != null && mainTextureView.getSurfaceTexture() != null) {
 			mainTextureView.post(() -> {
 				boatCallback.onSurfaceTextureSizeChanged(mainTextureView.getSurfaceTexture(),mainTextureView.getWidth(),mainTextureView.getHeight());
 			});

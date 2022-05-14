@@ -3,10 +3,6 @@ package com.tungsten.hmclpe.utils.string;
 import static com.tungsten.hmclpe.utils.Pair.pair;
 import static com.tungsten.hmclpe.utils.Logging.LOG;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.logging.Level;
@@ -29,21 +25,18 @@ public final class ModTranslations {
 
     private ModTranslations(){}
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static Mod getModByCurseForgeId(String id) {
         if (StringUtils.isBlank(id) || !loadCurseForgeMap()) return null;
 
         return curseForgeMap.get(id);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static Mod getModById(String id) {
         if (StringUtils.isBlank(id) || !loadModIdMap()) return null;
 
         return modIdMap.get(id);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static List<Mod> searchMod(String query) {
         if (!loadKeywords()) return Collections.emptyList();
 
@@ -66,7 +59,6 @@ public final class ModTranslations {
                 .collect(Collectors.toList());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static boolean loadFromResource() {
         if (mods != null) return true;
         try {
@@ -79,7 +71,6 @@ public final class ModTranslations {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private static boolean loadCurseForgeMap() {
         if (curseForgeMap != null) {
             return true;
@@ -98,7 +89,6 @@ public final class ModTranslations {
         return true;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private static boolean loadModIdMap() {
         if (modIdMap != null) {
             return true;
@@ -120,7 +110,6 @@ public final class ModTranslations {
         return true;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private static boolean loadKeywords() {
         if (keywords != null) {
             return true;
@@ -149,28 +138,16 @@ public final class ModTranslations {
         return true;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public static String getDisplayName(String title,String slug) {
-        String name = title;
+    public static Mod getModBySlug(String slug) {
+        Mod mod = null;
         loadFromResource();
-        for (int i = 0;i < mods.size();i++){
-            if (mods.get(i).getCurseforge().equals(slug)){
-                String first = "";
-                if (!mods.get(i).getAbbr().equals("") && mods.get(i).getAbbr() != null){
-                    first = "[" + mods.get(i).getAbbr() + "] ";
-                }
-                String second = title;
-                if (!mods.get(i).getName().equals("") && mods.get(i).getName() != null){
-                    second = mods.get(i).getName();
-                }
-                String third = "";
-                if (!mods.get(i).getSubname().equals("") && mods.get(i).getSubname() != null){
-                    third = " ("  + mods.get(i).getSubname() + ")";
-                }
-                name = first + second + third;
+        for (int i = 0;i < mods.size();i++) {
+            if (mods.get(i).getCurseforge().equals(slug)) {
+                mod = mods.get(i);
+                break;
             }
         }
-        return name;
+        return mod;
     }
 
     public static class Mod {

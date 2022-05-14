@@ -15,9 +15,9 @@ import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.list.download.DownloadResourceAdapter;
 import com.tungsten.hmclpe.launcher.mod.SearchTools;
 import com.tungsten.hmclpe.launcher.mod.ModListBean;
-import com.tungsten.hmclpe.launcher.list.download.resourcepack.DownloadResourcePackListAdapter;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
@@ -35,7 +35,7 @@ public class DownloadResourcePackUI extends BaseUI {
 
     private ListView resourcePackListView;
     private ArrayList<ModListBean.Mod> resourcePackList;
-    private DownloadResourcePackListAdapter downloadResourcePackListAdapter;
+    private DownloadResourceAdapter downloadResourcePackListAdapter;
 
     public DownloadResourcePackUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -50,7 +50,7 @@ public class DownloadResourcePackUI extends BaseUI {
 
         resourcePackListView = activity.findViewById(R.id.download_resource_pack_list);
         resourcePackList = new ArrayList<>();
-        downloadResourcePackListAdapter = new DownloadResourcePackListAdapter(context,activity,resourcePackList);
+        downloadResourcePackListAdapter = new DownloadResourceAdapter(context,activity,resourcePackList,false);
         resourcePackListView.setAdapter(downloadResourcePackListAdapter);
     }
 
@@ -79,21 +79,18 @@ public class DownloadResourcePackUI extends BaseUI {
 
     private void search(){
         if (!isSearching){
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        searchHandler.sendEmptyMessage(0);
-                        Stream<ModListBean.Mod> stream = SearchTools.search("", "", 0, SearchTools.SECTION_RESOURCE_PACK, SearchTools.DEFAULT_PAGE_OFFSET, "", 0);
-                        List<ModListBean.Mod> list = stream.collect(toList());
-                        resourcePackList.clear();
-                        resourcePackList.addAll(list);
-                        searchHandler.sendEmptyMessage(1);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+            new Thread(() -> {
+                try {
+                    searchHandler.sendEmptyMessage(0);
+                    Stream<ModListBean.Mod> stream = SearchTools.search("", "", 0, SearchTools.SECTION_RESOURCE_PACK, SearchTools.DEFAULT_PAGE_OFFSET, "", 0);
+                    List<ModListBean.Mod> list = stream.collect(toList());
+                    resourcePackList.clear();
+                    resourcePackList.addAll(list);
+                    searchHandler.sendEmptyMessage(1);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            }.start();
+            }).start();
         }
         else {
 

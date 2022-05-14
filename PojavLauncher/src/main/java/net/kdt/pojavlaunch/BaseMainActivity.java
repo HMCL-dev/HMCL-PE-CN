@@ -152,7 +152,7 @@ public class BaseMainActivity extends AppCompatActivity implements TextureView.S
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        if (minecraftGLView != null) {
+        if (minecraftGLView != null && minecraftGLView.getSurfaceTexture() != null) {
             minecraftGLView.post(() -> {
                 pojavCallback.onSurfaceTextureSizeChanged(minecraftGLView.getSurfaceTexture(),minecraftGLView.getWidth(),minecraftGLView.getHeight());
             });

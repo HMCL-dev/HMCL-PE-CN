@@ -1,5 +1,6 @@
 package com.tungsten.hmclpe.launcher.mod;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +13,7 @@ public class ModInfo {
     private final Map<String, List<ModListBean.Version>> map;
     private final List<ModListBean.Mod> dependencies;
 
-    public ModInfo(ModListBean.Mod mod) throws Exception {
+    public ModInfo(ModListBean.Mod mod) throws IOException {
         map = new HashMap<>();
         dependencies = new ArrayList<>();
         List<ModListBean.Version> versions = mod.getData().loadVersions().collect(Collectors.toList());
@@ -40,11 +41,22 @@ public class ModInfo {
                 minLength = valueSplit2.length;
             }
             for (int i = 0; i < minLength; i++) {
-                int value1 = Integer.parseInt(valueSplit1[i]);
-                int value2 = Integer.parseInt(valueSplit2[i]);
-                if(value1 > value2){
+                int value1 = Integer.parseInt(valueSplit1[i].split("-")[0]);
+                int value2 = Integer.parseInt(valueSplit2[i].split("-")[0]);
+                if (value1 > value2) {
                     return -1;
-                }else if(value1 < value2){
+                }
+                else if (value1 == value2) {
+                    if (i == minLength - 1 && valueSplit1.length == valueSplit2.length) {
+                        if (valueSplit1[i].length() < valueSplit2[i].length()) {
+                            return -1;
+                        }
+                        else {
+                            return 1;
+                        }
+                    }
+                }
+                else if (value1 < value2) {
                     return 1;
                 }
             }
@@ -67,7 +79,7 @@ public class ModInfo {
     }
 
     private void add(ModListBean.Version version){
-        for (String s:version.getGameVersions()){
+        for (String s : version.getGameVersions()){
             List<ModListBean.Version> list = map.get(s);
             if (list == null){
                 list = new ArrayList<>();

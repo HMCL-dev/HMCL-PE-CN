@@ -17,12 +17,16 @@ public class BaseDownloadUI extends BaseUI {
 
     public ModListBean.Mod bean;
     public ModTranslations.Mod modTranslation;
+    public boolean isMod;
+    public boolean isFirst = true;
 
     public LinearLayout baseDownloadUI;
 
-    public BaseDownloadUI(Context context, MainActivity activity, ModListBean.Mod bean) {
+    public BaseDownloadUI(Context context, MainActivity activity, ModListBean.Mod bean,boolean isMod) {
         super(context, activity);
         this.bean = bean;
+        this.modTranslation = ModTranslations.getModBySlug(bean.getSlug());
+        this.isMod = isMod;
         onCreate();
     }
 
@@ -48,6 +52,7 @@ public class BaseDownloadUI extends BaseUI {
     public void onStop() {
         super.onStop();
         CustomAnimationUtils.hideViewToLeft(baseDownloadUI,activity,context,true);
+        activity.uiContainer.removeView(baseDownloadUI);
     }
 
     public <T> T findViewById(int id) {

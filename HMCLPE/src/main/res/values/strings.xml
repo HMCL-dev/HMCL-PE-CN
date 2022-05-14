@@ -449,6 +449,10 @@
     <string name="download_resource_mcmod">MC 百科</string>
     <string name="download_resource_mcbbs">MCBBS</string>
     <string name="download_resource_curse_forge">CurseForge</string>
+    <string name="download_resource_mod_dependency">前置 Mod</string>
+    <string name="download_resource_load_fail">加载版本列表失败，点击此处重试。</string>
+    <string name="download_resource_beta">测试版</string>
+    <string name="download_resource_release">正式版</string>
 
     <string name="setting_ui_title">设置</string>
     <string name="setting_ui_public_game_setting">全局游戏设置</string>

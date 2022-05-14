@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.launcher.list.download.mod;
+package com.tungsten.hmclpe.launcher.list.download;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -28,24 +28,26 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class DownloadModListAdapter extends BaseAdapter {
+public class DownloadResourceAdapter extends BaseAdapter {
 
     private Context context;
     private MainActivity activity;
     private ArrayList<ModListBean.Mod> modList;
+    private boolean isMod;
 
     private class ViewHolder{
-        LinearLayout modItem;
-        ImageView modIcon;
-        TextView modName;
-        TextView modCategories;
-        TextView modIntroduction;
+        LinearLayout item;
+        ImageView icon;
+        TextView name;
+        TextView categories;
+        TextView introduction;
     }
 
-    public DownloadModListAdapter (Context context, MainActivity activity, ArrayList<ModListBean.Mod> modList){
+    public DownloadResourceAdapter(Context context, MainActivity activity, ArrayList<ModListBean.Mod> modList, boolean isMod){
         this.context = context;
         this.activity = activity;
         this.modList = modList;
+        this.isMod = isMod;
     }
 
     @Override
@@ -69,20 +71,20 @@ public class DownloadModListAdapter extends BaseAdapter {
         final ViewHolder viewHolder;
         if (convertView == null){
             viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_download_mod_list,null);
-            viewHolder.modItem = convertView.findViewById(R.id.item);
-            viewHolder.modIcon = convertView.findViewById(R.id.mod_icon);
-            viewHolder.modName = convertView.findViewById(R.id.mod_name);
-            viewHolder.modCategories = convertView.findViewById(R.id.mod_categories);
-            viewHolder.modIntroduction = convertView.findViewById(R.id.mod_introduction);
-            activity.exteriorConfig.apply(viewHolder.modCategories);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_download_mod,null);
+            viewHolder.item = convertView.findViewById(R.id.item);
+            viewHolder.icon = convertView.findViewById(R.id.mod_icon);
+            viewHolder.name = convertView.findViewById(R.id.mod_name);
+            viewHolder.categories = convertView.findViewById(R.id.mod_categories);
+            viewHolder.introduction = convertView.findViewById(R.id.mod_introduction);
+            activity.exteriorConfig.apply(viewHolder.categories);
             convertView.setTag(viewHolder);
         }
         else {
-            viewHolder = (ViewHolder)convertView.getTag();
+            viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.modIcon.setImageDrawable(context.getDrawable(R.drawable.launcher_background_color_white));
-        viewHolder.modIcon.setTag(position);
+        viewHolder.icon.setImageDrawable(context.getDrawable(R.drawable.launcher_background_color_white));
+        viewHolder.icon.setTag(position);
         new Thread(() -> {
             try {
                 URL url = new URL(modList.get(position).getIconUrl());
@@ -91,8 +93,8 @@ public class DownloadModListAdapter extends BaseAdapter {
                 httpURLConnection.connect();
                 InputStream inputStream = httpURLConnection.getInputStream();
                 Bitmap icon = BitmapFactory.decodeStream(inputStream);
-                if (viewHolder.modIcon.getTag().equals(position)){
-                    handler.post(() -> viewHolder.modIcon.setImageBitmap(icon));
+                if (viewHolder.icon.getTag().equals(position)){
+                    handler.post(() -> viewHolder.icon.setImageBitmap(icon));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -102,11 +104,11 @@ public class DownloadModListAdapter extends BaseAdapter {
         for (int i = 0;i < modList.get(position).getCategories().size();i++){
             //categories = categories + SearchTools.getCategoryFromID(context,modList.get(position).getCategories().get(i)) + "  ";
         }
-        viewHolder.modCategories.setText(categories);
-        viewHolder.modName.setText(ModTranslations.getDisplayName(modList.get(position).getTitle(),modList.get(position).getSlug()));
-        viewHolder.modIntroduction.setText(modList.get(position).getDescription());
-        viewHolder.modItem.setOnClickListener(view -> {
-            DownloadResourceUI downloadResourceUI = new DownloadResourceUI(context,activity,modList.get(position));
+        viewHolder.categories.setText(categories);
+        viewHolder.name.setText(isMod ? ModTranslations.getModBySlug(modList.get(position).getSlug()).getDisplayName() : modList.get(position).getTitle());
+        viewHolder.introduction.setText(modList.get(position).getDescription());
+        viewHolder.item.setOnClickListener(view -> {
+            DownloadResourceUI downloadResourceUI = new DownloadResourceUI(context,activity,modList.get(position),isMod);
             activity.uiManager.switchMainUI(downloadResourceUI);
         });
         return convertView;

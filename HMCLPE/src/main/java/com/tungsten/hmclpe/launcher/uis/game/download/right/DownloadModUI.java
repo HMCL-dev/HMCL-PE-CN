@@ -4,7 +4,6 @@ import static java.util.stream.Collectors.toList;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
@@ -22,14 +21,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.mod.curse.CurseModManager;
 import com.tungsten.hmclpe.launcher.mod.ModListBean;
 import com.tungsten.hmclpe.launcher.mod.SearchTools;
-import com.tungsten.hmclpe.launcher.list.download.mod.DownloadModListAdapter;
+import com.tungsten.hmclpe.launcher.list.download.DownloadResourceAdapter;
 import com.tungsten.hmclpe.launcher.view.spinner.SpinnerAdapter;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
@@ -64,12 +62,12 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
 
     private ListView modListView;
     private ArrayList<ModListBean.Mod> modList;
-    private DownloadModListAdapter modListAdapter;
+    private DownloadResourceAdapter modListAdapter;
     private ProgressBar progressBar;
     private boolean isSearching = false;
 
     public static String[] DEFAULT_GAME_VERSIONS = new String[]{
-            "1.18.1", "1.18",
+            "1.18.2", "1.18.1", "1.18",
             "1.17.1", "1.17",
             "1.16.5", "1.16.4", "1.16.3", "1.16.2", "1.16.1", "1.16",
             "1.15.2", "1.15.1", "1.15",
@@ -154,7 +152,7 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
 
         modListView = activity.findViewById(R.id.download_mod_list);
         modList = new ArrayList<>();
-        modListAdapter = new DownloadModListAdapter(context,activity,modList);
+        modListAdapter = new DownloadResourceAdapter(context,activity,modList,true);
         modListView.setAdapter(modListAdapter);
 
         progressBar = activity.findViewById(R.id.loading_download_mod_list_progress);
@@ -207,36 +205,32 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void search(){
         if (!isSearching){
-            new Thread() {
-                @Override
-                public void run() {
+            new Thread(() -> {
+                try {
+                    searchHandler.sendEmptyMessage(0);
+                    List<CurseModManager.Category> categories = new ArrayList<>();
                     try {
-                        searchHandler.sendEmptyMessage(0);
-                        List<CurseModManager.Category> categories = new ArrayList<>();
-                        try {
-                            categories = CurseModManager.getCategories(SearchTools.SECTION_MOD);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        Stream<ModListBean.Mod> stream = SearchTools.searchImpl(downloadSourceSpinner.getSelectedItem().toString(), editVersion.getText().toString(), ((CurseModManager.Category) typeSpinner.getSelectedItem()).getId(), SearchTools.SECTION_MOD, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), sortSpinner.getSelectedItemPosition());
-                        List<ModListBean.Mod> list = stream.collect(toList());
-                        modList.clear();
-                        modList.addAll(list);
-                        categoryList.clear();
-                        categoryList.add(new CurseModManager.Category(0, "All", "", "", 6, 6, 432, new ArrayList<>()));
-                        for (int i = 0;i < categories.size();i++){
-                            categoryList.add(categories.get(i));
-                            categoryList.addAll(categories.get(i).getSubcategories());
-                        }
-                        searchHandler.sendEmptyMessage(1);
-                    } catch (Exception e) {
+                        categories = CurseModManager.getCategories(SearchTools.SECTION_MOD);
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    Stream<ModListBean.Mod> stream = SearchTools.searchImpl(downloadSourceSpinner.getSelectedItem().toString(), editVersion.getText().toString(), ((CurseModManager.Category) typeSpinner.getSelectedItem()).getId(), SearchTools.SECTION_MOD, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), sortSpinner.getSelectedItemPosition());
+                    List<ModListBean.Mod> list = stream.collect(toList());
+                    modList.clear();
+                    modList.addAll(list);
+                    categoryList.clear();
+                    categoryList.add(new CurseModManager.Category(0, "All", "", "", 6, 6, 432, new ArrayList<>()));
+                    for (int i = 0;i < categories.size();i++){
+                        categoryList.add(categories.get(i));
+                        categoryList.addAll(categories.get(i).getSubcategories());
+                    }
+                    searchHandler.sendEmptyMessage(1);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            }.start();
+            }).start();
         }
         else {
 
