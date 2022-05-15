@@ -138,18 +138,6 @@ public final class ModTranslations {
         return true;
     }
 
-    public static Mod getModBySlug(String slug) {
-        Mod mod = null;
-        loadFromResource();
-        for (int i = 0;i < mods.size();i++) {
-            if (mods.get(i).getCurseforge().equals(slug)) {
-                mod = mods.get(i);
-                break;
-            }
-        }
-        return mod;
-    }
-
     public static class Mod {
         private final String curseforge;
         private final String mcmod;

@@ -25,7 +25,7 @@ public class BaseDownloadUI extends BaseUI {
     public BaseDownloadUI(Context context, MainActivity activity, ModListBean.Mod bean,boolean isMod) {
         super(context, activity);
         this.bean = bean;
-        this.modTranslation = ModTranslations.getModBySlug(bean.getSlug());
+        this.modTranslation = ModTranslations.getModByCurseForgeId(bean.getSlug());
         this.isMod = isMod;
         onCreate();
     }

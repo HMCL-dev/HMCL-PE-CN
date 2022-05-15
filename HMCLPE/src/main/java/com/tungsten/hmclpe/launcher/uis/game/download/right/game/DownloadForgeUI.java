@@ -139,15 +139,7 @@ public class DownloadForgeUI extends BaseUI implements View.OnClickListener {
     private static class ForgeCompareTool implements Comparator<ForgeVersion> {
         @Override
         public int compare(ForgeVersion versionPri, ForgeVersion versionSec) {
-            if(versionPri.getBuild() > versionSec.getBuild()) {
-                return -1;
-            }
-            else if(versionPri.getBuild() == versionSec.getBuild()) {
-                return 0;
-            }
-            else {
-                return 1;
-            }
+            return Integer.compare(versionSec.getBuild(), versionPri.getBuild());
         }
     }
 }

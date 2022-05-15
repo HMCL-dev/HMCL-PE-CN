@@ -22,7 +22,6 @@ import com.tungsten.hmclpe.launcher.list.download.ModDependencyAdapter;
 import com.tungsten.hmclpe.launcher.list.download.ModGameVersionAdapter;
 import com.tungsten.hmclpe.launcher.mod.ModInfo;
 import com.tungsten.hmclpe.launcher.mod.ModListBean;
-import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 import com.tungsten.hmclpe.utils.io.NetworkUtils;
 import com.tungsten.hmclpe.utils.string.StringUtils;
 
@@ -121,7 +120,7 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
             Uri uri;
             if (modTranslation == null || StringUtils.isBlank(modTranslation.getMcmod())) {
                 uri = Uri.parse(NetworkUtils.withQuery("https://search.mcmod.cn/s", mapOf(
-                        pair("key", modTranslation.getName()),
+                        pair("key", bean.getSlug()),
                         pair("site", "all"),
                         pair("filter", "0")
                 )));

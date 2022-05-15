@@ -81,7 +81,7 @@ public class ModVersionAdapter extends BaseAdapter {
         else {
             viewHolder.icon.setBackground(context.getDrawable(R.drawable.ic_outline_release_black));
         }
-        viewHolder.name.setText(list.get(i).getFile().getFilename());
+        viewHolder.name.setText(list.get(i).getName());
         viewHolder.type.setText(list.get(i).getVersionType() == ModListBean.VersionType.Release ? context.getString(R.string.download_resource_release) : context.getString(R.string.download_resource_beta));
         viewHolder.date.setText(FORMATTER.format(list.get(i).getDatePublished()));
         viewHolder.select.setOnClickListener(view1 -> {

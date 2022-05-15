@@ -101,7 +101,7 @@ public class ModDependencyAdapter extends BaseAdapter {
             //categories = categories + SearchTools.getCategoryFromID(context,modList.get(i).getCategories().get(j)) + "  ";
         }
         viewHolder.categories.setText(categories);
-        viewHolder.name.setText(ModTranslations.getModBySlug(list.get(i).getSlug()) == null ? list.get(i).getTitle() : ModTranslations.getModBySlug(list.get(i).getSlug()).getDisplayName());
+        viewHolder.name.setText(ModTranslations.getModByCurseForgeId(list.get(i).getSlug()) == null ? list.get(i).getTitle() : ModTranslations.getModByCurseForgeId(list.get(i).getSlug()).getDisplayName());
         viewHolder.introduction.setText(list.get(i).getDescription());
         viewHolder.item.setOnClickListener(view1 -> {
             DownloadResourceUI downloadResourceUI = new DownloadResourceUI(context,activity,list.get(i),true);

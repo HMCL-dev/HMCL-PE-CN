@@ -51,9 +51,10 @@ public class FabricAPIInstallTask extends AsyncTask<ModListBean.Version,Integer,
         else {
             path = PrivateGameSetting.getGameDir(activity.launcherSetting.gameFileDirectory,activity.launcherSetting.gameFileDirectory + "/versions/" + name,GsonUtils.getPrivateGameSettingFromFile(AppManifest.SETTING_DIR + "/private_game_setting.json").gameDirSetting);
         }
-        String modPath = path + "/mods/" + fabricAPIVersion.getFile().getFilename();
+        String fileName = "fabric-api-" + fabricAPIVersion.getVersion() + ".jar";
+        String modPath = path + "/mods/" + fileName;
         String url = fabricAPIVersion.getFile().getUrl();
-        DownloadTaskListBean bean = new DownloadTaskListBean(fabricAPIVersion.getFile().getFilename(), url, modPath,null);
+        DownloadTaskListBean bean = new DownloadTaskListBean(fileName, url, modPath,fabricAPIVersion.getFile().getHashes().get("sha1"));
         DownloadTask.DownloadFeedback feedback = new DownloadTask.DownloadFeedback() {
             @Override
             public void updateProgress(long curr, long max) {
@@ -85,7 +86,7 @@ public class FabricAPIInstallTask extends AsyncTask<ModListBean.Version,Integer,
                         if (!isCancelled()) adapter.onComplete(bean);
                     });
                     if (i == 4) {
-                        if (!isCancelled()) return new Exception("Failed to download " + fabricAPIVersion.getFile().getFilename());
+                        if (!isCancelled()) return new Exception("Failed to download " + fileName);
                     }
                 }
             }

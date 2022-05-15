@@ -2,6 +2,7 @@ package com.tungsten.hmclpe.launcher.mod;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,11 @@ public class ModInfo {
     }
 
     public List<ModListBean.Version> getVersionByGameVersion(String gameVersion){
-        return map.get(gameVersion);
+        List<ModListBean.Version> list = map.get(gameVersion);
+        if (list != null) {
+            list.sort(new ModVersionCompareTool());
+        }
+        return list;
     }
 
     public List<ModListBean.Mod> getDependencies(){
@@ -56,7 +61,7 @@ public class ModInfo {
                         }
                     }
                 }
-                else if (value1 < value2) {
+                else {
                     return 1;
                 }
             }
@@ -86,6 +91,13 @@ public class ModInfo {
             }
             list.add(version);
             map.put(s,list);
+        }
+    }
+
+    private static class ModVersionCompareTool implements Comparator<ModListBean.Version> {
+        @Override
+        public int compare(ModListBean.Version versionPri, ModListBean.Version versionSec) {
+            return Long.compare(versionSec.getDatePublished().toEpochMilli(), versionPri.getDatePublished().toEpochMilli());
         }
     }
 }

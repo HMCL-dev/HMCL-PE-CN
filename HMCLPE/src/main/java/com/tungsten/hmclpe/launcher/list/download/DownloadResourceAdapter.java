@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DownloadResourceAdapter extends BaseAdapter {
 
@@ -105,7 +106,7 @@ public class DownloadResourceAdapter extends BaseAdapter {
             //categories = categories + SearchTools.getCategoryFromID(context,modList.get(position).getCategories().get(i)) + "  ";
         }
         viewHolder.categories.setText(categories);
-        viewHolder.name.setText(isMod ? ModTranslations.getModBySlug(modList.get(position).getSlug()).getDisplayName() : modList.get(position).getTitle());
+        viewHolder.name.setText((isMod && ModTranslations.getModByCurseForgeId(modList.get(position).getSlug()) != null && Objects.requireNonNull(ModTranslations.getModByCurseForgeId(modList.get(position).getSlug())).getDisplayName() != null) ? Objects.requireNonNull(ModTranslations.getModByCurseForgeId(modList.get(position).getSlug())).getDisplayName() : modList.get(position).getTitle());
         viewHolder.introduction.setText(modList.get(position).getDescription());
         viewHolder.item.setOnClickListener(view -> {
             DownloadResourceUI downloadResourceUI = new DownloadResourceUI(context,activity,modList.get(position),isMod);

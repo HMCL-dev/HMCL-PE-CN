@@ -157,15 +157,7 @@ public class DownloadLiteLoaderUI extends BaseUI implements View.OnClickListener
         public int compare(LiteLoaderVersion versionPri, LiteLoaderVersion versionSec) {
             int timePri = Integer.parseInt(versionPri.getTimestamp());
             int timeSec = Integer.parseInt(versionSec.getTimestamp());
-            if(timePri > timeSec) {
-                return -1;
-            }
-            else if(timePri == timeSec) {
-                return 0;
-            }
-            else {
-                return 1;
-            }
+            return Integer.compare(timeSec, timePri);
         }
     }
 }
