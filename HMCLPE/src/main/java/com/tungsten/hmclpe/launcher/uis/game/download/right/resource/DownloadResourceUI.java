@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,6 +22,7 @@ import com.tungsten.hmclpe.launcher.list.download.ModDependencyAdapter;
 import com.tungsten.hmclpe.launcher.list.download.ModGameVersionAdapter;
 import com.tungsten.hmclpe.launcher.mod.ModInfo;
 import com.tungsten.hmclpe.launcher.mod.ModListBean;
+import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 import com.tungsten.hmclpe.utils.io.NetworkUtils;
 import com.tungsten.hmclpe.utils.string.StringUtils;
 
@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickListener {
 
@@ -159,28 +158,28 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
             try {
                 ModInfo modInfo = new ModInfo(bean);
                 if (modInfo.getDependencies().size() == 0) {
+                    modGameVersionAdapter = new ModGameVersionAdapter(context,modInfo,this);
                     activity.runOnUiThread(() -> {
                         dependencyLayout.setVisibility(View.GONE);
                         versionList.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
                         refreshText.setVisibility(View.GONE);
-                        modGameVersionAdapter = new ModGameVersionAdapter(context,modInfo);
                         versionList.setAdapter(modGameVersionAdapter);
-                        reSetListViewHeight(versionList);
+                        reSetListViewHeight(versionList,getVersionListHeight(versionList) - versionList.getLayoutParams().height);
                     });
                 }
                 else {
+                    modDependencyAdapter = new ModDependencyAdapter(context,activity,modInfo.getDependencies());
+                    modGameVersionAdapter = new ModGameVersionAdapter(context,modInfo,this);
                     activity.runOnUiThread(() -> {
                         dependencyLayout.setVisibility(View.VISIBLE);
                         versionList.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
                         refreshText.setVisibility(View.GONE);
-                        modDependencyAdapter = new ModDependencyAdapter(context,activity,modInfo.getDependencies());
                         dependencyList.setAdapter(modDependencyAdapter);
-                        modGameVersionAdapter = new ModGameVersionAdapter(context,modInfo);
                         versionList.setAdapter(modGameVersionAdapter);
-                        reSetListViewHeight(dependencyList);
-                        reSetListViewHeight(versionList);
+                        reSetListViewHeight(dependencyList,getDependencyListHeight(dependencyList) - dependencyList.getLayoutParams().height);
+                        reSetListViewHeight(versionList,getVersionListHeight(versionList) - versionList.getLayoutParams().height);
                     });
                 }
             } catch (Exception e) {
@@ -195,6 +194,24 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
         }).start();
     }
 
+    public void refreshVersionListHeight(int change) {
+        reSetListViewHeight(versionList,change);
+    }
+
+    public static int getVersionListHeight(ListView listView) {
+        int count = listView.getAdapter().getCount();
+        View view = listView.getAdapter().getView(0,null,listView);
+        view.measure(0, 0);
+        return (view.getMeasuredHeight() * count) + (listView.getDividerHeight() * (count - 1));
+    }
+
+    public static int getDependencyListHeight(ListView listView) {
+        int count = listView.getAdapter().getCount();
+        View view = listView.getAdapter().getView(0,null,listView);
+        view.measure(0, 0);
+        return (view.getMeasuredHeight() * count) + (listView.getDividerHeight() * (count - 1));
+    }
+
     public static String getMcmodUrl(String mcmodId) {
         return String.format("https://www.mcmod.cn/class/%s.html", mcmodId);
     }
@@ -203,22 +220,9 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
         return String.format("https://www.mcbbs.net/thread-%s-1-1.html", mcbbsId);
     }
 
-    public static void reSetListViewHeight(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            // pre-condition
-            return;
-        }
-
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
+    public static void reSetListViewHeight(ListView listView,int change) {
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        params.height += change;
         listView.setLayoutParams(params);
     }
 }

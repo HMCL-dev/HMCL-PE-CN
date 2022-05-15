@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.mod.ModInfo;
+import com.tungsten.hmclpe.launcher.uis.game.download.right.resource.DownloadResourceUI;
 import com.tungsten.hmclpe.utils.animation.HiddenAnimationUtils;
+import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class ModGameVersionAdapter extends BaseAdapter {
     private List<String> list;
     private ModInfo modInfo;
     private int[] layoutHeights;
+    private DownloadResourceUI ui;
 
     private class ViewHolder{
         LinearLayout item;
@@ -31,11 +34,12 @@ public class ModGameVersionAdapter extends BaseAdapter {
         ListView modListView;
     }
 
-    public ModGameVersionAdapter (Context context, ModInfo modInfo) {
+    public ModGameVersionAdapter (Context context, ModInfo modInfo, DownloadResourceUI ui) {
         this.context = context;
         this.list = modInfo.getAllSupportedGameVersion();
         this.modInfo = modInfo;
         this.layoutHeights = new int[list.size()];
+        this.ui = ui;
     }
 
     @Override
@@ -72,14 +76,18 @@ public class ModGameVersionAdapter extends BaseAdapter {
         viewHolder.name.setText(list.get(i));
         ModVersionAdapter modVersionAdapter = new ModVersionAdapter(context,modInfo.getVersionByGameVersion(list.get(i)));
         viewHolder.modListView.setAdapter(modVersionAdapter);
-        viewHolder.modListView.post(() -> {
-            layoutHeights[i] = viewHolder.modListLayout.getHeight();
-            viewHolder.modListLayout.setVisibility(View.GONE);
-        });
+        layoutHeights[i] = getListViewHeight(viewHolder.modListView) + ConvertUtils.dip2px(context,24);
         viewHolder.item.setOnClickListener(view1 -> {
+            ui.refreshVersionListHeight(viewHolder.modListLayout.getVisibility() == View.VISIBLE ? -layoutHeights[i] : layoutHeights[i]);
             HiddenAnimationUtils.newInstance(context,viewHolder.modListLayout,viewHolder.show,layoutHeights[i]).toggle();
         });
         return view;
     }
 
+    public static int getListViewHeight(ListView listView) {
+        int count = listView.getAdapter().getCount();
+        View view = listView.getAdapter().getView(0,null,listView);
+        view.measure(0, 0);
+        return (view.getMeasuredHeight() * count) + (listView.getDividerHeight() * (count - 1));
+    }
 }

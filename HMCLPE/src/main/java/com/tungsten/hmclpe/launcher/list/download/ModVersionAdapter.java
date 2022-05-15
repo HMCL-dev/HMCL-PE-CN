@@ -14,7 +14,11 @@ import android.widget.TextView;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.mod.ModListBean;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.List;
+import java.util.Locale;
 
 public class ModVersionAdapter extends BaseAdapter {
 
@@ -79,7 +83,7 @@ public class ModVersionAdapter extends BaseAdapter {
         }
         viewHolder.name.setText(list.get(i).getFile().getFilename());
         viewHolder.type.setText(list.get(i).getVersionType() == ModListBean.VersionType.Release ? context.getString(R.string.download_resource_release) : context.getString(R.string.download_resource_beta));
-        viewHolder.date.setText(list.get(i).getDatePublished().toString());
+        viewHolder.date.setText(FORMATTER.format(list.get(i).getDatePublished()));
         viewHolder.select.setOnClickListener(view1 -> {
 
         });
@@ -88,5 +92,7 @@ public class ModVersionAdapter extends BaseAdapter {
         });
         return view;
     }
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL).withLocale(Locale.getDefault()).withZone(ZoneId.systemDefault());
 
 }

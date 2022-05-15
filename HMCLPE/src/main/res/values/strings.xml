@@ -285,9 +285,7 @@
     <string name="download_minecraft_ui_old">远古版</string>
     <string name="download_minecraft_ui_refresh">刷新</string>
 
-    <string name="download_minecraft_item_year">年</string>
-    <string name="download_minecraft_item_month">月</string>
-    <string name="download_minecraft_item_day">日</string>
+    <string name="time_pattern">yyyy 年 MM 月 dd 日 HH:mm:ss</string>
 
     <string name="install_game_ui_title">安装新游戏版本 - 安装新游戏版本</string>
     <string name="install_game_ui_name">名称</string>

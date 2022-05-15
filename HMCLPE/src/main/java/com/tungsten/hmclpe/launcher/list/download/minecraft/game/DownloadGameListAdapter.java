@@ -14,8 +14,9 @@ import android.widget.TextView;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.game.VersionManifest;
-import com.tungsten.hmclpe.utils.string.StringUtils;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class DownloadGameListAdapter extends BaseAdapter {
@@ -42,16 +43,6 @@ public class DownloadGameListAdapter extends BaseAdapter {
         else {
             return context.getString(R.string.download_minecraft_ui_old);
         }
-    }
-
-    private String getReleaseTime(String time){
-        int p1 = time.indexOf("-",0);
-        String str1 = StringUtils.substringBefore(time,"-") + " " + context.getString(R.string.download_minecraft_item_year) + " " + time.substring(p1 + 1);
-        int p2 = str1.indexOf("-",0);
-        String str2 = StringUtils.substringBefore(str1,"-") + " " + context.getString(R.string.download_minecraft_item_month) + " " + str1.substring(p2 + 1);
-        int p3 = str2.indexOf("T",0);
-        String str3 = StringUtils.substringBefore(str2,"T") + " " + context.getString(R.string.download_minecraft_item_day) + " " + str2.substring(p3 + 1);
-        return StringUtils.substringBefore(str3,"+");
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -109,19 +100,16 @@ public class DownloadGameListAdapter extends BaseAdapter {
         viewHolder.icon.setImageDrawable(getIcon(version.type));
         viewHolder.mcId.setText(version.id);
         viewHolder.type.setText(getType(version.type));
-        viewHolder.releaseTime.setText(getReleaseTime(version.releaseTime));
-        viewHolder.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activity.uiManager.installGameUI.name = version.id;
-                activity.uiManager.installGameUI.fabricVersion = null;
-                activity.uiManager.installGameUI.fabricAPIVersion = null;
-                activity.uiManager.installGameUI.forgeVersion = null;
-                activity.uiManager.installGameUI.optifineVersion = null;
-                activity.uiManager.installGameUI.liteLoaderVersion = null;
-                activity.uiManager.installGameUI.version = version;
-                activity.uiManager.switchMainUI(activity.uiManager.installGameUI);
-            }
+        viewHolder.releaseTime.setText(DateTimeFormatter.ofPattern(context.getString(R.string.time_pattern)).withZone(ZoneId.systemDefault()).format(version.releaseTime.toInstant()));
+        viewHolder.item.setOnClickListener(v -> {
+            activity.uiManager.installGameUI.name = version.id;
+            activity.uiManager.installGameUI.fabricVersion = null;
+            activity.uiManager.installGameUI.fabricAPIVersion = null;
+            activity.uiManager.installGameUI.forgeVersion = null;
+            activity.uiManager.installGameUI.optifineVersion = null;
+            activity.uiManager.installGameUI.liteLoaderVersion = null;
+            activity.uiManager.installGameUI.version = version;
+            activity.uiManager.switchMainUI(activity.uiManager.installGameUI);
         });
         return convertView;
     }

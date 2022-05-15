@@ -14,8 +14,9 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.GameUpdateDialog;
 import com.tungsten.hmclpe.launcher.mod.ModListBean;
-import com.tungsten.hmclpe.utils.string.StringUtils;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class DownloadFabricAPIListAdapter extends BaseAdapter {
@@ -40,16 +41,6 @@ public class DownloadFabricAPIListAdapter extends BaseAdapter {
         TextView fabricAPIId;
         TextView mcVersion;
         TextView time;
-    }
-
-    private String getReleaseTime(String time){
-        int p1 = time.indexOf("-",0);
-        String str1 = StringUtils.substringBefore(time,"-") + " " + context.getString(R.string.download_minecraft_item_year) + " " + time.substring(p1 + 1);
-        int p2 = str1.indexOf("-",0);
-        String str2 = StringUtils.substringBefore(str1,"-") + " " + context.getString(R.string.download_minecraft_item_month) + " " + str1.substring(p2 + 1);
-        int p3 = str2.indexOf("T",0);
-        String str3 = StringUtils.substringBefore(str2,"T") + " " + context.getString(R.string.download_minecraft_item_day) + " " + str2.substring(p3 + 1);
-        return StringUtils.substringBefore(str3,".");
     }
 
     @Override
@@ -88,7 +79,7 @@ public class DownloadFabricAPIListAdapter extends BaseAdapter {
         viewHolder.icon.setImageDrawable(context.getDrawable(R.drawable.ic_fabric));
         viewHolder.fabricAPIId.setText(version.getVersion());
         viewHolder.mcVersion.setText(mcVersion);
-        viewHolder.time.setText(getReleaseTime(version.getDatePublished().toString()));
+        viewHolder.time.setText(DateTimeFormatter.ofPattern(context.getString(R.string.time_pattern)).withZone(ZoneId.systemDefault()).format(version.getDatePublished()));
         viewHolder.item.setOnClickListener(v -> {
             if (install) {
                 GameUpdateDialog dialog = new GameUpdateDialog(context,activity,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.versionName,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.gameVersion,4,version);

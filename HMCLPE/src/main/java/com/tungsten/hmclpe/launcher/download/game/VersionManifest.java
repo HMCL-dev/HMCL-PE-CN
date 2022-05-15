@@ -1,5 +1,7 @@
 package com.tungsten.hmclpe.launcher.download.game;
 
+import java.util.Date;
+
 public class VersionManifest {
 
     public LatestVersion latest;
@@ -24,10 +26,10 @@ public class VersionManifest {
         public String id;
         public String type;
         public String url;
-        public String time;
-        public String releaseTime;
+        public Date time;
+        public Date releaseTime;
 
-        public Version(String id, String type, String url, String time, String releaseTime){
+        public Version(String id, String type, String url, Date time, Date releaseTime){
             this.id = id;
             this.type = type;
             this.url = url;
