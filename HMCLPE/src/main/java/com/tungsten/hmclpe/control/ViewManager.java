@@ -166,6 +166,14 @@ public class ViewManager implements SensorEventListener {
         baseRockerView.updateSizeAndPosition(baseRockerViewInfo);
     }
 
+    public void refreshViews() {
+        for (int i = 0;i < layoutPanel.getChildCount();i++) {
+            if (layoutPanel.getChildAt(i) instanceof BaseButton){
+                ((BaseButton) layoutPanel.getChildAt(i)).refresh();
+            }
+        }
+    }
+
     public void refreshLayout (String pattern,String child,boolean editMode) {
         ArrayList<View> views = new ArrayList<>();
         for (int i = 0;i < layoutPanel.getChildCount();i++) {

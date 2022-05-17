@@ -369,6 +369,9 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         }
         if (compoundButton == showOutlineSwitch) {
             showOutline = b;
+            if (viewManager != null) {
+                viewManager.refreshViews();
+            }
         }
     }
 

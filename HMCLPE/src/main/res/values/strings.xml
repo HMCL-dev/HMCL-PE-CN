@@ -873,4 +873,12 @@
     <string name="drawer_custom_menu_view">添加控件</string>
     <string name="drawer_custom_menu_add_view">添加</string>
     <string name="drawer_custom_menu_warn">你需要先创建或选择一个子布局</string>
+
+    <string name="ui_about_hmclpe_main" translatable="false">Hello Minecraft! Launcher : Pocket Edition</string>
+    <string name="ui_about_hmclpe_sub" translatable="false">1.0.0</string>
+    <string name="ui_about_tungsten_main" translatable="false">Tungsten</string>
+    <string name="ui_about_tungsten_sub" translatable="false">B 站 ID：@念小六</string>
+    <string name="ui_about_shirosakimio_main" translatable="false">ShirosakiMio</string>
+    <string name="ui_about_shirosakimio_sub" translatable="false">B 站 ID：@ShirosakiMio</string>
+
 </resources>

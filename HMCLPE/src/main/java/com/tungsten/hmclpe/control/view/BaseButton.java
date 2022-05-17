@@ -114,7 +114,6 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
             outlinePath.lineTo(0,0);
             canvas.drawPath(outlinePath,outlinePaint);
         }
-        invalidate();
     }
 
     @Override
@@ -553,6 +552,10 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
         else {
             setVisibility(INVISIBLE);
         }
+    }
+
+    public void refresh() {
+        invalidate();
     }
 
     public void refreshStyle (BaseButtonInfo info) {
