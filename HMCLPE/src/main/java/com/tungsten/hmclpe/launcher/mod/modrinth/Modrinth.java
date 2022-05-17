@@ -12,7 +12,6 @@ import static com.tungsten.hmclpe.utils.Lang.mapOf;
 import static com.tungsten.hmclpe.utils.Pair.pair;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -20,11 +19,31 @@ public final class Modrinth {
     private Modrinth() {
     }
 
-    public static List<ModResult> searchPaginated(String gameVersion, int pageOffset, String searchFilter) throws IOException {
+    private static String convertSortType(int sortType) {
+        switch (sortType) {
+            case 0:
+            case 6:
+            case 7:
+                return "newest";
+            case 1:
+            case 2:
+            case 3:
+                return "relevance";
+            case 4:
+                return "updated";
+            case 5:
+                return "downloads";
+            default:
+                throw new IllegalArgumentException("Unsupported sort type " + sortType);
+        }
+    }
+
+    public static List<ModResult> searchPaginated(String gameVersion, int pageOffset, String searchFilter,int sort) throws IOException {
         Map<String, String> query = mapOf(
                 pair("query", searchFilter),
                 pair("offset", Integer.toString(pageOffset)),
-                pair("limit", "50")
+                pair("limit", "50"),
+                pair("index", convertSortType(sort))
         );
         if (StringUtils.isNotBlank(gameVersion)) {
             query.put("version", "versions=" + gameVersion);
@@ -68,9 +87,9 @@ public final class Modrinth {
 
         private final String description;
 
-        private final Instant published;
+        private final Date published;
 
-        private final Instant updated;
+        private final Date updated;
 
         private final List<String> categories;
 
@@ -81,7 +100,7 @@ public final class Modrinth {
         @SerializedName("icon_url")
         private final String iconUrl;
 
-        public Mod(String id, String slug, String team, String title, String description, Instant published, Instant updated, List<String> categories, List<String> versions, int downloads, String iconUrl) {
+        public Mod(String id, String slug, String team, String title, String description, Date published, Date updated, List<String> categories, List<String> versions, int downloads, String iconUrl) {
             this.id = id;
             this.slug = slug;
             this.team = team;
@@ -115,11 +134,11 @@ public final class Modrinth {
             return description;
         }
 
-        public Instant getPublished() {
+        public Date getPublished() {
             return published;
         }
 
-        public Instant getUpdated() {
+        public Date getUpdated() {
             return updated;
         }
 
@@ -157,7 +176,7 @@ public final class Modrinth {
         private final String changelog;
 
         @SerializedName("date_published")
-        private final Instant datePublished;
+        private final Date datePublished;
 
         private final int downloads;
 
@@ -173,7 +192,7 @@ public final class Modrinth {
 
         private final List<String> loaders;
 
-        public ModVersion(String id, String modId, String authorId, String name, String versionNumber, String changelog, Instant datePublished, int downloads, String versionType, List<ModVersionFile> files, List<String> dependencies, List<String> gameVersions, List<String> loaders) {
+        public ModVersion(String id, String modId, String authorId, String name, String versionNumber, String changelog, Date datePublished, int downloads, String versionType, List<ModVersionFile> files, List<String> dependencies, List<String> gameVersions, List<String> loaders) {
             this.id = id;
             this.modId = modId;
             this.authorId = authorId;
@@ -213,7 +232,7 @@ public final class Modrinth {
             return changelog;
         }
 
-        public Instant getDatePublished() {
+        public Date getDatePublished() {
             return datePublished;
         }
 
@@ -262,7 +281,7 @@ public final class Modrinth {
                     name,
                     versionNumber,
                     changelog,
-                    datePublished,
+                    datePublished.toInstant(),
                     type,
                     files.get(0).toFile(),
                     dependencies,
@@ -328,15 +347,15 @@ public final class Modrinth {
         private final String authorUrl;
 
         @SerializedName("date_created")
-        private final Instant dateCreated;
+        private final Date dateCreated;
 
         @SerializedName("date_modified")
-        private final Instant dateModified;
+        private final Date dateModified;
 
         @SerializedName("latest_version")
         private final String latestVersion;
 
-        public ModResult(String modId, String slug, String author, String title, String description, List<String> categories, List<String> versions, int downloads, String pageUrl, String iconUrl, String authorUrl, Instant dateCreated, Instant dateModified, String latestVersion) {
+        public ModResult(String modId, String slug, String author, String title, String description, List<String> categories, List<String> versions, int downloads, String pageUrl, String iconUrl, String authorUrl, Date dateCreated, Date dateModified, String latestVersion) {
             this.modId = modId;
             this.slug = slug;
             this.author = author;
@@ -397,11 +416,11 @@ public final class Modrinth {
             return authorUrl;
         }
 
-        public Instant getDateCreated() {
+        public Date getDateCreated() {
             return dateCreated;
         }
 
-        public Instant getDateModified() {
+        public Date getDateModified() {
             return dateModified;
         }
 

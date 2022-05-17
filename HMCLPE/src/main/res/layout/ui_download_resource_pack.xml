@@ -248,6 +248,17 @@
             android:indeterminate="true"
             android:id="@+id/loading_download_resource_pack_list_progress"/>
 
+        <TextView
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/colorLinkBlue"
+            android:textSize="22sp"
+            android:text="@string/download_list_load_fail"
+            android:id="@+id/refresh_resource_pack_list"/>
+
     </RelativeLayout>
 
 </LinearLayout>

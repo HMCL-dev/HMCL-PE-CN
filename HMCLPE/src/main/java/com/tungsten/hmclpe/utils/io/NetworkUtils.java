@@ -13,10 +13,6 @@ import java.util.Map.Entry;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import com.tungsten.hmclpe.utils.Pair;
 
 /**
@@ -130,7 +126,6 @@ public final class NetworkUtils {
      * @return manually redirected http connection.
      * @throws IOException if an I/O error occurs.
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static HttpURLConnection resolveConnection(HttpURLConnection conn) throws IOException {
         int redirect = 0;
         while (true) {
@@ -164,9 +159,15 @@ public final class NetworkUtils {
         return conn;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static String doGet(URL url) throws IOException {
         HttpURLConnection con = createHttpConnection(url);
+        con = resolveConnection(con);
+        return IOUtils.readFullyAsString(con.getInputStream(), StandardCharsets.UTF_8);
+    }
+
+    public static String doGetCF(URL url) throws IOException {
+        HttpURLConnection con = createHttpConnection(url);
+        con.setRequestProperty("x-api-key","$2a$10$qqJ3zZFG5CDsVHk8eV5ft.2ywg2edBtHwS3gzFnw7CDe3X2cKpWZG");
         con = resolveConnection(con);
         return IOUtils.readFullyAsString(con.getInputStream(), StandardCharsets.UTF_8);
     }
@@ -213,7 +214,6 @@ public final class NetworkUtils {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static String detectFileName(URL url) throws IOException {
         HttpURLConnection conn = resolveConnection(createHttpConnection(url));
         int code = conn.getResponseCode();
@@ -252,7 +252,6 @@ public final class NetworkUtils {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static boolean urlExists(URL url) throws IOException {
         HttpURLConnection con = createHttpConnection(url);
         con = resolveConnection(con);

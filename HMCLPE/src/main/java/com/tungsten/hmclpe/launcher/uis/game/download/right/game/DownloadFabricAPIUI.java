@@ -25,7 +25,6 @@ import com.tungsten.hmclpe.launcher.list.download.minecraft.fabric.DownloadFabri
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -41,6 +40,7 @@ public class DownloadFabricAPIUI extends BaseUI implements View.OnClickListener 
 
     private ListView fabricAPIListView;
     private ProgressBar progressBar;
+    private TextView refreshText;
     private TextView back;
 
     private static final String FABRIC_API_ID = "P7dR8mSH";
@@ -59,8 +59,10 @@ public class DownloadFabricAPIUI extends BaseUI implements View.OnClickListener 
 
         fabricAPIListView = activity.findViewById(R.id.fabric_api_version_list);
         progressBar = activity.findViewById(R.id.loading_fabric_api_list_progress);
+        refreshText = activity.findViewById(R.id.refresh_fabric_api_list);
         back = activity.findViewById(R.id.back_to_install_ui_fabric_api);
 
+        refreshText.setOnClickListener(this);
         back.setOnClickListener(this);
     }
 
@@ -87,6 +89,10 @@ public class DownloadFabricAPIUI extends BaseUI implements View.OnClickListener 
             AlertDialog dialog = builder.create();
             dialog.show();
         }
+        refresh();
+    }
+
+    private void refresh() {
         new Thread(() -> {
             loadingHandler.sendEmptyMessage(0);
             ArrayList<ModListBean.Version> apiVersions = new ArrayList<>();
@@ -110,7 +116,8 @@ public class DownloadFabricAPIUI extends BaseUI implements View.OnClickListener 
                 else {
                     loadingHandler.sendEmptyMessage(2);
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
+                loadingHandler.sendEmptyMessage(3);
                 e.printStackTrace();
             }
         }).start();
@@ -122,6 +129,9 @@ public class DownloadFabricAPIUI extends BaseUI implements View.OnClickListener 
             Uri uri = Uri.parse("https://afdian.net/@bangbang93");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             context.startActivity(intent);
+        }
+        if (view == refreshText) {
+            refresh();
         }
         if (view == back){
             activity.backToLastUI();
@@ -136,17 +146,26 @@ public class DownloadFabricAPIUI extends BaseUI implements View.OnClickListener 
             if (msg.what == 0){
                 fabricAPIListView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
+                refreshText.setVisibility(View.GONE);
                 back.setVisibility(View.GONE);
             }
             if (msg.what == 1){
                 fabricAPIListView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
+                refreshText.setVisibility(View.GONE);
                 back.setVisibility(View.GONE);
             }
             if (msg.what == 2){
                 fabricAPIListView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
+                refreshText.setVisibility(View.GONE);
                 back.setVisibility(View.VISIBLE);
+            }
+            if (msg.what == 3){
+                fabricAPIListView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
+                refreshText.setVisibility(View.VISIBLE);
+                back.setVisibility(View.GONE);
             }
         }
     };

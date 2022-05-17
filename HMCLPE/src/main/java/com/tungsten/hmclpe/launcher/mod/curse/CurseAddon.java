@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -15,7 +16,7 @@ public class CurseAddon implements ModListBean.IMod {
     private final int id;
     private final String name;
     private final List<Author> authors;
-    private final List<Attachment> attachments;
+    private final Logo logo;
     private final String websiteUrl;
     private final int gameId;
     private final String summary;
@@ -34,11 +35,11 @@ public class CurseAddon implements ModListBean.IMod {
     private final boolean isAvailable;
     private final boolean isExperimental;
 
-    public CurseAddon(int id, String name, List<Author> authors, List<Attachment> attachments, String websiteUrl, int gameId, String summary, int defaultFileId, List<LatestFile> latestFiles, List<Category> categories, int status, int primaryCategoryId, String slug, List<GameVersionLatestFile> gameVersionLatestFiles, boolean isFeatured, double popularityScore, int gamePopularityRank, String primaryLanguage, List<String> modLoaders, boolean isAvailable, boolean isExperimental) {
+    public CurseAddon(int id, String name, List<Author> authors, Logo logo, String websiteUrl, int gameId, String summary, int defaultFileId, List<LatestFile> latestFiles, List<Category> categories, int status, int primaryCategoryId, String slug, List<GameVersionLatestFile> gameVersionLatestFiles, boolean isFeatured, double popularityScore, int gamePopularityRank, String primaryLanguage, List<String> modLoaders, boolean isAvailable, boolean isExperimental) {
         this.id = id;
         this.name = name;
         this.authors = authors;
-        this.attachments = attachments;
+        this.logo = logo;
         this.websiteUrl = websiteUrl;
         this.gameId = gameId;
         this.summary = summary;
@@ -70,8 +71,8 @@ public class CurseAddon implements ModListBean.IMod {
         return authors;
     }
 
-    public List<Attachment> getAttachments() {
-        return attachments;
+    public Logo getLogo() {
+        return logo;
     }
 
     public String getWebsiteUrl() {
@@ -146,8 +147,8 @@ public class CurseAddon implements ModListBean.IMod {
     public List<ModListBean.Mod> loadDependencies() throws IOException {
         Set<Integer> dependencies = latestFiles.stream()
                 .flatMap(latestFile -> latestFile.getDependencies().stream())
-                .filter(dep -> dep.getType() == 3)
-                .map(Dependency::getAddonId)
+                .filter(dep -> dep.getRelationType() == 3)
+                .map(Dependency::getModId)
                 .collect(Collectors.toSet());
         List<ModListBean.Mod> mods = new ArrayList<>();
         for (int dependencyId : dependencies) {
@@ -163,12 +164,7 @@ public class CurseAddon implements ModListBean.IMod {
     }
 
     public ModListBean.Mod toMod() {
-        String iconUrl = null;
-        for (CurseAddon.Attachment attachment : attachments) {
-            if (attachment.isDefault()) {
-                iconUrl = attachment.getThumbnailUrl();
-            }
-        }
+        String iconUrl = logo.getThumbnailUrl();
 
         return new ModListBean.Mod(
                 slug,
@@ -224,41 +220,37 @@ public class CurseAddon implements ModListBean.IMod {
         }
     }
 
-    public static class Attachment {
+    public static class Logo {
         private final int id;
-        private final int projectId;
-        private final String description;
-        private final boolean isDefault;
-        private final String thumbnailUrl;
+        private final int modId;
         private final String title;
+        private final String description;
+        private final String thumbnailUrl;
         private final String url;
-        private final int status;
 
-        public Attachment(int id, int projectId, String description, boolean isDefault, String thumbnailUrl, String title, String url, int status) {
+        public Logo () {
+            this(0,0,"","","","");
+        }
+
+        public Logo (int id,int modId,String title,String description,String thumbnailUrl,String url) {
             this.id = id;
-            this.projectId = projectId;
-            this.description = description;
-            this.isDefault = isDefault;
-            this.thumbnailUrl = thumbnailUrl;
+            this.modId = modId;
             this.title = title;
+            this.description = description;
+            this.thumbnailUrl = thumbnailUrl;
             this.url = url;
-            this.status = status;
         }
 
         public int getId() {
             return id;
         }
 
-        public int getProjectId() {
-            return projectId;
+        public int getModId() {
+            return modId;
         }
 
         public String getDescription() {
             return description;
-        }
-
-        public boolean isDefault() {
-            return isDefault;
         }
 
         public String getThumbnailUrl() {
@@ -272,43 +264,67 @@ public class CurseAddon implements ModListBean.IMod {
         public String getUrl() {
             return url;
         }
-
-        public int getStatus() {
-            return status;
-        }
     }
 
     public static class Dependency {
-        private final int id;
-        private final int addonId;
-        private final int type;
-        private final int fileId;
+        private final int modId;
+        private final int relationType;
 
         public Dependency() {
-            this(0, 0, 0, 0);
+            this(0, 1);
         }
 
-        public Dependency(int id, int addonId, int type, int fileId) {
-            this.id = id;
-            this.addonId = addonId;
-            this.type = type;
-            this.fileId = fileId;
+        public Dependency(int modId, int relationType) {
+            this.modId = modId;
+            this.relationType = relationType;
         }
 
-        public int getId() {
-            return id;
+        public int getModId() {
+            return modId;
         }
 
-        public int getAddonId() {
-            return addonId;
+        public int getRelationType() {
+            return relationType;
+        }
+    }
+
+    public static class SortableGameVersions {
+        private final String gameVersionName;
+        private final String gameVersionPadded;
+        private final String gameVersion;
+        private final Instant gameVersionReleaseDate;
+        private final int gameVersionTypeId;
+
+        public SortableGameVersions () {
+            this("","","",null,0);
         }
 
-        public int getType() {
-            return type;
+        public SortableGameVersions (String gameVersionName,String gameVersionPadded,String gameVersion,Instant gameVersionReleaseDate,int gameVersionTypeId) {
+            this.gameVersionName = gameVersionName;
+            this.gameVersionPadded = gameVersionPadded;
+            this.gameVersion = gameVersion;
+            this.gameVersionReleaseDate = gameVersionReleaseDate;
+            this.gameVersionTypeId = gameVersionTypeId;
         }
 
-        public int getFileId() {
-            return fileId;
+        public String getGameVersionName() {
+            return gameVersionName;
+        }
+
+        public String getGameVersionPadded() {
+            return gameVersionPadded;
+        }
+
+        public String getGameVersion() {
+            return gameVersion;
+        }
+
+        public Instant getGameVersionReleaseDate() {
+            return gameVersionReleaseDate;
+        }
+
+        public int getGameVersionTypeId() {
+            return gameVersionTypeId;
         }
     }
 
@@ -325,7 +341,8 @@ public class CurseAddon implements ModListBean.IMod {
         private final int alternateFileId;
         private final List<Dependency> dependencies;
         private final boolean isAvailable;
-        private final List<String> gameVersion;
+        private final List<String> gameVersions;
+        private final List<SortableGameVersions> sortableGameVersions;
         private final boolean hasInstallScript;
         private final boolean isCompatibleWIthClient;
         private final int categorySectionPackageType;
@@ -337,7 +354,7 @@ public class CurseAddon implements ModListBean.IMod {
 
         private transient Instant fileDataInstant;
 
-        public LatestFile(int id, String displayName, String fileName, String fileDate, int fileLength, int releaseType, int fileStatus, String downloadUrl, boolean isAlternate, int alternateFileId, List<Dependency> dependencies, boolean isAvailable, List<String> gameVersion, boolean hasInstallScript, boolean isCompatibleWIthClient, int categorySectionPackageType, int restrictProjectFileAccess, int projectStatus, int projectId, boolean isServerPack, int serverPackFileId) {
+        public LatestFile(int id, String displayName, String fileName, String fileDate, int fileLength, int releaseType, int fileStatus, String downloadUrl, boolean isAlternate, int alternateFileId, List<Dependency> dependencies, boolean isAvailable, List<String> gameVersions, List<SortableGameVersions> sortableGameVersions, boolean hasInstallScript, boolean isCompatibleWIthClient, int categorySectionPackageType, int restrictProjectFileAccess, int projectStatus, int projectId, boolean isServerPack, int serverPackFileId) {
             this.id = id;
             this.displayName = displayName;
             this.fileName = fileName;
@@ -350,7 +367,8 @@ public class CurseAddon implements ModListBean.IMod {
             this.alternateFileId = alternateFileId;
             this.dependencies = dependencies;
             this.isAvailable = isAvailable;
-            this.gameVersion = gameVersion;
+            this.gameVersions = gameVersions;
+            this.sortableGameVersions = sortableGameVersions;
             this.hasInstallScript = hasInstallScript;
             this.isCompatibleWIthClient = isCompatibleWIthClient;
             this.categorySectionPackageType = categorySectionPackageType;
@@ -409,8 +427,8 @@ public class CurseAddon implements ModListBean.IMod {
             return isAvailable;
         }
 
-        public List<String> getGameVersion() {
-            return gameVersion;
+        public List<String> getGameVersions() {
+            return gameVersions;
         }
 
         public boolean isHasInstallScript() {
@@ -455,9 +473,6 @@ public class CurseAddon implements ModListBean.IMod {
         public ModListBean.Version toVersion() {
             ModListBean.VersionType versionType;
             switch (getReleaseType()) {
-                case 1:
-                    versionType = ModListBean.VersionType.Release;
-                    break;
                 case 2:
                     versionType = ModListBean.VersionType.Beta;
                     break;
@@ -469,6 +484,13 @@ public class CurseAddon implements ModListBean.IMod {
                     break;
             }
 
+            List<String> sortableVersions = new ArrayList<>();
+            for (SortableGameVersions versions : sortableGameVersions) {
+                if (versions.gameVersionName.startsWith("1.") || versions.gameVersionName.contains("w")) {
+                    sortableVersions.add(versions.gameVersionName);
+                }
+            }
+
             return new ModListBean.Version(
                     this,
                     getDisplayName(),
@@ -478,7 +500,7 @@ public class CurseAddon implements ModListBean.IMod {
                     versionType,
                     new ModListBean.File(Collections.emptyMap(), getDownloadUrl(), getFileName()),
                     Collections.emptyList(),
-                    gameVersion.stream().filter(ver -> ver.startsWith("1.") || ver.contains("w")).collect(Collectors.toList()),
+                    sortableVersions,
                     Collections.emptyList()
             );
         }

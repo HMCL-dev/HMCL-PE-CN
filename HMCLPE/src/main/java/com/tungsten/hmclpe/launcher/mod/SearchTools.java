@@ -48,7 +48,7 @@ public class SearchTools {
 
     public static Stream<ModListBean.Mod> search(String source, String gameVersion, int category, int section, int pageOffset, String searchFilter, int sort) throws Exception {
         if (source.equals("Modrinth")) {
-            return Modrinth.searchPaginated(gameVersion, pageOffset, searchFilter).stream().map(Modrinth.ModResult::toMod);
+            return Modrinth.searchPaginated(gameVersion, pageOffset, searchFilter,sort).stream().map(Modrinth.ModResult::toMod);
         }
         else {
             return CurseModManager.searchPaginated(gameVersion, category, section, pageOffset, searchFilter, sort).stream().map(CurseAddon::toMod);

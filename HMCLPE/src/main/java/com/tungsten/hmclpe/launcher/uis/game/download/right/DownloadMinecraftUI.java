@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
@@ -81,7 +79,6 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
         mcList = activity.findViewById(R.id.download_minecraft_version_list);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public void onStart() {
@@ -125,12 +122,7 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
                     allList.add(versions);
                 }
                 DownloadGameListAdapter downloadGameListAdapter = new DownloadGameListAdapter(context,activity,list);
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mcList.setAdapter(downloadGameListAdapter);
-                    }
-                });
+                activity.runOnUiThread(() -> mcList.setAdapter(downloadGameListAdapter));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -173,7 +165,6 @@ public class DownloadMinecraftUI extends BaseUI implements View.OnClickListener,
         activity.uiManager.downloadUI.startDownloadGameUI.setBackground(context.getResources().getDrawable(R.drawable.launcher_button_white));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         refresh();

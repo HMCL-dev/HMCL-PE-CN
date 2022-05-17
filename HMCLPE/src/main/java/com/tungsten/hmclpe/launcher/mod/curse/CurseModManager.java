@@ -3,7 +3,6 @@ package com.tungsten.hmclpe.launcher.mod.curse;
 import static com.tungsten.hmclpe.utils.Lang.mapOf;
 import static com.tungsten.hmclpe.utils.Pair.pair;
 
-import com.google.gson.reflect.TypeToken;
 import com.tungsten.hmclpe.utils.gson.JsonUtils;
 import com.tungsten.hmclpe.utils.io.NetworkUtils;
 
@@ -16,35 +15,40 @@ public final class CurseModManager {
     }
 
     public static List<CurseAddon> searchPaginated(String gameVersion, int category, int section, int pageOffset, String searchFilter, int sort) throws IOException {
-        String response = NetworkUtils.doGet(new URL(NetworkUtils.withQuery("https://addons-ecs.forgesvc.net/api/v2/addon/search", mapOf(
+        String response = NetworkUtils.doGetCF(new URL(NetworkUtils.withQuery("https://api.curseforge.com/v1/mods/search", mapOf(
                 pair("categoryId", Integer.toString(category)),
                 pair("gameId", "432"),
                 pair("gameVersion", gameVersion),
                 pair("index", Integer.toString(pageOffset)),
                 pair("pageSize", "50"),
                 pair("searchFilter", searchFilter),
-                pair("sectionId", Integer.toString(section)),
-                pair("sort", Integer.toString(sort))
+                pair("classId", Integer.toString(section)),
+                pair("sortField", Integer.toString(sort + 1)),
+                pair("sortOrder","desc")
         ))));
-        return JsonUtils.fromNonNullJson(response, new TypeToken<List<CurseAddon>>() {
-        }.getType());
+        return JsonUtils.fromNonNullJson(response, SearchResult.class).data;
     }
 
     public static CurseAddon getAddon(int id) throws IOException {
-        String response = NetworkUtils.doGet(NetworkUtils.toURL("https://addons-ecs.forgesvc.net/api/v2/addon/" + id));
-        return JsonUtils.fromNonNullJson(response, CurseAddon.class);
+        String response = NetworkUtils.doGetCF(new URL(NetworkUtils.withQuery("https://api.curseforge.com/v1/mods/" + id,mapOf(
+                pair("pageSize", "10000")
+        ))));
+        return JsonUtils.fromNonNullJson(response, ModResult.class).data;
     }
 
     public static List<CurseAddon.LatestFile> getFiles(CurseAddon addon) throws IOException {
-        String response = NetworkUtils.doGet(NetworkUtils.toURL("https://addons-ecs.forgesvc.net/api/v2/addon/" + addon.getId() + "/files"));
-        return JsonUtils.fromNonNullJson(response, new TypeToken<List<CurseAddon.LatestFile>>() {
-        }.getType());
+        String response = NetworkUtils.doGetCF(new URL(NetworkUtils.withQuery("https://api.curseforge.com/v1/mods/" + addon.getId() + "/files",mapOf(
+                pair("pageSize", "10000")
+        ))));
+        return JsonUtils.fromNonNullJson(response, ModFilesResult.class).data;
     }
 
     public static List<Category> getCategories(int section) throws IOException {
-        String response = NetworkUtils.doGet(NetworkUtils.toURL("https://addons-ecs.forgesvc.net/api/v2/category/section/" + section));
-        List<Category> categories = JsonUtils.fromNonNullJson(response, new TypeToken<List<Category>>() {
-        }.getType());
+        String response = NetworkUtils.doGetCF(new URL(NetworkUtils.withQuery("https://api.curseforge.com/v1/categories",mapOf(
+                pair("gameId", "432"),
+                pair("classId", Integer.toString(section))
+        ))));
+        List<Category> categories = JsonUtils.fromNonNullJson(response, CategoryResult.class).data;
         return reorganizeCategories(categories, section);
     }
 
@@ -56,10 +60,10 @@ public final class CurseModManager {
             categoryMap.put(category.id, category);
         }
         for (Category category : categories) {
-            if (category.parentGameCategoryId == rootId) {
+            if (category.parentCategoryId == rootId) {
                 result.add(category);
             } else {
-                Category parentCategory = categoryMap.get(category.parentGameCategoryId);
+                Category parentCategory = categoryMap.get(category.parentCategoryId);
                 if (parentCategory == null) {
                     // Category list is not correct, so we ignore this item.
                     continue;
@@ -81,29 +85,46 @@ public final class CurseModManager {
     public static final int SECTION_UNKNOWN2 = 4979;
     public static final int SECTION_UNKNOWN3 = 4984;
 
+    public static class SearchResult {
+        public List<CurseAddon> data;
+    }
+
+    public static class ModResult {
+        public CurseAddon data;
+    }
+
+    public static class ModFilesResult {
+        public List<CurseAddon.LatestFile> data;
+    }
+
+    public static class CategoryResult {
+        public List<Category> data;
+    }
+
     public static class Category {
         private final int id;
-        private final String name;
-        private final String slug;
-        private final String avatarUrl;
-        private final int parentGameCategoryId;
-        private final int rootGameCategoryId;
         private final int gameId;
-
+        private String name;
+        private final String slug;
+        private final String iconUrl;
+        private final int parentCategoryId;
+        private final boolean isClass;
+        private final int classId;
         private final List<Category> subcategories;
 
         public Category() {
-            this(0, "", "", "", 0, 0, 0, new ArrayList<>());
+            this(0, "", "", "", 0, 0, true, 0,new ArrayList<>());
         }
 
-        public Category(int id, String name, String slug, String avatarUrl, int parentGameCategoryId, int rootGameCategoryId, int gameId, List<Category> subcategories) {
+        public Category(int id, String name, String slug, String iconUrl, int parentGameCategoryId, int gameId,boolean isClass,int classId,List<Category> subcategories) {
             this.id = id;
             this.name = name;
             this.slug = slug;
-            this.avatarUrl = avatarUrl;
-            this.parentGameCategoryId = parentGameCategoryId;
-            this.rootGameCategoryId = rootGameCategoryId;
+            this.iconUrl = iconUrl;
+            this.parentCategoryId = parentGameCategoryId;
             this.gameId = gameId;
+            this.isClass = isClass;
+            this.classId = classId;
             this.subcategories = subcategories;
         }
 
@@ -119,20 +140,28 @@ public final class CurseModManager {
             return slug;
         }
 
-        public String getAvatarUrl() {
-            return avatarUrl;
+        public String getIconUrl() {
+            return iconUrl;
         }
 
-        public int getParentGameCategoryId() {
-            return parentGameCategoryId;
-        }
-
-        public int getRootGameCategoryId() {
-            return rootGameCategoryId;
+        public int getParentCategoryId() {
+            return parentCategoryId;
         }
 
         public int getGameId() {
             return gameId;
+        }
+
+        public void setName (String name) {
+            this.name = name;
+        }
+
+        public boolean isClass() {
+            return isClass;
+        }
+
+        public int getClassId() {
+            return classId;
         }
 
         public List<Category> getSubcategories() {

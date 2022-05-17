@@ -79,6 +79,17 @@
             android:text="@string/no_available_version"
             android:id="@+id/back_to_install_ui_fabric_api"/>
 
+        <TextView
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/colorLinkBlue"
+            android:textSize="22sp"
+            android:text="@string/download_list_load_fail"
+            android:id="@+id/refresh_fabric_api_list"/>
+
     </RelativeLayout>
 
 </LinearLayout>

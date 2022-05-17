@@ -36,11 +36,23 @@ public class ModInfo {
         return dependencies;
     }
 
+    public static String replaceAllChar(String raw) {
+        return raw.replaceAll("[^\\d]", "");
+    }
+
     public List<String> getAllSupportedGameVersion(){
         List<String> list = new ArrayList<>(map.keySet());
         list.sort((o1, o2) -> {
-            String[] valueSplit1 = o1.split("[.]");
-            String[] valueSplit2 = o2.split("[.]");
+            String f1 = o1;
+            String f2 = o2;
+            if (o1.contains("w")) {
+                f1 = "1." + (Integer.parseInt(o1.split("w")[0]) - 3) + "-" + replaceAllChar(o1.split("w")[1]) + "-" + o1.substring(5,6);
+            }
+            if (o2.contains("w")) {
+                f2 = "1." + (Integer.parseInt(o2.split("w")[0]) - 3) + "-" + replaceAllChar(o2.split("w")[1]) + "-" + o2.substring(5,6);
+            }
+            String[] valueSplit1 = f1.split("[.]");
+            String[] valueSplit2 = f2.split("[.]");
             int minLength = valueSplit1.length;
             if (minLength > valueSplit2.length) {
                 minLength = valueSplit2.length;
@@ -53,8 +65,32 @@ public class ModInfo {
                 }
                 else if (value1 == value2) {
                     if (i == minLength - 1 && valueSplit1.length == valueSplit2.length) {
-                        if (valueSplit1[i].length() < valueSplit2[i].length()) {
+                        if (valueSplit1[i].split("-").length < valueSplit2[i].split("-").length) {
                             return -1;
+                        }
+                        if (valueSplit1[i].split("-").length == valueSplit2[i].split("-").length) {
+                            if (valueSplit1[i].split("-").length == 2) {
+                                if (valueSplit1[i].split("-")[1].length() < valueSplit2[i].split("-")[1].length()) {
+                                    return -1;
+                                }
+                                else if (valueSplit1[i].split("-")[1].length() == valueSplit2[i].split("-")[1].length()) {
+                                    return Integer.compare(Integer.parseInt(replaceAllChar(valueSplit2[i].split("-")[1])),Integer.parseInt(replaceAllChar(valueSplit1[i].split("-")[1])));
+                                }
+                                else {
+                                    return 1;
+                                }
+                            }
+                            else {
+                                if (Integer.parseInt(valueSplit1[i].split("-")[1]) > Integer.parseInt(valueSplit2[i].split("-")[1])) {
+                                    return -1;
+                                }
+                                else if (Integer.parseInt(valueSplit1[i].split("-")[1]) == Integer.parseInt(valueSplit2[i].split("-")[1])) {
+                                    return Character.compare(valueSplit2[i].split("-")[1].charAt(0),valueSplit1[i].split("-")[1].charAt(0));
+                                }
+                                else {
+                                    return 1;
+                                }
+                            }
                         }
                         else {
                             return 1;

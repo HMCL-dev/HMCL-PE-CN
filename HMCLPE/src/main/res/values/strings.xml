@@ -390,6 +390,8 @@
     <string name="download_world_ui_sort">排序</string>
     <string name="download_world_ui_name_hint">仅支持英文搜索</string>
     <string name="download_world_ui_search">搜索</string>
+
+    <string name="download_list_load_fail">加载版本列表失败，点击此处重试</string>
     
     <string name="download_mod_sort_date">创建日期</string>
     <string name="download_mod_sort_heat">热度</string>
@@ -397,49 +399,100 @@
     <string name="download_mod_sort_name">名称</string>
     <string name="download_mod_sort_author">作者</string>
     <string name="download_mod_sort_downloads">下载量</string>
+    <string name="download_mod_sort_category">类别</string>
+    <string name="download_mod_sort_game_version">游戏版本</string>
 
-    <string-array name="download_mod_categories">
-        <item>全部</item>
-        <item>信息展示</item>
-        <item>模组扩展</item>
-        <item>血魔法</item>
-        <item>工业 (Industrialcraft)</item>
-        <item>匠魂</item>
-        <item>幸运方块 (Lucky Blocks)</item>
-        <item>建筑 (Buildcraft)</item>
-        <item>CraftTweaker</item>
-        <item>神秘 (Thaumcraft)</item>
-        <item>林业 (Forestry)</item>
-        <item>应用能源 2 (Applied Energistics 2)</item>
-        <item>热力膨胀 (Thermal Expansion)</item>
-        <item>装备武器</item>
-        <item>存储</item>
-        <item>魔法</item>
-        <item>科技</item>
-        <item>交通运输</item>
-        <item>物流运输</item>
-        <item>基因</item>
-        <item>机器处理</item>
-        <item>农业</item>
-        <item>能源</item>
-        <item>自动化</item>
-        <item>Twitch</item>
-        <item>冒险 RPG</item>
-        <item>其他</item>
-        <item>支持库</item>
-        <item>装饰</item>
-        <item>红石</item>
-        <item>世界生成</item>
-        <item>自然生成</item>
-        <item>矿物资源</item>
-        <item>生物</item>
-        <item>生物群系</item>
-        <item>维度</item>
-        <item>服务器</item>
-        <item>食物</item>
-        <item>MCreator</item>
-        <item>Fabric</item>
-    </string-array>
+    <string name="curse_category_0">全部</string>
+
+    <string name="curse_category_4474">科幻</string>
+    <string name="curse_category_4481">轻量整合包</string>
+    <string name="curse_category_4483">战斗 PVP</string>
+    <string name="curse_category_4477">小游戏</string>
+    <string name="curse_category_4478">任务</string>
+    <string name="curse_category_4484">多人</string>
+    <string name="curse_category_4476">探索</string>
+    <string name="curse_category_4736">空岛</string>
+    <string name="curse_category_4475">冒险 RPG</string>
+    <string name="curse_category_4487">FTB 整合包</string>
+    <string name="curse_category_4480">有特定地图</string>
+    <string name="curse_category_4479">高难度</string>
+    <string name="curse_category_4482">大型整合包</string>
+    <string name="curse_category_4472">科技</string>
+    <string name="curse_category_4473">魔法</string>
+    <string name="curse_category_5128">香草+</string>
+
+    <string name="curse_category_5299">教育</string>
+    <string name="curse_category_5232">额外行星</string>
+    <string name="curse_category_5129">原版增强</string>
+    <string name="curse_category_5189">实用与QOL</string>
+    <string name="curse_category_5190">QoL</string>
+    <string name="curse_category_5191">实用与QoL</string>
+    <string name="curse_category_5192">梦幻菜单</string>
+    <string name="curse_category_423">信息展示</string>
+    <string name="curse_category_426">模组扩展</string>
+    <string name="curse_category_434">装备武器</string>
+    <string name="curse_category_409">自然生成</string>
+    <string name="curse_category_4485">血魔法</string>
+    <string name="curse_category_420">存储</string>
+    <string name="curse_category_429">工业 (Industrialcraft)</string>
+    <string name="curse_category_419">魔法</string>
+    <string name="curse_category_412">科技</string>
+    <string name="curse_category_4557">红石</string>
+    <string name="curse_category_428">匠魂</string>
+    <string name="curse_category_414">交通运输</string>
+    <string name="curse_category_4486">幸运方块 (Lucky Blocks)</string>
+    <string name="curse_category_432">建筑 (Buildcraft)</string>
+    <string name="curse_category_418">基因</string>
+    <string name="curse_category_4671">Twitch</string>
+    <string name="curse_category_408">矿物资源</string>
+    <string name="curse_category_4773">CraftTweaker</string>
+    <string name="curse_category_430">神秘 (Thaumcraft)</string>
+    <string name="curse_category_422">冒险 RPG</string>
+    <string name="curse_category_413">机器处理</string>
+    <string name="curse_category_417">能源</string>
+    <string name="curse_category_415">物流运输</string>
+    <string name="curse_category_433">林业 (Forestry)</string>
+    <string name="curse_category_425">其他</string>
+    <string name="curse_category_4545">应用能源 2 (Applied Energistics 2)</string>
+    <string name="curse_category_416">农业</string>
+    <string name="curse_category_421">支持库</string>
+    <string name="curse_category_4780">Fabric</string>
+    <string name="curse_category_424">装饰</string>
+    <string name="curse_category_406">世界生成</string>
+    <string name="curse_category_435">服务器</string>
+    <string name="curse_category_411">生物</string>
+    <string name="curse_category_407">生物群系</string>
+    <string name="curse_category_427">热力膨胀 (Thermal Expansion)</string>
+    <string name="curse_category_410">维度</string>
+    <string name="curse_category_436">食物</string>
+    <string name="curse_category_4558">红石</string>
+    <string name="curse_category_4843">自动化</string>
+    <string name="curse_category_4906">MCreator</string>
+
+    <string name="curse_category_5244">字体包</string>
+    <string name="curse_category_5193">数据包</string>
+    <string name="curse_category_399">蒸汽朋克</string>
+    <string name="curse_category_396">128x</string>
+    <string name="curse_category_398">512x 及更高</string>
+    <string name="curse_category_397">256x</string>
+    <string name="curse_category_405">其他</string>
+    <string name="curse_category_395">64x</string>
+    <string name="curse_category_400">仿真</string>
+    <string name="curse_category_393">16x</string>
+    <string name="curse_category_403">传统</string>
+    <string name="curse_category_394">32x</string>
+    <string name="curse_category_404">动态效果</string>
+    <string name="curse_category_4465">模组支持</string>
+    <string name="curse_category_402">中世纪风格</string>
+    <string name="curse_category_401">现代风格</string>
+
+    <string name="curse_category_4464">模组</string>
+    <string name="curse_category_250">游戏挑战</string>
+    <string name="curse_category_249">创造模式</string>
+    <string name="curse_category_251">跑酷</string>
+    <string name="curse_category_253">生存模式</string>
+    <string name="curse_category_248">冒险模式</string>
+    <string name="curse_category_252">解谜类</string>
 
     <string name="download_mod_source_curse_forge" translatable="false">CurseForge</string>
     <string name="download_mod_source_modrinth" translatable="false">Modrinth</string>

@@ -1,5 +1,6 @@
 package com.tungsten.hmclpe.launcher.view.spinner;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +44,7 @@ public class SpinnerAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder viewHolder;
@@ -55,7 +57,7 @@ public class SpinnerAdapter extends BaseAdapter {
         else {
             viewHolder = (ViewHolder)convertView.getTag();
         }
-        if (list.get(position).getParentGameCategoryId() != section){
+        if (list.get(position).getParentCategoryId() != section){
             viewHolder.checkedTextView.setText("    " + list.get(position).getName());
         }
         else {

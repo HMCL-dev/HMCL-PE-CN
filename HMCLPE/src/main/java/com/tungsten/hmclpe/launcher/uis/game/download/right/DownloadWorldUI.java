@@ -32,7 +32,6 @@ import com.tungsten.hmclpe.launcher.view.spinner.SpinnerAdapter;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -59,6 +58,7 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
     private boolean isSearching = false;
 
     private ProgressBar progressBar;
+    private TextView refreshText;
 
     private ListView worldListView;
     private ArrayList<ModListBean.Mod> worldList;
@@ -89,6 +89,8 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
         sortList.add(context.getString(R.string.download_mod_sort_name));
         sortList.add(context.getString(R.string.download_mod_sort_author));
         sortList.add(context.getString(R.string.download_mod_sort_downloads));
+        sortList.add(context.getString(R.string.download_mod_sort_category));
+        sortList.add(context.getString(R.string.download_mod_sort_game_version));
         sortListAdapter = new ArrayAdapter<String>(context,R.layout.item_spinner,sortList);
         sortListAdapter.setDropDownViewResource(R.layout.item_spinner_drop_down);
         editSort.setAdapter(sortListAdapter);
@@ -102,7 +104,13 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
         editVersionSpinner.setAdapter(versionListAdapter);
 
         categoryList = new ArrayList<>();
-        categoryList.add(new CurseModManager.Category(0, "All", "", "", 17, 17, 432, new ArrayList<>()));
+        categoryList.add(new CurseModManager.Category(0, "All", "", "", 17, 432, true, 0, new ArrayList<>()));
+        for (CurseModManager.Category category : categoryList) {
+            int resId = context.getResources().getIdentifier("curse_category_" + category.getId(),"string","com.tungsten.hmclpe");
+            if (resId != 0 && context.getString(resId) != null) {
+                category.setName(context.getString(resId));
+            }
+        }
         categoryListAdapter = new SpinnerAdapter(context,categoryList,17);
         editCategory.setAdapter(categoryListAdapter);
 
@@ -115,6 +123,8 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
         editVersion.addTextChangedListener(this);
 
         progressBar = activity.findViewById(R.id.loading_download_world_list_progress);
+        refreshText = activity.findViewById(R.id.refresh_world_list);
+        refreshText.setOnClickListener(this);
 
         worldListView = activity.findViewById(R.id.download_world_list);
         worldList = new ArrayList<>();
@@ -152,24 +162,27 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
             new Thread(() -> {
                 try {
                     searchHandler.sendEmptyMessage(0);
-                    List<CurseModManager.Category> categories = new ArrayList<>();
-                    try {
-                        categories = CurseModManager.getCategories(SearchTools.SECTION_WORLD);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    List<CurseModManager.Category> categories;
+                    categories = CurseModManager.getCategories(SearchTools.SECTION_WORLD);
                     Stream<ModListBean.Mod> stream = SearchTools.search("", editVersion.getText().toString(), ((CurseModManager.Category) editCategory.getSelectedItem()).getId(), SearchTools.SECTION_WORLD, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), editSort.getSelectedItemPosition());
                     List<ModListBean.Mod> list = stream.collect(toList());
                     worldList.clear();
                     worldList.addAll(list);
                     categoryList.clear();
-                    categoryList.add(new CurseModManager.Category(0, "All", "", "", 17, 17, 432, new ArrayList<>()));
+                    categoryList.add(new CurseModManager.Category(0, "All", "", "", 17, 432, true, 0, new ArrayList<>()));
                     for (int i = 0;i < categories.size();i++){
                         categoryList.add(categories.get(i));
                         categoryList.addAll(categories.get(i).getSubcategories());
                     }
+                    for (CurseModManager.Category category : categoryList) {
+                        int resId = context.getResources().getIdentifier("curse_category_" + category.getId(),"string","com.tungsten.hmclpe");
+                        if (resId != 0 && context.getString(resId) != null) {
+                            category.setName(context.getString(resId));
+                        }
+                    }
                     searchHandler.sendEmptyMessage(1);
                 } catch (Exception e) {
+                    searchHandler.sendEmptyMessage(2);
                     e.printStackTrace();
                 }
             }).start();
@@ -187,12 +200,21 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
             if (msg.what == 0){
                 isSearching = true;
                 progressBar.setVisibility(View.VISIBLE);
+                refreshText.setVisibility(View.GONE);
                 worldListView.setVisibility(View.GONE);
             }
             if (msg.what == 1) {
                 downloadWorldListAdapter.notifyDataSetChanged();
+                categoryListAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
+                refreshText.setVisibility(View.GONE);
                 worldListView.setVisibility(View.VISIBLE);
+                isSearching = false;
+            }
+            if (msg.what == 2) {
+                progressBar.setVisibility(View.GONE);
+                refreshText.setVisibility(View.VISIBLE);
+                worldListView.setVisibility(View.GONE);
                 isSearching = false;
             }
         }
@@ -201,6 +223,9 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
     @Override
     public void onClick(View v) {
         if (v == search){
+            search();
+        }
+        if (v == refreshText) {
             search();
         }
     }
