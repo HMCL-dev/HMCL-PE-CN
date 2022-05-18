@@ -11,7 +11,7 @@ public final class ModListBean {
     }
 
     public interface IMod {
-        List<Mod> loadDependencies() throws IOException;
+        List<Mod> loadDependencies(List<Version> versions) throws IOException;
 
         Stream<Version> loadVersions() throws IOException;
     }
@@ -22,16 +22,18 @@ public final class ModListBean {
         private final String title;
         private final String description;
         private final List<String> categories;
+        private final List<String> modrinthCategories;
         private final String pageUrl;
         private final String iconUrl;
         private final IMod data;
 
-        public Mod(String slug, String author, String title, String description, List<String> categories, String pageUrl, String iconUrl, IMod data) {
+        public Mod(String slug, String author, String title, String description, List<String> categories, List<String> modrinthCategories, String pageUrl, String iconUrl, IMod data) {
             this.slug = slug;
             this.author = author;
             this.title = title;
             this.description = description;
             this.categories = categories;
+            this.modrinthCategories = modrinthCategories;
             this.pageUrl = pageUrl;
             this.iconUrl = iconUrl;
             this.data = data;
@@ -55,6 +57,10 @@ public final class ModListBean {
 
         public List<String> getCategories() {
             return categories;
+        }
+
+        public List<String> getModrinthCategories() {
+            return modrinthCategories;
         }
 
         public String getPageUrl() {

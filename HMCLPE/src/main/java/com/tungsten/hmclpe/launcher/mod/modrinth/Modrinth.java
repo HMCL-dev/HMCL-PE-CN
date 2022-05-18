@@ -13,6 +13,7 @@ import static com.tungsten.hmclpe.utils.Pair.pair;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class Modrinth {
@@ -54,6 +55,13 @@ public final class Modrinth {
         return response.getHits();
     }
 
+    public static Mod getModById(String id) throws IOException {
+        id = StringUtils.removePrefix(id, "local-");
+        System.out.println(HttpRequest.GET("https://api.modrinth.com/api/v1/mod/" + id).getString());
+        return HttpRequest.GET("https://api.modrinth.com/api/v1/mod/" + id)
+                .getJson(Mod.class);
+    }
+
     public static Stream<ModListBean.Version> getRemoteVersionsById(String id) throws IOException {
         id = StringUtils.removePrefix(id, "local-");
         List<ModVersion> versions = HttpRequest.GET("https://api.modrinth.com/api/v1/mod/" + id + "/version")
@@ -70,13 +78,48 @@ public final class Modrinth {
         return versions;
     }
 
-    public static List<String> getCategories() throws IOException {
-        List<String> categories = HttpRequest.GET("https://api.modrinth.com/api/v1/tag/category").getJson(new TypeToken<List<String>>() {
-        }.getType());
-        return categories;
+    public static List<ModVersion> getFiles(Mod mod) throws IOException {
+        String id = StringUtils.removePrefix(mod.getId(), "local-");
+        List<ModVersion> versions = HttpRequest.GET("https://api.modrinth.com/api/v1/mod/" + id + "/version")
+                .getJson(new TypeToken<List<ModVersion>>() {
+                }.getType());
+        return versions;
     }
 
-    public static class Mod {
+    public List<Category> getCategories() throws IOException {
+        return HttpRequest.GET("https://api.modrinth.com/api/v1/tag/category").getJson(new TypeToken<List<Category>>() {
+        }.getType());
+    }
+
+    public static class Category {
+        private final String icon;
+        private final String name;
+        private final String project_type;
+
+        public Category () {
+            this(null,null,null);
+        }
+
+        public Category (String icon,String name,String project_type) {
+            this.icon = icon;
+            this.name = name;
+            this.project_type = project_type;
+        }
+
+        public String getIcon() {
+            return icon;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getProject_type() {
+            return project_type;
+        }
+    }
+
+    public static class Mod implements ModListBean.IMod {
         private final String id;
 
         private final String slug;
@@ -157,6 +200,39 @@ public final class Modrinth {
         public String getIconUrl() {
             return iconUrl;
         }
+
+        public ModListBean.Mod toMod() {
+            return new ModListBean.Mod(
+                    slug,
+                    "",
+                    title,
+                    description,
+                    new ArrayList<>(),
+                    categories,
+                    null,
+                    iconUrl,
+                    (ModListBean.IMod) this
+            );
+        }
+
+        @Override
+        public List<ModListBean.Mod> loadDependencies(List<ModListBean.Version> versions) throws IOException {
+            Set<String> dependencies = versions.stream()
+                    .flatMap(version -> version.getDependencies().stream())
+                    .collect(Collectors.toSet());
+            List<ModListBean.Mod> mods = new ArrayList<>();
+            for (String dependencyId : dependencies) {
+                mods.add(getModById(dependencyId).toMod());
+            }
+            return mods;
+        }
+
+        @Override
+        public Stream<ModListBean.Version> loadVersions() throws IOException {
+            return Modrinth.getFiles(this).stream()
+                    .map(ModVersion::toVersion)
+                    .flatMap(Lang::toStream);
+        }
     }
 
     public static class ModVersion {
@@ -185,14 +261,14 @@ public final class Modrinth {
 
         private final List<ModVersionFile> files;
 
-        private final List<String> dependencies;
+        private final List<Dependency> dependencies;
 
         @SerializedName("game_versions")
         private final List<String> gameVersions;
 
         private final List<String> loaders;
 
-        public ModVersion(String id, String modId, String authorId, String name, String versionNumber, String changelog, Date datePublished, int downloads, String versionType, List<ModVersionFile> files, List<String> dependencies, List<String> gameVersions, List<String> loaders) {
+        public ModVersion(String id, String modId, String authorId, String name, String versionNumber, String changelog, Date datePublished, int downloads, String versionType, List<ModVersionFile> files, List<Dependency> dependencies, List<String> gameVersions, List<String> loaders) {
             this.id = id;
             this.modId = modId;
             this.authorId = authorId;
@@ -248,7 +324,7 @@ public final class Modrinth {
             return files;
         }
 
-        public List<String> getDependencies() {
+        public List<Dependency> getDependencies() {
             return dependencies;
         }
 
@@ -276,6 +352,13 @@ public final class Modrinth {
                 return Optional.empty();
             }
 
+            List<String> strDependencies = new ArrayList<>();
+            for (Dependency dependency : dependencies) {
+                if (dependency.dependencyType.equals("required")) {
+                    strDependencies.add(dependency.projectId);
+                }
+            }
+
             return Optional.of(new ModListBean.Version(
                     this,
                     name,
@@ -284,7 +367,7 @@ public final class Modrinth {
                     datePublished.toInstant(),
                     type,
                     files.get(0).toFile(),
-                    dependencies,
+                    strDependencies,
                     gameVersions,
                     loaders
             ));
@@ -316,6 +399,39 @@ public final class Modrinth {
 
         public ModListBean.File toFile() {
             return new ModListBean.File(hashes, url, filename);
+        }
+    }
+
+    public static class Dependency {
+        @SerializedName("version_id")
+        private final String versionId;
+
+        @SerializedName("project_id")
+        private final String projectId;
+
+        @SerializedName("dependency_type")
+        private final String dependencyType;
+
+        public Dependency () {
+            this(null,null,null);
+        }
+
+        public Dependency (String versionId,String projectId,String dependencyType) {
+            this.versionId = versionId;
+            this.projectId = projectId;
+            this.dependencyType = dependencyType;
+        }
+
+        public String getVersionId() {
+            return versionId;
+        }
+
+        public String getProjectId() {
+            return projectId;
+        }
+
+        public String getDependencyType() {
+            return dependencyType;
         }
     }
 
@@ -428,8 +544,15 @@ public final class Modrinth {
             return latestVersion;
         }
 
-        public List<ModListBean.Mod> loadDependencies() throws IOException {
-            return Collections.emptyList();
+        public List<ModListBean.Mod> loadDependencies(List<ModListBean.Version> versions) throws IOException {
+            Set<String> dependencies = versions.stream()
+                    .flatMap(version -> version.getDependencies().stream())
+                    .collect(Collectors.toSet());
+            List<ModListBean.Mod> mods = new ArrayList<>();
+            for (String dependencyId : dependencies) {
+                mods.add(getModById(dependencyId).toMod());
+            }
+            return mods;
         }
 
         public Stream<ModListBean.Version> loadVersions() throws IOException {
@@ -444,6 +567,7 @@ public final class Modrinth {
                     author,
                     title,
                     description,
+                    new ArrayList<>(),
                     categories,
                     pageUrl,
                     iconUrl,

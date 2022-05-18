@@ -494,12 +494,27 @@
     <string name="curse_category_248">冒险模式</string>
     <string name="curse_category_252">解谜类</string>
 
+    <string name="modrinth_category_adventure">冒险</string>
+    <string name="modrinth_category_cursed">Cursed</string>
+    <string name="modrinth_category_decoration">装饰</string>
+    <string name="modrinth_category_equipment">装备</string>
+    <string name="modrinth_category_fabric">Fabric</string>
+    <string name="modrinth_category_food">食物</string>
+    <string name="modrinth_category_library">支持库</string>
+    <string name="modrinth_category_magic">魔法</string>
+    <string name="modrinth_category_misc">其他</string>
+    <string name="modrinth_category_storage">存储</string>
+    <string name="modrinth_category_technology">科技</string>
+    <string name="modrinth_category_utility">实用</string>
+    <string name="modrinth_category_worldgen">世界生成</string>
+
     <string name="download_mod_source_curse_forge" translatable="false">CurseForge</string>
     <string name="download_mod_source_modrinth" translatable="false">Modrinth</string>
     
     <string name="download_resource_mcmod">MC 百科</string>
     <string name="download_resource_mcbbs">MCBBS</string>
     <string name="download_resource_curse_forge">CurseForge</string>
+    <string name="download_resource_modrinth">Modrinth</string>
     <string name="download_resource_mod_dependency">前置 Mod</string>
     <string name="download_resource_load_fail">加载版本列表失败，点击此处重试。</string>
     <string name="download_resource_beta">测试版</string>
@@ -636,8 +651,6 @@
     <string name="feedback_ui_github_issues">前往 Github 反馈</string>
 
     <string name="donate_ui_text">Hello Minecraft! Launcher Pocket Edition 是一个免费、自由、开放源代码的 Minecraft 启动器。您的赞助将帮助 Hello Minecraft! Launcher Pocket Edition 获得更好的发展，还可以获得 HMCL-PE 的开发进展。点击此处查阅更多详细信息。</string>
-
-    <string name="about_ui_about">关于</string>
 
     <string name="dialog_manage_controller_title">管理触控布局方案</string>
     <string name="dialog_manage_controller_import">从本地导入布局方案</string>
@@ -874,11 +887,29 @@
     <string name="drawer_custom_menu_add_view">添加</string>
     <string name="drawer_custom_menu_warn">你需要先创建或选择一个子布局</string>
 
+    <string name="ui_about_about">关于</string>
     <string name="ui_about_hmclpe_main" translatable="false">Hello Minecraft! Launcher : Pocket Edition</string>
     <string name="ui_about_hmclpe_sub" translatable="false">1.0.0</string>
     <string name="ui_about_tungsten_main" translatable="false">Tungsten</string>
     <string name="ui_about_tungsten_sub" translatable="false">B 站 ID：@念小六</string>
     <string name="ui_about_shirosakimio_main" translatable="false">ShirosakiMio</string>
     <string name="ui_about_shirosakimio_sub" translatable="false">B 站 ID：@ShirosakiMio</string>
+    <string name="ui_about_thank">鸣谢</string>
+    <string name="ui_about_tsaltedfishking_main" translatable="false">TSaltedfishKing</string>
+    <string name="ui_about_tsaltedfishking_sub">提供 HMCL-PE 官网模板</string>
+    <string name="ui_about_hmcl_main">HMCL 开发团队及所有贡献者</string>
+    <string name="ui_about_hmcl_sub">本项目大量借鉴 HMCL</string>
+    <string name="ui_about_yushijinhun_main" translatable="false">yushijinhun</string>
+    <string name="ui_about_yushijinhun_sub">authlib-injector 相关支持</string>
+    <string name="ui_about_nide_main">统一通行证开发团队</string>
+    <string name="ui_about_nide_sub">nide8auth 相关支持</string>
+    <string name="ui_about_bangbang93_main" translatable="false">bangbang93</string>
+    <string name="ui_about_bangbang93_sub">提供 BMCLAPI 下载源，请赞助支持 BMCLAPI！</string>
+    <string name="ui_about_mcbbs_main">MCBBS 我的世界中文论坛</string>
+    <string name="ui_about_mcbbs_sub">提供 MCBBS 下载源</string>
+    <string name="ui_about_mcmod_main">MC 百科</string>
+    <string name="ui_about_mcmod_sub">提供 Mod 中文名映射表与 Mod 百科</string>
+    <string name="ui_about_github_main">所有通过 Issues、赞助等方式参与本项目的贡献者</string>
+    <string name="ui_about_github_sub">感谢各位的建议、bug 反馈及赞助</string>
 
 </resources>

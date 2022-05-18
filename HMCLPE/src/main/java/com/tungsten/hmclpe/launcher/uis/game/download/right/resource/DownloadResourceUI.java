@@ -39,6 +39,7 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
     private LinearLayout mcmod;
     private LinearLayout mcbbs;
     private LinearLayout curseForge;
+    private LinearLayout modrinth;
 
     private ProgressBar progressBar;
     private TextView refreshText;
@@ -64,10 +65,12 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
         mcmod = findViewById(R.id.mcmod_link);
         mcbbs = findViewById(R.id.mcbbs_link);
         curseForge = findViewById(R.id.curse_forge_link);
+        modrinth = findViewById(R.id.modrinth_link);
 
         mcmod.setOnClickListener(this);
         mcbbs.setOnClickListener(this);
         curseForge.setOnClickListener(this);
+        modrinth.setOnClickListener(this);
 
         progressBar = findViewById(R.id.mod_info_progress);
         refreshText = findViewById(R.id.mod_load_fail_text);
@@ -93,11 +96,37 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
             }
         }).start();
         name.setText(modTranslation != null && isMod ? modTranslation.getDisplayName() : bean.getTitle());
+        StringBuilder categories = new StringBuilder();
+        if (bean.getModrinthCategories().size() != 0) {
+            for (int i = 0;i < bean.getModrinthCategories().size();i++){
+                String c;
+                int resId = context.getResources().getIdentifier("modrinth_category_" + bean.getModrinthCategories().get(i),"string","com.tungsten.hmclpe");
+                if (resId != 0 && context.getString(resId) != null) {
+                    c = context.getString(resId);
+                }
+                else {
+                    c = bean.getModrinthCategories().get(i);
+                }
+                categories.append(c).append((i != bean.getModrinthCategories().size()) ? "   " : "");
+            }
+        }
+        else {
+            for (int i = 0;i < bean.getCategories().size();i++){
+                String c = "";
+                int resId = context.getResources().getIdentifier("curse_category_" + bean.getCategories().get(i),"string","com.tungsten.hmclpe");
+                if (resId != 0 && context.getString(resId) != null) {
+                    c = context.getString(resId);
+                }
+                categories.append(c).append((i != bean.getCategories().size() && !c.equals("")) ? "   " : "");
+            }
+        }
+        type.setText(categories.toString());
         description.setText(bean.getDescription());
 
         mcmod.setVisibility(isMod ? View.VISIBLE : View.GONE);
         mcbbs.setVisibility(modTranslation != null && StringUtils.isNotBlank(modTranslation.getMcbbs()) ? View.VISIBLE : View.GONE);
-        curseForge.setVisibility(bean.getPageUrl() != null ? View.VISIBLE : View.GONE);
+        curseForge.setVisibility((bean.getPageUrl() != null && bean.getPageUrl().contains("curseforge")) ? View.VISIBLE : View.GONE);
+        modrinth.setVisibility((bean.getPageUrl() != null && !bean.getPageUrl().contains("curseforge")) ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -136,7 +165,7 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             context.startActivity(intent);
         }
-        if (view == curseForge) {
+        if (view == curseForge || view == modrinth) {
             Uri uri = Uri.parse(bean.getPageUrl());
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             context.startActivity(intent);

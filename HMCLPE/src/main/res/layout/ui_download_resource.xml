@@ -28,13 +28,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:layout_weight="1"
-            android:weightSum="2">
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <TextView
@@ -145,6 +143,34 @@
                 android:layout_gravity="center"
                 android:textColor="@color/colorLinkBlue"
                 android:text="@string/download_resource_curse_forge"
+                android:layout_marginStart="7dp"
+                android:textSize="@dimen/text_size_middle"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginStart="10dp"
+            android:id="@+id/modrinth_link"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_baseline_jump_black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/colorLinkBlue"
+                android:text="@string/download_resource_modrinth"
                 android:layout_marginStart="7dp"
                 android:textSize="@dimen/text_size_middle"/>
 

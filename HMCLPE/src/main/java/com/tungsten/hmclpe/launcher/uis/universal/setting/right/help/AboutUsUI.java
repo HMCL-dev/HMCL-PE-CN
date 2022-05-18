@@ -21,6 +21,14 @@ public class AboutUsUI extends BaseUI implements View.OnClickListener {
     private ImageButton tungs;
     private ImageButton mio;
 
+    private ImageButton saltfish;
+    private ImageButton hmcl;
+    private ImageButton yushijinhun;
+    private ImageButton nide;
+    private ImageButton bangbang93;
+    private ImageButton mcbbs;
+    private ImageButton mcmod;
+
     public AboutUsUI(Context context, MainActivity activity) {
         super(context, activity);
     }
@@ -34,9 +42,25 @@ public class AboutUsUI extends BaseUI implements View.OnClickListener {
         tungs = activity.findViewById(R.id.tungs_link);
         mio = activity.findViewById(R.id.mio_link);
 
+        saltfish = activity.findViewById(R.id.saltfish_link);
+        hmcl = activity.findViewById(R.id.hmcl_link);
+        yushijinhun = activity.findViewById(R.id.yushijinhun_link);
+        nide = activity.findViewById(R.id.nide_link);
+        bangbang93 = activity.findViewById(R.id.bangbang93_link);
+        mcbbs = activity.findViewById(R.id.mcbbs_link);
+        mcmod = activity.findViewById(R.id.mcmod_link);
+
         hmclpe.setOnClickListener(this);
         tungs.setOnClickListener(this);
         mio.setOnClickListener(this);
+
+        saltfish.setOnClickListener(this);
+        hmcl.setOnClickListener(this);
+        yushijinhun.setOnClickListener(this);
+        nide.setOnClickListener(this);
+        bangbang93.setOnClickListener(this);
+        mcbbs.setOnClickListener(this);
+        mcmod.setOnClickListener(this);
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -62,6 +86,7 @@ public class AboutUsUI extends BaseUI implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         Uri uri = null;
+
         if (view == hmclpe) {
             uri = Uri.parse("http://tungstend.hmcl-pe.cn/");
         }
@@ -71,6 +96,29 @@ public class AboutUsUI extends BaseUI implements View.OnClickListener {
         if (view == mio) {
             uri = Uri.parse("https://space.bilibili.com/35801833");
         }
+
+        if (view == saltfish) {
+            uri = Uri.parse("https://github.com/TSaltedfishKing");
+        }
+        if (view == hmcl) {
+            uri = Uri.parse("https://hmcl.huangyuhui.net/");
+        }
+        if (view == yushijinhun) {
+            uri = Uri.parse("https://yushi.moe/");
+        }
+        if (view == nide) {
+            uri = Uri.parse("http://login.nide8.com/");
+        }
+        if (view == bangbang93) {
+            uri = Uri.parse("https://bmclapidoc.bangbang93.com/");
+        }
+        if (view == mcbbs) {
+            uri = Uri.parse("https://www.mcbbs.net/");
+        }
+        if (view == mcmod) {
+            uri = Uri.parse("https://www.mcmod.cn/");
+        }
+
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         context.startActivity(intent);
     }

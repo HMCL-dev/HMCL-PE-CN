@@ -16,8 +16,8 @@ public class CurseAddon implements ModListBean.IMod {
     private final int id;
     private final String name;
     private final List<Author> authors;
+    private final Links links;
     private final Logo logo;
-    private final String websiteUrl;
     private final int gameId;
     private final String summary;
     private final int defaultFileId;
@@ -35,12 +35,12 @@ public class CurseAddon implements ModListBean.IMod {
     private final boolean isAvailable;
     private final boolean isExperimental;
 
-    public CurseAddon(int id, String name, List<Author> authors, Logo logo, String websiteUrl, int gameId, String summary, int defaultFileId, List<LatestFile> latestFiles, List<Category> categories, int status, int primaryCategoryId, String slug, List<GameVersionLatestFile> gameVersionLatestFiles, boolean isFeatured, double popularityScore, int gamePopularityRank, String primaryLanguage, List<String> modLoaders, boolean isAvailable, boolean isExperimental) {
+    public CurseAddon(int id, String name, List<Author> authors, Links links, Logo logo, int gameId, String summary, int defaultFileId, List<LatestFile> latestFiles, List<Category> categories, int status, int primaryCategoryId, String slug, List<GameVersionLatestFile> gameVersionLatestFiles, boolean isFeatured, double popularityScore, int gamePopularityRank, String primaryLanguage, List<String> modLoaders, boolean isAvailable, boolean isExperimental) {
         this.id = id;
         this.name = name;
         this.authors = authors;
+        this.links = links;
         this.logo = logo;
-        this.websiteUrl = websiteUrl;
         this.gameId = gameId;
         this.summary = summary;
         this.defaultFileId = defaultFileId;
@@ -71,12 +71,12 @@ public class CurseAddon implements ModListBean.IMod {
         return authors;
     }
 
-    public Logo getLogo() {
-        return logo;
+    public Links getLinks() {
+        return links;
     }
 
-    public String getWebsiteUrl() {
-        return websiteUrl;
+    public Logo getLogo() {
+        return logo;
     }
 
     public int getGameId() {
@@ -144,7 +144,7 @@ public class CurseAddon implements ModListBean.IMod {
     }
 
     @Override
-    public List<ModListBean.Mod> loadDependencies() throws IOException {
+    public List<ModListBean.Mod> loadDependencies(List<ModListBean.Version> versions) throws IOException {
         Set<Integer> dependencies = latestFiles.stream()
                 .flatMap(latestFile -> latestFile.getDependencies().stream())
                 .filter(dep -> dep.getRelationType() == 3)
@@ -171,8 +171,9 @@ public class CurseAddon implements ModListBean.IMod {
                 "",
                 name,
                 summary,
-                categories.stream().map(category -> Integer.toString(category.getCategoryId())).collect(Collectors.toList()),
-                websiteUrl,
+                categories.stream().map(category -> Integer.toString(category.getId())).collect(Collectors.toList()),
+                new ArrayList<>(),
+                links.websiteUrl,
                 iconUrl,
                 this
         );
@@ -217,6 +218,40 @@ public class CurseAddon implements ModListBean.IMod {
 
         public int getTwitchId() {
             return twitchId;
+        }
+    }
+
+    public static class Links {
+        private final String websiteUrl;
+        private final String wikiUrl;
+        private final String issuesUrl;
+        private final String sourceUrl;
+
+        public Links () {
+            this(null,null,null,null);
+        }
+
+        public Links (String websiteUrl,String wikiUrl,String issuesUrl,String sourceUrl) {
+            this.websiteUrl = websiteUrl;
+            this.wikiUrl = wikiUrl;
+            this.issuesUrl = issuesUrl;
+            this.sourceUrl = sourceUrl;
+        }
+
+        public String getWebsiteUrl() {
+            return websiteUrl;
+        }
+
+        public String getWikiUrl() {
+            return wikiUrl;
+        }
+
+        public String getIssuesUrl() {
+            return issuesUrl;
+        }
+
+        public String getSourceUrl() {
+            return sourceUrl;
         }
     }
 
@@ -507,62 +542,70 @@ public class CurseAddon implements ModListBean.IMod {
     }
 
     public static class Category {
-        private final int categoryId;
-        private final String name;
-        private final String url;
-        private final String avatarUrl;
-        private final int parentId;
-        private final int rootId;
-        private final int projectId;
-        private final int avatarId;
+        private final int id;
         private final int gameId;
+        private String name;
+        private final String slug;
+        private final String iconUrl;
+        private final int parentCategoryId;
+        private final boolean isClass;
+        private final int classId;
+        private final List<CurseModManager.Category> subcategories;
 
-        public Category(int categoryId, String name, String url, String avatarUrl, int parentId, int rootId, int projectId, int avatarId, int gameId) {
-            this.categoryId = categoryId;
-            this.name = name;
-            this.url = url;
-            this.avatarUrl = avatarUrl;
-            this.parentId = parentId;
-            this.rootId = rootId;
-            this.projectId = projectId;
-            this.avatarId = avatarId;
-            this.gameId = gameId;
+        public Category() {
+            this(0, "", "", "", 0, 0, true, 0,new ArrayList<>());
         }
 
-        public int getCategoryId() {
-            return categoryId;
+        public Category(int id, String name, String slug, String iconUrl, int parentGameCategoryId, int gameId,boolean isClass,int classId,List<CurseModManager.Category> subcategories) {
+            this.id = id;
+            this.name = name;
+            this.slug = slug;
+            this.iconUrl = iconUrl;
+            this.parentCategoryId = parentGameCategoryId;
+            this.gameId = gameId;
+            this.isClass = isClass;
+            this.classId = classId;
+            this.subcategories = subcategories;
+        }
+
+        public int getId() {
+            return id;
         }
 
         public String getName() {
             return name;
         }
 
-        public String getUrl() {
-            return url;
+        public String getSlug() {
+            return slug;
         }
 
-        public String getAvatarUrl() {
-            return avatarUrl;
+        public String getIconUrl() {
+            return iconUrl;
         }
 
-        public int getParentId() {
-            return parentId;
-        }
-
-        public int getRootId() {
-            return rootId;
-        }
-
-        public int getProjectId() {
-            return projectId;
-        }
-
-        public int getAvatarId() {
-            return avatarId;
+        public int getParentCategoryId() {
+            return parentCategoryId;
         }
 
         public int getGameId() {
             return gameId;
+        }
+
+        public void setName (String name) {
+            this.name = name;
+        }
+
+        public boolean isClass() {
+            return isClass;
+        }
+
+        public int getClassId() {
+            return classId;
+        }
+
+        public List<CurseModManager.Category> getSubcategories() {
+            return subcategories;
         }
     }
 

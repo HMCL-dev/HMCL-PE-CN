@@ -21,7 +21,7 @@ public class ModInfo {
         for (ModListBean.Version version : versions){
             add(version);
         }
-        dependencies.addAll(mod.getData().loadDependencies());
+        dependencies.addAll(mod.getData().loadDependencies(versions));
     }
 
     public List<ModListBean.Version> getVersionByGameVersion(String gameVersion){
