@@ -39,15 +39,15 @@ public final class Modrinth {
         }
     }
 
-    public static List<ModResult> searchPaginated(String gameVersion, int pageOffset, String searchFilter,int sort) throws IOException {
+    public static List<ModResult> searchPaginated(String gameVersion,String category, int pageOffset, String searchFilter,int sort) throws IOException {
         Map<String, String> query = mapOf(
                 pair("query", searchFilter),
                 pair("offset", Integer.toString(pageOffset)),
                 pair("limit", "50"),
                 pair("index", convertSortType(sort))
         );
-        if (StringUtils.isNotBlank(gameVersion)) {
-            query.put("version", "versions=" + gameVersion);
+        if ((StringUtils.isNotBlank(category) && !category.equals("all")) || StringUtils.isNotBlank(gameVersion)) {
+            query.put("facets","[" + ((StringUtils.isNotBlank(category) && !category.equals("all")) ? "[\"categories:" + category + "\"]" : "") + (((StringUtils.isNotBlank(category) && !category.equals("all")) && StringUtils.isNotBlank(gameVersion)) ? "," : "") + (StringUtils.isNotBlank(gameVersion) ? "[\"versions:" + gameVersion + "\"]" : "") + "]");
         }
         Response<ModResult> response = HttpRequest.GET(NetworkUtils.withQuery("https://api.modrinth.com/api/v1/mod", query))
                 .getJson(new TypeToken<Response<ModResult>>() {
@@ -86,37 +86,8 @@ public final class Modrinth {
         return versions;
     }
 
-    public List<Category> getCategories() throws IOException {
-        return HttpRequest.GET("https://api.modrinth.com/api/v1/tag/category").getJson(new TypeToken<List<Category>>() {
-        }.getType());
-    }
-
-    public static class Category {
-        private final String icon;
-        private final String name;
-        private final String project_type;
-
-        public Category () {
-            this(null,null,null);
-        }
-
-        public Category (String icon,String name,String project_type) {
-            this.icon = icon;
-            this.name = name;
-            this.project_type = project_type;
-        }
-
-        public String getIcon() {
-            return icon;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getProject_type() {
-            return project_type;
-        }
+    public static List<String> getCategories() throws IOException {
+        return HttpRequest.GET("https://api.modrinth.com/api/v1/tag/category").getJson(new TypeToken<List<String>>() {}.getType());
     }
 
     public static class Mod implements ModListBean.IMod {
@@ -550,7 +521,9 @@ public final class Modrinth {
                     .collect(Collectors.toSet());
             List<ModListBean.Mod> mods = new ArrayList<>();
             for (String dependencyId : dependencies) {
-                mods.add(getModById(dependencyId).toMod());
+                if (dependencyId != null && StringUtils.isNotBlank(dependencyId)) {
+                    mods.add(getModById(dependencyId).toMod());
+                }
             }
             return mods;
         }

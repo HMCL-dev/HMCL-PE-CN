@@ -96,11 +96,31 @@ public class ModDependencyAdapter extends BaseAdapter {
                 e.printStackTrace();
             }
         }).start();
-        String categories = "";
-        for (int j = 0;j < list.get(i).getCategories().size();j++){
-            //categories = categories + SearchTools.getCategoryFromID(context,modList.get(i).getCategories().get(j)) + "  ";
+        StringBuilder categories = new StringBuilder();
+        if (list.get(i).getModrinthCategories().size() != 0) {
+            for (int j = 0;j < list.get(i).getModrinthCategories().size();j++){
+                String c;
+                int resId = context.getResources().getIdentifier("modrinth_category_" + list.get(i).getModrinthCategories().get(j),"string","com.tungsten.hmclpe");
+                if (resId != 0 && context.getString(resId) != null) {
+                    c = context.getString(resId);
+                }
+                else {
+                    c = list.get(i).getModrinthCategories().get(j);
+                }
+                categories.append(c).append((j != list.get(i).getModrinthCategories().size()) ? "   " : "");
+            }
         }
-        viewHolder.categories.setText(categories);
+        else {
+            for (int j = 0;j < list.get(i).getCategories().size();j++){
+                String c = "";
+                int resId = context.getResources().getIdentifier("curse_category_" + list.get(i).getCategories().get(j),"string","com.tungsten.hmclpe");
+                if (resId != 0 && context.getString(resId) != null) {
+                    c = context.getString(resId);
+                }
+                categories.append(c).append((j != list.get(i).getCategories().size() && !c.equals("")) ? "   " : "");
+            }
+        }
+        viewHolder.categories.setText(categories.toString());
         viewHolder.name.setText(ModTranslations.getModByCurseForgeId(list.get(i).getSlug()) == null ? list.get(i).getTitle() : ModTranslations.getModByCurseForgeId(list.get(i).getSlug()).getDisplayName());
         viewHolder.introduction.setText(list.get(i).getDescription());
         viewHolder.item.setOnClickListener(view1 -> {

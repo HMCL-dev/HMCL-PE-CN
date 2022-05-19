@@ -29,7 +29,7 @@ import com.tungsten.hmclpe.launcher.mod.SearchTools;
 import com.tungsten.hmclpe.launcher.mod.ModListBean;
 import com.tungsten.hmclpe.launcher.mod.curse.CurseModManager;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
-import com.tungsten.hmclpe.launcher.view.spinner.SpinnerAdapter;
+import com.tungsten.hmclpe.launcher.view.spinner.CFCSpinnerAdapter;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class DownloadResourcePackUI extends BaseUI implements View.OnClickListen
     private ArrayList<String> versionList;
     private ArrayAdapter<String> versionListAdapter;
     private ArrayList<CurseModManager.Category> categoryList;
-    private SpinnerAdapter categoryListAdapter;
+    private CFCSpinnerAdapter categoryListAdapter;
 
     private boolean isSearching = false;
 
@@ -111,7 +111,7 @@ public class DownloadResourcePackUI extends BaseUI implements View.OnClickListen
                 category.setName(context.getString(resId));
             }
         }
-        categoryListAdapter = new SpinnerAdapter(context,categoryList,12);
+        categoryListAdapter = new CFCSpinnerAdapter(context,categoryList,12);
         editCategory.setAdapter(categoryListAdapter);
 
         editVersionSpinner.setOnItemSelectedListener(this);
@@ -164,7 +164,7 @@ public class DownloadResourcePackUI extends BaseUI implements View.OnClickListen
                     searchHandler.sendEmptyMessage(0);
                     List<CurseModManager.Category> categories;
                     categories = CurseModManager.getCategories(SearchTools.SECTION_RESOURCE_PACK);
-                    Stream<ModListBean.Mod> stream = SearchTools.search("", editVersion.getText().toString(), ((CurseModManager.Category) editCategory.getSelectedItem()).getId(), SearchTools.SECTION_RESOURCE_PACK, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), editSort.getSelectedItemPosition());
+                    Stream<ModListBean.Mod> stream = SearchTools.search("", editVersion.getText().toString(), ((CurseModManager.Category) editCategory.getSelectedItem()).getId(), null, SearchTools.SECTION_RESOURCE_PACK, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), editSort.getSelectedItemPosition());
                     List<ModListBean.Mod> list = stream.collect(toList());
                     resourcePackList.clear();
                     resourcePackList.addAll(list);

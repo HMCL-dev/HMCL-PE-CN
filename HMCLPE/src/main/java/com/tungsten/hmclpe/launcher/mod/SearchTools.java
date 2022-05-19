@@ -25,7 +25,7 @@ public class SearchTools {
     public static final int DEFAULT_PAGE_OFFSET = 0;
 
     @SuppressLint("NewApi")
-    public static Stream<ModListBean.Mod> searchImpl(String source, String gameVersion, int category, int section, int pageOffset, String searchFilter, int sort) throws Exception {
+    public static Stream<ModListBean.Mod> searchImpl(String source, String gameVersion, int category, String modrinthCategory, int section, int pageOffset, String searchFilter, int sort) throws Exception {
         if (StringUtils.CHINESE_PATTERN.matcher(searchFilter).find()) {
             List<ModTranslations.Mod> mods = ModTranslations.searchMod(searchFilter);
             List<String> searchFilters = new ArrayList<>();
@@ -39,16 +39,16 @@ public class SearchTools {
                 count++;
                 if (count >= 3) break;
             }
-            return search(source,gameVersion, category, section, pageOffset, String.join(" ", searchFilters), sort);
+            return search(source,gameVersion, category, modrinthCategory, section, pageOffset, String.join(" ", searchFilters), sort);
         }
         else {
-            return search(source,gameVersion, category, section, pageOffset, searchFilter, sort);
+            return search(source,gameVersion, category, modrinthCategory, section, pageOffset, searchFilter, sort);
         }
     }
 
-    public static Stream<ModListBean.Mod> search(String source, String gameVersion, int category, int section, int pageOffset, String searchFilter, int sort) throws Exception {
+    public static Stream<ModListBean.Mod> search(String source, String gameVersion, int category, String modrinthCategory, int section, int pageOffset, String searchFilter, int sort) throws Exception {
         if (source.equals("Modrinth")) {
-            return Modrinth.searchPaginated(gameVersion, pageOffset, searchFilter,sort).stream().map(Modrinth.ModResult::toMod);
+            return Modrinth.searchPaginated(gameVersion, modrinthCategory, pageOffset, searchFilter, sort).stream().map(Modrinth.ModResult::toMod);
         }
         else {
             return CurseModManager.searchPaginated(gameVersion, category, section, pageOffset, searchFilter, sort).stream().map(CurseAddon::toMod);

@@ -28,7 +28,7 @@ import com.tungsten.hmclpe.launcher.list.download.DownloadResourceAdapter;
 import com.tungsten.hmclpe.launcher.mod.curse.CurseModManager;
 import com.tungsten.hmclpe.launcher.mod.ModListBean;
 import com.tungsten.hmclpe.launcher.mod.SearchTools;
-import com.tungsten.hmclpe.launcher.view.spinner.SpinnerAdapter;
+import com.tungsten.hmclpe.launcher.view.spinner.CFCSpinnerAdapter;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
@@ -53,7 +53,7 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
     private ArrayList<String> versionList;
     private ArrayAdapter<String> versionListAdapter;
     private ArrayList<CurseModManager.Category> categoryList;
-    private SpinnerAdapter categoryListAdapter;
+    private CFCSpinnerAdapter categoryListAdapter;
 
     private boolean isSearching = false;
 
@@ -111,7 +111,7 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
                 category.setName(context.getString(resId));
             }
         }
-        categoryListAdapter = new SpinnerAdapter(context,categoryList,17);
+        categoryListAdapter = new CFCSpinnerAdapter(context,categoryList,17);
         editCategory.setAdapter(categoryListAdapter);
 
         editVersionSpinner.setOnItemSelectedListener(this);
@@ -164,7 +164,7 @@ public class DownloadWorldUI extends BaseUI implements View.OnClickListener, Ada
                     searchHandler.sendEmptyMessage(0);
                     List<CurseModManager.Category> categories;
                     categories = CurseModManager.getCategories(SearchTools.SECTION_WORLD);
-                    Stream<ModListBean.Mod> stream = SearchTools.search("", editVersion.getText().toString(), ((CurseModManager.Category) editCategory.getSelectedItem()).getId(), SearchTools.SECTION_WORLD, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), editSort.getSelectedItemPosition());
+                    Stream<ModListBean.Mod> stream = SearchTools.search("", editVersion.getText().toString(), ((CurseModManager.Category) editCategory.getSelectedItem()).getId(), null, SearchTools.SECTION_WORLD, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), editSort.getSelectedItemPosition());
                     List<ModListBean.Mod> list = stream.collect(toList());
                     worldList.clear();
                     worldList.addAll(list);

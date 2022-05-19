@@ -13,13 +13,13 @@ import com.tungsten.hmclpe.launcher.mod.curse.CurseModManager;
 
 import java.util.ArrayList;
 
-public class SpinnerAdapter extends BaseAdapter {
+public class CFCSpinnerAdapter extends BaseAdapter {
 
     private Context context;
     private ArrayList<CurseModManager.Category> list;
     private int section;
 
-    public SpinnerAdapter (Context context, ArrayList<CurseModManager.Category> list,int section){
+    public CFCSpinnerAdapter(Context context, ArrayList<CurseModManager.Category> list, int section){
         this.context = context;
         this.list = list;
         this.section = section;
@@ -55,7 +55,7 @@ public class SpinnerAdapter extends BaseAdapter {
             convertView.setTag(viewHolder);
         }
         else {
-            viewHolder = (ViewHolder)convertView.getTag();
+            viewHolder = (ViewHolder) convertView.getTag();
         }
         if (list.get(position).getParentCategoryId() != section){
             viewHolder.checkedTextView.setText("    " + list.get(position).getName());

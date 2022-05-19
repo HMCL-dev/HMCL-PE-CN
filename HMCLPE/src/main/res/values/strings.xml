@@ -494,6 +494,8 @@
     <string name="curse_category_248">冒险模式</string>
     <string name="curse_category_252">解谜类</string>
 
+    <string name="modrinth_category_all">全部</string>
+
     <string name="modrinth_category_adventure">冒险</string>
     <string name="modrinth_category_cursed">Cursed</string>
     <string name="modrinth_category_decoration">装饰</string>
