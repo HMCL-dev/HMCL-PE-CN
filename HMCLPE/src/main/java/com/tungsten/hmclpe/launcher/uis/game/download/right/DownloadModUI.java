@@ -29,6 +29,7 @@ import com.tungsten.hmclpe.launcher.mod.ModListBean;
 import com.tungsten.hmclpe.launcher.mod.SearchTools;
 import com.tungsten.hmclpe.launcher.list.download.DownloadResourceAdapter;
 import com.tungsten.hmclpe.launcher.mod.modrinth.Modrinth;
+import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.view.spinner.CFCSpinnerAdapter;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.launcher.view.spinner.MRCSpinnerAdapter;
@@ -53,6 +54,8 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
     private Spinner sortSpinner;
     private Button search;
 
+    private ArrayList<String> gameList;
+    private ArrayAdapter<String> gameListAdapter;
     private ArrayList<String> sourceList;
     private ArrayAdapter<String> sourceListAdapter;
     private ArrayList<String> versionList;
@@ -110,6 +113,10 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
         typeSpinner = activity.findViewById(R.id.download_mod_arg_type);
         typeSpinnerMR = activity.findViewById(R.id.download_mod_arg_type_modrinth);
         sortSpinner = activity.findViewById(R.id.download_mod_arg_sort);
+
+        gameList = SettingUtils.getLocalVersionNames(activity.launcherSetting.gameFileDirectory);
+        gameListAdapter = new ArrayAdapter<>(context,R.layout.item_spinner,gameList);
+        gameSpinner.setAdapter(gameListAdapter);
 
         sourceList = new ArrayList<>();
         sourceList.add(context.getString(R.string.download_mod_source_curse_forge));
@@ -172,7 +179,7 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
 
         modListView = activity.findViewById(R.id.download_mod_list);
         modList = new ArrayList<>();
-        modListAdapter = new DownloadResourceAdapter(context,activity,modList,true);
+        modListAdapter = new DownloadResourceAdapter(context,activity,modList,0);
         modListView.setAdapter(modListAdapter);
 
         progressBar = activity.findViewById(R.id.loading_download_mod_list_progress);
@@ -228,6 +235,11 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    private void refreshGameList() {
+        gameList = SettingUtils.getLocalVersionNames(activity.launcherSetting.gameFileDirectory);
+        gameListAdapter.notifyDataSetChanged();
     }
 
     private void search(){

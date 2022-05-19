@@ -128,7 +128,7 @@ public class DownloadPackageUI extends BaseUI implements View.OnClickListener, A
 
         packageListView = activity.findViewById(R.id.download_package_list);
         packageList = new ArrayList<>();
-        downloadPackageListAdapter = new DownloadResourceAdapter(context,activity,packageList,false);
+        downloadPackageListAdapter = new DownloadResourceAdapter(context,activity,packageList,1);
         packageListView.setAdapter(downloadPackageListAdapter);
     }
 

@@ -198,6 +198,16 @@
     <string name="game_manager_ui_browse">浏览</string>
     <string name="game_manager_ui_manage">管理</string>
     
+    <string name="world_manager_ui_show_all">显示全部</string>
+    <string name="world_manager_ui_refresh">刷新</string>
+    <string name="world_manager_ui_add">添加世界</string>
+    <string name="world_manager_ui_download">存档下载</string>
+    <string name="world_manager_ui_info">%f。 上一次游戏时间：%t。 游戏版本：%v。</string>
+    <string name="world_manager_ui_unknown_game_version">未知</string>
+    <string name="world_manager_ui_manage_assets">管理数据包</string>
+    <string name="world_manager_ui_export">导出此世界</string>
+    <string name="world_manager_ui_open_dir">打开文件夹</string>
+    
     <string name="browse_menu_game_dir">游戏文件夹</string>
     <string name="browse_menu_mod_dir">MOD文件夹</string>
     <string name="browse_menu_setting_dir">配置文件夹</string>

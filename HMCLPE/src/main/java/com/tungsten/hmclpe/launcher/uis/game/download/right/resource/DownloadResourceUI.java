@@ -50,8 +50,8 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
     private ModGameVersionAdapter modGameVersionAdapter;
     private ModDependencyAdapter modDependencyAdapter;
 
-    public DownloadResourceUI(Context context, MainActivity activity, ModListBean.Mod bean,boolean isMod) {
-        super(context, activity, bean, isMod);
+    public DownloadResourceUI(Context context, MainActivity activity, ModListBean.Mod bean,int resourceType) {
+        super(context, activity, bean, resourceType);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
                 e.printStackTrace();
             }
         }).start();
-        name.setText(modTranslation != null && isMod ? modTranslation.getDisplayName() : bean.getTitle());
+        name.setText(modTranslation != null && resourceType == 0 ? modTranslation.getDisplayName() : bean.getTitle());
         StringBuilder categories = new StringBuilder();
         if (bean.getModrinthCategories().size() != 0) {
             for (int i = 0;i < bean.getModrinthCategories().size();i++){
@@ -123,7 +123,7 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
         type.setText(categories.toString());
         description.setText(bean.getDescription());
 
-        mcmod.setVisibility(isMod ? View.VISIBLE : View.GONE);
+        mcmod.setVisibility(resourceType == 0 ? View.VISIBLE : View.GONE);
         mcbbs.setVisibility(modTranslation != null && StringUtils.isNotBlank(modTranslation.getMcbbs()) ? View.VISIBLE : View.GONE);
         curseForge.setVisibility((bean.getPageUrl() != null && bean.getPageUrl().contains("curseforge")) ? View.VISIBLE : View.GONE);
         modrinth.setVisibility((bean.getPageUrl() != null && !bean.getPageUrl().contains("curseforge")) ? View.VISIBLE : View.GONE);

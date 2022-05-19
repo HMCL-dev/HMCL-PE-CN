@@ -124,7 +124,7 @@ public class ModDependencyAdapter extends BaseAdapter {
         viewHolder.name.setText(ModTranslations.getModByCurseForgeId(list.get(i).getSlug()) == null ? list.get(i).getTitle() : ModTranslations.getModByCurseForgeId(list.get(i).getSlug()).getDisplayName());
         viewHolder.introduction.setText(list.get(i).getDescription());
         viewHolder.item.setOnClickListener(view1 -> {
-            DownloadResourceUI downloadResourceUI = new DownloadResourceUI(context,activity,list.get(i),true);
+            DownloadResourceUI downloadResourceUI = new DownloadResourceUI(context,activity,list.get(i),0);
             activity.uiManager.switchMainUI(downloadResourceUI);
         });
         return view;

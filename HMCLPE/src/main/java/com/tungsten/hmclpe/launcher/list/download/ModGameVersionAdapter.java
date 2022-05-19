@@ -74,7 +74,7 @@ public class ModGameVersionAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
         viewHolder.name.setText(list.get(i));
-        ModVersionAdapter modVersionAdapter = new ModVersionAdapter(context,modInfo.getVersionByGameVersion(list.get(i)));
+        ModVersionAdapter modVersionAdapter = new ModVersionAdapter(context,modInfo.getVersionByGameVersion(list.get(i)),ui);
         viewHolder.modListView.setAdapter(modVersionAdapter);
         layoutHeights[i] = getListViewHeight(viewHolder.modListView) + ConvertUtils.dip2px(context,24);
         viewHolder.item.setOnClickListener(view1 -> {

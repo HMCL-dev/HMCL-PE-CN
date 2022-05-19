@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.mod.ModListBean;
+import com.tungsten.hmclpe.launcher.uis.game.download.right.resource.DownloadResourceUI;
 
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -24,6 +25,7 @@ public class ModVersionAdapter extends BaseAdapter {
 
     private Context context;
     private List<ModListBean.Version> list;
+    private DownloadResourceUI ui;
 
     private class ViewHolder{
         LinearLayout item;
@@ -34,9 +36,10 @@ public class ModVersionAdapter extends BaseAdapter {
         ImageButton select;
     }
 
-    public ModVersionAdapter (Context context, List<ModListBean.Version> list) {
+    public ModVersionAdapter (Context context, List<ModListBean.Version> list, DownloadResourceUI ui) {
         this.context = context;
         this.list = list;
+        this.ui = ui;
     }
 
     @Override

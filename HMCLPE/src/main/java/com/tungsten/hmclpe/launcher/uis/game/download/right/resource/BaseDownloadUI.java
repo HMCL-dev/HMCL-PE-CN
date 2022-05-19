@@ -17,16 +17,16 @@ public class BaseDownloadUI extends BaseUI {
 
     public ModListBean.Mod bean;
     public ModTranslations.Mod modTranslation;
-    public boolean isMod;
+    public int resourceType;
     public boolean isFirst = true;
 
     public LinearLayout baseDownloadUI;
 
-    public BaseDownloadUI(Context context, MainActivity activity, ModListBean.Mod bean,boolean isMod) {
+    public BaseDownloadUI(Context context, MainActivity activity, ModListBean.Mod bean,int resourceType) {
         super(context, activity);
         this.bean = bean;
         this.modTranslation = ModTranslations.getModByCurseForgeId(bean.getSlug());
-        this.isMod = isMod;
+        this.resourceType = resourceType;
         onCreate();
     }
 
