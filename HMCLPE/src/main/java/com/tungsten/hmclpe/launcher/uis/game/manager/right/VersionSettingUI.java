@@ -119,7 +119,7 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
     private RadioButton launchByBoat;
     private RadioButton launchByPojav;
 
-    private RadioButton boatRendererGL4ES115;
+    private RadioButton boatRendererGL4ES114;
     private RadioButton boatRendererVirGL;
 
     private RadioButton pojavRendererGL4ES114;
@@ -214,7 +214,7 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
         launchByBoat = activity.findViewById(R.id.launch_by_boat_isolate);
         launchByPojav = activity.findViewById(R.id.launch_by_pojav_isolate);
 
-        boatRendererGL4ES115 = activity.findViewById(R.id.boat_renderer_gl4es_115_isolate);
+        boatRendererGL4ES114 = activity.findViewById(R.id.boat_renderer_gl4es_114_isolate);
         boatRendererVirGL = activity.findViewById(R.id.boat_renderer_virgl_isolate);
 
         pojavRendererGL4ES114 = activity.findViewById(R.id.pojav_renderer_gl4es_114_isolate);
@@ -347,7 +347,7 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
         launchByBoat.setOnClickListener(this);
         launchByPojav.setOnClickListener(this);
 
-        boatRendererGL4ES115.setOnClickListener(this);
+        boatRendererGL4ES114.setOnClickListener(this);
         boatRendererVirGL.setOnClickListener(this);
 
         pojavRendererGL4ES114.setOnClickListener(this);
@@ -648,13 +648,13 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
             launchByPojav.setChecked(true);
             currentLauncher.setText(context.getText(R.string.game_setting_ui_game_launcher_pojav));
         }
-        if (setting.boatLauncherSetting.renderer.equals("libGL112.so.1") || setting.boatLauncherSetting.renderer.equals("libGL115.so.1") || setting.boatLauncherSetting.renderer.equals("libgl4es_114.so") || setting.boatLauncherSetting.renderer.equals("libvgpu.so") || setting.boatLauncherSetting.renderer.equals("GL4ES115")){
-            boatRendererGL4ES115.setChecked(true);
+        if (setting.boatLauncherSetting.renderer.equals("libGL112.so.1") || setting.boatLauncherSetting.renderer.equals("libGL115.so.1") || setting.boatLauncherSetting.renderer.equals("libgl4es_114.so") || setting.boatLauncherSetting.renderer.equals("libvgpu.so") || setting.boatLauncherSetting.renderer.equals("GL4ES115") || setting.boatLauncherSetting.renderer.equals("GL4ES114")){
+            boatRendererGL4ES114.setChecked(true);
             boatRendererVirGL.setChecked(false);
-            currentBoatRenderer.setText(context.getText(R.string.game_setting_ui_boat_renderer_gl4es_115));
+            currentBoatRenderer.setText(context.getText(R.string.game_setting_ui_boat_renderer_gl4es_114));
         }
         else if (setting.boatLauncherSetting.renderer.equals("VirGL")){
-            boatRendererGL4ES115.setChecked(false);
+            boatRendererGL4ES114.setChecked(false);
             boatRendererVirGL.setChecked(true);
             currentBoatRenderer.setText(context.getText(R.string.game_setting_ui_boat_renderer_virgl));
         }
@@ -822,14 +822,14 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
             GsonUtils.savePrivateGameSetting(privateGameSetting, activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/hmclpe.cfg");
             currentLauncher.setText(context.getText(R.string.game_setting_ui_game_launcher_pojav));
         }
-        if (v == boatRendererGL4ES115){
+        if (v == boatRendererGL4ES114){
             boatRendererVirGL.setChecked(false);
-            privateGameSetting.boatLauncherSetting.renderer = "GL4ES115";
+            privateGameSetting.boatLauncherSetting.renderer = "GL4ES114";
             GsonUtils.savePrivateGameSetting(privateGameSetting, activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/hmclpe.cfg");
-            currentBoatRenderer.setText(context.getText(R.string.game_setting_ui_boat_renderer_gl4es_115));
+            currentBoatRenderer.setText(context.getText(R.string.game_setting_ui_boat_renderer_gl4es_114));
         }
         if (v == boatRendererVirGL){
-            boatRendererGL4ES115.setChecked(false);
+            boatRendererGL4ES114.setChecked(false);
             privateGameSetting.boatLauncherSetting.renderer = "VirGL";
             GsonUtils.savePrivateGameSetting(privateGameSetting, activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/hmclpe.cfg");
             currentBoatRenderer.setText(context.getText(R.string.game_setting_ui_boat_renderer_virgl));

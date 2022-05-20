@@ -197,6 +197,14 @@
     <string name="game_manager_ui_test_game">测试游戏</string>
     <string name="game_manager_ui_browse">浏览</string>
     <string name="game_manager_ui_manage">管理</string>
+
+    <string name="mod_manager_ui_refresh">刷新</string>
+    <string name="mod_manager_ui_add">添加模组</string>
+    <string name="mod_manager_ui_open_folder">MOD文件夹</string>
+    <string name="mod_manager_ui_check_update">检查模组更新</string>
+    <string name="mod_manager_ui_download">下载</string>
+    <string name="mod_manager_ui_info">%n，版本：%v，作者：%a</string>
+    <string name="mod_manager_ui_unknown_info">未知</string>
     
     <string name="world_manager_ui_show_all">显示全部</string>
     <string name="world_manager_ui_refresh">刷新</string>
@@ -591,7 +599,7 @@
     <string name="game_setting_ui_game_launcher_pojav" translatable="false">PojavLauncher</string>
     <string name="game_setting_ui_game_launcher_hint">推荐使用 Boat 启动器。</string>
     <string name="game_setting_ui_boat_renderer">Boat 渲染方式</string>
-    <string name="game_setting_ui_boat_renderer_gl4es_115" translatable="false">GL4ES-1.1.5 (OpenGL 2.1)</string>
+    <string name="game_setting_ui_boat_renderer_gl4es_114" translatable="false">GL4ES-1.1.4 (OpenGL 2.1)</string>
     <string name="game_setting_ui_boat_renderer_virgl" translatable="false">VirGLRenderer (OpenGL 4.3)</string>
     <string name="game_setting_ui_pojav_renderer">PojavLauncher 渲染方式</string>
     <string name="game_setting_ui_pojav_renderer_gl4es_114" translatable="false">GL4ES-1.1.4 (OpenGL 2.1)</string>

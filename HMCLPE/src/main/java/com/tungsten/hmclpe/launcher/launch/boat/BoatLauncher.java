@@ -49,8 +49,12 @@ public class BoatLauncher {
             args.add("-Dorg.lwjgl.util.Debug=true");
             args.add("-Dos.name=Linux");
             args.add("-Dlwjgl.platform=Boat");
-            args.add("-Dorg.lwjgl.opengl.libname=libgl4es_114.so");
-//            args.add("-Dorg.lwjgl.opengl.libname=libGL.so.1");
+            if (gameLaunchSetting.boatRenderer.equals("VirGL")) {
+                args.add("-Dorg.lwjgl.opengl.libname=libGL.so.1");
+            }
+            else {
+                args.add("-Dorg.lwjgl.opengl.libname=libgl4es_114.so");
+            }
             args.add("-Dlwjgl.platform=Boat");
             args.add("-Dos.name=Linux");
             args.add("-Djava.io.tmpdir=" + AppManifest.DEFAULT_CACHE_DIR);

@@ -44,7 +44,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_gravity="center"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
@@ -52,7 +52,7 @@
 
                 <TextView
                     android:layout_gravity="center"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/download_ui_game"
@@ -72,7 +72,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_marginLeft="9dp"
+                    android:layout_marginStart="9dp"
                     android:layout_gravity="center"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
@@ -90,7 +90,7 @@
             </LinearLayout>
 
             <TextView
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -117,7 +117,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_gravity="center"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
@@ -125,7 +125,7 @@
 
                 <TextView
                     android:layout_gravity="center"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/download_ui_mod"
@@ -147,7 +147,7 @@
                 <ImageView
                     android:layout_marginTop="1dp"
                     android:layout_marginBottom="1dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_gravity="center"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
@@ -155,7 +155,7 @@
 
                 <TextView
                     android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/download_ui_resource_pack"
@@ -176,14 +176,14 @@
 
                 <ImageView
                     android:background="@drawable/ic_baseline_earth_black"
-                    android:layout_marginLeft="9dp"
+                    android:layout_marginStart="9dp"
                     android:layout_gravity="center"
                     android:layout_width="22dp"
                     android:layout_height="22dp" />
 
                 <TextView
                     android:layout_gravity="center"
-                    android:layout_marginLeft="19dp"
+                    android:layout_marginStart="19dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/download_ui_world"

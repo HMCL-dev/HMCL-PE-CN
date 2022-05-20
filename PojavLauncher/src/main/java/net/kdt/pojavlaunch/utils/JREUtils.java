@@ -272,7 +272,7 @@ public class JREUtils {
                 "-Dglfwstub.windowWidth=" + CallbackBridge.windowWidth,
                 "-Dglfwstub.windowHeight=" + CallbackBridge.windowHeight,
                 "-Dglfwstub.initEgl=false",
-                "-Dext.net.resolvPath=" +new File(context.getFilesDir().getParent(),"resolv.conf").getAbsolutePath(),
+                "-Dext.net.resolvPath=" + new File(context.getFilesDir().getParent(),"resolv.conf").getAbsolutePath(),
                 "-Dlog4j2.formatMsgNoLookups=true"
         };
 

@@ -42,11 +42,10 @@ public class LoadMe {
 			setenv("LIBGL_MIPMAP","3");
 			setenv("LIBGL_NORMALIZE","1");
             setenv("LIBGL_NOINTOVLHACK", "1");
-            setenv("LIBGL_NAME","libgl4es_114.so");
-            setenv("LIBEGL_NAME","libEGL_wrapper.so");
-
 
 			if (renderer.equals("VirGL")) {
+                setenv("LIBGL_NAME","libGL.so.1");
+                setenv("LIBEGL_NAME","libEGL.so.1");
                 setenv("LIBGL_DRIVERS_PATH",BOAT_LIB_DIR + "/renderer/virgl/");
                 setenv("MESA_GL_VERSION_OVERRIDE","4.3");
                 setenv("MESA_GLSL_VERSION_OVERRIDE","430");
@@ -55,6 +54,8 @@ public class LoadMe {
                 setenv("MESA_GLSL_CACHE_DIR",context.getCacheDir().getAbsolutePath());
             }
 			else {
+                setenv("LIBGL_NAME","libgl4es_114.so");
+                setenv("LIBEGL_NAME","libEGL_wrapper.so");
                 if (highVersion) {
                     setenv("LIBGL_GL","32");
                 }
@@ -62,11 +63,6 @@ public class LoadMe {
 
             // openjdk
             if (isJava17) {
-                if (!renderer.equals("VirGL")) {
-                    setenv("LIBGL_ES","2");
-                    setenv("LIBGL_SHADERCONVERTER", "1");
-                }
-
                 dlopen(javaPath + "/lib/libpng16.so.16");
                 dlopen(javaPath + "/lib/libpng16.so");
                 dlopen(javaPath + "/lib/libfreetype.so");
@@ -81,11 +77,6 @@ public class LoadMe {
                 dlopen(javaPath + "/lib/libfontmanager.so");
                 dlopen(javaPath + "/lib/libtinyiconv.so");
                 dlopen(javaPath + "/lib/libinstrument.so");
-
-                if (!renderer.equals("VirGL")) {
-                    dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libglslang.so.11");
-                    dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libglslconv.so");
-                }
             }
             else {
                 dlopen(javaPath + "/lib/aarch64/libpng16.so.16");
@@ -106,8 +97,6 @@ public class LoadMe {
             dlopen(BOAT_LIB_DIR + "/libopenal.so.1");
 
             if (!renderer.equals("VirGL")) {
-//                dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libGL.so.1");
-//                dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libEGL.so.1");
                 dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libgl4es_114.so");
                 dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libEGL_wrapper.so");
             }
