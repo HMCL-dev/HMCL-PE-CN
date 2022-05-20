@@ -41,6 +41,10 @@ public class LoadMe {
 			setenv("JAVA_HOME" , javaPath);
 			setenv("LIBGL_MIPMAP","3");
 			setenv("LIBGL_NORMALIZE","1");
+            setenv("LIBGL_NOINTOVLHACK", "1");
+            setenv("LIBGL_NAME","libgl4es_114.so");
+            setenv("LIBEGL_NAME","libEGL_wrapper.so");
+
 
 			if (renderer.equals("VirGL")) {
                 setenv("LIBGL_DRIVERS_PATH",BOAT_LIB_DIR + "/renderer/virgl/");
@@ -59,7 +63,7 @@ public class LoadMe {
             // openjdk
             if (isJava17) {
                 if (!renderer.equals("VirGL")) {
-                    setenv("LIBGL_ES","3");
+                    setenv("LIBGL_ES","2");
                     setenv("LIBGL_SHADERCONVERTER", "1");
                 }
 
@@ -102,8 +106,10 @@ public class LoadMe {
             dlopen(BOAT_LIB_DIR + "/libopenal.so.1");
 
             if (!renderer.equals("VirGL")) {
-                dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libGL.so.1");
-                dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libEGL.so.1");
+//                dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libGL.so.1");
+//                dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libEGL.so.1");
+                dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libgl4es_114.so");
+                dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libEGL_wrapper.so");
             }
             else {
                 dlopen(BOAT_LIB_DIR + "/renderer/virgl/libexpat.so.1");
