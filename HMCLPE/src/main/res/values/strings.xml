@@ -205,6 +205,11 @@
     <string name="mod_manager_ui_download">下载</string>
     <string name="mod_manager_ui_info">%n，版本：%v，作者：%a</string>
     <string name="mod_manager_ui_unknown_info">未知</string>
+    <string name="mod_manager_ui_official_page">官方页面</string>
+    <string name="mod_manager_ui_mcbbs_page">MCBBS</string>
+    <string name="mod_manager_ui_mcmod_page">MC 百科页面</string>
+    <string name="mod_manager_ui_mcmod_search">MC 百科搜索</string>
+    <string name="mod_manager_ui_dismiss">确定</string>
     
     <string name="world_manager_ui_show_all">显示全部</string>
     <string name="world_manager_ui_refresh">刷新</string>

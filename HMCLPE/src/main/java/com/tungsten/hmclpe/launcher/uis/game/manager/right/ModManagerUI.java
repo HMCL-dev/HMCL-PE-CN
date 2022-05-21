@@ -1,8 +1,12 @@
 package com.tungsten.hmclpe.launcher.uis.game.manager.right;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -11,6 +15,7 @@ import android.widget.ProgressBar;
 
 import com.tungsten.filepicker.Constants;
 import com.tungsten.filepicker.FileBrowser;
+import com.tungsten.filepicker.FileChooser;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.local.mod.LocalModListAdapter;
@@ -20,13 +25,17 @@ import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.file.FileUtils;
+import com.tungsten.hmclpe.utils.file.UriUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class ModManagerUI extends BaseUI implements View.OnClickListener {
+
+    private static final int ADD_MOD_REQUEST = 4100;
 
     public LinearLayout modManagerUI;
 
@@ -44,6 +53,7 @@ public class ModManagerUI extends BaseUI implements View.OnClickListener {
     private ListView modList;
 
     private ArrayList<LocalModFile> allModList;
+    private LocalModListAdapter localModListAdapter;
 
     public ModManagerUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -126,13 +136,40 @@ public class ModManagerUI extends BaseUI implements View.OnClickListener {
                 Log.e("getModsException",e.toString());
                 e.printStackTrace();
             }
-            LocalModListAdapter adapter = new LocalModListAdapter(context,allModList);
+            localModListAdapter = new LocalModListAdapter(context,allModList);
             activity.runOnUiThread(() -> {
-                modList.setAdapter(adapter);
+                modList.setAdapter(localModListAdapter);
                 progressBar.setVisibility(View.GONE);
                 modList.setVisibility(View.VISIBLE);
             });
         }).start();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_MOD_REQUEST && data != null) {
+            if (resultCode == RESULT_OK) {
+                ArrayList<Uri> selectedFiles  = data.getParcelableArrayListExtra(Constants.SELECTED_ITEMS);
+                ArrayList<Path> list = new ArrayList<>();
+                for (Uri uri : selectedFiles) {
+                    String path = UriUtils.getRealPathFromUri_AboveApi19(context,uri);
+                    if (path != null) {
+                        list.add(new File(path).toPath());
+                    }
+                }
+                new Thread(() -> {
+                    for (Path path : list) {
+                        try {
+                            modManager.addMod(path);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    activity.runOnUiThread(this::refreshList);
+                }).start();
+            }
+        }
     }
 
     @Override
@@ -141,7 +178,11 @@ public class ModManagerUI extends BaseUI implements View.OnClickListener {
             refreshList();
         }
         if (view == addMod) {
-
+            Intent intent = new Intent(context, FileChooser.class);
+            intent.putExtra(Constants.SELECTION_MODE, Constants.SELECTION_MODES.MULTIPLE_SELECTION.ordinal());
+            intent.putExtra(Constants.ALLOWED_FILE_EXTENSIONS, "jar;zip");
+            intent.putExtra(Constants.INITIAL_DIRECTORY, Environment.getExternalStorageDirectory().getAbsolutePath());
+            activity.startActivityForResult(intent, ADD_MOD_REQUEST);
         }
         if (view == openFolder) {
             Intent intent = new Intent(context, FileBrowser.class);

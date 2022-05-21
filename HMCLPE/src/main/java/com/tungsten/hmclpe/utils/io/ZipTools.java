@@ -33,18 +33,15 @@ public class ZipTools {
         return "";
     }
 
-    public static InputStream readForgeNewMeta(String file) throws IOException {
+    public static InputStream getFileInputStream(String file,String targetName) throws IOException {
         Charset charset = StandardCharsets.UTF_8;
         ZipFile zf = new ZipFile(file, charset);
         InputStream in = new BufferedInputStream(new FileInputStream(file));
         ZipInputStream zin = new ZipInputStream(in);
         ZipEntry ze;
         while ((ze = zin.getNextEntry()) != null) {
-            if (!ze.isDirectory() && ze.getName().equals("META-INF/MANIFEST.MF")) {
+            if (!ze.isDirectory() && ze.getName().equals(targetName)) {
                 InputStream inputStream = zf.getInputStream(ze);
-                byte[] bytes = new byte[inputStream.available()];
-                inputStream.read(bytes);
-                inputStream.close();
                 zin.closeEntry();
                 return inputStream;
             }

@@ -111,9 +111,9 @@ public final class ForgeNewModMetadata {
         }
     }
 
-    public static LocalModFile fromFile(ModManager modManager, Path modFile) throws IOException, JsonParseException, ZipException {
+    public static LocalModFile fromFile(ModManager modManager, Path modFile) throws IOException, JsonParseException {
         String s = ZipTools.readNormalMeta(modFile.toString(),"META-INF/mods.toml");
-        InputStream inputStream = ZipTools.readForgeNewMeta(modFile.toString());
+        InputStream inputStream = ZipTools.getFileInputStream(modFile.toString(),"META-INF/MANIFEST.MF");
         if (StringUtils.isBlank(s)) {
             throw new IOException("File " + modFile + " is not a Forge1.13+ mod.");
         }
@@ -122,11 +122,14 @@ public final class ForgeNewModMetadata {
             throw new IOException("Mod " + modFile + " `mods.toml` is malformed..");
         Mod mod = metadata.getMods().get(0);
         String jarVersion = "";
-        try {
-            Manifest manifest = new Manifest(inputStream);
-            jarVersion = manifest.getMainAttributes().getValue(Attributes.Name.IMPLEMENTATION_VERSION);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (inputStream != null) {
+            try {
+                Manifest manifest = new Manifest(inputStream);
+                jarVersion = manifest.getMainAttributes().getValue(Attributes.Name.IMPLEMENTATION_VERSION);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            inputStream.close();
         }
         return new LocalModFile(modManager, modManager.getLocalMod(mod.getModId(), ModLoaderType.FORGE), modFile, mod.getDisplayName(), new LocalModFile.Description(mod.getDescription()),
                 mod.getAuthors(), mod.getVersion().replace("${file.jarVersion}", jarVersion), "",

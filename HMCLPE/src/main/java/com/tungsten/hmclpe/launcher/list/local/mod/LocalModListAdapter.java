@@ -1,6 +1,7 @@
 package com.tungsten.hmclpe.launcher.list.local.mod;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,17 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tungsten.filepicker.Constants;
+import com.tungsten.filepicker.FileBrowser;
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.launcher.dialogs.ModInfoDialog;
 import com.tungsten.hmclpe.launcher.mod.LocalModFile;
+import com.tungsten.hmclpe.utils.string.ModTranslations;
 import com.tungsten.hmclpe.utils.string.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class LocalModListAdapter extends BaseAdapter {
 
@@ -73,6 +79,8 @@ public class LocalModListAdapter extends BaseAdapter {
         LocalModFile localModFile = list.get(i);
         viewHolder.checkBox.setChecked(localModFile.isActive());
         viewHolder.name.setText(localModFile.getFileName());
+        String displayName = ModTranslations.getModById(localModFile.getId()) == null ? "" : Objects.requireNonNull(ModTranslations.getModById(localModFile.getId())).getDisplayName();
+        viewHolder.category.setText(displayName);
         String unknown = context.getString(R.string.mod_manager_ui_unknown_info);
         String name = StringUtils.isBlank(localModFile.getName()) ? unknown : localModFile.getName();
         String version = StringUtils.isBlank(localModFile.getVersion()) ? unknown : localModFile.getVersion();
@@ -87,6 +95,15 @@ public class LocalModListAdapter extends BaseAdapter {
         });
         viewHolder.item.setOnClickListener(view1 -> {
 
+        });
+        viewHolder.openFolder.setOnClickListener(view12 -> {
+            Intent intent = new Intent(context, FileBrowser.class);
+            intent.putExtra(Constants.INITIAL_DIRECTORY, localModFile.getFile().getParent().toString());
+            context.startActivity(intent);
+        });
+        viewHolder.showInfo.setOnClickListener(view13 -> {
+            ModInfoDialog dialog = new ModInfoDialog(context,localModFile);
+            dialog.show();
         });
         return view;
     }
