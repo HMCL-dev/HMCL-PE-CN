@@ -279,7 +279,7 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                             }
                         }
                         if (info.outputText != null && !info.outputText.equals("")) {
-                            if (menuHelper.viewManager.gameCursorMode == 0) {
+                            if (menuHelper.gameCursorMode == 0) {
                                 for(int i = 0; i < info.outputText.length(); i++){
                                     InputBridge.sendKeyChar(menuHelper.launcher,info.outputText.charAt(i));
                                 }
@@ -305,7 +305,7 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                         }
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        if (info.viewMove && menuHelper.viewManager.gameCursorMode == 1) {
+                        if (info.viewMove && menuHelper.gameCursorMode == 1) {
                             menuHelper.viewManager.setGamePointer(info.uuid,true,event.getRawX() - initialX,event.getRawY() - initialY);
                         }
                         if (info.movable) {
@@ -335,7 +335,7 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        if (info.viewMove && menuHelper.viewManager.gameCursorMode == 1) {
+                        if (info.viewMove && menuHelper.gameCursorMode == 1) {
                             menuHelper.viewManager.setGamePointer(info.uuid,false,event.getRawX() - initialX,event.getRawY() - initialY);
                         }
                         if (!info.autoKeep && !info.autoClick) {
@@ -381,7 +381,7 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                         }
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        if (info.viewMove && menuHelper.viewManager.gameCursorMode == 1) {
+                        if (info.viewMove && menuHelper.gameCursorMode == 1) {
                             menuHelper.viewManager.setGamePointer(info.uuid,true,event.getRawX() - initialX,event.getRawY() - initialY);
                         }
                         if (info.movable) {
@@ -411,7 +411,7 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        if (info.viewMove && menuHelper.viewManager.gameCursorMode == 1) {
+                        if (info.viewMove && menuHelper.gameCursorMode == 1) {
                             menuHelper.viewManager.setGamePointer(info.uuid,false,event.getRawX() - initialX,event.getRawY() - initialY);
                         }
                         if (!info.autoKeep) {
@@ -509,7 +509,7 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
             }
         }
         if (info.outputText != null && !info.outputText.equals("")) {
-            if (menuHelper.viewManager.gameCursorMode == 0) {
+            if (menuHelper.gameCursorMode == 0) {
                 for(int i = 0; i < info.outputText.length(); i++){
                     InputBridge.sendKeyChar(menuHelper.launcher,info.outputText.charAt(i));
                 }
@@ -545,7 +545,7 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
     }
 
     public void refreshVisibility(){
-        int mode = menuHelper.viewManager == null ? 0 : menuHelper.viewManager.gameCursorMode;
+        int mode = menuHelper.viewManager == null ? 0 : menuHelper.gameCursorMode;
         if (menuHelper.editMode || (isShowing && (info.showType == 0 || (mode == 1 && info.showType == 1) || (mode == 0 && info.showType == 2)))) {
             setVisibility(VISIBLE);
         }

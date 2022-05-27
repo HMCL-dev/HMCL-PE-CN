@@ -86,7 +86,7 @@ public class TouchPad extends View {
     @SuppressLint("DrawAllocation")
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        if (menuHelper.viewManager.gameCursorMode == 0) {
+        if (menuHelper.gameCursorMode == 0) {
             Rect src = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
             Rect dst = new Rect((int) cursorX, (int) cursorY, (int) cursorX + ConvertUtils.dip2px(getContext(),menuHelper.gameMenuSetting.mouseSize), (int) cursorY + ConvertUtils.dip2px(getContext(),menuHelper.gameMenuSetting.mouseSize));
             canvas.drawBitmap(bitmap, src, dst, new Paint(Paint.ANTI_ALIAS_FLAG));
@@ -118,7 +118,7 @@ public class TouchPad extends View {
             inventoryWidth = 20 * guiScale * 9;
             inventoryHeight = 20 * guiScale;
         }
-        if (menuHelper.viewManager.gameCursorMode == 1 && downX >= ((getWidth() / 2) - (inventoryWidth / 2)) && downX <= ((getWidth() / 2) + (inventoryWidth / 2)) && downY >= getHeight() - inventoryHeight) {
+        if (menuHelper.gameCursorMode == 1 && downX >= ((getWidth() / 2) - (inventoryWidth / 2)) && downX <= ((getWidth() / 2) + (inventoryWidth / 2)) && downY >= getHeight() - inventoryHeight) {
             int start = ((getWidth() / 2) - (inventoryWidth / 2));
             switch (event.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
@@ -174,7 +174,7 @@ public class TouchPad extends View {
             }
         }
         else {
-            if (menuHelper.gameMenuSetting.mouseMode == 0 && menuHelper.viewManager.gameCursorMode == 0){
+            if (menuHelper.gameMenuSetting.mouseMode == 0 && menuHelper.gameCursorMode == 0){
                 cursorX = event.getX();
                 cursorY = event.getY();
                 menuHelper.viewManager.pointerX = event.getX();
@@ -186,17 +186,17 @@ public class TouchPad extends View {
                     initialX = event.getX();
                     initialY = event.getY();
                     downTime = System.currentTimeMillis();
-                    if (menuHelper.viewManager.gameCursorMode == 1) {
+                    if (menuHelper.gameCursorMode == 1) {
                         pointerID = event.getPointerId(event.getActionIndex());
                     }
-                    if (menuHelper.gameMenuSetting.mouseMode == 1 && menuHelper.viewManager.gameCursorMode == 0){
+                    if (menuHelper.gameMenuSetting.mouseMode == 1 && menuHelper.gameCursorMode == 0){
                         startCursorX = cursorX;
                         startCursorY = cursorY;
                     }
-                    if (menuHelper.viewManager.gameCursorMode == 1 && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
+                    if (menuHelper.gameCursorMode == 1 && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
                         handler.postDelayed(runnable,400);
                     }
-                    if (menuHelper.gameMenuSetting.mouseMode == 0 && menuHelper.viewManager.gameCursorMode == 0){
+                    if (menuHelper.gameMenuSetting.mouseMode == 0 && menuHelper.gameCursorMode == 0){
                         if (launcher == 1) {
                             InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,true);
                         }
@@ -206,7 +206,7 @@ public class TouchPad extends View {
                     }
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    if (menuHelper.gameMenuSetting.mouseMode == 1 && menuHelper.viewManager.gameCursorMode == 0){
+                    if (menuHelper.gameMenuSetting.mouseMode == 1 && menuHelper.gameCursorMode == 0){
                         float targetX;
                         float targetY;
                         if (startCursorX + ((event.getX() - initialX) * menuHelper.gameMenuSetting.mouseSpeed) < 0){
@@ -233,7 +233,7 @@ public class TouchPad extends View {
                         menuHelper.viewManager.pointerY = targetY;
                         InputBridge.setPointer(launcher,(int) (targetX * menuHelper.scaleFactor),(int) (targetY * menuHelper.scaleFactor));
                     }
-                    if (menuHelper.viewManager.gameCursorMode == 1 && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1)) && event.getPointerId(event.getActionIndex()) == pointerID){
+                    if (menuHelper.gameCursorMode == 1 && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1)) && event.getPointerId(event.getActionIndex()) == pointerID){
                         menuHelper.viewManager.setGamePointer("1",true,event.getX() - initialX,event.getY() - initialY);
                         if ((Math.abs(event.getX() - initialX) > 1 || Math.abs(event.getY() - initialY) > 1) && System.currentTimeMillis() - downTime < 400){
                             handler.removeCallbacks(runnable);
@@ -244,10 +244,10 @@ public class TouchPad extends View {
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
                     if (event.getPointerId(event.getActionIndex()) == pointerID) {
-                        if (menuHelper.gameMenuSetting.mouseMode == 0 && menuHelper.viewManager.gameCursorMode == 0){
+                        if (menuHelper.gameMenuSetting.mouseMode == 0 && menuHelper.gameCursorMode == 0){
                             InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);
                         }
-                        if (menuHelper.viewManager.gameCursorMode == 1 && event.getPointerId(event.getActionIndex()) == pointerID && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
+                        if (menuHelper.gameCursorMode == 1 && event.getPointerId(event.getActionIndex()) == pointerID && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
                             menuHelper.viewManager.setGamePointer("1",false,event.getX() - initialX,event.getY() - initialY);
                             handler.removeCallbacks(runnable);
                             if (menuHelper.gameMenuSetting.touchMode == 0){
@@ -262,11 +262,11 @@ public class TouchPad extends View {
                              */
                         }
                         if (System.currentTimeMillis() - downTime <= 200 && Math.abs(event.getX() - initialX) <= 10 && Math.abs(event.getY() - initialY) <= 10){
-                            if (menuHelper.gameMenuSetting.mouseMode == 1 && menuHelper.viewManager.gameCursorMode == 0){
+                            if (menuHelper.gameMenuSetting.mouseMode == 1 && menuHelper.gameCursorMode == 0){
                                 InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,true);
                                 InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);
                             }
-                            if (menuHelper.viewManager.gameCursorMode == 1 && event.getPointerId(event.getActionIndex()) == pointerID && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
+                            if (menuHelper.gameCursorMode == 1 && event.getPointerId(event.getActionIndex()) == pointerID && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
                                 if (menuHelper.gameMenuSetting.touchMode == 0){
                                     InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,true);
                                     InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,false);

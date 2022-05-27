@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.WindowManager;
 
@@ -71,7 +72,7 @@ public class BoatMinecraftActivity extends BoatActivity {
 
         init();
 
-        menuHelper = new MenuHelper(this, this, gameLaunchSetting.fullscreen, gameLaunchSetting.game_directory, drawerLayout, baseLayout, false, gameLaunchSetting.controlLayout, 1, scaleFactor);
+        menuHelper = new MenuHelper(this, this, gameLaunchSetting.fullscreen, gameLaunchSetting.game_directory, drawerLayout, baseLayout, false, gameLaunchSetting.controlType, gameLaunchSetting.controlLayout, 1, scaleFactor);
     }
 
     private void handleCallback() {
@@ -140,24 +141,40 @@ public class BoatMinecraftActivity extends BoatActivity {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            if (msg.what == BoatInput.CursorDisabled && menuHelper.viewManager != null) {
-                menuHelper.viewManager.disableCursor();
+            if (msg.what == BoatInput.CursorDisabled) {
+                menuHelper.disableCursor();
             }
-            if (msg.what == BoatInput.CursorEnabled && menuHelper.viewManager != null) {
-                menuHelper.viewManager.enableCursor();
+            if (msg.what == BoatInput.CursorEnabled) {
+                menuHelper.enableCursor();
             }
         }
     };
 
     @Override
-    public void onBackPressed() {
-        BoatInput.setKey(BoatKeycodes.KEY_ESC, 0, true);
-        BoatInput.setKey(BoatKeycodes.KEY_ESC, 0, false);
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            BoatInput.setKey(BoatKeycodes.KEY_ESC, 0, true);
+        }
+        if (menuHelper != null) {
+            menuHelper.onKeyDown(keyCode, event);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            BoatInput.setKey(BoatKeycodes.KEY_ESC, 0, false);
+        }
+        if (menuHelper != null) {
+            menuHelper.onKeyUp(keyCode, event);
+        }
+        return false;
     }
 
     @Override
     protected void onPause() {
-        if (menuHelper.viewManager != null && menuHelper.viewManager.gameCursorMode == 1) {
+        if (menuHelper.viewManager != null && menuHelper.gameCursorMode == 1) {
             BoatInput.setKey(BoatKeycodes.KEY_ESC, 0, true);
             BoatInput.setKey(BoatKeycodes.KEY_ESC, 0, false);
         }

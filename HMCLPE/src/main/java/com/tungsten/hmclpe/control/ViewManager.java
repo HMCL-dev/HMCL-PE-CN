@@ -39,7 +39,6 @@ public class ViewManager implements SensorEventListener {
     public int screenWidth;
     public int screenHeight;
 
-    public int gameCursorMode = 0;
     public TouchPad touchPad;
 
     public MenuFloat menuFloat;
@@ -232,8 +231,7 @@ public class ViewManager implements SensorEventListener {
         }
     }
 
-    public void enableCursor(){
-        gameCursorMode = 0;
+    public void enableCursor() {
         if (touchPad != null){
             InputBridge.setPointer(launcher,(int) (touchPad.cursorX * menuHelper.scaleFactor),(int) (touchPad.cursorY * menuHelper.scaleFactor));
         }
@@ -247,8 +245,7 @@ public class ViewManager implements SensorEventListener {
         }
     }
 
-    public void disableCursor(){
-        gameCursorMode = 1;
+    public void disableCursor() {
         viewMovingType = "0";
         for (int i = 0;i < layoutPanel.getChildCount();i++) {
             if (layoutPanel.getChildAt(i) instanceof BaseButton){
@@ -260,19 +257,19 @@ public class ViewManager implements SensorEventListener {
         }
     }
 
-    public void setSensorEnable(boolean enable){
+    public void setSensorEnable(boolean enable) {
         if (enable) {
             sensorManager.registerListener(this,sensor,SensorManager.SENSOR_DELAY_FASTEST);
         }
         else {
             sensorManager.unregisterListener(this);
-            if (gameCursorMode == 1){
+            if (menuHelper.gameCursorMode == 1){
                 InputBridge.setPointer(launcher,(int) currentX,(int) currentY);
             }
         }
     }
 
-    public void setGamePointer(String uuid,boolean isMoving,float deltaX,float deltaY){
+    public void setGamePointer(String uuid,boolean isMoving,float deltaX,float deltaY) {
         if (viewMovingType.equals("0") || viewMovingType.equals(uuid)){
             if (!menuHelper.gameMenuSetting.enableSensor){
                 InputBridge.setPointer(launcher,(int) (pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed),(int) (pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed));
@@ -290,7 +287,7 @@ public class ViewManager implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        if (gameCursorMode == 1){
+        if (menuHelper.gameCursorMode == 1){
             if (timestamp != 0){
                 final float dT = (sensorEvent.timestamp - timestamp) * NS2S;
                 angle[0] += sensorEvent.values[0] * dT;

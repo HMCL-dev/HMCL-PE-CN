@@ -175,7 +175,7 @@ public class BaseRockerView extends RockerView{
     }
 
     public void refreshVisibility(){
-        int mode = menuHelper.viewManager == null ? 0 : menuHelper.viewManager.gameCursorMode;
+        int mode = menuHelper.viewManager == null ? 0 : menuHelper.gameCursorMode;
         if (menuHelper.editMode || (isShowing && (info.showType == 0 || (mode == 1 && info.showType == 1) || (mode == 0 && info.showType == 2)))) {
             setVisibility(VISIBLE);
         }

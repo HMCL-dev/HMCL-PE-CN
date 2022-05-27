@@ -90,6 +90,37 @@ public final class Modrinth {
         return HttpRequest.GET("https://api.modrinth.com/api/v1/tag/category").getJson(new TypeToken<List<String>>() {}.getType());
     }
 
+    public static class Category {
+        private final String icon;
+
+        private final String name;
+
+        @SerializedName("project_type")
+        private final String projectType;
+
+        public Category() {
+            this("","","");
+        }
+
+        public Category(String icon, String name, String projectType) {
+            this.icon = icon;
+            this.name = name;
+            this.projectType = projectType;
+        }
+
+        public String getIcon() {
+            return icon;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getProjectType() {
+            return projectType;
+        }
+    }
+
     public static class Mod implements ModListBean.IMod {
         private final String id;
 

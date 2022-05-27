@@ -1,6 +1,5 @@
 package cosine.boat;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 
@@ -10,7 +9,6 @@ import cosine.boat.function.BoatLaunchCallback;
 
 public class LoadMe {
 
-    @SuppressLint("SdCardPath")
     public static String BOAT_LIB_DIR;
 
     public static native int chdir(String path);
@@ -175,7 +173,7 @@ public class LoadMe {
         return 0;
     }
 
-    public static int launchJVM (String javaPath,ArrayList<String> args,String home) {
+    public static int launchJVM (String javaPath, ArrayList<String> args, String home) {
 
         patchLinker();
 
@@ -204,7 +202,7 @@ public class LoadMe {
                     System.out.println("JVM Args:" + finalArgs[i]);
                 }
             }
-            System.out.println("OpenJDK exited with code : " + dlexec(finalArgs));
+            System.out.println("ApiInstaller exited with code : " + dlexec(finalArgs));
         }
         catch (Exception e) {
             e.printStackTrace();

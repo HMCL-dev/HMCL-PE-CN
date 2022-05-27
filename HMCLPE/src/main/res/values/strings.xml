@@ -525,9 +525,14 @@
     <string name="modrinth_category_equipment">装备</string>
     <string name="modrinth_category_fabric">Fabric</string>
     <string name="modrinth_category_food">食物</string>
+    <string name="modrinth_category_forge">Forge</string>
     <string name="modrinth_category_library">支持库</string>
     <string name="modrinth_category_magic">魔法</string>
     <string name="modrinth_category_misc">其他</string>
+    <string name="modrinth.category.modloader">Modloader</string>
+    <string name="modrinth.category.optimization">优化</string>
+    <string name="modrinth.category.quilt">Quilt</string>
+    <string name="modrinth.category.rift">Rift</string>
     <string name="modrinth_category_storage">存储</string>
     <string name="modrinth_category_technology">科技</string>
     <string name="modrinth_category_utility">实用</string>

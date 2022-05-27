@@ -9,10 +9,15 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.widget.RelativeLayout;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.control.InputBridge;
+import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.utils.convert.ConvertUtils;
+
+import org.lwjgl.glfw.CallbackBridge;
 
 public class LayoutPanel extends RelativeLayout {
 
@@ -34,6 +39,12 @@ public class LayoutPanel extends RelativeLayout {
     private String yText;
 
     private Bitmap background;
+
+    private MenuHelper menuHelper;
+
+    private int cursorMode;
+    private float mouseX;
+    private float mouseY;
 
     public LayoutPanel(Context context) {
         super(context);
@@ -83,7 +94,121 @@ public class LayoutPanel extends RelativeLayout {
         invalidate();
     }
 
-    public void showReference(int positionMode, float x, float y,int width,int height){
+    @Override
+    public boolean dispatchGenericMotionEvent(MotionEvent event) {
+        if (menuHelper != null && menuHelper.controlType != 0) {
+            int mouseCursorIndex = -1;
+            for(int i = 0; i < event.getPointerCount(); i++) {
+                if(event.getToolType(i) != MotionEvent.TOOL_TYPE_MOUSE) continue;
+                // Mouse found
+                mouseCursorIndex = i;
+                break;
+            }
+            if(mouseCursorIndex == -1) return false;
+            mouseX = event.getX() * menuHelper.scaleFactor;
+            mouseY = event.getY() * menuHelper.scaleFactor;
+            if (cursorMode == 1) {
+                requestFocus();
+                requestPointerCapture();
+            }
+            return handleMouseEvent(event,0);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean dispatchCapturedPointerEvent(MotionEvent event) {
+        if (menuHelper != null && menuHelper.controlType != 0) {
+            mouseX += (event.getX() * menuHelper.scaleFactor);
+            mouseY += (event.getY() * menuHelper.scaleFactor);
+            if (cursorMode == 0) {
+                releasePointerCapture();
+                clearFocus();
+            }
+            return handleMouseEvent(event,1);
+        }
+        return false;
+    }
+
+    public void setupMKController(MenuHelper menuHelper) {
+        this.menuHelper = menuHelper;
+    }
+
+    public void enableCursor() {
+        cursorMode = 0;
+    }
+
+    public void disableCursor() {
+        cursorMode = 1;
+    }
+
+    public boolean handleMouseEvent(MotionEvent motionEvent, int mode) {
+        if (motionEvent.getActionMasked() == MotionEvent.ACTION_HOVER_MOVE && mode == 0) {
+            InputBridge.setPointer(menuHelper.launcher,(int) mouseX,(int) mouseY);
+            return true;
+        }
+        else if (motionEvent.getActionMasked() == MotionEvent.ACTION_MOVE && mode == 1) {
+            InputBridge.setPointer(menuHelper.launcher,(int) mouseX,(int) mouseY);
+            return true;
+        }
+        else if (motionEvent.getActionMasked() == MotionEvent.ACTION_BUTTON_PRESS) {
+            if (motionEvent.getActionButton() == MotionEvent.BUTTON_PRIMARY) {
+                InputBridge.sendMouseEvent(menuHelper.launcher, InputBridge.MOUSE_LEFT, true);
+                return true;
+            }
+            else if (motionEvent.getActionButton() == MotionEvent.BUTTON_SECONDARY) {
+                InputBridge.sendMouseEvent(menuHelper.launcher, InputBridge.MOUSE_RIGHT, true);
+                return true;
+            }
+            else if (motionEvent.getActionButton() == MotionEvent.BUTTON_TERTIARY) {
+                InputBridge.sendMouseEvent(menuHelper.launcher, InputBridge.MOUSE_MIDDLE, true);
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else if (motionEvent.getActionMasked() == MotionEvent.ACTION_BUTTON_RELEASE) {
+            if (motionEvent.getActionButton() == MotionEvent.BUTTON_PRIMARY) {
+                InputBridge.sendMouseEvent(menuHelper.launcher, InputBridge.MOUSE_LEFT, false);
+                return true;
+            }
+            else if (motionEvent.getActionButton() == MotionEvent.BUTTON_SECONDARY) {
+                InputBridge.sendMouseEvent(menuHelper.launcher, InputBridge.MOUSE_RIGHT, false);
+                return true;
+            }
+            else if (motionEvent.getActionButton() == MotionEvent.BUTTON_TERTIARY) {
+                InputBridge.sendMouseEvent(menuHelper.launcher, InputBridge.MOUSE_MIDDLE, false);
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else if (motionEvent.getActionMasked() == MotionEvent.ACTION_SCROLL) {
+            if (menuHelper.launcher == 2) {
+                CallbackBridge.sendScroll(motionEvent.getAxisValue(MotionEvent.AXIS_HSCROLL), motionEvent.getAxisValue(MotionEvent.AXIS_VSCROLL));
+            }
+            else {
+                if (motionEvent.getAxisValue(MotionEvent.AXIS_VSCROLL) > 0) {
+                    for (int i = 0;i < Math.abs((int) motionEvent.getAxisValue(MotionEvent.AXIS_VSCROLL));i++) {
+                        InputBridge.sendMouseEvent(menuHelper.launcher, InputBridge.MOUSE_SCROLL_UP, true);
+                    }
+                }
+                if (motionEvent.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0) {
+                    for (int i = 0;i < Math.abs((int) motionEvent.getAxisValue(MotionEvent.AXIS_VSCROLL));i++) {
+                        InputBridge.sendMouseEvent(menuHelper.launcher, InputBridge.MOUSE_SCROLL_DOWN, true);
+                    }
+                }
+            }
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public void showReference(int positionMode, float x, float y, int width, int height){
         this.positionMode = positionMode;
         if (positionMode == POSITION_MODE_PERCENT){
             xText = "X:" + ((int) ((x / (getWidth() - width)) * 1000)) / 10f + "%";

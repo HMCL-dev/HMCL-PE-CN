@@ -17,8 +17,7 @@ void (*old_exit)(int code);
 void custom_exit(int code) {
     JNIEnv *env;
     (*exitTrap_jvm)->AttachCurrentThread(exitTrap_jvm, &env, NULL);
-    (*env)->CallStaticVoidMethod(env, exitTrap_exitClass, exitTrap_staticMethod, exitTrap_ctx,
-                                 code);
+    (*env)->CallStaticVoidMethod(env, exitTrap_exitClass, exitTrap_staticMethod, exitTrap_ctx, code);
     (*env)->DeleteGlobalRef(env, exitTrap_ctx);
     (*env)->DeleteGlobalRef(env, exitTrap_exitClass);
     (*exitTrap_jvm)->DetachCurrentThread(exitTrap_jvm);

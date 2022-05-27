@@ -1,9 +1,5 @@
 package com.tungsten.hmclpe.launcher.launch;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.auth.Account;
 import com.tungsten.hmclpe.launcher.game.Argument;
@@ -72,7 +68,6 @@ public class GameLaunchSetting {
         return version.minimumLauncherVersion >= 21;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static GameLaunchSetting getGameLaunchSetting(String privatePath,String v){
         LauncherSetting launcherSetting = GsonUtils.getLauncherSettingFromFile(AppManifest.SETTING_DIR + "/launcher_setting.json");
         PublicGameSetting publicGameSetting = GsonUtils.getPublicGameSettingFromFile(AppManifest.SETTING_DIR + "/public_game_setting.json");

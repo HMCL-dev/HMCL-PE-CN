@@ -1,6 +1,6 @@
 package com.tungsten.hmclpe.launcher.launch.boat;
 
-import cosine.boat.BoatService;
+import cosine.boat.BoatVirGLService;
 
-public class VirGLService extends BoatService {
+public class VirGLService extends BoatVirGLService {
 }

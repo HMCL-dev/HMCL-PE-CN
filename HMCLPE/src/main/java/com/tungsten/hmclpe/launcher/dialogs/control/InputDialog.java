@@ -87,7 +87,7 @@ public class InputDialog extends Dialog implements View.OnClickListener, TextWat
             editText.setText(">");
         }
         if (view == send) {
-            if (menuHelper.viewManager.gameCursorMode == 0) {
+            if (menuHelper.gameCursorMode == 0) {
                 for(int i = 1; i < editText.getText().toString().length(); i++){
                     InputBridge.sendKeyChar(menuHelper.launcher,editText.getText().toString().charAt(i));
                 }
