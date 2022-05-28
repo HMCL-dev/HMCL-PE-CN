@@ -78,11 +78,6 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
     private ImageView showGameDir;
     private LinearLayout gameDirSetting;
     private int gameDirSettingHeight;
-    private LinearLayout showControlSetting;
-    private TextView controlTypeText;
-    private ImageView showControl;
-    private LinearLayout controlSetting;
-    private int controlSettingHeight;
 
     private LinearLayout showGameLauncherSetting;
     private TextView currentLauncher;
@@ -111,10 +106,6 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
     private RadioButton checkGameDirCustom;
     private EditText editGameDir;
     private ImageButton selectGameDir;
-
-    private RadioButton checkControlTypeTouch;
-    private RadioButton checkControlTypeKeyboard;
-    private RadioButton checkControlTypeHandle;
 
     private RadioButton launchByBoat;
     private RadioButton launchByPojav;
@@ -175,10 +166,6 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
         gameDirText = activity.findViewById(R.id.game_directory_text_isolate);
         showGameDir = activity.findViewById(R.id.show_game_dir_isolate);
         gameDirSetting = activity.findViewById(R.id.game_dir_setting_isolate);
-        showControlSetting = activity.findViewById(R.id.show_control_type_selector_isolate);
-        controlTypeText = activity.findViewById(R.id.control_type_isolate);
-        showControl = activity.findViewById(R.id.show_control_type_isolate);
-        controlSetting = activity.findViewById(R.id.control_type_setting_isolate);
 
         showGameLauncherSetting = activity.findViewById(R.id.show_game_launcher_selector_isolate);
         currentLauncher = activity.findViewById(R.id.current_launcher_isolate);
@@ -206,10 +193,6 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
         checkGameDirCustom = activity.findViewById(R.id.check_custom_game_dir_isolate);
         editGameDir = activity.findViewById(R.id.edit_game_dir_path_isolate);
         selectGameDir = activity.findViewById(R.id.select_game_dir_path_isolate);
-
-        checkControlTypeTouch = activity.findViewById(R.id.control_type_touch_isolate);
-        checkControlTypeKeyboard = activity.findViewById(R.id.control_type_keyboard_isolate);
-        checkControlTypeHandle = activity.findViewById(R.id.control_type_handle_isolate);
 
         launchByBoat = activity.findViewById(R.id.launch_by_boat_isolate);
         launchByPojav = activity.findViewById(R.id.launch_by_pojav_isolate);
@@ -302,8 +285,6 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
         showJava.setOnClickListener(this);
         showGameDirSetting.setOnClickListener(this);
         showGameDir.setOnClickListener(this);
-        showControlSetting.setOnClickListener(this);
-        showControl.setOnClickListener(this);
 
         showGameLauncherSetting.setOnClickListener(this);
         showGameLauncher.setOnClickListener(this);
@@ -339,10 +320,6 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
                 }
             }
         });
-
-        checkControlTypeTouch.setOnClickListener(this);
-        checkControlTypeKeyboard.setOnClickListener(this);
-        checkControlTypeHandle.setOnClickListener(this);
 
         launchByBoat.setOnClickListener(this);
         launchByPojav.setOnClickListener(this);
@@ -419,10 +396,6 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
         gameDirSetting.post(() -> {
             gameDirSettingHeight = gameDirSetting.getHeight();
             gameDirSetting.setVisibility(View.GONE);
-        });
-        controlSetting.post(() -> {
-            controlSettingHeight = controlSetting.getHeight();
-            controlSetting.setVisibility(View.GONE);
         });
         gameLauncherSetting.post(() -> {
             gameLauncherSettingHeight = gameLauncherSetting.getHeight();
@@ -620,24 +593,6 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
             checkGameDirIsolate.setChecked(false);
             checkGameDirCustom.setChecked(true);
         }
-        if (setting.controlType == 0){
-            controlTypeText.setText(context.getString(R.string.game_setting_ui_control_type_touch));
-            checkControlTypeTouch.setChecked(true);
-            checkControlTypeKeyboard.setChecked(false);
-            checkControlTypeHandle.setChecked(false);
-        }
-        else if (setting.controlType == 1){
-            controlTypeText.setText(context.getString(R.string.game_setting_ui_control_type_keyboard));
-            checkControlTypeTouch.setChecked(false);
-            checkControlTypeKeyboard.setChecked(true);
-            checkControlTypeHandle.setChecked(false);
-        }
-        else {
-            controlTypeText.setText(context.getString(R.string.game_setting_ui_control_type_handle));
-            checkControlTypeTouch.setChecked(false);
-            checkControlTypeKeyboard.setChecked(false);
-            checkControlTypeHandle.setChecked(true);
-        }
         if (setting.boatLauncherSetting.enable){
             launchByBoat.setChecked(true);
             launchByPojav.setChecked(false);
@@ -719,9 +674,6 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
         if (v == showGameDirSetting || v == showGameDir){
             HiddenAnimationUtils.newInstance(context,gameDirSetting,showGameDir,gameDirSettingHeight).toggle();
         }
-        if (v == showControlSetting || v == showControl){
-            HiddenAnimationUtils.newInstance(context,controlSetting,showControl,controlSettingHeight).toggle();
-        }
         if (v == showGameLauncherSetting || v == showGameLauncher){
             HiddenAnimationUtils.newInstance(context,gameLauncherSetting,showGameLauncher,gameLauncherSettingHeight).toggle();
         }
@@ -787,27 +739,6 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
             intent.putExtra(Constants.INITIAL_DIRECTORY, new File(AppManifest.DEFAULT_GAME_DIR).getAbsolutePath());
             activity.startActivityForResult(intent, PICK_GAME_DIR_REQUEST_ISOLATED);
         }
-        if (v == checkControlTypeTouch && privateGameSetting != null){
-            controlTypeText.setText(context.getString(R.string.game_setting_ui_control_type_touch));
-            checkControlTypeKeyboard.setChecked(false);
-            checkControlTypeHandle.setChecked(false);
-            privateGameSetting.controlType = 0;
-            GsonUtils.savePrivateGameSetting(privateGameSetting, activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/hmclpe.cfg");
-        }
-        if (v == checkControlTypeKeyboard && privateGameSetting != null){
-            controlTypeText.setText(context.getString(R.string.game_setting_ui_control_type_keyboard));
-            checkControlTypeTouch.setChecked(false);
-            checkControlTypeHandle.setChecked(false);
-            privateGameSetting.controlType = 1;
-            GsonUtils.savePrivateGameSetting(privateGameSetting, activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/hmclpe.cfg");
-        }
-        if (v == checkControlTypeHandle && privateGameSetting != null){
-            controlTypeText.setText(context.getString(R.string.game_setting_ui_control_type_handle));
-            checkControlTypeKeyboard.setChecked(false);
-            checkControlTypeTouch.setChecked(false);
-            privateGameSetting.controlType = 2;
-            GsonUtils.savePrivateGameSetting(privateGameSetting, activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/hmclpe.cfg");
-        }
         if (v == launchByBoat && privateGameSetting != null){
             launchByPojav.setChecked(false);
             privateGameSetting.boatLauncherSetting.enable = true;
@@ -867,9 +798,6 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
             if (b) {
                 enableSettingLayout();
                 if (!new File(settingPath).exists() || GsonUtils.getPrivateGameSettingFromFile(settingPath) == null) {
-                    if (GsonUtils.getPrivateGameSettingFromFile(settingPath) == null) {
-                        Log.e("setting","null");
-                    }
                     try {
                         privateGameSetting = (PrivateGameSetting) activity.privateGameSetting.clone();
                     } catch (CloneNotSupportedException e) {

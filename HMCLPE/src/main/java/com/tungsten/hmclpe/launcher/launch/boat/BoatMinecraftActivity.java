@@ -7,7 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.KeyEvent;
+import android.view.InputDevice;
 import android.view.Surface;
 import android.view.WindowManager;
 
@@ -72,7 +72,7 @@ public class BoatMinecraftActivity extends BoatActivity {
 
         init();
 
-        menuHelper = new MenuHelper(this, this, gameLaunchSetting.fullscreen, gameLaunchSetting.game_directory, drawerLayout, baseLayout, false, gameLaunchSetting.controlType, gameLaunchSetting.controlLayout, 1, scaleFactor);
+        menuHelper = new MenuHelper(this, this, gameLaunchSetting.fullscreen, gameLaunchSetting.game_directory, drawerLayout, baseLayout, false, gameLaunchSetting.controlLayout, 1, scaleFactor);
     }
 
     private void handleCallback() {
@@ -151,25 +151,22 @@ public class BoatMinecraftActivity extends BoatActivity {
     };
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
+    public void onBackPressed() {
+        boolean mouse = false;
+        final int[] devices = InputDevice.getDeviceIds();
+        for (int j : devices) {
+            InputDevice device = InputDevice.getDevice(j);
+            if (device != null && !device.isVirtual()) {
+                if (device.getName().contains("Mouse")) {
+                    mouse = true;
+                    break;
+                }
+            }
+        }
+        if (!mouse) {
             BoatInput.setKey(BoatKeycodes.KEY_ESC, 0, true);
-        }
-        if (menuHelper != null) {
-            menuHelper.onKeyDown(keyCode, event);
-        }
-        return false;
-    }
-
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
             BoatInput.setKey(BoatKeycodes.KEY_ESC, 0, false);
         }
-        if (menuHelper != null) {
-            menuHelper.onKeyUp(keyCode, event);
-        }
-        return false;
     }
 
     @Override

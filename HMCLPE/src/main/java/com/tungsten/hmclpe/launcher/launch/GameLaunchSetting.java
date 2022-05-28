@@ -33,14 +33,13 @@ public class GameLaunchSetting {
     public int minRam;
     public int maxRam;
     public String server;
-    public int controlType;
     public String controlLayout;
     public boolean fullscreen;
     public boolean log;
 
     public String gameFileDirectory;
 
-    public GameLaunchSetting(Account account,String home,String currentVersion,String javaPath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,String boatRenderer,String pojavRenderer,float scaleFactor,String gameFileDirectory,int minRam,int maxRam,int controlType,String controlLayout,String server,boolean fullscreen,boolean log){
+    public GameLaunchSetting(Account account,String home,String currentVersion,String javaPath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,String boatRenderer,String pojavRenderer,float scaleFactor,String gameFileDirectory,int minRam,int maxRam,String controlLayout,String server,boolean fullscreen,boolean log){
         this.account = account;
         this.home = home;
         this.currentVersion = currentVersion;
@@ -55,7 +54,6 @@ public class GameLaunchSetting {
         this.minRam = minRam;
         this.maxRam = maxRam;
         this.server = server;
-        this.controlType = controlType;
         this.controlLayout = controlLayout;
         this.fullscreen = fullscreen;
         this.log = log;
@@ -118,7 +116,6 @@ public class GameLaunchSetting {
                 launcherSetting.gameFileDirectory,
                 privateGameSetting.ramSetting.minRam,
                 privateGameSetting.ramSetting.maxRam,
-                privateGameSetting.controlType,
                 privateGameSetting.controlLayout,
                 privateGameSetting.server,
                 launcherSetting.fullscreen,

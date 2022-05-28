@@ -6,7 +6,7 @@ import static org.lwjgl.glfw.CallbackBridge.windowWidth;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.view.InputDevice;
 import android.view.Surface;
 import android.view.WindowManager;
 
@@ -70,7 +70,7 @@ public class PojavMinecraftActivity extends BaseMainActivity {
 
         init(gameLaunchSetting.game_directory, GameLaunchSetting.isHighVersion(gameLaunchSetting));
 
-        menuHelper = new MenuHelper(this,this,gameLaunchSetting.fullscreen,gameLaunchSetting.game_directory,drawerLayout,baseLayout,false,gameLaunchSetting.controlType,gameLaunchSetting.controlLayout,2,scaleFactor);
+        menuHelper = new MenuHelper(this,this,gameLaunchSetting.fullscreen,gameLaunchSetting.game_directory,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout,2,scaleFactor);
     }
 
     public void handleCallback() {
@@ -146,25 +146,21 @@ public class PojavMinecraftActivity extends BaseMainActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            CallbackBridge.sendKeyPress(LWJGLGLFWKeycode.GLFW_KEY_ESCAPE,CallbackBridge.getCurrentMods(),true);
+    public void onBackPressed() {
+        boolean mouse = false;
+        final int[] devices = InputDevice.getDeviceIds();
+        for (int j : devices) {
+            InputDevice device = InputDevice.getDevice(j);
+            if (device != null && !device.isVirtual()) {
+                if (device.getName().contains("Mouse")) {
+                    mouse = true;
+                    break;
+                }
+            }
         }
-        if (menuHelper != null) {
-            menuHelper.onKeyDown(keyCode, event);
+        if (!mouse) {
+            CallbackBridge.sendKeyPress(LWJGLGLFWKeycode.GLFW_KEY_ESCAPE);
         }
-        return false;
-    }
-
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            CallbackBridge.sendKeyPress(LWJGLGLFWKeycode.GLFW_KEY_ESCAPE,CallbackBridge.getCurrentMods(),false);
-        }
-        if (menuHelper != null) {
-            menuHelper.onKeyUp(keyCode, event);
-        }
-        return false;
     }
 
     @Override

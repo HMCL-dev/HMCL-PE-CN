@@ -379,7 +379,51 @@ public class InputBridge {
                 case LWJGLGLFWKeycode.GLFW_KEY_9:
                     code = BoatKeycodes.KEY_9;
                     break;
-
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_0:
+                    code = BoatKeycodes.KEY_KP0;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_1:
+                    code = BoatKeycodes.KEY_KP1;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_2:
+                    code = BoatKeycodes.KEY_KP2;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_3:
+                    code = BoatKeycodes.KEY_KP3;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_4:
+                    code = BoatKeycodes.KEY_KP4;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_5:
+                    code = BoatKeycodes.KEY_KP5;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_6:
+                    code = BoatKeycodes.KEY_KP6;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_7:
+                    code = BoatKeycodes.KEY_KP7;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_8:
+                    code = BoatKeycodes.KEY_KP8;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_9:
+                    code = BoatKeycodes.KEY_KP9;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_ADD:
+                    code = BoatKeycodes.KEY_KPPLUS;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_DIVIDE:
+                    code = BoatKeycodes.KEY_KPSLASH;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_ENTER:
+                    code = BoatKeycodes.KEY_KPENTER;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_EQUAL:
+                    code = BoatKeycodes.KEY_KPEQUAL;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_SUBTRACT:
+                    code = BoatKeycodes.KEY_KPMINUS;
+                    break;
                 default:
                     code = raw;
                     break;

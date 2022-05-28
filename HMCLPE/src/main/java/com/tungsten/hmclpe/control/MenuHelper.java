@@ -2,7 +2,6 @@ package com.tungsten.hmclpe.control;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -47,7 +46,6 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     public DrawerLayout drawerLayout;
     public LayoutPanel baseLayout;
     public int launcher;
-    public int controlType;
     public float scaleFactor;
 
     public int screenWidth;
@@ -95,7 +93,14 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     public ViewManager viewManager;
     public MKManager mkManager;
 
-    public MenuHelper(Context context, AppCompatActivity activity,boolean fullscreen,String gameDir, DrawerLayout drawerLayout, LayoutPanel baseLayout,boolean editMode,int controlType,String currentPattern,int launcher,float scaleFactor){
+    public float cursorX;
+    public float cursorY;
+    public float pointerX;
+    public float pointerY;
+    public float currentX;
+    public float currentY;
+
+    public MenuHelper(Context context, AppCompatActivity activity,boolean fullscreen,String gameDir, DrawerLayout drawerLayout, LayoutPanel baseLayout,boolean editMode,String currentPattern,int launcher,float scaleFactor){
         this.context = context;
         this.activity = activity;
         this.fullscreen = fullscreen;
@@ -106,36 +111,24 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         this.showOutline = false;
         this.enableNameEditor = editMode;
         this.launcher = launcher;
-        this.controlType = controlType;
         this.scaleFactor = scaleFactor;
         patternList = SettingUtils.getControlPatternList();
-        if (controlType == 0) {
-            if (patternList.size() == 0) {
-                InitializeSetting.initializeControlPattern(activity, new AssetsUtils.FileOperateCallback() {
-                    @Override
-                    public void onSuccess() {
-                        patternList = SettingUtils.getControlPatternList();
-                        preInit(baseLayout,editMode,currentPattern);
-                    }
+        if (patternList.size() == 0) {
+            InitializeSetting.initializeControlPattern(activity, new AssetsUtils.FileOperateCallback() {
+                @Override
+                public void onSuccess() {
+                    patternList = SettingUtils.getControlPatternList();
+                    preInit(baseLayout,editMode,currentPattern);
+                }
 
-                    @Override
-                    public void onFailed(String error) {
+                @Override
+                public void onFailed(String error) {
 
-                    }
-                });
-            }
-            else {
-                preInit(baseLayout,editMode,currentPattern);
-            }
+                }
+            });
         }
         else {
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-            if (controlType == 1) {
-                mkManager = new MKManager(this);
-            }
-            if (controlType == 2) {
-
-            }
+            preInit(baseLayout,editMode,currentPattern);
         }
     }
 
@@ -293,6 +286,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
             screenWidth = baseLayout.getWidth();
             screenHeight = baseLayout.getHeight();
             viewManager = new ViewManager(context,activity,this,baseLayout,launcher);
+            mkManager = new MKManager(this);
             checkOpenMenuSetting();
         });
 
@@ -331,18 +325,6 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
             }
         }
         viewManager.refreshLayout(currentPattern.name,currentChild,editMode);
-    }
-
-    public void onKeyDown(int keyCode, KeyEvent event) {
-        if (mkManager != null) {
-            mkManager.onKeyDown(keyCode,event);
-        }
-    }
-
-    public void onKeyUp(int keyCode, KeyEvent event) {
-        if (mkManager != null) {
-            mkManager.onKeyUp(keyCode,event);
-        }
     }
 
     @Override

@@ -50,11 +50,6 @@ public class ViewManager implements SensorEventListener {
     public float timestamp;
     public float[] angle = new float[3];
 
-    public float pointerX;
-    public float pointerY;
-    public float currentX;
-    public float currentY;
-
     public String viewMovingType = "0";
 
     public ViewManager (Context context, Activity activity, MenuHelper menuHelper, LayoutPanel layoutPanel,int launcher) {
@@ -227,13 +222,15 @@ public class ViewManager implements SensorEventListener {
 
     public void hideUI(boolean b) {
         for (int i = 0;i < layoutPanel.getChildCount();i++) {
-            layoutPanel.getChildAt(i).setAlpha(b ? 0 : 1);
+            if (!(layoutPanel.getChildAt(i) instanceof TouchPad)) {
+                layoutPanel.getChildAt(i).setAlpha(b ? 0 : 1);
+            }
         }
     }
 
     public void enableCursor() {
         if (touchPad != null){
-            InputBridge.setPointer(launcher,(int) (touchPad.cursorX * menuHelper.scaleFactor),(int) (touchPad.cursorY * menuHelper.scaleFactor));
+            InputBridge.setPointer(launcher,(int) (menuHelper.cursorX * menuHelper.scaleFactor),(int) (menuHelper.cursorY * menuHelper.scaleFactor));
         }
         for (int i = 0;i < layoutPanel.getChildCount();i++) {
             if (layoutPanel.getChildAt(i) instanceof BaseButton){
@@ -264,7 +261,7 @@ public class ViewManager implements SensorEventListener {
         else {
             sensorManager.unregisterListener(this);
             if (menuHelper.gameCursorMode == 1){
-                InputBridge.setPointer(launcher,(int) currentX,(int) currentY);
+                InputBridge.setPointer(launcher,(int) menuHelper.currentX,(int) menuHelper.currentY);
             }
         }
     }
@@ -272,14 +269,14 @@ public class ViewManager implements SensorEventListener {
     public void setGamePointer(String uuid,boolean isMoving,float deltaX,float deltaY) {
         if (viewMovingType.equals("0") || viewMovingType.equals(uuid)){
             if (!menuHelper.gameMenuSetting.enableSensor){
-                InputBridge.setPointer(launcher,(int) (pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed),(int) (pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed));
+                InputBridge.setPointer(launcher,(int) (menuHelper.pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed),(int) (menuHelper.pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed));
             }
-            currentX = pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed;
-            currentY = pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed;
+            menuHelper.currentX = menuHelper.pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed;
+            menuHelper.currentY = menuHelper.pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed;
             viewMovingType = uuid;
             if (!isMoving){
-                pointerX = pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed;
-                pointerY = pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed;
+                menuHelper.pointerX = menuHelper.pointerX + deltaX * menuHelper.gameMenuSetting.mouseSpeed;
+                menuHelper.pointerY = menuHelper.pointerY + deltaY * menuHelper.gameMenuSetting.mouseSpeed;
                 viewMovingType = "0";
             }
         }
@@ -294,7 +291,7 @@ public class ViewManager implements SensorEventListener {
                 angle[1] += sensorEvent.values[1] * dT;
                 float angleX = (float) Math.toDegrees(angle[0]);
                 float angleY = (float) Math.toDegrees(angle[1]);
-                InputBridge.setPointer(launcher,(int) (currentX - angleX * menuHelper.gameMenuSetting.sensitivity),(int) (currentY + angleY * menuHelper.gameMenuSetting.sensitivity));
+                InputBridge.setPointer(launcher,(int) (menuHelper.currentX - angleX * menuHelper.gameMenuSetting.sensitivity),(int) (menuHelper.currentY + angleY * menuHelper.gameMenuSetting.sensitivity));
             }
             timestamp = sensorEvent.timestamp;
         }
