@@ -22,6 +22,7 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.bean.BaseButtonInfo;
 import com.tungsten.hmclpe.control.bean.BaseRockerViewInfo;
 import com.tungsten.hmclpe.control.view.LayoutPanel;
+import com.tungsten.hmclpe.control.view.TouchCharInput;
 import com.tungsten.hmclpe.launcher.dialogs.control.AddViewDialog;
 import com.tungsten.hmclpe.launcher.dialogs.control.ChildManagerDialog;
 import com.tungsten.hmclpe.launcher.dialogs.control.EditControlPatternDialog;
@@ -53,10 +54,13 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
 
     public GameMenuSetting gameMenuSetting;
 
+    public TouchCharInput touchCharInput;
+
     public SwitchCompat switchMenuFloat;
     public SwitchCompat switchMenuView;
     public SwitchCompat switchMenuSlide;
     public SwitchCompat switchFloatMovable;
+    public SwitchCompat switchAdvanceInput;
     public SwitchCompat switchSensor;
     public SwitchCompat switchHalfScreen;
     public Spinner spinnerTouchMode;
@@ -92,6 +96,8 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
 
     public ViewManager viewManager;
     public MKManager mkManager;
+
+    public boolean enterLock;
 
     public float cursorX;
     public float cursorY;
@@ -172,10 +178,14 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
 
     @SuppressLint("SetTextI18n")
     public void init(){
+        touchCharInput = activity.findViewById(R.id.input_scanner);
+        touchCharInput.setCharacterSender(this, new LwjglCharSender());
+
         switchMenuFloat = activity.findViewById(R.id.switch_float_button);
         switchMenuView = activity.findViewById(R.id.switch_bar);
         switchMenuSlide = activity.findViewById(R.id.switch_gesture);
         switchFloatMovable = activity.findViewById(R.id.switch_float_movable);
+        switchAdvanceInput = activity.findViewById(R.id.switch_advance_input);
         switchSensor = activity.findViewById(R.id.switch_control_sensor);
         switchHalfScreen = activity.findViewById(R.id.switch_half_screen);
         spinnerTouchMode = activity.findViewById(R.id.spinner_touch_mode);
@@ -193,6 +203,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         switchMenuView.setChecked(gameMenuSetting.menuViewSetting.enable);
         switchMenuSlide.setChecked(gameMenuSetting.menuSlideSetting);
         switchFloatMovable.setChecked(gameMenuSetting.menuFloatSetting.movable);
+        switchAdvanceInput.setChecked(gameMenuSetting.advanceInput);
         switchSensor.setChecked(gameMenuSetting.enableSensor);
         switchHalfScreen.setChecked(gameMenuSetting.disableHalfScreen);
         switchHideUI.setChecked(gameMenuSetting.hideUI);
@@ -201,6 +212,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         switchMenuView.setOnCheckedChangeListener(this);
         switchMenuSlide.setOnCheckedChangeListener(this);
         switchFloatMovable.setOnCheckedChangeListener(this);
+        switchAdvanceInput.setOnCheckedChangeListener(this);
         switchSensor.setOnCheckedChangeListener(this);
         switchHalfScreen.setOnCheckedChangeListener(this);
         switchHideUI.setOnCheckedChangeListener(this);
@@ -364,6 +376,10 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         }
         if (compoundButton == switchFloatMovable) {
             gameMenuSetting.menuFloatSetting.movable = b;
+            GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
+        }
+        if (compoundButton == switchAdvanceInput) {
+            gameMenuSetting.advanceInput = b;
             GameMenuSetting.saveGameMenuSetting(gameMenuSetting);
         }
         if (compoundButton == switchSensor){

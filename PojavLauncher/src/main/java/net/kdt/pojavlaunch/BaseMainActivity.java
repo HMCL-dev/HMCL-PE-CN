@@ -37,7 +37,6 @@ public class BaseMainActivity extends AppCompatActivity implements TextureView.S
 
         minecraftGLView = findViewById(R.id.main_game_render_view);
         minecraftGLView.setOpaque(false);
-        minecraftGLView.setFocusable(true);
 
         minecraftGLView.setSurfaceTextureListener(this);
     }

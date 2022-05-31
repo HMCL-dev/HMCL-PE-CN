@@ -157,9 +157,15 @@ public class BoatMinecraftActivity extends BoatActivity {
         for (int j : devices) {
             InputDevice device = InputDevice.getDevice(j);
             if (device != null && !device.isVirtual()) {
-                if (device.getName().contains("Mouse")) {
-                    mouse = true;
-                    break;
+                if (device.getName().contains("Mouse") || (menuHelper != null && menuHelper.touchCharInput != null && !menuHelper.touchCharInput.isEnabled())) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && device.isExternal()) {
+                        mouse = true;
+                        break;
+                    }
+                    else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                        mouse = true;
+                        break;
+                    }
                 }
             }
         }

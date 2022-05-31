@@ -19,6 +19,7 @@ import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 import net.kdt.pojavlaunch.keyboard.LWJGLGLFWKeycode;
 import com.tungsten.hmclpe.launcher.launch.MCOptionUtils;
 
+@SuppressLint("ViewConstructor")
 public class TouchPad extends View {
 
     private int launcher;

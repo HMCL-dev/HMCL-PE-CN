@@ -287,21 +287,23 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                             else {
                                 InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_T, true);
                                 InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_T, false);
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        for(int i = 0; i < info.outputText.length(); i++){
-                                            InputBridge.sendKeyChar(menuHelper.launcher,info.outputText.charAt(i));
-                                        }
-                                        InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_ENTER, true);
-                                        InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_ENTER, false);
+                                new Handler().postDelayed(() -> {
+                                    for(int i = 0; i < info.outputText.length(); i++){
+                                        InputBridge.sendKeyChar(menuHelper.launcher,info.outputText.charAt(i));
                                     }
+                                    InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_ENTER, true);
+                                    InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_ENTER, false);
                                 },50);
                             }
                         }
                         if (info.showInputDialog) {
-                            InputDialog dialog = new InputDialog(getContext(),menuHelper);
-                            dialog.show();
+                            if (!menuHelper.gameMenuSetting.advanceInput) {
+                                menuHelper.touchCharInput.switchKeyboardState();
+                            }
+                            else {
+                                InputDialog dialog = new InputDialog(getContext(),menuHelper);
+                                dialog.show();
+                            }
                         }
                         break;
                     case MotionEvent.ACTION_MOVE:
@@ -530,8 +532,13 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
             }
         }
         if (info.showInputDialog) {
-            InputDialog dialog = new InputDialog(getContext(),menuHelper);
-            dialog.show();
+            if (!menuHelper.gameMenuSetting.advanceInput) {
+                menuHelper.touchCharInput.switchKeyboardState();
+            }
+            else {
+                InputDialog dialog = new InputDialog(getContext(),menuHelper);
+                dialog.show();
+            }
         }
     }
 
