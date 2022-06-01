@@ -1,13 +1,16 @@
 package com.tungsten.hmclpe.utils.string;
 
-import static com.tungsten.hmclpe.utils.Pair.pair;
 import static com.tungsten.hmclpe.utils.Logging.LOG;
+import static com.tungsten.hmclpe.utils.Pair.pair;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+import com.tungsten.hmclpe.launcher.mod.RemoteModRepository;
 import com.tungsten.hmclpe.utils.Pair;
 import com.tungsten.hmclpe.utils.io.IOUtils;
 
@@ -17,27 +20,47 @@ import com.tungsten.hmclpe.utils.io.IOUtils;
  * @see <a href="https://www.mcmod.cn">mcmod.cn</a>
  */
 public final class ModTranslations {
-    public static List<Mod> mods;
-    private static Map<String, Mod> modIdMap; // mod id -> mod
-    private static Map<String, Mod> curseForgeMap; // curseforge id -> mod
-    private static List<Pair<String, Mod>> keywords;
-    private static int maxKeywordLength = -1;
+    public static ModTranslations MOD = new ModTranslations("/assets/mod_data.txt");
+    public static ModTranslations MODPACK = new ModTranslations("/assets/modpack_data.txt");
+    public static ModTranslations EMPTY = new ModTranslations("");
 
-    private ModTranslations(){}
+    public static ModTranslations getTranslationsByRepositoryType(RemoteModRepository.Type type) {
+        switch (type) {
+            case MOD:
+                return MOD;
+            case MODPACK:
+                return MODPACK;
+            default:
+                return EMPTY;
+        }
+    }
 
-    public static Mod getModByCurseForgeId(String id) {
+    private final String resourceName;
+    private List<Mod> mods;
+    private Map<String, Mod> modIdMap; // mod id -> mod
+    private Map<String, Mod> curseForgeMap; // curseforge id -> mod
+    private List<Pair<String, Mod>> keywords;
+    private int maxKeywordLength = -1;
+
+    private ModTranslations(String resourceName) {
+        this.resourceName = resourceName;
+    }
+
+    @Nullable
+    public Mod getModByCurseForgeId(String id) {
         if (StringUtils.isBlank(id) || !loadCurseForgeMap()) return null;
 
         return curseForgeMap.get(id);
     }
 
-    public static Mod getModById(String id) {
+    @Nullable
+    public Mod getModById(String id) {
         if (StringUtils.isBlank(id) || !loadModIdMap()) return null;
 
         return modIdMap.get(id);
     }
 
-    public static List<Mod> searchMod(String query) {
+    public List<Mod> searchMod(String query) {
         if (!loadKeywords()) return Collections.emptyList();
 
         StringBuilder newQuery = query.chars()
@@ -59,19 +82,23 @@ public final class ModTranslations {
                 .collect(Collectors.toList());
     }
 
-    public static boolean loadFromResource() {
+    private boolean loadFromResource() {
         if (mods != null) return true;
+        if (StringUtils.isBlank(resourceName)) {
+            mods = Collections.emptyList();
+            return true;
+        }
         try {
-            String modData = IOUtils.readFullyAsString(ModTranslations.class.getResourceAsStream("/assets/mod_data.txt"), StandardCharsets.UTF_8);
+            String modData = IOUtils.readFullyAsString(ModTranslations.class.getResourceAsStream(resourceName), StandardCharsets.UTF_8);
             mods = Arrays.stream(modData.split("\n")).filter(line -> !line.startsWith("#")).map(Mod::new).collect(Collectors.toList());
             return true;
         } catch (Exception e) {
-            LOG.log(Level.WARNING, "Failed to load /assets/mod_data.txt", e);
+            LOG.log(Level.WARNING, "Failed to load " + resourceName, e);
             return false;
         }
     }
 
-    private static boolean loadCurseForgeMap() {
+    private boolean loadCurseForgeMap() {
         if (curseForgeMap != null) {
             return true;
         }
@@ -89,28 +116,27 @@ public final class ModTranslations {
         return true;
     }
 
-    private static boolean loadModIdMap() {
+    private boolean loadModIdMap() {
         if (modIdMap != null) {
             return true;
         }
 
         if (mods == null) {
-            if (loadFromResource()) {
-            } else {
-                return false;
-            }
+            if (!loadFromResource()) return false;
         }
 
         modIdMap = new HashMap<>();
         for (Mod mod : mods) {
             for (String id : mod.getModIds()) {
-                modIdMap.put(id, mod);
+                if (StringUtils.isNotBlank(id) && !"examplemod".equals(id)) {
+                    modIdMap.put(id, mod);
+                }
             }
         }
         return true;
     }
 
-    private static boolean loadKeywords() {
+    private boolean loadKeywords() {
         if (keywords != null) {
             return true;
         }

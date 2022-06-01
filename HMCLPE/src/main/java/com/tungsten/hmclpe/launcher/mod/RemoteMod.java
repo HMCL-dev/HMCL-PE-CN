@@ -1,7 +1,7 @@
 package com.tungsten.hmclpe.launcher.mod;
 
 import java.io.IOException;
-import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -71,9 +71,9 @@ public class RemoteMod {
     }
 
     public interface IMod {
-        List<RemoteMod> loadDependencies() throws IOException;
+        List<RemoteMod> loadDependencies(RemoteModRepository modRepository) throws IOException;
 
-        Stream<Version> loadVersions() throws IOException;
+        Stream<Version> loadVersions(RemoteModRepository modRepository) throws IOException;
     }
 
     public interface IVersion {
@@ -86,14 +86,14 @@ public class RemoteMod {
         private final String name;
         private final String version;
         private final String changelog;
-        private final Instant datePublished;
+        private final Date datePublished;
         private final VersionType versionType;
         private final File file;
         private final List<String> dependencies;
         private final List<String> gameVersions;
         private final List<ModLoaderType> loaders;
 
-        public Version(IVersion self, String modid, String name, String version, String changelog, Instant datePublished, VersionType versionType, File file, List<String> dependencies, List<String> gameVersions, List<ModLoaderType> loaders) {
+        public Version(IVersion self, String modid, String name, String version, String changelog, Date datePublished, VersionType versionType, File file, List<String> dependencies, List<String> gameVersions, List<ModLoaderType> loaders) {
             this.self = self;
             this.modid = modid;
             this.name = name;
@@ -127,7 +127,7 @@ public class RemoteMod {
             return changelog;
         }
 
-        public Instant getDatePublished() {
+        public Date getDatePublished() {
             return datePublished;
         }
 
@@ -173,6 +173,27 @@ public class RemoteMod {
 
         public String getFilename() {
             return filename;
+        }
+    }
+
+    public static RemoteModRepository.SortType getSortTypeByPosition(int position) {
+        switch (position) {
+            case 1:
+                return RemoteModRepository.SortType.POPULARITY;
+            case 2:
+                return RemoteModRepository.SortType.LAST_UPDATED;
+            case 3:
+                return RemoteModRepository.SortType.NAME;
+            case 4:
+                return RemoteModRepository.SortType.AUTHOR;
+            case 5:
+                return RemoteModRepository.SortType.TOTAL_DOWNLOADS;
+            case 6:
+                return RemoteModRepository.SortType.CATEGORY;
+            case 7:
+                return RemoteModRepository.SortType.GAME_VERSION;
+            default:
+                return RemoteModRepository.SortType.DATE_CREATED;
         }
     }
 }

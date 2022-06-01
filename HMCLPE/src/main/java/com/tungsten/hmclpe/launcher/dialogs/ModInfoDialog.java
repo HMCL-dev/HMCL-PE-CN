@@ -85,7 +85,7 @@ public class ModInfoDialog extends Dialog implements View.OnClickListener {
         description.setText(localModFile.getDescription().toString());
 
         official.setVisibility(StringUtils.isNotBlank(localModFile.getUrl()) ? View.VISIBLE : View.GONE);
-        modTranslations = ModTranslations.getModById(localModFile.getId());
+        modTranslations = ModTranslations.MOD.getModById(localModFile.getId());
         mcbbs.setVisibility(modTranslations != null && StringUtils.isNotBlank(modTranslations.getMcbbs()) ? View.VISIBLE : View.GONE);
         for (int i = 0;i < mcmod.getChildCount();i++) {
             if (mcmod.getChildAt(i) instanceof TextView) {

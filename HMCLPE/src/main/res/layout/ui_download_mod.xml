@@ -111,11 +111,6 @@
                             android:layout_height="match_parent"
                             android:id="@+id/download_mod_arg_type"/>
 
-                        <Spinner
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:id="@+id/download_mod_arg_type_modrinth"/>
-
                     </RelativeLayout>
 
                 </LinearLayout>

@@ -2,30 +2,42 @@ package com.tungsten.hmclpe.launcher.uis.game.download.right.resource;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.mod.ModListBean;
+import com.tungsten.hmclpe.launcher.mod.RemoteMod;
+import com.tungsten.hmclpe.launcher.mod.RemoteModRepository;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.string.ModTranslations;
 
 public class BaseDownloadUI extends BaseUI {
 
-    public ModListBean.Mod bean;
+    public RemoteModRepository repository;
+    public RemoteMod bean;
     public ModTranslations.Mod modTranslation;
     public int resourceType;
     public boolean isFirst = true;
 
     public LinearLayout baseDownloadUI;
 
-    public BaseDownloadUI(Context context, MainActivity activity, ModListBean.Mod bean,int resourceType) {
+    public BaseDownloadUI(Context context, MainActivity activity, RemoteModRepository repository, RemoteMod bean, int resourceType) {
         super(context, activity);
+        this.repository = repository;
         this.bean = bean;
-        this.modTranslation = ModTranslations.getModByCurseForgeId(bean.getSlug());
+        ModTranslations modTranslations;
+        if (resourceType == 0) {
+            modTranslations = ModTranslations.MOD;
+        }
+        else if (resourceType == 1) {
+            modTranslations = ModTranslations.MODPACK;
+        }
+        else {
+            modTranslations = ModTranslations.EMPTY;
+        }
+        this.modTranslation = modTranslations.getModByCurseForgeId(bean.getSlug());
         this.resourceType = resourceType;
         onCreate();
     }

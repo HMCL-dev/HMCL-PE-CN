@@ -19,6 +19,36 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <TextView
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_middle"
+                android:textColor="@color/colorPureBlack"
+                android:text="@string/download_package_ui_source"/>
+
+            <RelativeLayout
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/launcher_view_white">
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/download_package_arg_source"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -33,7 +63,7 @@
 
                     <TextView
                         android:layout_gravity="center"
-                        android:layout_width="wrap_content"
+                        android:layout_width="39dp"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"
@@ -62,7 +92,7 @@
 
                     <TextView
                         android:layout_gravity="center"
-                        android:layout_width="wrap_content"
+                        android:layout_width="39dp"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"

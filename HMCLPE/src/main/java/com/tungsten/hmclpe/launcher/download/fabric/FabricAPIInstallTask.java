@@ -6,7 +6,7 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListAdapter;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
-import com.tungsten.hmclpe.launcher.mod.ModListBean;
+import com.tungsten.hmclpe.launcher.mod.RemoteMod;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.setting.game.PublicGameSetting;
 import com.tungsten.hmclpe.manifest.AppManifest;
@@ -16,7 +16,7 @@ import com.tungsten.hmclpe.utils.io.DownloadUtil;
 
 import java.io.IOException;
 
-public class FabricAPIInstallTask extends AsyncTask<ModListBean.Version,Integer,Exception> {
+public class FabricAPIInstallTask extends AsyncTask<RemoteMod.Version,Integer,Exception> {
 
     private MainActivity activity;
     private String name;
@@ -42,8 +42,8 @@ public class FabricAPIInstallTask extends AsyncTask<ModListBean.Version,Integer,
     }
 
     @Override
-    protected Exception doInBackground(ModListBean.Version... versions) {
-        ModListBean.Version fabricAPIVersion = versions[0];
+    protected Exception doInBackground(RemoteMod.Version... versions) {
+        RemoteMod.Version fabricAPIVersion = versions[0];
         String path;
         if (PublicGameSetting.isUsingIsolateSetting(activity.launcherSetting.gameFileDirectory + "/versions/" + name)) {
             path = PrivateGameSetting.getGameDir(activity.launcherSetting.gameFileDirectory,activity.launcherSetting.gameFileDirectory + "/versions/" + name, GsonUtils.getPrivateGameSettingFromFile(activity.launcherSetting.gameFileDirectory + "/versions/" + name + "/hmclpe.cfg").gameDirSetting);

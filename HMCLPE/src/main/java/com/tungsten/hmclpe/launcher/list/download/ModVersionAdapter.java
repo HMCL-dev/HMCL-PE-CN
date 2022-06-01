@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
-import com.tungsten.hmclpe.launcher.mod.ModListBean;
+import com.tungsten.hmclpe.launcher.mod.RemoteMod;
 import com.tungsten.hmclpe.launcher.uis.game.download.right.resource.DownloadResourceUI;
 
 import java.time.ZoneId;
@@ -24,7 +24,7 @@ import java.util.Locale;
 public class ModVersionAdapter extends BaseAdapter {
 
     private Context context;
-    private List<ModListBean.Version> list;
+    private List<RemoteMod.Version> list;
     private DownloadResourceUI ui;
 
     private class ViewHolder{
@@ -36,7 +36,7 @@ public class ModVersionAdapter extends BaseAdapter {
         ImageButton select;
     }
 
-    public ModVersionAdapter (Context context, List<ModListBean.Version> list, DownloadResourceUI ui) {
+    public ModVersionAdapter (Context context, List<RemoteMod.Version> list, DownloadResourceUI ui) {
         this.context = context;
         this.list = list;
         this.ui = ui;
@@ -75,18 +75,18 @@ public class ModVersionAdapter extends BaseAdapter {
         else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        if (list.get(i).getVersionType() == ModListBean.VersionType.Alpha) {
+        if (list.get(i).getVersionType() == RemoteMod.VersionType.Alpha) {
             viewHolder.icon.setBackground(context.getDrawable(R.drawable.ic_outline_alpha_black));
         }
-        else if (list.get(i).getVersionType() == ModListBean.VersionType.Beta) {
+        else if (list.get(i).getVersionType() == RemoteMod.VersionType.Beta) {
             viewHolder.icon.setBackground(context.getDrawable(R.drawable.ic_outline_beta_black));
         }
         else {
             viewHolder.icon.setBackground(context.getDrawable(R.drawable.ic_outline_release_black));
         }
         viewHolder.name.setText(list.get(i).getName());
-        viewHolder.type.setText(list.get(i).getVersionType() == ModListBean.VersionType.Release ? context.getString(R.string.download_resource_release) : context.getString(R.string.download_resource_beta));
-        viewHolder.date.setText(FORMATTER.format(list.get(i).getDatePublished()));
+        viewHolder.type.setText(list.get(i).getVersionType() == RemoteMod.VersionType.Release ? context.getString(R.string.download_resource_release) : context.getString(R.string.download_resource_beta));
+        viewHolder.date.setText(FORMATTER.format(list.get(i).getDatePublished().toInstant()));
         viewHolder.select.setOnClickListener(view1 -> {
 
         });

@@ -79,7 +79,7 @@ public class LocalModListAdapter extends BaseAdapter {
         LocalModFile localModFile = list.get(i);
         viewHolder.checkBox.setChecked(localModFile.isActive());
         viewHolder.name.setText(localModFile.getFileName());
-        String displayName = ModTranslations.getModById(localModFile.getId()) == null ? "" : Objects.requireNonNull(ModTranslations.getModById(localModFile.getId())).getDisplayName();
+        String displayName = ModTranslations.MOD.getModById(localModFile.getId()) == null ? "" : Objects.requireNonNull(ModTranslations.MOD.getModById(localModFile.getId())).getDisplayName();
         viewHolder.category.setText(displayName);
         String unknown = context.getString(R.string.mod_manager_ui_unknown_info);
         String name = StringUtils.isBlank(localModFile.getName()) ? unknown : localModFile.getName();

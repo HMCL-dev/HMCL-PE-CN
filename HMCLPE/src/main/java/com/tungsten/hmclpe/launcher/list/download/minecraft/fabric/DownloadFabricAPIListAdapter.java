@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.GameUpdateDialog;
-import com.tungsten.hmclpe.launcher.mod.ModListBean;
+import com.tungsten.hmclpe.launcher.mod.RemoteMod;
 
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -24,10 +24,10 @@ public class DownloadFabricAPIListAdapter extends BaseAdapter {
     private Context context;
     private MainActivity activity;
     private String mcVersion;
-    private ArrayList<ModListBean.Version> versions;
+    private ArrayList<RemoteMod.Version> versions;
     private boolean install;
 
-    public DownloadFabricAPIListAdapter(Context context,MainActivity activity,String mcVersion,ArrayList<ModListBean.Version> versions,boolean install){
+    public DownloadFabricAPIListAdapter(Context context,MainActivity activity,String mcVersion,ArrayList<RemoteMod.Version> versions,boolean install){
         this.context = context;
         this.activity = activity;
         this.mcVersion = mcVersion;
@@ -75,11 +75,11 @@ public class DownloadFabricAPIListAdapter extends BaseAdapter {
         else {
             viewHolder = (ViewHolder)view.getTag();
         }
-        ModListBean.Version version = versions.get(i);
+        RemoteMod.Version version = versions.get(i);
         viewHolder.icon.setImageDrawable(context.getDrawable(R.drawable.ic_fabric));
         viewHolder.fabricAPIId.setText(version.getVersion());
         viewHolder.mcVersion.setText(mcVersion);
-        viewHolder.time.setText(DateTimeFormatter.ofPattern(context.getString(R.string.time_pattern)).withZone(ZoneId.systemDefault()).format(version.getDatePublished()));
+        viewHolder.time.setText(DateTimeFormatter.ofPattern(context.getString(R.string.time_pattern)).withZone(ZoneId.systemDefault()).format(version.getDatePublished().toInstant()));
         viewHolder.item.setOnClickListener(v -> {
             if (install) {
                 GameUpdateDialog dialog = new GameUpdateDialog(context,activity,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.versionName,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.gameVersion,4,version);

@@ -34,7 +34,7 @@ import com.tungsten.hmclpe.launcher.game.Artifact;
 import com.tungsten.hmclpe.launcher.game.RuledArgument;
 import com.tungsten.hmclpe.launcher.game.Version;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListAdapter;
-import com.tungsten.hmclpe.launcher.mod.ModListBean;
+import com.tungsten.hmclpe.launcher.mod.RemoteMod;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
 import com.tungsten.hmclpe.utils.gson.JsonUtils;
 import com.tungsten.hmclpe.utils.io.NetSpeed;
@@ -55,7 +55,7 @@ public class GameUpdateDialog extends Dialog implements View.OnClickListener, Ha
     private OptifineVersion optifineVersion;
     private LiteLoaderVersion liteLoaderVersion;
     private FabricLoaderVersion fabricVersion;
-    private ModListBean.Version fabricAPIVersion;
+    private RemoteMod.Version fabricAPIVersion;
 
     private LiteLoaderInstallTask liteLoaderInstallTask;
     private ForgeDownloadTask forgeDownloadTask;
@@ -96,7 +96,7 @@ public class GameUpdateDialog extends Dialog implements View.OnClickListener, Ha
                 this.fabricVersion = (FabricLoaderVersion) apiVersion;
                 break;
             case 4:
-                this.fabricAPIVersion = (ModListBean.Version) apiVersion;
+                this.fabricAPIVersion = (RemoteMod.Version) apiVersion;
                 break;
         }
         setContentView(R.layout.dialog_install_update);
@@ -216,7 +216,7 @@ public class GameUpdateDialog extends Dialog implements View.OnClickListener, Ha
                 saveVersion();
             }
         });
-        forgeInstallTask.install(forgeVersion);
+        forgeInstallTask.execute(forgeVersion);
     }
 
     public void downloadOptifine() {
@@ -259,7 +259,7 @@ public class GameUpdateDialog extends Dialog implements View.OnClickListener, Ha
                 saveVersion();
             }
         });
-        optifineInstallTask.install(optifineVersion);
+        optifineInstallTask.execute(optifineVersion);
     }
 
     public void downloadFabric(){

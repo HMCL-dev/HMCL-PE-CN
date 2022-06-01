@@ -1,5 +1,7 @@
 package com.tungsten.hmclpe.launcher.uis.game.download.right.resource;
 
+import static com.tungsten.hmclpe.launcher.mod.ModManager.getMcbbsUrl;
+import static com.tungsten.hmclpe.launcher.mod.ModManager.getMcmodUrl;
 import static com.tungsten.hmclpe.utils.Lang.mapOf;
 import static com.tungsten.hmclpe.utils.Pair.pair;
 
@@ -20,8 +22,10 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.download.ModDependencyAdapter;
 import com.tungsten.hmclpe.launcher.list.download.ModGameVersionAdapter;
-import com.tungsten.hmclpe.launcher.mod.ModInfo;
-import com.tungsten.hmclpe.launcher.mod.ModListBean;
+import com.tungsten.hmclpe.launcher.mod.RemoteMod;
+import com.tungsten.hmclpe.launcher.mod.RemoteModRepository;
+import com.tungsten.hmclpe.launcher.mod.curse.CurseForgeRemoteModRepository;
+import com.tungsten.hmclpe.utils.SimpleMultimap;
 import com.tungsten.hmclpe.utils.io.NetworkUtils;
 import com.tungsten.hmclpe.utils.string.StringUtils;
 
@@ -29,6 +33,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickListener {
 
@@ -50,8 +59,8 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
     private ModGameVersionAdapter modGameVersionAdapter;
     private ModDependencyAdapter modDependencyAdapter;
 
-    public DownloadResourceUI(Context context, MainActivity activity, ModListBean.Mod bean,int resourceType) {
-        super(context, activity, bean, resourceType);
+    public DownloadResourceUI(Context context, MainActivity activity, RemoteModRepository repository, RemoteMod bean, int resourceType) {
+        super(context, activity, repository, bean, resourceType);
     }
 
     @Override
@@ -95,30 +104,19 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
                 e.printStackTrace();
             }
         }).start();
-        name.setText(modTranslation != null && resourceType == 0 ? modTranslation.getDisplayName() : bean.getTitle());
+        name.setText(modTranslation != null ? modTranslation.getDisplayName() : bean.getTitle());
         StringBuilder categories = new StringBuilder();
-        if (bean.getModrinthCategories().size() != 0) {
-            for (int i = 0;i < bean.getModrinthCategories().size();i++){
-                String c;
-                int resId = context.getResources().getIdentifier("modrinth_category_" + bean.getModrinthCategories().get(i),"string","com.tungsten.hmclpe");
-                if (resId != 0 && context.getString(resId) != null) {
-                    c = context.getString(resId);
-                }
-                else {
-                    c = bean.getModrinthCategories().get(i);
-                }
-                categories.append(c).append((i != bean.getModrinthCategories().size()) ? "   " : "");
+        for (String category : bean.getCategories()) {
+            boolean isCurse = bean.getPageUrl() != null && bean.getPageUrl().contains("curseforge");
+            String c;
+            int resId = context.getResources().getIdentifier((isCurse ? "curse_category_" : "modrinth_category_") + category.replace("-","_"),"string","com.tungsten.hmclpe");
+            if (resId != 0 && context.getString(resId) != null) {
+                c = context.getString(resId);
             }
-        }
-        else {
-            for (int i = 0;i < bean.getCategories().size();i++){
-                String c = "";
-                int resId = context.getResources().getIdentifier("curse_category_" + bean.getCategories().get(i),"string","com.tungsten.hmclpe");
-                if (resId != 0 && context.getString(resId) != null) {
-                    c = context.getString(resId);
-                }
-                categories.append(c).append((i != bean.getCategories().size() && !c.equals("")) ? "   " : "");
+            else {
+                c = category;
             }
+            categories.append(c).append("   ");
         }
         type.setText(categories.toString());
         description.setText(bean.getDescription());
@@ -175,6 +173,22 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
         }
     }
 
+    private SimpleMultimap<String, RemoteMod.Version> sortVersions(Stream<RemoteMod.Version> versions) {
+        SimpleMultimap<String, RemoteMod.Version> classifiedVersions
+                = new SimpleMultimap<String, RemoteMod.Version>(HashMap::new, ArrayList::new);
+        versions.forEach(version -> {
+            for (String gameVersion : version.getGameVersions()) {
+                classifiedVersions.put(gameVersion, version);
+            }
+        });
+
+        for (String gameVersion : classifiedVersions.keys()) {
+            List<RemoteMod.Version> versionList = (List<RemoteMod.Version>) classifiedVersions.get(gameVersion);
+            versionList.sort(Comparator.comparing(RemoteMod.Version::getDatePublished).reversed());
+        }
+        return classifiedVersions;
+    }
+
     public void refresh() {
         new Thread(() -> {
             activity.runOnUiThread(() -> {
@@ -184,9 +198,10 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
                 refreshText.setVisibility(View.GONE);
             });
             try {
-                ModInfo modInfo = new ModInfo(bean);
-                if (modInfo.getDependencies().size() == 0) {
-                    modGameVersionAdapter = new ModGameVersionAdapter(context,modInfo,this);
+                List<RemoteMod> dependencies = bean.getData().loadDependencies(repository);
+                SimpleMultimap<String, RemoteMod.Version> versions = sortVersions(bean.getData().loadVersions(repository));
+                if (dependencies.size() == 0) {
+                    modGameVersionAdapter = new ModGameVersionAdapter(context,versions,this);
                     activity.runOnUiThread(() -> {
                         dependencyLayout.setVisibility(View.GONE);
                         versionList.setVisibility(View.VISIBLE);
@@ -197,8 +212,8 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
                     });
                 }
                 else {
-                    modDependencyAdapter = new ModDependencyAdapter(context,activity,modInfo.getDependencies());
-                    modGameVersionAdapter = new ModGameVersionAdapter(context,modInfo,this);
+                    modDependencyAdapter = new ModDependencyAdapter(context,activity,repository,dependencies);
+                    modGameVersionAdapter = new ModGameVersionAdapter(context,versions,this);
                     activity.runOnUiThread(() -> {
                         dependencyLayout.setVisibility(View.VISIBLE);
                         versionList.setVisibility(View.VISIBLE);
@@ -238,14 +253,6 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
         View view = listView.getAdapter().getView(0,null,listView);
         view.measure(0, 0);
         return (view.getMeasuredHeight() * count) + (listView.getDividerHeight() * (count - 1));
-    }
-
-    public static String getMcmodUrl(String mcmodId) {
-        return String.format("https://www.mcmod.cn/class/%s.html", mcmodId);
-    }
-
-    public static String getMcbbsUrl(String mcbbsId) {
-        return String.format("https://www.mcbbs.net/thread-%s-1-1.html", mcbbsId);
     }
 
     public static void reSetListViewHeight(ListView listView,int change) {

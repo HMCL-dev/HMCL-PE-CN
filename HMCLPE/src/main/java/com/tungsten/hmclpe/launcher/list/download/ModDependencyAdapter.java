@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.mod.ModListBean;
+import com.tungsten.hmclpe.launcher.mod.RemoteMod;
+import com.tungsten.hmclpe.launcher.mod.RemoteModRepository;
+import com.tungsten.hmclpe.launcher.mod.curse.CurseForgeRemoteModRepository;
 import com.tungsten.hmclpe.launcher.uis.game.download.right.resource.DownloadResourceUI;
 import com.tungsten.hmclpe.utils.string.ModTranslations;
 
@@ -28,11 +30,13 @@ public class ModDependencyAdapter extends BaseAdapter {
 
     private Context context;
     private MainActivity activity;
-    private List<ModListBean.Mod> list;
+    private RemoteModRepository repository;
+    private List<RemoteMod> list;
 
-    public ModDependencyAdapter (Context context,MainActivity activity,List<ModListBean.Mod> list) {
+    public ModDependencyAdapter (Context context,MainActivity activity,RemoteModRepository repository,List<RemoteMod> list) {
         this.context = context;
         this.activity = activity;
+        this.repository = repository;
         this.list = list;
     }
 
@@ -97,34 +101,24 @@ public class ModDependencyAdapter extends BaseAdapter {
             }
         }).start();
         StringBuilder categories = new StringBuilder();
-        if (list.get(i).getModrinthCategories().size() != 0) {
-            for (int j = 0;j < list.get(i).getModrinthCategories().size();j++){
-                String c;
-                int resId = context.getResources().getIdentifier("modrinth_category_" + list.get(i).getModrinthCategories().get(j),"string","com.tungsten.hmclpe");
-                if (resId != 0 && context.getString(resId) != null) {
-                    c = context.getString(resId);
-                }
-                else {
-                    c = list.get(i).getModrinthCategories().get(j);
-                }
-                categories.append(c).append((j != list.get(i).getModrinthCategories().size()) ? "   " : "");
+        for (String category : list.get(i).getCategories()) {
+            boolean isCurse = list.get(i).getPageUrl() != null && list.get(i).getPageUrl().contains("curseforge");
+            String c;
+            int resId = context.getResources().getIdentifier((isCurse ? "curse_category_" : "modrinth_category_") + category.replace("-","_"),"string","com.tungsten.hmclpe");
+            if (resId != 0 && context.getString(resId) != null) {
+                c = context.getString(resId);
             }
-        }
-        else {
-            for (int j = 0;j < list.get(i).getCategories().size();j++){
-                String c = "";
-                int resId = context.getResources().getIdentifier("curse_category_" + list.get(i).getCategories().get(j),"string","com.tungsten.hmclpe");
-                if (resId != 0 && context.getString(resId) != null) {
-                    c = context.getString(resId);
-                }
-                categories.append(c).append((j != list.get(i).getCategories().size() && !c.equals("")) ? "   " : "");
+            else {
+                c = category;
             }
+            categories.append(c).append("   ");
         }
         viewHolder.categories.setText(categories.toString());
-        viewHolder.name.setText(ModTranslations.getModByCurseForgeId(list.get(i).getSlug()) == null ? list.get(i).getTitle() : ModTranslations.getModByCurseForgeId(list.get(i).getSlug()).getDisplayName());
+        ModTranslations modTranslations = ModTranslations.MOD;
+        viewHolder.name.setText(modTranslations.getModByCurseForgeId(list.get(i).getSlug()) == null ? list.get(i).getTitle() : modTranslations.getModByCurseForgeId(list.get(i).getSlug()).getDisplayName());
         viewHolder.introduction.setText(list.get(i).getDescription());
         viewHolder.item.setOnClickListener(view1 -> {
-            DownloadResourceUI downloadResourceUI = new DownloadResourceUI(context,activity,list.get(i),0);
+            DownloadResourceUI downloadResourceUI = new DownloadResourceUI(context,activity,repository,list.get(i),0);
             activity.uiManager.switchMainUI(downloadResourceUI);
         });
         return view;

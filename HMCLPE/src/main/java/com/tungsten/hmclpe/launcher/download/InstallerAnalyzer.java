@@ -5,8 +5,6 @@ import static com.tungsten.hmclpe.utils.Lang.getOrDefault;
 import android.os.Handler;
 
 import com.google.gson.Gson;
-import com.leo618.zip.IZipCallback;
-import com.leo618.zip.ZipManager;
 import com.tungsten.hmclpe.launcher.download.forge.ForgeInstallProfile;
 import com.tungsten.hmclpe.launcher.download.forge.ForgeNewInstallProfile;
 import com.tungsten.hmclpe.launcher.download.forge.ForgeVersion;
@@ -18,6 +16,7 @@ import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
 import com.tungsten.hmclpe.utils.file.FileUtils;
 import com.tungsten.hmclpe.utils.gson.JsonUtils;
+import com.tungsten.hmclpe.utils.io.ZipTools;
 import com.tungsten.hmclpe.utils.platform.Bits;
 
 import org.jenkinsci.constant_pool_scanner.ConstantPool;
@@ -44,29 +43,17 @@ public class InstallerAnalyzer {
             FileUtils.createDirectory(AppManifest.INSTALL_DIR + "/local");
             if (FileUtils.copyFile(path, AppManifest.INSTALL_DIR + "/local/installer.jar")) {
                 handler.post(() -> {
-                    ZipManager.unzip(AppManifest.INSTALL_DIR + "/local/installer.jar", AppManifest.INSTALL_DIR + "/local/installer", new IZipCallback() {
-                        @Override
-                        public void onStart() {
-
-                        }
-
-                        @Override
-                        public void onProgress(int percentDone) {
-
-                        }
-
-                        @Override
-                        public void onFinish(boolean success) {
-                            if (success) {
-                                getType(handler,callback);
-                            }
-                            else {
-                                handler.post(() -> {
-                                    callback.onFinish(Type.UNKNOWN,null);
-                                });
-                            }
-                        }
-                    });
+                    try {
+                        ZipTools.unzipFile(AppManifest.INSTALL_DIR + "/local/installer.jar", AppManifest.INSTALL_DIR + "/local/installer",false);
+                        handler.post(() -> {
+                            getType(handler,callback);
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        handler.post(() -> {
+                            callback.onFinish(Type.UNKNOWN,null);
+                        });
+                    }
                 });
             }
             else {

@@ -1,5 +1,6 @@
 package com.tungsten.hmclpe.launcher.uis.game.download.right;
 
+import static com.tungsten.hmclpe.launcher.mod.RemoteModRepository.DEFAULT_GAME_VERSIONS;
 import static java.util.stream.Collectors.toList;
 
 import android.annotation.SuppressLint;
@@ -24,21 +25,20 @@ import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.mod.curse.CurseModManager;
-import com.tungsten.hmclpe.launcher.mod.ModListBean;
-import com.tungsten.hmclpe.launcher.mod.SearchTools;
 import com.tungsten.hmclpe.launcher.list.download.DownloadResourceAdapter;
-import com.tungsten.hmclpe.launcher.mod.modrinth.Modrinth;
+import com.tungsten.hmclpe.launcher.mod.LocalizedRemoteModRepository;
+import com.tungsten.hmclpe.launcher.mod.RemoteMod;
+import com.tungsten.hmclpe.launcher.mod.RemoteModRepository;
+import com.tungsten.hmclpe.launcher.mod.curse.CurseForgeRemoteModRepository;
+import com.tungsten.hmclpe.launcher.mod.modrinth.ModrinthRemoteModRepository;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
-import com.tungsten.hmclpe.launcher.view.spinner.CFCSpinnerAdapter;
+import com.tungsten.hmclpe.launcher.view.spinner.CategorySpinnerAdapter;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
-import com.tungsten.hmclpe.launcher.view.spinner.MRCSpinnerAdapter;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class DownloadModUI extends BaseUI implements View.OnClickListener, AdapterView.OnItemSelectedListener, TextWatcher, TextView.OnEditorActionListener {
 
@@ -50,7 +50,6 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
     private EditText editVersion;
     private Spinner versionSpinner;
     private Spinner typeSpinner;
-    private Spinner typeSpinnerMR;
     private Spinner sortSpinner;
     private Button search;
 
@@ -60,44 +59,39 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
     private ArrayAdapter<String> sourceListAdapter;
     private ArrayList<String> versionList;
     private ArrayAdapter<String> versionListAdapter;
-    private ArrayList<CurseModManager.Category> categoryList;
-    private CFCSpinnerAdapter categoryListAdapter;
-    private ArrayList<String> modrinthCategoryList;
-    private MRCSpinnerAdapter modrinthCategoryListAdapter;
+    private ArrayList<RemoteModRepository.Category> categoryList;
+    private CategorySpinnerAdapter categoryListAdapter;
     private ArrayList<String> sortList;
     private ArrayAdapter<String> sortListAdapter;
 
     private ListView modListView;
-    private ArrayList<ModListBean.Mod> modList;
+    private ArrayList<RemoteMod> modList;
     private DownloadResourceAdapter modListAdapter;
     private ProgressBar progressBar;
     private TextView refreshText;
     private boolean isSearching = false;
 
-    public static String[] DEFAULT_GAME_VERSIONS = new String[]{
-            "1.18.2", "1.18.1", "1.18",
-            "1.17.1", "1.17",
-            "1.16.5", "1.16.4", "1.16.3", "1.16.2", "1.16.1", "1.16",
-            "1.15.2", "1.15.1", "1.15",
-            "1.14.4", "1.14.3", "1.14.2", "1.14.1", "1.14",
-            "1.13.2", "1.13.1", "1.13",
-            "1.12.2", "1.12.1", "1.12",
-            "1.11.2", "1.11.1", "1.11",
-            "1.10.2", "1.10.1", "1.10",
-            "1.9.4", "1.9.3", "1.9.2", "1.9.1", "1.9",
-            "1.8.9", "1.8.8", "1.8.7", "1.8.6", "1.8.5", "1.8.4", "1.8.3", "1.8.2", "1.8.1", "1.8",
-            "1.7.10", "1.7.9", "1.7.8", "1.7.7", "1.7.6", "1.7.5", "1.7.4", "1.7.3", "1.7.2",
-            "1.6.4", "1.6.2", "1.6.1",
-            "1.5.2", "1.5.1",
-            "1.4.7", "1.4.6", "1.4.5", "1.4.4", "1.4.2",
-            "1.3.2", "1.3.1",
-            "1.2.5", "1.2.4", "1.2.3", "1.2.2", "1.2.1",
-            "1.1",
-            "1.0"
-    };
+    private RemoteModRepository repository;
 
     public DownloadModUI(Context context, MainActivity activity) {
         super(context, activity);
+    }
+
+    private class Repository extends LocalizedRemoteModRepository {
+
+        @Override
+        protected RemoteModRepository getBackedRemoteModRepository() {
+            if (downloadSourceSpinner.getSelectedItemPosition() == 1) {
+                return ModrinthRemoteModRepository.MODS;
+            } else {
+                return CurseForgeRemoteModRepository.MODS;
+            }
+        }
+
+        @Override
+        public Type getType() {
+            return Type.MOD;
+        }
     }
 
     @Override
@@ -111,7 +105,6 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
         editVersion = activity.findViewById(R.id.edit_download_mod_arg_version);
         versionSpinner = activity.findViewById(R.id.download_mod_arg_version);
         typeSpinner = activity.findViewById(R.id.download_mod_arg_type);
-        typeSpinnerMR = activity.findViewById(R.id.download_mod_arg_type_modrinth);
         sortSpinner = activity.findViewById(R.id.download_mod_arg_sort);
 
         gameList = SettingUtils.getLocalVersionNames(activity.launcherSetting.gameFileDirectory);
@@ -121,33 +114,21 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
         sourceList = new ArrayList<>();
         sourceList.add(context.getString(R.string.download_mod_source_curse_forge));
         sourceList.add(context.getString(R.string.download_mod_source_modrinth));
-        sourceListAdapter = new ArrayAdapter<String>(context,R.layout.item_spinner,sourceList);
+        sourceListAdapter = new ArrayAdapter<>(context, R.layout.item_spinner, sourceList);
         sourceListAdapter.setDropDownViewResource(R.layout.item_spinner_drop_down);
         downloadSourceSpinner.setAdapter(sourceListAdapter);
 
-        String[] versionArray = DEFAULT_GAME_VERSIONS;
         versionList = new ArrayList<>();
         versionList.add("");
-        versionList.addAll(Arrays.asList(versionArray));
-        versionListAdapter = new ArrayAdapter<String>(context,R.layout.item_spinner,versionList);
+        versionList.addAll(Arrays.asList(DEFAULT_GAME_VERSIONS));
+        versionListAdapter = new ArrayAdapter<>(context, R.layout.item_spinner, versionList);
         versionListAdapter.setDropDownViewResource(R.layout.item_spinner_drop_down);
         versionSpinner.setAdapter(versionListAdapter);
 
         categoryList = new ArrayList<>();
-        categoryList.add(new CurseModManager.Category(0, "All", "", "", 6, 432, true, 0, new ArrayList<>()));
-        for (CurseModManager.Category category : categoryList) {
-            int resId = context.getResources().getIdentifier("curse_category_" + category.getId(),"string","com.tungsten.hmclpe");
-            if (resId != 0 && context.getString(resId) != null) {
-                category.setName(context.getString(resId));
-            }
-        }
-        categoryListAdapter = new CFCSpinnerAdapter(context,categoryList,6);
+        categoryList.add(new RemoteModRepository.Category(CurseForgeRemoteModRepository.CATEGORY_ALL,"0",new ArrayList<>()));
+        categoryListAdapter = new CategorySpinnerAdapter(context,categoryList,CurseForgeRemoteModRepository.SECTION_MOD);
         typeSpinner.setAdapter(categoryListAdapter);
-
-        modrinthCategoryList = new ArrayList<>();
-        modrinthCategoryList.add("all");
-        modrinthCategoryListAdapter = new MRCSpinnerAdapter(context,modrinthCategoryList);
-        typeSpinnerMR.setAdapter(modrinthCategoryListAdapter);
 
         sortList = new ArrayList<>();
         sortList.add(context.getString(R.string.download_mod_sort_date));
@@ -158,7 +139,7 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
         sortList.add(context.getString(R.string.download_mod_sort_downloads));
         sortList.add(context.getString(R.string.download_mod_sort_category));
         sortList.add(context.getString(R.string.download_mod_sort_game_version));
-        sortListAdapter = new ArrayAdapter<String>(context,R.layout.item_spinner,sortList);
+        sortListAdapter = new ArrayAdapter<>(context, R.layout.item_spinner, sortList);
         sortListAdapter.setDropDownViewResource(R.layout.item_spinner_drop_down);
         sortSpinner.setAdapter(sortListAdapter);
 
@@ -166,7 +147,6 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
         downloadSourceSpinner.setOnItemSelectedListener(this);
         versionSpinner.setOnItemSelectedListener(this);
         typeSpinner.setOnItemSelectedListener(this);
-        typeSpinnerMR.setOnItemSelectedListener(this);
         sortSpinner.setOnItemSelectedListener(this);
 
         search = activity.findViewById(R.id.search_mod);
@@ -177,9 +157,11 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
         editVersion.setOnEditorActionListener(this);
         editVersion.addTextChangedListener(this);
 
+        repository = new Repository();
+
         modListView = activity.findViewById(R.id.download_mod_list);
         modList = new ArrayList<>();
-        modListAdapter = new DownloadResourceAdapter(context,activity,modList,0);
+        modListAdapter = new DownloadResourceAdapter(context,activity,repository,modList,0);
         modListView.setAdapter(modListAdapter);
 
         progressBar = activity.findViewById(R.id.loading_download_mod_list_progress);
@@ -224,7 +206,7 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (parent == typeSpinner || parent == typeSpinnerMR || parent == sortSpinner || parent == versionSpinner){
+        if (parent == typeSpinner || parent == sortSpinner || parent == versionSpinner){
             search();
             if (parent == versionSpinner){
                 editVersion.setText((String) parent.getItemAtPosition(position));
@@ -247,42 +229,15 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
             new Thread(() -> {
                 try {
                     searchHandler.sendEmptyMessage(0);
-                    final int source = downloadSourceSpinner.getSelectedItemPosition();
-                    Stream<ModListBean.Mod> stream = SearchTools.searchImpl(downloadSourceSpinner.getSelectedItem().toString(), editVersion.getText().toString(), ((CurseModManager.Category) typeSpinner.getSelectedItem()).getId(), (String) typeSpinnerMR.getSelectedItem(), SearchTools.SECTION_MOD, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), sortSpinner.getSelectedItemPosition());
-                    List<ModListBean.Mod> list = stream.collect(toList());
+                    List<RemoteMod> list = repository.search(editVersion.getText().toString(), (RemoteModRepository.Category) categoryListAdapter.getItem(typeSpinner.getSelectedItemPosition()), 0, 50, editName.getText().toString(), RemoteMod.getSortTypeByPosition(sortSpinner.getSelectedItemPosition()), RemoteModRepository.SortOrder.DESC).collect(toList());
                     modList.clear();
                     modList.addAll(list);
-                    if (source == 0) {
-                        List<CurseModManager.Category> categories;
-                        categories = CurseModManager.getCategories(SearchTools.SECTION_MOD);
-                        categoryList.clear();
-                        categoryList.add(new CurseModManager.Category(0, "All", "", "", 6, 432, true, 0, new ArrayList<>()));
-                        for (int i = 0;i < categories.size();i++){
-                            categoryList.add(categories.get(i));
-                            categoryList.addAll(categories.get(i).getSubcategories());
-                        }
-                        for (CurseModManager.Category category : categoryList) {
-                            int resId = context.getResources().getIdentifier("curse_category_" + category.getId(),"string","com.tungsten.hmclpe");
-                            if (resId != 0 && context.getString(resId) != null) {
-                                category.setName(context.getString(resId));
-                            }
-                        }
-                        searchHandler.post(() -> {
-                            categoryListAdapter.notifyDataSetChanged();
-                            typeSpinner.setVisibility(View.VISIBLE);
-                            typeSpinnerMR.setVisibility(View.GONE);
-                        });
-                    }
-                    else {
-                        List<String> categoryList = Modrinth.getCategories();
-                        modrinthCategoryList.clear();
-                        modrinthCategoryList.add("all");
-                        modrinthCategoryList.addAll(categoryList);
-                        searchHandler.post(() -> {
-                            modrinthCategoryListAdapter.notifyDataSetChanged();
-                            typeSpinner.setVisibility(View.GONE);
-                            typeSpinnerMR.setVisibility(View.VISIBLE);
-                        });
+                    List<RemoteModRepository.Category> categories = repository.getCategories().collect(toList());
+                    categoryList.clear();
+                    categoryList.add(new RemoteModRepository.Category(downloadSourceSpinner.getSelectedItemPosition() == 0 ? CurseForgeRemoteModRepository.CATEGORY_ALL : ModrinthRemoteModRepository.CATEGORY_ALL, downloadSourceSpinner.getSelectedItemPosition() == 0 ? "0" : "all", new ArrayList<>()));
+                    for (int i = 0;i < categories.size();i++) {
+                        categoryList.add(categories.get(i));
+                        categoryList.addAll(categories.get(i).getSubcategories());
                     }
                     searchHandler.sendEmptyMessage(1);
                 } catch (Exception e) {
@@ -290,9 +245,6 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
                     e.printStackTrace();
                 }
             }).start();
-        }
-        else {
-
         }
     }
 
@@ -309,6 +261,7 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
             }
             if (msg.what == 1) {
                 modListAdapter.notifyDataSetChanged();
+                categoryListAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
                 refreshText.setVisibility(View.GONE);
                 modListView.setVisibility(View.VISIBLE);

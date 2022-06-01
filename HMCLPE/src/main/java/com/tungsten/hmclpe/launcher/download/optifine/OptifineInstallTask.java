@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.leo618.zip.IZipCallback;
-import com.leo618.zip.ZipManager;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.ApiService;
@@ -23,6 +21,7 @@ import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.utils.io.DownloadUtil;
 import com.tungsten.hmclpe.utils.io.FileUtils;
 import com.tungsten.hmclpe.utils.io.SocketServer;
+import com.tungsten.hmclpe.utils.io.ZipTools;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,32 +59,6 @@ public class OptifineInstallTask extends AsyncTask<OptifineVersion,Integer, Vers
         this.bean = new DownloadTaskListBean(activity.getString(R.string.dialog_install_game_install_optifine),"","","");
     }
 
-    public void install(OptifineVersion optifineVersion) {
-        callback.onStart();
-        adapter.addDownloadTask(bean);
-        ZipManager.unzip(AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName, AppManifest.INSTALL_DIR + "/optifine/installer/", new IZipCallback() {
-            @Override
-            public void onStart() {
-
-            }
-
-            @Override
-            public void onProgress(int percentDone) {
-
-            }
-
-            @Override
-            public void onFinish(boolean success) {
-                if (success) {
-                    if (!canceled) execute(optifineVersion);
-                }
-                else {
-                    if (!canceled) callback.onFailed(new Exception("Failed to unzip installer"));
-                }
-            }
-        });
-    }
-
     public void cancelBuild() {
         canceled = true;
         if (server != null) {
@@ -98,11 +71,22 @@ public class OptifineInstallTask extends AsyncTask<OptifineVersion,Integer, Vers
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        callback.onStart();
     }
 
     @Override
     protected Version doInBackground(OptifineVersion... optifineVersions) {
         OptifineVersion optifineVersion = optifineVersions[0];
+        activity.runOnUiThread(() -> {
+            adapter.addDownloadTask(bean);
+        });
+        try {
+            ZipTools.unzipFile(AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName, AppManifest.INSTALL_DIR + "/optifine/installer/",false);
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (!isCancelled()) callback.onFailed(e);
+            cancel(true);
+        }
         String mavenVersion = optifineVersion.mcVersion + "_" + optifineVersion.type + "_" + optifineVersion.patch;
         optiFineLibrary = new Library(new Artifact("optifine", "OptiFine", mavenVersion));
         optiFineInstallerLibrary = new Library(

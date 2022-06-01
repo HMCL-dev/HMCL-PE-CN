@@ -21,7 +21,7 @@ import com.tungsten.hmclpe.launcher.download.forge.ForgeVersion;
 import com.tungsten.hmclpe.launcher.download.game.VersionManifest;
 import com.tungsten.hmclpe.launcher.download.liteloader.LiteLoaderVersion;
 import com.tungsten.hmclpe.launcher.download.optifine.OptifineVersion;
-import com.tungsten.hmclpe.launcher.mod.ModListBean;
+import com.tungsten.hmclpe.launcher.mod.RemoteMod;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
@@ -37,7 +37,7 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
     public OptifineVersion optifineVersion;
     public LiteLoaderVersion liteLoaderVersion;
     public FabricLoaderVersion fabricVersion;
-    public ModListBean.Version fabricAPIVersion;
+    public RemoteMod.Version fabricAPIVersion;
 
     private EditText editName;
 

@@ -19,9 +19,9 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.mod.modrinth.Modrinth;
-import com.tungsten.hmclpe.launcher.mod.ModListBean;
 import com.tungsten.hmclpe.launcher.list.download.minecraft.fabric.DownloadFabricAPIListAdapter;
+import com.tungsten.hmclpe.launcher.mod.RemoteMod;
+import com.tungsten.hmclpe.launcher.mod.modrinth.ModrinthRemoteModRepository;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
@@ -95,14 +95,14 @@ public class DownloadFabricAPIUI extends BaseUI implements View.OnClickListener 
     private void refresh() {
         new Thread(() -> {
             loadingHandler.sendEmptyMessage(0);
-            ArrayList<ModListBean.Version> apiVersions = new ArrayList<>();
-            ArrayList<ModListBean.Version> availableVersions = new ArrayList<>();
+            ArrayList<RemoteMod.Version> apiVersions = new ArrayList<>();
+            ArrayList<RemoteMod.Version> availableVersions = new ArrayList<>();
             try {
-                Stream<ModListBean.Version> stream = Modrinth.getRemoteVersionsById(FABRIC_API_ID);
-                List<ModListBean.Version> list = stream.collect(toList());
+                Stream<RemoteMod.Version> stream = ModrinthRemoteModRepository.MODS.getRemoteVersionsById(FABRIC_API_ID);
+                List<RemoteMod.Version> list = stream.collect(toList());
                 apiVersions.addAll(list);
                 boolean exist = false;
-                for (ModListBean.Version v : apiVersions) {
+                for (RemoteMod.Version v : apiVersions) {
                     if (v.getGameVersions().contains(version)){
                         exist = true;
                         availableVersions.add(v);

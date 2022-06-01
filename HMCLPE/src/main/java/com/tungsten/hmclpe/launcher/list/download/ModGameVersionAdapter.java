@@ -11,18 +11,22 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
-import com.tungsten.hmclpe.launcher.mod.ModInfo;
+import com.tungsten.hmclpe.launcher.mod.RemoteMod;
 import com.tungsten.hmclpe.launcher.uis.game.download.right.resource.DownloadResourceUI;
+import com.tungsten.hmclpe.utils.SimpleMultimap;
 import com.tungsten.hmclpe.utils.animation.HiddenAnimationUtils;
 import com.tungsten.hmclpe.utils.convert.ConvertUtils;
+import com.tungsten.hmclpe.utils.versioning.VersionNumber;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ModGameVersionAdapter extends BaseAdapter {
 
     private Context context;
     private List<String> list;
-    private ModInfo modInfo;
+    private SimpleMultimap<String, RemoteMod.Version> versions;
     private int[] layoutHeights;
     private DownloadResourceUI ui;
 
@@ -34,10 +38,13 @@ public class ModGameVersionAdapter extends BaseAdapter {
         ListView modListView;
     }
 
-    public ModGameVersionAdapter (Context context, ModInfo modInfo, DownloadResourceUI ui) {
+    public ModGameVersionAdapter (Context context, SimpleMultimap<String, RemoteMod.Version> versions, DownloadResourceUI ui) {
         this.context = context;
-        this.list = modInfo.getAllSupportedGameVersion();
-        this.modInfo = modInfo;
+        this.list = new ArrayList<>();
+        list.addAll(versions.keys().stream()
+                .sorted(VersionNumber.VERSION_COMPARATOR.reversed())
+                .collect(Collectors.toList()));
+        this.versions = versions;
         this.layoutHeights = new int[list.size()];
         this.ui = ui;
     }
@@ -74,7 +81,7 @@ public class ModGameVersionAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
         viewHolder.name.setText(list.get(i));
-        ModVersionAdapter modVersionAdapter = new ModVersionAdapter(context,modInfo.getVersionByGameVersion(list.get(i)),ui);
+        ModVersionAdapter modVersionAdapter = new ModVersionAdapter(context, new ArrayList<>(versions.get(list.get(i))),ui);
         viewHolder.modListView.setAdapter(modVersionAdapter);
         layoutHeights[i] = getListViewHeight(viewHolder.modListView) + ConvertUtils.dip2px(context,24);
         viewHolder.item.setOnClickListener(view1 -> {

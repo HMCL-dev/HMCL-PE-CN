@@ -1,5 +1,6 @@
 package com.tungsten.hmclpe.launcher.uis.game.download.right;
 
+import static com.tungsten.hmclpe.launcher.mod.RemoteModRepository.DEFAULT_GAME_VERSIONS;
 import static java.util.stream.Collectors.toList;
 
 import android.annotation.SuppressLint;
@@ -25,18 +26,17 @@ import androidx.annotation.NonNull;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.download.DownloadResourceAdapter;
-import com.tungsten.hmclpe.launcher.mod.SearchTools;
-import com.tungsten.hmclpe.launcher.mod.ModListBean;
-import com.tungsten.hmclpe.launcher.mod.curse.CurseModManager;
+import com.tungsten.hmclpe.launcher.mod.RemoteMod;
+import com.tungsten.hmclpe.launcher.mod.RemoteModRepository;
+import com.tungsten.hmclpe.launcher.mod.curse.CurseForgeRemoteModRepository;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
-import com.tungsten.hmclpe.launcher.view.spinner.CFCSpinnerAdapter;
+import com.tungsten.hmclpe.launcher.view.spinner.CategorySpinnerAdapter;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class DownloadResourcePackUI extends BaseUI implements View.OnClickListener, AdapterView.OnItemSelectedListener, TextView.OnEditorActionListener, TextWatcher {
 
@@ -56,8 +56,8 @@ public class DownloadResourcePackUI extends BaseUI implements View.OnClickListen
     private ArrayAdapter<String> sortListAdapter;
     private ArrayList<String> versionList;
     private ArrayAdapter<String> versionListAdapter;
-    private ArrayList<CurseModManager.Category> categoryList;
-    private CFCSpinnerAdapter categoryListAdapter;
+    private ArrayList<RemoteModRepository.Category> categoryList;
+    private CategorySpinnerAdapter categoryListAdapter;
 
     private boolean isSearching = false;
 
@@ -65,8 +65,10 @@ public class DownloadResourcePackUI extends BaseUI implements View.OnClickListen
     private TextView refreshText;
 
     private ListView resourcePackListView;
-    private ArrayList<ModListBean.Mod> resourcePackList;
+    private ArrayList<RemoteMod> resourcePackList;
     private DownloadResourceAdapter downloadResourcePackListAdapter;
+
+    private RemoteModRepository repository;
 
     public DownloadResourcePackUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -100,27 +102,20 @@ public class DownloadResourcePackUI extends BaseUI implements View.OnClickListen
         sortList.add(context.getString(R.string.download_mod_sort_downloads));
         sortList.add(context.getString(R.string.download_mod_sort_category));
         sortList.add(context.getString(R.string.download_mod_sort_game_version));
-        sortListAdapter = new ArrayAdapter<String>(context,R.layout.item_spinner,sortList);
+        sortListAdapter = new ArrayAdapter<>(context, R.layout.item_spinner, sortList);
         sortListAdapter.setDropDownViewResource(R.layout.item_spinner_drop_down);
         editSort.setAdapter(sortListAdapter);
 
-        String[] versionArray = DownloadModUI.DEFAULT_GAME_VERSIONS;
         versionList = new ArrayList<>();
         versionList.add("");
-        versionList.addAll(Arrays.asList(versionArray));
-        versionListAdapter = new ArrayAdapter<String>(context,R.layout.item_spinner,versionList);
+        versionList.addAll(Arrays.asList(DEFAULT_GAME_VERSIONS));
+        versionListAdapter = new ArrayAdapter<>(context, R.layout.item_spinner, versionList);
         versionListAdapter.setDropDownViewResource(R.layout.item_spinner_drop_down);
         editVersionSpinner.setAdapter(versionListAdapter);
 
         categoryList = new ArrayList<>();
-        categoryList.add(new CurseModManager.Category(0, "All", "", "", 12, 432, true, 0, new ArrayList<>()));
-        for (CurseModManager.Category category : categoryList) {
-            int resId = context.getResources().getIdentifier("curse_category_" + category.getId(),"string","com.tungsten.hmclpe");
-            if (resId != 0 && context.getString(resId) != null) {
-                category.setName(context.getString(resId));
-            }
-        }
-        categoryListAdapter = new CFCSpinnerAdapter(context,categoryList,12);
+        categoryList.add(new RemoteModRepository.Category(CurseForgeRemoteModRepository.CATEGORY_ALL, "0", new ArrayList<>()));
+        categoryListAdapter = new CategorySpinnerAdapter(context,categoryList,CurseForgeRemoteModRepository.SECTION_RESOURCE_PACK);
         editCategory.setAdapter(categoryListAdapter);
 
         gameSpinner.setOnItemSelectedListener(this);
@@ -136,9 +131,11 @@ public class DownloadResourcePackUI extends BaseUI implements View.OnClickListen
         refreshText = activity.findViewById(R.id.refresh_resource_pack_list);
         refreshText.setOnClickListener(this);
 
+        repository = new CurseForgeRemoteModRepository(RemoteModRepository.Type.RESOURCE_PACK,CurseForgeRemoteModRepository.SECTION_RESOURCE_PACK);
+
         resourcePackListView = activity.findViewById(R.id.download_resource_pack_list);
         resourcePackList = new ArrayList<>();
-        downloadResourcePackListAdapter = new DownloadResourceAdapter(context,activity,resourcePackList,2);
+        downloadResourcePackListAdapter = new DownloadResourceAdapter(context,activity,repository,resourcePackList,2);
         resourcePackListView.setAdapter(downloadResourcePackListAdapter);
     }
 
@@ -177,23 +174,15 @@ public class DownloadResourcePackUI extends BaseUI implements View.OnClickListen
             new Thread(() -> {
                 try {
                     searchHandler.sendEmptyMessage(0);
-                    List<CurseModManager.Category> categories;
-                    categories = CurseModManager.getCategories(SearchTools.SECTION_RESOURCE_PACK);
-                    Stream<ModListBean.Mod> stream = SearchTools.search("", editVersion.getText().toString(), ((CurseModManager.Category) editCategory.getSelectedItem()).getId(), null, SearchTools.SECTION_RESOURCE_PACK, SearchTools.DEFAULT_PAGE_OFFSET, editName.getText().toString(), editSort.getSelectedItemPosition());
-                    List<ModListBean.Mod> list = stream.collect(toList());
+                    List<RemoteMod> list = repository.search(editVersion.getText().toString(), (RemoteModRepository.Category) categoryListAdapter.getItem(editCategory.getSelectedItemPosition()), 0, 50, editName.getText().toString(), RemoteMod.getSortTypeByPosition(editSort.getSelectedItemPosition()), RemoteModRepository.SortOrder.DESC).collect(toList());
                     resourcePackList.clear();
                     resourcePackList.addAll(list);
+                    List<RemoteModRepository.Category> categories = repository.getCategories().collect(toList());
                     categoryList.clear();
-                    categoryList.add(new CurseModManager.Category(0, "All", "", "", 12, 432, true, 0, new ArrayList<>()));
-                    for (int i = 0;i < categories.size();i++){
+                    categoryList.add(new RemoteModRepository.Category(CurseForgeRemoteModRepository.CATEGORY_ALL, "0", new ArrayList<>()));
+                    for (int i = 0;i < categories.size();i++) {
                         categoryList.add(categories.get(i));
                         categoryList.addAll(categories.get(i).getSubcategories());
-                    }
-                    for (CurseModManager.Category category : categoryList) {
-                        int resId = context.getResources().getIdentifier("curse_category_" + category.getId(),"string","com.tungsten.hmclpe");
-                        if (resId != 0 && context.getString(resId) != null) {
-                            category.setName(context.getString(resId));
-                        }
                     }
                     searchHandler.sendEmptyMessage(1);
                 } catch (Exception e) {
@@ -201,9 +190,6 @@ public class DownloadResourcePackUI extends BaseUI implements View.OnClickListen
                     e.printStackTrace();
                 }
             }).start();
-        }
-        else {
-
         }
     }
 

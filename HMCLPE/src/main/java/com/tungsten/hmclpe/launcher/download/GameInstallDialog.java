@@ -31,16 +31,13 @@ import com.tungsten.hmclpe.launcher.download.liteloader.LiteLoaderVersion;
 import com.tungsten.hmclpe.launcher.download.optifine.OptifineDownloadTask;
 import com.tungsten.hmclpe.launcher.download.optifine.OptifineInstallTask;
 import com.tungsten.hmclpe.launcher.download.optifine.OptifineVersion;
-import com.tungsten.hmclpe.launcher.mod.ModListBean;
 import com.tungsten.hmclpe.launcher.game.Argument;
-import com.tungsten.hmclpe.launcher.game.Arguments;
 import com.tungsten.hmclpe.launcher.game.Artifact;
-import com.tungsten.hmclpe.launcher.game.Library;
 import com.tungsten.hmclpe.launcher.game.RuledArgument;
 import com.tungsten.hmclpe.launcher.game.Version;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListAdapter;
+import com.tungsten.hmclpe.launcher.mod.RemoteMod;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
-import com.tungsten.hmclpe.utils.Lang;
 import com.tungsten.hmclpe.utils.file.AssetsUtils;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
 import com.tungsten.hmclpe.utils.gson.JsonUtils;
@@ -49,8 +46,6 @@ import com.tungsten.hmclpe.utils.io.NetSpeedTimer;
 import com.tungsten.hmclpe.utils.platform.Bits;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class GameInstallDialog extends Dialog implements View.OnClickListener, Handler.Callback {
@@ -64,7 +59,7 @@ public class GameInstallDialog extends Dialog implements View.OnClickListener, H
     private OptifineVersion optifineVersion;
     private LiteLoaderVersion liteLoaderVersion;
     private FabricLoaderVersion fabricVersion;
-    private ModListBean.Version fabricAPIVersion;
+    private RemoteMod.Version fabricAPIVersion;
     
     private MinecraftInstallTask minecraftInstallTask;
     private LiteLoaderInstallTask liteLoaderInstallTask;
@@ -84,7 +79,7 @@ public class GameInstallDialog extends Dialog implements View.OnClickListener, H
     private TextView speedText;
     private Button cancelButton;
 
-    public GameInstallDialog(@NonNull Context context, MainActivity activity, String name, VersionManifest.Version version, ForgeVersion forgeVersion, OptifineVersion optifineVersion, LiteLoaderVersion liteLoaderVersion, FabricLoaderVersion fabricVersion, ModListBean.Version fabricAPIVersion) {
+    public GameInstallDialog(@NonNull Context context, MainActivity activity, String name, VersionManifest.Version version, ForgeVersion forgeVersion, OptifineVersion optifineVersion, LiteLoaderVersion liteLoaderVersion, FabricLoaderVersion fabricVersion, RemoteMod.Version fabricAPIVersion) {
         super(context);
         this.context = context;
         this.activity = activity;
@@ -232,7 +227,7 @@ public class GameInstallDialog extends Dialog implements View.OnClickListener, H
                 downloadOptifine();
             }
         });
-        forgeInstallTask.install(forgeVersion);
+        forgeInstallTask.execute(forgeVersion);
     }
 
     public void downloadOptifine() {
@@ -278,7 +273,7 @@ public class GameInstallDialog extends Dialog implements View.OnClickListener, H
                 downloadFabric();
             }
         });
-        optifineInstallTask.install(optifineVersion);
+        optifineInstallTask.execute(optifineVersion);
     }
 
     public void downloadFabric(){

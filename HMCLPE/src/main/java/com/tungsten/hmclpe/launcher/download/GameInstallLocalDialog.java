@@ -198,7 +198,7 @@ public class GameInstallLocalDialog extends Dialog implements View.OnClickListen
                 saveVersion();
             }
         });
-        forgeInstallTask.install(forgeVersion);
+        forgeInstallTask.execute(forgeVersion);
     }
 
     private void installOptifine(OptifineVersion optifineVersion) {
@@ -221,7 +221,7 @@ public class GameInstallLocalDialog extends Dialog implements View.OnClickListen
                 saveVersion();
             }
         });
-        optifineInstallTask.install(optifineVersion);
+        optifineInstallTask.execute(optifineVersion);
     }
 
     public void saveVersion() {

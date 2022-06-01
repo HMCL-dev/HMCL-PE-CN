@@ -5,8 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.google.gson.Gson;
-import com.leo618.zip.IZipCallback;
-import com.leo618.zip.ZipManager;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.ApiService;
@@ -24,6 +22,7 @@ import com.tungsten.hmclpe.utils.file.FileUtils;
 import com.tungsten.hmclpe.utils.gson.JsonUtils;
 import com.tungsten.hmclpe.utils.io.DownloadUtil;
 import com.tungsten.hmclpe.utils.io.SocketServer;
+import com.tungsten.hmclpe.utils.io.ZipTools;
 import com.tungsten.hmclpe.utils.platform.Bits;
 
 import java.io.File;
@@ -54,32 +53,6 @@ public class ForgeInstallTask extends AsyncTask<ForgeVersion,Integer, Version> {
         this.callback = callback;
 
         this.bean = new DownloadTaskListBean(activity.getString(R.string.dialog_install_game_install_forge),"","","");
-    }
-
-    public void install(ForgeVersion forgeVersion) {
-        callback.onStart();
-        adapter.addDownloadTask(bean);
-        ZipManager.unzip(AppManifest.INSTALL_DIR + "/forge/forge-installer.jar", AppManifest.INSTALL_DIR + "/forge/installer/", new IZipCallback() {
-            @Override
-            public void onStart() {
-
-            }
-
-            @Override
-            public void onProgress(int percentDone) {
-
-            }
-
-            @Override
-            public void onFinish(boolean success) {
-                if (success) {
-                    if (!canceled) execute(forgeVersion);
-                }
-                else {
-                    if (!canceled) callback.onFailed(new Exception("Failed to unzip installer"));
-                }
-            }
-        });
     }
 
     public void cancelBuild() {
@@ -115,11 +88,22 @@ public class ForgeInstallTask extends AsyncTask<ForgeVersion,Integer, Version> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        callback.onStart();
     }
 
     @Override
     protected Version doInBackground(ForgeVersion... forgeVersions) {
         ForgeVersion forgeVersion = forgeVersions[0];
+        activity.runOnUiThread(() -> {
+            adapter.addDownloadTask(bean);
+        });
+        try {
+            ZipTools.unzipFile(AppManifest.INSTALL_DIR + "/forge/forge-installer.jar", AppManifest.INSTALL_DIR + "/forge/installer/",false);
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (!isCancelled()) callback.onFailed(e);
+            cancel(true);
+        }
         Gson gson = JsonUtils.defaultGsonBuilder()
                 .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
                 .registerTypeAdapter(Bits.class, new Bits.Serializer())
