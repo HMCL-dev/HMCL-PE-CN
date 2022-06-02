@@ -44,6 +44,8 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
 
     public LinearLayout downloadModUI;
 
+    public String gameVersion;
+
     private Spinner gameSpinner;
     private Spinner downloadSourceSpinner;
     private EditText editName;
@@ -212,6 +214,9 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
                 editVersion.setText((String) parent.getItemAtPosition(position));
             }
         }
+        if (parent == gameSpinner) {
+            gameVersion = gameList.size() > 0 ? gameSpinner.getSelectedItem().toString() : null;
+        }
     }
 
     @Override
@@ -219,9 +224,20 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
 
     }
 
-    private void refreshGameList() {
+    public void refreshGameList() {
         gameList = SettingUtils.getLocalVersionNames(activity.launcherSetting.gameFileDirectory);
         gameListAdapter.notifyDataSetChanged();
+        if (gameList.size() > 0) {
+            if (gameVersion != null && gameList.contains(gameVersion)) {
+                gameSpinner.setSelection(gameListAdapter.getPosition(gameVersion));
+            }
+            else {
+                gameSpinner.setSelection(0);
+            }
+        }
+        else {
+            gameVersion = null;
+        }
     }
 
     private void search(){

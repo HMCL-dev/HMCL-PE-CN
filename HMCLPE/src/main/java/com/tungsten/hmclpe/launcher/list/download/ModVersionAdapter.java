@@ -91,7 +91,15 @@ public class ModVersionAdapter extends BaseAdapter {
 
         });
         viewHolder.item.setOnClickListener(view12 -> {
+            if (ui.resourceType == 0 || ui.resourceType == 2) {
 
+            }
+            if (ui.resourceType == 1) {
+
+            }
+            if (ui.resourceType == 3) {
+                
+            }
         });
         return view;
     }
