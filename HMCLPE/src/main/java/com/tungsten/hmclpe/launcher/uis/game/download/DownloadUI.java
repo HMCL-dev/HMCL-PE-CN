@@ -79,7 +79,8 @@ public class DownloadUI extends BaseUI implements View.OnClickListener {
     }
 
     private void init(){
-
+        downloadUIManager.downloadModUI.refreshGameList();
+        downloadUIManager.downloadResourcePackUI.refreshGameList();
     }
 
     @Override

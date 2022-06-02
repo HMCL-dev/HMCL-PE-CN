@@ -226,7 +226,8 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
 
     public void refreshGameList() {
         gameList = SettingUtils.getLocalVersionNames(activity.launcherSetting.gameFileDirectory);
-        gameListAdapter.notifyDataSetChanged();
+        gameListAdapter = new ArrayAdapter<>(context,R.layout.item_spinner,gameList);
+        gameSpinner.setAdapter(gameListAdapter);
         if (gameList.size() > 0) {
             if (gameVersion != null && gameList.contains(gameVersion)) {
                 gameSpinner.setSelection(gameListAdapter.getPosition(gameVersion));

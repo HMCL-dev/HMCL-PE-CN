@@ -174,8 +174,7 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
     }
 
     private SimpleMultimap<String, RemoteMod.Version> sortVersions(Stream<RemoteMod.Version> versions) {
-        SimpleMultimap<String, RemoteMod.Version> classifiedVersions
-                = new SimpleMultimap<String, RemoteMod.Version>(HashMap::new, ArrayList::new);
+        SimpleMultimap<String, RemoteMod.Version> classifiedVersions = new SimpleMultimap<>(HashMap::new, ArrayList::new);
         versions.forEach(version -> {
             for (String gameVersion : version.getGameVersions()) {
                 classifiedVersions.put(gameVersion, version);

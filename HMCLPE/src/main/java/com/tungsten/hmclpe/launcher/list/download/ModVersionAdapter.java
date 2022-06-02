@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.launcher.dialogs.EditDownloadNameDialog;
 import com.tungsten.hmclpe.launcher.mod.RemoteMod;
 import com.tungsten.hmclpe.launcher.uis.game.download.right.resource.DownloadResourceUI;
 
@@ -92,13 +93,14 @@ public class ModVersionAdapter extends BaseAdapter {
         });
         viewHolder.item.setOnClickListener(view12 -> {
             if (ui.resourceType == 0 || ui.resourceType == 2) {
-
+                EditDownloadNameDialog dialog = new EditDownloadNameDialog(context, ui, list.get(i));
+                dialog.show();
             }
             if (ui.resourceType == 1) {
 
             }
             if (ui.resourceType == 3) {
-                
+
             }
         });
         return view;

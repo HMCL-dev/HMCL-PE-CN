@@ -42,6 +42,8 @@ public class DownloadResourcePackUI extends BaseUI implements View.OnClickListen
 
     public LinearLayout downloadResourcePackUI;
 
+    public String gameVersion;
+
     private Spinner gameSpinner;
     private EditText editName;
     private EditText editVersion;
@@ -164,9 +166,21 @@ public class DownloadResourcePackUI extends BaseUI implements View.OnClickListen
         }
     }
 
-    private void refreshGameList() {
+    public void refreshGameList() {
         gameList = SettingUtils.getLocalVersionNames(activity.launcherSetting.gameFileDirectory);
-        gameListAdapter.notifyDataSetChanged();
+        gameListAdapter = new ArrayAdapter<>(context,R.layout.item_spinner,gameList);
+        gameSpinner.setAdapter(gameListAdapter);
+        if (gameList.size() > 0) {
+            if (gameVersion != null && gameList.contains(gameVersion)) {
+                gameSpinner.setSelection(gameListAdapter.getPosition(gameVersion));
+            }
+            else {
+                gameSpinner.setSelection(0);
+            }
+        }
+        else {
+            gameVersion = null;
+        }
     }
 
     private void search(){
@@ -238,6 +252,9 @@ public class DownloadResourcePackUI extends BaseUI implements View.OnClickListen
             if (adapterView == editVersionSpinner){
                 editVersion.setText((String) adapterView.getItemAtPosition(i));
             }
+        }
+        if (adapterView == gameSpinner) {
+            gameVersion = gameList.size() > 0 ? gameSpinner.getSelectedItem().toString() : null;
         }
     }
 

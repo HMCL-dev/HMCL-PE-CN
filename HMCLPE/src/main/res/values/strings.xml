@@ -557,6 +557,10 @@
     <string name="download_resource_beta">测试版</string>
     <string name="download_resource_release">正式版</string>
 
+    <string name="dialog_download_resource_name_title">名称</string>
+    <string name="dialog_download_resource_name_positive">确定</string>
+    <string name="dialog_download_resource_name_negative">取消</string>
+
     <string name="setting_ui_title">设置</string>
     <string name="setting_ui_public_game_setting">全局游戏设置</string>
     <string name="setting_ui_launcher">启动器</string>
