@@ -39,11 +39,13 @@ import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class DownloadModUI extends BaseUI implements View.OnClickListener, AdapterView.OnItemSelectedListener, TextWatcher, TextView.OnEditorActionListener {
 
     public LinearLayout downloadModUI;
 
+    public String lastVersion;
     public String gameVersion;
 
     private Spinner gameSpinner;
@@ -225,11 +227,22 @@ public class DownloadModUI extends BaseUI implements View.OnClickListener, Adapt
     }
 
     public void refreshGameList() {
+        boolean bool = false;
+        if (!Objects.equals(lastVersion, activity.publicGameSetting.currentVersion)) {
+            bool = true;
+            lastVersion = activity.publicGameSetting.currentVersion;
+        }
         gameList = SettingUtils.getLocalVersionNames(activity.launcherSetting.gameFileDirectory);
         gameListAdapter = new ArrayAdapter<>(context,R.layout.item_spinner,gameList);
         gameSpinner.setAdapter(gameListAdapter);
         if (gameList.size() > 0) {
-            if (gameVersion != null && gameList.contains(gameVersion)) {
+            if (bool && activity.publicGameSetting.currentVersion != null && !activity.publicGameSetting.currentVersion.equals("")) {
+                String currentVersion = activity.publicGameSetting.currentVersion.substring(activity.publicGameSetting.currentVersion.lastIndexOf("/") + 1);
+                if (currentVersion.length() > 0 && gameList.contains(currentVersion)) {
+                    gameSpinner.setSelection(gameListAdapter.getPosition(currentVersion));
+                }
+            }
+            else if (!bool && gameVersion != null && gameList.contains(gameVersion)) {
                 gameSpinner.setSelection(gameListAdapter.getPosition(gameVersion));
             }
             else {

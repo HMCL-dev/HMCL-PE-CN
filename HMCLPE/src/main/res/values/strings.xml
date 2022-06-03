@@ -561,6 +561,10 @@
     <string name="dialog_download_resource_name_positive">确定</string>
     <string name="dialog_download_resource_name_negative">取消</string>
 
+    <string name="dialog_download_title">正在下载</string>
+    <string name="dialog_download_negative">取消</string>
+    <string name="dialog_download_success">安装成功</string>
+
     <string name="setting_ui_title">设置</string>
     <string name="setting_ui_public_game_setting">全局游戏设置</string>
     <string name="setting_ui_launcher">启动器</string>

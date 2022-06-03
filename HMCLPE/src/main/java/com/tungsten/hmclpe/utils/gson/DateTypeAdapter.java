@@ -56,12 +56,26 @@ public final class DateTypeAdapter implements JsonSerializer<Date>, JsonDeserial
                 try {
                     ZonedDateTime zonedDateTime = ZonedDateTime.parse(string, DateTimeFormatter.ISO_DATE_TIME);
                     return Date.from(zonedDateTime.toInstant());
-                } catch (DateTimeParseException e) {
+                }
+                catch (DateTimeParseException e) {
                     try {
                         LocalDateTime localDateTime = LocalDateTime.parse(string, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
                         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-                    } catch (DateTimeParseException e2) {
-                        throw new JsonParseException("Invalid date: " + string, e2);
+                    }
+                    catch (DateTimeParseException e2) {
+                        try {
+                            return ISO_8601_FORMAT.parse(string);
+                        }
+                        catch (ParseException e3) {
+                            try {
+                                String cleaned = string.replace("Z", "+00:00");
+                                cleaned = cleaned.substring(0, 22) + cleaned.substring(23);
+                                return ISO_8601_FORMAT.parse(cleaned);
+                            }
+                            catch (Exception e4) {
+                                throw new JsonParseException("Invalid date: " + string, e2);
+                            }
+                        }
                     }
                 }
             }
