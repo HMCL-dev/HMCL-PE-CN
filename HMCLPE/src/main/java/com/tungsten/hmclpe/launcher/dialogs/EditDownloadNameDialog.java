@@ -24,15 +24,19 @@ public class EditDownloadNameDialog extends Dialog implements View.OnClickListen
 
     private DownloadResourceUI ui;
     private RemoteMod.Version version;
+    private boolean alert;
+    private String dir;
 
     private EditText editText;
     private Button positive;
     private Button negative;
 
-    public EditDownloadNameDialog(@NonNull Context context, DownloadResourceUI ui, RemoteMod.Version version) {
+    public EditDownloadNameDialog(@NonNull Context context, DownloadResourceUI ui, RemoteMod.Version version, boolean alert, String dir) {
         super(context);
         this.ui = ui;
         this.version = version;
+        this.alert = alert;
+        this.dir = dir;
         setContentView(R.layout.dialog_edit_download_name);
         setCancelable(false);
         init();
@@ -91,11 +95,11 @@ public class EditDownloadNameDialog extends Dialog implements View.OnClickListen
                 FileUtils.createDirectory(gameDir + (ui.resourceType == 0 ? "/mods/" : "/resourcepacks/"));
                 String name = version.getName();
                 String url = version.getFile().getUrl();
-                String path = gameDir + (ui.resourceType == 0 ? "/mods/" : "/resourcepacks/") + editText.getText().toString();
+                String path = dir == null ? (gameDir + (ui.resourceType == 0 ? "/mods/" : "/resourcepacks/") + editText.getText().toString()) : dir + "/" + editText.getText().toString();
                 DownloadTaskListBean downloadTaskListBean = new DownloadTaskListBean(name, url, path, "");
                 ArrayList<DownloadTaskListBean> list = new ArrayList<>();
                 list.add(downloadTaskListBean);
-                DownloadDialog dialog = new DownloadDialog(getContext(), ui.activity, list);
+                DownloadDialog dialog = new DownloadDialog(getContext(), ui.activity, list, alert);
                 dismiss();
                 dialog.show();
             }

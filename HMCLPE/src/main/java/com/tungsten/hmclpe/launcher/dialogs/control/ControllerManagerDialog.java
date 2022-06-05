@@ -21,6 +21,7 @@ import com.tungsten.filepicker.Constants;
 import com.tungsten.filepicker.FileChooser;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.dialogs.LoadingDialog;
 import com.tungsten.hmclpe.launcher.list.local.controller.ControlPattern;
 import com.tungsten.hmclpe.launcher.list.local.controller.ControlPatternListAdapter;
 import com.tungsten.hmclpe.manifest.AppManifest;
@@ -81,7 +82,8 @@ public class ControllerManagerDialog extends Dialog implements View.OnClickListe
 
     public void onResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            ImportControlDialog dialog = new ImportControlDialog(getContext());
+            LoadingDialog dialog = new LoadingDialog(getContext());
+            dialog.setLoadingText(getContext().getString(R.string.dialog_manage_controller_import_dialog));
             new Thread(() -> {
                 activity.runOnUiThread(dialog::show);
                 Uri uri = data.getData();

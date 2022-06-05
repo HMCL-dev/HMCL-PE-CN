@@ -197,33 +197,25 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
             public void afterTextChanged(Editable editable) {
                 activity.launcherSetting.launcherBackground.url = editBgUrl.getText().toString();
                 GsonUtils.saveLauncherSetting(activity.launcherSetting,AppManifest.SETTING_DIR + "/launcher_setting.json");
-                new Thread(){
-                    @Override
-                    public void run() {
-                        try {
-                            URL url = new URL(editBgUrl.getText().toString());
-                            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                            httpURLConnection.setDoInput(true);
-                            httpURLConnection.connect();
-                            InputStream inputStream = httpURLConnection.getInputStream();
-                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    activity.launcherLayout.setBackground(new BitmapDrawable(bitmap));
-                                }
-                            });
-                        } catch (IOException e) {
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    activity.launcherLayout.setBackground(context.getDrawable(R.drawable.ic_background));
-                                }
-                            });
-                            e.printStackTrace();
-                        }
+                new Thread(() -> {
+                    try {
+                        URL url = new URL(editBgUrl.getText().toString());
+                        HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                        httpURLConnection.setDoInput(true);
+                        httpURLConnection.connect();
+                        InputStream inputStream = httpURLConnection.getInputStream();
+                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                activity.launcherLayout.setBackground(new BitmapDrawable(bitmap));
+                            }
+                        });
+                    } catch (IOException e) {
+                        handler.post(() -> activity.launcherLayout.setBackground(context.getDrawable(R.drawable.ic_background)));
+                        e.printStackTrace();
                     }
-                }.start();
+                }).start();
             }
         });
 
@@ -405,33 +397,20 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
             selectBgPath.setEnabled(false);
             activity.launcherSetting.launcherBackground.type = 3;
             activity.launcherSetting.launcherBackground.path = editBgUrl.getText().toString();
-            new Thread(){
-                @Override
-                public void run() {
-                    try {
-                        URL url = new URL(editBgUrl.getText().toString());
-                        HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                        httpURLConnection.setDoInput(true);
-                        httpURLConnection.connect();
-                        InputStream inputStream = httpURLConnection.getInputStream();
-                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                activity.launcherLayout.setBackground(new BitmapDrawable(bitmap));
-                            }
-                        });
-                    } catch (IOException e) {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                activity.launcherLayout.setBackground(context.getDrawable(R.drawable.ic_background));
-                            }
-                        });
-                        e.printStackTrace();
-                    }
+            new Thread(() -> {
+                try {
+                    URL url = new URL(editBgUrl.getText().toString());
+                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                    httpURLConnection.setDoInput(true);
+                    httpURLConnection.connect();
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    handler.post(() -> activity.launcherLayout.setBackground(new BitmapDrawable(bitmap)));
+                } catch (IOException e) {
+                    handler.post(() -> activity.launcherLayout.setBackground(context.getDrawable(R.drawable.ic_background)));
+                    e.printStackTrace();
                 }
-            }.start();
+            }).start();
         }
         GsonUtils.saveLauncherSetting(activity.launcherSetting,AppManifest.SETTING_DIR + "/launcher_setting.json");
     }

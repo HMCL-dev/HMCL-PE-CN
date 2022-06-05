@@ -1,17 +1,26 @@
 package com.tungsten.hmclpe.launcher.uis.game.manager.right;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.tungsten.filepicker.Constants;
+import com.tungsten.filepicker.FileChooser;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.dialogs.EditWorldNameDialog;
+import com.tungsten.hmclpe.launcher.dialogs.LoadingDialog;
 import com.tungsten.hmclpe.launcher.game.Argument;
 import com.tungsten.hmclpe.launcher.game.Artifact;
 import com.tungsten.hmclpe.launcher.game.RuledArgument;
@@ -22,6 +31,7 @@ import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
+import com.tungsten.hmclpe.utils.file.UriUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 import com.tungsten.hmclpe.utils.gson.JsonUtils;
 import com.tungsten.hmclpe.utils.platform.Bits;
@@ -34,7 +44,7 @@ public class WorldManagerUI extends BaseUI implements CompoundButton.OnCheckedCh
 
     public LinearLayout worldManagerUI;
 
-    private String versionName;
+    public String versionName;
     private String version;
     private String saveDir;
 
@@ -49,6 +59,8 @@ public class WorldManagerUI extends BaseUI implements CompoundButton.OnCheckedCh
 
     private ArrayList<World> allWorldList;
     private ArrayList<World> versionWorldList;
+
+    private static final int PICK_WORLD_REQUEST = 3100;
 
     public WorldManagerUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -91,6 +103,35 @@ public class WorldManagerUI extends BaseUI implements CompoundButton.OnCheckedCh
         CustomAnimationUtils.hideViewToLeft(worldManagerUI,activity,context,false);
         if (activity.isLoaded){
             activity.uiManager.gameManagerUI.startWorldManager.setBackground(context.getResources().getDrawable(R.drawable.launcher_button_parent));
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_WORLD_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            Uri uri = data.getData();
+            String path = UriUtils.getRealPathFromUri_AboveApi19(context,uri);
+            if (path != null) {
+                LoadingDialog dialog = new LoadingDialog(context);
+                dialog.setLoadingText(context.getString(R.string.dialog_import_world));
+                new Thread(() -> {
+                    try {
+                        activity.runOnUiThread(dialog::show);
+                        World world = new World(new File(path).toPath());
+                        activity.runOnUiThread(() -> {
+                            dialog.dismiss();
+                            EditWorldNameDialog editWorldNameDialog = new EditWorldNameDialog(context, world, saveDir, WorldManagerUI.this);
+                            editWorldNameDialog.show();
+                        });
+                    } catch (IOException e) {
+                        activity.runOnUiThread(() -> {
+                            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show();
+                        });
+                        e.printStackTrace();
+                    }
+                }).start();
+            }
         }
     }
 
@@ -173,7 +214,11 @@ public class WorldManagerUI extends BaseUI implements CompoundButton.OnCheckedCh
             refreshList();
         }
         if (view == addWorld) {
-
+            Intent intent = new Intent(context, FileChooser.class);
+            intent.putExtra(Constants.SELECTION_MODE, Constants.SELECTION_MODES.SINGLE_SELECTION.ordinal());
+            intent.putExtra(Constants.ALLOWED_FILE_EXTENSIONS, "zip");
+            intent.putExtra(Constants.INITIAL_DIRECTORY, new File(Environment.getExternalStorageDirectory().getAbsolutePath()).getAbsolutePath());
+            activity.startActivityForResult(intent, PICK_WORLD_REQUEST);
         }
         if (view == download) {
             activity.uiManager.switchMainUI(activity.uiManager.downloadUI);

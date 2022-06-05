@@ -2,6 +2,7 @@ package com.tungsten.hmclpe.launcher.list.download;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tungsten.filepicker.Constants;
+import com.tungsten.filepicker.FolderChooser;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.dialogs.EditDownloadNameDialog;
 import com.tungsten.hmclpe.launcher.mod.RemoteMod;
 import com.tungsten.hmclpe.launcher.uis.game.download.right.resource.DownloadResourceUI;
+import com.tungsten.hmclpe.manifest.AppManifest;
 
+import java.io.File;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -89,18 +94,26 @@ public class ModVersionAdapter extends BaseAdapter {
         viewHolder.type.setText(list.get(i).getVersionType() == RemoteMod.VersionType.Release ? context.getString(R.string.download_resource_release) : context.getString(R.string.download_resource_beta));
         viewHolder.date.setText(FORMATTER.format(list.get(i).getDatePublished().toInstant()));
         viewHolder.select.setOnClickListener(view1 -> {
-
+            ui.selectedVersion = list.get(i);
+            Intent intent = new Intent(context, FolderChooser.class);
+            intent.putExtra(Constants.SELECTION_MODE, Constants.SELECTION_MODES.SINGLE_SELECTION.ordinal());
+            intent.putExtra(Constants.INITIAL_DIRECTORY, new File(AppManifest.DEFAULT_GAME_DIR).getAbsolutePath());
+            ui.activity.startActivityForResult(intent, DownloadResourceUI.DOWNLOAD_RESOURCE_REQUEST);
         });
         viewHolder.item.setOnClickListener(view12 -> {
+            ui.selectedVersion = list.get(i);
             if (ui.resourceType == 0 || ui.resourceType == 2) {
-                EditDownloadNameDialog dialog = new EditDownloadNameDialog(context, ui, list.get(i));
+                EditDownloadNameDialog dialog = new EditDownloadNameDialog(context, ui, list.get(i), true, null);
                 dialog.show();
             }
             if (ui.resourceType == 1) {
 
             }
             if (ui.resourceType == 3) {
-
+                Intent intent = new Intent(context, FolderChooser.class);
+                intent.putExtra(Constants.SELECTION_MODE, Constants.SELECTION_MODES.SINGLE_SELECTION.ordinal());
+                intent.putExtra(Constants.INITIAL_DIRECTORY, new File(AppManifest.DEFAULT_GAME_DIR).getAbsolutePath());
+                ui.activity.startActivityForResult(intent, DownloadResourceUI.DOWNLOAD_RESOURCE_REQUEST);
             }
         });
         return view;

@@ -23,7 +23,8 @@
     <uses-permission
         android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission
-        android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS" />
+        android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS"
+        tools:ignore="HighSamplingRate" />
 
     <application
         android:allowBackup="true"
@@ -41,7 +42,7 @@
         android:allowNativeHeapPointerTagging="false"
         android:isGame="true"
         android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"
-        tools:targetApi="31">
+        tools:targetApi="32">
         <activity
             android:name=".launcher.SplashActivity"
             android:screenOrientation="sensorLandscape"

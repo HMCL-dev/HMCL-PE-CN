@@ -220,6 +220,11 @@
     <string name="world_manager_ui_manage_assets">管理数据包</string>
     <string name="world_manager_ui_export">导出此世界</string>
     <string name="world_manager_ui_open_dir">打开文件夹</string>
+
+    <string name="dialog_import_world">正在解析存档</string>
+    <string name="dialog_install_world_name_title">输入世界名称</string>
+    <string name="dialog_install_world_name_positive">确定</string>
+    <string name="dialog_install_world_name_negative">取消</string>
     
     <string name="browse_menu_game_dir">游戏文件夹</string>
     <string name="browse_menu_mod_dir">MOD文件夹</string>

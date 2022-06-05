@@ -5,6 +5,7 @@ import static com.tungsten.hmclpe.launcher.mod.ModManager.getMcmodUrl;
 import static com.tungsten.hmclpe.utils.Lang.mapOf;
 import static com.tungsten.hmclpe.utils.Pair.pair;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,12 +21,14 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.dialogs.EditDownloadNameDialog;
 import com.tungsten.hmclpe.launcher.list.download.ModDependencyAdapter;
 import com.tungsten.hmclpe.launcher.list.download.ModGameVersionAdapter;
 import com.tungsten.hmclpe.launcher.mod.RemoteMod;
 import com.tungsten.hmclpe.launcher.mod.RemoteModRepository;
 import com.tungsten.hmclpe.launcher.mod.curse.CurseForgeRemoteModRepository;
 import com.tungsten.hmclpe.utils.SimpleMultimap;
+import com.tungsten.hmclpe.utils.file.UriUtils;
 import com.tungsten.hmclpe.utils.io.NetworkUtils;
 import com.tungsten.hmclpe.utils.string.StringUtils;
 
@@ -58,6 +61,10 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
 
     private ModGameVersionAdapter modGameVersionAdapter;
     private ModDependencyAdapter modDependencyAdapter;
+
+    public RemoteMod.Version selectedVersion;
+
+    public static final int DOWNLOAD_RESOURCE_REQUEST = 2700;
 
     public DownloadResourceUI(Context context, MainActivity activity, RemoteModRepository repository, RemoteMod bean, int resourceType) {
         super(context, activity, repository, bean, resourceType);
@@ -139,6 +146,12 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == DOWNLOAD_RESOURCE_REQUEST && resultCode == Activity.RESULT_OK && data != null && selectedVersion != null) {
+            Uri uri = data.getData();
+            String dir = UriUtils.getRealPathFromUri_AboveApi19(context,uri);
+            EditDownloadNameDialog dialog = new EditDownloadNameDialog(context, this, selectedVersion, false, dir);
+            dialog.show();
+        }
     }
 
     @Override

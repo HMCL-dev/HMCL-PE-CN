@@ -31,6 +31,7 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
 
     private MainActivity activity;
     private ArrayList<DownloadTaskListBean> list;
+    private boolean alert;
 
     private RecyclerView taskListView;
     private DownloadTaskListAdapter downloadTaskListAdapter;
@@ -42,10 +43,11 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
     private Handler handler;
     private DownloadTask downloadTask;
 
-    public DownloadDialog(@NonNull Context context, MainActivity activity, ArrayList<DownloadTaskListBean> list) {
+    public DownloadDialog(@NonNull Context context, MainActivity activity, ArrayList<DownloadTaskListBean> list, boolean alert) {
         super(context);
         this.activity = activity;
         this.list = list;
+        this.alert = alert;
         setContentView(R.layout.dialog_download);
         setCancelable(false);
         init();
@@ -119,7 +121,9 @@ public class DownloadDialog extends Dialog implements View.OnClickListener, Hand
                     }
                     else {
                         exit();
-                        Toast.makeText(getContext(),getContext().getString(R.string.dialog_download_success),Toast.LENGTH_SHORT).show();
+                        if (alert) {
+                            Toast.makeText(getContext(),getContext().getString(R.string.dialog_download_success),Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
