@@ -212,7 +212,6 @@ public class GameManagerUI extends BaseUI implements View.OnClickListener {
                 else {
                     gameDir = privateGameSetting.gameDirSetting.path;
                 }
-                Intent intent = new Intent(context, FileBrowser.class);
                 switch (item.getItemId()){
                     case R.id.manage_test_game:
                         testGame(versionName);

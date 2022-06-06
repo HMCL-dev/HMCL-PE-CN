@@ -1,6 +1,9 @@
 package com.tungsten.hmclpe.launcher.list.local.save;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +11,19 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.tungsten.hmclpe.R;
-import com.tungsten.hmclpe.launcher.game.World;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.appcompat.widget.PopupMenu;
 
+import com.tungsten.filepicker.Constants;
+import com.tungsten.filepicker.FileBrowser;
+import com.tungsten.filepicker.FolderChooser;
+import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.game.World;
+import com.tungsten.hmclpe.launcher.uis.game.manager.right.WorldManagerUI;
+import com.tungsten.hmclpe.manifest.AppManifest;
+
+import java.io.File;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -19,6 +32,7 @@ import java.util.ArrayList;
 public class WorldListAdapter extends BaseAdapter {
 
     private Context context;
+    private MainActivity activity;
     private ArrayList<World> list;
 
     private static class ViewHolder {
@@ -27,8 +41,9 @@ public class WorldListAdapter extends BaseAdapter {
         ImageButton more;
     }
 
-    public WorldListAdapter (Context context, ArrayList<World> list) {
+    public WorldListAdapter (Context context, MainActivity activity, ArrayList<World> list) {
         this.context = context;
+        this.activity = activity;
         this.list = list;
     }
 
@@ -47,6 +62,7 @@ public class WorldListAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         final ViewHolder viewHolder;
@@ -68,7 +84,34 @@ public class WorldListAdapter extends BaseAdapter {
         String gameVersion = world.getGameVersion() == null ? context.getString(R.string.world_manager_ui_unknown_game_version) : world.getGameVersion();
         viewHolder.info.setText(context.getString(R.string.world_manager_ui_info).replace("%f",fileName).replace("%t",lastPlayTime).replace("%v",gameVersion));
         viewHolder.more.setOnClickListener(view1 -> {
+            Context wrapper = new ContextThemeWrapper(context, R.style.MenuStyle);
+            PopupMenu menu = new PopupMenu(wrapper, (View) viewHolder.more.getParent(), Gravity.END);
+            menu.inflate(R.menu.world_menu);
+            menu.setForceShowIcon(true);
+            menu.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()){
+                    case R.id.manage_assets:
+                        if (!new File(world.getFile().resolve("datapacks").toString()).exists()) {
 
+                        }
+                        else {
+
+                        }
+                        return true;
+                    case R.id.export_world:
+                        activity.uiManager.exportWorldUI.world = world;
+                        activity.uiManager.switchMainUI(activity.uiManager.exportWorldUI);
+                        return true;
+                    case R.id.open_dir:
+                        Intent intent = new Intent(context, FileBrowser.class);
+                        intent.putExtra(Constants.INITIAL_DIRECTORY, world.getFile().toString());
+                        context.startActivity(intent);
+                        return true;
+                    default:
+                        return false;
+                }
+            });
+            menu.show();
         });
         return view;
     }

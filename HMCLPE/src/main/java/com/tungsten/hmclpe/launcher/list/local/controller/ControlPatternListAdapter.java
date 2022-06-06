@@ -172,7 +172,7 @@ public class ControlPatternListAdapter extends BaseAdapter {
                                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                 intent.addCategory(Intent.CATEGORY_DEFAULT);
                                 activity.runOnUiThread(dialog::dismiss);
-                                activity.startActivity(intent);
+                                activity.startActivity(Intent.createChooser(intent,context.getString(R.string.dialog_manage_controller_export_dialog)));
                             }
                         }
                     }

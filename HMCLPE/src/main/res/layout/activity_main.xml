@@ -150,12 +150,17 @@
                 android:layout_height="match_parent"/>
 
             <include
+                layout="@layout/ui_export_world"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <include
                 layout="@layout/ui_add_game_directory"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
             <include
-                layout="@layout/ui_download_package"
+                layout="@layout/ui_install_package"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 

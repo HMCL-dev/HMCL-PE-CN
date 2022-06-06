@@ -4,7 +4,6 @@ package com.tungsten.filepicker;
  * Created by Aditya on 4/15/2017.
  */
 
-import android.app.Activity;
 import android.app.SearchManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -41,7 +40,6 @@ import com.tungsten.filepicker.listeners.SearchViewListener;
 import com.tungsten.filepicker.listeners.TabChangeListener;
 import com.tungsten.filepicker.models.FileItem;
 import com.tungsten.filepicker.utils.AssortedUtils;
-import com.tungsten.filepicker.utils.Permissions;
 import com.tungsten.filepicker.utils.UIUtils;
 
 import org.apache.commons.io.FileUtils;

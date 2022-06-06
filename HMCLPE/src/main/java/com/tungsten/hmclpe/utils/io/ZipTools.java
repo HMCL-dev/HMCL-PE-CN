@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +14,7 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 public class ZipTools {
 
@@ -68,10 +70,113 @@ public class ZipTools {
         return false;
     }
 
+    public static void zip(String[] files,String destZip){
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(destZip);
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+        }
+        BufferedOutputStream bos = new BufferedOutputStream(fos);
+        ZipOutputStream zos = new ZipOutputStream(bos);
+
+        /*循环读取文件，压缩到zip中*/
+        BufferedInputStream bis = null;
+        FileInputStream fis = null;
+        try {
+            for (int i = 0; i < files.length; i++) {
+
+                String file = files[i];
+
+                fis = new FileInputStream(file);
+                bis = new BufferedInputStream(fis);
+                /*获取文件名，创建条目并添加到zip中*/
+                File f = new File(file);
+                ZipEntry z1 = new ZipEntry(f.getName());
+                zos.putNextEntry(z1);
+                /*读取文件中的字节信息，压入条目*/
+                int tmp = -1;
+                while((tmp = bis.read()) != -1){
+                    /*写入到目标zip中*/
+                    zos.write(tmp);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            try {
+                zos.closeEntry();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                bis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                fis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            zos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void zip(String zipFileName,String inputFile) throws IOException{
+
+        File file = new File(inputFile);
+
+        FileOutputStream fos = new FileOutputStream(zipFileName);
+        ZipOutputStream out = new ZipOutputStream(fos);
+        zipDir(out,file,"");
+        System.out.println("ZIP done..");
+        out.close();
+    }
+
+    private static void zipDir(ZipOutputStream out, File file, String base) throws IOException {
+
+        System.out.println("Zipping："+file.getName());
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            out.putNextEntry(new ZipEntry(base+"/"));
+            base = base.length()==0?"":base+"/";
+            for (int i = 0; i < files.length; i++) {
+                /*进行递归*/
+                zipDir(out,files[i], base+files[i].getName());
+            }
+        }else {
+            out.putNextEntry(new ZipEntry(base));
+            FileInputStream fis = new FileInputStream(file);
+
+            int len = 0;
+            while((len = fis.read()) != -1){
+                /*写入到目标zip中*/
+                out.write(len);
+            }
+            fis.close();
+        }
+    }
+
     @SuppressWarnings("unchecked")
-    public static void unzipFile(String zipFilePath, String unzipFilePath, boolean includeZipFileName) throws Exception {
+    public static void unzipFile(String zipFilePath, String unzipFilePath, boolean includeZipFileName) throws IOException {
         if (isEmpty(zipFilePath) || isEmpty(unzipFilePath)) {
-            throw new Exception("PARAMETER_IS_NULL");
+            throw new IOException("PARAMETER_IS_NULL");
         }
         File zipFile = new File(zipFilePath);
         if (includeZipFileName) {

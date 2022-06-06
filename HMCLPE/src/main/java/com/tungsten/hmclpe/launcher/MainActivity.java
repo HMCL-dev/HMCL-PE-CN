@@ -135,13 +135,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
-    public void onLoad(){
+    public void onLoad() {
         uiManager.gameManagerUI.gameManagerUIManager.versionSettingUI.onLoaded();
         uiManager.downloadUI.downloadUIManager.downloadMinecraftUI.onLoaded();
         uiManager.settingUI.settingUIManager.universalGameSettingUI.onLoaded();
     }
 
-    public void showBarTitle(String title,boolean home,boolean close){
+    public void showBarTitle(String title,boolean home,boolean close) {
         if (isLoaded){
             CustomAnimationUtils.hideViewToLeft(appBarTitle,this,this,true);
             CustomAnimationUtils.showViewFromRight(backToLastUI,this,this,true);
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void hideBarTitle(){
+    public void hideBarTitle() {
         if (isLoaded){
             CustomAnimationUtils.showViewFromLeft(appBarTitle,this,this,true);
             CustomAnimationUtils.hideViewToLeft(backToLastUI,this,this,true);
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void backToLastUI(){
+    public void backToLastUI() {
         if (isLoaded){
             if (uiManager.currentUI == uiManager.mainUI){
                 backToDeskTop();
@@ -191,13 +191,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void backToHome(){
+    public void backToHome() {
         uiManager.switchMainUI(uiManager.mainUI);
         uiManager.uis.clear();
         uiManager.uis.add(uiManager.mainUI);
     }
 
-    public void closeCurrentUI(){
+    public void closeCurrentUI() {
+        uiManager.removeUIIfExist(uiManager.exportWorldUI);
         uiManager.removeUIIfExist(uiManager.installGameUI);
         uiManager.removeUIIfExist(uiManager.downloadForgeUI);
         uiManager.removeUIIfExist(uiManager.downloadFabricUI);
@@ -205,6 +206,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         uiManager.removeUIIfExist(uiManager.downloadLiteLoaderUI);
         uiManager.removeUIIfExist(uiManager.downloadOptifineUI);
         uiManager.uis.get(uiManager.uis.size() - 1).onStart();
+        if (uiManager.currentUI == uiManager.exportWorldUI){
+            uiManager.exportWorldUI.onStop();
+        }
         if (uiManager.currentUI == uiManager.installGameUI){
             uiManager.installGameUI.onStop();
         }
@@ -226,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         uiManager.currentUI = uiManager.uis.get(uiManager.uis.size() - 1);
     }
 
-    public void backToDeskTop(){
+    public void backToDeskTop() {
         Intent i = new Intent(Intent.ACTION_MAIN);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.addCategory(Intent.CATEGORY_HOME);

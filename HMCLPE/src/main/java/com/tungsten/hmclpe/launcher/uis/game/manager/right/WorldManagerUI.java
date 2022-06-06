@@ -39,6 +39,7 @@ import com.tungsten.hmclpe.utils.platform.Bits;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class WorldManagerUI extends BaseUI implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
 
@@ -60,7 +61,7 @@ public class WorldManagerUI extends BaseUI implements CompoundButton.OnCheckedCh
     private ArrayList<World> allWorldList;
     private ArrayList<World> versionWorldList;
 
-    private static final int PICK_WORLD_REQUEST = 3100;
+    public static final int PICK_WORLD_REQUEST = 3100;
 
     public WorldManagerUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -163,7 +164,6 @@ public class WorldManagerUI extends BaseUI implements CompoundButton.OnCheckedCh
                 progressBar.setVisibility(View.VISIBLE);
                 worldLayout.setVisibility(View.GONE);
             });
-            allWorldList = new ArrayList<>();
             String gameJsonText = FileStringUtils.getStringFromFile(activity.launcherSetting.gameFileDirectory + "/versions/" + versionName +"/" + versionName + ".json");
             Gson gson = JsonUtils.defaultGsonBuilder()
                     .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
@@ -173,17 +173,8 @@ public class WorldManagerUI extends BaseUI implements CompoundButton.OnCheckedCh
                     .create();
             Version v = gson.fromJson(gameJsonText, Version.class);
             this.version = v.getId();
-            String[] strings = new File(saveDir + "/").list();
-            if (strings != null) {
-                for (String s : strings) {
-                    try {
-                        World world = new World(new File(saveDir + "/" + s).toPath());
-                        allWorldList.add(world);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+            allWorldList = new ArrayList<>();
+            allWorldList.addAll(World.getWorlds(new File(saveDir).toPath()).collect(Collectors.toList()));
             activity.runOnUiThread(() -> {
                 getNeededList();
                 progressBar.setVisibility(View.GONE);
@@ -204,7 +195,7 @@ public class WorldManagerUI extends BaseUI implements CompoundButton.OnCheckedCh
                 }
             }
         }
-        WorldListAdapter adapter = new WorldListAdapter(context,versionWorldList);
+        WorldListAdapter adapter = new WorldListAdapter(context,activity,versionWorldList);
         worldList.setAdapter(adapter);
     }
 

@@ -157,6 +157,7 @@
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_download_resource.xml" value="0.2" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_download_resource_pack.xml" value="0.1125" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_download_world.xml" value="0.1125" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_export_world.xml" value="0.264" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_forge_version_list.xml" value="0.2151268115942029" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_game_manager.xml" value="0.11666666666666667" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_game_manager_game.xml" value="0.1" />
@@ -170,6 +171,7 @@
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_install_lite_loader_list.xml" value="0.1125" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_install_liteloader_list.xml" value="0.2151268115942029" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_install_optifine_list.xml" value="0.2151268115942029" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_install_package.xml" value="0.13722826086956522" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_main.xml" value="0.2151268115942029" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_setting.xml" value="0.1109375" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_setting_about.xml" value="0.11354166666666667" />
@@ -182,6 +184,7 @@
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/menu/browse_menu.xml" value="0.25364583333333335" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/menu/local_version_menu.xml" value="0.1125" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/menu/manage_menu.xml" value="0.25364583333333335" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/menu/world_menu.xml" value="0.25364583333333335" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/xml/hmclpe_provider_path.xml" value="0.10989583333333333" />
         <entry key="..\:/Projects/Android/HMCL-PE/PojavLauncher/src/main/res/drawable/no_focus_shown.xml" value="0.1855" />
         <entry key="..\:/Projects/Android/HMCL-PE/PojavLauncher/src/main/res/layout/activity_pojav.xml" value="0.11354166666666667" />

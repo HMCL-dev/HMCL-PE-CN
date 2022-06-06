@@ -220,11 +220,28 @@
     <string name="world_manager_ui_manage_assets">管理数据包</string>
     <string name="world_manager_ui_export">导出此世界</string>
     <string name="world_manager_ui_open_dir">打开文件夹</string>
+    
+    <string name="export_world_ui_title">导出世界</string>
+    <string name="export_world_ui_sub_title">导出此世界</string>
+    <string name="export_world_ui_save_to">保存到</string>
+    <string name="export_world_ui_world_name">世界名称</string>
+    <string name="export_world_ui_game_version">游戏版本</string>
+    <string name="export_world_ui_export">导出</string>
 
-    <string name="dialog_import_world">正在解析存档</string>
+    <string name="dialog_export_world_text">正在导出世界…</string>
+
+    <string name="dialog_export_world_title">提示</string>
+    <string name="dialog_export_world_msg">已完成</string>
+    <string name="dialog_export_world_positive">确定</string>
+
+    <string name="dialog_import_world">正在解析存档…</string>
     <string name="dialog_install_world_name_title">输入世界名称</string>
     <string name="dialog_install_world_name_positive">确定</string>
     <string name="dialog_install_world_name_negative">取消</string>
+
+    <string name="world_menu_manage">管理数据包</string>
+    <string name="world_menu_export">导出此世界</string>
+    <string name="world_menu_open_dir">打开文件夹</string>
     
     <string name="browse_menu_game_dir">游戏文件夹</string>
     <string name="browse_menu_mod_dir">MOD文件夹</string>
@@ -707,6 +724,7 @@
     <string name="dialog_manage_controller_create">创建新的布局方案</string>
     <string name="dialog_manage_controller_exit">完成</string>
 
+    <string name="export_control_pattern_title">导出布局方案</string>
     <string name="dialog_manage_controller_export_dialog" tools:ignore="TypographyEllipsis">正在导出本地布局方案...</string>
     <string name="dialog_manage_controller_import_dialog" tools:ignore="TypographyEllipsis">正在导入触控布局方案...</string>
     <string name="dialog_manage_controller_import_exist">您导入的布局方案已存在！</string>

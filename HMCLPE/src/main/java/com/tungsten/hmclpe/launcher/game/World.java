@@ -8,6 +8,7 @@ import com.github.steveice10.opennbt.tag.builtin.Tag;
 import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.utils.Logging;
 import com.tungsten.hmclpe.utils.io.FileUtils;
+import com.tungsten.hmclpe.utils.io.ZipTools;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -84,7 +85,7 @@ public class World {
     private void loadFromZip() throws IOException {
         String r = AppManifest.SAVES_CACHE_DIR + "/world";
         com.tungsten.hmclpe.utils.file.FileUtils.deleteDirectory(r);
-        unzip(file.toString(), r);
+        ZipTools.unzipFile(file.toString(), r, false);
         Path cur = new File(r + "/level.dat").toPath();
         if (Files.isRegularFile(cur)) {
             fileName = FileUtils.getName(file);
@@ -157,7 +158,7 @@ public class World {
 
         if (Files.isRegularFile(file)) {
             com.tungsten.hmclpe.utils.file.FileUtils.deleteDirectory(AppManifest.SAVES_CACHE_DIR + "/install/world");
-            unzip(file.toString(),AppManifest.SAVES_CACHE_DIR + "/install/world");
+            ZipTools.unzipFile(file.toString(),AppManifest.SAVES_CACHE_DIR + "/install/world",false);
             Path cur = new File(AppManifest.SAVES_CACHE_DIR + "/install/world/level.dat").toPath();
             if (Files.isRegularFile(cur)) {
                 com.tungsten.hmclpe.utils.file.FileUtils.rename(AppManifest.SAVES_CACHE_DIR + "/install/world",name);
@@ -177,6 +178,13 @@ public class World {
         } else if (Files.isDirectory(file)) {
             FileUtils.copyDirectory(file, worldDir);
         }
+    }
+
+    public void export(String exportPath) throws IOException {
+        if (!Files.isDirectory(file))
+            throw new IOException();
+
+        ZipTools.zip(exportPath,file.toString());
     }
 
     private static CompoundTag parseLevelDat(Path path) throws IOException {
@@ -205,56 +213,5 @@ public class World {
             Logging.LOG.log(Level.WARNING, "Failed to read saves", e);
         }
         return Stream.empty();
-    }
-
-    public static void unzip(String zipFilePath, String targetPath) throws IOException {
-        OutputStream os = null;
-        InputStream is = null;
-        ZipFile zipFile = null;
-        try {
-            zipFile = new ZipFile(zipFilePath, Charset.forName("GBK"));
-            Enumeration<?> entryEnum = zipFile.entries();
-            if (null != entryEnum) {
-                ZipEntry zipEntry = null;
-                while (entryEnum.hasMoreElements()) {
-                    zipEntry = (ZipEntry) entryEnum.nextElement();
-                    if (zipEntry.getSize() > 0) {
-                        File targetFile = new File(targetPath
-                                + File.separator + zipEntry.getName());
-                        os = new BufferedOutputStream(new FileOutputStream(targetFile));
-                        is = zipFile.getInputStream(zipEntry);
-                        byte[] buffer = new byte[4096];
-                        int readLen = 0;
-                        while ((readLen = is.read(buffer, 0, 4096)) >= 0) {
-                            os.write(buffer, 0, readLen);
-                            os.flush();
-                        }
-                        is.close();
-                        os.close();
-                    }
-                    if (zipEntry.isDirectory()) {
-                        String pathTemp = targetPath + File.separator
-                                + zipEntry.getName();
-                        File file = new File(pathTemp);
-                        file.mkdirs();
-                    }
-                }
-            }
-        }
-        catch (IOException ex) {
-            throw ex;
-        }
-        finally {
-            if (null != zipFile) {
-                zipFile.close();
-                zipFile = null;
-            }
-            if (null != is) {
-                is.close();
-            }
-            if (null != os) {
-                os.close();
-            }
-        }
     }
 }

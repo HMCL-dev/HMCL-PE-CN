@@ -172,7 +172,7 @@ public class GameListAdapter extends BaseAdapter {
         viewHolder.startGame.setOnClickListener(v -> testGame(list.get(position).name));
         viewHolder.moreVert.setOnClickListener(v -> {
             Context wrapper = new ContextThemeWrapper(context, R.style.MenuStyle);
-            PopupMenu menu = new PopupMenu(wrapper, viewHolder.item,Gravity.RIGHT);
+            PopupMenu menu = new PopupMenu(wrapper, viewHolder.item,Gravity.END);
             menu.inflate(R.menu.local_version_menu);
             menu.setForceShowIcon(true);
             menu.setOnMenuItemClickListener(item -> {
