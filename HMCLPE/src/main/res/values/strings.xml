@@ -228,11 +228,22 @@
     <string name="export_world_ui_game_version">游戏版本</string>
     <string name="export_world_ui_export">导出</string>
 
+    <string name="manage_datapack_ui_title">世界 %w - 数据包</string>
+    <string name="manage_datapack_ui_refresh">刷新</string>
+    <string name="manage_datapack_ui_add">添加数据包</string>
+    <string name="manage_datapack_ui_delete">删除</string>
+    <string name="manage_datapack_ui_enable">启用</string>
+    <string name="manage_datapack_ui_disable">禁用</string>
+
     <string name="dialog_export_world_text">正在导出世界…</string>
 
     <string name="dialog_export_world_title">提示</string>
     <string name="dialog_export_world_msg">已完成</string>
     <string name="dialog_export_world_positive">确定</string>
+
+    <string name="dialog_manage_packmc_title">提示</string>
+    <string name="dialog_manage_packmc_msg">仅 Minecraft 1.13 及之后的版本支持数据包！</string>
+    <string name="dialog_manage_packmc_positive">确定</string>
 
     <string name="dialog_import_world">正在解析存档…</string>
     <string name="dialog_install_world_name_title">输入世界名称</string>

@@ -39,7 +39,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:text="@string/game_setting_ui_skin_alert"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorLinkBlueDark"/>
@@ -80,7 +80,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:text="@string/game_setting_ui_alert"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorBrown"/>
@@ -153,16 +153,14 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
                             android:textColor="@color/colorPureBlack"
-                            android:text="@string/game_setting_ui_java_path"
-                            android:layout_weight="1"/>
+                            android:text="@string/game_setting_ui_java_path" />
 
                         <TextView
                             android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
-                            android:id="@+id/java_path_text"
-                            android:layout_weight="1"/>
+                            android:id="@+id/java_path_text" />
 
                     </LinearLayout>
                     
@@ -303,16 +301,14 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
                             android:textColor="@color/colorPureBlack"
-                            android:text="@string/game_setting_ui_version_isolation"
-                            android:layout_weight="1"/>
+                            android:text="@string/game_setting_ui_version_isolation" />
 
                         <TextView
                             android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
-                            android:id="@+id/game_directory_text"
-                            android:layout_weight="1"/>
+                            android:id="@+id/game_directory_text" />
 
                     </LinearLayout>
 
@@ -433,14 +429,14 @@
                     android:textSize="@dimen/text_size_middle"
                     android:textColor="@color/colorPureBlack"
                     android:layout_marginTop="12dp"
-                    android:layout_marginLeft="15dp"/>
+                    android:layout_marginStart="15dp"/>
 
                 <CheckBox
                     android:tag="tint_accent_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
                     android:id="@+id/check_auto_ram"
                     android:text="@string/game_setting_ui_auto_ram"
                     android:textSize="@dimen/text_size_middle"
@@ -449,8 +445,8 @@
 
                 <LinearLayout
                     android:layout_marginTop="5dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -466,7 +462,7 @@
                     <SeekBar
                         android:tag="tint_accent_color"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -474,8 +470,9 @@
 
                     <EditText
                         android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:layout_marginLeft="10dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:layout_marginStart="10dp"
                         android:layout_width="64dp"
                         android:layout_height="32dp"
                         android:background="@color/colorLightGray"
@@ -485,7 +482,7 @@
 
                     <TextView
                         android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/game_setting_ui_ram"
@@ -498,8 +495,8 @@
                     android:tag="tint_accent_color"
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="15dp"
                     android:layout_marginTop="12dp"
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                     android:id="@+id/ram_progress_bar"/>
@@ -508,8 +505,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="15dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -653,7 +650,8 @@
                         android:textSize="@dimen/text_size_middle"
                         android:hint="@string/game_setting_ui_server_hint"
                         android:background="@color/colorLightGray"
-                        android:paddingLeft="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
                         android:id="@+id/edit_mc_server"/>
 
                 </LinearLayout>
@@ -709,15 +707,13 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
                             android:textColor="@color/colorPureBlack"
-                            android:text="@string/game_setting_ui_control_layout"
-                            android:layout_weight="1"/>
+                            android:text="@string/game_setting_ui_control_layout" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
-                            android:id="@+id/control_layout"
-                            android:layout_weight="1"/>
+                            android:id="@+id/control_layout" />
 
                     </LinearLayout>
 
@@ -778,16 +774,14 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
                             android:textColor="@color/colorPureBlack"
-                            android:text="@string/game_setting_ui_game_launcher"
-                            android:layout_weight="1"/>
+                            android:text="@string/game_setting_ui_game_launcher" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/game_setting_ui_game_launcher_pojav"
                             android:textSize="@dimen/text_size_middle"
-                            android:id="@+id/current_launcher"
-                            android:layout_weight="1"/>
+                            android:id="@+id/current_launcher" />
 
                     </LinearLayout>
 
@@ -871,15 +865,13 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
                             android:textColor="@color/colorPureBlack"
-                            android:text="@string/game_setting_ui_boat_renderer"
-                            android:layout_weight="1"/>
+                            android:text="@string/game_setting_ui_boat_renderer" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
-                            android:id="@+id/current_boat_renderer"
-                            android:layout_weight="1"/>
+                            android:id="@+id/current_boat_renderer" />
 
                     </LinearLayout>
 
@@ -953,16 +945,14 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
                             android:textColor="@color/colorPureBlack"
-                            android:text="@string/game_setting_ui_pojav_renderer"
-                            android:layout_weight="1"/>
+                            android:text="@string/game_setting_ui_pojav_renderer" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/game_setting_ui_pojav_renderer_gl4es_114"
                             android:textSize="@dimen/text_size_middle"
-                            android:id="@+id/current_pojav_renderer"
-                            android:layout_weight="1"/>
+                            android:id="@+id/current_pojav_renderer" />
 
                     </LinearLayout>
 
@@ -1049,7 +1039,8 @@
                         android:textSize="@dimen/text_size_middle"
                         android:hint="@string/game_setting_ui_jvm_setting_arg_hint"
                         android:background="@color/colorLightGray"
-                        android:paddingLeft="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
                         android:id="@+id/edit_jvm_arg"/>
 
                 </LinearLayout>
@@ -1087,7 +1078,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:text="@string/game_setting_ui_debug_setting_alert"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorBrown"/>

@@ -99,7 +99,7 @@ public class ExportWorldUI extends BaseUI implements View.OnClickListener {
                 dialog.show();
                 new Thread(() -> {
                     try {
-                        world.export(exportPath.getText().toString());
+                        world.export(exportPath.getText().toString().substring(0,exportPath.getText().toString().lastIndexOf("/")),exportPath.getText().toString().substring(exportPath.getText().toString().lastIndexOf("/") + 1));
                         activity.runOnUiThread(() -> {
                             dialog.dismiss();
                             AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -119,12 +119,15 @@ public class ExportWorldUI extends BaseUI implements View.OnClickListener {
                     }
                 }).start();
             }
+            else {
+                Toast.makeText(context,"file already exist!",Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
     @SuppressLint("SetTextI18n")
     private void init() {
-        exportPath.setText(AppManifest.LAUNCHER_DIR + "/" + world.getFileName() + ".zip");
+        exportPath.setText(AppManifest.LAUNCHER_DIR + "/" + world.getWorldName() + ".zip");
         worldName.setText(world.getWorldName());
         gameVersion.setText(world.getGameVersion() == null ? "" : world.getGameVersion());
     }

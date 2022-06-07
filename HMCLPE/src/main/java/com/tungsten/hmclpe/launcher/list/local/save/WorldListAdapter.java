@@ -1,6 +1,7 @@
 package com.tungsten.hmclpe.launcher.list.local.save;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.Gravity;
@@ -22,6 +23,7 @@ import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.game.World;
 import com.tungsten.hmclpe.launcher.uis.game.manager.right.WorldManagerUI;
 import com.tungsten.hmclpe.manifest.AppManifest;
+import com.tungsten.hmclpe.utils.versioning.VersionNumber;
 
 import java.io.File;
 import java.time.Instant;
@@ -91,11 +93,18 @@ public class WorldListAdapter extends BaseAdapter {
             menu.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()){
                     case R.id.manage_assets:
-                        if (!new File(world.getFile().resolve("datapacks").toString()).exists()) {
-
+                        if (world.getGameVersion() == null || // old game will not write game version to level.dat
+                                (VersionNumber.isIntVersionNumber(world.getGameVersion()) // we don't parse snapshot version
+                                        && VersionNumber.asVersion(world.getGameVersion()).compareTo(VersionNumber.asVersion("1.13")) < 0)) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setTitle(context.getString(R.string.dialog_manage_packmc_title));
+                            builder.setMessage(context.getString(R.string.dialog_manage_packmc_msg));
+                            builder.setPositiveButton(context.getString(R.string.dialog_manage_packmc_positive), null);
+                            builder.create().show();
                         }
                         else {
-
+                            activity.uiManager.packMcManagerUI.world = world;
+                            activity.uiManager.switchMainUI(activity.uiManager.packMcManagerUI);
                         }
                         return true;
                     case R.id.export_world:

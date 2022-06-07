@@ -289,6 +289,7 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
                     activity.exteriorConfig.primaryColor(color);
                     activity.exteriorConfig.accentColor(color);
                     activity.exteriorConfig.apply(activity);
+                    activity.appBar.setBackgroundColor(activity.launcherSetting.transBar ? context.getResources().getColor(R.color.launcher_ui_background) : color);
                     colorView.setBackgroundColor(color);
                     colorText.setText("#" + Integer.toHexString(color));
                 }
@@ -301,6 +302,7 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
                     activity.exteriorConfig.primaryColor(destColor);
                     activity.exteriorConfig.accentColor(destColor);
                     activity.exteriorConfig.apply(activity);
+                    activity.appBar.setBackgroundColor(activity.launcherSetting.transBar ? context.getResources().getColor(R.color.launcher_ui_background) : destColor);
                     colorView.setBackgroundColor(destColor);
                     colorText.setText("#" + Integer.toHexString(destColor));
                 }
@@ -311,6 +313,7 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
                     activity.exteriorConfig.primaryColor(initColor);
                     activity.exteriorConfig.accentColor(initColor);
                     activity.exteriorConfig.apply(activity);
+                    activity.appBar.setBackgroundColor(activity.launcherSetting.transBar ? context.getResources().getColor(R.color.launcher_ui_background) : initColor);
                     colorView.setBackgroundColor(initColor);
                     colorText.setText("#" + Integer.toHexString(initColor));
                 }

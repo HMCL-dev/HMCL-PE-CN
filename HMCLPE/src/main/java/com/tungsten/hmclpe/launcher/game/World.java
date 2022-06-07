@@ -180,11 +180,11 @@ public class World {
         }
     }
 
-    public void export(String exportPath) throws IOException {
+    public void export(String exportPath, String name) throws IOException {
         if (!Files.isDirectory(file))
             throw new IOException();
 
-        ZipTools.zip(exportPath,file.toString());
+        ZipTools.zip(file.toString(), exportPath, name);
     }
 
     private static CompoundTag parseLevelDat(Path path) throws IOException {
