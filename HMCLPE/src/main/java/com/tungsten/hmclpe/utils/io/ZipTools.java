@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedOutputStream;
@@ -168,8 +169,12 @@ public class ZipTools {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static void unzipFile(String zipFilePath, String unzipFilePath, boolean includeZipFileName) throws IOException {
+        unzipFile(zipFilePath,unzipFilePath,new ArrayList<>(),includeZipFileName);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void unzipFile(String zipFilePath, String unzipFilePath, ArrayList<String> filter, boolean includeZipFileName) throws IOException {
         if (isEmpty(zipFilePath) || isEmpty(unzipFilePath)) {
             throw new IOException("PARAMETER_IS_NULL");
         }
@@ -196,6 +201,10 @@ public class ZipTools {
         Enumeration<ZipEntry> entries = (Enumeration<ZipEntry>) zip.entries();
         while (entries.hasMoreElements()) {
             entry = entries.nextElement();
+
+            if (filter.contains(entry.getName())) {
+                continue;
+            }
             if (entry.isDirectory()) {
                 continue;
             }

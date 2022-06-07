@@ -155,11 +155,26 @@
 
     </LinearLayout>
 
-    <ListView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@color/colorTransparent"
-        android:dividerHeight="0dp"
-        android:id="@+id/datapack_list"/>
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:tag="tint_accent_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/load_datapacks_progress"
+            android:visibility="gone"
+            android:layout_centerInParent="true"/>
+
+        <ListView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/colorTransparent"
+            android:dividerHeight="0dp"
+            android:id="@+id/datapack_list"/>
+
+    </RelativeLayout>
 
 </LinearLayout>
