@@ -241,6 +241,11 @@
     <string name="dialog_export_world_msg">已完成</string>
     <string name="dialog_export_world_positive">确定</string>
 
+    <string name="dialog_delete_datapack_title">删除</string>
+    <string name="dialog_delete_datapack_msg">您确定要删除吗？此操作无法撤销！</string>
+    <string name="dialog_delete_datapack_positive">是</string>
+    <string name="dialog_delete_datapack_negative">否</string>
+
     <string name="dialog_manage_packmc_title">提示</string>
     <string name="dialog_manage_packmc_msg">仅 Minecraft 1.13 及之后的版本支持数据包！</string>
     <string name="dialog_manage_packmc_positive">确定</string>
