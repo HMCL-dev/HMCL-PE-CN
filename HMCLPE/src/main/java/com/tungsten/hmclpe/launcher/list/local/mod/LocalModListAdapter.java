@@ -1,7 +1,12 @@
 package com.tungsten.hmclpe.launcher.list.local.mod;
 
+import static com.tungsten.hmclpe.launcher.uis.universal.setting.right.launcher.ExteriorSettingUI.getThemeColor;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +16,15 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.graphics.drawable.DrawableCompat;
+
 import com.tungsten.filepicker.Constants;
 import com.tungsten.filepicker.FileBrowser;
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.ModInfoDialog;
 import com.tungsten.hmclpe.launcher.mod.LocalModFile;
+import com.tungsten.hmclpe.launcher.uis.game.manager.right.ModManagerUI;
 import com.tungsten.hmclpe.utils.string.ModTranslations;
 import com.tungsten.hmclpe.utils.string.StringUtils;
 
@@ -26,7 +35,9 @@ import java.util.Objects;
 public class LocalModListAdapter extends BaseAdapter {
 
     private Context context;
+    private MainActivity activity;
     private ArrayList<LocalModFile> list;
+    private ModManagerUI ui;
 
     private static class ViewHolder {
         LinearLayout item;
@@ -38,9 +49,15 @@ public class LocalModListAdapter extends BaseAdapter {
         ImageButton showInfo;
     }
 
-    public LocalModListAdapter (Context context,ArrayList<LocalModFile> list) {
+    public LocalModListAdapter (Context context, MainActivity activity, ArrayList<LocalModFile> list, ModManagerUI ui) {
         this.context = context;
+        this.activity = activity;
         this.list = list;
+        this.ui = ui;
+    }
+
+    public ArrayList<LocalModFile> getList() {
+        return list;
     }
 
     @Override
@@ -58,6 +75,7 @@ public class LocalModListAdapter extends BaseAdapter {
         return 0;
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         final ViewHolder viewHolder;
@@ -93,8 +111,39 @@ public class LocalModListAdapter extends BaseAdapter {
                 e.printStackTrace();
             }
         });
+        if (ui.selectedMods.contains(localModFile)) {
+            int themeColor = Color.parseColor(getThemeColor(context,activity.launcherSetting.launcherTheme));
+            float[] hsv = new float[3];
+            Color.colorToHSV(themeColor, hsv);
+            hsv[1] -= (1 - hsv[1]) * 0.3f;
+            hsv[2] += (1 - hsv[2]) * 0.3f;
+            hsv[1] -= (1 - hsv[1]) * 0.3f;
+            hsv[2] += (1 - hsv[2]) * 0.3f;
+            Drawable drawable = context.getDrawable(R.drawable.launcher_view_selected);
+            DrawableCompat.setTint(drawable, Color.HSVToColor(hsv));
+            viewHolder.item.setBackground(drawable);
+        }
+        else {
+            viewHolder.item.setBackground(context.getDrawable(R.drawable.launcher_button_white_blue));
+        }
         viewHolder.item.setOnClickListener(view1 -> {
-
+            if (ui.mainBar.getVisibility() == View.VISIBLE && ui.subBar.getVisibility() == View.GONE) {
+                ui.mainBar.setVisibility(View.GONE);
+                ui.subBar.setVisibility(View.VISIBLE);
+            }
+            if (!ui.selectedMods.contains(localModFile)) {
+                ui.selectedMods.add(localModFile);
+            }
+            int themeColor = Color.parseColor(getThemeColor(context,activity.launcherSetting.launcherTheme));
+            float[] hsv = new float[3];
+            Color.colorToHSV(themeColor, hsv);
+            hsv[1] -= (1 - hsv[1]) * 0.3f;
+            hsv[2] += (1 - hsv[2]) * 0.3f;
+            hsv[1] -= (1 - hsv[1]) * 0.3f;
+            hsv[2] += (1 - hsv[2]) * 0.3f;
+            Drawable drawable = context.getDrawable(R.drawable.launcher_view_selected);
+            DrawableCompat.setTint(drawable, Color.HSVToColor(hsv));
+            viewHolder.item.setBackground(drawable);
         });
         viewHolder.openFolder.setOnClickListener(view12 -> {
             Intent intent = new Intent(context, FileBrowser.class);

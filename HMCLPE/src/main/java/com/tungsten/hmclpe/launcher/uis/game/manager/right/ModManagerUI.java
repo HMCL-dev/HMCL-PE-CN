@@ -3,6 +3,7 @@ package com.tungsten.hmclpe.launcher.uis.game.manager.right;
 import static android.app.Activity.RESULT_OK;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.tungsten.filepicker.Constants;
 import com.tungsten.filepicker.FileBrowser;
@@ -19,9 +21,12 @@ import com.tungsten.filepicker.FileChooser;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.local.mod.LocalModListAdapter;
+import com.tungsten.hmclpe.launcher.list.local.save.DatapackListAdapter;
+import com.tungsten.hmclpe.launcher.mod.Datapack;
 import com.tungsten.hmclpe.launcher.mod.LocalModFile;
 import com.tungsten.hmclpe.launcher.mod.ModManager;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
+import com.tungsten.hmclpe.launcher.uis.game.manager.universal.PackMcManagerUI;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.file.FileUtils;
@@ -43,17 +48,27 @@ public class ModManagerUI extends BaseUI implements View.OnClickListener {
     private String modsDir;
     private ModManager modManager;
 
+    public LinearLayout mainBar;
     private LinearLayout refresh;
     private LinearLayout addMod;
     private LinearLayout openFolder;
     private LinearLayout checkUpdate;
     private LinearLayout download;
 
+    public LinearLayout subBar;
+    private LinearLayout delete;
+    private LinearLayout enable;
+    private LinearLayout disable;
+    private LinearLayout selectAll;
+    private LinearLayout cancel;
+
     private ProgressBar progressBar;
     private ListView modList;
 
     private ArrayList<LocalModFile> allModList;
     private LocalModListAdapter localModListAdapter;
+
+    public ArrayList<LocalModFile> selectedMods;
 
     public ModManagerUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -64,11 +79,19 @@ public class ModManagerUI extends BaseUI implements View.OnClickListener {
         super.onCreate();
         modManagerUI = activity.findViewById(R.id.ui_mod_manager);
 
+        mainBar = activity.findViewById(R.id.mod_manager_main_bar);
         refresh = activity.findViewById(R.id.refresh_local_mod);
         addMod = activity.findViewById(R.id.add_new_mod);
         openFolder = activity.findViewById(R.id.open_mod_folder);
         checkUpdate = activity.findViewById(R.id.check_mod_update);
         download = activity.findViewById(R.id.download_new_mod);
+
+        subBar = activity.findViewById(R.id.mod_manager_sub_bar);
+        delete = activity.findViewById(R.id.delete_local_mod);
+        enable = activity.findViewById(R.id.enable_local_mod);
+        disable = activity.findViewById(R.id.disable_local_mod);
+        selectAll = activity.findViewById(R.id.select_all_local_mod);
+        cancel = activity.findViewById(R.id.cancel_manage_local_mod);
 
         progressBar = activity.findViewById(R.id.load_mod_progress);
         modList = activity.findViewById(R.id.local_mod_list);
@@ -78,6 +101,12 @@ public class ModManagerUI extends BaseUI implements View.OnClickListener {
         openFolder.setOnClickListener(this);
         checkUpdate.setOnClickListener(this);
         download.setOnClickListener(this);
+
+        delete.setOnClickListener(this);
+        enable.setOnClickListener(this);
+        disable.setOnClickListener(this);
+        selectAll.setOnClickListener(this);
+        cancel.setOnClickListener(this);
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -101,6 +130,7 @@ public class ModManagerUI extends BaseUI implements View.OnClickListener {
     }
 
     public void refresh(String versionName){
+        selectedMods = new ArrayList<>();
         this.versionName = versionName;
         PrivateGameSetting privateGameSetting;
         String settingPath = activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/hmclpe.cfg";
@@ -123,6 +153,7 @@ public class ModManagerUI extends BaseUI implements View.OnClickListener {
     }
 
     private void refreshList() {
+        selectedMods = new ArrayList<>();
         new Thread(() -> {
             activity.runOnUiThread(() -> {
                 progressBar.setVisibility(View.VISIBLE);
@@ -136,7 +167,7 @@ public class ModManagerUI extends BaseUI implements View.OnClickListener {
                 Log.e("getModsException",e.toString());
                 e.printStackTrace();
             }
-            localModListAdapter = new LocalModListAdapter(context,allModList);
+            localModListAdapter = new LocalModListAdapter(context,activity,allModList,this);
             activity.runOnUiThread(() -> {
                 modList.setAdapter(localModListAdapter);
                 progressBar.setVisibility(View.GONE);
@@ -196,6 +227,67 @@ public class ModManagerUI extends BaseUI implements View.OnClickListener {
         if (view == download) {
             activity.uiManager.switchMainUI(activity.uiManager.downloadUI);
             activity.uiManager.downloadUI.downloadUIManager.switchDownloadUI(activity.uiManager.downloadUI.downloadUIManager.downloadModUI);
+        }
+        if (view == delete) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle(context.getString(R.string.dialog_delete_mod_title));
+            builder.setMessage(context.getString(R.string.dialog_delete_mod_msg));
+            builder.setPositiveButton(context.getString(R.string.dialog_delete_mod_positive), (dialogInterface, i) -> {
+                progressBar.setVisibility(View.VISIBLE);
+                modList.setVisibility(View.GONE);
+                new Thread(() -> {
+                    try {
+                        modManager.removeMods(selectedMods.toArray(new LocalModFile[0]));
+                        activity.runOnUiThread(this::refreshList);
+                    } catch (IOException e) {
+                        activity.runOnUiThread(() -> {
+                            Toast.makeText(context,e.toString(),Toast.LENGTH_SHORT).show();
+                        });
+                        e.printStackTrace();
+                    }
+                    activity.runOnUiThread(() -> {
+                        selectedMods = new ArrayList<>();
+                        mainBar.setVisibility(View.VISIBLE);
+                        subBar.setVisibility(View.GONE);
+                    });
+                }).start();
+            });
+            builder.setNegativeButton(context.getString(R.string.dialog_delete_mod_negative), (dialogInterface, i) -> {});
+            builder.create().show();
+        }
+        if (view == enable) {
+            for (LocalModFile mod : selectedMods) {
+                try {
+                    mod.setActive(true);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            localModListAdapter.notifyDataSetChanged();
+        }
+        if (view == disable) {
+            for (LocalModFile mod : selectedMods) {
+                try {
+                    mod.setActive(false);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            localModListAdapter.notifyDataSetChanged();
+        }
+        if (view == selectAll) {
+            selectedMods.clear();
+            selectedMods.addAll(localModListAdapter.getList());
+            localModListAdapter.notifyDataSetChanged();
+        }
+        if (view == cancel) {
+            selectedMods = new ArrayList<>();
+            localModListAdapter = new LocalModListAdapter(context,activity,allModList,this);
+            modList.setAdapter(localModListAdapter);
+            if (mainBar.getVisibility() == View.GONE && subBar.getVisibility() == View.VISIBLE) {
+                mainBar.setVisibility(View.VISIBLE);
+                subBar.setVisibility(View.GONE);
+            }
         }
     }
 }

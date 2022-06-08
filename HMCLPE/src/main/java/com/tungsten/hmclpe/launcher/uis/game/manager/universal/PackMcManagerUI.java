@@ -131,9 +131,9 @@ public class PackMcManagerUI extends BaseUI implements View.OnClickListener {
         }
         if (view == delete) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle(context.getString(R.string.dialog_delete_datapack_title));
-            builder.setMessage(context.getString(R.string.dialog_delete_datapack_msg));
-            builder.setPositiveButton(context.getString(R.string.dialog_delete_datapack_positive), (dialogInterface, i) -> {
+            builder.setTitle(context.getString(R.string.dialog_delete_mod_title));
+            builder.setMessage(context.getString(R.string.dialog_delete_mod_msg));
+            builder.setPositiveButton(context.getString(R.string.dialog_delete_mod_positive), (dialogInterface, i) -> {
                 listView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 new Thread(() -> {
@@ -157,7 +157,7 @@ public class PackMcManagerUI extends BaseUI implements View.OnClickListener {
                     });
                 }).start();
             });
-            builder.setNegativeButton(context.getString(R.string.dialog_delete_datapack_negative), (dialogInterface, i) -> {});
+            builder.setNegativeButton(context.getString(R.string.dialog_delete_mod_negative), (dialogInterface, i) -> {});
             builder.create().show();
         }
         if (view == enable) {

@@ -203,6 +203,11 @@
     <string name="mod_manager_ui_open_folder">MOD文件夹</string>
     <string name="mod_manager_ui_check_update">检查模组更新</string>
     <string name="mod_manager_ui_download">下载</string>
+    <string name="mod_manager_ui_delete">删除</string>
+    <string name="mod_manager_ui_enable">启用</string>
+    <string name="mod_manager_ui_disable">禁用</string>
+    <string name="mod_manager_ui_select_all">全选</string>
+    <string name="mod_manager_ui_negative">取消</string>
     <string name="mod_manager_ui_info">%n，版本：%v，作者：%a</string>
     <string name="mod_manager_ui_unknown_info">未知</string>
     <string name="mod_manager_ui_official_page">官方页面</string>
@@ -241,10 +246,10 @@
     <string name="dialog_export_world_msg">已完成</string>
     <string name="dialog_export_world_positive">确定</string>
 
-    <string name="dialog_delete_datapack_title">删除</string>
-    <string name="dialog_delete_datapack_msg">您确定要删除吗？此操作无法撤销！</string>
-    <string name="dialog_delete_datapack_positive">是</string>
-    <string name="dialog_delete_datapack_negative">否</string>
+    <string name="dialog_delete_mod_title">删除</string>
+    <string name="dialog_delete_mod_msg">您确定要删除吗？此操作无法撤销！</string>
+    <string name="dialog_delete_mod_positive">是</string>
+    <string name="dialog_delete_mod_negative">否</string>
 
     <string name="dialog_manage_packmc_title">提示</string>
     <string name="dialog_manage_packmc_msg">仅 Minecraft 1.13 及之后的版本支持数据包！</string>
