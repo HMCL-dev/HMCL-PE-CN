@@ -26,8 +26,8 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'com.google.android.material:material:1.6.1'
     implementation 'com.beardedhen:androidbootstrap:2.3.1'
     implementation 'com.roughike:bottom-bar:2.3.1'
     implementation 'com.simplecityapps:recyclerview-fastscroll:1.0.20'

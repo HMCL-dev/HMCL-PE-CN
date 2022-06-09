@@ -98,50 +98,6 @@ public class AccountListAdapter extends BaseAdapter {
     };
 
     Account newAccount;
-    private Account getAccountFromInfo(Account rawAccount,YggdrasilService yggdrasilService,YggdrasilSession yggdrasilSession,AuthInfo authInfo) {
-        Map<TextureType, Texture> map = null;
-        try {
-            map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(authInfo.getUUID()).get()).get();
-            Texture texture = map.get(TextureType.SKIN);
-            Bitmap skin;
-            if (texture == null) {
-                AssetManager manager = context.getAssets();
-                InputStream inputStream;
-                inputStream = manager.open("img/alex.png");
-                skin = BitmapFactory.decodeStream(inputStream);
-            }
-            else {
-                String u = texture.getUrl();
-                if (!u.startsWith("https")){
-                    u = u.replaceFirst("http","https");
-                }
-                URL url = new URL(u);
-                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                httpURLConnection.setDoInput(true);
-                httpURLConnection.connect();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                skin = BitmapFactory.decodeStream(inputStream);
-            }
-            handler.post(() -> {
-                String skinTexture = Avatar.bitmapToString(skin);
-                newAccount = new Account(rawAccount.loginType,
-                        rawAccount.email,
-                        rawAccount.password,
-                        rawAccount.user_type,
-                        rawAccount.auth_session,
-                        authInfo.getUsername(),
-                        authInfo.getUUID().toString(),
-                        authInfo.getAccessToken(),
-                        yggdrasilSession.getClientToken(),
-                        rawAccount.refresh_token,
-                        rawAccount.loginServer,
-                        skinTexture);
-            });
-        } catch (AuthenticationException | IOException e) {
-            e.printStackTrace();
-        }
-        return newAccount;
-    }
 
     private AuthlibInjectorServer getServerFromUrl(String url){
         for (int i = 0;i < activity.uiManager.accountUI.serverList.size();i++){

@@ -10,6 +10,7 @@ import com.tungsten.hmclpe.launcher.game.Version;
 import com.tungsten.hmclpe.utils.Lang;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class PatchMerger {
@@ -39,6 +40,17 @@ public class PatchMerger {
             builder.create().show();
         }
         else {
+            patches.sort((version, t1) -> {
+                if (version.getPriority() > t1.getPriority()) {
+                    return -1;
+                }
+                else if (version.getPriority() > t1.getPriority()) {
+                    return 1;
+                }
+                else {
+                    return 0;
+                }
+            });
             for (Version v : patches) {
                 if (!v.getId().equals("game")) {
                     if (v.getId().equals("optifine")) {
