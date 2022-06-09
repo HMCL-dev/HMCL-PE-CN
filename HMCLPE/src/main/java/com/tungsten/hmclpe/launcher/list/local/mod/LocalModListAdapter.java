@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,7 +17,10 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.tungsten.filepicker.Constants;
@@ -45,6 +50,7 @@ public class LocalModListAdapter extends BaseAdapter {
         TextView name;
         TextView category;
         TextView info;
+        ImageButton restore;
         ImageButton openFolder;
         ImageButton showInfo;
     }
@@ -87,6 +93,7 @@ public class LocalModListAdapter extends BaseAdapter {
             viewHolder.name = view.findViewById(R.id.mod_name);
             viewHolder.category = view.findViewById(R.id.mod_category);
             viewHolder.info = view.findViewById(R.id.mod_info);
+            viewHolder.restore = view.findViewById(R.id.restore);
             viewHolder.openFolder = view.findViewById(R.id.open_folder);
             viewHolder.showInfo = view.findViewById(R.id.show_mod_info);
             view.setTag(viewHolder);
@@ -145,6 +152,24 @@ public class LocalModListAdapter extends BaseAdapter {
             DrawableCompat.setTint(drawable, Color.HSVToColor(hsv));
             viewHolder.item.setBackground(drawable);
         });
+        viewHolder.restore.setVisibility(localModFile.getMod().getOldFiles().isEmpty() ? View.GONE : View.VISIBLE);
+        viewHolder.restore.setOnClickListener(view14 -> {
+            Context wrapper = new ContextThemeWrapper(context, R.style.MenuStyle);
+            @SuppressLint("RtlHardcoded") PopupMenu menu = new PopupMenu(wrapper, viewHolder.restore, Gravity.RIGHT);
+            for (LocalModFile mod : localModFile.getMod().getOldFiles()) {
+                menu.getMenu().add(mod.getVersion());
+            }
+            menu.setOnMenuItemClickListener(item -> {
+                for (LocalModFile mod : localModFile.getMod().getOldFiles()) {
+                    if (mod.getVersion().contentEquals(item.getTitle())) {
+                        rollback(localModFile, mod);
+                        return true;
+                    }
+                }
+                return false;
+            });
+            menu.show();
+        });
         viewHolder.openFolder.setOnClickListener(view12 -> {
             Intent intent = new Intent(context, FileBrowser.class);
             intent.putExtra(Constants.INITIAL_DIRECTORY, localModFile.getFile().getParent().toString());
@@ -155,5 +180,14 @@ public class LocalModListAdapter extends BaseAdapter {
             dialog.show();
         });
         return view;
+    }
+
+    public void rollback(LocalModFile from, LocalModFile to) {
+        try {
+            ui.modManager.rollback(from, to);
+            ui.refreshList();
+        } catch (IOException ex) {
+            Toast.makeText(context,ex.toString(),Toast.LENGTH_SHORT).show();
+        }
     }
 }

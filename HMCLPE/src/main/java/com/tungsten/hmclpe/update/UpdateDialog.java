@@ -25,7 +25,6 @@ import com.tungsten.hmclpe.utils.io.DownloadUtil;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class UpdateDialog extends Dialog implements View.OnClickListener {
 
@@ -46,7 +45,7 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
 
     public UpdateDialog(@NonNull Context context, MainActivity activity, LauncherVersion version, boolean isBeta) {
         super(context);
-        setContentView(R.layout.dialog_update);
+        setContentView(R.layout.dialog_update_launcher);
         setCancelable(false);
         this.activity = activity;
         this.version = version;

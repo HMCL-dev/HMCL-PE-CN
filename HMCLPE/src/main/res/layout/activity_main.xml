@@ -150,6 +150,11 @@
                 android:layout_height="match_parent"/>
 
             <include
+                layout="@layout/ui_mod_update"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <include
                 layout="@layout/ui_manage_datapack"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

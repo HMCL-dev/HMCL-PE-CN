@@ -215,6 +215,24 @@
     <string name="mod_manager_ui_mcmod_page">MC 百科页面</string>
     <string name="mod_manager_ui_mcmod_search">MC 百科搜索</string>
     <string name="mod_manager_ui_dismiss">确定</string>
+
+    <string name="dialog_delete_mod_title">删除</string>
+    <string name="dialog_delete_mod_msg">您确定要删除吗？此操作无法撤销！</string>
+    <string name="dialog_delete_mod_positive">是</string>
+    <string name="dialog_delete_mod_negative">否</string>
+
+    <string name="dialog_check_mod_update_title">正在检查更新</string>
+    <string name="dialog_check_mod_update_task">检查模组更新 - %c/%t</string>
+    <string name="dialog_check_mod_update_negative">取消</string>
+
+    <string name="mod_update_ui_title">检查模组更新</string>
+    <string name="mod_update_ui_file">文件</string>
+    <string name="mod_update_ui_current">当前版本</string>
+    <string name="mod_update_ui_target">目标版本</string>
+    <string name="mod_update_ui_source">来源</string>
+    <string name="mod_update_ui_no_update">表中无内容</string>
+    <string name="mod_update_ui_update">更新</string>
+    <string name="mod_update_ui_cancel">取消</string>
     
     <string name="world_manager_ui_show_all">显示全部</string>
     <string name="world_manager_ui_refresh">刷新</string>
@@ -245,11 +263,6 @@
     <string name="dialog_export_world_title">提示</string>
     <string name="dialog_export_world_msg">已完成</string>
     <string name="dialog_export_world_positive">确定</string>
-
-    <string name="dialog_delete_mod_title">删除</string>
-    <string name="dialog_delete_mod_msg">您确定要删除吗？此操作无法撤销！</string>
-    <string name="dialog_delete_mod_positive">是</string>
-    <string name="dialog_delete_mod_negative">否</string>
 
     <string name="dialog_manage_packmc_title">提示</string>
     <string name="dialog_manage_packmc_msg">仅 Minecraft 1.13 及之后的版本支持数据包！</string>
@@ -605,6 +618,7 @@
     <string name="dialog_download_resource_name_negative">取消</string>
 
     <string name="dialog_download_title">正在下载</string>
+    <string name="dialog_update_mod_title">更新</string>
     <string name="dialog_download_negative">取消</string>
     <string name="dialog_download_success">安装成功</string>
 

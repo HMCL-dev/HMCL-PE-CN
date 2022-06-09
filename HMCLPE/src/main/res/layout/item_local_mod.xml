@@ -68,6 +68,14 @@
         android:layout_marginStart="15dp"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:background="@drawable/ic_baseline_restore_black"
+        android:layout_gravity="center"
+        android:id="@+id/restore"/>
+
+    <ImageButton
+        android:layout_marginStart="15dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:background="@drawable/ic_outline_folder_open_black"
         android:layout_gravity="center"
         android:id="@+id/open_folder"/>

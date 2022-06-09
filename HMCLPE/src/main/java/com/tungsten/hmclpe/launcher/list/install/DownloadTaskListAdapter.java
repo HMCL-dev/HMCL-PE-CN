@@ -20,9 +20,15 @@ public class DownloadTaskListAdapter extends RecyclerView.Adapter<DownloadTaskLi
     private final Context context;
     private final ArrayList<DownloadTaskListBean> list;
 
+    private boolean checkMod = false;
+
     public DownloadTaskListAdapter(Context context) {
         this.context = context;
         this.list = new ArrayList<>();
+    }
+
+    public void setCheckMod(boolean checkMod) {
+        this.checkMod = checkMod;
     }
 
     @NonNull
@@ -36,7 +42,7 @@ public class DownloadTaskListAdapter extends RecyclerView.Adapter<DownloadTaskLi
         DownloadTaskListBean downloadTaskListBean = list.get(position);
         holder.progressBar.setProgress(downloadTaskListBean.progress);
         holder.fileName.setText(downloadTaskListBean.name);
-        if (!downloadTaskListBean.name.equals(context.getString(R.string.dialog_install_assets_check)) && !downloadTaskListBean.name.equals(context.getString(R.string.dialog_install_game_install_forge_build)) && (downloadTaskListBean.path == null || downloadTaskListBean.path.equals("")) && (downloadTaskListBean.url == null || downloadTaskListBean.url.equals("")) && (downloadTaskListBean.sha1 == null || downloadTaskListBean.sha1.equals(""))) {
+        if (checkMod || (!downloadTaskListBean.name.equals(context.getString(R.string.dialog_install_assets_check)) && !downloadTaskListBean.name.equals(context.getString(R.string.dialog_install_game_install_forge_build)) && (downloadTaskListBean.path == null || downloadTaskListBean.path.equals("")) && (downloadTaskListBean.url == null || downloadTaskListBean.url.equals("")) && (downloadTaskListBean.sha1 == null || downloadTaskListBean.sha1.equals("")))) {
             holder.progressBar.setIndeterminate(true);
         }
         else {

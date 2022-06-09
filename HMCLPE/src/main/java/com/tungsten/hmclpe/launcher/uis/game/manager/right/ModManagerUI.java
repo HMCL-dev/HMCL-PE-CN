@@ -15,11 +15,17 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.tungsten.filepicker.Constants;
 import com.tungsten.filepicker.FileBrowser;
 import com.tungsten.filepicker.FileChooser;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.dialogs.CheckModUpdateDialog;
+import com.tungsten.hmclpe.launcher.game.Argument;
+import com.tungsten.hmclpe.launcher.game.Artifact;
+import com.tungsten.hmclpe.launcher.game.RuledArgument;
+import com.tungsten.hmclpe.launcher.game.Version;
 import com.tungsten.hmclpe.launcher.list.local.mod.LocalModListAdapter;
 import com.tungsten.hmclpe.launcher.list.local.save.DatapackListAdapter;
 import com.tungsten.hmclpe.launcher.mod.Datapack;
@@ -29,9 +35,12 @@ import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.uis.game.manager.universal.PackMcManagerUI;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
+import com.tungsten.hmclpe.utils.file.FileStringUtils;
 import com.tungsten.hmclpe.utils.file.FileUtils;
 import com.tungsten.hmclpe.utils.file.UriUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
+import com.tungsten.hmclpe.utils.gson.JsonUtils;
+import com.tungsten.hmclpe.utils.platform.Bits;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,8 +54,9 @@ public class ModManagerUI extends BaseUI implements View.OnClickListener {
     public LinearLayout modManagerUI;
 
     private String versionName;
+    private String versionId;
     private String modsDir;
-    private ModManager modManager;
+    public ModManager modManager;
 
     public LinearLayout mainBar;
     private LinearLayout refresh;
@@ -132,6 +142,15 @@ public class ModManagerUI extends BaseUI implements View.OnClickListener {
     public void refresh(String versionName){
         selectedMods = new ArrayList<>();
         this.versionName = versionName;
+        String gameJsonText = FileStringUtils.getStringFromFile(activity.launcherSetting.gameFileDirectory + "/versions/" + versionName +"/" + versionName + ".json");
+        Gson gson = JsonUtils.defaultGsonBuilder()
+                .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
+                .registerTypeAdapter(Bits.class, new Bits.Serializer())
+                .registerTypeAdapter(RuledArgument.class, new RuledArgument.Serializer())
+                .registerTypeAdapter(Argument.class, new Argument.Deserializer())
+                .create();
+        Version version = gson.fromJson(gameJsonText, Version.class);
+        this.versionId = version.getId();
         PrivateGameSetting privateGameSetting;
         String settingPath = activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/hmclpe.cfg";
         if (new File(settingPath).exists() && GsonUtils.getPrivateGameSettingFromFile(settingPath) != null && (GsonUtils.getPrivateGameSettingFromFile(settingPath).forceEnable || GsonUtils.getPrivateGameSettingFromFile(settingPath).enable)) {
@@ -152,7 +171,7 @@ public class ModManagerUI extends BaseUI implements View.OnClickListener {
         refreshList();
     }
 
-    private void refreshList() {
+    public void refreshList() {
         selectedMods = new ArrayList<>();
         new Thread(() -> {
             activity.runOnUiThread(() -> {
@@ -222,7 +241,8 @@ public class ModManagerUI extends BaseUI implements View.OnClickListener {
             context.startActivity(intent);
         }
         if (view == checkUpdate) {
-
+            CheckModUpdateDialog dialog = new CheckModUpdateDialog(context, activity, allModList, modManager, versionId);
+            dialog.show();
         }
         if (view == download) {
             activity.uiManager.switchMainUI(activity.uiManager.downloadUI);

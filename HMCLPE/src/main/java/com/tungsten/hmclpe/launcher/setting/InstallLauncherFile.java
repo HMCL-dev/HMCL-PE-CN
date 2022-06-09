@@ -311,6 +311,7 @@ public class InstallLauncherFile {
         intent.putExtras(bundle);
         handler.postDelayed(() -> {
             activity.startActivity(intent);
+            activity.finish();
         },1000);
     }
 

@@ -91,6 +91,7 @@
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/dialog_add_offline_account.xml" value="0.14719202898550723" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/dialog_add_verify_server.xml" value="0.264" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/dialog_add_view.xml" value="0.22560975609756098" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/dialog_check_mod_update.xml" value="0.264" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/dialog_child_manager.xml" value="0.2223731884057971" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/dialog_child_visibility.xml" value="0.22282608695652173" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/dialog_controller_manager.xml" value="0.25" />
@@ -149,12 +150,14 @@
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_local_mod.xml" value="0.2" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_local_version.xml" value="0.1125" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_local_version_spinner.xml" value="0.1125" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_mod_update.xml" value="0.13722826086956522" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_profile.xml" value="0.13858695652173914" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_rocker_style.xml" value="0.22282608695652173" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_save.xml" value="0.536" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_spinner.xml" value="0.2223731884057971" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_spinner_drop_down.xml" value="0.2223731884057971" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/item_spinner_drop_down_small.xml" value="0.2223731884057971" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/menu_local_mod.xml" value="0.10989583333333333" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/spinner_item_local_version.xml" value="0.1125" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/spinner_item_server_list.xml" value="0.1125" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_account.xml" value="0.1125" />
@@ -183,6 +186,7 @@
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_install_package.xml" value="0.13722826086956522" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_main.xml" value="0.2151268115942029" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_manage_datapack.xml" value="0.13722826086956522" />
+        <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_mod_update.xml" value="0.2" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_setting.xml" value="0.1109375" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_setting_about.xml" value="0.11354166666666667" />
         <entry key="..\:/Projects/Android/HMCL-PE/HMCLPE/src/main/res/layout/ui_setting_download.xml" value="0.13858695652173914" />
