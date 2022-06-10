@@ -86,6 +86,7 @@
                     android:layout_weight="1"/>
 
                 <Button
+                    android:tag="tint_accent_color"
                     android:background="@drawable/launcher_button_blue"
                     android:layout_width="128dp"
                     android:layout_height="36dp"

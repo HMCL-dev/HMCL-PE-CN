@@ -102,6 +102,7 @@ public class LocalModListAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
         LocalModFile localModFile = list.get(i);
+        viewHolder.checkBox.setOnCheckedChangeListener(null);
         viewHolder.checkBox.setChecked(localModFile.isActive());
         viewHolder.name.setText(localModFile.getFileName());
         String displayName = ModTranslations.MOD.getModById(localModFile.getId()) == null ? "" : Objects.requireNonNull(ModTranslations.MOD.getModById(localModFile.getId())).getDisplayName();

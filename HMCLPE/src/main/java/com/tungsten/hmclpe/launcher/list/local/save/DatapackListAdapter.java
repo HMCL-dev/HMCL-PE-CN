@@ -91,6 +91,7 @@ public class DatapackListAdapter extends BaseAdapter {
             DrawableCompat.setTint(drawable, Color.HSVToColor(hsv));
             viewHolder.item.setBackground(drawable);
         });
+        viewHolder.checkBox.setOnCheckedChangeListener(null);
         viewHolder.checkBox.setChecked(pack.isActive());
         viewHolder.checkBox.setOnCheckedChangeListener((compoundButton, b) -> {
             pack.setActive(b);
