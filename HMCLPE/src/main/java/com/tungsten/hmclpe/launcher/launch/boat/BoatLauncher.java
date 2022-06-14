@@ -71,6 +71,7 @@ public class BoatLauncher {
                     args.add(JVMArgs[i]);
                 }
             }
+            args.add("-javaagent:" + AppManifest.PLUGIN_DIR + "/touch/TouchInjector.jar=null");
             args.add("-Xms" + gameLaunchSetting.minRam + "M");
             args.add("-Xmx" + gameLaunchSetting.maxRam + "M");
             if (!gameLaunchSetting.extraJavaFlags.equals("")) {

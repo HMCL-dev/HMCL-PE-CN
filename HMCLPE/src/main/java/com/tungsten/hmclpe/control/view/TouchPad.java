@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -18,9 +19,22 @@ import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
 import net.kdt.pojavlaunch.keyboard.LWJGLGLFWKeycode;
 import com.tungsten.hmclpe.launcher.launch.MCOptionUtils;
+import com.tungsten.hmclpe.utils.io.SocketServer;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
+import java.util.Objects;
 
 @SuppressLint("ViewConstructor")
 public class TouchPad extends View {
+
+    private String rayTraceResultType;
+
+    private static final String RAYTRACE_RESULT_TYPE_UNKNOWN = "UNKNOWN";
+    private static final String RAYTRACE_RESULT_TYPE_MISS = "MISS";
+    private static final String RAYTRACE_RESULT_TYPE_BLOCK = "BLOCK";
+    private static final String RAYTRACE_RESULT_TYPE_ENTITY = "ENTITY";
 
     private int launcher;
     private int screenWidth;
@@ -42,16 +56,20 @@ public class TouchPad extends View {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            if (menuHelper.gameMenuSetting.touchMode == 0){
+            if (Objects.equals(rayTraceResultType, RAYTRACE_RESULT_TYPE_BLOCK)) {
                 InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,true);
             }
-            if (menuHelper.gameMenuSetting.touchMode == 1){
+            else if (Objects.equals(rayTraceResultType, RAYTRACE_RESULT_TYPE_ENTITY) || Objects.equals(rayTraceResultType, RAYTRACE_RESULT_TYPE_MISS)) {
                 InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,true);
             }
-            /*
-            InputBridge.sendKeycode(launcher,LWJGLGLFWKeycode.GLFW_KEY_F14,true);
-
-             */
+            else {
+                if (menuHelper.gameMenuSetting.touchMode == 0){
+                    InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,true);
+                }
+                if (menuHelper.gameMenuSetting.touchMode == 1){
+                    InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,true);
+                }
+            }
         }
     };
 
@@ -71,7 +89,26 @@ public class TouchPad extends View {
         this.screenHeight = screenHeight;
         this.menuHelper = menuHelper;
 
+        SocketServer server = new SocketServer("127.0.0.1", 2332, (server1, msg) -> {
+            handleRayTraceResult(msg);
+            Log.i("ReceiveRaytraceResultType", Long.toString(System.currentTimeMillis()));
+        });
+        server.start();
+
         bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_cursor);
+    }
+
+    private void handleRayTraceResult(String msg) {
+        switch (msg) {
+            case RAYTRACE_RESULT_TYPE_MISS:
+            case RAYTRACE_RESULT_TYPE_BLOCK:
+            case RAYTRACE_RESULT_TYPE_ENTITY:
+                rayTraceResultType = msg;
+                break;
+            default:
+                rayTraceResultType = RAYTRACE_RESULT_TYPE_UNKNOWN;
+                break;
+        }
     }
 
     @Override
@@ -94,13 +131,27 @@ public class TouchPad extends View {
     @SuppressWarnings("IntegerDivisionInFloatingPointContext")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (menuHelper.gameCursorMode == 1 && event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+            Log.i("StartGettingRaytraceResultType", Long.toString(System.currentTimeMillis()));
+            new Thread(() -> {
+                try {
+                    DatagramSocket socket = new DatagramSocket();
+                    socket.connect(new InetSocketAddress("127.0.0.1", 2333));
+                    byte[] data = ("refresh").getBytes();
+                    DatagramPacket packet = new DatagramPacket(data, data.length);
+                    socket.send(packet);
+                    socket.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }).start();
+        }
         if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
             downX = event.getX();
             downY = event.getY();
         }
         int guiScale = -1;
         if (menuHelper.gameDir != null) {
-            guiScale = 0;
             MCOptionUtils.load(menuHelper.gameDir);
             String str = MCOptionUtils.get("guiScale");
             guiScale = (str == null ? 0 :Integer.parseInt(str));
@@ -247,16 +298,20 @@ public class TouchPad extends View {
                         if (menuHelper.gameCursorMode == 1 && event.getPointerId(event.getActionIndex()) == pointerID && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
                             menuHelper.viewManager.setGamePointer("1",false,event.getX() - initialX,event.getY() - initialY);
                             handler.removeCallbacks(runnable);
-                            if (menuHelper.gameMenuSetting.touchMode == 0){
+                            if (Objects.equals(rayTraceResultType, RAYTRACE_RESULT_TYPE_BLOCK)) {
                                 InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);
                             }
-                            if (menuHelper.gameMenuSetting.touchMode == 1){
+                            else if (Objects.equals(rayTraceResultType, RAYTRACE_RESULT_TYPE_ENTITY) || Objects.equals(rayTraceResultType, RAYTRACE_RESULT_TYPE_MISS)) {
                                 InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,false);
                             }
-                            /*
-                            InputBridge.sendKeycode(launcher,LWJGLGLFWKeycode.GLFW_KEY_F14,false);
-
-                             */
+                            else {
+                                if (menuHelper.gameMenuSetting.touchMode == 0){
+                                    InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);
+                                }
+                                if (menuHelper.gameMenuSetting.touchMode == 1){
+                                    InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,false);
+                                }
+                            }
                         }
                         if (System.currentTimeMillis() - downTime <= 200 && Math.abs(event.getX() - initialX) <= 10 && Math.abs(event.getY() - initialY) <= 10){
                             if (menuHelper.gameMenuSetting.mouseMode == 1 && menuHelper.gameCursorMode == 0){
@@ -264,19 +319,24 @@ public class TouchPad extends View {
                                 InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);
                             }
                             if (menuHelper.gameCursorMode == 1 && event.getPointerId(event.getActionIndex()) == pointerID && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
-                                if (menuHelper.gameMenuSetting.touchMode == 0){
+                                if (Objects.equals(rayTraceResultType, RAYTRACE_RESULT_TYPE_BLOCK)) {
                                     InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,true);
                                     InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,false);
                                 }
-                                if (menuHelper.gameMenuSetting.touchMode == 1){
+                                else if (Objects.equals(rayTraceResultType, RAYTRACE_RESULT_TYPE_ENTITY) || Objects.equals(rayTraceResultType, RAYTRACE_RESULT_TYPE_MISS)) {
                                     InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,true);
                                     InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);
                                 }
-                                /*
-                                InputBridge.sendKeycode(launcher,LWJGLGLFWKeycode.GLFW_KEY_F13,true);
-                                InputBridge.sendKeycode(launcher,LWJGLGLFWKeycode.GLFW_KEY_F13,false);
-
-                                 */
+                                else {
+                                    if (menuHelper.gameMenuSetting.touchMode == 0){
+                                        InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,true);
+                                        InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_RIGHT,false);
+                                    }
+                                    if (menuHelper.gameMenuSetting.touchMode == 1){
+                                        InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,true);
+                                        InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);
+                                    }
+                                }
                             }
                         }
                     }

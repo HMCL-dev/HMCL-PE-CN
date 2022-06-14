@@ -4,7 +4,9 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 
@@ -12,13 +14,16 @@ public class SocketServer {
 
 	private DatagramPacket packet;
 	private DatagramSocket socket;
-	private Listener mListener;
+	private final Listener mListener;
+	private final String ip;
+	private final int port;
 
 	public interface Listener{
 		void onReceive(SocketServer server,String msg);
 	}
 
-	private Handler mHandler = new Handler(){
+	@SuppressLint("HandlerLeak")
+	private final Handler mHandler = new Handler(){
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
@@ -29,12 +34,14 @@ public class SocketServer {
 	
 	public SocketServer(String ip,int port,Listener mListener){
 		this.mListener = mListener;
+		this.ip = ip;
+		this.port = port;
 		try {
 			// 要接收的报文
 			byte[] bytes = new byte[1024];
 			packet = new DatagramPacket(bytes, bytes.length);
 			// 创建socket并指定端口
-			socket = new DatagramSocket(port,InetAddress.getByName(ip));
+			socket = new DatagramSocket(port, InetAddress.getByName(ip));
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -60,6 +67,13 @@ public class SocketServer {
 				e.printStackTrace();
 			}
 		}).start();
+	}
+
+	public void send(String msg) throws IOException {
+		socket.connect(new InetSocketAddress(ip, port));
+		byte[] data = msg.getBytes();
+		DatagramPacket packet = new DatagramPacket(data, data.length);
+		socket.send(packet);
 	}
 
 	public void stop(){

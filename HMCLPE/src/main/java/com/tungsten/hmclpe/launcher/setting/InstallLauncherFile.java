@@ -48,6 +48,13 @@ public class InstallLauncherFile {
             AssetsUtils.getInstance(activity).copyOnMainThread("plugin/installer",AppManifest.PLUGIN_DIR + "/installer").setProgressCallback(progressCallback);
         }
         /*
+         *检查TouchInjector.jar
+         */
+        if (!new File(AppManifest.PLUGIN_DIR + "/touch").exists() || !new File(AppManifest.PLUGIN_DIR + "/touch/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.PLUGIN_DIR + "/touch/version"))) < Integer.parseInt(Objects.requireNonNull(AssetsUtils.readAssetsTxt(activity, "plugin/touch/version")))) {
+            FileUtils.deleteDirectory(AppManifest.PLUGIN_DIR + "/touch");
+            AssetsUtils.getInstance(activity).copyOnMainThread("plugin/touch",AppManifest.PLUGIN_DIR + "/touch").setProgressCallback(progressCallback);
+        }
+        /*
          *检查authlib-injector.jar
          */
         if (!new File(AppManifest.PLUGIN_DIR + "/login/authlib-injector").exists() || !new File(AppManifest.PLUGIN_DIR + "/login/authlib-injector/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.PLUGIN_DIR + "/login/authlib-injector/version"))) < Integer.parseInt(Objects.requireNonNull(AssetsUtils.readAssetsTxt(activity, "plugin/login/authlib-injector/version")))) {
