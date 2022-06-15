@@ -5,6 +5,7 @@ import android.content.Context;
 import com.tungsten.hmclpe.launcher.launch.AccountPatch;
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
 import com.tungsten.hmclpe.launcher.launch.LaunchVersion;
+import com.tungsten.hmclpe.launcher.launch.TouchInjector;
 import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.utils.string.StringUtils;
 
@@ -71,7 +72,6 @@ public class BoatLauncher {
                     args.add(JVMArgs[i]);
                 }
             }
-            args.add("-javaagent:" + AppManifest.PLUGIN_DIR + "/touch/TouchInjector.jar=null");
             args.add("-Xms" + gameLaunchSetting.minRam + "M");
             args.add("-Xmx" + gameLaunchSetting.maxRam + "M");
             if (!gameLaunchSetting.extraJavaFlags.equals("")) {
@@ -95,7 +95,7 @@ public class BoatLauncher {
             }
             String[] extraMinecraftArgs = gameLaunchSetting.extraMinecraftFlags.split(" ");
             Collections.addAll(args, extraMinecraftArgs);
-            return args;
+            return TouchInjector.rebaseArguments(args);
         }
         catch (Exception e){
             e.printStackTrace();

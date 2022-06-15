@@ -9,6 +9,7 @@ import android.util.Log;
 import com.tungsten.hmclpe.launcher.launch.AccountPatch;
 import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
 import com.tungsten.hmclpe.launcher.launch.LaunchVersion;
+import com.tungsten.hmclpe.launcher.launch.TouchInjector;
 import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.manifest.info.AppInfo;
 import com.tungsten.hmclpe.utils.string.StringUtils;
@@ -89,7 +90,7 @@ public class PojavLauncher {
             }
             String[] extraMinecraftArgs = gameLaunchSetting.extraMinecraftFlags.split(" ");
             Collections.addAll(args, extraMinecraftArgs);
-            return args;
+            return TouchInjector.rebaseArguments(args);
         }
         catch (Exception e){
             e.printStackTrace();
