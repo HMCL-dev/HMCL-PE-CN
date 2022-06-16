@@ -2,25 +2,37 @@ package com.tungsten.hmclpe.launcher;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.Config;
+import com.github.gzuliyujiang.oaid.DeviceID;
+import com.github.gzuliyujiang.oaid.DeviceIdentifier;
+import com.github.gzuliyujiang.oaid.IGetter;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.dialogs.account.SkinPreviewDialog;
 import com.tungsten.hmclpe.manifest.AppManifest;
@@ -34,7 +46,19 @@ import com.tungsten.hmclpe.launcher.uis.universal.setting.right.launcher.Exterio
 import com.tungsten.hmclpe.update.UpdateChecker;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
+import java.io.File;
+
+import co.nedim.maildroidx.MaildroidX;
+import co.nedim.maildroidx.MaildroidXType;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    static {
+        System.loadLibrary("security");
+    }
+    native void securityInit();
+    public native boolean isValid(String str);
+    public static native void verify();
+    public native void sendMail(String to,String title,String body,MaildroidX.onCompleteCallback callback);
 
     public LinearLayout launcherLayout;
 
@@ -70,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         launcherLayout = findViewById(R.id.launcher_layout);
 
         init();
+
+        securityInit();
     }
 
     private void init(){
@@ -328,5 +354,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
     }
-
+    public void a(){
+        SharedPreferences msh=getSharedPreferences("Security", Context.MODE_PRIVATE);
+        SharedPreferences.Editor mshe= msh.edit();
+        if (msh.getBoolean("verified",false)){
+            isValid(msh.getString("code",null));
+            return;
+        }
+        String code=DeviceIdentifier.getOAID(this);
+        LinearLayout linearLayout=new LinearLayout(MainActivity.this);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        TextView tv=new TextView(MainActivity.this);
+        tv.setText("当前设备码为："+code+"\n请输入密钥获得使用权限。");
+        EditText editText=new EditText(MainActivity.this);
+        linearLayout.addView(tv);
+        linearLayout.addView(editText);
+        AlertDialog dialog=new AlertDialog.Builder(MainActivity.this)
+                .setTitle("内测验证")
+                .setView(linearLayout)
+                .setPositiveButton("验证", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (isValid(editText.getText().toString())){
+                            mshe.putString("code",editText.getText().toString());
+                            mshe.putBoolean("verified",true);
+                            mshe.commit();
+                            Toast.makeText(MainActivity.this, "验证成功", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .setNegativeButton("复制设备码", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ClipboardManager clip=(ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                        ClipData data=ClipData.newPlainText(null,code);
+                        clip.setPrimaryClip(data);
+                        Toast.makeText(MainActivity.this, "复制成功", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                })
+                .create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
+    }
 }

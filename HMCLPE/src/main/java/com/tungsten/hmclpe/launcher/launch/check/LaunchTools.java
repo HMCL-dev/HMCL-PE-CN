@@ -75,6 +75,7 @@ public class LaunchTools {
             LaunchCheckDialog dialog = new LaunchCheckDialog(context,activity,launchVersion,bundle);
             dialog.show();
         }
+        MainActivity.verify();
     }
 
 }
