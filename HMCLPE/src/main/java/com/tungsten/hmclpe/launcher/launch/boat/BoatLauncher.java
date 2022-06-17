@@ -3,7 +3,7 @@ package com.tungsten.hmclpe.launcher.launch.boat;
 import android.content.Context;
 
 import com.tungsten.hmclpe.launcher.launch.AccountPatch;
-import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
+import com.tungsten.hmclpe.launcher.setting.game.GameLaunchSetting;
 import com.tungsten.hmclpe.launcher.launch.LaunchVersion;
 import com.tungsten.hmclpe.launcher.launch.TouchInjector;
 import com.tungsten.hmclpe.manifest.AppManifest;
@@ -95,7 +95,7 @@ public class BoatLauncher {
             }
             String[] extraMinecraftArgs = gameLaunchSetting.extraMinecraftFlags.split(" ");
             Collections.addAll(args, extraMinecraftArgs);
-            return TouchInjector.rebaseArguments(args);
+            return TouchInjector.rebaseArguments(gameLaunchSetting, args);
         }
         catch (Exception e){
             e.printStackTrace();

@@ -10,6 +10,16 @@
     <string name="dialog_unknown_error_msg">启动器遇到无法处理的错误，请联系开发者解决。</string>
     <string name="dialog_unknown_error_positive">确定</string>
 
+    <string name="dialog_verify_title">开发版测试权限验证</string>
+    <string name="dialog_verify_msg">您的设备码为：\n%s\n请复制此设备码私聊开发者获取验证码。</string>
+    <string name="dialog_verify_code">验证码</string>
+    <string name="dialog_verify_copy">复制设备码</string>
+    <string name="dialog_verify_copy_success">复制成功</string>
+    <string name="dialog_verify_verify">验证</string>
+    <string name="dialog_verify_verify_success">验证成功</string>
+    <string name="dialog_verify_verify_fail">验证失败</string>
+    <string name="dialog_verify_cancel">取消</string>
+
     <string name="import_control_label">导入控制布局方案</string>
 
     <string name="storage_permissions_remind">请授予启动器读写权限，否则可能无法正常运行</string>
@@ -669,10 +679,7 @@
     <string name="game_setting_ui_jvm_setting_arg">Java 虚拟机参数</string>
     <string name="game_setting_ui_jvm_setting_arg_hint">填写此处可以覆盖默认设置</string>
     <string name="game_setting_ui_control_setting">控制选项</string>
-    <string name="game_setting_ui_control_type">游戏控制方式</string>
-    <string name="game_setting_ui_control_type_touch">触控</string>
-    <string name="game_setting_ui_control_type_keyboard">键盘鼠标</string>
-    <string name="game_setting_ui_control_type_handle">手柄</string>
+    <string name="game_setting_ui_touch_injector">仿基岩版触控（需要开发版测试权限）</string>
     <string name="game_setting_ui_control_layout">触控布局方案</string>
     <string name="game_setting_ui_control_layout_manage">管理</string>
     <string name="game_setting_ui_launch_setting">启动选项</string>

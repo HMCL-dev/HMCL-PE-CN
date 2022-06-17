@@ -27,6 +27,7 @@
         tools:ignore="HighSamplingRate" />
 
     <application
+        android:name=".launcher.HMCLPEApplication"
         android:allowBackup="true"
         android:requestLegacyExternalStorage="true"
         android:preserveLegacyExternalStorage="true"

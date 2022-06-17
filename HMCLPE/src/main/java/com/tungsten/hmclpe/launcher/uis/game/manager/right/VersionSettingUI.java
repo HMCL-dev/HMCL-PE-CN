@@ -32,6 +32,7 @@ import com.tungsten.filepicker.FolderChooser;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.ControlPatternActivity;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.VerifyInterface;
 import com.tungsten.hmclpe.launcher.dialogs.control.ControllerManagerDialog;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
 import com.tungsten.hmclpe.manifest.AppManifest;
@@ -140,6 +141,8 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
     private TextView currentControlPattern;
     private ControllerManagerDialog controllerManagerDialog;
 
+    private SwitchCompat checkTouchInjector;
+
     public VersionSettingUI(Context context, MainActivity activity) {
         super(context, activity);
     }
@@ -227,6 +230,8 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
         manageController.setOnClickListener(this);
         currentControlPattern = activity.findViewById(R.id.control_layout_isolate);
 
+        checkTouchInjector = activity.findViewById(R.id.switch_touch_injector_isolate);
+
         editServer = activity.findViewById(R.id.edit_mc_server_isolate);
         editServer.addTextChangedListener(new TextWatcher() {
             @Override
@@ -296,6 +301,8 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
         checkJavaAuto.setOnClickListener(this);
         checkJava8.setOnClickListener(this);
         checkJava17.setOnClickListener(this);
+
+        checkTouchInjector.setOnCheckedChangeListener(this);
 
         checkGameDirDefault.setOnClickListener(this);
         checkGameDirIsolate.setOnClickListener(this);
@@ -545,6 +552,7 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
         notCheckGameFile.setChecked(setting.notCheckMinecraft);
         notCheckForge.setChecked(setting.notCheckForge);
         notCheckJVM.setChecked(setting.notCheckJvm);
+        checkTouchInjector.setChecked(setting.touchInjector);
         editGameDir.setText(setting.gameDirSetting.path);
         editServer.setText(setting.server);
         editJVMArgs.setText(setting.extraJavaFlags);
@@ -840,6 +848,25 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
             }
             if (compoundButton == notCheckJVM && privateGameSetting != null){
                 privateGameSetting.notCheckJvm = b;
+            }
+            if (compoundButton == checkTouchInjector && privateGameSetting != null) {
+                if (b) {
+                    activity.startVerify(new VerifyInterface() {
+                        @Override
+                        public void onSuccess() {
+                            privateGameSetting.touchInjector = true;
+                            GsonUtils.savePrivateGameSetting(privateGameSetting, activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/hmclpe.cfg");
+                        }
+
+                        @Override
+                        public void onCancel() {
+                            checkTouchInjector.setChecked(false);
+                        }
+                    });
+                }
+                else {
+                    privateGameSetting.touchInjector = false;
+                }
             }
             GsonUtils.savePrivateGameSetting(privateGameSetting, activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/hmclpe.cfg");
         }

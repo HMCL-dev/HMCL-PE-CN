@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -234,7 +233,7 @@ public class LaunchCheckDialog extends Dialog implements View.OnClickListener, H
                     }
                     intent.putExtras(bundle);
                     dismiss();
-                    activity.startActivity(intent);
+                    activity.launch(intent);
                 }
             });
             launchTask.execute(activity.publicGameSetting.account);

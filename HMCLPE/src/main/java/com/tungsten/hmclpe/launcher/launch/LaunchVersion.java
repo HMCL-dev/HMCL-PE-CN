@@ -4,6 +4,7 @@ import android.util.ArrayMap;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.tungsten.hmclpe.launcher.setting.game.GameLaunchSetting;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -156,7 +157,7 @@ public class LaunchVersion {
         int count = 0;
         String libraries_path = gameFileDir + "/libraries/";
         for (Library lib : this.libraries) {
-            if (lib.name == null || lib.name.equals("") || (isJava17 && (lib.name.contains("java-objc-bridge") || lib.name.contains("lwjgl")))) {
+            if (lib.name == null || lib.name.equals("") || lib.name.contains("org.lwjgl") || (isJava17 && lib.name.contains("java-objc-bridge"))) {
                 continue;
             }
             Log.e("boat",lib.name);

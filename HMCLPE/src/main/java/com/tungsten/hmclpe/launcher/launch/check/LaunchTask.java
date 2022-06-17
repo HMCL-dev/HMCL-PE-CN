@@ -1,19 +1,11 @@
 package com.tungsten.hmclpe.launcher.launch.check;
 
 import android.os.AsyncTask;
-import android.util.DisplayMetrics;
 
 import com.tungsten.hmclpe.auth.Account;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.launch.AccountPatch;
-import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
-import com.tungsten.hmclpe.launcher.launch.boat.BoatLauncher;
-import com.tungsten.hmclpe.launcher.launch.pojav.PojavLauncher;
-import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
-import com.tungsten.hmclpe.manifest.AppManifest;
-import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
-import java.io.File;
 import java.util.Collections;
 import java.util.Vector;
 

@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.launcher.launch;
+package com.tungsten.hmclpe.launcher.setting.game;
 
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.auth.Account;
@@ -6,9 +6,8 @@ import com.tungsten.hmclpe.launcher.game.Argument;
 import com.tungsten.hmclpe.launcher.game.Artifact;
 import com.tungsten.hmclpe.launcher.game.RuledArgument;
 import com.tungsten.hmclpe.launcher.game.Version;
+import com.tungsten.hmclpe.launcher.launch.LaunchVersion;
 import com.tungsten.hmclpe.manifest.AppManifest;
-import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
-import com.tungsten.hmclpe.launcher.setting.game.PublicGameSetting;
 import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
@@ -29,6 +28,7 @@ public class GameLaunchSetting {
     public String game_directory;
     public String boatRenderer;
     public String pojavRenderer;
+    public boolean touchInjector;
     public float scaleFactor;
     public int minRam;
     public int maxRam;
@@ -39,7 +39,7 @@ public class GameLaunchSetting {
 
     public String gameFileDirectory;
 
-    public GameLaunchSetting(Account account,String home,String currentVersion,String javaPath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,String boatRenderer,String pojavRenderer,float scaleFactor,String gameFileDirectory,int minRam,int maxRam,String controlLayout,String server,boolean fullscreen,boolean log){
+    public GameLaunchSetting(Account account,String home,String currentVersion,String javaPath,String extraJavaFlags,String extraMinecraftFlags,String game_directory,String boatRenderer,String pojavRenderer,boolean touchInjector,float scaleFactor,String gameFileDirectory,int minRam,int maxRam,String controlLayout,String server,boolean fullscreen,boolean log){
         this.account = account;
         this.home = home;
         this.currentVersion = currentVersion;
@@ -50,6 +50,7 @@ public class GameLaunchSetting {
         this.game_directory = game_directory;
         this.boatRenderer = boatRenderer;
         this.pojavRenderer = pojavRenderer;
+        this.touchInjector = touchInjector;
         this.scaleFactor = scaleFactor;
         this.minRam = minRam;
         this.maxRam = maxRam;
@@ -112,6 +113,7 @@ public class GameLaunchSetting {
                 gameDir,
                 privateGameSetting.boatLauncherSetting.renderer,
                 privateGameSetting.pojavLauncherSetting.renderer,
+                privateGameSetting.touchInjector,
                 privateGameSetting.scaleFactor,
                 launcherSetting.gameFileDirectory,
                 privateGameSetting.ramSetting.minRam,

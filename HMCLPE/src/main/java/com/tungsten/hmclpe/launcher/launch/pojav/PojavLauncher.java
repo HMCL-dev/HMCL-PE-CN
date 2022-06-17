@@ -1,13 +1,13 @@
 package com.tungsten.hmclpe.launcher.launch.pojav;
 
-import static com.tungsten.hmclpe.launcher.launch.GameLaunchSetting.isHighVersion;
+import static com.tungsten.hmclpe.launcher.setting.game.GameLaunchSetting.isHighVersion;
 
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
 import com.tungsten.hmclpe.launcher.launch.AccountPatch;
-import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
+import com.tungsten.hmclpe.launcher.setting.game.GameLaunchSetting;
 import com.tungsten.hmclpe.launcher.launch.LaunchVersion;
 import com.tungsten.hmclpe.launcher.launch.TouchInjector;
 import com.tungsten.hmclpe.manifest.AppManifest;
@@ -90,7 +90,7 @@ public class PojavLauncher {
             }
             String[] extraMinecraftArgs = gameLaunchSetting.extraMinecraftFlags.split(" ");
             Collections.addAll(args, extraMinecraftArgs);
-            return TouchInjector.rebaseArguments(args);
+            return TouchInjector.rebaseArguments(gameLaunchSetting, args);
         }
         catch (Exception e){
             e.printStackTrace();

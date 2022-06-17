@@ -74,7 +74,7 @@ public class CheckJavaTask extends AsyncTask<Object,Integer,Exception> {
             Version version = gson.fromJson(versionJson, Version.class);
             expectedJava = version.getMinimumLauncherVersion() < 9 ? 8 : (version.getJavaVersion() == null ? 8 : version.getJavaVersion().getMajorVersion());
             if (version.getJavaVersion() == null){
-                expectedJava=privateGameSetting.javaSetting.name.equals("default") ? 8 : 17;
+                expectedJava = privateGameSetting.javaSetting.name.equals("default") ? 8 : 17;
             }
             if (privateGameSetting.javaSetting.autoSelect) {
                 if (version.getJavaVersion() == null || version.getJavaVersion().getMajorVersion() == 8){

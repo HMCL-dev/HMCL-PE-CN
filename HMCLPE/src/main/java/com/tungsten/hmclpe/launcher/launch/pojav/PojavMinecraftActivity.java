@@ -15,7 +15,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.control.view.LayoutPanel;
-import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
+import com.tungsten.hmclpe.launcher.setting.game.GameLaunchSetting;
 
 import net.kdt.pojavlaunch.BaseMainActivity;
 import net.kdt.pojavlaunch.keyboard.LWJGLGLFWKeycode;

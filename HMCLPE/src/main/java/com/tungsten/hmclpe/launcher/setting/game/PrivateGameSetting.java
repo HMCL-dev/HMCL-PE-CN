@@ -18,6 +18,7 @@ public class PrivateGameSetting implements Cloneable{
     public boolean notCheckJvm;
     public boolean notCheckMinecraft;
     public boolean notCheckForge;
+    public boolean touchInjector;
     public JavaSetting javaSetting;
     public String extraJavaFlags;
     public String extraMinecraftFlags;
@@ -29,13 +30,14 @@ public class PrivateGameSetting implements Cloneable{
     public String controlLayout;
     public float scaleFactor;
 
-    public PrivateGameSetting (boolean forceEnable,boolean enable,boolean log,boolean notCheckJvm,boolean notCheckMinecraft,boolean notCheckForge,JavaSetting javaSetting,String extraJavaFlags,String extraMinecraftFlags,String server,GameDirSetting gameDirSetting,BoatLauncherSetting boatLauncherSetting,PojavLauncherSetting pojavLauncherSetting,RamSetting ramSetting,String controlLayout,float scaleFactor){
+    public PrivateGameSetting (boolean forceEnable,boolean enable,boolean log,boolean notCheckJvm,boolean notCheckMinecraft,boolean notCheckForge,boolean touchInjector,JavaSetting javaSetting,String extraJavaFlags,String extraMinecraftFlags,String server,GameDirSetting gameDirSetting,BoatLauncherSetting boatLauncherSetting,PojavLauncherSetting pojavLauncherSetting,RamSetting ramSetting,String controlLayout,float scaleFactor){
         this.forceEnable = forceEnable;
         this.enable = enable;
         this.log = log;
         this.notCheckJvm = notCheckJvm;
         this.notCheckMinecraft = notCheckMinecraft;
         this.notCheckForge = notCheckForge;
+        this.touchInjector = touchInjector;
         this.javaSetting = javaSetting;
         this.extraJavaFlags = extraJavaFlags;
         this.extraMinecraftFlags = extraMinecraftFlags;

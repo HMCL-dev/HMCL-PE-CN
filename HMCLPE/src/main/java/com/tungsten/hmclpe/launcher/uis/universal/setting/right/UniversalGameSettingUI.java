@@ -28,6 +28,7 @@ import com.tungsten.filepicker.FolderChooser;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.ControlPatternActivity;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.VerifyInterface;
 import com.tungsten.hmclpe.launcher.dialogs.control.ControllerManagerDialog;
 import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
@@ -121,6 +122,8 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
     private TextView currentControlPattern;
     private ControllerManagerDialog controllerManagerDialog;
 
+    private SwitchCompat checkTouchInjector;
+
     public UniversalGameSettingUI(Context context, MainActivity activity) {
         super(context, activity);
     }
@@ -205,6 +208,8 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         manageController.setOnClickListener(this);
         currentControlPattern = activity.findViewById(R.id.control_layout);
 
+        checkTouchInjector = activity.findViewById(R.id.switch_touch_injector);
+
         editServer = activity.findViewById(R.id.edit_mc_server);
         editServer.addTextChangedListener(new TextWatcher() {
             @Override
@@ -248,6 +253,8 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         notCheckGameFile.setOnCheckedChangeListener(this);
         notCheckForge.setOnCheckedChangeListener(this);
         notCheckJVM.setOnCheckedChangeListener(this);
+
+        checkTouchInjector.setOnCheckedChangeListener(this);
 
         showJavaSetting.setOnClickListener(this);
         showJava.setOnClickListener(this);
@@ -443,6 +450,25 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         if (buttonView == notCheckJVM){
             activity.privateGameSetting.notCheckJvm = isChecked;
         }
+        if (buttonView == checkTouchInjector) {
+            if (isChecked) {
+                activity.startVerify(new VerifyInterface() {
+                    @Override
+                    public void onSuccess() {
+                        activity.privateGameSetting.touchInjector = true;
+                        GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        checkTouchInjector.setChecked(false);
+                    }
+                });
+            }
+            else {
+                activity.privateGameSetting.touchInjector = false;
+            }
+        }
         GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
     }
 
@@ -473,6 +499,7 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         notCheckGameFile.setChecked(activity.privateGameSetting.notCheckMinecraft);
         notCheckForge.setChecked(activity.privateGameSetting.notCheckForge);
         notCheckJVM.setChecked(activity.privateGameSetting.notCheckJvm);
+        checkTouchInjector.setChecked(activity.privateGameSetting.touchInjector);
         editGameDir.setText(activity.privateGameSetting.gameDirSetting.path);
         editServer.setText(activity.privateGameSetting.server);
         editJVMArgs.setText(activity.privateGameSetting.extraJavaFlags);
