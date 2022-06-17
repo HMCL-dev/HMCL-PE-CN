@@ -72,7 +72,10 @@ public class CheckJavaTask extends AsyncTask<Object,Integer,Exception> {
                     .registerTypeAdapter(Argument.class, new Argument.Deserializer())
                     .create();
             Version version = gson.fromJson(versionJson, Version.class);
-            expectedJava = version.getMinimumLauncherVersion() < 9 ? 8 : version.getJavaVersion().getMajorVersion();
+            expectedJava = version.getMinimumLauncherVersion() < 9 ? 8 : (version.getJavaVersion()==null?8:version.getJavaVersion().getMajorVersion());
+            if (version.getJavaVersion()==null){
+                expectedJava=privateGameSetting.javaSetting.name.equals("default") ? 8 : 17;
+            }
             if (privateGameSetting.javaSetting.autoSelect){
                 if (version.getJavaVersion() == null || version.getJavaVersion().getMajorVersion() == 8){
                     java = 8;
@@ -88,7 +91,7 @@ public class CheckJavaTask extends AsyncTask<Object,Integer,Exception> {
                 return null;
             }
             else {
-                return new Exception(activity.getString(R.string.launch_check_dialog_exception_error_java));
+                return new Exception(activity.getString(R.string.launch_check_dialog_exception_error_java)+"--java"+java);
             }
         }
         catch (Exception e) {
