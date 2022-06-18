@@ -220,6 +220,61 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
+                        android:background="@drawable/ic_cosine"
+                        android:layout_gravity="center"/>
+
+                    <LinearLayout
+                        android:layout_gravity="center"
+                        android:layout_marginStart="15dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:text="@string/ui_about_cosine_main"
+                            android:textSize="14sp"
+                            android:textColor="@color/colorPureBlack" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:text="@string/ui_about_cosine_sub"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:layout_gravity="center"
+                        android:layout_marginStart="15dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_jump_black"
+                        android:id="@+id/cosine_link"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/colorDarkGray"/>
+
+                <LinearLayout
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:background="@drawable/ic_saltfish"
                         android:layout_gravity="center"/>
 
@@ -310,116 +365,6 @@
                         android:layout_height="20dp"
                         android:background="@drawable/ic_baseline_jump_black"
                         android:id="@+id/hmcl_link"/>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/colorDarkGray"/>
-
-                <LinearLayout
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/ic_yushijinhun"
-                        android:layout_gravity="center"/>
-
-                    <LinearLayout
-                        android:layout_gravity="center"
-                        android:layout_marginStart="15dp"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="@string/ui_about_yushijinhun_main"
-                            android:textSize="14sp"
-                            android:textColor="@color/colorPureBlack" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="@string/ui_about_yushijinhun_sub"
-                            android:textSize="12sp" />
-
-                    </LinearLayout>
-
-                    <ImageButton
-                        android:layout_gravity="center"
-                        android:layout_marginStart="15dp"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:background="@drawable/ic_baseline_jump_black"
-                        android:id="@+id/yushijinhun_link"/>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/colorDarkGray"/>
-
-                <LinearLayout
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/ic_nide"
-                        android:layout_gravity="center"/>
-
-                    <LinearLayout
-                        android:layout_gravity="center"
-                        android:layout_marginStart="15dp"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="@string/ui_about_nide_main"
-                            android:textSize="14sp"
-                            android:textColor="@color/colorPureBlack" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:text="@string/ui_about_nide_sub"
-                            android:textSize="12sp" />
-
-                    </LinearLayout>
-
-                    <ImageButton
-                        android:layout_gravity="center"
-                        android:layout_marginStart="15dp"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:background="@drawable/ic_baseline_jump_black"
-                        android:id="@+id/nide_link"/>
 
                 </LinearLayout>
 

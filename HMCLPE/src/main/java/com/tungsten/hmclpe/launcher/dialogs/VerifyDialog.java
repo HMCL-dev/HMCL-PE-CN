@@ -2,12 +2,14 @@ package com.tungsten.hmclpe.launcher.dialogs;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
+import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +33,7 @@ public class VerifyDialog extends Dialog implements View.OnClickListener {
 
     private TextView textView;
     private EditText editText;
+    private Button obtainPermission;
     private Button cancel;
     private Button copy;
     private Button verify;
@@ -50,11 +53,13 @@ public class VerifyDialog extends Dialog implements View.OnClickListener {
 
         textView = findViewById(R.id.oaid_text);
         editText = findViewById(R.id.edit_verify_code);
+        obtainPermission = findViewById(R.id.obtain_permission);
         cancel = findViewById(R.id.cancel);
         copy = findViewById(R.id.copy_oaid);
         verify = findViewById(R.id.verify);
 
         textView.setText(getContext().getString(R.string.dialog_verify_msg).replace("%s", code));
+        obtainPermission.setOnClickListener(this);
         cancel.setOnClickListener(this);
         copy.setOnClickListener(this);
         verify.setOnClickListener(this);
@@ -62,6 +67,18 @@ public class VerifyDialog extends Dialog implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        if (view == obtainPermission) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle(getContext().getString(R.string.dialog_obtain_permission_title));
+            builder.setMessage(getContext().getString(R.string.dialog_obtain_permission_msg));
+            builder.setPositiveButton(getContext().getString(R.string.dialog_obtain_permission_positive), (dialogInterface, i) -> {
+                Uri uri = Uri.parse("https://afdian.net/@tungs");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                getContext().startActivity(intent);
+            });
+            builder.setNegativeButton(getContext().getString(R.string.dialog_obtain_permission_negative), (dialogInterface, i) -> {});
+            builder.create().show();
+        }
         if (view == cancel) {
             verifyInterface.onCancel();
             dismiss();

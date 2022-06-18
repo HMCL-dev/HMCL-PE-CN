@@ -40,6 +40,16 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="@string/dialog_verify_donate"
+            android:textSize="15sp"
+            android:textColor="@color/colorLinkBlue"
+            android:background="@drawable/launcher_button_parent"
+            android:id="@+id/obtain_permission"/>
+
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
