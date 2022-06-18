@@ -7,6 +7,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,7 +46,7 @@ public class VerifyDialog extends Dialog implements View.OnClickListener {
     }
 
     private void init() {
-        code = DigestUtils.encryptToMD5(DigestUtils.getDeviceCode(getContext()));
+        code = DigestUtils.getDeviceCode(getContext());
 
         textView = findViewById(R.id.oaid_text);
         editText = findViewById(R.id.edit_verify_code);
