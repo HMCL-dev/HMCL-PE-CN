@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.github.gzuliyujiang.oaid.DeviceIdentifier;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.VerifyInterface;
@@ -46,7 +45,7 @@ public class VerifyDialog extends Dialog implements View.OnClickListener {
     }
 
     private void init() {
-        code = DigestUtils.encryptToMD5(DeviceIdentifier.getOAID(getContext()));
+        code = DigestUtils.encryptToMD5(DigestUtils.getDeviceCode(getContext()));
 
         textView = findViewById(R.id.oaid_text);
         editText = findViewById(R.id.edit_verify_code);
