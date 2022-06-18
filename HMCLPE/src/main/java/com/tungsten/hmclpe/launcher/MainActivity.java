@@ -37,6 +37,8 @@ import com.tungsten.hmclpe.launcher.uis.universal.setting.right.launcher.Exterio
 import com.tungsten.hmclpe.update.UpdateChecker;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
+import java.util.UUID;
+
 import co.nedim.maildroidx.MaildroidX;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -85,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         launcherLayout = findViewById(R.id.launcher_layout);
 
         securityInit();
-
+        
         init();
     }
 
