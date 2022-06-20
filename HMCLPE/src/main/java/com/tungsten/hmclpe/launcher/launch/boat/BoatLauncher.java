@@ -42,6 +42,16 @@ public class BoatLauncher {
             }
             Vector<String> args = new Vector<String>();
             args.add(javaPath + "/bin/java");
+            if(!javaPath.endsWith("JRE17")){
+                args.add("-Djava.awt.headless=false");
+                args.add("-Dcacio.managed.screensize="+width+"x"+height);
+                args.add("-Dcacio.font.fontmanager=sun.awt.X11FontManager");
+                args.add("-Dcacio.font.fontscaler=sun.font.FreetypeFontScaler");
+                args.add("-Dswing.defaultlaf=javax.swing.plaf.metal.MetalLookAndFeel");
+                args.add("-Dawt.toolkit=net.java.openjdk.cacio.ctc.CTCToolkit");
+                args.add("-Djava.awt.graphicsenv=net.java.openjdk.cacio.ctc.CTCGraphicsEnvironment");
+                args.add("-Xbootclasspath/p:"+AppManifest.CACIOCAVALLO_DIR+"/cacio-shared-1.10-SNAPSHOT.jar:"+AppManifest.CACIOCAVALLO_DIR+"/ResConfHack.jar:"+AppManifest.CACIOCAVALLO_DIR+"/cacio-androidnw-1.10-SNAPSHOT.jar");
+            }
             args.add("-cp");
             args.add(classPath);
             args.add("-Djava.library.path=" + libraryPath);

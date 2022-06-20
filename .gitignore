@@ -16,3 +16,4 @@ local.properties
 HMCLPE/release/HMCLPE-release.apk
 *.apk
 Boat/src/main/jni/security/security.cpp
+HMCLPE/release/HMCLPE-release.apk
