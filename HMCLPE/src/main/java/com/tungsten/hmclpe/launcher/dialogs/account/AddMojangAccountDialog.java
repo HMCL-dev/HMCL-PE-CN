@@ -26,7 +26,7 @@ import com.tungsten.hmclpe.auth.yggdrasil.Texture;
 import com.tungsten.hmclpe.auth.yggdrasil.TextureType;
 import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilService;
 import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilSession;
-import com.tungsten.hmclpe.skin.draw2d.Avatar;
+import com.tungsten.hmclpe.skin.utils.Avatar;
 
 import java.io.IOException;
 import java.io.InputStream;

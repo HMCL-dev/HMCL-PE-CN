@@ -34,6 +34,7 @@ public class DownloadFabricUI extends BaseUI implements View.OnClickListener {
     public LinearLayout downloadFabricUI;
 
     public String version;
+    public boolean install;
 
     private LinearLayout hintLayout;
 
@@ -81,52 +82,44 @@ public class DownloadFabricUI extends BaseUI implements View.OnClickListener {
     }
 
     private void init(){
-        new Thread(){
-            @Override
-            public void run() {
-                loadingHandler.sendEmptyMessage(0);
-                String loaderUrl;
-                String gameUrl;
-                if (DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource) == 0) {
-                    loaderUrl = OFFICIAL_LOADER_META_URL;
-                    gameUrl = OFFICIAL_GAME_META_URL;
+        new Thread(() -> {
+            loadingHandler.sendEmptyMessage(0);
+            String loaderUrl;
+            String gameUrl;
+            if (DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource) == 0) {
+                loaderUrl = OFFICIAL_LOADER_META_URL;
+                gameUrl = OFFICIAL_GAME_META_URL;
+            }
+            else {
+                loaderUrl = BMCLAPI_LOADER_META_URL;
+                gameUrl = BMCLAPI_GAME_META_URL;
+            }
+            ArrayList<FabricGameVersion> gameVersions = new ArrayList<>();
+            ArrayList<FabricLoaderVersion> loaderVersions = new ArrayList<>();
+            try {
+                String gameResponse = NetworkUtils.doGet(NetworkUtils.toURL(gameUrl));
+                Gson gson = new Gson();
+                FabricGameVersion[] fabricGameVersions = gson.fromJson(gameResponse, FabricGameVersion[].class);
+                gameVersions.addAll(Arrays.asList(fabricGameVersions));
+                ArrayList<String> mcVersions = new ArrayList<>();
+                for (FabricGameVersion version : gameVersions){
+                    mcVersions.add(version.version);
+                }
+                String loaderResponse = NetworkUtils.doGet(NetworkUtils.toURL(loaderUrl));
+                FabricLoaderVersion[] fabricLoaderVersions = gson.fromJson(loaderResponse, FabricLoaderVersion[].class);
+                loaderVersions.addAll(Arrays.asList(fabricLoaderVersions));
+                if (!mcVersions.contains(version)){
+                    loadingHandler.sendEmptyMessage(2);
                 }
                 else {
-                    loaderUrl = BMCLAPI_LOADER_META_URL;
-                    gameUrl = BMCLAPI_GAME_META_URL;
+                    DownloadFabricListAdapter downloadFabricListAdapter = new DownloadFabricListAdapter(context,activity,version,loaderVersions,install);
+                    activity.runOnUiThread(() -> fabricListView.setAdapter(downloadFabricListAdapter));
+                    loadingHandler.sendEmptyMessage(1);
                 }
-                ArrayList<FabricGameVersion> gameVersions = new ArrayList<>();
-                ArrayList<FabricLoaderVersion> loaderVersions = new ArrayList<>();
-                try {
-                    String gameResponse = NetworkUtils.doGet(NetworkUtils.toURL(gameUrl));
-                    Gson gson = new Gson();
-                    FabricGameVersion[] fabricGameVersions = gson.fromJson(gameResponse, FabricGameVersion[].class);
-                    gameVersions.addAll(Arrays.asList(fabricGameVersions));
-                    ArrayList<String> mcVersions = new ArrayList<>();
-                    for (FabricGameVersion version : gameVersions){
-                        mcVersions.add(version.version);
-                    }
-                    String loaderResponse = NetworkUtils.doGet(NetworkUtils.toURL(loaderUrl));
-                    FabricLoaderVersion[] fabricLoaderVersions = gson.fromJson(loaderResponse, FabricLoaderVersion[].class);
-                    loaderVersions.addAll(Arrays.asList(fabricLoaderVersions));
-                    if (!mcVersions.contains(version)){
-                        loadingHandler.sendEmptyMessage(2);
-                    }
-                    else {
-                        DownloadFabricListAdapter downloadFabricListAdapter = new DownloadFabricListAdapter(context,activity,version,loaderVersions);
-                        activity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                fabricListView.setAdapter(downloadFabricListAdapter);
-                            }
-                        });
-                        loadingHandler.sendEmptyMessage(1);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }.start();
+        }).start();
     }
 
     @Override

@@ -28,14 +28,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.afollestad.appthemeengine.ATE;
-import com.afollestad.appthemeengine.Config;
 import com.tungsten.filepicker.Constants;
 import com.tungsten.filepicker.FileChooser;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.tools.ColorSelectorDialog;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.file.UriUtils;
@@ -123,33 +121,20 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
             editBgPath.setEnabled(false);
             editBgUrl.setEnabled(true);
             selectBgPath.setEnabled(false);
-            new Thread(){
-                @Override
-                public void run() {
-                    try {
-                        URL url = new URL(activity.launcherSetting.launcherBackground.url);
-                        HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                        httpURLConnection.setDoInput(true);
-                        httpURLConnection.connect();
-                        InputStream inputStream = httpURLConnection.getInputStream();
-                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                activity.launcherLayout.setBackground(new BitmapDrawable(bitmap));
-                            }
-                        });
-                    } catch (IOException e) {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                activity.launcherLayout.setBackground(context.getDrawable(R.drawable.ic_background));
-                            }
-                        });
-                        e.printStackTrace();
-                    }
+            new Thread(() -> {
+                try {
+                    URL url = new URL(activity.launcherSetting.launcherBackground.url);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                    httpURLConnection.setDoInput(true);
+                    httpURLConnection.connect();
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    handler.post(() -> activity.launcherLayout.setBackground(new BitmapDrawable(bitmap)));
+                } catch (IOException e) {
+                    handler.post(() -> activity.launcherLayout.setBackground(context.getDrawable(R.drawable.ic_background)));
+                    e.printStackTrace();
                 }
-            }.start();
+            }).start();
         }
         editBgPath.setText(activity.launcherSetting.launcherBackground.path);
         editBgUrl.setText(activity.launcherSetting.launcherBackground.url);
@@ -202,33 +187,25 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
             public void afterTextChanged(Editable editable) {
                 activity.launcherSetting.launcherBackground.url = editBgUrl.getText().toString();
                 GsonUtils.saveLauncherSetting(activity.launcherSetting,AppManifest.SETTING_DIR + "/launcher_setting.json");
-                new Thread(){
-                    @Override
-                    public void run() {
-                        try {
-                            URL url = new URL(editBgUrl.getText().toString());
-                            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                            httpURLConnection.setDoInput(true);
-                            httpURLConnection.connect();
-                            InputStream inputStream = httpURLConnection.getInputStream();
-                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    activity.launcherLayout.setBackground(new BitmapDrawable(bitmap));
-                                }
-                            });
-                        } catch (IOException e) {
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    activity.launcherLayout.setBackground(context.getDrawable(R.drawable.ic_background));
-                                }
-                            });
-                            e.printStackTrace();
-                        }
+                new Thread(() -> {
+                    try {
+                        URL url = new URL(editBgUrl.getText().toString());
+                        HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                        httpURLConnection.setDoInput(true);
+                        httpURLConnection.connect();
+                        InputStream inputStream = httpURLConnection.getInputStream();
+                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                activity.launcherLayout.setBackground(new BitmapDrawable(bitmap));
+                            }
+                        });
+                    } catch (IOException e) {
+                        handler.post(() -> activity.launcherLayout.setBackground(context.getDrawable(R.drawable.ic_background)));
+                        e.printStackTrace();
                     }
-                }.start();
+                }).start();
             }
         });
 
@@ -302,6 +279,7 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
                     activity.exteriorConfig.primaryColor(color);
                     activity.exteriorConfig.accentColor(color);
                     activity.exteriorConfig.apply(activity);
+                    activity.appBar.setBackgroundColor(activity.launcherSetting.transBar ? context.getResources().getColor(R.color.launcher_ui_background) : color);
                     colorView.setBackgroundColor(color);
                     colorText.setText("#" + Integer.toHexString(color));
                 }
@@ -314,6 +292,7 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
                     activity.exteriorConfig.primaryColor(destColor);
                     activity.exteriorConfig.accentColor(destColor);
                     activity.exteriorConfig.apply(activity);
+                    activity.appBar.setBackgroundColor(activity.launcherSetting.transBar ? context.getResources().getColor(R.color.launcher_ui_background) : destColor);
                     colorView.setBackgroundColor(destColor);
                     colorText.setText("#" + Integer.toHexString(destColor));
                 }
@@ -324,6 +303,7 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
                     activity.exteriorConfig.primaryColor(initColor);
                     activity.exteriorConfig.accentColor(initColor);
                     activity.exteriorConfig.apply(activity);
+                    activity.appBar.setBackgroundColor(activity.launcherSetting.transBar ? context.getResources().getColor(R.color.launcher_ui_background) : initColor);
                     colorView.setBackgroundColor(initColor);
                     colorText.setText("#" + Integer.toHexString(initColor));
                 }
@@ -410,33 +390,20 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
             selectBgPath.setEnabled(false);
             activity.launcherSetting.launcherBackground.type = 3;
             activity.launcherSetting.launcherBackground.path = editBgUrl.getText().toString();
-            new Thread(){
-                @Override
-                public void run() {
-                    try {
-                        URL url = new URL(editBgUrl.getText().toString());
-                        HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                        httpURLConnection.setDoInput(true);
-                        httpURLConnection.connect();
-                        InputStream inputStream = httpURLConnection.getInputStream();
-                        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                activity.launcherLayout.setBackground(new BitmapDrawable(bitmap));
-                            }
-                        });
-                    } catch (IOException e) {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                activity.launcherLayout.setBackground(context.getDrawable(R.drawable.ic_background));
-                            }
-                        });
-                        e.printStackTrace();
-                    }
+            new Thread(() -> {
+                try {
+                    URL url = new URL(editBgUrl.getText().toString());
+                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                    httpURLConnection.setDoInput(true);
+                    httpURLConnection.connect();
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    handler.post(() -> activity.launcherLayout.setBackground(new BitmapDrawable(bitmap)));
+                } catch (IOException e) {
+                    handler.post(() -> activity.launcherLayout.setBackground(context.getDrawable(R.drawable.ic_background)));
+                    e.printStackTrace();
                 }
-            }.start();
+            }).start();
         }
         GsonUtils.saveLauncherSetting(activity.launcherSetting,AppManifest.SETTING_DIR + "/launcher_setting.json");
     }

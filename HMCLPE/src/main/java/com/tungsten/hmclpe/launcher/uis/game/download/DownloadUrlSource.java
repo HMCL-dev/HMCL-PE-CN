@@ -71,6 +71,7 @@ public class DownloadUrlSource {
     static long mcbbs = 0;
 
     public static void getBalancedSource(Context context){
+        /*
         NetPingManager officialNetPingService = new NetPingManager(context, "www.minecraft.net", new NetPingManager.IOnNetPingListener() {
             @Override
             public void onDelay(NetPingManager netPingManager,long log) {
@@ -119,6 +120,8 @@ public class DownloadUrlSource {
         officialNetPingService.startGetDelay();
         bmclapiNetPingService.startGetDelay();
         mcbbsNetPingService.startGetDelay();
+
+         */
     }
 
     public static int getSource(SourceSetting sourceSetting) {
@@ -127,6 +130,7 @@ public class DownloadUrlSource {
                 return 0;
             }
             else if (sourceSetting.autoSourceType == 1) {
+                /*
                 long faster = Math.min(official,bmclapi);
                 long fastest = Math.min(faster,mcbbs);
                 if (official == bmclapi && official == 0 && mcbbs == 0) {
@@ -141,6 +145,9 @@ public class DownloadUrlSource {
                 else {
                     return 2;
                 }
+
+                 */
+                return 2;
             }
             else {
                 return 2;

@@ -127,8 +127,8 @@ public class FolderChooser extends AppCompatActivity implements OnFileChangedLis
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == APP_PERMISSION_REQUEST ) {
-            if (resultCode != Activity.RESULT_OK)
-                Toast.makeText(mContext,mContext.getString(R.string.permission_error),Toast.LENGTH_LONG).show();
+            //if (resultCode != Activity.RESULT_OK)
+                //Toast.makeText(mContext,mContext.getString(R.string.permission_error),Toast.LENGTH_LONG).show();
             loadUi();
         }
     }

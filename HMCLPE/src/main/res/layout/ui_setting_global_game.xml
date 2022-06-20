@@ -17,6 +17,111 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:padding="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/launcher_view_blue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_outline_about_black"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/game_setting_ui_skin_alert"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorLinkBlueDark"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/game_setting_ui_skin_alert_text"
+                    android:textSize="@dimen/text_size_middle"
+                    android:textColor="@color/colorLinkBlueDark"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/isolate_alert_layout"
+                android:layout_marginBottom="10dp"
+                android:padding="10dp"
+                android:background="@drawable/launcher_view_yellow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_outline_alert_black"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/game_setting_ui_alert"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorBrown"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/isolate_alert_text"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_middle"
+                    android:textColor="@color/colorBrown"/>
+
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_baseline_jump_black"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textColor="@color/colorLinkBlue"
+                        android:id="@+id/switch_to_isolate_setting"
+                        android:text="@string/game_setting_ui_alert_jump"
+                        android:layout_marginStart="7dp"
+                        android:textSize="@dimen/text_size_middle"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -48,16 +153,14 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
                             android:textColor="@color/colorPureBlack"
-                            android:text="@string/game_setting_ui_java_path"
-                            android:layout_weight="1"/>
+                            android:text="@string/game_setting_ui_java_path" />
 
                         <TextView
                             android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
-                            android:id="@+id/java_path_text"
-                            android:layout_weight="1"/>
+                            android:id="@+id/java_path_text" />
 
                     </LinearLayout>
                     
@@ -198,16 +301,14 @@
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
                             android:textColor="@color/colorPureBlack"
-                            android:text="@string/game_setting_ui_version_isolation"
-                            android:layout_weight="1"/>
+                            android:text="@string/game_setting_ui_version_isolation" />
 
                         <TextView
                             android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
-                            android:id="@+id/game_directory_text"
-                            android:layout_weight="1"/>
+                            android:id="@+id/game_directory_text" />
 
                     </LinearLayout>
 
@@ -328,14 +429,14 @@
                     android:textSize="@dimen/text_size_middle"
                     android:textColor="@color/colorPureBlack"
                     android:layout_marginTop="12dp"
-                    android:layout_marginLeft="15dp"/>
+                    android:layout_marginStart="15dp"/>
 
                 <CheckBox
                     android:tag="tint_accent_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
                     android:id="@+id/check_auto_ram"
                     android:text="@string/game_setting_ui_auto_ram"
                     android:textSize="@dimen/text_size_middle"
@@ -344,8 +445,8 @@
 
                 <LinearLayout
                     android:layout_marginTop="5dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -361,7 +462,7 @@
                     <SeekBar
                         android:tag="tint_accent_color"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -369,8 +470,9 @@
 
                     <EditText
                         android:layout_gravity="center"
-                        android:paddingLeft="8dp"
-                        android:layout_marginLeft="10dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:layout_marginStart="10dp"
                         android:layout_width="64dp"
                         android:layout_height="32dp"
                         android:background="@color/colorLightGray"
@@ -380,7 +482,7 @@
 
                     <TextView
                         android:layout_gravity="center"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/game_setting_ui_ram"
@@ -393,8 +495,8 @@
                     android:tag="tint_accent_color"
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="15dp"
                     android:layout_marginTop="12dp"
                     style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                     android:id="@+id/ram_progress_bar"/>
@@ -403,8 +505,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="15dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -548,7 +650,8 @@
                         android:textSize="@dimen/text_size_middle"
                         android:hint="@string/game_setting_ui_server_hint"
                         android:background="@color/colorLightGray"
-                        android:paddingLeft="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
                         android:id="@+id/edit_mc_server"/>
 
                 </LinearLayout>
@@ -568,9 +671,465 @@
                 android:layout_marginTop="25dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/game_setting_ui_control_setting"
+                android:textColor="@color/colorPureBlack"
+                android:textSize="@dimen/text_size_middle"/>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/launcher_view_light_gray"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/launcher_button_light_gray">
+
+                    <LinearLayout
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:weightSum="2"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:text="@string/game_setting_ui_control_layout" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_size_middle"
+                            android:id="@+id/control_layout" />
+
+                    </LinearLayout>
+
+                    <Button
+                        android:tag="text_primary_color"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/game_setting_ui_control_layout_manage"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorAccent"
+                        android:id="@+id/manage_control_layout"
+                        android:background="@drawable/launcher_setting_button"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/colorDarkGray"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game_setting_ui_touch_injector"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:tag="tint_accent_color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:id="@+id/switch_touch_injector"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/game_setting_ui_launch_setting"
+                android:textColor="@color/colorPureBlack"
+                android:textSize="@dimen/text_size_middle"/>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/launcher_view_light_gray"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/show_game_launcher_selector"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/launcher_button_light_gray">
+
+                    <LinearLayout
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:weightSum="2"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:text="@string/game_setting_ui_game_launcher" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/game_setting_ui_game_launcher_pojav"
+                            android:textSize="@dimen/text_size_middle"
+                            android:id="@+id/current_launcher" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/show_game_launcher"
+                        android:layout_gravity="center"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:background="@drawable/ic_baseline_keyboard_arrow_down_black" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/game_launcher_selector"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:tag="tint_accent_color"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game_setting_ui_game_launcher_boat"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:id="@+id/launch_by_boat"/>
+
+                    <RadioButton
+                        android:tag="tint_accent_color"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game_setting_ui_game_launcher_pojav"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:id="@+id/launch_by_pojav"/>
+
+                    <TextView
+                        android:layout_marginTop="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPureBlack"
+                        android:textSize="@dimen/text_size_middle"
+                        android:text="@string/game_setting_ui_game_launcher_hint"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/colorDarkGray"/>
+
+                <LinearLayout
+                    android:id="@+id/show_boat_render_selector"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/launcher_button_light_gray">
+
+                    <LinearLayout
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:weightSum="2"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:text="@string/game_setting_ui_boat_renderer" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_size_middle"
+                            android:id="@+id/current_boat_renderer" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/show_boat_renderer"
+                        android:layout_gravity="center"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:background="@drawable/ic_baseline_keyboard_arrow_down_black" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/boat_render_selector"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:tag="tint_accent_color"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game_setting_ui_boat_renderer_gl4es_114"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:id="@+id/boat_renderer_gl4es_114"/>
+
+                    <RadioButton
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game_setting_ui_boat_renderer_virgl"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:id="@+id/boat_renderer_virgl"/>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/colorDarkGray"/>
+
+                <LinearLayout
+                    android:id="@+id/show_pojav_render_selector"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/launcher_button_light_gray">
+
+                    <LinearLayout
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:weightSum="2"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_size_middle"
+                            android:textColor="@color/colorPureBlack"
+                            android:text="@string/game_setting_ui_pojav_renderer" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/game_setting_ui_pojav_renderer_gl4es_114"
+                            android:textSize="@dimen/text_size_middle"
+                            android:id="@+id/current_pojav_renderer" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/show_pojav_renderer"
+                        android:layout_gravity="center"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:background="@drawable/ic_baseline_keyboard_arrow_down_black" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/pojav_render_selector"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:tag="tint_accent_color"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game_setting_ui_pojav_renderer_gl4es_114"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:id="@+id/pojav_renderer_gl4es_114"/>
+
+                    <RadioButton
+                        android:tag="tint_accent_color"
+                        android:layout_marginStart="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game_setting_ui_pojav_renderer_virgl"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"
+                        android:id="@+id/pojav_renderer_virgl"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/game_setting_ui_jvm_setting"
+                android:textColor="@color/colorPureBlack"
+                android:textSize="@dimen/text_size_middle"/>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/launcher_view_light_gray"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/game_setting_ui_jvm_setting_arg"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorPureBlack"/>
+
+                    <EditText
+                        android:layout_marginStart="20dp"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:textSize="@dimen/text_size_middle"
+                        android:hint="@string/game_setting_ui_jvm_setting_arg_hint"
+                        android:background="@color/colorLightGray"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:id="@+id/edit_jvm_arg"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/game_setting_ui_debug_setting"
                 android:textColor="@color/colorPureBlack"
                 android:textSize="@dimen/text_size_middle"/>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:background="@drawable/launcher_view_yellow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_outline_alert_black"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/game_setting_ui_debug_setting_alert"
+                        android:textSize="@dimen/text_size_middle"
+                        android:textColor="@color/colorBrown"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/game_setting_ui_debug_setting_alert_text"
+                    android:textSize="@dimen/text_size_middle"
+                    android:textColor="@color/colorBrown"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_marginTop="10dp"
@@ -679,491 +1238,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:id="@+id/switch_check_runtime"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_marginTop="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/game_setting_ui_control_setting"
-                android:textColor="@color/colorPureBlack"
-                android:textSize="@dimen/text_size_middle"/>
-
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/launcher_view_light_gray"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/show_control_type_selector"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/launcher_button_light_gray">
-
-                    <LinearLayout
-                        android:layout_gravity="center"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:weightSum="2"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_middle"
-                            android:textColor="@color/colorPureBlack"
-                            android:text="@string/game_setting_ui_control_type"
-                            android:layout_weight="1"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_middle"
-                            android:id="@+id/control_type"
-                            android:layout_weight="1"/>
-
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/show_control_type"
-                        android:layout_gravity="center"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:background="@drawable/ic_baseline_keyboard_arrow_down_black" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/control_type_setting"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <RadioButton
-                        android:tag="tint_accent_color"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/game_setting_ui_control_type_touch"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:id="@+id/control_type_touch"/>
-
-                    <RadioButton
-                        android:tag="tint_accent_color"
-                        android:layout_marginStart="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/game_setting_ui_control_type_keyboard"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:id="@+id/control_type_keyboard"/>
-
-                    <RadioButton
-                        android:tag="tint_accent_color"
-                        android:layout_marginStart="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/game_setting_ui_control_type_handle"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:id="@+id/control_type_handle"/>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/colorDarkGray"/>
-
-                <LinearLayout
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/launcher_button_light_gray">
-
-                    <LinearLayout
-                        android:layout_gravity="center"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:weightSum="2"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_middle"
-                            android:textColor="@color/colorPureBlack"
-                            android:text="@string/game_setting_ui_control_layout"
-                            android:layout_weight="1"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_middle"
-                            android:id="@+id/control_layout"
-                            android:layout_weight="1"/>
-
-                    </LinearLayout>
-
-                    <Button
-                        android:tag="text_primary_color"
-                        android:layout_width="50dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="@string/game_setting_ui_control_layout_manage"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorAccent"
-                        android:id="@+id/manage_control_layout"
-                        android:background="@drawable/launcher_setting_button"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_marginTop="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/game_setting_ui_launch_setting"
-                android:textColor="@color/colorPureBlack"
-                android:textSize="@dimen/text_size_middle"/>
-
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/launcher_view_light_gray"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/show_game_launcher_selector"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/launcher_button_light_gray">
-
-                    <LinearLayout
-                        android:layout_gravity="center"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:weightSum="2"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_middle"
-                            android:textColor="@color/colorPureBlack"
-                            android:text="@string/game_setting_ui_game_launcher"
-                            android:layout_weight="1"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/game_setting_ui_game_launcher_pojav"
-                            android:textSize="@dimen/text_size_middle"
-                            android:id="@+id/current_launcher"
-                            android:layout_weight="1"/>
-
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/show_game_launcher"
-                        android:layout_gravity="center"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:background="@drawable/ic_baseline_keyboard_arrow_down_black" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/game_launcher_selector"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <RadioButton
-                        android:tag="tint_accent_color"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/game_setting_ui_game_launcher_boat"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:id="@+id/launch_by_boat"/>
-
-                    <RadioButton
-                        android:tag="tint_accent_color"
-                        android:layout_marginStart="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/game_setting_ui_game_launcher_pojav"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:id="@+id/launch_by_pojav"/>
-
-                    <TextView
-                        android:layout_marginTop="15dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorPureBlack"
-                        android:textSize="@dimen/text_size_middle"
-                        android:text="@string/game_setting_ui_game_launcher_hint"/>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/colorDarkGray"/>
-
-                <LinearLayout
-                    android:id="@+id/show_boat_render_selector"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/launcher_button_light_gray">
-
-                    <LinearLayout
-                        android:layout_gravity="center"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:weightSum="2"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_middle"
-                            android:textColor="@color/colorPureBlack"
-                            android:text="@string/game_setting_ui_boat_renderer"
-                            android:layout_weight="1"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/game_setting_ui_boat_renderer_gl4es_112"
-                            android:textSize="@dimen/text_size_middle"
-                            android:id="@+id/current_boat_renderer"
-                            android:layout_weight="1"/>
-
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/show_boat_renderer"
-                        android:layout_gravity="center"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:background="@drawable/ic_baseline_keyboard_arrow_down_black" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/boat_render_selector"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <RadioButton
-                        android:tag="tint_accent_color"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/game_setting_ui_boat_renderer_gl4es_112"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:id="@+id/boat_renderer_gl4es_112"/>
-
-                    <RadioButton
-                        android:layout_marginStart="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/game_setting_ui_boat_renderer_gl4es_114"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:id="@+id/boat_renderer_gl4es_114"/>
-
-                    <RadioButton
-                        android:tag="tint_accent_color"
-                        android:layout_marginStart="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/game_setting_ui_boat_renderer_gl4es_115"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:id="@+id/boat_renderer_gl4es_115"/>
-
-                    <RadioButton
-                        android:layout_marginStart="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/game_setting_ui_boat_renderer_vgpu"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:id="@+id/boat_renderer_vgpu"/>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/colorDarkGray"/>
-
-                <LinearLayout
-                    android:id="@+id/show_pojav_render_selector"
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/launcher_button_light_gray">
-
-                    <LinearLayout
-                        android:layout_gravity="center"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:weightSum="2"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_middle"
-                            android:textColor="@color/colorPureBlack"
-                            android:text="@string/game_setting_ui_pojav_renderer"
-                            android:layout_weight="1"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/game_setting_ui_pojav_renderer_gl4es_114"
-                            android:textSize="@dimen/text_size_middle"
-                            android:id="@+id/current_pojav_renderer"
-                            android:layout_weight="1"/>
-
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/show_pojav_renderer"
-                        android:layout_gravity="center"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:background="@drawable/ic_baseline_keyboard_arrow_down_black" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/pojav_render_selector"
-                    android:paddingBottom="12dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <RadioButton
-                        android:tag="tint_accent_color"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginStart="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/game_setting_ui_pojav_renderer_gl4es_114"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:id="@+id/pojav_renderer_gl4es_114"/>
-
-                    <RadioButton
-                        android:tag="tint_accent_color"
-                        android:layout_marginStart="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/game_setting_ui_pojav_renderer_gl4es_115"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:id="@+id/pojav_renderer_gl4es_115"/>
-
-                    <RadioButton
-                        android:tag="tint_accent_color"
-                        android:layout_marginStart="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/game_setting_ui_pojav_renderer_gl4es_115p"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:id="@+id/pojav_renderer_gl4es_115p"/>
-
-                    <RadioButton
-                        android:tag="tint_accent_color"
-                        android:layout_marginStart="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/game_setting_ui_pojav_renderer_vgpu"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:id="@+id/pojav_renderer_vgpu"/>
-
-                    <RadioButton
-                        android:tag="tint_accent_color"
-                        android:layout_marginStart="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/game_setting_ui_pojav_renderer_virgl"
-                        android:textSize="@dimen/text_size_middle"
-                        android:textColor="@color/colorPureBlack"
-                        android:id="@+id/pojav_renderer_virgl"/>
 
                 </LinearLayout>
 

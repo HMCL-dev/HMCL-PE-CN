@@ -19,7 +19,7 @@
             android:orientation="vertical"
             android:layout_weight="1">
 
-            <com.tungsten.hmclpe.launcher.view.listview.ContentListView
+            <com.tungsten.hmclpe.launcher.view.list.ContentListView
                 android:divider="@color/colorTransparent"
                 android:dividerHeight="0dp"
                 android:layout_marginTop="10dp"
@@ -178,6 +178,13 @@
         android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ProgressBar
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:id="@+id/loading_local_version_progress"/>
 
         <TextView
             android:clickable="true"

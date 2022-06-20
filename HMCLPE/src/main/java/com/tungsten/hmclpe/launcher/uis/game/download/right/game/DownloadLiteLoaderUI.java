@@ -29,7 +29,6 @@ import com.tungsten.hmclpe.utils.io.NetworkUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 
@@ -38,6 +37,7 @@ public class DownloadLiteLoaderUI extends BaseUI implements View.OnClickListener
     public LinearLayout downloadLiteLoaderUI;
 
     public String version;
+    public boolean install;
 
     private LinearLayout hintLayout;
 
@@ -81,48 +81,40 @@ public class DownloadLiteLoaderUI extends BaseUI implements View.OnClickListener
     }
 
     private void init(){
-        new Thread(){
-            @Override
-            public void run() {
-                loadingHandler.sendEmptyMessage(0);
-                ArrayList<LiteLoaderVersion> list = new ArrayList<>();
-                try {
-                    String response = NetworkUtils.doGet(NetworkUtils.toURL(LITELOADER_LIST));
-                    Gson gson = JsonUtils.defaultGsonBuilder()
-                            .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
-                            .create();
-                    LiteLoaderVersionsRoot liteLoaderVersionsRoot = gson.fromJson(response, LiteLoaderVersionsRoot.class);
-                    ArrayList<String> gameVersions = new ArrayList<>();
-                    for (Map.Entry<String, LiteLoaderGameVersions> entry : liteLoaderVersionsRoot.getVersions().entrySet()) {
-                        String gameVersion = entry.getKey();
-                        gameVersions.add(gameVersion);
-                    }
-                    if (!gameVersions.contains(version)){
-                        loadingHandler.sendEmptyMessage(2);
-                    }
-                    else {
-                        LiteLoaderGameVersions liteLoaderGameVersions = liteLoaderVersionsRoot.getVersions().get(version);
-                        Map<String, LiteLoaderVersion> liteLoader = liteLoaderGameVersions.getArtifacts() == null ? liteLoaderGameVersions.getSnapshots().getLiteLoader() : liteLoaderGameVersions.getArtifacts().getLiteLoader();
-                        for (Map.Entry<String, LiteLoaderVersion> loaderVersionEntry : liteLoader.entrySet()) {
-                            if (!loaderVersionEntry.getKey().equals("latest")){
-                                list.add(loaderVersionEntry.getValue());
-                            }
-                        }
-                        Collections.sort(list,new LiteLoaderCompareTool());
-                        DownloadLiteLoaderListAdapter downloadLiteLoaderListAdapter = new DownloadLiteLoaderListAdapter(context,activity,version,list);
-                        activity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                liteLoaderListView.setAdapter(downloadLiteLoaderListAdapter);
-                            }
-                        });
-                        loadingHandler.sendEmptyMessage(1);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+        new Thread(() -> {
+            loadingHandler.sendEmptyMessage(0);
+            ArrayList<LiteLoaderVersion> list = new ArrayList<>();
+            try {
+                String response = NetworkUtils.doGet(NetworkUtils.toURL(LITELOADER_LIST));
+                Gson gson = JsonUtils.defaultGsonBuilder()
+                        .registerTypeAdapter(Artifact.class, new Artifact.Serializer())
+                        .create();
+                LiteLoaderVersionsRoot liteLoaderVersionsRoot = gson.fromJson(response, LiteLoaderVersionsRoot.class);
+                ArrayList<String> gameVersions = new ArrayList<>();
+                for (Map.Entry<String, LiteLoaderGameVersions> entry : liteLoaderVersionsRoot.getVersions().entrySet()) {
+                    String gameVersion = entry.getKey();
+                    gameVersions.add(gameVersion);
                 }
+                if (!gameVersions.contains(version)){
+                    loadingHandler.sendEmptyMessage(2);
+                }
+                else {
+                    LiteLoaderGameVersions liteLoaderGameVersions = liteLoaderVersionsRoot.getVersions().get(version);
+                    Map<String, LiteLoaderVersion> liteLoader = liteLoaderGameVersions.getArtifacts() == null ? liteLoaderGameVersions.getSnapshots().getLiteLoader() : liteLoaderGameVersions.getArtifacts().getLiteLoader();
+                    for (Map.Entry<String, LiteLoaderVersion> loaderVersionEntry : liteLoader.entrySet()) {
+                        if (!loaderVersionEntry.getKey().equals("latest")){
+                            list.add(loaderVersionEntry.getValue());
+                        }
+                    }
+                    list.sort(new LiteLoaderCompareTool());
+                    DownloadLiteLoaderListAdapter downloadLiteLoaderListAdapter = new DownloadLiteLoaderListAdapter(context,activity,version,list,install);
+                    activity.runOnUiThread(() -> liteLoaderListView.setAdapter(downloadLiteLoaderListAdapter));
+                    loadingHandler.sendEmptyMessage(1);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }.start();
+        }).start();
     }
 
     @Override
@@ -160,20 +152,12 @@ public class DownloadLiteLoaderUI extends BaseUI implements View.OnClickListener
         }
     };
 
-    private class LiteLoaderCompareTool implements Comparator<LiteLoaderVersion> {
+    private static class LiteLoaderCompareTool implements Comparator<LiteLoaderVersion> {
         @Override
         public int compare(LiteLoaderVersion versionPri, LiteLoaderVersion versionSec) {
             int timePri = Integer.parseInt(versionPri.getTimestamp());
             int timeSec = Integer.parseInt(versionSec.getTimestamp());
-            if(timePri > timeSec) {
-                return -1;
-            }
-            else if(timePri == timeSec) {
-                return 0;
-            }
-            else {
-                return 1;
-            }
+            return Integer.compare(timeSec, timePri);
         }
     }
 }

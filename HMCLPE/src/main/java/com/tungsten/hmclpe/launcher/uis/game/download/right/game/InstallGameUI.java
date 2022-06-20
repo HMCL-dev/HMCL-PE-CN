@@ -15,13 +15,13 @@ import android.widget.Toast;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.dialogs.install.DownloadDialog;
+import com.tungsten.hmclpe.launcher.download.GameInstallDialog;
 import com.tungsten.hmclpe.launcher.download.fabric.FabricLoaderVersion;
 import com.tungsten.hmclpe.launcher.download.forge.ForgeVersion;
 import com.tungsten.hmclpe.launcher.download.game.VersionManifest;
 import com.tungsten.hmclpe.launcher.download.liteloader.LiteLoaderVersion;
 import com.tungsten.hmclpe.launcher.download.optifine.OptifineVersion;
-import com.tungsten.hmclpe.launcher.mod.ModListBean;
+import com.tungsten.hmclpe.launcher.mod.RemoteMod;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
@@ -37,7 +37,7 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
     public OptifineVersion optifineVersion;
     public LiteLoaderVersion liteLoaderVersion;
     public FabricLoaderVersion fabricVersion;
-    public ModListBean.Version fabricAPIVersion;
+    public RemoteMod.Version fabricAPIVersion;
 
     private EditText editName;
 
@@ -167,31 +167,31 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
         }
         if (v == selectForgeVersion && fabricVersion == null){
             activity.uiManager.downloadForgeUI.version = version.id;
+            activity.uiManager.downloadForgeUI.install = false;
             activity.uiManager.switchMainUI(activity.uiManager.downloadForgeUI);
         }
         if (v == selectLiteLoaderVersion && fabricVersion == null){
             activity.uiManager.downloadLiteLoaderUI.version = version.id;
+            activity.uiManager.downloadLiteLoaderUI.install = false;
             activity.uiManager.switchMainUI(activity.uiManager.downloadLiteLoaderUI);
         }
         if (v == selectOptiFineVersion && fabricVersion == null){
             activity.uiManager.downloadOptifineUI.version = version.id;
+            activity.uiManager.downloadOptifineUI.install = false;
             activity.uiManager.switchMainUI(activity.uiManager.downloadOptifineUI);
         }
         if (v == selectFabricVersion && forgeVersion == null && optifineVersion == null){
             activity.uiManager.downloadFabricUI.version = version.id;
+            activity.uiManager.downloadFabricUI.install = false;
             activity.uiManager.switchMainUI(activity.uiManager.downloadFabricUI);
         }
         if (v == selectFabricAPIVersion && forgeVersion == null && optifineVersion == null){
             activity.uiManager.downloadFabricAPIUI.version = version.id;
+            activity.uiManager.downloadFabricAPIUI.install = false;
             activity.uiManager.switchMainUI(activity.uiManager.downloadFabricAPIUI);
         }
         if (v == install){
-            boolean exist = false;
-            for (int i = 0;i < SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory,activity.publicGameSetting.currentVersion).size();i++){
-                if (editName.getText().toString().equals(SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory,activity.publicGameSetting.currentVersion).get(i).name)){
-                    exist = true;
-                }
-            }
+            boolean exist = SettingUtils.getLocalVersionNames(activity.launcherSetting.gameFileDirectory).contains(editName.getText().toString());
             if (exist){
                 Toast.makeText(context,context.getString(R.string.install_game_ui_exist),Toast.LENGTH_SHORT).show();
             }
@@ -199,8 +199,8 @@ public class InstallGameUI extends BaseUI implements View.OnClickListener, TextW
                 if (forgeVersion != null || optifineVersion != null) {
                     fabricAPIVersion = null;
                 }
-                DownloadDialog downloadDialog = new DownloadDialog(context,activity,editName.getText().toString(),version,forgeVersion,optifineVersion,liteLoaderVersion,fabricVersion,fabricAPIVersion);
-                downloadDialog.show();
+                GameInstallDialog gameInstallDialog = new GameInstallDialog(context,activity,editName.getText().toString(),version,forgeVersion,optifineVersion,liteLoaderVersion,fabricVersion,fabricAPIVersion);
+                gameInstallDialog.show();
             }
         }
     }

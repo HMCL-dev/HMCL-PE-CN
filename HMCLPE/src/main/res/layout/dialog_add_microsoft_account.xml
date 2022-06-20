@@ -16,7 +16,6 @@
         android:text="@string/dialog_add_microsoft_account_title"/>
 
     <LinearLayout
-        android:id="@+id/hint_layout"
         android:padding="10dp"
         android:background="@drawable/launcher_view_blue"
         android:layout_marginTop="20dp"
@@ -42,7 +41,7 @@
                 android:layout_marginLeft="5dp"
                 android:text="@string/dialog_add_microsoft_account_hint"
                 android:textSize="@dimen/text_size_middle"
-                android:textColor="@color/colorPureBlack"/>
+                android:textColor="@color/colorLinkBlueDark"/>
 
         </LinearLayout>
 
@@ -52,7 +51,7 @@
             android:layout_height="wrap_content"
             android:text="@string/dialog_add_microsoft_account_hint_text"
             android:textSize="@dimen/text_size_middle"
-            android:textColor="@color/colorPureBlack"/>
+            android:textColor="@color/colorLinkBlueDark"/>
 
     </LinearLayout>
 
@@ -126,15 +125,28 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
 
-        <Button
+        <RelativeLayout
             android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:text="@string/dialog_add_microsoft_account_login"
-            android:textSize="15sp"
-            android:textColor="@color/colorLinkBlue"
-            android:background="@drawable/launcher_button_parent"
-            android:id="@+id/login_microsoft"/>
+            android:layout_height="40dp">
+
+            <ProgressBar
+                android:visibility="gone"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerInParent="true"
+                android:id="@+id/login_progress"/>
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="@string/dialog_add_microsoft_account_login"
+                android:textSize="15sp"
+                android:textColor="@color/colorLinkBlue"
+                android:background="@drawable/launcher_button_parent"
+                android:id="@+id/login_microsoft"/>
+
+        </RelativeLayout>
 
         <Button
             android:layout_width="60dp"

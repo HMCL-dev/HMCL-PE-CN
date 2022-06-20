@@ -30,7 +30,7 @@ public class FileStringUtils {
             String parent = new File(path).getParent();
             FileUtils.createDirectory(parent);
             FileUtils.createFile(path);
-            FileWriter fileWriter = new FileWriter(new File(path));
+            FileWriter fileWriter = new FileWriter(path);
             fileWriter.write(string);
             fileWriter.close();
         }

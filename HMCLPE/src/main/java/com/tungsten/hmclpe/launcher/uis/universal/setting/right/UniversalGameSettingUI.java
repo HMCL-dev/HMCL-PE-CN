@@ -28,8 +28,9 @@ import com.tungsten.filepicker.FolderChooser;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.ControlPatternActivity;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.VerifyInterface;
 import com.tungsten.hmclpe.launcher.dialogs.control.ControllerManagerDialog;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.animation.HiddenAnimationUtils;
@@ -45,6 +46,10 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
 
     public static final int PICK_GAME_DIR_REQUEST = 1500;
 
+    private LinearLayout isolateAlertLayout;
+    private TextView isolateAlertText;
+    private TextView switchToIsolateSetting;
+
     private LinearLayout showJavaSetting;
     private TextView javaPathText;
     private ImageView showJava;
@@ -55,11 +60,6 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
     private ImageView showGameDir;
     private LinearLayout gameDirSetting;
     private int gameDirSettingHeight;
-    private LinearLayout showControlSetting;
-    private TextView controlTypeText;
-    private ImageView showControl;
-    private LinearLayout controlSetting;
-    private int controlSettingHeight;
 
     private LinearLayout showGameLauncherSetting;
     private TextView currentLauncher;
@@ -89,22 +89,13 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
     private EditText editGameDir;
     private ImageButton selectGameDir;
 
-    private RadioButton checkControlTypeTouch;
-    private RadioButton checkControlTypeKeyboard;
-    private RadioButton checkControlTypeHandle;
-
     private RadioButton launchByBoat;
     private RadioButton launchByPojav;
 
-    private RadioButton boatRendererGL4ES112;
-    private RadioButton boatRendererGL4ES115;
     private RadioButton boatRendererGL4ES114;
-    private RadioButton boatRendererVGPU;
+    private RadioButton boatRendererVirGL;
 
     private RadioButton pojavRendererGL4ES114;
-    private RadioButton pojavRendererGL4ES115;
-    private RadioButton pojavRendererGL4ES115P;
-    private RadioButton pojavRendererVGPU;
     private RadioButton pojavRendererVirGL;
 
     private CheckBox checkAutoRam;
@@ -125,9 +116,13 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
 
     private EditText editServer;
 
+    private EditText editJVMArgs;
+
     private Button manageController;
     private TextView currentControlPattern;
     private ControllerManagerDialog controllerManagerDialog;
+
+    private SwitchCompat checkTouchInjector;
 
     public UniversalGameSettingUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -139,6 +134,11 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         super.onCreate();
         universalGameSettingUI = activity.findViewById(R.id.ui_setting_global_game);
 
+        isolateAlertLayout = activity.findViewById(R.id.isolate_alert_layout);
+        isolateAlertText = activity.findViewById(R.id.isolate_alert_text);
+        switchToIsolateSetting = activity.findViewById(R.id.switch_to_isolate_setting);
+        switchToIsolateSetting.setOnClickListener(this);
+
         showJavaSetting = activity.findViewById(R.id.show_java_selector);
         javaPathText = activity.findViewById(R.id.java_path_text);
         showJava = activity.findViewById(R.id.show_java);
@@ -147,10 +147,6 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         gameDirText = activity.findViewById(R.id.game_directory_text);
         showGameDir = activity.findViewById(R.id.show_game_dir);
         gameDirSetting = activity.findViewById(R.id.game_dir_setting);
-        showControlSetting = activity.findViewById(R.id.show_control_type_selector);
-        controlTypeText = activity.findViewById(R.id.control_type);
-        showControl = activity.findViewById(R.id.show_control_type);
-        controlSetting = activity.findViewById(R.id.control_type_setting);
 
         showGameLauncherSetting = activity.findViewById(R.id.show_game_launcher_selector);
         currentLauncher = activity.findViewById(R.id.current_launcher);
@@ -179,22 +175,13 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         editGameDir = activity.findViewById(R.id.edit_game_dir_path);
         selectGameDir = activity.findViewById(R.id.select_game_dir_path);
 
-        checkControlTypeTouch = activity.findViewById(R.id.control_type_touch);
-        checkControlTypeKeyboard = activity.findViewById(R.id.control_type_keyboard);
-        checkControlTypeHandle = activity.findViewById(R.id.control_type_handle);
-
         launchByBoat = activity.findViewById(R.id.launch_by_boat);
         launchByPojav = activity.findViewById(R.id.launch_by_pojav);
 
-        boatRendererGL4ES112 = activity.findViewById(R.id.boat_renderer_gl4es_112);
-        boatRendererGL4ES115 = activity.findViewById(R.id.boat_renderer_gl4es_115);
         boatRendererGL4ES114 = activity.findViewById(R.id.boat_renderer_gl4es_114);
-        boatRendererVGPU = activity.findViewById(R.id.boat_renderer_vgpu);
+        boatRendererVirGL = activity.findViewById(R.id.boat_renderer_virgl);
 
         pojavRendererGL4ES114 = activity.findViewById(R.id.pojav_renderer_gl4es_114);
-        pojavRendererGL4ES115 = activity.findViewById(R.id.pojav_renderer_gl4es_115);
-        pojavRendererGL4ES115P = activity.findViewById(R.id.pojav_renderer_gl4es_115p);
-        pojavRendererVGPU = activity.findViewById(R.id.pojav_renderer_vgpu);
         pojavRendererVirGL = activity.findViewById(R.id.pojav_renderer_virgl);
 
         checkAutoRam = activity.findViewById(R.id.check_auto_ram);
@@ -221,6 +208,8 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         manageController.setOnClickListener(this);
         currentControlPattern = activity.findViewById(R.id.control_layout);
 
+        checkTouchInjector = activity.findViewById(R.id.switch_touch_injector);
+
         editServer = activity.findViewById(R.id.edit_mc_server);
         editServer.addTextChangedListener(new TextWatcher() {
             @Override
@@ -240,18 +229,37 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             }
         });
 
+        editJVMArgs = activity.findViewById(R.id.edit_jvm_arg);
+        editJVMArgs.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                activity.privateGameSetting.extraJavaFlags = editJVMArgs.getText().toString();
+                GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+            }
+        });
+
         checkLog.setOnCheckedChangeListener(this);
 
         notCheckGameFile.setOnCheckedChangeListener(this);
         notCheckForge.setOnCheckedChangeListener(this);
         notCheckJVM.setOnCheckedChangeListener(this);
 
+        checkTouchInjector.setOnCheckedChangeListener(this);
+
         showJavaSetting.setOnClickListener(this);
         showJava.setOnClickListener(this);
         showGameDirSetting.setOnClickListener(this);
         showGameDir.setOnClickListener(this);
-        showControlSetting.setOnClickListener(this);
-        showControl.setOnClickListener(this);
 
         showGameLauncherSetting.setOnClickListener(this);
         showGameLauncher.setOnClickListener(this);
@@ -286,22 +294,13 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             }
         });
 
-        checkControlTypeTouch.setOnClickListener(this);
-        checkControlTypeKeyboard.setOnClickListener(this);
-        checkControlTypeHandle.setOnClickListener(this);
-
         launchByBoat.setOnClickListener(this);
         launchByPojav.setOnClickListener(this);
 
-        boatRendererGL4ES112.setOnClickListener(this);
-        boatRendererGL4ES115.setOnClickListener(this);
         boatRendererGL4ES114.setOnClickListener(this);
-        boatRendererVGPU.setOnClickListener(this);
+        boatRendererVirGL.setOnClickListener(this);
 
         pojavRendererGL4ES114.setOnClickListener(this);
-        pojavRendererGL4ES115.setOnClickListener(this);
-        pojavRendererGL4ES115P.setOnClickListener(this);
-        pojavRendererVGPU.setOnClickListener(this);
         pojavRendererVirGL.setOnClickListener(this);
 
         checkAutoRam.setOnCheckedChangeListener(this);
@@ -366,10 +365,6 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         gameDirSetting.post(() -> {
             gameDirSettingHeight = gameDirSetting.getHeight();
             gameDirSetting.setVisibility(View.GONE);
-        });
-        controlSetting.post(() -> {
-            controlSettingHeight = controlSetting.getHeight();
-            controlSetting.setVisibility(View.GONE);
         });
         gameLauncherSetting.post(() -> {
             gameLauncherSettingHeight = gameLauncherSetting.getHeight();
@@ -455,11 +450,43 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         if (buttonView == notCheckJVM){
             activity.privateGameSetting.notCheckJvm = isChecked;
         }
+        if (buttonView == checkTouchInjector) {
+            if (isChecked) {
+                activity.startVerify(new VerifyInterface() {
+                    @Override
+                    public void onSuccess() {
+                        activity.privateGameSetting.touchInjector = true;
+                        GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        checkTouchInjector.setChecked(false);
+                    }
+                });
+            }
+            else {
+                activity.privateGameSetting.touchInjector = false;
+            }
+        }
         GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
+    }
+
+    public void refresh() {
+        String settingPath = activity.publicGameSetting.currentVersion + "/hmclpe.cfg";
+        if (new File(settingPath).exists() && GsonUtils.getPrivateGameSettingFromFile(settingPath) != null && (GsonUtils.getPrivateGameSettingFromFile(settingPath).forceEnable || GsonUtils.getPrivateGameSettingFromFile(settingPath).enable)) {
+            isolateAlertLayout.setVisibility(View.VISIBLE);
+            isolateAlertText.setText(context.getString(R.string.game_setting_ui_alert_text).replace("%s",activity.publicGameSetting.currentVersion.substring(activity.publicGameSetting.currentVersion.lastIndexOf("/") + 1)));
+        }
+        else {
+            isolateAlertLayout.setVisibility(View.GONE);
+        }
     }
 
     @SuppressLint("SetTextI18n")
     private void init(){
+        refresh();
+
         checkAutoRam.setChecked(activity.privateGameSetting.ramSetting.autoRam);
         ramProgressBar.setProgress(MemoryUtils.getTotalDeviceMemory(context) - MemoryUtils.getFreeDeviceMemory(context));
         ramSeekBar.setProgress(activity.privateGameSetting.ramSetting.minRam);
@@ -472,8 +499,10 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         notCheckGameFile.setChecked(activity.privateGameSetting.notCheckMinecraft);
         notCheckForge.setChecked(activity.privateGameSetting.notCheckForge);
         notCheckJVM.setChecked(activity.privateGameSetting.notCheckJvm);
+        checkTouchInjector.setChecked(activity.privateGameSetting.touchInjector);
         editGameDir.setText(activity.privateGameSetting.gameDirSetting.path);
         editServer.setText(activity.privateGameSetting.server);
+        editJVMArgs.setText(activity.privateGameSetting.extraJavaFlags);
         currentControlPattern.setText(activity.privateGameSetting.controlLayout);
         if (activity.privateGameSetting.javaSetting.autoSelect){
             javaPathText.setText(context.getString(R.string.game_setting_ui_java_path_auto));
@@ -519,24 +548,6 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             checkGameDirIsolate.setChecked(false);
             checkGameDirCustom.setChecked(true);
         }
-        if (activity.privateGameSetting.controlType == 0){
-            controlTypeText.setText(context.getString(R.string.game_setting_ui_control_type_touch));
-            checkControlTypeTouch.setChecked(true);
-            checkControlTypeKeyboard.setChecked(false);
-            checkControlTypeHandle.setChecked(false);
-        }
-        else if (activity.privateGameSetting.controlType == 1){
-            controlTypeText.setText(context.getString(R.string.game_setting_ui_control_type_keyboard));
-            checkControlTypeTouch.setChecked(false);
-            checkControlTypeKeyboard.setChecked(true);
-            checkControlTypeHandle.setChecked(false);
-        }
-        else {
-            controlTypeText.setText(context.getString(R.string.game_setting_ui_control_type_handle));
-            checkControlTypeTouch.setChecked(false);
-            checkControlTypeKeyboard.setChecked(false);
-            checkControlTypeHandle.setChecked(true);
-        }
         if (activity.privateGameSetting.boatLauncherSetting.enable){
             launchByBoat.setChecked(true);
             launchByPojav.setChecked(false);
@@ -547,71 +558,23 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             launchByPojav.setChecked(true);
             currentLauncher.setText(context.getText(R.string.game_setting_ui_game_launcher_pojav));
         }
-        if (activity.privateGameSetting.boatLauncherSetting.renderer.equals("libGL112.so.1")){
-            boatRendererGL4ES112.setChecked(true);
-            boatRendererGL4ES115.setChecked(false);
-            boatRendererGL4ES114.setChecked(false);
-            boatRendererVGPU.setChecked(false);
-            currentBoatRenderer.setText(context.getText(R.string.game_setting_ui_boat_renderer_gl4es_112));
-        }
-        else if (activity.privateGameSetting.boatLauncherSetting.renderer.equals("libGL115.so.1")){
-            boatRendererGL4ES112.setChecked(false);
-            boatRendererGL4ES115.setChecked(true);
-            boatRendererGL4ES114.setChecked(false);
-            boatRendererVGPU.setChecked(false);
-            currentBoatRenderer.setText(context.getText(R.string.game_setting_ui_boat_renderer_gl4es_115));
-        }
-        else if (activity.privateGameSetting.boatLauncherSetting.renderer.equals("libgl4es_114.so")){
-            boatRendererGL4ES112.setChecked(false);
-            boatRendererGL4ES115.setChecked(false);
+        if (activity.privateGameSetting.boatLauncherSetting.renderer.equals("libGL112.so.1") || activity.privateGameSetting.boatLauncherSetting.renderer.equals("libGL115.so.1") || activity.privateGameSetting.boatLauncherSetting.renderer.equals("libgl4es_114.so") || activity.privateGameSetting.boatLauncherSetting.renderer.equals("libvgpu.so") || activity.privateGameSetting.boatLauncherSetting.renderer.equals("GL4ES115") || activity.privateGameSetting.boatLauncherSetting.renderer.equals("GL4ES114")){
             boatRendererGL4ES114.setChecked(true);
-            boatRendererVGPU.setChecked(false);
+            boatRendererVirGL.setChecked(false);
             currentBoatRenderer.setText(context.getText(R.string.game_setting_ui_boat_renderer_gl4es_114));
         }
-        else if (activity.privateGameSetting.boatLauncherSetting.renderer.equals("libvgpu.so")){
-            boatRendererGL4ES112.setChecked(false);
-            boatRendererGL4ES115.setChecked(false);
+        else if (activity.privateGameSetting.boatLauncherSetting.renderer.equals("VirGL")){
             boatRendererGL4ES114.setChecked(false);
-            boatRendererVGPU.setChecked(true);
-            currentBoatRenderer.setText(context.getText(R.string.game_setting_ui_boat_renderer_vgpu));
+            boatRendererVirGL.setChecked(true);
+            currentBoatRenderer.setText(context.getText(R.string.game_setting_ui_boat_renderer_virgl));
         }
-        if (activity.privateGameSetting.pojavLauncherSetting.renderer.equals("opengles2")){
+        if (activity.privateGameSetting.pojavLauncherSetting.renderer.equals("opengles2") || activity.privateGameSetting.pojavLauncherSetting.renderer.equals("opengles2_5") || activity.privateGameSetting.pojavLauncherSetting.renderer.equals("opengles3") || activity.privateGameSetting.pojavLauncherSetting.renderer.equals("opengles3_vgpu")){
             pojavRendererGL4ES114.setChecked(true);
-            pojavRendererGL4ES115.setChecked(false);
-            pojavRendererGL4ES115P.setChecked(false);
-            pojavRendererVGPU.setChecked(false);
             pojavRendererVirGL.setChecked(false);
             currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_gl4es_114));
         }
-        else if (activity.privateGameSetting.pojavLauncherSetting.renderer.equals("opengles2_5")){
-            pojavRendererGL4ES114.setChecked(false);
-            pojavRendererGL4ES115.setChecked(true);
-            pojavRendererGL4ES115P.setChecked(false);
-            pojavRendererVGPU.setChecked(false);
-            pojavRendererVirGL.setChecked(false);
-            currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_gl4es_115));
-        }
-        else if (activity.privateGameSetting.pojavLauncherSetting.renderer.equals("opengles3")){
-            pojavRendererGL4ES114.setChecked(false);
-            pojavRendererGL4ES115.setChecked(false);
-            pojavRendererGL4ES115P.setChecked(true);
-            pojavRendererVGPU.setChecked(false);
-            pojavRendererVirGL.setChecked(false);
-            currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_gl4es_115p));
-        }
-        else if (activity.privateGameSetting.pojavLauncherSetting.renderer.equals("opengles3_vgpu")){
-            pojavRendererGL4ES114.setChecked(false);
-            pojavRendererGL4ES115.setChecked(false);
-            pojavRendererGL4ES115P.setChecked(false);
-            pojavRendererVGPU.setChecked(true);
-            pojavRendererVirGL.setChecked(false);
-            currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_vgpu));
-        }
         else if (activity.privateGameSetting.pojavLauncherSetting.renderer.equals("opengles3_virgl")){
             pojavRendererGL4ES114.setChecked(false);
-            pojavRendererGL4ES115.setChecked(false);
-            pojavRendererGL4ES115P.setChecked(false);
-            pojavRendererVGPU.setChecked(false);
             pojavRendererVirGL.setChecked(true);
             currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_virgl));
         }
@@ -620,14 +583,16 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
     @SuppressLint("SetTextI18n")
     @Override
     public void onClick(View v) {
+        if (v == switchToIsolateSetting) {
+            activity.uiManager.gameManagerUI.versionName = activity.publicGameSetting.currentVersion.substring(activity.publicGameSetting.currentVersion.lastIndexOf("/") + 1);
+            activity.uiManager.switchMainUI(activity.uiManager.gameManagerUI);
+            activity.uiManager.gameManagerUI.gameManagerUIManager.switchGameManagerUIs(activity.uiManager.gameManagerUI.gameManagerUIManager.versionSettingUI);
+        }
         if (v == showJavaSetting || v == showJava){
             HiddenAnimationUtils.newInstance(context,javaSetting,showJava,javaSettingHeight).toggle();
         }
         if (v == showGameDirSetting || v == showGameDir){
             HiddenAnimationUtils.newInstance(context,gameDirSetting,showGameDir,gameDirSettingHeight).toggle();
-        }
-        if (v == showControlSetting || v == showControl){
-            HiddenAnimationUtils.newInstance(context,controlSetting,showControl,controlSettingHeight).toggle();
         }
         if (v == showGameLauncherSetting || v == showGameLauncher){
             HiddenAnimationUtils.newInstance(context,gameLauncherSetting,showGameLauncher,gameLauncherSettingHeight).toggle();
@@ -694,27 +659,6 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             intent.putExtra(Constants.INITIAL_DIRECTORY, new File(AppManifest.DEFAULT_GAME_DIR).getAbsolutePath());
             activity.startActivityForResult(intent, PICK_GAME_DIR_REQUEST);
         }
-        if (v == checkControlTypeTouch){
-            controlTypeText.setText(context.getString(R.string.game_setting_ui_control_type_touch));
-            checkControlTypeKeyboard.setChecked(false);
-            checkControlTypeHandle.setChecked(false);
-            activity.privateGameSetting.controlType = 0;
-            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
-        }
-        if (v == checkControlTypeKeyboard){
-            controlTypeText.setText(context.getString(R.string.game_setting_ui_control_type_keyboard));
-            checkControlTypeTouch.setChecked(false);
-            checkControlTypeHandle.setChecked(false);
-            activity.privateGameSetting.controlType = 1;
-            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
-        }
-        if (v == checkControlTypeHandle){
-            controlTypeText.setText(context.getString(R.string.game_setting_ui_control_type_handle));
-            checkControlTypeKeyboard.setChecked(false);
-            checkControlTypeTouch.setChecked(false);
-            activity.privateGameSetting.controlType = 2;
-            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
-        }
         if (v == launchByBoat){
             launchByPojav.setChecked(false);
             activity.privateGameSetting.boatLauncherSetting.enable = true;
@@ -729,79 +673,26 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
             currentLauncher.setText(context.getText(R.string.game_setting_ui_game_launcher_pojav));
         }
-        if (v == boatRendererGL4ES112){
-            boatRendererGL4ES115.setChecked(false);
-            boatRendererGL4ES114.setChecked(false);
-            boatRendererVGPU.setChecked(false);
-            activity.privateGameSetting.boatLauncherSetting.renderer = "libGL112.so.1";
-            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
-            currentBoatRenderer.setText(context.getText(R.string.game_setting_ui_boat_renderer_gl4es_112));
-        }
-        if (v == boatRendererGL4ES115){
-            boatRendererGL4ES112.setChecked(false);
-            boatRendererGL4ES114.setChecked(false);
-            boatRendererVGPU.setChecked(false);
-            activity.privateGameSetting.boatLauncherSetting.renderer = "libGL115.so.1";
-            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
-            currentBoatRenderer.setText(context.getText(R.string.game_setting_ui_boat_renderer_gl4es_115));
-        }
         if (v == boatRendererGL4ES114){
-            boatRendererGL4ES112.setChecked(false);
-            boatRendererGL4ES115.setChecked(false);
-            boatRendererVGPU.setChecked(false);
-            activity.privateGameSetting.boatLauncherSetting.renderer = "libgl4es_114.so";
+            boatRendererVirGL.setChecked(false);
+            activity.privateGameSetting.boatLauncherSetting.renderer = "GL4ES114";
             GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
             currentBoatRenderer.setText(context.getText(R.string.game_setting_ui_boat_renderer_gl4es_114));
         }
-        if (v == boatRendererVGPU){
-            boatRendererGL4ES112.setChecked(false);
-            boatRendererGL4ES115.setChecked(false);
+        if (v == boatRendererVirGL){
             boatRendererGL4ES114.setChecked(false);
-            activity.privateGameSetting.boatLauncherSetting.renderer = "libvgpu.so";
+            activity.privateGameSetting.boatLauncherSetting.renderer = "VirGL";
             GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
-            currentBoatRenderer.setText(context.getText(R.string.game_setting_ui_boat_renderer_vgpu));
+            currentBoatRenderer.setText(context.getText(R.string.game_setting_ui_boat_renderer_virgl));
         }
         if (v == pojavRendererGL4ES114){
-            pojavRendererGL4ES115.setChecked(false);
-            pojavRendererGL4ES115P.setChecked(false);
-            pojavRendererVGPU.setChecked(false);
             pojavRendererVirGL.setChecked(false);
             activity.privateGameSetting.pojavLauncherSetting.renderer = "opengles2";
             GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
             currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_gl4es_114));
         }
-        if (v == pojavRendererGL4ES115){
-            pojavRendererGL4ES114.setChecked(false);
-            pojavRendererGL4ES115P.setChecked(false);
-            pojavRendererVGPU.setChecked(false);
-            pojavRendererVirGL.setChecked(false);
-            activity.privateGameSetting.pojavLauncherSetting.renderer = "opengles2_5";
-            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
-            currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_gl4es_115));
-        }
-        if (v == pojavRendererGL4ES115P){
-            pojavRendererGL4ES114.setChecked(false);
-            pojavRendererGL4ES115.setChecked(false);
-            pojavRendererVGPU.setChecked(false);
-            pojavRendererVirGL.setChecked(false);
-            activity.privateGameSetting.pojavLauncherSetting.renderer = "opengles3";
-            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
-            currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_gl4es_115p));
-        }
-        if (v == pojavRendererVGPU){
-            pojavRendererGL4ES114.setChecked(false);
-            pojavRendererGL4ES115.setChecked(false);
-            pojavRendererGL4ES115P.setChecked(false);
-            pojavRendererVirGL.setChecked(false);
-            activity.privateGameSetting.pojavLauncherSetting.renderer = "opengles3_vgpu";
-            GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
-            currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_vgpu));
-        }
         if (v == pojavRendererVirGL){
             pojavRendererGL4ES114.setChecked(false);
-            pojavRendererGL4ES115.setChecked(false);
-            pojavRendererGL4ES115P.setChecked(false);
-            pojavRendererVGPU.setChecked(false);
             activity.privateGameSetting.pojavLauncherSetting.renderer = "opengles3_virgl";
             GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
             currentPojavRenderer.setText(context.getText(R.string.game_setting_ui_pojav_renderer_virgl));
@@ -828,7 +719,8 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             editRam.setText(progress + "");
         }
         if (seekBar == scaleFactorSeekBar && fromUser){
-            activity.privateGameSetting.scaleFactor = (progress + 250.0F) / 1000F;
+            activity.privateGameSetting.scaleFactor =
+                    (progress + 250.0F) / 1000F;
             editScaleFactor.setText(((progress / 10) + 25) + "");
         }
         GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");

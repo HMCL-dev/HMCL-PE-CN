@@ -21,11 +21,13 @@ import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.Account;
-import com.tungsten.hmclpe.skin.draw2d.Avatar;
+import com.tungsten.hmclpe.skin.utils.Avatar;
+import com.tungsten.hmclpe.utils.gson.UUIDTypeAdapter;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class AddOfflineAccountDialog extends Dialog implements View.OnClickListener {
 
@@ -129,8 +131,8 @@ public class AddOfflineAccountDialog extends Dialog implements View.OnClickListe
                         "mojang",
                         "0",
                         editName.getText().toString(),
-                        editUUID.getText().toString().equals("") ? "fc5bc365-aedf-30a8-8b89-04e462e29bde" : editUUID.getText().toString(),
-                        "",
+                        editUUID.getText().toString().equals("") ? UUID.randomUUID().toString() : editUUID.getText().toString(),
+                        UUIDTypeAdapter.fromUUID(UUID.randomUUID()),
                         "",
                         "",
                         "",

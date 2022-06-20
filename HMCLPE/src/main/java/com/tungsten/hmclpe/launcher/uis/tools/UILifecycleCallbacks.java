@@ -15,7 +15,7 @@ public interface UILifecycleCallbacks {
 
     void onStop();
 
-    void onDestory();
+    void onDestroy();
 
     void onLoaded();
 

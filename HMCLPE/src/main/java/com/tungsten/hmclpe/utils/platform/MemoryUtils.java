@@ -3,8 +3,6 @@ package com.tungsten.hmclpe.utils.platform;
 import android.app.ActivityManager;
 import android.content.Context;
 
-import net.kdt.pojavlaunch.Tools;
-
 public class MemoryUtils {
 
     public static int getTotalDeviceMemory(Context ctx){

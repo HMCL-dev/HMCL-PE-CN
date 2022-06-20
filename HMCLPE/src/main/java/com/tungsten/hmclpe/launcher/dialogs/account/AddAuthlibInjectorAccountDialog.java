@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,14 +34,13 @@ import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilService;
 import com.tungsten.hmclpe.auth.yggdrasil.YggdrasilSession;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.account.server.AuthlibInjectorServerSpinnerAdapter;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
-import com.tungsten.hmclpe.skin.draw2d.Avatar;
+import com.tungsten.hmclpe.manifest.AppManifest;
+import com.tungsten.hmclpe.skin.utils.Avatar;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Map;
@@ -60,12 +60,15 @@ public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnCl
     private EditText editPassword;
     private Button login;
     private Button cancel;
+    private ProgressBar progressBar;
 
     private AuthlibInjectorServerSpinnerAdapter serverListAdapter;
 
     private String signUpUrl;
 
     private Account account;
+
+    public static final String NIDE_8_AUTH_SIGN_UP_PAGE = "https://login2.nide8.com:233/";
 
     public AddAuthlibInjectorAccountDialog(@NonNull Context context, MainActivity activity,OnAuthlibInjectorAccountAddListener onAuthlibInjectorAccountAddListener,ArrayList<AuthlibInjectorServer> list,AuthlibInjectorServer authlibInjectorServer) {
         super(context);
@@ -86,6 +89,7 @@ public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnCl
         editPassword = findViewById(R.id.edit_password);
         login = findViewById(R.id.login_authlib);
         cancel = findViewById(R.id.cancel_login_authlib);
+        progressBar = findViewById(R.id.login_progress);
 
         signUp.setOnClickListener(this);
         addServer.setOnClickListener(this);
@@ -106,17 +110,14 @@ public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnCl
             getContext().startActivity(intent);
         }
         if (v == addServer){
-            AddVerifyServerDialog addVerifyServerDialog = new AddVerifyServerDialog(getContext(), new AddVerifyServerDialog.OnAuthlibInjectorServerAddListener() {
-                @Override
-                public void onServerAdd(AuthlibInjectorServer authlibInjectorServer) {
-                    if (!activity.uiManager.accountUI.serverList.contains(authlibInjectorServer)){
-                        activity.uiManager.accountUI.serverList.add(authlibInjectorServer);
-                        activity.uiManager.accountUI.serverListAdapter.notifyDataSetChanged();
-                        GsonUtils.saveServer(activity.uiManager.accountUI.serverList, AppManifest.ACCOUNT_DIR + "/authlib_injector_server.json");
-                    }
+            SelectServerTypeDialog dialog = new SelectServerTypeDialog(getContext(), server -> {
+                if (!activity.uiManager.accountUI.serverList.contains(server)){
+                    activity.uiManager.accountUI.serverList.add(server);
+                    activity.uiManager.accountUI.serverListAdapter.notifyDataSetChanged();
+                    GsonUtils.saveServer(activity.uiManager.accountUI.serverList, AppManifest.ACCOUNT_DIR + "/authlib_injector_server.json");
                 }
             });
-            addVerifyServerDialog.show();
+            dialog.show();
         }
         if (v == login){
             if (editEmail.getText().toString().equals("") || editPassword.getText().toString().equals("")){
@@ -125,60 +126,27 @@ public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnCl
             else {
                 String email = editEmail.getText().toString();
                 String password = editPassword.getText().toString();
-                new Thread() {
-                    @Override
-                    public void run() {
-                        YggdrasilService yggdrasilService = authlibInjectorServer.getYggdrasilService();
-                        try {
-                            YggdrasilSession yggdrasilSession = yggdrasilService.authenticate(email,password,UUID.randomUUID().toString());
-                            if (yggdrasilSession.getAvailableProfiles().size() > 1) {
-                                ArrayList<Bitmap> bitmaps = new ArrayList<>();
-                                for (GameProfile gameProfile : yggdrasilSession.getAvailableProfiles()) {
-                                    Map<TextureType, Texture> map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(gameProfile.getId()).get()).get();
-                                    Texture texture = map.get(TextureType.SKIN);
-                                    if (texture == null) {
-                                        AssetManager manager = getContext().getAssets();
-                                        InputStream inputStream;
-                                        inputStream = manager.open("img/alex.png");
-                                        Bitmap skin = BitmapFactory.decodeStream(inputStream);
-                                        bitmaps.add(skin);
-                                    }
-                                    else {
-                                        String u = texture.getUrl();
-                                        if (!u.startsWith("https")){
-                                            u = u.replaceFirst("http","https");
-                                        }
-                                        URL url = new URL(u);
-                                        HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                                        httpURLConnection.setDoInput(true);
-                                        httpURLConnection.connect();
-                                        InputStream inputStream = httpURLConnection.getInputStream();
-                                        Bitmap skin = BitmapFactory.decodeStream(inputStream);
-                                        bitmaps.add(skin);
-                                    }
-                                }
-                                loginHandler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        SelectProfileDialog dialog = new SelectProfileDialog(getContext(),yggdrasilService,yggdrasilSession,email,password,authlibInjectorServer.getUrl(),bitmaps,onAuthlibInjectorAccountAddListener);
-                                        dialog.show();
-                                        dismiss();
-                                    }
-                                });
-                            }
-                            else {
-                                if (yggdrasilSession.getSelectedProfile() == null) {
-
-                                }
-                                AuthInfo authInfo = yggdrasilSession.toAuthInfo();
-                                Map<TextureType, Texture> map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(authInfo.getUUID()).get()).get();
+                boolean isNide = authlibInjectorServer.getUrl().startsWith(AddNide8AuthServerDialog.NIDE_8_AUTH_SERVER);
+                new Thread(() -> {
+                    loginHandler.post(() -> {
+                        progressBar.setVisibility(View.VISIBLE);
+                        login.setVisibility(View.GONE);
+                        cancel.setEnabled(false);
+                    });
+                    YggdrasilService yggdrasilService = authlibInjectorServer.getYggdrasilService();
+                    try {
+                        YggdrasilSession yggdrasilSession = yggdrasilService.authenticate(email,password,UUID.randomUUID().toString());
+                        if (yggdrasilSession.getAvailableProfiles().size() > 1) {
+                            ArrayList<Bitmap> bitmaps = new ArrayList<>();
+                            for (GameProfile gameProfile : yggdrasilSession.getAvailableProfiles()) {
+                                Map<TextureType, Texture> map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(gameProfile.getId()).get()).get();
                                 Texture texture = map.get(TextureType.SKIN);
-                                Bitmap skin;
                                 if (texture == null) {
                                     AssetManager manager = getContext().getAssets();
                                     InputStream inputStream;
                                     inputStream = manager.open("img/alex.png");
-                                    skin = BitmapFactory.decodeStream(inputStream);
+                                    Bitmap skin = BitmapFactory.decodeStream(inputStream);
+                                    bitmaps.add(skin);
                                 }
                                 else {
                                     String u = texture.getUrl();
@@ -190,34 +158,69 @@ public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnCl
                                     httpURLConnection.setDoInput(true);
                                     httpURLConnection.connect();
                                     InputStream inputStream = httpURLConnection.getInputStream();
-                                    skin = BitmapFactory.decodeStream(inputStream);
+                                    Bitmap skin = BitmapFactory.decodeStream(inputStream);
+                                    bitmaps.add(skin);
                                 }
-                                loginHandler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        String skinTexture = Avatar.bitmapToString(skin);
-                                        account = new Account(4,
-                                                email,
-                                                password,
-                                                "mojang",
-                                                "0",
-                                                yggdrasilSession.getSelectedProfile().getName(),
-                                                authInfo.getUUID().toString(),
-                                                authInfo.getAccessToken(),
-                                                yggdrasilSession.getClientToken(),
-                                                "",
-                                                authlibInjectorServer.getUrl(),
-                                                skinTexture);
-                                    }
-                                });
-                                loginHandler.sendEmptyMessage(0);
                             }
-                        } catch (AuthenticationException | IOException e) {
-                            e.printStackTrace();
-                            loginHandler.sendEmptyMessage(1);
+                            loginHandler.post(() -> {
+                                SelectProfileDialog dialog = new SelectProfileDialog(getContext(),yggdrasilService,yggdrasilSession,email,password,authlibInjectorServer.getUrl(),bitmaps,onAuthlibInjectorAccountAddListener,isNide);
+                                dialog.show();
+                                dismiss();
+                            });
                         }
+                        else if (yggdrasilSession.getAvailableProfiles().size() == 1){
+                            AuthInfo authInfo = yggdrasilSession.toAuthInfo();
+                            Map<TextureType, Texture> map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(authInfo.getUUID()).get()).get();
+                            Texture texture = map.get(TextureType.SKIN);
+                            Bitmap skin;
+                            if (texture == null) {
+                                AssetManager manager = getContext().getAssets();
+                                InputStream inputStream;
+                                inputStream = manager.open("img/alex.png");
+                                skin = BitmapFactory.decodeStream(inputStream);
+                            }
+                            else {
+                                String u = texture.getUrl();
+                                if (!u.startsWith("https")){
+                                    u = u.replaceFirst("http","https");
+                                }
+                                URL url = new URL(u);
+                                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                                httpURLConnection.setDoInput(true);
+                                httpURLConnection.connect();
+                                InputStream inputStream = httpURLConnection.getInputStream();
+                                skin = BitmapFactory.decodeStream(inputStream);
+                            }
+                            loginHandler.post(() -> {
+                                String skinTexture = Avatar.bitmapToString(skin);
+                                account = new Account(isNide ? 5 : 4,
+                                        email,
+                                        password,
+                                        "mojang",
+                                        "0",
+                                        yggdrasilSession.getSelectedProfile().getName(),
+                                        authInfo.getUUID().toString(),
+                                        authInfo.getAccessToken(),
+                                        yggdrasilSession.getClientToken(),
+                                        "",
+                                        authlibInjectorServer.getUrl(),
+                                        skinTexture);
+                            });
+                            loginHandler.sendEmptyMessage(0);
+                        }
+                        else {
+                            loginHandler.sendEmptyMessage(2);
+                        }
+                    } catch (AuthenticationException | IOException e) {
+                        e.printStackTrace();
+                        loginHandler.sendEmptyMessage(1);
                     }
-                }.start();
+                    loginHandler.post(() -> {
+                        progressBar.setVisibility(View.GONE);
+                        login.setVisibility(View.VISIBLE);
+                        cancel.setEnabled(true);
+                    });
+                }).start();
             }
         }
         if (v == cancel){
@@ -230,6 +233,9 @@ public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnCl
         if (parent == editServer){
             authlibInjectorServer = (AuthlibInjectorServer) serverListAdapter.getItem(position);
             signUpUrl = authlibInjectorServer.getLinks().get("register");
+            if (authlibInjectorServer.getUrl().startsWith(AddNide8AuthServerDialog.NIDE_8_AUTH_SERVER)) {
+                signUpUrl = NIDE_8_AUTH_SIGN_UP_PAGE + authlibInjectorServer.getUrl().substring(authlibInjectorServer.getUrl().length() - 33);
+            }
             if (signUpUrl == null){
                 signUp.setVisibility(View.GONE);
             }
@@ -259,6 +265,9 @@ public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnCl
             }
             if (msg.what == 1) {
                 Toast.makeText(getContext(), getContext().getString(R.string.dialog_add_authlib_injector_account_failed), Toast.LENGTH_SHORT).show();
+            }
+            if (msg.what == 2) {
+                Toast.makeText(getContext(), getContext().getString(R.string.dialog_add_authlib_injector_account_none), Toast.LENGTH_SHORT).show();
             }
         }
     };

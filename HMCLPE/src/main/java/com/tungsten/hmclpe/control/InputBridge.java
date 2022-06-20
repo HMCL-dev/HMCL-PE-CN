@@ -1,8 +1,6 @@
 package com.tungsten.hmclpe.control;
 
-import android.util.Log;
-
-import net.kdt.pojavlaunch.LWJGLGLFWKeycode;
+import net.kdt.pojavlaunch.keyboard.LWJGLGLFWKeycode;
 
 import org.lwjgl.glfw.CallbackBridge;
 
@@ -18,7 +16,6 @@ public class InputBridge {
     public static final int MOUSE_SCROLL_DOWN = 4;
 
     public static void sendEvent(int launcher,int keyCode,boolean press) {
-        Log.e("键值",keyCode+"");
         if (keyCode == 0 || keyCode == 1 || keyCode == 2 || keyCode == 3 || keyCode == 4) {
             sendMouseEvent(launcher,keyCode,press);
         }
@@ -29,7 +26,6 @@ public class InputBridge {
 
     public static void sendKeycode(int launcher,int keyCode,boolean press){
         if (launcher == 1){
-            Log.e("转换后的键值",keyCode+"");
             BoatInput.setKey(keyCode,0,press);
         }
         if (launcher == 2){
@@ -160,6 +156,12 @@ public class InputBridge {
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_F12:
                     code = BoatKeycodes.KEY_F12;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_F13:
+                    code = BoatKeycodes.KEY_F13;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_F14:
+                    code = BoatKeycodes.KEY_F14;
                     break;
                 case LWJGLGLFWKeycode.GLFW_KEY_ESCAPE:
                     code = BoatKeycodes.KEY_ESC;
@@ -377,7 +379,51 @@ public class InputBridge {
                 case LWJGLGLFWKeycode.GLFW_KEY_9:
                     code = BoatKeycodes.KEY_9;
                     break;
-
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_0:
+                    code = BoatKeycodes.KEY_KP0;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_1:
+                    code = BoatKeycodes.KEY_KP1;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_2:
+                    code = BoatKeycodes.KEY_KP2;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_3:
+                    code = BoatKeycodes.KEY_KP3;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_4:
+                    code = BoatKeycodes.KEY_KP4;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_5:
+                    code = BoatKeycodes.KEY_KP5;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_6:
+                    code = BoatKeycodes.KEY_KP6;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_7:
+                    code = BoatKeycodes.KEY_KP7;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_8:
+                    code = BoatKeycodes.KEY_KP8;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_9:
+                    code = BoatKeycodes.KEY_KP9;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_ADD:
+                    code = BoatKeycodes.KEY_KPPLUS;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_DIVIDE:
+                    code = BoatKeycodes.KEY_KPSLASH;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_ENTER:
+                    code = BoatKeycodes.KEY_KPENTER;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_EQUAL:
+                    code = BoatKeycodes.KEY_KPEQUAL;
+                    break;
+                case LWJGLGLFWKeycode.GLFW_KEY_KP_SUBTRACT:
+                    code = BoatKeycodes.KEY_KPMINUS;
+                    break;
                 default:
                     code = raw;
                     break;

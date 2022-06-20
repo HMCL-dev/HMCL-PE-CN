@@ -20,7 +20,7 @@ import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.launcher.list.local.controller.FastTextAdapter;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 
-import net.kdt.pojavlaunch.LWJGLGLFWKeycode;
+import net.kdt.pojavlaunch.keyboard.LWJGLGLFWKeycode;
 
 import java.util.ArrayList;
 
@@ -87,7 +87,7 @@ public class InputDialog extends Dialog implements View.OnClickListener, TextWat
             editText.setText(">");
         }
         if (view == send) {
-            if (menuHelper.viewManager.gameCursorMode == 0) {
+            if (menuHelper.gameCursorMode == 0) {
                 for(int i = 1; i < editText.getText().toString().length(); i++){
                     InputBridge.sendKeyChar(menuHelper.launcher,editText.getText().toString().charAt(i));
                 }
@@ -96,16 +96,13 @@ public class InputDialog extends Dialog implements View.OnClickListener, TextWat
             else {
                 InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_T, true);
                 InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_T, false);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        for(int i = 1; i < editText.getText().toString().length(); i++){
-                            InputBridge.sendKeyChar(menuHelper.launcher,editText.getText().toString().charAt(i));
-                        }
-                        InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_ENTER, true);
-                        InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_ENTER, false);
-                        dismiss();
+                new Handler().postDelayed(() -> {
+                    for(int i = 1; i < editText.getText().toString().length(); i++){
+                        InputBridge.sendKeyChar(menuHelper.launcher,editText.getText().toString().charAt(i));
                     }
+                    InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_ENTER, true);
+                    InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_ENTER, false);
+                    dismiss();
                 },50);
             }
         }

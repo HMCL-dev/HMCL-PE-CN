@@ -1,9 +1,5 @@
 package com.tungsten.hmclpe.utils.gson;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.tungsten.hmclpe.auth.Account;
@@ -22,47 +18,40 @@ public class GsonUtils {
     public static LauncherSetting getLauncherSettingFromFile(String path){
         String string = FileStringUtils.getStringFromFile(path);
         Gson gson = new Gson();
-        LauncherSetting launcherSetting = gson.fromJson(string,LauncherSetting.class);
-        return launcherSetting;
+        return gson.fromJson(string,LauncherSetting.class);
     }
 
     public static PrivateGameSetting getPrivateGameSettingFromFile(String path){
         String string = FileStringUtils.getStringFromFile(path);
         Gson gson = new Gson();
-        PrivateGameSetting privateGameSetting = gson.fromJson(string,PrivateGameSetting.class);
-        return privateGameSetting;
+        return gson.fromJson(string,PrivateGameSetting.class);
     }
 
     public static PublicGameSetting getPublicGameSettingFromFile(String path){
         String string = FileStringUtils.getStringFromFile(path);
         Gson gson = new Gson();
-        PublicGameSetting publicGameSetting = gson.fromJson(string,PublicGameSetting.class);
-        return publicGameSetting;
+        return gson.fromJson(string,PublicGameSetting.class);
     }
 
     public static ArrayList<ContentListBean> getContentListFromFile(String path){
         String string = FileStringUtils.getStringFromFile(path);
         Gson gson = new Gson();
         Type contentListType =new TypeToken<ArrayList<ContentListBean>>(){}.getType();
-        ArrayList<ContentListBean> list = gson.fromJson(string,contentListType);
-        return list;
+        return gson.fromJson(string,contentListType);
     }
 
     public static ArrayList<Account> getAccountListFromFile(String path){
         String string = FileStringUtils.getStringFromFile(path);
         Gson gson = new Gson();
         Type accountListType =new TypeToken<ArrayList<Account>>(){}.getType();
-        ArrayList<Account> list = gson.fromJson(string,accountListType);
-        return list;
+        return gson.fromJson(string,accountListType);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static ArrayList<AuthlibInjectorServer> getServerListFromFile(String path){
         String string = FileStringUtils.getStringFromFile(path);
         Gson gson = JsonUtils.defaultGsonBuilder().registerTypeAdapter(AuthlibInjectorServer.class, new AuthlibInjectorServer.Deserializer()).create();
         Type serverListType =new TypeToken<ArrayList<AuthlibInjectorServer>>(){}.getType();
-        ArrayList<AuthlibInjectorServer> list = gson.fromJson(string,serverListType);
-        return list;
+        return gson.fromJson(string,serverListType);
     }
 
     public static void saveLauncherSetting(LauncherSetting launcherSetting,String path){
@@ -95,7 +84,6 @@ public class GsonUtils {
         FileStringUtils.writeFile(path,string);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void saveServer(ArrayList<AuthlibInjectorServer> list, String path){
         Gson gson = JsonUtils.defaultGsonBuilder().registerTypeAdapter(AuthlibInjectorServer.class, new AuthlibInjectorServer.Deserializer()).create();
         String string = gson.toJson(list);

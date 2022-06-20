@@ -8,18 +8,17 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.Account;
@@ -28,7 +27,7 @@ import com.tungsten.hmclpe.auth.microsoft.Msa;
 import com.tungsten.hmclpe.auth.yggdrasil.Texture;
 import com.tungsten.hmclpe.auth.yggdrasil.TextureType;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.skin.draw2d.Avatar;
+import com.tungsten.hmclpe.skin.utils.Avatar;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -46,6 +45,7 @@ public class AddMicrosoftAccountDialog extends Dialog implements View.OnClickLis
 
     private Button login;
     private Button cancel;
+    private ProgressBar progressBar;
 
     private Account account;
 
@@ -69,6 +69,7 @@ public class AddMicrosoftAccountDialog extends Dialog implements View.OnClickLis
 
         login = findViewById(R.id.login_microsoft);
         cancel = findViewById(R.id.cancel_login_microsoft);
+        progressBar = findViewById(R.id.login_progress);
 
         login.setOnClickListener(this);
         cancel.setOnClickListener(this);
@@ -93,74 +94,78 @@ public class AddMicrosoftAccountDialog extends Dialog implements View.OnClickLis
         if (intent != null){
             data = intent.getData();
         }
-        //Log.i("MicroAuth", data.toString());
         if (data != null && data.getScheme().equals("ms-xal-00000000402b5328") && data.getHost().equals("auth")) {
             String error = data.getQueryParameter("error");
             String error_description = data.getQueryParameter("error_description");
             if (error != null) {
-                // "The user has denied access to the scope requested by the client application": user pressed Cancel button, skip it
                 if (!error_description.startsWith("The user has denied access to the scope requested by the client application")) {
                     Toast.makeText(getContext(), "Error: " + error + ": " + error_description, Toast.LENGTH_SHORT).show();
                 }
             }
             else {
                 String code = data.getQueryParameter("code");
-                new Thread() {
-                    @RequiresApi(api = Build.VERSION_CODES.N)
-                    @Override
-                    public void run() {
-                        try {
-                            Msa msa = new Msa(false, code);
-                            if (msa.doesOwnGame) {
-                                Msa.MinecraftProfileResponse minecraftProfile = Msa.getMinecraftProfile(msa.tokenType, msa.mcToken);
-                                Map<TextureType, Texture> map = Msa.getTextures(minecraftProfile).get();
-                                Texture texture = map.get(TextureType.SKIN);
-                                Bitmap skin;
-                                if (texture == null) {
-                                    AssetManager manager = getContext().getAssets();
-                                    InputStream inputStream;
-                                    inputStream = manager.open("img/alex.png");
-                                    skin = BitmapFactory.decodeStream(inputStream);
-                                }
-                                else {
-                                    String u = texture.getUrl();
-                                    if (!u.startsWith("https")){
-                                        u = u.replaceFirst("http","https");
-                                    }
-                                    URL url = new URL(u);
-                                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                                    httpURLConnection.setDoInput(true);
-                                    httpURLConnection.connect();
-                                    InputStream inputStream = httpURLConnection.getInputStream();
-                                    skin = BitmapFactory.decodeStream(inputStream);
-                                }
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        String skinTexture = Avatar.bitmapToString(skin);
-                                        account = new Account(3,
-                                                "",
-                                                "",
-                                                "mojang",
-                                                "0",
-                                                msa.mcName,
-                                                msa.mcUuid,
-                                                msa.mcToken,
-                                                "00000000-0000-0000-0000-000000000000",
-                                                msa.msRefreshToken,
-                                                "",
-                                                skinTexture);
-                                        onMicrosoftAccountAddListener.onPositive(account);
-                                        dismiss();
-                                    }
-                                });
+                new Thread(() -> {
+                    handler.post(() -> {
+                        progressBar.setVisibility(View.VISIBLE);
+                        login.setVisibility(View.GONE);
+                        cancel.setEnabled(false);
+                    });
+                    try {
+                        Msa msa = new Msa(false, code);
+                        if (msa.doesOwnGame) {
+                            Msa.MinecraftProfileResponse minecraftProfile = Msa.getMinecraftProfile(msa.tokenType, msa.mcToken);
+                            Map<TextureType, Texture> map = Msa.getTextures(minecraftProfile).get();
+                            Texture texture = map.get(TextureType.SKIN);
+                            Bitmap skin;
+                            if (texture == null) {
+                                AssetManager manager = getContext().getAssets();
+                                InputStream inputStream;
+                                inputStream = manager.open("img/alex.png");
+                                skin = BitmapFactory.decodeStream(inputStream);
                             }
-                        }
-                        catch (Exception e){
-                            e.printStackTrace();
+                            else {
+                                String u = texture.getUrl();
+                                if (!u.startsWith("https")){
+                                    u = u.replaceFirst("http","https");
+                                }
+                                URL url = new URL(u);
+                                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                                httpURLConnection.setDoInput(true);
+                                httpURLConnection.connect();
+                                InputStream inputStream = httpURLConnection.getInputStream();
+                                skin = BitmapFactory.decodeStream(inputStream);
+                            }
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String skinTexture = Avatar.bitmapToString(skin);
+                                    account = new Account(3,
+                                            "",
+                                            "",
+                                            "mojang",
+                                            "0",
+                                            msa.mcName,
+                                            msa.mcUuid,
+                                            msa.mcToken,
+                                            "00000000-0000-0000-0000-000000000000",
+                                            msa.msRefreshToken,
+                                            "",
+                                            skinTexture);
+                                    onMicrosoftAccountAddListener.onPositive(account);
+                                    dismiss();
+                                }
+                            });
                         }
                     }
-                }.start();
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    handler.post(() -> {
+                        progressBar.setVisibility(View.GONE);
+                        login.setVisibility(View.VISIBLE);
+                        cancel.setEnabled(true);
+                    });
+                }).start();
             }
         }
     }

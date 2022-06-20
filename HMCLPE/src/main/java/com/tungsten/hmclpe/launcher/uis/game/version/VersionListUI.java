@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
@@ -12,7 +13,7 @@ import com.tungsten.hmclpe.launcher.list.info.contents.ContentListAdapter;
 import com.tungsten.hmclpe.launcher.list.info.contents.ContentListBean;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListAdapter;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
-import com.tungsten.hmclpe.launcher.view.listview.ContentListView;
+import com.tungsten.hmclpe.launcher.view.list.ContentListView;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
@@ -42,6 +43,7 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
     private LinearLayout startGlobalSettingUI;
 
     private TextView startDownloadMcUIText;
+    private ProgressBar progressBar;
 
     public VersionListUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -66,14 +68,12 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
         refresh.setOnClickListener(this);
         startGlobalSettingUI = activity.findViewById(R.id.start_ui_global_setting);
         startGlobalSettingUI.setOnClickListener(this);
+        progressBar = activity.findViewById(R.id.loading_local_version_progress);
 
         contentListParent = activity.findViewById(R.id.content_list_parent);
-        startAddGameDirUI.post(new Runnable() {
-            @Override
-            public void run() {
-                gameDirList.setMaxHeight(contentListParent.getHeight() - startAddGameDirUI.getHeight() - ConvertUtils.dip2px(context,10));
-            }
-        });
+        startAddGameDirUI.post(() -> gameDirList.setMaxHeight(contentListParent.getHeight() - startAddGameDirUI.getHeight() - ConvertUtils.dip2px(context,10)));
+
+        new Thread(this::refreshVersionList).start();
     }
 
     @Override
@@ -100,7 +100,7 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
             activity.uiManager.switchMainUI(activity.uiManager.addGameDirectoryUI);
         }
         if (v == refresh){
-            refreshVersionList();
+            new Thread(this::refreshVersionList).start();
         }
         if (v == startGlobalSettingUI){
             activity.uiManager.switchMainUI(activity.uiManager.settingUI);
@@ -112,20 +112,28 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
         contentList = InitializeSetting.initializeContents(context);
         contentListAdapter = new ContentListAdapter(context,activity,contentList);
         gameDirList.setAdapter(contentListAdapter);
-        refreshVersionList();
+        gameListAdapter.refreshCurrentVersion(activity.publicGameSetting.currentVersion);
     }
 
     public void refreshVersionList(){
+        activity.runOnUiThread(() -> {
+            progressBar.setVisibility(View.VISIBLE);
+            startDownloadMcUIText.setVisibility(View.GONE);
+            versionList.setVisibility(View.GONE);
+        });
         gameList = SettingUtils.getLocalVersionInfo(activity.launcherSetting.gameFileDirectory,activity.publicGameSetting.currentVersion);
         gameListAdapter = new GameListAdapter(context,activity,gameList);
-        versionList.setAdapter(gameListAdapter);
-        if (gameList.size() != 0){
-            startDownloadMcUIText.setVisibility(View.GONE);
-            versionList.setVisibility(View.VISIBLE);
-        }
-        else {
-            startDownloadMcUIText.setVisibility(View.VISIBLE);
-            versionList.setVisibility(View.GONE);
-        }
+        activity.runOnUiThread(() -> {
+            versionList.setAdapter(gameListAdapter);
+            if (gameList.size() != 0){
+                startDownloadMcUIText.setVisibility(View.GONE);
+                versionList.setVisibility(View.VISIBLE);
+            }
+            else {
+                startDownloadMcUIText.setVisibility(View.VISIBLE);
+                versionList.setVisibility(View.GONE);
+            }
+            progressBar.setVisibility(View.GONE);
+        });
     }
 }

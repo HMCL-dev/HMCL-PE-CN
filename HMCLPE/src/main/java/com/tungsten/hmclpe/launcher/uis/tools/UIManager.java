@@ -12,7 +12,11 @@ import com.tungsten.hmclpe.launcher.uis.game.download.right.game.DownloadForgeUI
 import com.tungsten.hmclpe.launcher.uis.game.download.right.game.DownloadLiteLoaderUI;
 import com.tungsten.hmclpe.launcher.uis.game.download.right.game.DownloadOptifineUI;
 import com.tungsten.hmclpe.launcher.uis.game.download.right.game.InstallGameUI;
+import com.tungsten.hmclpe.launcher.uis.game.download.right.resource.BaseDownloadUI;
 import com.tungsten.hmclpe.launcher.uis.game.manager.GameManagerUI;
+import com.tungsten.hmclpe.launcher.uis.game.manager.universal.ExportWorldUI;
+import com.tungsten.hmclpe.launcher.uis.game.manager.universal.ModUpdateUI;
+import com.tungsten.hmclpe.launcher.uis.game.manager.universal.PackMcManagerUI;
 import com.tungsten.hmclpe.launcher.uis.game.version.VersionListUI;
 import com.tungsten.hmclpe.launcher.uis.game.version.universal.AddGameDirectoryUI;
 import com.tungsten.hmclpe.launcher.uis.game.version.universal.InstallPackageUI;
@@ -30,6 +34,9 @@ public class UIManager {
     public DownloadUI downloadUI;
     public SettingUI settingUI;
 
+    public ModUpdateUI modUpdateUI;
+    public PackMcManagerUI packMcManagerUI;
+    public ExportWorldUI exportWorldUI;
     public AddGameDirectoryUI addGameDirectoryUI;
     public InstallPackageUI installPackageUI;
 
@@ -52,6 +59,9 @@ public class UIManager {
         downloadUI = new DownloadUI(context,activity);
         settingUI = new SettingUI(context,activity);
 
+        modUpdateUI = new ModUpdateUI(context,activity);
+        packMcManagerUI = new PackMcManagerUI(context,activity);
+        exportWorldUI = new ExportWorldUI(context,activity);
         addGameDirectoryUI = new AddGameDirectoryUI(context,activity);
         installPackageUI = new InstallPackageUI(context,activity);
 
@@ -69,6 +79,9 @@ public class UIManager {
         downloadUI.onCreate();
         settingUI.onCreate();
 
+        modUpdateUI.onCreate();
+        packMcManagerUI.onCreate();
+        exportWorldUI.onCreate();
         addGameDirectoryUI.onCreate();
         installPackageUI.onCreate();
 
@@ -79,7 +92,7 @@ public class UIManager {
         downloadLiteLoaderUI.onCreate();
         downloadOptifineUI.onCreate();
 
-        mainUIs = new BaseUI[]{mainUI,addGameDirectoryUI,installPackageUI,accountUI,gameManagerUI,versionListUI,downloadUI,settingUI,installGameUI,downloadForgeUI,downloadFabricUI,downloadLiteLoaderUI,downloadOptifineUI,downloadFabricAPIUI};
+        mainUIs = new BaseUI[]{mainUI,modUpdateUI,packMcManagerUI,exportWorldUI,addGameDirectoryUI,installPackageUI,accountUI,gameManagerUI,versionListUI,downloadUI,settingUI,installGameUI,downloadForgeUI,downloadFabricUI,downloadLiteLoaderUI,downloadOptifineUI,downloadFabricAPIUI};
         uis = new ArrayList<>();
         switchMainUI(mainUI);
     }
@@ -95,8 +108,43 @@ public class UIManager {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data){
-        for (BaseUI ui : mainUIs){
+        for (BaseUI ui : mainUIs) {
             ui.onActivityResult(requestCode,resultCode,data);
+        }
+        for (BaseUI ui : uis) {
+            if (ui instanceof BaseDownloadUI) {
+                ui.onActivityResult(requestCode,resultCode,data);
+            }
+        }
+    }
+
+    public void onPause(){
+        for (BaseUI ui : mainUIs) {
+            ui.onPause();
+        }
+        for (BaseUI ui : uis) {
+            if (ui instanceof BaseDownloadUI) {
+                ui.onPause();
+            }
+        }
+    }
+
+    public void onResume(){
+        for (BaseUI ui : mainUIs) {
+            ui.onResume();
+        }
+        for (BaseUI ui : uis) {
+            if (ui instanceof BaseDownloadUI) {
+                ui.onResume();
+            }
+        }
+    }
+
+    public void removeUIIfExist(BaseUI ui) {
+        for (int i = 0;i < uis.size();i++){
+            if (uis.get(i) == ui){
+                uis.remove(i);
+            }
         }
     }
 }

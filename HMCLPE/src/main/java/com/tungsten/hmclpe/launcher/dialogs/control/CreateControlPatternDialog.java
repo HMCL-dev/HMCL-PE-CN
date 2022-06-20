@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.list.local.controller.ControlPattern;
-import com.tungsten.hmclpe.launcher.manifest.info.AppInfo;
+import com.tungsten.hmclpe.manifest.info.AppInfo;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 
 import java.util.ArrayList;

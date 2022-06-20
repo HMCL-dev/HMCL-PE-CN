@@ -12,9 +12,11 @@ import android.widget.TextView;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.mod.ModListBean;
-import com.tungsten.hmclpe.utils.string.StringUtils;
+import com.tungsten.hmclpe.launcher.download.GameUpdateDialog;
+import com.tungsten.hmclpe.launcher.mod.RemoteMod;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class DownloadFabricAPIListAdapter extends BaseAdapter {
@@ -22,13 +24,15 @@ public class DownloadFabricAPIListAdapter extends BaseAdapter {
     private Context context;
     private MainActivity activity;
     private String mcVersion;
-    private ArrayList<ModListBean.Version> versions;
+    private ArrayList<RemoteMod.Version> versions;
+    private boolean install;
 
-    public DownloadFabricAPIListAdapter(Context context,MainActivity activity,String mcVersion,ArrayList<ModListBean.Version> versions){
+    public DownloadFabricAPIListAdapter(Context context,MainActivity activity,String mcVersion,ArrayList<RemoteMod.Version> versions,boolean install){
         this.context = context;
         this.activity = activity;
         this.mcVersion = mcVersion;
         this.versions = versions;
+        this.install = install;
     }
 
     private class ViewHolder{
@@ -37,16 +41,6 @@ public class DownloadFabricAPIListAdapter extends BaseAdapter {
         TextView fabricAPIId;
         TextView mcVersion;
         TextView time;
-    }
-
-    private String getReleaseTime(String time){
-        int p1 = time.indexOf("-",0);
-        String str1 = StringUtils.substringBefore(time,"-") + " " + context.getString(R.string.download_minecraft_item_year) + " " + time.substring(p1 + 1);
-        int p2 = str1.indexOf("-",0);
-        String str2 = StringUtils.substringBefore(str1,"-") + " " + context.getString(R.string.download_minecraft_item_month) + " " + str1.substring(p2 + 1);
-        int p3 = str2.indexOf("T",0);
-        String str3 = StringUtils.substringBefore(str2,"T") + " " + context.getString(R.string.download_minecraft_item_day) + " " + str2.substring(p3 + 1);
-        return StringUtils.substringBefore(str3,".");
     }
 
     @Override
@@ -81,14 +75,17 @@ public class DownloadFabricAPIListAdapter extends BaseAdapter {
         else {
             viewHolder = (ViewHolder)view.getTag();
         }
-        ModListBean.Version version = versions.get(i);
+        RemoteMod.Version version = versions.get(i);
         viewHolder.icon.setImageDrawable(context.getDrawable(R.drawable.ic_fabric));
         viewHolder.fabricAPIId.setText(version.getVersion());
         viewHolder.mcVersion.setText(mcVersion);
-        viewHolder.time.setText(getReleaseTime(version.getDatePublished().toString()));
-        viewHolder.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        viewHolder.time.setText(DateTimeFormatter.ofPattern(context.getString(R.string.time_pattern)).withZone(ZoneId.systemDefault()).format(version.getDatePublished().toInstant()));
+        viewHolder.item.setOnClickListener(v -> {
+            if (install) {
+                GameUpdateDialog dialog = new GameUpdateDialog(context,activity,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.versionName,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.gameVersion,4,version);
+                dialog.show();
+            }
+            else {
                 activity.uiManager.installGameUI.fabricAPIVersion = version;
                 activity.backToLastUI();
             }

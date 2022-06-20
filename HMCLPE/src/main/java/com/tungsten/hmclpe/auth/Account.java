@@ -1,5 +1,7 @@
 package com.tungsten.hmclpe.auth;
 
+import com.tungsten.hmclpe.auth.offline.OfflineSkinSetting;
+
 public class Account {
     public int loginType;
     public String email;
@@ -13,6 +15,7 @@ public class Account {
     public String refresh_token;
     public String loginServer;
     public String texture;
+    public OfflineSkinSetting offlineSkinSetting;
 
     public Account (int loginType,String email,String password,String user_type,String auth_session,String auth_player_name,String auth_uuid,String auth_access_token,String auth_client_token,String refresh_token,String loginServer,String texture){
         this.loginType = loginType;
@@ -42,5 +45,6 @@ public class Account {
         this.refresh_token = account.refresh_token;
         this.loginServer = account.loginServer;
         this.texture = account.texture;
+        this.offlineSkinSetting = account.offlineSkinSetting;
     }
 }

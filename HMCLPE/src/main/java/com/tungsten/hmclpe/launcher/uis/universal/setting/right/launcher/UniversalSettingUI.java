@@ -26,7 +26,7 @@ import com.tungsten.filepicker.Constants;
 import com.tungsten.filepicker.FolderChooser;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.update.UpdateChecker;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;

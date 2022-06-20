@@ -7,6 +7,7 @@
         android:icon="@drawable/ic_baseline_launch_black"/>
 
     <item
+        android:visible="false"
         android:id="@+id/local_version_menu_generate_launch_script"
         android:title="@string/menu_local_version_generate_launch_script"
         android:icon="@drawable/ic_outline_script_black"/>

@@ -1,7 +1,6 @@
 package com.tungsten.hmclpe.launcher.list.local.controller;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
@@ -23,9 +22,9 @@ import com.leo618.zip.ZipManager;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.ControlPatternActivity;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.dialogs.LoadingDialog;
 import com.tungsten.hmclpe.launcher.dialogs.control.ControllerManagerDialog;
-import com.tungsten.hmclpe.launcher.dialogs.control.ExportControlDialog;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.utils.animation.HiddenAnimationUtils;
@@ -126,127 +125,105 @@ public class ControlPatternListAdapter extends BaseAdapter {
         viewHolder.version.setText(pattern.versionName);
         viewHolder.describe.setText(pattern.describe);
         viewHolder.check.setChecked(pattern.name.equals(currentPattern));
-        viewHolder.check.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.onPatternChangeListener.onPatternChange(pattern.name);
-                dialog.currentPattern = pattern.name;
-                currentPattern = pattern.name;
-                notifyDataSetChanged();
-            }
+        viewHolder.check.setOnClickListener(view14 -> {
+            dialog.onPatternChangeListener.onPatternChange(pattern.name);
+            dialog.currentPattern = pattern.name;
+            currentPattern = pattern.name;
+            notifyDataSetChanged();
         });
-        viewHolder.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                HiddenAnimationUtils.newInstance(context,viewHolder.info,null, ConvertUtils.dip2px(context,70)).toggle();
-            }
+        viewHolder.item.setOnClickListener(view13 -> HiddenAnimationUtils.newInstance(context,viewHolder.info,null, ConvertUtils.dip2px(context,70)).toggle());
+        viewHolder.edit.setOnClickListener(view12 -> {
+            Intent intent = new Intent(context, ControlPatternActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("pattern", pattern.name);
+            bundle.putString("initial", currentPattern);
+            bundle.putBoolean("fullscreen",fullscreen);
+            intent.putExtras(bundle);
+            int code = isolate ? ControlPatternActivity.CONTROL_PATTERN_REQUEST_CODE_ISOLATE : ControlPatternActivity.CONTROL_PATTERN_REQUEST_CODE;
+            activity.startActivityForResult(intent,code);
         });
-        viewHolder.edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ControlPatternActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("pattern", pattern.name);
-                bundle.putString("initial", currentPattern);
-                bundle.putBoolean("fullscreen",fullscreen);
-                intent.putExtras(bundle);
-                int code = isolate ? ControlPatternActivity.CONTROL_PATTERN_REQUEST_CODE_ISOLATE : ControlPatternActivity.CONTROL_PATTERN_REQUEST_CODE;
-                activity.startActivityForResult(intent,code);
-            }
-        });
-        viewHolder.share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ExportControlDialog dialog = new ExportControlDialog(context);
-                new Thread(() -> {
-                    activity.runOnUiThread(dialog::show);
-                    FileUtils.deleteDirectory(AppManifest.DEFAULT_CACHE_DIR + "/export/");
-                    FileUtils.createDirectory(AppManifest.DEFAULT_CACHE_DIR + "/export/");
-                    ZipManager.zip(AppManifest.CONTROLLER_DIR + "/" + pattern.name, AppManifest.DEFAULT_CACHE_DIR + "/export/" + pattern.name + ".zip", "HMCL-PE-Password", new IZipCallback() {
-                        @Override
-                        public void onStart() {
-
-                        }
-
-                        @Override
-                        public void onProgress(int percentDone) {
-
-                        }
-
-                        @Override
-                        public void onFinish(boolean success) {
-                            if (success) {
-                                if (FileUtils.rename(AppManifest.DEFAULT_CACHE_DIR + "/export/" + pattern.name + ".zip",pattern.name + ".hmclpe")) {
-                                    Intent intent = new Intent(Intent.ACTION_SEND);
-                                    Uri uri = FileProvider.getUriForFile(context,context.getString(R.string.filebrowser_provider),new File(AppManifest.DEFAULT_CACHE_DIR + "/export/" + pattern.name + ".hmclpe"));
-                                    intent.setType(getMimeType(AppManifest.DEFAULT_CACHE_DIR + "/export/" + pattern.name + ".hmclpe"));
-                                    //System.out.println(getMimeType(AppManifest.DEFAULT_CACHE_DIR + "/export/" + pattern.name + ".hmclpe"));
-                                    intent.putExtra(Intent.EXTRA_STREAM, uri);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    intent.addCategory(Intent.CATEGORY_DEFAULT);
-                                    activity.runOnUiThread(dialog::dismiss);
-                                    activity.startActivity(intent);
-                                }
-                            }
-                        }
-                    });
-                }).start();
-            }
-        });
-        viewHolder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(context.getString(R.string.dialog_delete_control_pattern_title));
-                builder.setMessage(context.getString(R.string.dialog_delete_control_pattern_content));
-                builder.setPositiveButton(context.getString(R.string.dialog_delete_control_pattern_positive), new DialogInterface.OnClickListener() {
+        viewHolder.share.setOnClickListener(view1 -> {
+            LoadingDialog dialog = new LoadingDialog(context);
+            dialog.setLoadingText(context.getString(R.string.dialog_manage_controller_export_dialog));
+            new Thread(() -> {
+                activity.runOnUiThread(dialog::show);
+                FileUtils.deleteDirectory(AppManifest.DEFAULT_CACHE_DIR + "/export/");
+                FileUtils.createDirectory(AppManifest.DEFAULT_CACHE_DIR + "/export/");
+                ZipManager.zip(AppManifest.CONTROLLER_DIR + "/" + pattern.name, AppManifest.DEFAULT_CACHE_DIR + "/export/" + pattern.name + ".zip", "HMCL-PE-Password", new IZipCallback() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int p) {
-                        if (currentPattern.equals(pattern.name)){
-                            if (list.size() == 1){
-                                FileUtils.deleteDirectory(AppManifest.CONTROLLER_DIR + "/" + pattern.name);
-                                list.remove(i);
-                                InitializeSetting.initializeControlPattern(activity, new AssetsUtils.FileOperateCallback() {
-                                    @Override
-                                    public void onSuccess() {
-                                        list = SettingUtils.getControlPatternList();
-                                        dialog.onPatternChangeListener.onPatternChange(list.get(0).name);
-                                        dialog.currentPattern = list.get(0).name;
-                                        currentPattern = list.get(0).name;
-                                        notifyDataSetChanged();
-                                    }
+                    public void onStart() {
 
-                                    @Override
-                                    public void onFailed(String error) {
+                    }
 
-                                    }
-                                });
+                    @Override
+                    public void onProgress(int percentDone) {
+
+                    }
+
+                    @Override
+                    public void onFinish(boolean success) {
+                        if (success) {
+                            if (FileUtils.rename(AppManifest.DEFAULT_CACHE_DIR + "/export/" + pattern.name + ".zip",pattern.name + ".hmclpe")) {
+                                Intent intent = new Intent(Intent.ACTION_SEND);
+                                Uri uri = FileProvider.getUriForFile(context,context.getString(R.string.filebrowser_provider),new File(AppManifest.DEFAULT_CACHE_DIR + "/export/" + pattern.name + ".hmclpe"));
+                                intent.setType(getMimeType(AppManifest.DEFAULT_CACHE_DIR + "/export/" + pattern.name + ".hmclpe"));
+                                intent.putExtra(Intent.EXTRA_STREAM, uri);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                intent.addCategory(Intent.CATEGORY_DEFAULT);
+                                activity.runOnUiThread(dialog::dismiss);
+                                activity.startActivity(Intent.createChooser(intent,context.getString(R.string.dialog_manage_controller_export_dialog)));
                             }
-                            else {
-                                FileUtils.deleteDirectory(AppManifest.CONTROLLER_DIR + "/" + pattern.name);
-                                list.remove(i);
+                        }
+                    }
+                });
+            }).start();
+        });
+        viewHolder.delete.setOnClickListener(view15 -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle(context.getString(R.string.dialog_delete_control_pattern_title));
+            builder.setMessage(context.getString(R.string.dialog_delete_control_pattern_content));
+            builder.setPositiveButton(context.getString(R.string.dialog_delete_control_pattern_positive), (dialogInterface, p) -> {
+                if (currentPattern.equals(pattern.name)){
+                    if (list.size() == 1){
+                        FileUtils.deleteDirectory(AppManifest.CONTROLLER_DIR + "/" + pattern.name);
+                        list.remove(i);
+                        InitializeSetting.initializeControlPattern(activity, new AssetsUtils.FileOperateCallback() {
+                            @Override
+                            public void onSuccess() {
+                                list = SettingUtils.getControlPatternList();
                                 dialog.onPatternChangeListener.onPatternChange(list.get(0).name);
                                 dialog.currentPattern = list.get(0).name;
                                 currentPattern = list.get(0).name;
                                 notifyDataSetChanged();
                             }
-                        }
-                        else {
-                            FileUtils.deleteDirectory(AppManifest.CONTROLLER_DIR + "/" + pattern.name);
-                            list.remove(i);
-                            notifyDataSetChanged();
-                        }
-                    }
-                });
-                builder.setNegativeButton(context.getString(R.string.dialog_delete_control_pattern_negative), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
 
+                            @Override
+                            public void onFailed(String error) {
+
+                            }
+                        });
                     }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
+                    else {
+                        FileUtils.deleteDirectory(AppManifest.CONTROLLER_DIR + "/" + pattern.name);
+                        list.remove(i);
+                        dialog.onPatternChangeListener.onPatternChange(list.get(0).name);
+                        dialog.currentPattern = list.get(0).name;
+                        currentPattern = list.get(0).name;
+                        notifyDataSetChanged();
+                    }
+                }
+                else {
+                    FileUtils.deleteDirectory(AppManifest.CONTROLLER_DIR + "/" + pattern.name);
+                    list.remove(i);
+                    notifyDataSetChanged();
+                }
+            });
+            builder.setNegativeButton(context.getString(R.string.dialog_delete_control_pattern_negative), (dialogInterface, i1) -> {
+
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
         return view;
     }

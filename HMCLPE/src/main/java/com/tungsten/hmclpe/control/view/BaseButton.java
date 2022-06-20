@@ -6,13 +6,13 @@ import static com.tungsten.hmclpe.control.bean.BaseButtonInfo.SIZE_TYPE_PERCENT;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
@@ -31,7 +31,7 @@ import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
-import net.kdt.pojavlaunch.LWJGLGLFWKeycode;
+import net.kdt.pojavlaunch.keyboard.LWJGLGLFWKeycode;
 
 import java.util.ArrayList;
 
@@ -61,19 +61,18 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
     private boolean isShowing = true;
 
     private final Handler deleteHandler = new Handler();
-    private final Runnable deleteRunnable = new Runnable() {
-        @Override
-        public void run() {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle(getContext().getString(R.string.dialog_delete_button_title));
-            builder.setMessage(getContext().getString(R.string.dialog_delete_button_content));
-            builder.setPositiveButton(getContext().getString(R.string.dialog_delete_button_positive), (dialogInterface, i) -> {
-                deleteButton();
-            });
-            builder.setNegativeButton(getContext().getString(R.string.dialog_delete_button_negative), (dialogInterface, i) -> {});
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
+    private final Runnable deleteRunnable = () -> {
+        Vibrator vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(100);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(getContext().getString(R.string.dialog_delete_button_title));
+        builder.setMessage(getContext().getString(R.string.dialog_delete_button_content));
+        builder.setPositiveButton(getContext().getString(R.string.dialog_delete_button_positive), (dialogInterface, i) -> {
+            deleteButton();
+        });
+        builder.setNegativeButton(getContext().getString(R.string.dialog_delete_button_negative), (dialogInterface, i) -> {});
+        AlertDialog dialog = builder.create();
+        dialog.show();
     };
 
     private final Handler clickHandler = new Handler();
@@ -115,7 +114,6 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
             outlinePath.lineTo(0,0);
             canvas.drawPath(outlinePath,outlinePaint);
         }
-        invalidate();
     }
 
     @Override
@@ -281,7 +279,7 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                             }
                         }
                         if (info.outputText != null && !info.outputText.equals("")) {
-                            if (menuHelper.viewManager.gameCursorMode == 0) {
+                            if (menuHelper.gameCursorMode == 0) {
                                 for(int i = 0; i < info.outputText.length(); i++){
                                     InputBridge.sendKeyChar(menuHelper.launcher,info.outputText.charAt(i));
                                 }
@@ -289,25 +287,27 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                             else {
                                 InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_T, true);
                                 InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_T, false);
-                                new Handler().postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        for(int i = 0; i < info.outputText.length(); i++){
-                                            InputBridge.sendKeyChar(menuHelper.launcher,info.outputText.charAt(i));
-                                        }
-                                        InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_ENTER, true);
-                                        InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_ENTER, false);
+                                new Handler().postDelayed(() -> {
+                                    for(int i = 0; i < info.outputText.length(); i++){
+                                        InputBridge.sendKeyChar(menuHelper.launcher,info.outputText.charAt(i));
                                     }
+                                    InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_ENTER, true);
+                                    InputBridge.sendEvent(menuHelper.launcher, LWJGLGLFWKeycode.GLFW_KEY_ENTER, false);
                                 },50);
                             }
                         }
                         if (info.showInputDialog) {
-                            InputDialog dialog = new InputDialog(getContext(),menuHelper);
-                            dialog.show();
+                            if (!menuHelper.gameMenuSetting.advanceInput) {
+                                menuHelper.touchCharInput.switchKeyboardState();
+                            }
+                            else {
+                                InputDialog dialog = new InputDialog(getContext(),menuHelper);
+                                dialog.show();
+                            }
                         }
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        if (info.viewMove && menuHelper.viewManager.gameCursorMode == 1) {
+                        if (info.viewMove && menuHelper.gameCursorMode == 1) {
                             menuHelper.viewManager.setGamePointer(info.uuid,true,event.getRawX() - initialX,event.getRawY() - initialY);
                         }
                         if (info.movable) {
@@ -337,7 +337,7 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        if (info.viewMove && menuHelper.viewManager.gameCursorMode == 1) {
+                        if (info.viewMove && menuHelper.gameCursorMode == 1) {
                             menuHelper.viewManager.setGamePointer(info.uuid,false,event.getRawX() - initialX,event.getRawY() - initialY);
                         }
                         if (!info.autoKeep && !info.autoClick) {
@@ -383,7 +383,7 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                         }
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        if (info.viewMove && menuHelper.viewManager.gameCursorMode == 1) {
+                        if (info.viewMove && menuHelper.gameCursorMode == 1) {
                             menuHelper.viewManager.setGamePointer(info.uuid,true,event.getRawX() - initialX,event.getRawY() - initialY);
                         }
                         if (info.movable) {
@@ -413,7 +413,7 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        if (info.viewMove && menuHelper.viewManager.gameCursorMode == 1) {
+                        if (info.viewMove && menuHelper.gameCursorMode == 1) {
                             menuHelper.viewManager.setGamePointer(info.uuid,false,event.getRawX() - initialX,event.getRawY() - initialY);
                         }
                         if (!info.autoKeep) {
@@ -511,7 +511,7 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
             }
         }
         if (info.outputText != null && !info.outputText.equals("")) {
-            if (menuHelper.viewManager.gameCursorMode == 0) {
+            if (menuHelper.gameCursorMode == 0) {
                 for(int i = 0; i < info.outputText.length(); i++){
                     InputBridge.sendKeyChar(menuHelper.launcher,info.outputText.charAt(i));
                 }
@@ -532,8 +532,13 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
             }
         }
         if (info.showInputDialog) {
-            InputDialog dialog = new InputDialog(getContext(),menuHelper);
-            dialog.show();
+            if (!menuHelper.gameMenuSetting.advanceInput) {
+                menuHelper.touchCharInput.switchKeyboardState();
+            }
+            else {
+                InputDialog dialog = new InputDialog(getContext(),menuHelper);
+                dialog.show();
+            }
         }
     }
 
@@ -547,13 +552,17 @@ public class BaseButton extends androidx.appcompat.widget.AppCompatButton {
     }
 
     public void refreshVisibility(){
-        int mode = menuHelper.viewManager == null ? 0 : menuHelper.viewManager.gameCursorMode;
+        int mode = menuHelper.viewManager == null ? 0 : menuHelper.gameCursorMode;
         if (menuHelper.editMode || (isShowing && (info.showType == 0 || (mode == 1 && info.showType == 1) || (mode == 0 && info.showType == 2)))) {
             setVisibility(VISIBLE);
         }
         else {
             setVisibility(INVISIBLE);
         }
+    }
+
+    public void refresh() {
+        invalidate();
     }
 
     public void refreshStyle (BaseButtonInfo info) {

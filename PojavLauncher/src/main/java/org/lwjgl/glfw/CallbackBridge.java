@@ -3,7 +3,7 @@ package org.lwjgl.glfw;
 import android.os.Handler;
 import android.os.Looper;
 import net.kdt.pojavlaunch.*;
-import android.content.*;
+import net.kdt.pojavlaunch.keyboard.LWJGLGLFWKeycode;
 
 public class CallbackBridge {
     public static final int ANDROID_TYPE_GRAB_STATE = 0;
@@ -31,6 +31,7 @@ public class CallbackBridge {
     private static boolean threadAttached;
     public static boolean sendCursorPos(float x, float y) {
         if (!threadAttached) {
+            nativeSetUseInputStackQueue(BaseMainActivity.isInputStackCall);
             threadAttached = CallbackBridge.nativeAttachThreadToOther(true, BaseMainActivity.isInputStackCall);
         }
         
@@ -210,6 +211,7 @@ public class CallbackBridge {
     private static native void nativeSendScroll(double xoffset, double yoffset);
     private static native void nativeSendScreenSize(int width, int height);
     public static native void nativeSetWindowAttrib(int attrib, int value);
+    public static native void nativeSetUseInputStackQueue(boolean useInputStackQueue);
     
     public static native boolean nativeIsGrabbing();
     static {

@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:text="@string/dialog_install_game_title"
         android:textColor="@color/colorPureBlack"
+        android:textStyle="bold"
         android:textSize="@dimen/text_size_middle"/>
     
     <androidx.recyclerview.widget.RecyclerView

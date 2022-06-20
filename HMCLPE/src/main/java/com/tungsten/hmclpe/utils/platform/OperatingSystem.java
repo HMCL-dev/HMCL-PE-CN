@@ -1,9 +1,5 @@
 package com.tungsten.hmclpe.utils.platform;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +20,6 @@ import java.util.regex.Pattern;
  *
  * @author huangyuhui
  */
-@RequiresApi(api = Build.VERSION_CODES.O)
 public enum OperatingSystem {
     /**
      * Microsoft Windows.
@@ -194,7 +189,6 @@ public enum OperatingSystem {
             return UNKNOWN;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static Optional<PhysicalMemoryStatus> getPhysicalMemoryStatus() {
         if (CURRENT_OS == LINUX) {
             try {
@@ -242,7 +236,6 @@ public enum OperatingSystem {
         System.gc();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static Path getWorkingDirectory(String folder) {
         String home = System.getProperty("user.home", ".");
         switch (OperatingSystem.CURRENT_OS) {

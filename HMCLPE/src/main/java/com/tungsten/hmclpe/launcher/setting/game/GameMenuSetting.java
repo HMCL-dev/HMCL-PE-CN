@@ -2,7 +2,7 @@ package com.tungsten.hmclpe.launcher.setting.game;
 
 import com.google.gson.Gson;
 import com.tungsten.hmclpe.control.view.MenuView;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.game.child.MenuFloatSetting;
 import com.tungsten.hmclpe.launcher.setting.game.child.MenuViewSetting;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
@@ -18,6 +18,7 @@ public class GameMenuSetting {
     public boolean menuSlideSetting;
     public boolean enableSensor;
     public int sensitivity;
+    public boolean advanceInput;
     public boolean disableHalfScreen;
     public int touchMode;
     public int mouseMode;
@@ -26,12 +27,13 @@ public class GameMenuSetting {
     public boolean hideUI;
     public int version;
 
-    public GameMenuSetting(MenuFloatSetting menuFloatSetting,MenuViewSetting menuViewSetting,boolean menuSlideSetting,boolean enableSensor,int sensitivity,boolean disableHalfScreen,int touchMode,int mouseMode,float mouseSpeed,int mouseSize,boolean hideUI,int version){
+    public GameMenuSetting(MenuFloatSetting menuFloatSetting,MenuViewSetting menuViewSetting,boolean menuSlideSetting,boolean enableSensor,int sensitivity,boolean advanceInput,boolean disableHalfScreen,int touchMode,int mouseMode,float mouseSpeed,int mouseSize,boolean hideUI,int version){
         this.menuFloatSetting = menuFloatSetting;
         this.menuViewSetting = menuViewSetting;
         this.menuSlideSetting = menuSlideSetting;
         this.enableSensor = enableSensor;
         this.sensitivity = sensitivity;
+        this.advanceInput = advanceInput;
         this.disableHalfScreen = disableHalfScreen;
         this.touchMode = touchMode;
         this.mouseMode = mouseMode;
@@ -50,6 +52,7 @@ public class GameMenuSetting {
                     true,
                     false,
                     10,
+                    false,
                     false,
                     0,
                     0,

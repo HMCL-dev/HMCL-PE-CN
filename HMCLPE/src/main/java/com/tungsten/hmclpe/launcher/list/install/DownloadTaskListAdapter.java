@@ -14,14 +14,21 @@ import com.tungsten.hmclpe.R;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("ALL")
 public class DownloadTaskListAdapter extends RecyclerView.Adapter<DownloadTaskListAdapter.ViewHolder> {
 
-    private Context context;
-    private ArrayList<DownloadTaskListBean> list;
+    private final Context context;
+    private final ArrayList<DownloadTaskListBean> list;
+
+    private boolean checkMod = false;
 
     public DownloadTaskListAdapter(Context context) {
         this.context = context;
         this.list = new ArrayList<>();
+    }
+
+    public void setCheckMod(boolean checkMod) {
+        this.checkMod = checkMod;
     }
 
     @NonNull
@@ -35,6 +42,12 @@ public class DownloadTaskListAdapter extends RecyclerView.Adapter<DownloadTaskLi
         DownloadTaskListBean downloadTaskListBean = list.get(position);
         holder.progressBar.setProgress(downloadTaskListBean.progress);
         holder.fileName.setText(downloadTaskListBean.name);
+        if (checkMod || (!downloadTaskListBean.name.equals(context.getString(R.string.dialog_install_assets_check)) && !downloadTaskListBean.name.equals(context.getString(R.string.dialog_install_game_install_forge_build)) && (downloadTaskListBean.path == null || downloadTaskListBean.path.equals("")) && (downloadTaskListBean.url == null || downloadTaskListBean.url.equals("")) && (downloadTaskListBean.sha1 == null || downloadTaskListBean.sha1.equals("")))) {
+            holder.progressBar.setIndeterminate(true);
+        }
+        else {
+            holder.progressBar.setIndeterminate(false);
+        }
     }
 
     @Override
@@ -53,7 +66,7 @@ public class DownloadTaskListAdapter extends RecyclerView.Adapter<DownloadTaskLi
 
     public void onProgress(DownloadTaskListBean bean) {
         for(int i = 0; i < list.size(); ++i) {
-            if (list.get(i).url.equals(bean.url)) {
+            if ((list.get(i).url.equals(bean.url) && !bean.url.equals("")) || (list.get(i).name.equals(bean.name) && bean.url.equals(""))) {
                 list.set(i, bean);
                 this.notifyItemChanged(i);
             }
@@ -62,7 +75,7 @@ public class DownloadTaskListAdapter extends RecyclerView.Adapter<DownloadTaskLi
 
     public void onComplete(DownloadTaskListBean bean) {
         for(int i = 0; i < list.size(); ++i) {
-            if (list.get(i).url.equals(bean.url)) {
+            if ((list.get(i).url.equals(bean.url) && !bean.url.equals("")) || (list.get(i).name.equals(bean.name) && bean.url.equals(""))) {
                 list.remove(i);
                 this.notifyItemRemoved(i);
             }
@@ -71,8 +84,8 @@ public class DownloadTaskListAdapter extends RecyclerView.Adapter<DownloadTaskLi
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView fileName;
-        private ProgressBar progressBar;
+        private final TextView fileName;
+        private final ProgressBar progressBar;
 
         public ViewHolder(View parent) {
             super(parent);

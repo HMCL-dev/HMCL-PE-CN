@@ -41,7 +41,7 @@ public class RenameVersionDialog extends Dialog implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         if (v == confirm){
-            if (editText.getText().toString().equals("")) {
+            if (editText.getText().toString().equals("") || editText.getText().toString().contains("/")) {
                 Toast.makeText(getContext(), getContext().getString(R.string.dialog_rename_version_alert), Toast.LENGTH_SHORT).show();
             }
             else {

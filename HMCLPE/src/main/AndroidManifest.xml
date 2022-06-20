@@ -20,8 +20,14 @@
         android:name="android.permission.VIBRATE"/>
     <uses-permission
         android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission
+        android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS"
+        tools:ignore="HighSamplingRate" />
 
     <application
+        android:name=".launcher.HMCLPEApplication"
         android:allowBackup="true"
         android:requestLegacyExternalStorage="true"
         android:preserveLegacyExternalStorage="true"
@@ -37,10 +43,9 @@
         android:allowNativeHeapPointerTagging="false"
         android:isGame="true"
         android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"
-        tools:ignore="UnusedAttribute">
+        tools:targetApi="32">
         <activity
-            android:name=".launcher.MainActivity"
-            android:launchMode="singleTask"
+            android:name=".launcher.SplashActivity"
             android:screenOrientation="sensorLandscape"
             android:exported="true">
             <intent-filter>
@@ -64,11 +69,19 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".launcher.MainActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"/>
+        <activity
             android:name=".auth.microsoft.MicrosoftLoginActivity"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"/>
         <activity
             android:name=".control.ControlPatternActivity"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"/>
+        <activity
+            android:name=".launcher.launch.ExitActivity"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"/>
         <activity
@@ -87,25 +100,16 @@
             android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|keyboard|navigation"
             android:screenOrientation="sensorLandscape"
             android:theme="@style/Theme.HelloMinecraftLauncherPocketEdition"/>
-        <activity
-            android:theme="@style/Theme.AppCompat.Dialog"
-            android:screenOrientation="sensorLandscape"
-            android:name="net.kdt.pojavlaunch.ExitActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|keyboard|navigation"/>
         <service
-            android:name=".launcher.download.optifine.InstallOptifineService"
-            android:process=":installOptifineService"
+            android:name=".launcher.launch.boat.VirGLService"
+            android:process=":virGLProcess"
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".launcher.download.forge.InstallForgeService"
-            android:process=":installForgeService"
+            android:name=".launcher.download.ApiService"
+            android:process=":apiService"
             android:enabled="true"
             android:exported="true" />
-        <service
-            android:name="utils.logcat.LogcatService"
-            android:process=":logcatprocess"
-            tools:ignore="MissingClass" />
     </application>
 
 </manifest>

@@ -8,6 +8,8 @@ import com.tungsten.hmclpe.launcher.setting.game.child.JavaSetting;
 import com.tungsten.hmclpe.launcher.setting.game.child.PojavLauncherSetting;
 import com.tungsten.hmclpe.launcher.setting.game.child.RamSetting;
 
+import java.util.ArrayList;
+
 public class PrivateGameSetting implements Cloneable{
 
     public boolean forceEnable;
@@ -16,6 +18,7 @@ public class PrivateGameSetting implements Cloneable{
     public boolean notCheckJvm;
     public boolean notCheckMinecraft;
     public boolean notCheckForge;
+    public boolean touchInjector;
     public JavaSetting javaSetting;
     public String extraJavaFlags;
     public String extraMinecraftFlags;
@@ -24,17 +27,17 @@ public class PrivateGameSetting implements Cloneable{
     public BoatLauncherSetting boatLauncherSetting;
     public PojavLauncherSetting pojavLauncherSetting;
     public RamSetting ramSetting;
-    public int controlType;
     public String controlLayout;
     public float scaleFactor;
 
-    public PrivateGameSetting (boolean forceEnable,boolean enable,boolean log,boolean notCheckJvm,boolean notCheckMinecraft,boolean notCheckForge,JavaSetting javaSetting,String extraJavaFlags,String extraMinecraftFlags,String server,GameDirSetting gameDirSetting,BoatLauncherSetting boatLauncherSetting,PojavLauncherSetting pojavLauncherSetting,RamSetting ramSetting,int controlType,String controlLayout,float scaleFactor){
+    public PrivateGameSetting (boolean forceEnable,boolean enable,boolean log,boolean notCheckJvm,boolean notCheckMinecraft,boolean notCheckForge,boolean touchInjector,JavaSetting javaSetting,String extraJavaFlags,String extraMinecraftFlags,String server,GameDirSetting gameDirSetting,BoatLauncherSetting boatLauncherSetting,PojavLauncherSetting pojavLauncherSetting,RamSetting ramSetting,String controlLayout,float scaleFactor){
         this.forceEnable = forceEnable;
         this.enable = enable;
         this.log = log;
         this.notCheckJvm = notCheckJvm;
         this.notCheckMinecraft = notCheckMinecraft;
         this.notCheckForge = notCheckForge;
+        this.touchInjector = touchInjector;
         this.javaSetting = javaSetting;
         this.extraJavaFlags = extraJavaFlags;
         this.extraMinecraftFlags = extraMinecraftFlags;
@@ -43,7 +46,6 @@ public class PrivateGameSetting implements Cloneable{
         this.boatLauncherSetting = boatLauncherSetting;
         this.pojavLauncherSetting = pojavLauncherSetting;
         this.ramSetting = ramSetting;
-        this.controlType = controlType;
         this.controlLayout = controlLayout;
         this.scaleFactor = scaleFactor;
     }

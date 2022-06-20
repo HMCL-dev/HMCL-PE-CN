@@ -26,7 +26,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:paddingRight="12dp"
+                    android:layout_marginEnd="12dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -43,8 +43,9 @@
                         android:layout_gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="36dp"
-                        android:layout_marginLeft="12dp"
-                        android:paddingLeft="9dp"
+                        android:layout_marginStart="12dp"
+                        android:paddingStart="9dp"
+                        android:paddingEnd="9dp"
                         android:textSize="@dimen/text_size_middle"
                         android:hint="@string/download_world_ui_name_hint"
                         android:id="@+id/download_world_arg_name"
@@ -53,7 +54,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:paddingRight="12dp"
+                    android:layout_marginEnd="12dp"
                     android:layout_marginTop="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -71,7 +72,7 @@
                         android:layout_gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="36dp"
-                        android:layout_marginLeft="12dp"
+                        android:layout_marginStart="12dp"
                         android:background="@drawable/launcher_view_white">
 
                         <Spinner
@@ -98,20 +99,16 @@
 
                     <TextView
                         android:layout_gravity="center"
-                        android:layout_width="wrap_content"
+                        android:layout_width="52dp"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"
                         android:text="@string/download_world_ui_version"/>
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
                     <RelativeLayout
+                        android:layout_marginStart="12dp"
                         android:layout_gravity="center"
-                        android:layout_width="230dp"
+                        android:layout_width="match_parent"
                         android:layout_height="36dp"
                         android:background="@drawable/launcher_view_white">
 
@@ -126,7 +123,8 @@
                             android:layout_width="120dp"
                             android:layout_height="match_parent"
                             android:textSize="@dimen/text_size_middle"
-                            android:paddingLeft="9dp"
+                            android:paddingStart="9dp"
+                            android:paddingEnd="9dp"
                             android:id="@+id/edit_download_world_arg_version"/>
 
                     </RelativeLayout>
@@ -141,20 +139,16 @@
 
                     <TextView
                         android:layout_gravity="center"
-                        android:layout_width="wrap_content"
+                        android:layout_width="52dp"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"
                         android:text="@string/download_world_ui_sort"/>
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
                     <RelativeLayout
+                        android:layout_marginStart="12dp"
                         android:layout_gravity="center"
-                        android:layout_width="230dp"
+                        android:layout_width="match_parent"
                         android:layout_height="36dp"
                         android:background="@drawable/launcher_view_white">
 
@@ -217,6 +211,17 @@
             android:layout_centerInParent="true"
             android:indeterminate="true"
             android:id="@+id/loading_download_world_list_progress"/>
+
+        <TextView
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/colorLinkBlue"
+            android:textSize="22sp"
+            android:text="@string/download_list_load_fail"
+            android:id="@+id/refresh_world_list"/>
 
     </RelativeLayout>
 

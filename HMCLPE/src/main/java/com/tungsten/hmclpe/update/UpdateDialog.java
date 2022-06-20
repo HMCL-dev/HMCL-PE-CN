@@ -17,14 +17,14 @@ import androidx.core.content.FileProvider;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.task.DownloadTask;
 import com.tungsten.hmclpe.task.LanzouUrlGetTask;
 import com.tungsten.hmclpe.utils.file.FileUtils;
 import com.tungsten.hmclpe.utils.io.DownloadUtil;
 
 import java.io.File;
-import java.util.Map;
+import java.util.ArrayList;
 
 public class UpdateDialog extends Dialog implements View.OnClickListener {
 
@@ -45,7 +45,7 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
 
     public UpdateDialog(@NonNull Context context, MainActivity activity, LauncherVersion version, boolean isBeta) {
         super(context);
-        setContentView(R.layout.dialog_update);
+        setContentView(R.layout.dialog_update_launcher);
         setCancelable(false);
         this.activity = activity;
         this.version = version;
@@ -96,19 +96,17 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
                 }
 
                 @Override
-                public void onFinish(String url) {
-                    if (url == null){
-                        if (version.url.size() > 1) {
-                            url = version.url.get(1);
-                        }
-                        else {
-                            return;
-                        }
+                public void onError(Exception e) {
+                    String finalUrl;
+                    if (version.url.size() > 1) {
+                        finalUrl = version.url.get(1);
                     }
-                    String finalUrl = url;
+                    else {
+                        return;
+                    }
                     new Thread(() -> {
                         if (FileUtils.deleteDirectory(AppManifest.DEFAULT_CACHE_DIR + "/update")) {
-                            DownloadUtil.downloadSingleFile(getContext(), new DownloadTaskListBean("", finalUrl, AppManifest.DEFAULT_CACHE_DIR + "/update/latest.apk"), new DownloadTask.Feedback() {
+                            DownloadUtil.downloadSingleFile(getContext(), new DownloadTaskListBean("", finalUrl, AppManifest.DEFAULT_CACHE_DIR + "/update/latest.apk",null), new DownloadTask.Feedback() {
                                 @Override
                                 public void addTask(DownloadTaskListBean bean) {
 
@@ -130,7 +128,65 @@ public class UpdateDialog extends Dialog implements View.OnClickListener {
                                 }
 
                                 @Override
-                                public void onFinished(Map<String, String> failedFile) {
+                                public void onFinished(ArrayList<DownloadTaskListBean> failedFile) {
+                                    handler.post(() -> {
+                                        update.setEnabled(true);
+                                        ignore.setEnabled(true);
+                                        progressBar.setVisibility(View.GONE);
+                                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        Uri apkUri = FileProvider.getUriForFile(getContext(), getContext().getString(R.string.filebrowser_provider), new File(AppManifest.DEFAULT_CACHE_DIR + "/update/latest.apk"));
+                                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                        intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                                        getContext().startActivity(intent);
+                                    });
+                                }
+
+                                @Override
+                                public void onCancelled() {
+
+                                }
+                            });
+                        }
+                    }).start();
+                }
+
+                @Override
+                public void onFinish(String url) {
+                    if (url == null){
+                        if (version.url.size() > 1) {
+                            url = version.url.get(1);
+                        }
+                        else {
+                            return;
+                        }
+                    }
+                    String finalUrl = url;
+                    new Thread(() -> {
+                        if (FileUtils.deleteDirectory(AppManifest.DEFAULT_CACHE_DIR + "/update")) {
+                            DownloadUtil.downloadSingleFile(getContext(), new DownloadTaskListBean("", finalUrl, AppManifest.DEFAULT_CACHE_DIR + "/update/latest.apk",null), new DownloadTask.Feedback() {
+                                @Override
+                                public void addTask(DownloadTaskListBean bean) {
+
+                                }
+
+                                @Override
+                                public void updateProgress(DownloadTaskListBean bean) {
+                                    handler.post(() -> progressBar.setProgress(bean.progress));
+                                }
+
+                                @Override
+                                public void updateSpeed(String speed) {
+
+                                }
+
+                                @Override
+                                public void removeTask(DownloadTaskListBean bean) {
+
+                                }
+
+                                @Override
+                                public void onFinished(ArrayList<DownloadTaskListBean> failedFile) {
                                     handler.post(() -> {
                                         update.setEnabled(true);
                                         ignore.setEnabled(true);

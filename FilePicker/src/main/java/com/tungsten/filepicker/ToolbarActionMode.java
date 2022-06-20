@@ -82,7 +82,7 @@ public class ToolbarActionMode implements ActionMode.Callback{
                 return false;
             }
             if (!selectedItems.get(0).getFile().canWrite()) {
-                UIUtils.ShowToast(mActivity.getString(R.string.permission_error), mActivity);
+                //UIUtils.ShowToast(mActivity.getString(R.string.permission_error), mActivity);
                 return false;
             }
             io.renameFile(selectedItems.get(0));

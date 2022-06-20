@@ -13,6 +13,7 @@ import android.graphics.Path;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.view.MotionEvent;
 
 import androidx.annotation.NonNull;
@@ -27,7 +28,7 @@ import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
-import net.kdt.pojavlaunch.LWJGLGLFWKeycode;
+import net.kdt.pojavlaunch.keyboard.LWJGLGLFWKeycode;
 
 @SuppressLint("ViewConstructor")
 public class BaseRockerView extends RockerView{
@@ -53,19 +54,18 @@ public class BaseRockerView extends RockerView{
     private final Paint outlinePaint;
 
     private final Handler deleteHandler = new Handler();
-    private final Runnable deleteRunnable = new Runnable() {
-        @Override
-        public void run() {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-            builder.setTitle(getContext().getString(R.string.dialog_delete_rocker_title));
-            builder.setMessage(getContext().getString(R.string.dialog_delete_rocker_content));
-            builder.setPositiveButton(getContext().getString(R.string.dialog_delete_rocker_positive), (dialogInterface, i) -> {
-                deleteRocker();
-            });
-            builder.setNegativeButton(getContext().getString(R.string.dialog_delete_rocker_negative), (dialogInterface, i) -> {});
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
+    private final Runnable deleteRunnable = () -> {
+        Vibrator vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(100);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(getContext().getString(R.string.dialog_delete_rocker_title));
+        builder.setMessage(getContext().getString(R.string.dialog_delete_rocker_content));
+        builder.setPositiveButton(getContext().getString(R.string.dialog_delete_rocker_positive), (dialogInterface, i) -> {
+            deleteRocker();
+        });
+        builder.setNegativeButton(getContext().getString(R.string.dialog_delete_rocker_negative), (dialogInterface, i) -> {});
+        AlertDialog dialog = builder.create();
+        dialog.show();
     };
 
     public BaseRockerView(Context context,int screenWidth, int screenHeight, BaseRockerViewInfo info, MenuHelper menuHelper) {
@@ -175,7 +175,7 @@ public class BaseRockerView extends RockerView{
     }
 
     public void refreshVisibility(){
-        int mode = menuHelper.viewManager == null ? 0 : menuHelper.viewManager.gameCursorMode;
+        int mode = menuHelper.viewManager == null ? 0 : menuHelper.gameCursorMode;
         if (menuHelper.editMode || (isShowing && (info.showType == 0 || (mode == 1 && info.showType == 1) || (mode == 0 && info.showType == 2)))) {
             setVisibility(VISIBLE);
         }

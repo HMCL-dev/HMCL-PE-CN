@@ -18,13 +18,8 @@ public class PublicGameSetting {
     }
 
     public static boolean isUsingIsolateSetting(String currentVersion){
-        if (new File(currentVersion + "/hmclpe.cfg").exists()) {
-            if (GsonUtils.getPrivateGameSettingFromFile(currentVersion + "/hmclpe.cfg").forceEnable || GsonUtils.getPrivateGameSettingFromFile(currentVersion + "/hmclpe.cfg").enable) {
-                return true;
-            }
-            else {
-                return false;
-            }
+        if (new File(currentVersion + "/hmclpe.cfg").exists() && GsonUtils.getPrivateGameSettingFromFile(currentVersion + "/hmclpe.cfg") != null) {
+            return GsonUtils.getPrivateGameSettingFromFile(currentVersion + "/hmclpe.cfg").forceEnable || GsonUtils.getPrivateGameSettingFromFile(currentVersion + "/hmclpe.cfg").enable;
         }
         else {
             return false;

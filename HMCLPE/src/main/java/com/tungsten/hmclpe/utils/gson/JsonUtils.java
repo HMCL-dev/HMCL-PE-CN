@@ -66,6 +66,7 @@ public final class JsonUtils {
         return new GsonBuilder()
                 .enableComplexMapKeySerialization()
                 .setPrettyPrinting()
+                .disableHtmlEscaping()
                 .registerTypeAdapter(Instant.class, InstantTypeAdapter.INSTANCE)
                 .registerTypeAdapter(Date.class, DateTypeAdapter.INSTANCE)
                 .registerTypeAdapter(UUID.class, UUIDTypeAdapter.INSTANCE)

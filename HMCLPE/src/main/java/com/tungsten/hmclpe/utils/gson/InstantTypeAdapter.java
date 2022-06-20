@@ -1,9 +1,5 @@
 package com.tungsten.hmclpe.utils.gson;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
@@ -31,7 +27,6 @@ public final class InstantTypeAdapter implements JsonSerializer<Instant>, JsonDe
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public JsonElement serialize(Instant src, Type typeOfSrc, JsonSerializationContext context) {
         return new JsonPrimitive(DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneId.systemDefault()).format(src));

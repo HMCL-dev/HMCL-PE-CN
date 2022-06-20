@@ -26,7 +26,6 @@ import com.tungsten.hmclpe.utils.io.NetworkUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 
 public class DownloadForgeUI extends BaseUI implements View.OnClickListener {
@@ -36,6 +35,7 @@ public class DownloadForgeUI extends BaseUI implements View.OnClickListener {
     public static final String FORGE_VERSION_MANIFEST = "https://bmclapi2.bangbang93.com/forge/minecraft/";
 
     public String version;
+    public boolean install;
 
     private LinearLayout hintLayout;
 
@@ -77,36 +77,28 @@ public class DownloadForgeUI extends BaseUI implements View.OnClickListener {
     }
 
     private void init(){
-        new Thread(){
-            @Override
-            public void run() {
-                String manifestUrl = FORGE_VERSION_MANIFEST + version;
-                loadingHandler.sendEmptyMessage(0);
-                ArrayList<ForgeVersion> list = new ArrayList<>();
-                try {
-                    String response = NetworkUtils.doGet(NetworkUtils.toURL(manifestUrl));
-                    Gson gson = new Gson();
-                    ForgeVersion[] forgeVersion = gson.fromJson(response, ForgeVersion[].class);
-                    list.addAll(Arrays.asList(forgeVersion));
-                    Collections.sort(list,new ForgeCompareTool());
-                    DownloadForgeListAdapter downloadForgeListAdapter = new DownloadForgeListAdapter(context,activity,list);
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            forgeListView.setAdapter(downloadForgeListAdapter);
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (list.size() == 0){
-                    loadingHandler.sendEmptyMessage(2);
-                }
-                else {
-                    loadingHandler.sendEmptyMessage(1);
-                }
+        new Thread(() -> {
+            String manifestUrl = FORGE_VERSION_MANIFEST + version;
+            loadingHandler.sendEmptyMessage(0);
+            ArrayList<ForgeVersion> list = new ArrayList<>();
+            try {
+                String response = NetworkUtils.doGet(NetworkUtils.toURL(manifestUrl));
+                Gson gson = new Gson();
+                ForgeVersion[] forgeVersion = gson.fromJson(response, ForgeVersion[].class);
+                list.addAll(Arrays.asList(forgeVersion));
+                list.sort(new ForgeCompareTool());
+                DownloadForgeListAdapter downloadForgeListAdapter = new DownloadForgeListAdapter(context,activity,list,install);
+                activity.runOnUiThread(() -> forgeListView.setAdapter(downloadForgeListAdapter));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }.start();
+            if (list.size() == 0){
+                loadingHandler.sendEmptyMessage(2);
+            }
+            else {
+                loadingHandler.sendEmptyMessage(1);
+            }
+        }).start();
     }
 
     @Override
@@ -144,18 +136,10 @@ public class DownloadForgeUI extends BaseUI implements View.OnClickListener {
         }
     };
 
-    private class ForgeCompareTool implements Comparator<ForgeVersion> {
+    private static class ForgeCompareTool implements Comparator<ForgeVersion> {
         @Override
         public int compare(ForgeVersion versionPri, ForgeVersion versionSec) {
-            if(versionPri.getBuild() > versionSec.getBuild()) {
-                return -1;
-            }
-            else if(versionPri.getBuild() == versionSec.getBuild()) {
-                return 0;
-            }
-            else {
-                return 1;
-            }
+            return Integer.compare(versionSec.getBuild(), versionPri.getBuild());
         }
     }
 }

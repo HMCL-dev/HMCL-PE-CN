@@ -32,6 +32,7 @@
                 android:background="@drawable/launcher_view_light_gray">
 
                 <CheckBox
+                    android:tag="tint_accent_color"
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="20dp"
                     android:layout_width="wrap_content"
@@ -138,6 +139,7 @@
                 android:background="@drawable/launcher_view_light_gray">
 
                 <CheckBox
+                    android:tag="tint_accent_color"
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="20dp"
                     android:layout_width="wrap_content"
@@ -166,6 +168,7 @@
                         android:textColor="@color/colorPureBlack"/>
 
                     <SeekBar
+                        android:tag="tint_accent_color"
                         android:id="@+id/task_size_seekbar"
                         android:max="128"
                         android:min="1"

@@ -76,6 +76,18 @@ public class SettingUI extends BaseUI implements View.OnClickListener {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        settingUIManager.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        settingUIManager.onResume();
+    }
+
+    @Override
     public void onClick(View v) {
         if (v == startGlobalGameSettingUI){
             settingUIManager.switchSettingUIs(settingUIManager.universalGameSettingUI);
@@ -104,6 +116,6 @@ public class SettingUI extends BaseUI implements View.OnClickListener {
     }
 
     private void init(){
-
+        settingUIManager.universalGameSettingUI.refresh();
     }
 }

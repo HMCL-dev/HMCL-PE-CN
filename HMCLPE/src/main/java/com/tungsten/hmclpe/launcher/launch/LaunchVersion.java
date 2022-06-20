@@ -1,15 +1,19 @@
 package com.tungsten.hmclpe.launcher.launch;
 
+import android.util.ArrayMap;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.tungsten.hmclpe.launcher.setting.game.GameLaunchSetting;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import cosine.boat.BoatUtils;
+import cosine.boat.utils.BoatUtils;
 
 public class LaunchVersion {
 
@@ -148,12 +152,12 @@ public class LaunchVersion {
         }
     }
 
-    public String getClassPath(String gameFileDir,boolean isJava17) {
+    public String getClassPath(String gameFileDir,boolean high,boolean isJava17) {
         String cp = "";
         int count = 0;
         String libraries_path = gameFileDir + "/libraries/";
         for (Library lib : this.libraries) {
-            if (lib.name == null || lib.name.equals("") || (isJava17 && (lib.name.contains("java-objc-bridge") || lib.name.contains("lwjgl")))) {
+            if (lib.name == null || lib.name.equals("") || lib.name.contains("org.lwjgl") || (isJava17 && lib.name.contains("java-objc-bridge"))) {
                 continue;
             }
             Log.e("boat",lib.name);
@@ -176,10 +180,13 @@ public class LaunchVersion {
             cp = cp + path;
             count++;
         }
-        if (count > 0) {
-            cp = ":" + cp;
+        String split = count > 0 ? ":" : "";
+        if (high) {
+            cp = cp + split + minecraftPath;
         }
-        cp = minecraftPath + cp;
+        else {
+            cp = minecraftPath + split + cp;
+        }
         return cp;
     }
 
@@ -263,6 +270,9 @@ public class LaunchVersion {
                     }
                     else if (key.equals("auth_access_token")) {
                         value = gameLaunchSetting.account.auth_access_token;
+                    }
+                    else if (key.equals("user_type")) {
+                        value = gameLaunchSetting.account.user_type;
                     }
                     else if (key.equals("primary_jar_name")) {
                         value = new File(gameLaunchSetting.currentVersion).getName() + ".jar";
@@ -366,6 +376,9 @@ public class LaunchVersion {
                     else if (key.equals("auth_access_token")) {
                         value = gameLaunchSetting.account.auth_access_token;
                     }
+                    else if (key.equals("user_type")) {
+                        value = gameLaunchSetting.account.user_type;
+                    }
                     else if (key.equals("primary_jar_name")) {
                         value = new File(gameLaunchSetting.currentVersion).getName() + ".jar";
                     }
@@ -393,5 +406,39 @@ public class LaunchVersion {
             }
         }
         return result.split(" ");
+    }
+    public List<String> getLibraries() {
+        List<String> libs=new ArrayList<>();
+        for (Library lib : this.libraries) {
+            if (lib.name == null || lib.name.equals("") || lib.name.contains("net.java.jinput") || lib.name.contains("org.lwjgl")||lib.name.contains("platform")) {
+                continue;
+            }
+            libs.add(parseLibNameToPath(lib.name));
+        }
+        return libs;
+    }
+    private Map<String,String> SHAs;
+    public String getSHA1(String libName){
+        if (SHAs==null){
+            SHAs=new ArrayMap<>();
+            for (Library lib : this.libraries) {
+                if (lib.name == null || lib.name.equals("") || lib.name.contains("net.java.jinput") || lib.name.contains("org.lwjgl")||lib.name.contains("platform")) {
+                    continue;
+                }
+                String sha1;
+                try {
+                    sha1=lib.downloads.get("artifact").sha1;
+                }catch (Exception e){
+                    continue;
+                }
+                SHAs.put(parseLibNameToPath(lib.name),sha1);
+            }
+        }
+        return SHAs.get(libName);
+    }
+
+    public String parseLibNameToPath(String libName){
+        String[] tmp=libName.split(":");
+        return tmp[0].replace(".","/")+"/"+tmp[1]+"/"+tmp[2]+"/"+tmp[1]+"-"+tmp[2]+".jar";
     }
 }

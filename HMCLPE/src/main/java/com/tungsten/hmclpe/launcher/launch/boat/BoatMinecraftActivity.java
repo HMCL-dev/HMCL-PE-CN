@@ -1,26 +1,32 @@
 package com.tungsten.hmclpe.launcher.launch.boat;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.InputDevice;
 import android.view.Surface;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.control.view.LayoutPanel;
-import com.tungsten.hmclpe.launcher.launch.GameLaunchSetting;
+import com.tungsten.hmclpe.launcher.setting.game.GameLaunchSetting;
+
+import com.tungsten.hmclpe.launcher.launch.MCOptionUtils;
+
+import java.util.Vector;
 
 import cosine.boat.BoatActivity;
 import cosine.boat.BoatInput;
+import cosine.boat.function.BoatCallback;
 import cosine.boat.keyboard.BoatKeycodes;
 
 public class BoatMinecraftActivity extends BoatActivity {
@@ -32,12 +38,15 @@ public class BoatMinecraftActivity extends BoatActivity {
 
     public MenuHelper menuHelper;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        gameLaunchSetting = GameLaunchSetting.getGameLaunchSetting(getIntent().getExtras().getString("setting_path"));
+        gameLaunchSetting = GameLaunchSetting.getGameLaunchSetting(getIntent().getExtras().getString("setting_path"), getIntent().getExtras().getString("version"));
+
+        if (getIntent().getExtras().getBoolean("test") || gameLaunchSetting.log) {
+
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             if (gameLaunchSetting.fullscreen) {
@@ -52,62 +61,125 @@ public class BoatMinecraftActivity extends BoatActivity {
 
         DrawerLayout.LayoutParams params = new DrawerLayout.LayoutParams(DrawerLayout.LayoutParams.MATCH_PARENT, DrawerLayout.LayoutParams.MATCH_PARENT);
 
-        drawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_control_pattern,null) ;
-        addContentView(drawerLayout,params);
+        drawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.activity_control_pattern, null);
+        addContentView(drawerLayout, params);
 
         baseLayout = findViewById(R.id.base_layout);
 
         scaleFactor = gameLaunchSetting.scaleFactor;
 
-        this.setBoatCallback(new BoatCallback() {
+        handleCallback();
+
+        init();
+
+        menuHelper = new MenuHelper(this, this, gameLaunchSetting.fullscreen, gameLaunchSetting.game_directory, drawerLayout, baseLayout, false, gameLaunchSetting.controlLayout, 1, scaleFactor);
+    }
+
+    private void handleCallback() {
+        setBoatCallback(new BoatCallback() {
             @Override
             public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
                 surface.setDefaultBufferSize((int) (width * scaleFactor), (int) (height * scaleFactor));
-                BoatActivity.setBoatNativeWindow(new Surface(surface));
-                BoatInput.setEventPipe();
-                startGame(gameLaunchSetting.javaPath,
-                        gameLaunchSetting.home,
-                        GameLaunchSetting.isHighVersion(gameLaunchSetting),
-                        BoatLauncher.getMcArgs(gameLaunchSetting,BoatMinecraftActivity.this,(int) (width * scaleFactor), (int) (height * scaleFactor),gameLaunchSetting.server),
-                        gameLaunchSetting.boatRenderer);
+
+                MCOptionUtils.load(gameLaunchSetting.game_directory);
+                MCOptionUtils.set("overrideWidth", String.valueOf((int) (width * scaleFactor)));
+                MCOptionUtils.set("overrideHeight", String.valueOf((int) (height * scaleFactor)));
+                MCOptionUtils.set("fullscreen", "false");
+                MCOptionUtils.save(gameLaunchSetting.game_directory);
+
+                new Thread(() -> {
+                    Vector<String> args = BoatLauncher.getMcArgs(gameLaunchSetting, BoatMinecraftActivity.this, (int) (width * scaleFactor), (int) (height * scaleFactor), gameLaunchSetting.server);
+                    runOnUiThread(() -> {
+                        BoatActivity.setBoatNativeWindow(new Surface(surface));
+                        BoatInput.setEventPipe();
+
+                        startGame(gameLaunchSetting.javaPath,
+                                gameLaunchSetting.home,
+                                GameLaunchSetting.isHighVersion(gameLaunchSetting),
+                                args,
+                                gameLaunchSetting.boatRenderer,
+                                gameLaunchSetting.game_directory);
+                    });
+                }).start();
+            }
+
+            @Override
+            public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+                surface.setDefaultBufferSize((int) (width * scaleFactor), (int) (height * scaleFactor));
             }
 
             @Override
             public void onCursorModeChange(int mode) {
                 cursorModeHandler.sendEmptyMessage(mode);
             }
+
+            @Override
+            public void onStart() {
+                baseLayout.showBackground();
+            }
+
+            @Override
+            public void onPicOutput() {
+                baseLayout.hideBackground();
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+
+            @Override
+            public void onExit(int code) {
+                Intent virGLService = new Intent(BoatMinecraftActivity.this, VirGLService.class);
+                stopService(virGLService);
+            }
         });
-
-        init();
-
-        menuHelper = new MenuHelper(this,this,gameLaunchSetting.fullscreen,gameLaunchSetting.game_directory,drawerLayout,baseLayout,false,gameLaunchSetting.controlLayout,1,scaleFactor);
     }
 
     @SuppressLint("HandlerLeak")
-    private final Handler cursorModeHandler = new Handler(){
+    private final Handler cursorModeHandler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            if (msg.what == BoatInput.CursorDisabled && menuHelper.viewManager != null){
-                menuHelper.viewManager.disableCursor();
+            if (msg.what == BoatInput.CursorDisabled) {
+                menuHelper.disableCursor();
             }
-            if (msg.what == BoatInput.CursorEnabled && menuHelper.viewManager != null){
-                menuHelper.viewManager.enableCursor();
+            if (msg.what == BoatInput.CursorEnabled) {
+                menuHelper.enableCursor();
             }
         }
     };
 
     @Override
     public void onBackPressed() {
-        BoatInput.setKey(BoatKeycodes.KEY_ESC,0,true);
-        BoatInput.setKey(BoatKeycodes.KEY_ESC,0,false);
+        boolean mouse = false;
+        final int[] devices = InputDevice.getDeviceIds();
+        for (int j : devices) {
+            InputDevice device = InputDevice.getDevice(j);
+            if (device != null && !device.isVirtual()) {
+                if (device.getName().contains("Mouse") || (menuHelper != null && menuHelper.touchCharInput != null && !menuHelper.touchCharInput.isEnabled())) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && device.isExternal()) {
+                        mouse = true;
+                        break;
+                    }
+                    else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                        mouse = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (!mouse) {
+            BoatInput.setKey(BoatKeycodes.KEY_ESC, 0, true);
+            BoatInput.setKey(BoatKeycodes.KEY_ESC, 0, false);
+        }
     }
 
     @Override
     protected void onPause() {
-        if (menuHelper.viewManager != null && menuHelper.viewManager.gameCursorMode == 1) {
-            BoatInput.setKey(BoatKeycodes.KEY_ESC,0,true);
-            BoatInput.setKey(BoatKeycodes.KEY_ESC,0,false);
+        if (menuHelper.viewManager != null && menuHelper.gameCursorMode == 1) {
+            BoatInput.setKey(BoatKeycodes.KEY_ESC, 0, true);
+            BoatInput.setKey(BoatKeycodes.KEY_ESC, 0, false);
         }
         super.onPause();
     }
@@ -123,5 +195,12 @@ public class BoatMinecraftActivity extends BoatActivity {
             }
         }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+    }
+
+    @Override
+    protected void onDestroy() {
+        Intent virGLService = new Intent(this, VirGLService.class);
+        stopService(virGLService);
+        super.onDestroy();
     }
 }

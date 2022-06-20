@@ -115,6 +115,7 @@
         </androidx.appcompat.widget.Toolbar>
 
         <RelativeLayout
+            android:id="@+id/main_ui_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -149,12 +150,27 @@
                 android:layout_height="match_parent"/>
 
             <include
+                layout="@layout/ui_mod_update"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <include
+                layout="@layout/ui_manage_datapack"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <include
+                layout="@layout/ui_export_world"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <include
                 layout="@layout/ui_add_game_directory"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
             <include
-                layout="@layout/ui_download_package"
+                layout="@layout/ui_install_package"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
@@ -201,76 +217,11 @@
         android:background="#73252525"/>
 
     <include
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         layout="@layout/dialog_offline_skin"
         android:layout_centerHorizontal="true"
-        android:layout_width="540dp"
+        android:layout_width="600dp"
         android:layout_height="match_parent"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/loading_layout"
-        android:background="@drawable/ic_background">
-
-        <LinearLayout
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="20sp"
-                android:text="@string/loading_title"
-                android:textColor="@color/colorAccent"/>
-
-            <TextView
-                android:textStyle="bold"
-                android:layout_marginTop="50dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="25sp"
-                android:text="@string/app_full_name"
-                android:textColor="@color/colorAccent"/>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="40dp"/>
-
-            <ProgressBar
-                android:max="100"
-                android:visibility="gone"
-                android:layout_width="360dp"
-                android:layout_height="wrap_content"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_gravity="center"
-                android:id="@+id/download_resource_progress"/>
-
-            <ProgressBar
-                android:layout_marginTop="40dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                android:layout_gravity="center"/>
-
-            <TextView
-                android:id="@+id/launcher_loading_text"
-                android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textSize="@dimen/text_size_middle"
-                android:text="@string/loading_hint"
-                android:textColor="@color/colorPureBlack"/>
-
-        </LinearLayout>
-
-    </RelativeLayout>
 
 </RelativeLayout>

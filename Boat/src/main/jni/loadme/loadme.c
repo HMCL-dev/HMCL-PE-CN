@@ -6,6 +6,23 @@
 #include <stdlib.h>
 #include <android/log.h>
 #include <sys/mman.h>
+#include "xhook.h"
+
+static volatile jobject exitTrap_ctx;
+static volatile jclass exitTrap_exitClass;
+static volatile jmethodID exitTrap_staticMethod;
+static JavaVM *exitTrap_jvm;
+
+void (*old_exit)(int code);
+void custom_exit(int code) {
+    JNIEnv *env;
+    (*exitTrap_jvm)->AttachCurrentThread(exitTrap_jvm, &env, NULL);
+    (*env)->CallStaticVoidMethod(env, exitTrap_exitClass, exitTrap_staticMethod, exitTrap_ctx, code);
+    (*env)->DeleteGlobalRef(env, exitTrap_ctx);
+    (*env)->DeleteGlobalRef(env, exitTrap_exitClass);
+    (*exitTrap_jvm)->DetachCurrentThread(exitTrap_jvm);
+    old_exit(code);
+}
 
 JNIEXPORT void JNICALL Java_cosine_boat_LoadMe_redirectStdio(JNIEnv* env, jclass clazz, jstring path) {
     char const* file = (*env)->GetStringUTFChars(env, path, 0);
@@ -25,6 +42,7 @@ JNIEXPORT jint JNICALL Java_cosine_boat_LoadMe_chdir(JNIEnv* env, jclass clazz, 
     (*env)->ReleaseStringUTFChars(env, path, dir);
     return b;
 }
+
 JNIEXPORT void JNICALL Java_cosine_boat_LoadMe_setenv(JNIEnv* env, jclass clazz, jstring str1, jstring str2) {
     char const* name = (*env)->GetStringUTFChars(env, str1, 0);
     char const* value = (*env)->GetStringUTFChars(env, str2, 0);
@@ -52,6 +70,16 @@ JNIEXPORT jint JNICALL Java_cosine_boat_LoadMe_dlopen(JNIEnv* env, jclass clazz,
 
     (*env)->ReleaseStringUTFChars(env, str1, lib_name);
     return ret;
+}
+
+JNIEXPORT void JNICALL Java_cosine_boat_LoadMe_setupExitTrap(JNIEnv *env, jclass clazz, jobject context) {
+    exitTrap_ctx = (*env)->NewGlobalRef(env,context);
+    (*env)->GetJavaVM(env,&exitTrap_jvm);
+    exitTrap_exitClass = (*env)->NewGlobalRef(env,(*env)->FindClass(env,"cosine/boat/BoatActivity"));
+    exitTrap_staticMethod = (*env)->GetStaticMethodID(env,exitTrap_exitClass,"onExit","(Landroid/content/Context;I)V");
+    xhook_enable_debug(1);
+    xhook_register(".*\\.so$", "exit", custom_exit, (void **) &old_exit);
+    xhook_refresh(1);
 }
 
 extern char** environ;
@@ -90,7 +118,6 @@ JNIEXPORT int JNICALL Java_cosine_boat_LoadMe_dlexec(JNIEnv* env, jclass clazz, 
     (*env)->ReleaseStringUTFChars(env, str0, lib_name);
     return ret;
 }
-
 
 unsigned gen_ldr_pc(unsigned rt, signed long off) {
     // 33 222 2 22 2222111111111100000 00000

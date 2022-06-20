@@ -22,7 +22,9 @@ import com.tungsten.hmclpe.utils.io.ResponseCodeException;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import net.kdt.pojavlaunch.*;
+
+import net.kdt.pojavlaunch.utils.Tools;
+
 import org.json.*;
 
 public class Msa {
@@ -30,7 +32,6 @@ public class Msa {
     private static final String xblAuthUrl = "https://user.auth.xboxlive.com/user/authenticate";
     private static final String xstsAuthUrl = "https://xsts.auth.xboxlive.com/xsts/authorize";
     private static final String mcLoginUrl = "https://api.minecraftservices.com/authentication/login_with_xbox";
-    private static final String mcStoreUrl = "https://api.minecraftservices.com/entitlements/mcstore";
     private static final String mcProfileUrl = "https://api.minecraftservices.com/minecraft/profile";
 
     public String msRefreshToken;
@@ -178,27 +179,6 @@ public class Msa {
             mcToken = jo.getString("access_token");
             tokenType = jo.getString("token_type");
             checkMcProfile(jo.getString("access_token"));
-            checkMcStore(jo.getString("access_token"));
-        }else{
-            throwResponseError(conn);
-        }
-    }
-    private void checkMcStore(String mcAccessToken) throws IOException, JSONException {
-
-        URL url = new URL(mcStoreUrl);
-        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-        conn.setRequestProperty("Authorization", "Bearer " + mcAccessToken);
-        conn.setRequestMethod("GET");
-        conn.setUseCaches(false);
-        conn.connect();
-        if(conn.getResponseCode() >= 200 && conn.getResponseCode() < 300) {
-            JSONObject jo = new JSONObject(Tools.read(conn.getInputStream()));
-            JSONArray ja = jo.getJSONArray("items");
-            Log.i("MicroAuth","Store Len = " + ja.length());
-            for(int i = 0; i < ja.length(); i++) {
-                String prod = ja.getJSONObject(i).getString("name");
-                Log.i("MicroAuth","Product " + i +": " +prod);
-            }
         }else{
             throwResponseError(conn);
         }

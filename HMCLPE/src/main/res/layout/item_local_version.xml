@@ -21,7 +21,7 @@
         android:layout_height="30dp"
         android:id="@+id/version_icon"
         android:layout_gravity="center"
-        android:src="@drawable/ic_grass"/>
+        android:background="@drawable/ic_furnace"/>
 
     <LinearLayout
         android:layout_marginStart="8dp"

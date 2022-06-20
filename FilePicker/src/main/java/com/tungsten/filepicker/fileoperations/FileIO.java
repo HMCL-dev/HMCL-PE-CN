@@ -1,5 +1,6 @@
 package com.tungsten.filepicker.fileoperations;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.Handler;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.FileProvider;
 
 import com.tungsten.filepicker.Constants;
 import com.tungsten.filepicker.NavigationHelper;
@@ -50,20 +52,15 @@ public class FileIO {
 
     public void createDirectory(final File path) {
         if(path.getParentFile()!=null && path.getParentFile().canWrite()) {
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        FileUtils.forceMkdir(path);
-                        mUIUpdateHandler.post(mHelper.updateRunner());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        mUIUpdateHandler.post(mHelper.errorRunner(mContext.getString(R.string.folder_creation_error)));
-                    }
+            executor.execute(() -> {
+                try {
+                    FileUtils.forceMkdir(path);
+                    mUIUpdateHandler.post(mHelper.updateRunner());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    mUIUpdateHandler.post(mHelper.errorRunner(mContext.getString(R.string.folder_creation_error)));
                 }
             });
-        } else {
-            UIUtils.ShowToast(mContext.getString(R.string.permission_error),mContext);
         }
     }
 
@@ -83,27 +80,24 @@ public class FileIO {
                             progressDialog.setMessage("");
                             progressDialog.show();
 
-                            executor.execute(new Runnable() {
-                                @Override
-                                public void run() {
-                                    int i = 0;
-                                    float TOTAL_ITEMS = selectedItems.size();
-                                    try {
-                                        for (; i < selectedItems.size(); i++) {
-                                            mUIUpdateHandler.post(mHelper.progressUpdater(progressDialog, (int)((i/TOTAL_ITEMS)*100), "File: "+selectedItems.get(i).getFile().getName()));
-                                            if (selectedItems.get(i).getFile().isDirectory()) {
-                                                removeDir(selectedItems.get(i).getFile());
-                                            } else {
-                                                FileUtils.forceDelete(selectedItems.get(i).getFile());
-                                            }
+                            executor.execute(() -> {
+                                int i = 0;
+                                float TOTAL_ITEMS = selectedItems.size();
+                                try {
+                                    for (; i < selectedItems.size(); i++) {
+                                        mUIUpdateHandler.post(mHelper.progressUpdater(progressDialog, (int)((i/TOTAL_ITEMS)*100), "File: "+selectedItems.get(i).getFile().getName()));
+                                        if (selectedItems.get(i).getFile().isDirectory()) {
+                                            removeDir(selectedItems.get(i).getFile());
+                                        } else {
+                                            FileUtils.forceDelete(selectedItems.get(i).getFile());
                                         }
-                                        mUIUpdateHandler.post(mHelper.toggleProgressBarVisibility(progressDialog));
-                                        mUIUpdateHandler.post(mHelper.updateRunner());
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                        mUIUpdateHandler.post(mHelper.toggleProgressBarVisibility(progressDialog));
-                                        mUIUpdateHandler.post(mHelper.errorRunner(mContext.getString(R.string.delete_error)));
                                     }
+                                    mUIUpdateHandler.post(mHelper.toggleProgressBarVisibility(progressDialog));
+                                    mUIUpdateHandler.post(mHelper.updateRunner());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    mUIUpdateHandler.post(mHelper.toggleProgressBarVisibility(progressDialog));
+                                    mUIUpdateHandler.post(mHelper.errorRunner(mContext.getString(R.string.delete_error)));
                                 }
                             });
                         }
@@ -141,70 +135,54 @@ public class FileIO {
                 progressDialog.setMessage("");
                 progressDialog.setProgress(0);
                 progressDialog.show();
-                executor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        int i = 0;
-                        float TOTAL_ITEMS = selectedItems.size();
-                        try {
-                            for (; i < selectedItems.size(); i++) {
-                                mUIUpdateHandler.post(mHelper.progressUpdater(progressDialog, (int) ((i / TOTAL_ITEMS) * 100), "File: " + selectedItems.get(i).getFile().getName()));
-                                if (selectedItems.get(i).getFile().isDirectory()) {
-                                    if (operation == Operations.FILE_OPERATIONS.CUT)
-                                        FileUtils.moveDirectory(selectedItems.get(i).getFile(), new File(destination, selectedItems.get(i).getFile().getName()));
-                                    else if (operation == Operations.FILE_OPERATIONS.COPY)
-                                        FileUtils.copyDirectory(selectedItems.get(i).getFile(), new File(destination, selectedItems.get(i).getFile().getName()));
-                                } else {
-                                    if (operation == Operations.FILE_OPERATIONS.CUT)
-                                        FileUtils.moveFile(selectedItems.get(i).getFile(), new File(destination, selectedItems.get(i).getFile().getName()));
-                                    else if (operation == Operations.FILE_OPERATIONS.COPY)
-                                        FileUtils.copyFile(selectedItems.get(i).getFile(), new File(destination, selectedItems.get(i).getFile().getName()));
-                                }
+                executor.execute(() -> {
+                    int i = 0;
+                    float TOTAL_ITEMS = selectedItems.size();
+                    try {
+                        for (; i < selectedItems.size(); i++) {
+                            mUIUpdateHandler.post(mHelper.progressUpdater(progressDialog, (int) ((i / TOTAL_ITEMS) * 100), "File: " + selectedItems.get(i).getFile().getName()));
+                            if (selectedItems.get(i).getFile().isDirectory()) {
+                                if (operation == Operations.FILE_OPERATIONS.CUT)
+                                    FileUtils.moveDirectory(selectedItems.get(i).getFile(), new File(destination, selectedItems.get(i).getFile().getName()));
+                                else if (operation == Operations.FILE_OPERATIONS.COPY)
+                                    FileUtils.copyDirectory(selectedItems.get(i).getFile(), new File(destination, selectedItems.get(i).getFile().getName()));
+                            } else {
+                                if (operation == Operations.FILE_OPERATIONS.CUT)
+                                    FileUtils.moveFile(selectedItems.get(i).getFile(), new File(destination, selectedItems.get(i).getFile().getName()));
+                                else if (operation == Operations.FILE_OPERATIONS.COPY)
+                                    FileUtils.copyFile(selectedItems.get(i).getFile(), new File(destination, selectedItems.get(i).getFile().getName()));
                             }
-                            mUIUpdateHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    op.resetOperation();
-                                }
-                            });
-                            mUIUpdateHandler.post(mHelper.toggleProgressBarVisibility(progressDialog));
-                            mUIUpdateHandler.post(mHelper.updateRunner());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            mUIUpdateHandler.post(mHelper.toggleProgressBarVisibility(progressDialog));
-                            mUIUpdateHandler.post(mHelper.errorRunner(mContext.getString(R.string.pasting_error)));
                         }
+                        mUIUpdateHandler.post(op::resetOperation);
+                        mUIUpdateHandler.post(mHelper.toggleProgressBarVisibility(progressDialog));
+                        mUIUpdateHandler.post(mHelper.updateRunner());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        mUIUpdateHandler.post(mHelper.toggleProgressBarVisibility(progressDialog));
+                        mUIUpdateHandler.post(mHelper.errorRunner(mContext.getString(R.string.pasting_error)));
                     }
                 });
             } else {
                 UIUtils.ShowToast(mContext.getString(R.string.no_items_selected), mContext);
             }
         } else {
-            UIUtils.ShowToast(mContext.getString(R.string.permission_error),mContext);
+            //UIUtils.ShowToast(mContext.getString(R.string.permission_error),mContext);
         }
     }
 
     public void renameFile(final FileItem fileItem) {
-        UIUtils.showEditTextDialog(mContext, mContext.getString(R.string.rename_dialog_title), fileItem.getFile().getName() ,new IFuncPtr() {
-            @Override
-            public void execute(final String val) {
-                executor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            if(fileItem.getFile().isDirectory())
-                                FileUtils.moveDirectory(fileItem.getFile(),new File(fileItem.getFile().getParentFile(), val.trim()));
-                            else
-                                FileUtils.moveFile(fileItem.getFile(),new File(fileItem.getFile().getParentFile(), val.trim()));
-                            mUIUpdateHandler.post(mHelper.updateRunner());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            mUIUpdateHandler.post(mHelper.errorRunner(mContext.getString(R.string.rename_error)));
-                        }
-                    }
-                });
+        UIUtils.showEditTextDialog(mContext, mContext.getString(R.string.rename_dialog_title), fileItem.getFile().getName() , val -> executor.execute(() -> {
+            try {
+                if(fileItem.getFile().isDirectory())
+                    FileUtils.moveDirectory(fileItem.getFile(),new File(fileItem.getFile().getParentFile(), val.trim()));
+                else
+                    FileUtils.moveFile(fileItem.getFile(),new File(fileItem.getFile().getParentFile(), val.trim()));
+                mUIUpdateHandler.post(mHelper.updateRunner());
+            } catch (Exception e) {
+                e.printStackTrace();
+                mUIUpdateHandler.post(mHelper.errorRunner(mContext.getString(R.string.rename_error)));
             }
-        });
+        }));
     }
 
     public void getProperties(List<FileItem> selectedItems) {
@@ -243,13 +221,16 @@ public class FileIO {
 
         ArrayList<Uri> uris = new ArrayList<>();
         for(FileItem file: filesToBeShared){
-            uris.add(Uri.fromFile(file.getFile()));
+            uris.add(FileProvider.getUriForFile(mContext,mContext.getString(R.string.filebrowser_provider),file.getFile()));
         }
         final Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
         intent.setType("*/*");
         intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
         PackageManager manager = mContext.getPackageManager();
-        List<ResolveInfo> infos = manager.queryIntentActivities(intent, 0);
+        @SuppressLint("QueryPermissionsNeeded") List<ResolveInfo> infos = manager.queryIntentActivities(intent, 0);
         if (infos.size() > 0) {
             mContext.startActivity(Intent.createChooser(intent, mContext.getString(R.string.share)));
         } else {

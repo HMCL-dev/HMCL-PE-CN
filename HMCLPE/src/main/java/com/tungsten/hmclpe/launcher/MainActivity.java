@@ -2,36 +2,31 @@ package com.tungsten.hmclpe.launcher;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Settings;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.Config;
 import com.tungsten.hmclpe.R;
-import com.tungsten.hmclpe.launcher.manifest.AppManifest;
+import com.tungsten.hmclpe.launcher.dialogs.VerifyDialog;
+import com.tungsten.hmclpe.launcher.dialogs.account.SkinPreviewDialog;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.setting.game.PublicGameSetting;
@@ -42,13 +37,21 @@ import com.tungsten.hmclpe.launcher.uis.universal.setting.right.launcher.Exterio
 import com.tungsten.hmclpe.update.UpdateChecker;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
+import co.nedim.maildroidx.MaildroidX;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public RelativeLayout loadingLayout;
-    public LinearLayout launcherLayout;
+    static {
+        System.loadLibrary("security");
+    }
+    native void securityInit();
+    public native boolean isValid(String str);
+    public static native void verify();
+    public static native void verifyFunc();
+    public native void launch(Intent intent);
+    public native void sendMail(String to, String title, String body, MaildroidX.onCompleteCallback callback);
 
-    public ProgressBar loadingProgress;
-    public TextView loadingText;
+    public LinearLayout launcherLayout;
 
     public boolean isLoaded = false;
     public boolean dialogMode = false;
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public ImageButton backToDesktop;
     public ImageButton closeApp;
 
+    public RelativeLayout uiContainer;
     public UIManager uiManager;
 
     public Config exteriorConfig;
@@ -78,66 +82,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_main);
 
-        loadingLayout = findViewById(R.id.loading_layout);
         launcherLayout = findViewById(R.id.launcher_layout);
 
-        loadingProgress = findViewById(R.id.download_resource_progress);
-        loadingText = findViewById(R.id.launcher_loading_text);
-
-        requestPermission();
-    }
-
-    private void requestPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            // 先判断有没有权限
-            if (Environment.isExternalStorageManager()) {
-                init();
-            } else {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                intent.setData(Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent, 1000);
-            }
-        } else {
-            // 先判断有没有权限
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                    ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                init();
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
-            }
-        }
+        securityInit();
+        
+        init();
     }
 
     private void init(){
-        new Thread(){
-            @Override
-            public void run(){
-                runOnUiThread(() -> {
-                    loadingText.setText(getString(R.string.loading_hint_setting));
-                });
-
-                AppManifest.initializeManifest(MainActivity.this);
-                launcherSetting = InitializeSetting.initializeLauncherSetting();
-                publicGameSetting = InitializeSetting.initializePublicGameSetting(MainActivity.this,MainActivity.this);
-                privateGameSetting = InitializeSetting.initializePrivateGameSetting(MainActivity.this);
-
-                runOnUiThread(() -> {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        if (launcherSetting.fullscreen) {
-                            getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
-                        } else {
-                            getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
-                        }
-                    }
-                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
-                    updateChecker = new UpdateChecker(MainActivity.this,MainActivity.this);
-                });
-
-                DownloadUrlSource.getBalancedSource(MainActivity.this);
-
-                InitializeSetting.checkLauncherFiles(MainActivity.this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            if (getIntent().getExtras().getBoolean("fullscreen")) {
+                getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            } else {
+                getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
             }
-        }.start();
+        }
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN);
+        new Thread(() -> {
+            AppManifest.initializeManifest(MainActivity.this);
+            launcherSetting = InitializeSetting.initializeLauncherSetting();
+            publicGameSetting = InitializeSetting.initializePublicGameSetting(MainActivity.this,MainActivity.this);
+            privateGameSetting = InitializeSetting.initializePrivateGameSetting(MainActivity.this);
+
+            runOnUiThread(() -> {
+                updateChecker = new UpdateChecker(MainActivity.this,MainActivity.this);
+            });
+
+            DownloadUrlSource.getBalancedSource(MainActivity.this);
+
+            loadingHandler.sendEmptyMessage(0);
+        }).start();
     }
 
     @SuppressLint("HandlerLeak")
@@ -164,27 +138,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     backToDesktop.setOnClickListener(MainActivity.this);
                     closeApp.setOnClickListener(MainActivity.this);
 
+                    uiContainer = findViewById(R.id.main_ui_container);
                     uiManager = new UIManager(MainActivity.this,MainActivity.this);
 
                     exteriorConfig.primaryColor(Color.parseColor(ExteriorSettingUI.getThemeColor(MainActivity.this,launcherSetting.launcherTheme)));
                     exteriorConfig.accentColor(Color.parseColor(ExteriorSettingUI.getThemeColor(MainActivity.this,launcherSetting.launcherTheme)));
                     exteriorConfig.apply(MainActivity.this);
+                    appBar.setBackgroundColor(launcherSetting.transBar ? getResources().getColor(R.color.launcher_ui_background) : Color.parseColor(ExteriorSettingUI.getThemeColor(MainActivity.this,launcherSetting.launcherTheme)));
 
                     isLoaded = true;
-                    enterLauncher();
+                    onLoad();
                 }
             }
         }
     };
 
-    public void enterLauncher(){
+    public void onLoad() {
         uiManager.gameManagerUI.gameManagerUIManager.versionSettingUI.onLoaded();
         uiManager.downloadUI.downloadUIManager.downloadMinecraftUI.onLoaded();
         uiManager.settingUI.settingUIManager.universalGameSettingUI.onLoaded();
-        loadingLayout.setVisibility(View.GONE);
     }
 
-    public void showBarTitle(String title,boolean home,boolean close){
+    public void showBarTitle(String title,boolean home,boolean close) {
         if (isLoaded){
             CustomAnimationUtils.hideViewToLeft(appBarTitle,this,this,true);
             CustomAnimationUtils.showViewFromRight(backToLastUI,this,this,true);
@@ -205,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void hideBarTitle(){
+    public void hideBarTitle() {
         if (isLoaded){
             CustomAnimationUtils.showViewFromLeft(appBarTitle,this,this,true);
             CustomAnimationUtils.hideViewToLeft(backToLastUI,this,this,true);
@@ -220,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void backToLastUI(){
+    public void backToLastUI() {
         if (isLoaded){
             if (uiManager.currentUI == uiManager.mainUI){
                 backToDeskTop();
@@ -234,44 +209,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void backToHome(){
+    public void backToHome() {
         uiManager.switchMainUI(uiManager.mainUI);
         uiManager.uis.clear();
         uiManager.uis.add(uiManager.mainUI);
     }
 
-    public void closeCurrentUI(){
-        for (int i = 0;i < uiManager.uis.size();i++){
-            if (uiManager.uis.get(i) == uiManager.installGameUI){
-                uiManager.uis.remove(i);
-            }
+    public void closeCurrentUI() {
+        uiManager.removeUIIfExist(uiManager.exportWorldUI);
+        uiManager.removeUIIfExist(uiManager.installGameUI);
+        uiManager.removeUIIfExist(uiManager.downloadForgeUI);
+        uiManager.removeUIIfExist(uiManager.downloadFabricUI);
+        uiManager.removeUIIfExist(uiManager.downloadFabricAPIUI);
+        uiManager.removeUIIfExist(uiManager.downloadLiteLoaderUI);
+        uiManager.removeUIIfExist(uiManager.downloadOptifineUI);
+        uiManager.uis.get(uiManager.uis.size() - 1).onStart();
+        if (uiManager.currentUI == uiManager.exportWorldUI){
+            uiManager.exportWorldUI.onStop();
         }
-        for (int i = 0;i < uiManager.uis.size();i++){
-            if (uiManager.uis.get(i) == uiManager.downloadForgeUI){
-                uiManager.uis.remove(i);
-            }
-        }
-        for (int i = 0;i < uiManager.uis.size();i++){
-            if (uiManager.uis.get(i) == uiManager.downloadFabricUI){
-                uiManager.uis.remove(i);
-            }
-        }
-        for (int i = 0;i < uiManager.uis.size();i++){
-            if (uiManager.uis.get(i) == uiManager.downloadFabricAPIUI){
-                uiManager.uis.remove(i);
-            }
-        }
-        for (int i = 0;i < uiManager.uis.size();i++){
-            if (uiManager.uis.get(i) == uiManager.downloadLiteLoaderUI){
-                uiManager.uis.remove(i);
-            }
-        }
-        for (int i = 0;i < uiManager.uis.size();i++){
-            if (uiManager.uis.get(i) == uiManager.downloadOptifineUI){
-                uiManager.uis.remove(i);
-            }
-        }
-        uiManager.downloadUI.onStart();
         if (uiManager.currentUI == uiManager.installGameUI){
             uiManager.installGameUI.onStop();
         }
@@ -290,9 +245,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (uiManager.currentUI == uiManager.downloadOptifineUI){
             uiManager.downloadOptifineUI.onStop();
         }
+        uiManager.currentUI = uiManager.uis.get(uiManager.uis.size() - 1);
     }
 
-    public void backToDeskTop(){
+    public void backToDeskTop() {
         Intent i = new Intent(Intent.ACTION_MAIN);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.addCategory(Intent.CATEGORY_HOME);
@@ -312,52 +268,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (isLoaded){
             uiManager.onActivityResult(requestCode,resultCode,data);
         }
-        if (requestCode == 1000 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (Environment.isExternalStorageManager()) {
-                init();
-            } else {
-                new AlertDialog.Builder(this)
-                        .setMessage(R.string.storage_permissions_remind)
-                        .setPositiveButton("OK", (dialog1, which) ->
-                                requestPermission())
-                        .setNegativeButton("Cancel", null)
-                        .create()
-                        .show();
-            }
-        }
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        Uri data = intent.getData();
-        if (data != null && data.getScheme().equals("ms-xal-00000000402b5328") && data.getHost().equals("auth")) {
-
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        //通过requestCode来识别是否同一个请求
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1000) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                //用户同意，执行操作
-                init();
-            } else {
-                //用户不同意，向用户展示该权限作用
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    new AlertDialog.Builder(this)
-                            .setMessage(R.string.storage_permissions_remind)
-                            .setPositiveButton("OK", (dialog1, which) ->
-                                    ActivityCompat.requestPermissions(this,
-                                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                            1000))
-                            .setNegativeButton("Cancel", null)
-                            .create()
-                            .show();
-                }
-            }
+        if (SkinPreviewDialog.getInstance() != null) {
+            SkinPreviewDialog.getInstance().onActivityResult(requestCode,resultCode,data);
         }
     }
 
@@ -395,6 +307,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (isLoaded){
+            uiManager.onPause();
+        }
+        if (SkinPreviewDialog.getInstance() != null) {
+            SkinPreviewDialog.getInstance().onPause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isLoaded){
+            uiManager.onResume();
+        }
+        if (SkinPreviewDialog.getInstance() != null) {
+            SkinPreviewDialog.getInstance().onResume();
+        }
+    }
+
+    @Override
     protected void onPostResume() {
         super.onPostResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && launcherSetting != null) {
@@ -409,8 +343,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
+    }
+
+    public void startVerify() {
+        startVerify(new VerifyInterface() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onCancel() {
+                finish();
+            }
+        });
+    }
+
+    public void startVerify(VerifyInterface verifyInterface){
+        SharedPreferences msh = getSharedPreferences("Security", Context.MODE_PRIVATE);
+        SharedPreferences.Editor mshe = msh.edit();
+        if (msh.getBoolean("verified",false) && isValid(msh.getString("code",null))) {
+            verifyInterface.onSuccess();
+            return;
+        }
+        VerifyDialog dialog = new VerifyDialog(this, this, mshe, verifyInterface);
+        dialog.show();
     }
 
 }
