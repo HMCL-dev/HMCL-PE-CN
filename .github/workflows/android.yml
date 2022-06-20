@@ -32,9 +32,12 @@ jobs:
       run: cd HMCLPE&&../gradlew build
     #step：上传apk 到action，在右上角查看
     # 官方文档 https://help.github.com/cn/actions/automating-your-workflow-with-github-actions/persisting-workflow-data-using-artifacts#uploading-build-and-test-artifactst
-    - name: Upload APK
+    - name: Upload APK to artifacts
       uses: actions/upload-artifact@v3
       with:
         name: HMCLPE-release-selfsigned.apk
         path: HMCLPE/build/outputs/apk/release/HMCLPE-release.apk
         asset_content_type: application/apk
+    - name: Upload and share APK to lanzoucloud
+      run: python UploadLZY.py '${{ secrets.lanzou_cookie }}'
+
