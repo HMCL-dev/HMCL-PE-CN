@@ -24,7 +24,7 @@ public final class ModrinthModpackProvider implements ModpackProvider {
 
     @Override
     public Modpack readManifest(ZipFile zip, Path file, Charset encoding) throws IOException, JsonParseException {
-        ModrinthManifest manifest = JsonUtils.fromNonNullJson(ZipTools.readNormalMeta(file.toString(), "modrinth.index.json"), ModrinthManifest.class);
+        ModrinthManifest manifest = JsonUtils.fromNonNullJson(ZipTools.readTextZipEntry(zip, "modrinth.index.json"), ModrinthManifest.class);
         return new Modpack(manifest.getName(), "", manifest.getVersionId(), manifest.getGameVersion(), manifest.getSummary(), encoding, manifest) {
             @Override
             public AsyncTask getInstallTask(java.io.File zipFile, String name) {

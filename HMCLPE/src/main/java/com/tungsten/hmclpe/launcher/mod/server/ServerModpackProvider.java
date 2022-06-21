@@ -22,7 +22,7 @@ public final class ServerModpackProvider implements ModpackProvider {
 
     @Override
     public Modpack readManifest(ZipFile zip, Path file, Charset encoding) throws IOException, JsonParseException {
-        String json = ZipTools.readNormalMeta(file.toString(), "server-manifest.json");
+        String json = ZipTools.readTextZipEntry(zip, "server-manifest.json");
         ServerModpackManifest manifest = JsonUtils.fromNonNullJson(json, ServerModpackManifest.class);
         return manifest.toModpack(encoding);
     }

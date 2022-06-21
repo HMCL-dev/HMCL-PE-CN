@@ -16,14 +16,19 @@ import com.tungsten.hmclpe.launcher.mod.multimc.MultiMCModpackProvider;
 import com.tungsten.hmclpe.launcher.mod.server.ServerModpackProvider;
 import com.tungsten.hmclpe.utils.gson.JsonUtils;
 import com.tungsten.hmclpe.utils.io.FileUtils;
+import com.tungsten.hmclpe.utils.io.ZipTools;
 
 import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,9 +38,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 public final class ModpackHelper {
-    /*
     private ModpackHelper() {}
 
     private static final Map<String, ModpackProvider> providers = mapOf(
@@ -58,7 +64,7 @@ public final class ModpackHelper {
     }
 
     public static Modpack readModpackManifest(Path file, Charset charset) throws UnsupportedModpackException, ManuallyCreatedModpackException {
-        try (ZipFile zipFile = CompressingUtils.openZipFile(file, charset)) {
+        try (ZipFile zipFile = ZipTools.openZipFile(file, charset)) {
             // Order for trying detecting manifest is necessary here.
             // Do not change to iterating providers.
             for (ModpackProvider provider : new ModpackProvider[]{
@@ -76,8 +82,8 @@ public final class ModpackHelper {
         } catch (IOException ignored) {
         }
 
-        try (FileSystem fs = CompressingUtils.createReadOnlyZipFileSystem(file, charset)) {
-            findMinecraftDirectoryInManuallyCreatedModpack(file.toString(), fs);
+        try {
+            findMinecraftDirectoryInManuallyCreatedModpack(file.toString());
             throw new ManuallyCreatedModpackException(file);
         } catch (IOException e) {
             // ignore it
@@ -86,29 +92,19 @@ public final class ModpackHelper {
         throw new UnsupportedModpackException(file.toString());
     }
 
-    public static Path findMinecraftDirectoryInManuallyCreatedModpack(String modpackName, FileSystem fs) throws IOException, UnsupportedModpackException {
-        Path root = fs.getPath("/");
-        if (isMinecraftDirectory(root)) return root;
-        try (Stream<Path> firstLayer = Files.list(root)) {
-            for (Path dir : toIterable(firstLayer)) {
-                if (isMinecraftDirectory(dir)) return dir;
-
-                try (Stream<Path> secondLayer = Files.list(dir)) {
-                    for (Path subdir : toIterable(secondLayer)) {
-                        if (isMinecraftDirectory(subdir)) return subdir;
-                    }
-                } catch (IOException ignored) {
-                }
+    public static boolean findMinecraftDirectoryInManuallyCreatedModpack(String modpackName) throws IOException, UnsupportedModpackException {
+        InputStream in = new BufferedInputStream(new FileInputStream(modpackName));
+        ZipInputStream zin = new ZipInputStream(in);
+        ZipEntry ze;
+        while ((ze = zin.getNextEntry()) != null) {
+            if (ze.isDirectory() && ze.getName().endsWith(".minecraft/versions")) {
+                return true;
             }
-        } catch (IOException ignored) {
         }
         throw new UnsupportedModpackException(modpackName);
     }
 
-    private static boolean isMinecraftDirectory(Path path) {
-        return Files.isDirectory(path.resolve("versions")) &&
-                (path.getFileName() == null || ".minecraft".equals(FileUtils.getName(path)));
-    }
+    /*
 
     public static ModpackConfiguration<?> readModpackConfiguration(File file) throws IOException {
         if (!file.exists())

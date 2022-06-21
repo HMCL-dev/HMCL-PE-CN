@@ -396,6 +396,10 @@
     <string name="install_package_ui_description">整合包描述</string>
     <string name="install_package_ui_install">安装</string>
 
+    <string name="dialog_package_not_support_title">错误</string>
+    <string name="dialog_package_not_support_msg">无法识别该整合包，目前仅支持导入 Curse、 Modrinth、 MultiMC、 HMCL 整合包。</string>
+    <string name="dialog_package_not_support_exit">确定</string>
+
     <string name="install_game_ui_title">安装新游戏版本 - 安装新游戏版本</string>
     <string name="install_game_ui_name">名称</string>
     <string name="install_game_ui_none">不安装</string>

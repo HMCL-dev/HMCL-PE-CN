@@ -195,12 +195,7 @@ public class ExteriorSettingUI extends BaseUI implements View.OnClickListener, C
                         httpURLConnection.connect();
                         InputStream inputStream = httpURLConnection.getInputStream();
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                activity.launcherLayout.setBackground(new BitmapDrawable(bitmap));
-                            }
-                        });
+                        handler.post(() -> activity.launcherLayout.setBackground(new BitmapDrawable(bitmap)));
                     } catch (IOException e) {
                         handler.post(() -> activity.launcherLayout.setBackground(context.getDrawable(R.drawable.ic_background)));
                         e.printStackTrace();

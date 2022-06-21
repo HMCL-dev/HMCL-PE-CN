@@ -27,10 +27,9 @@ public final class HMCLModpackProvider implements ModpackProvider {
 
     @Override
     public Modpack readManifest(ZipFile file, Path path, Charset encoding) throws IOException, JsonParseException {
-        String manifestJson = ZipTools.readNormalMeta(file.toString(), "modpack.json");
+        String manifestJson = ZipTools.readTextZipEntry(file, "modpack.json");
         Modpack manifest = JsonUtils.fromNonNullJson(manifestJson, HMCLModpack.class).setEncoding(encoding);
-        String gameJson =
-                ZipTools.readNormalMeta(file.toString(), "minecraft/pack.json");;
+        String gameJson = ZipTools.readTextZipEntry(file, "minecraft/pack.json");
         Version game = JsonUtils.fromNonNullJson(gameJson, Version.class);
         if (game.getJar() == null)
             if (StringUtils.isBlank(manifest.getVersion()))

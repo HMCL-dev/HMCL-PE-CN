@@ -27,7 +27,7 @@ public final class CurseModpackProvider implements ModpackProvider {
 
     @Override
     public Modpack readManifest(ZipFile zip, Path file, Charset encoding) throws IOException, JsonParseException {
-        CurseManifest manifest = JsonUtils.fromNonNullJson(ZipTools.readNormalMeta(file.toString(), "manifest.json"), CurseManifest.class);
+        CurseManifest manifest = JsonUtils.fromNonNullJson(ZipTools.readTextZipEntry(zip, "manifest.json"), CurseManifest.class);
         String description = "No description";
         try {
             ZipArchiveEntry modlist = zip.getEntry("modlist.html");
