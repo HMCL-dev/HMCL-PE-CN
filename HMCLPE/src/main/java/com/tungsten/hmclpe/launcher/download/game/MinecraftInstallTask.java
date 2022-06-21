@@ -59,7 +59,7 @@ public class MinecraftInstallTask extends AsyncTask<VersionManifest.Version,Inte
             onProgressUpdate(0);
         });
 
-        String versionJsonUrl = DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.VERSION_JSON) + gameVersion.url.replace("https://launchermeta.mojang.com","");
+        String versionJsonUrl = DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.VERSION_JSON) + gameVersion.url.replace("https://launchermeta.mojang.com", "").replace("https://piston-meta.mojang.com", "");
 
         String versionJson = null;
         try {
@@ -77,7 +77,7 @@ public class MinecraftInstallTask extends AsyncTask<VersionManifest.Version,Inte
                 .create();
         Version rawPatch = gson.fromJson(versionJson, Version.class);
 
-        String assetIndexUrl = DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.ASSETS_INDEX_JSON) + rawPatch.getAssetIndex().getUrl().replace("https://launchermeta.mojang.com","");
+        String assetIndexUrl = DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.ASSETS_INDEX_JSON) + rawPatch.getAssetIndex().getUrl().replace("https://launchermeta.mojang.com","").replace("https://piston-meta.mojang.com", "");
         String assetIndexJson = null;
         try {
             assetIndexJson = NetworkUtils.doGet(NetworkUtils.toURL(assetIndexUrl));

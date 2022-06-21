@@ -64,6 +64,8 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
         startAddGameDirUI.setOnClickListener(this);
         startDownloadMcUI = activity.findViewById(R.id.start_ui_download_minecraft);
         startDownloadMcUI.setOnClickListener(this);
+        startInstallPackageUI = activity.findViewById(R.id.start_install_package_ui);
+        startInstallPackageUI.setOnClickListener(this);
         refresh = activity.findViewById(R.id.refresh_local_version_list);
         refresh.setOnClickListener(this);
         startGlobalSettingUI = activity.findViewById(R.id.start_ui_global_setting);
@@ -98,6 +100,9 @@ public class VersionListUI extends BaseUI implements View.OnClickListener {
         }
         if (v == startAddGameDirUI){
             activity.uiManager.switchMainUI(activity.uiManager.addGameDirectoryUI);
+        }
+        if (v == startInstallPackageUI) {
+            activity.uiManager.switchMainUI(activity.uiManager.installPackageUI);
         }
         if (v == refresh){
             new Thread(this::refreshVersionList).start();

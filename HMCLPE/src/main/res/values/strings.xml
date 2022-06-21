@@ -382,6 +382,20 @@
 
     <string name="time_pattern">yyyy 年 MM 月 dd 日 HH:mm:ss</string>
 
+    <string name="install_package_ui_title">安装整合包 - 导入整合包</string>
+    <string name="install_package_ui_sub_title">安装整合包</string>
+    <string name="install_package_ui_local">导入本地整合包文件</string>
+    <string name="install_package_ui_local_sub">点击选择本地文件</string>
+    <string name="install_package_ui_online">从互联网下载整合包</string>
+    <string name="install_package_ui_online_sub">需要提供整合包的下载链接</string>
+    <string name="install_package_ui_thi_title">将会安装整合包</string>
+    <string name="install_package_ui_name">名称</string>
+    <string name="install_package_ui_package_name">整合包名称</string>
+    <string name="install_package_ui_version">版本</string>
+    <string name="install_package_ui_author">作者</string>
+    <string name="install_package_ui_description">整合包描述</string>
+    <string name="install_package_ui_install">安装</string>
+
     <string name="install_game_ui_title">安装新游戏版本 - 安装新游戏版本</string>
     <string name="install_game_ui_name">名称</string>
     <string name="install_game_ui_none">不安装</string>

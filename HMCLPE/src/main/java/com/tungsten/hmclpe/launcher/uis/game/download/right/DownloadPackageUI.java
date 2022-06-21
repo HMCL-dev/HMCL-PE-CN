@@ -49,6 +49,7 @@ public class DownloadPackageUI extends BaseUI implements View.OnClickListener, A
     private Spinner editVersionSpinner;
     private Spinner editCategory;
     private Spinner editSort;
+    private Button installPackage;
     private Button search;
 
     private ArrayList<String> sourceList;
@@ -104,6 +105,8 @@ public class DownloadPackageUI extends BaseUI implements View.OnClickListener, A
         editCategory = activity.findViewById(R.id.download_package_arg_type);
         editSort = activity.findViewById(R.id.download_package_arg_sort);
 
+        installPackage = activity.findViewById(R.id.install_package_from_download_page);
+        installPackage.setOnClickListener(this);
         search = activity.findViewById(R.id.search_package);
         search.setOnClickListener(this);
 
@@ -239,6 +242,9 @@ public class DownloadPackageUI extends BaseUI implements View.OnClickListener, A
 
     @Override
     public void onClick(View view) {
+        if (view == installPackage) {
+            activity.uiManager.switchMainUI(activity.uiManager.installPackageUI);
+        }
         if (view == search){
             search();
         }

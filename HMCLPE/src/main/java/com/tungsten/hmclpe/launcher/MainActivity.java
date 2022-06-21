@@ -85,11 +85,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         launcherLayout = findViewById(R.id.launcher_layout);
 
         securityInit();
-        
-        init();
     }
 
-    private void init(){
+    public void init(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             if (getIntent().getExtras().getBoolean("fullscreen")) {
                 getWindow().getAttributes().layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
@@ -217,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void closeCurrentUI() {
         uiManager.removeUIIfExist(uiManager.exportWorldUI);
+        uiManager.removeUIIfExist(uiManager.installPackageUI);
         uiManager.removeUIIfExist(uiManager.installGameUI);
         uiManager.removeUIIfExist(uiManager.downloadForgeUI);
         uiManager.removeUIIfExist(uiManager.downloadFabricUI);
@@ -226,6 +225,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         uiManager.uis.get(uiManager.uis.size() - 1).onStart();
         if (uiManager.currentUI == uiManager.exportWorldUI){
             uiManager.exportWorldUI.onStop();
+        }
+        if (uiManager.currentUI == uiManager.installPackageUI){
+            uiManager.installPackageUI.onStop();
         }
         if (uiManager.currentUI == uiManager.installGameUI){
             uiManager.installGameUI.onStop();

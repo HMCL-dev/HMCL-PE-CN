@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -434,7 +435,7 @@ public class AccountListAdapter extends BaseAdapter {
                 }).start();
             }
         });
-        if (account.loginType == 3 || account.loginType == 5) {
+        if (account.loginType == 5) {
             ((View) viewHolder.skin.getParent()).setVisibility(View.GONE);
         }
         else {
@@ -453,6 +454,11 @@ public class AccountListAdapter extends BaseAdapter {
                     activity.uiManager.accountUI.accountListAdapter.notifyDataSetChanged();
                 });
                 skinPreviewDialog.show();
+            }
+            else if (account.loginType == 3) {
+                Uri uri = Uri.parse("https://www.minecraft.net/zh-hans/msaprofile/mygames/editskin");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                context.startActivity(intent);
             }
             else if (account.loginType == 4) {
                 skinPosition = position;
