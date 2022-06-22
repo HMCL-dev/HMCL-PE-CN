@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static native void verifyFunc();
     public native void launch(Intent intent);
     public native void sendMail(String to, String title, String body, MaildroidX.onCompleteCallback callback);
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public native void onCreate(Bundle savedInstanceState);
 
     public LinearLayout launcherLayout;
 
@@ -76,16 +79,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public Config exteriorConfig;
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_main);
-
-        launcherLayout = findViewById(R.id.launcher_layout);
-
-        securityInit();
-    }
 
     public void init(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
