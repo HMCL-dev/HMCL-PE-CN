@@ -1,7 +1,6 @@
 package com.tungsten.hmclpe.launcher;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static {
         System.loadLibrary("security");
     }
-    native void securityInit();
     public native boolean isValid(String str);
     public static native void verify();
     public static native void verifyFunc();
@@ -78,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public UIManager uiManager;
 
     public Config exteriorConfig;
-
 
     public void init(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

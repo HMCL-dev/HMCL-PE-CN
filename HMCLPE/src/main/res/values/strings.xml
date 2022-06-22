@@ -396,6 +396,14 @@
     <string name="install_package_ui_description">整合包描述</string>
     <string name="install_package_ui_install">安装</string>
 
+    <string name="dialog_package_description_title">整合包描述</string>
+    <string name="dialog_package_description_positive">确定</string>
+
+    <string name="dialog_package_manual_warn_title">安装整合包</string>
+    <string name="dialog_package_manual_warn_msg">您大概需要直接解压该整合包，并使用其自带的启动器即可开始游戏，而不需要导入整合包！该整合包不是由启动器导出的整合包，而是人工打包 .minecraft 文件夹而来的，这类整合包通常附带游戏启动器。HMCL-PE 可以尝试导入该整合包，但不保证可用性，是否继续？</string>
+    <string name="dialog_package_manual_warn_positive">是</string>
+    <string name="dialog_package_manual_warn_negative">否</string>
+
     <string name="dialog_package_not_support_title">错误</string>
     <string name="dialog_package_not_support_msg">无法识别该整合包，目前仅支持导入 Curse、 Modrinth、 MultiMC、 HMCL 整合包。</string>
     <string name="dialog_package_not_support_exit">确定</string>

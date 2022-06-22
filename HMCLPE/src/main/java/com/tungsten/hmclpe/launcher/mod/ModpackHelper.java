@@ -97,7 +97,7 @@ public final class ModpackHelper {
         ZipInputStream zin = new ZipInputStream(in);
         ZipEntry ze;
         while ((ze = zin.getNextEntry()) != null) {
-            if (ze.isDirectory() && ze.getName().endsWith(".minecraft/versions")) {
+            if (ze.isDirectory() && (ze.getName().endsWith(".minecraft/versions/") || ze.getName().equals("versions/"))) {
                 return true;
             }
         }
