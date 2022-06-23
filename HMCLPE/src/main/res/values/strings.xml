@@ -408,6 +408,19 @@
     <string name="dialog_package_not_support_msg">无法识别该整合包，目前仅支持导入 Curse、 Modrinth、 MultiMC、 HMCL 整合包。</string>
     <string name="dialog_package_not_support_exit">确定</string>
 
+    <string name="export_package_type_ui_title">导出整合包向导 - 选择整合包导出类型</string>
+    <string name="export_package_type_ui_sub_title">请选择整合包类型（若无法决定，请选择我的世界中文论坛整合包标准）</string>
+    <string name="export_package_type_ui_mcbbs">我的世界中文论坛整合包标准</string>
+    <string name="export_package_type_ui_mcbbs_sub">可以被 HMCL/HMCL-PE 和 MultiMC 导入</string>
+    <string name="export_package_type_ui_multimc">MultiMC</string>
+    <string name="export_package_type_ui_multimc_sub">可以被 HMCL/HMCL-PE 和 MultiMC 导入</string>
+    <string name="export_package_type_ui_server">服务器自动更新整合包</string>
+    <string name="export_package_type_ui_server_sub">允许服务器管理员远程更新游戏客户端</string>
+
+    <string name="export_package_info_ui_title">导出整合包向导 - 设置整合包的主要信息</string>
+
+    <string name="export_package_file_ui_title">导出整合包向导 - 选中你想加到整合包中的文件或文件夹</string>
+
     <string name="install_game_ui_title">安装新游戏版本 - 安装新游戏版本</string>
     <string name="install_game_ui_name">名称</string>
     <string name="install_game_ui_none">不安装</string>

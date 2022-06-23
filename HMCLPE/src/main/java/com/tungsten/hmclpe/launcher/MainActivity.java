@@ -206,6 +206,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void closeCurrentUI() {
         uiManager.removeUIIfExist(uiManager.exportWorldUI);
         uiManager.removeUIIfExist(uiManager.installPackageUI);
+        uiManager.removeUIIfExist(uiManager.exportPackageTypeUI);
+        uiManager.removeUIIfExist(uiManager.exportPackageInfoUI);
+        uiManager.removeUIIfExist(uiManager.exportPackageFileUI);
         uiManager.removeUIIfExist(uiManager.installGameUI);
         uiManager.removeUIIfExist(uiManager.downloadForgeUI);
         uiManager.removeUIIfExist(uiManager.downloadFabricUI);
@@ -218,6 +221,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (uiManager.currentUI == uiManager.installPackageUI){
             uiManager.installPackageUI.onStop();
+        }
+        if (uiManager.currentUI == uiManager.exportPackageTypeUI){
+            uiManager.exportPackageTypeUI.onStop();
+        }
+        if (uiManager.currentUI == uiManager.exportPackageInfoUI){
+            uiManager.exportPackageInfoUI.onStop();
+        }
+        if (uiManager.currentUI == uiManager.exportPackageFileUI){
+            uiManager.exportPackageFileUI.onStop();
         }
         if (uiManager.currentUI == uiManager.installGameUI){
             uiManager.installGameUI.onStop();

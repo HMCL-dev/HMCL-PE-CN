@@ -19,6 +19,9 @@ import com.tungsten.hmclpe.launcher.uis.game.manager.universal.ModUpdateUI;
 import com.tungsten.hmclpe.launcher.uis.game.manager.universal.PackMcManagerUI;
 import com.tungsten.hmclpe.launcher.uis.game.version.VersionListUI;
 import com.tungsten.hmclpe.launcher.uis.game.version.universal.AddGameDirectoryUI;
+import com.tungsten.hmclpe.launcher.uis.game.version.universal.ExportPackageFileUI;
+import com.tungsten.hmclpe.launcher.uis.game.version.universal.ExportPackageInfoUI;
+import com.tungsten.hmclpe.launcher.uis.game.version.universal.ExportPackageTypeUI;
 import com.tungsten.hmclpe.launcher.uis.game.version.universal.InstallPackageUI;
 import com.tungsten.hmclpe.launcher.uis.main.MainUI;
 import com.tungsten.hmclpe.launcher.uis.universal.setting.SettingUI;
@@ -39,6 +42,9 @@ public class UIManager {
     public ExportWorldUI exportWorldUI;
     public AddGameDirectoryUI addGameDirectoryUI;
     public InstallPackageUI installPackageUI;
+    public ExportPackageTypeUI exportPackageTypeUI;
+    public ExportPackageInfoUI exportPackageInfoUI;
+    public ExportPackageFileUI exportPackageFileUI;
 
     public InstallGameUI installGameUI;
     public DownloadForgeUI downloadForgeUI;
@@ -64,6 +70,9 @@ public class UIManager {
         exportWorldUI = new ExportWorldUI(context,activity);
         addGameDirectoryUI = new AddGameDirectoryUI(context,activity);
         installPackageUI = new InstallPackageUI(context,activity);
+        exportPackageTypeUI = new ExportPackageTypeUI(context,activity);
+        exportPackageInfoUI = new ExportPackageInfoUI(context,activity);
+        exportPackageFileUI = new ExportPackageFileUI(context,activity);
 
         installGameUI = new InstallGameUI(context,activity);
         downloadForgeUI = new DownloadForgeUI(context,activity);
@@ -84,6 +93,9 @@ public class UIManager {
         exportWorldUI.onCreate();
         addGameDirectoryUI.onCreate();
         installPackageUI.onCreate();
+        exportPackageTypeUI.onCreate();
+        exportPackageInfoUI.onCreate();
+        exportPackageFileUI.onCreate();
 
         installGameUI.onCreate();
         downloadForgeUI.onCreate();
@@ -92,7 +104,28 @@ public class UIManager {
         downloadLiteLoaderUI.onCreate();
         downloadOptifineUI.onCreate();
 
-        mainUIs = new BaseUI[]{mainUI,modUpdateUI,packMcManagerUI,exportWorldUI,addGameDirectoryUI,installPackageUI,accountUI,gameManagerUI,versionListUI,downloadUI,settingUI,installGameUI,downloadForgeUI,downloadFabricUI,downloadLiteLoaderUI,downloadOptifineUI,downloadFabricAPIUI};
+        mainUIs = new BaseUI[]{
+                mainUI,
+                modUpdateUI,
+                packMcManagerUI,
+                exportWorldUI,
+                addGameDirectoryUI,
+                installPackageUI,
+                exportPackageTypeUI,
+                exportPackageInfoUI,
+                exportPackageFileUI,
+                accountUI,
+                gameManagerUI,
+                versionListUI,
+                downloadUI,
+                settingUI,
+                installGameUI,
+                downloadForgeUI,
+                downloadFabricUI,
+                downloadLiteLoaderUI,
+                downloadOptifineUI,
+                downloadFabricAPIUI
+        };
         uis = new ArrayList<>();
         switchMainUI(mainUI);
     }

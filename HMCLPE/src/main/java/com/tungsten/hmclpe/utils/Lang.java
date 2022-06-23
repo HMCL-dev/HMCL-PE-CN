@@ -1,9 +1,5 @@
 package com.tungsten.hmclpe.utils;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import com.tungsten.hmclpe.utils.function.ExceptionalBiConsumer;
 import com.tungsten.hmclpe.utils.function.ExceptionalConsumer;
 import com.tungsten.hmclpe.utils.function.ExceptionalFunction;
@@ -106,7 +102,6 @@ public final class Lang {
      * @param <V> the type that {@code obj} is being cast to.
      * @return {@code obj} in the type of {@code V}.
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static <V> Optional<V> tryCast(Object obj, Class<V> clazz) {
         if (clazz.isInstance(obj)) {
             return Optional.of(clazz.cast(obj));
@@ -119,7 +114,6 @@ public final class Lang {
         return index < 0 || index >= a.size() ? defaultValue : a.get(index);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static <T> T merge(T a, T b, BinaryOperator<T> operator) {
         if (a == null) return b;
         if (b == null) return a;
@@ -240,13 +234,11 @@ public final class Lang {
         return null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static <T> T apply(T t, Consumer<T> consumer) {
         consumer.accept(t);
         return t;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static void rethrow(Throwable e) {
         if (e == null)
             return;
@@ -259,7 +251,6 @@ public final class Lang {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static Runnable wrap(ExceptionalRunnable<?> runnable) {
         return () -> {
             try {
@@ -270,7 +261,6 @@ public final class Lang {
         };
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static <T> Supplier<T> wrap(ExceptionalSupplier<T, ?> supplier) {
         return () -> {
             try {
@@ -282,7 +272,6 @@ public final class Lang {
         };
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static <T, R> Function<T, R> wrap(ExceptionalFunction<T, R, ?> fn) {
         return t -> {
             try {
@@ -294,7 +283,6 @@ public final class Lang {
         };
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static <T> Consumer<T> wrapConsumer(ExceptionalConsumer<T, ?> fn) {
         return t -> {
             try {
@@ -305,7 +293,6 @@ public final class Lang {
         };
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static <T, E> BiConsumer<T, E> wrap(ExceptionalBiConsumer<T, E, ?> fn) {
         return (t, e) -> {
             try {
@@ -316,7 +303,6 @@ public final class Lang {
         };
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @SafeVarargs
     public static <T> Consumer<T> compose(Consumer<T>... consumers) {
         return t -> {
@@ -326,7 +312,6 @@ public final class Lang {
         };
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public static <T> Stream<T> toStream(Optional<T> optional) {
         return optional.map(Stream::of).orElseGet(Stream::empty);
@@ -351,13 +336,39 @@ public final class Lang {
         };
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static <T> Iterable<T> toIterable(Stream<T> stream) {
         return stream::iterator;
     }
 
     public static <T> Iterable<T> toIterable(Iterator<T> iterator) {
         return () -> iterator;
+    }
+
+    private static Timer timer;
+
+    public static synchronized Timer getTimer() {
+        if (timer == null) {
+            timer = new Timer();
+        }
+        return timer;
+    }
+
+    public static synchronized TimerTask setTimeout(Runnable runnable, long delayMs) {
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                runnable.run();
+            }
+        };
+        getTimer().schedule(task, delayMs);
+        return task;
+    }
+
+    public static Throwable resolveException(Throwable e) {
+        if (e instanceof ExecutionException || e instanceof CompletionException)
+            return resolveException(e.getCause());
+        else
+            return e;
     }
 
     /**
