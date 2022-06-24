@@ -258,6 +258,7 @@ public class GameListAdapter extends BaseAdapter {
                         deleteAlertBuilder.create().show();
                         return true;
                     case R.id.local_version_menu_export_pack:
+                        activity.uiManager.switchMainUI(activity.uiManager.exportPackageTypeUI);
                         return true;
                     case R.id.local_version_menu_game_folder:
                         PrivateGameSetting privateGameSetting;

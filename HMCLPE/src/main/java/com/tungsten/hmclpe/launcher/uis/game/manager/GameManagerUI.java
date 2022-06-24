@@ -272,7 +272,7 @@ public class GameManagerUI extends BaseUI implements View.OnClickListener {
                         deleteAlertBuilder.create().show();
                         return true;
                     case R.id.manage_export_package:
-
+                        activity.uiManager.switchMainUI(activity.uiManager.exportPackageTypeUI);
                         return true;
                     case R.id.manage_update_assets:
                         AssetsUpdateDialog assetsUpdateDialog = new AssetsUpdateDialog(context,activity,versionName);

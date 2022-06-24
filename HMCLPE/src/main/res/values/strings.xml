@@ -418,6 +418,8 @@
     <string name="export_package_type_ui_server_sub">允许服务器管理员远程更新游戏客户端</string>
 
     <string name="export_package_info_ui_title">导出整合包向导 - 设置整合包的主要信息</string>
+    <string name="export_package_info_ui_alert">提示</string>
+    <string name="export_package_info_ui_alert_text"></string>
 
     <string name="export_package_file_ui_title">导出整合包向导 - 选中你想加到整合包中的文件或文件夹</string>
 
@@ -688,6 +690,8 @@
     <string name="setting_ui_donate">赞助</string>
     <string name="setting_ui_about">关于</string>
 
+    <string name="game_setting_ui_game_dir_alert">提示</string>
+    <string name="game_setting_ui_game_dir_alert_text">在“运行路径（版本隔离）”选项中开启“各版本独立”使当前版本独立存放设置、存档、模组等数据，使用模组时建议开启此选项以避免不同版本模组冲突。修改此选项后请自行移动存档等文件！</string>
     <string name="game_setting_ui_skin_alert">提示</string>
     <string name="game_setting_ui_skin_alert_text">现已支持离线账户更换皮肤，你可以到账户页面更改离线账户的皮肤和披风（多人游戏下其他玩家无法看到你的皮肤）</string>
     <string name="game_setting_ui_alert">警告</string>
@@ -697,7 +701,7 @@
     <string name="game_setting_ui_java_path_auto">自动选择合适的 Java</string>
     <string name="game_setting_ui_java_path_8">1.8.0 (64位)</string>
     <string name="game_setting_ui_java_path_17">17 (64位)</string>
-    <string name="game_setting_ui_version_isolation">版本隔离（修改后请自行移动相关游戏文件，如存档模组配置等）</string>
+    <string name="game_setting_ui_version_isolation">版本隔离（建议使用模组时开启“各版本隔离”，改后需移动存档模组等相关游戏文件）</string>
     <string name="game_setting_ui_version_isolation_default">默认 (.minecraft/)</string>
     <string name="game_setting_ui_version_isolation_isolate">各版本独立 (.minecraft/versions/&#60;版本名>/, 除 assets、libraries)</string>
     <string name="game_setting_ui_version_isolation_custom">自定义</string>

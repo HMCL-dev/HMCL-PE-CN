@@ -13,6 +13,10 @@ public class ExportPackageTypeUI extends BaseUI implements View.OnClickListener 
 
     public LinearLayout exportPackageTypeUI;
 
+    private LinearLayout mcbbs;
+    private LinearLayout multimc;
+    private LinearLayout server;
+
     public ExportPackageTypeUI(Context context, MainActivity activity) {
         super(context, activity);
     }
@@ -21,6 +25,13 @@ public class ExportPackageTypeUI extends BaseUI implements View.OnClickListener 
     public void onCreate() {
         super.onCreate();
         exportPackageTypeUI = activity.findViewById(R.id.ui_export_package_type);
+
+        mcbbs = activity.findViewById(R.id.export_package_mcbbs);
+        multimc = activity.findViewById(R.id.export_package_multimc);
+        server = activity.findViewById(R.id.export_package_server);
+        mcbbs.setOnClickListener(this);
+        multimc.setOnClickListener(this);
+        server.setOnClickListener(this);
     }
 
     @Override
@@ -38,6 +49,14 @@ public class ExportPackageTypeUI extends BaseUI implements View.OnClickListener 
 
     @Override
     public void onClick(View view) {
+        if (view == mcbbs) {
 
+        }
+        if (view == multimc) {
+
+        }
+        if (view == server) {
+            
+        }
     }
 }
