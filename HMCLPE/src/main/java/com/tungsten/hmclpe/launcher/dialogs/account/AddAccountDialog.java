@@ -225,25 +225,34 @@ public class AddAccountDialog extends Dialog implements View.OnClickListener, Ta
                             if (yggdrasilSession.getAvailableProfiles().size() > 1) {
                                 ArrayList<Bitmap> bitmaps = new ArrayList<>();
                                 for (GameProfile gameProfile : yggdrasilSession.getAvailableProfiles()) {
-                                    Map<TextureType, Texture> map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(gameProfile.getId()).get()).get();
-                                    Texture texture = map.get(TextureType.SKIN);
-                                    if (texture == null) {
+                                    if (yggdrasilService.getCompleteGameProfile(gameProfile.getId()).isPresent() && YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(gameProfile.getId()).get()).isPresent()) {
+                                        Map<TextureType, Texture> map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(gameProfile.getId()).get()).get();
+                                        Texture texture = map.get(TextureType.SKIN);
+                                        if (texture == null) {
+                                            AssetManager manager = getContext().getAssets();
+                                            InputStream inputStream;
+                                            inputStream = manager.open("img/alex.png");
+                                            Bitmap skin = BitmapFactory.decodeStream(inputStream);
+                                            bitmaps.add(skin);
+                                        }
+                                        else {
+                                            String u = texture.getUrl();
+                                            if (!u.startsWith("https")){
+                                                u = u.replaceFirst("http","https");
+                                            }
+                                            URL url = new URL(u);
+                                            HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                                            httpURLConnection.setDoInput(true);
+                                            httpURLConnection.connect();
+                                            InputStream inputStream = httpURLConnection.getInputStream();
+                                            Bitmap skin = BitmapFactory.decodeStream(inputStream);
+                                            bitmaps.add(skin);
+                                        }
+                                    }
+                                    else {
                                         AssetManager manager = getContext().getAssets();
                                         InputStream inputStream;
                                         inputStream = manager.open("img/alex.png");
-                                        Bitmap skin = BitmapFactory.decodeStream(inputStream);
-                                        bitmaps.add(skin);
-                                    }
-                                    else {
-                                        String u = texture.getUrl();
-                                        if (!u.startsWith("https")){
-                                            u = u.replaceFirst("http","https");
-                                        }
-                                        URL url = new URL(u);
-                                        HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                                        httpURLConnection.setDoInput(true);
-                                        httpURLConnection.connect();
-                                        InputStream inputStream = httpURLConnection.getInputStream();
                                         Bitmap skin = BitmapFactory.decodeStream(inputStream);
                                         bitmaps.add(skin);
                                     }
@@ -258,25 +267,34 @@ public class AddAccountDialog extends Dialog implements View.OnClickListener, Ta
                             }
                             else if (yggdrasilSession.getAvailableProfiles().size() == 1){
                                 AuthInfo authInfo = yggdrasilSession.toAuthInfo();
-                                Map<TextureType, Texture> map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(authInfo.getUUID()).get()).get();
-                                Texture texture = map.get(TextureType.SKIN);
+                                Texture texture;
                                 Bitmap skin;
-                                if (texture == null) {
+                                if (yggdrasilService.getCompleteGameProfile(authInfo.getUUID()).isPresent() && YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(authInfo.getUUID()).get()).isPresent()) {
+                                    Map<TextureType, Texture> map = YggdrasilService.getTextures(yggdrasilService.getCompleteGameProfile(authInfo.getUUID()).get()).get();
+                                    texture = map.get(TextureType.SKIN);
+                                    if (texture == null) {
+                                        AssetManager manager = getContext().getAssets();
+                                        InputStream inputStream;
+                                        inputStream = manager.open("img/alex.png");
+                                        skin = BitmapFactory.decodeStream(inputStream);
+                                    }
+                                    else {
+                                        String u = texture.getUrl();
+                                        if (!u.startsWith("https")){
+                                            u = u.replaceFirst("http","https");
+                                        }
+                                        URL url = new URL(u);
+                                        HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                                        httpURLConnection.setDoInput(true);
+                                        httpURLConnection.connect();
+                                        InputStream inputStream = httpURLConnection.getInputStream();
+                                        skin = BitmapFactory.decodeStream(inputStream);
+                                    }
+                                }
+                                else {
                                     AssetManager manager = getContext().getAssets();
                                     InputStream inputStream;
                                     inputStream = manager.open("img/alex.png");
-                                    skin = BitmapFactory.decodeStream(inputStream);
-                                }
-                                else {
-                                    String u = texture.getUrl();
-                                    if (!u.startsWith("https")){
-                                        u = u.replaceFirst("http","https");
-                                    }
-                                    URL url = new URL(u);
-                                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                                    httpURLConnection.setDoInput(true);
-                                    httpURLConnection.connect();
-                                    InputStream inputStream = httpURLConnection.getInputStream();
                                     skin = BitmapFactory.decodeStream(inputStream);
                                 }
                                 loginHandler.post(() -> {
