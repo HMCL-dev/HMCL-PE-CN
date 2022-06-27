@@ -175,8 +175,8 @@ public class YggdrasilService {
         AuthenticationResponse response = fromJson(responseText, AuthenticationResponse.class);
         handleErrorMessage(response);
 
-        if (!clientToken.equals(response.clientToken))
-            throw new AuthenticationException("Client token changed from " + clientToken + " to " + response.clientToken);
+        //if (!clientToken.equals(response.clientToken))
+            //throw new AuthenticationException("Client token changed from " + clientToken + " to " + response.clientToken);
 
         return new YggdrasilSession(
                 response.clientToken,
