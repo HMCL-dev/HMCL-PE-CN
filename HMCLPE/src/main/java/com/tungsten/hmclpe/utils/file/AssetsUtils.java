@@ -111,6 +111,8 @@ public class AssetsUtils {
     int currentPosition = 0;
     int totalSize = 0;
 
+    int currentProgress = 0;
+
     private void copyAssetsToDst(Context context, String srcPath, String dstPath) {
         try {
             String fileNames[] = context.getAssets().list(srcPath);
@@ -135,9 +137,13 @@ public class AssetsUtils {
                     fos.write(buffer, 0, byteCount);
                     if (progressCallback != null) {
                         long cur = 100L * currentPosition;
-                        handler.post(() -> {
-                            progressCallback.onProgress((int) (cur / totalSize));
-                        });
+                        int progress = (int) (cur / totalSize);
+                        if (progress != currentProgress) {
+                            currentProgress = progress;
+                            handler.post(() -> {
+                                progressCallback.onProgress(progress);
+                            });
+                        }
                     }
                 }
                 fos.flush();
