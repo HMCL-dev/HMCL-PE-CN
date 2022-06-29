@@ -2,9 +2,6 @@ package com.tungsten.hmclpe.launcher.setting;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
@@ -55,7 +52,6 @@ public class InitializeSetting {
         return accountList;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static ArrayList<AuthlibInjectorServer> initializeAuthlibInjectorServer(Context context){
         ArrayList<AuthlibInjectorServer> serverListBeans = new ArrayList<>();
         if (new File(AppManifest.ACCOUNT_DIR + "/authlib_injector_server.json").exists() && GsonUtils.getContentListFromFile(AppManifest.ACCOUNT_DIR + "/authlib_injector_server.json").size() != 0){
@@ -100,7 +96,7 @@ public class InitializeSetting {
         else {
             String currentVersion;
             if (SettingUtils.getLocalVersionNames(activity.launcherSetting.gameFileDirectory).size() != 0){
-                currentVersion = SettingUtils.getLocalVersionNames(activity.launcherSetting.gameFileDirectory).get(0);
+                currentVersion = activity.launcherSetting.gameFileDirectory + "/versions/" + SettingUtils.getLocalVersionNames(activity.launcherSetting.gameFileDirectory).get(0);
             }
             else {
                 currentVersion = "";
