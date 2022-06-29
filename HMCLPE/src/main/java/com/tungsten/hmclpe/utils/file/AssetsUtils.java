@@ -157,9 +157,9 @@ public class AssetsUtils {
         }
     }
 
-    private int getTotalSize(Context context,String srcPath) throws IOException {
+    private long getTotalSize(Context context,String srcPath) throws IOException {
         String fileNames[] = context.getAssets().list(srcPath);
-        int size = 0;
+        long size = 0;
         if (fileNames.length > 0) {
             for (String fileName : fileNames) {
                 if (!srcPath.equals("")) { // assets 文件夹下的目录
