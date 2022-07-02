@@ -2,9 +2,7 @@ package com.tungsten.hmclpe.launcher.uis.main;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,21 +11,14 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
-
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.launch.boat.BoatMinecraftActivity;
-import com.tungsten.hmclpe.launcher.launch.boat.VirGLService;
-import com.tungsten.hmclpe.launcher.launch.check.LaunchTask;
 import com.tungsten.hmclpe.launcher.launch.check.LaunchTools;
-import com.tungsten.hmclpe.launcher.launch.pojav.PojavMinecraftActivity;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
 import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
-import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.launcher.view.spinner.VersionSpinnerAdapter;
 import com.tungsten.hmclpe.skin.utils.Avatar;
@@ -99,11 +90,8 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         startSettingUI.setOnClickListener(this);
 
         startGame.setOnClickListener(this);
-
-        startMultiPlayerUI.setVisibility(View.GONE);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private AuthlibInjectorServer getServerFromUrl(String url){
         ArrayList<AuthlibInjectorServer> list = InitializeSetting.initializeAuthlibInjectorServer(context);
         for (int i = 0;i < list.size();i++){
@@ -231,7 +219,7 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
             activity.uiManager.switchMainUI(activity.uiManager.downloadUI);
         }
         if (v == startMultiPlayerUI){
-
+            activity.uiManager.switchMainUI(activity.uiManager.multiPlayerUI);
         }
         if (v == startSettingUI){
             activity.uiManager.switchMainUI(activity.uiManager.settingUI);

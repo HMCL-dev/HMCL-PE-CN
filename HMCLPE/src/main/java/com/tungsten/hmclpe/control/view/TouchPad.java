@@ -234,9 +234,7 @@ public class TouchPad extends View {
                     initialX = event.getX();
                     initialY = event.getY();
                     downTime = System.currentTimeMillis();
-                    if (menuHelper.gameCursorMode == 1) {
-                        pointerID = event.getPointerId(event.getActionIndex());
-                    }
+                    pointerID = event.getPointerId(event.getActionIndex());
                     if (menuHelper.gameMenuSetting.mouseMode == 1 && menuHelper.gameCursorMode == 0){
                         startCursorX = menuHelper.cursorX;
                         startCursorY = menuHelper.cursorY;

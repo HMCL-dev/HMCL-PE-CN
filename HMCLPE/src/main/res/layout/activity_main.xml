@@ -145,6 +145,11 @@
                 android:layout_height="match_parent"/>
 
             <include
+                layout="@layout/ui_multi_player"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <include
                 layout="@layout/ui_setting"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

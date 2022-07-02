@@ -24,6 +24,7 @@ import com.tungsten.hmclpe.launcher.uis.game.version.universal.ExportPackageInfo
 import com.tungsten.hmclpe.launcher.uis.game.version.universal.ExportPackageTypeUI;
 import com.tungsten.hmclpe.launcher.uis.game.version.universal.InstallPackageUI;
 import com.tungsten.hmclpe.launcher.uis.main.MainUI;
+import com.tungsten.hmclpe.launcher.uis.universal.multiplayer.MultiPlayerUI;
 import com.tungsten.hmclpe.launcher.uis.universal.setting.SettingUI;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class UIManager {
     public GameManagerUI gameManagerUI;
     public VersionListUI versionListUI;
     public DownloadUI downloadUI;
+    public MultiPlayerUI multiPlayerUI;
     public SettingUI settingUI;
 
     public ModUpdateUI modUpdateUI;
@@ -63,6 +65,7 @@ public class UIManager {
         gameManagerUI = new GameManagerUI(context,activity);
         versionListUI = new VersionListUI(context,activity);
         downloadUI = new DownloadUI(context,activity);
+        multiPlayerUI = new MultiPlayerUI(context,activity);
         settingUI = new SettingUI(context,activity);
 
         modUpdateUI = new ModUpdateUI(context,activity);
@@ -86,6 +89,7 @@ public class UIManager {
         gameManagerUI.onCreate();
         versionListUI.onCreate();
         downloadUI.onCreate();
+        multiPlayerUI.onCreate();
         settingUI.onCreate();
 
         modUpdateUI.onCreate();
@@ -118,6 +122,7 @@ public class UIManager {
                 gameManagerUI,
                 versionListUI,
                 downloadUI,
+                multiPlayerUI,
                 settingUI,
                 installGameUI,
                 downloadForgeUI,

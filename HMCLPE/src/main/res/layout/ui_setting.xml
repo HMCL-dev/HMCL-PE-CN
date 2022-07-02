@@ -28,7 +28,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_gravity="center"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
@@ -36,7 +36,7 @@
 
                 <TextView
                     android:layout_gravity="center"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_ui_public_game_setting"
@@ -46,7 +46,7 @@
             </LinearLayout>
 
             <TextView
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -73,7 +73,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_gravity="center"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
@@ -81,7 +81,7 @@
 
                 <TextView
                     android:layout_gravity="center"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_ui_universal"
@@ -101,7 +101,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_gravity="center"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
@@ -109,7 +109,7 @@
 
                 <TextView
                     android:layout_gravity="center"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_ui_exterior"
@@ -129,7 +129,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_gravity="center"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
@@ -137,7 +137,7 @@
 
                 <TextView
                     android:layout_gravity="center"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_ui_download"
@@ -147,7 +147,7 @@
             </LinearLayout>
 
             <TextView
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -174,7 +174,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_gravity="center"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
@@ -182,7 +182,7 @@
 
                 <TextView
                     android:layout_gravity="center"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_ui_help"
@@ -202,7 +202,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_gravity="center"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
@@ -210,7 +210,7 @@
 
                 <TextView
                     android:layout_gravity="center"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_ui_feedback"
@@ -230,7 +230,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_gravity="center"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
@@ -238,7 +238,7 @@
 
                 <TextView
                     android:layout_gravity="center"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_ui_donate"
@@ -259,7 +259,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_gravity="center"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
@@ -267,7 +267,7 @@
 
                 <TextView
                     android:layout_gravity="center"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/setting_ui_about"

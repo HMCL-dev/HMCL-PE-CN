@@ -679,6 +679,14 @@
     <string name="dialog_download_negative">取消</string>
     <string name="dialog_download_success">安装成功</string>
 
+    <string name="multi_player_ui_title">多人联机</string>
+    <string name="multi_player_ui_launch">启动游戏</string>
+    <string name="multi_player_ui_community">房间</string>
+    <string name="multi_player_ui_create">创建房间</string>
+    <string name="multi_player_ui_join">加入房间</string>
+    <string name="multi_player_ui_help">帮助</string>
+    <string name="multi_player_ui_feedback">反馈</string>
+
     <string name="setting_ui_title">设置</string>
     <string name="setting_ui_public_game_setting">全局游戏设置</string>
     <string name="setting_ui_launcher">启动器</string>

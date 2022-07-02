@@ -64,20 +64,11 @@ public class FastTextAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
         viewHolder.textView.setText(list.get(i));
-        viewHolder.item.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onClick(View view) {
-                dialog.editText.setText(">" + list.get(i));
-            }
-        });
-        viewHolder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                list.remove(i);
-                SettingUtils.saveFastText(list);
-                notifyDataSetChanged();
-            }
+        viewHolder.item.setOnClickListener(view12 -> dialog.editText.setText(">" + list.get(i)));
+        viewHolder.delete.setOnClickListener(view1 -> {
+            list.remove(i);
+            SettingUtils.saveFastText(list);
+            notifyDataSetChanged();
         });
         return view;
     }
