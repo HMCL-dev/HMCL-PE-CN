@@ -1,6 +1,8 @@
 package com.tungsten.hmclpe.launcher.uis.universal.multiplayer;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.tungsten.hmclpe.R;
@@ -8,9 +10,11 @@ import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
-public class MultiPlayerUI extends BaseUI {
+public class MultiPlayerUI extends BaseUI implements View.OnClickListener {
 
     public LinearLayout multiPlayerUI;
+
+    private LinearLayout help;
 
     public MultiPlayerUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -20,6 +24,10 @@ public class MultiPlayerUI extends BaseUI {
     public void onCreate() {
         super.onCreate();
         multiPlayerUI = activity.findViewById(R.id.ui_multi_player);
+
+        help = activity.findViewById(R.id.multiplayer_help);
+
+        help.setOnClickListener(this);
     }
 
     @Override
@@ -35,4 +43,14 @@ public class MultiPlayerUI extends BaseUI {
         CustomAnimationUtils.hideViewToLeft(multiPlayerUI,activity,context,true);
     }
 
+    @Override
+    public void onClick(View view) {
+        if (view == help) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle(context.getString(R.string.dialog_hin2n_help_title));
+            builder.setMessage(context.getString(R.string.dialog_hin2n_help_text));
+            builder.setPositiveButton(context.getString(R.string.dialog_hin2n_help_positive), null);
+            builder.create().show();
+        }
+    }
 }

@@ -167,7 +167,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/drawer_game_menu_control"
+                        android:text="@string/drawer_game_menu_function"
                         android:textSize="9sp"
                         android:textColor="@color/colorPureBlack"/>
 
@@ -175,6 +175,36 @@
                         android:layout_width="match_parent"
                         android:layout_height="1px"
                         android:background="@color/colorDarkGray"/>
+
+                    <LinearLayout
+                        android:padding="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/drawer_game_menu_function_hin2n_menu"
+                            android:textSize="12sp"
+                            android:textColor="@color/colorPureBlack"
+                            android:singleLine="true"
+                            android:layout_gravity="center"/>
+
+                        <Button
+                            android:layout_width="40dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:text="@string/drawer_game_menu_function_hin2n_menu_open"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="12sp"
+                            android:gravity="center"
+                            android:background="@drawable/launcher_setting_button"
+                            android:id="@+id/open_hin2n_menu"/>
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_marginTop="5dp"
@@ -188,7 +218,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_gravity="center"
-                            android:text="@string/drawer_game_menu_control_advance_input"
+                            android:text="@string/drawer_game_menu_function_advance_input"
                             android:textSize="12sp"
                             android:textColor="@color/colorPureBlack"/>
 
@@ -199,6 +229,19 @@
                             android:id="@+id/switch_advance_input"/>
 
                     </LinearLayout>
+
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/drawer_game_menu_control"
+                        android:textSize="9sp"
+                        android:textColor="@color/colorPureBlack"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/colorDarkGray"/>
 
                     <LinearLayout
                         android:layout_marginTop="5dp"
@@ -472,6 +515,7 @@
                         android:background="@color/colorDarkGray"/>
 
                     <LinearLayout
+                        android:padding="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

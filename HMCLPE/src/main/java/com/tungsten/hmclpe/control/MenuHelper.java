@@ -26,6 +26,7 @@ import com.tungsten.hmclpe.control.view.TouchCharInput;
 import com.tungsten.hmclpe.launcher.dialogs.control.AddViewDialog;
 import com.tungsten.hmclpe.launcher.dialogs.control.ChildManagerDialog;
 import com.tungsten.hmclpe.launcher.dialogs.control.EditControlPatternDialog;
+import com.tungsten.hmclpe.launcher.dialogs.hin2n.Hin2nMenuDialog;
 import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
 import com.tungsten.hmclpe.launcher.list.local.controller.ControlPattern;
 import com.tungsten.hmclpe.manifest.AppManifest;
@@ -72,6 +73,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     public TextView mouseSizeText;
     public SeekBar mouseSizeSeekbar;
     public SwitchCompat switchHideUI;
+    public Button openHin2nMenu;
     public Button forceExit;
 
     public Spinner patternSpinner;
@@ -197,6 +199,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         mouseSizeText = activity.findViewById(R.id.mouse_size_text);
         mouseSizeSeekbar = activity.findViewById(R.id.mouse_size);
         switchHideUI = activity.findViewById(R.id.switch_hide_ui);
+        openHin2nMenu = activity.findViewById(R.id.open_hin2n_menu);
         forceExit = activity.findViewById(R.id.force_exit);
 
         switchMenuFloat.setChecked(gameMenuSetting.menuFloatSetting.enable);
@@ -216,6 +219,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         switchSensor.setOnCheckedChangeListener(this);
         switchHalfScreen.setOnCheckedChangeListener(this);
         switchHideUI.setOnCheckedChangeListener(this);
+        openHin2nMenu.setOnClickListener(this);
         forceExit.setOnClickListener(this);
 
         ArrayList<String> touchModes = new ArrayList<>();
@@ -424,6 +428,12 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
 
     @Override
     public void onClick(View view) {
+        if (view == openHin2nMenu) {
+            if (launcher != 0) {
+                Hin2nMenuDialog dialog = new Hin2nMenuDialog(context);
+                dialog.show();
+            }
+        }
         if (view == forceExit) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle(context.getString(R.string.dialog_force_exit_title));
