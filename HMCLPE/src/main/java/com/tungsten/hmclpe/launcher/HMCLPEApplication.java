@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.github.gzuliyujiang.oaid.DeviceIdentifier;
 
+import wang.switchy.hin2n.Hin2n;
+
 public class HMCLPEApplication extends Application {
 
     private static Context context;
@@ -14,6 +16,7 @@ public class HMCLPEApplication extends Application {
         super.onCreate();
         DeviceIdentifier.register(this);
         context = this.getApplicationContext();
+        Hin2n.getInstance().setup(context);
     }
 
     public static Context getContext(){
