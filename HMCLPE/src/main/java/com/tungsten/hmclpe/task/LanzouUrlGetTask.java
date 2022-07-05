@@ -69,6 +69,7 @@ public class LanzouUrlGetTask extends AsyncTask<String, Integer, String> {
                 doc = Jsoup.connect(url)
                         .userAgent(UA)
                         .get();
+                doc =Jsoup.parse(doc.toString().replaceAll("//[\\s\\S]*?\\n",""));
                 OkHttpClient client=new OkHttpClient().newBuilder().followRedirects(false).build();
                 Pattern p =null;
                 p=Pattern.compile("'sign':'(.*?)'");

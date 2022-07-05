@@ -58,9 +58,9 @@
                         android:layout_centerInParent="true" />
 
                     <ImageView
+                        android:id="@+id/account_skin_hat"
                         android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:id="@+id/account_skin_hat"/>
+                        android:layout_height="30dp" />
 
                 </RelativeLayout>
 
@@ -179,6 +179,7 @@
                 android:padding="10dp">
 
                 <ImageView
+                    android:id="@+id/version_list_icon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
@@ -206,6 +207,7 @@
                 android:padding="10dp">
 
                 <ImageView
+                    android:id="@+id/download_icon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
@@ -251,6 +253,7 @@
                 android:padding="10dp">
 
                 <ImageView
+                    android:id="@+id/multiplayer_icon"
                     android:layout_gravity="center"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
@@ -279,6 +282,7 @@
                 android:padding="10dp">
 
                 <ImageView
+                    android:id="@+id/setting_icon"
                     android:layout_gravity="center"
                     android:layout_width="30dp"
                     android:layout_height="30dp"

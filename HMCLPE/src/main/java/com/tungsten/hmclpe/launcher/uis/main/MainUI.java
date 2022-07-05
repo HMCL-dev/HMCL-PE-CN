@@ -2,6 +2,9 @@ package com.tungsten.hmclpe.launcher.uis.main;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
@@ -10,12 +13,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.auth.authlibinjector.AuthlibInjectorServer;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.launch.check.LaunchTools;
 import com.tungsten.hmclpe.launcher.list.local.game.GameListBean;
+import com.tungsten.hmclpe.launcher.uis.universal.setting.right.launcher.ExteriorSettingUI;
 import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
@@ -25,8 +30,13 @@ import com.tungsten.hmclpe.skin.utils.Avatar;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.file.DrawableUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
+import com.tungsten.hmclpe.utils.io.FileUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -53,6 +63,11 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
     private TextView currentVersionText;
 
     private VersionSpinnerAdapter versionSpinnerAdapter;
+
+    private ImageView versionListIcon;
+    private ImageView downlooadIcon;
+    private ImageView multiplayerIcon;
+    private ImageView settingIcon;
 
     public MainUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -81,6 +96,12 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         versionIcon = activity.findViewById(R.id.current_version_icon);
         noVersionAlert = activity.findViewById(R.id.no_version_alert_text);
         currentVersionText = activity.findViewById(R.id.current_version_name_text);
+
+        //icon
+        versionListIcon=activity.findViewById(R.id.version_list_icon);
+        downlooadIcon=activity.findViewById(R.id.download_icon);
+        multiplayerIcon=activity.findViewById(R.id.multiplayer_icon);
+        settingIcon=activity.findViewById(R.id.setting_icon);
 
         startAccountUI.setOnClickListener(this);
         startGameManagerUI.setOnClickListener(this);
@@ -266,5 +287,48 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+    public void customTheme(){
+//        versionListIcon;
+//        downlooadIcon;
+//        multiplayerIcon;
+//        settingIcon;
+        File themePath=activity.getExternalFilesDir("Theme");
+
+        if (!themePath.exists()){
+            return;
+        }
+        channgeIcon(versionListIcon,themePath,"versionListIcon");
+        channgeIcon(downlooadIcon,themePath,"downlooadIcon");
+        channgeIcon(multiplayerIcon,themePath,"multiplayerIcon");
+        channgeIcon(settingIcon,themePath,"settingIcon");
+        channgeIcon(activity.launcherLayout,themePath,"background");
+
+        if (new File(themePath,"color.json").exists()){
+            try {
+                JSONObject jsonObject=new JSONObject(FileUtils.readText(new File(themePath,"color.json")));
+                activity.exteriorConfig.primaryColor(Color.parseColor(jsonObject.getString("primaryColor")));
+                activity.exteriorConfig.accentColor(Color.parseColor(jsonObject.getString("accentColor")));
+                activity.exteriorConfig.apply(activity);
+                activity.appBar.setBackgroundColor(Color.parseColor(jsonObject.getString("primaryColor")));
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(activity, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private void channgeIcon(View view,File themePath,String iconName){
+        File path=new File(themePath,iconName+".png");
+        if (path.exists()){
+            Bitmap bitmap = BitmapFactory.decodeFile(path.getAbsolutePath());
+            view.setBackground(new BitmapDrawable(activity.getResources(),bitmap));
+//            if (view instanceof ImageView){
+//                Bitmap bitmap = BitmapFactory.decodeFile(path.getAbsolutePath());
+//                view.setBackground(new BitmapDrawable(activity.getResources(),bitmap));
+//            }else if (view instanceof LinearLayout){
+//                Bitmap bitmap = BitmapFactory.decodeFile(path.getAbsolutePath());
+//                view.setBackground(new BitmapDrawable(activity.getResources(),bitmap));
+//            }
+        }
     }
 }

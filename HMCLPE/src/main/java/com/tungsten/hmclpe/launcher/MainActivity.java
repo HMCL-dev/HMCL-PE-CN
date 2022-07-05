@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         uiManager.gameManagerUI.gameManagerUIManager.versionSettingUI.onLoaded();
         uiManager.downloadUI.downloadUIManager.downloadMinecraftUI.onLoaded();
         uiManager.settingUI.settingUIManager.universalGameSettingUI.onLoaded();
+        uiManager.mainUI.customTheme();
     }
 
     public void showBarTitle(String title,boolean home,boolean close) {
