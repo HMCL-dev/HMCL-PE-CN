@@ -220,7 +220,7 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     LOGE("hashcode:%ld", hashCode);
     if (hashCode != app_signature_hash_code_release && hashCode != app_signature_hash_code_debug &&
         hashCode != app_signature_hash_code_debug_) {
-        abort();
+        //abort();
     }
     jmethodID method_releaseContext = env->GetStaticMethodID(class_HMCLPEApplication,
                                                              "releaseContext",

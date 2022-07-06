@@ -12,17 +12,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.multiplayer.Hin2nService;
 
 public class Hin2nMenuDialog extends Dialog implements View.OnClickListener {
+
+    private final MenuHelper menuHelper;
 
     private LinearLayout create;
     private LinearLayout join;
     private LinearLayout info;
     private LinearLayout help;
 
-    public Hin2nMenuDialog(@NonNull Context context) {
+    public Hin2nMenuDialog(@NonNull Context context, MenuHelper menuHelper) {
         super(context);
+        this.menuHelper = menuHelper;
         setContentView(R.layout.dialog_hin2n_menu);
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -41,7 +45,7 @@ public class Hin2nMenuDialog extends Dialog implements View.OnClickListener {
     public void onClick(View view) {
         if (view == create) {
             if (Hin2nService.INSTANCE == null) {
-                CreateCommunityDialog dialog = new CreateCommunityDialog(getContext());
+                CreateCommunityDialog dialog = new CreateCommunityDialog(getContext(), menuHelper);
                 dialog.show();
                 dismiss();
             }

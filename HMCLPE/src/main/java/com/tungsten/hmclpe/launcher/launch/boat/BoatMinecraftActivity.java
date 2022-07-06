@@ -185,6 +185,14 @@ public class BoatMinecraftActivity extends BoatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (menuHelper != null) {
+            menuHelper.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
     protected void onPostResume() {
         super.onPostResume();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

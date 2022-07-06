@@ -3,6 +3,7 @@ package com.tungsten.hmclpe.launcher.launch.pojav;
 import static org.lwjgl.glfw.CallbackBridge.windowHeight;
 import static org.lwjgl.glfw.CallbackBridge.windowWidth;
 
+import android.content.Intent;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.InputDevice;
 import android.view.Surface;
 import android.view.WindowManager;
 
+import androidx.annotation.Nullable;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.tungsten.hmclpe.R;
@@ -175,6 +177,14 @@ public class PojavMinecraftActivity extends BaseMainActivity {
             CallbackBridge.sendKeyPress(LWJGLGLFWKeycode.GLFW_KEY_ESCAPE);
         }
         super.onPause();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (menuHelper != null) {
+            menuHelper.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override

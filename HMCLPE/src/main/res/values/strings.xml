@@ -1030,6 +1030,7 @@
     <string name="dialog_community_title">联机房间信息</string>
     <string name="dialog_community_invite_code">邀请码：</string>
     <string name="dialog_community_ip">ip+端口：</string>
+    <string name="dialog_community_copy_success">复制成功</string>
     <string name="dialog_community_exit">关闭/退出房间</string>
     <string name="dialog_community_positive">确定</string>
 
