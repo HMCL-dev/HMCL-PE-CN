@@ -51,8 +51,7 @@ public class Hin2nService extends N2NService {
 
     public static N2NSettingModel getPlayerModel() {
         SERVER_TYPE = ServerType.CLIENT;
-        Random random = new Random();
-        String ip = random.nextInt(256) + "." + random.nextInt(256) + "." + random.nextInt(256) + "." + random.nextInt(256);
+        String ip = randomNumber() + "." + randomNumber() + "." + randomNumber() + "." + randomNumber();
         return new N2NSettingModel(null,
                 1,
                 "HMCL-PE-Local-Server-Setting",
@@ -80,6 +79,11 @@ public class Hin2nService extends N2NService {
                 "",
                 "Twofish",
                 false);
+    }
+
+    private static int randomNumber() {
+        Random random = new Random();
+        return random.nextInt(254) + 1;
     }
 
 }
