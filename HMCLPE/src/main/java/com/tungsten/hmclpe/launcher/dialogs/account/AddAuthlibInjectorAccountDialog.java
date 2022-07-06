@@ -68,7 +68,7 @@ public class AddAuthlibInjectorAccountDialog extends Dialog implements View.OnCl
 
     private Account account;
 
-    public static final String NIDE_8_AUTH_SIGN_UP_PAGE = "https://login2.nide8.com:233/";
+    public static final String NIDE_8_AUTH_SIGN_UP_PAGE = "https://login.mc-user.com:233/";
 
     public AddAuthlibInjectorAccountDialog(@NonNull Context context, MainActivity activity,OnAuthlibInjectorAccountAddListener onAuthlibInjectorAccountAddListener,ArrayList<AuthlibInjectorServer> list,AuthlibInjectorServer authlibInjectorServer) {
         super(context);
