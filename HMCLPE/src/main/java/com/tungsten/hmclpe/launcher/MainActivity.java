@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static native void verify();
     public static native void verifyFunc();
     public native void launch(Intent intent);
-    public native void sendMail(String to, String title, String body, MaildroidX.onCompleteCallback callback);
     @SuppressLint("MissingSuperCall")
     @Override
     public native void onCreate(Bundle savedInstanceState);

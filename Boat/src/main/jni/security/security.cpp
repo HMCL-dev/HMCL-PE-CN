@@ -159,32 +159,6 @@ Java_com_tungsten_hmclpe_launcher_MainActivity_launch(JNIEnv *env, jobject obj_c
 }
 
 
-JNIEXPORT void JNICALL
-Java_com_tungsten_hmclpe_launcher_MainActivity_sendMail(JNIEnv *env, jobject obj_context,
-                                                        jstring sto,
-                                                        jstring title, jstring sbody,
-                                                        jobject callback) {
-    // TODO: implement sendMail()
-
-//    jclass MainActivity = env->GetObjectClass(obj_context);
-//    jmethodID  jmethodId = env->GetMethodID(MainActivity, "b",
-//                                            "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
-    jclass DeviceIdentifier = env->FindClass("com/github/gzuliyujiang/oaid/DeviceIdentifier");
-    jmethodID getOAID = env->GetStaticMethodID(DeviceIdentifier, "getOAID",
-                                               "(Landroid/content/Context;)Ljava/lang/String;");
-    jstring joaid = (jstring) env->CallStaticObjectMethod(DeviceIdentifier, getOAID, obj_context);
-    const char *oaid = env->GetStringUTFChars(joaid, 0);
-
-    jclass DigestUtils = env->FindClass("com/tungsten/hmclpe/utils/DigestUtils");
-    jmethodID encryptToMD5 = env->GetStaticMethodID(DigestUtils, "encryptToMD5",
-                                                    "(Ljava/lang/String;)Ljava/lang/String;");
-    joaid = (jstring) env->CallStaticObjectMethod(DigestUtils, encryptToMD5, env->NewStringUTF(
-            getSecretKey(oaid).c_str()));
-    string str = "验证码为：";
-    str.append(env->GetStringUTFChars(joaid, 0));
-    sendMail(env, sto, title, env->NewStringUTF(str.c_str()), callback);
-    env->ReleaseStringUTFChars(joaid, oaid);
-}
 string getSecretKey(const char *oaid) {
     char result[128];
     strcpy(result, oaid);
@@ -195,53 +169,6 @@ string getSecretKey(const char *oaid) {
         i++;
     }
     return {result};
-}
-
-void sendMail(JNIEnv *env,
-              jstring sto,
-              jstring title,
-              jstring sbody,
-              jobject callback) {
-    jclass MailBuilder = env->FindClass("co/nedim/maildroidx/MaildroidX$Builder");
-    jmethodID init = env->GetMethodID(MailBuilder, "<init>", "()V");
-    jobject Builder = env->NewObject(MailBuilder, init);
-
-    jmethodID smtp = env->GetMethodID(MailBuilder, "smtp",
-                                      "(Ljava/lang/String;)Lco/nedim/maildroidx/MaildroidX$Builder;");
-    jmethodID smtpUsername = env->GetMethodID(MailBuilder, "smtpUsername",
-                                              "(Ljava/lang/String;)Lco/nedim/maildroidx/MaildroidX$Builder;");
-    jmethodID smtpPassword = env->GetMethodID(MailBuilder, "smtpPassword",
-                                              "(Ljava/lang/String;)Lco/nedim/maildroidx/MaildroidX$Builder;");
-    jmethodID port = env->GetMethodID(MailBuilder, "port",
-                                      "(Ljava/lang/String;)Lco/nedim/maildroidx/MaildroidX$Builder;");
-    jmethodID type = env->GetMethodID(MailBuilder, "type",
-                                      "(Lco/nedim/maildroidx/MaildroidXType;)Lco/nedim/maildroidx/MaildroidX$Builder;");
-    jmethodID to = env->GetMethodID(MailBuilder, "to",
-                                    "(Ljava/lang/String;)Lco/nedim/maildroidx/MaildroidX$Builder;");
-    jmethodID from = env->GetMethodID(MailBuilder, "from",
-                                      "(Ljava/lang/String;)Lco/nedim/maildroidx/MaildroidX$Builder;");
-    jmethodID subject = env->GetMethodID(MailBuilder, "subject",
-                                         "(Ljava/lang/String;)Lco/nedim/maildroidx/MaildroidX$Builder;");
-    jmethodID body = env->GetMethodID(MailBuilder, "body",
-                                      "(Ljava/lang/String;)Lco/nedim/maildroidx/MaildroidX$Builder;");
-    jmethodID onCompleteCallback = env->GetMethodID(MailBuilder, "onCompleteCallback",
-                                                    "(Lco/nedim/maildroidx/MaildroidX$onCompleteCallback;)Lco/nedim/maildroidx/MaildroidX$Builder;");
-    jmethodID mail = env->GetMethodID(MailBuilder, "mail", "()V");
-
-    env->CallObjectMethod(Builder, smtp, env->NewStringUTF("smtp.qq.com"));
-    env->CallObjectMethod(Builder, smtpUsername, env->NewStringUTF("852468399@qq.com"));
-    env->CallObjectMethod(Builder, smtpPassword, env->NewStringUTF("nlpgakuekwivbbif"));
-    env->CallObjectMethod(Builder, port, env->NewStringUTF("465"));
-    jclass MaildroidXType = env->FindClass("co/nedim/maildroidx/MaildroidXType");
-    jfieldID HTML = env->GetStaticFieldID(MaildroidXType, "HTML",
-                                          "Lco/nedim/maildroidx/MaildroidXType;");
-    env->CallObjectMethod(Builder, type, env->GetStaticObjectField(MaildroidXType, HTML));
-    env->CallObjectMethod(Builder, to, sto);
-    env->CallObjectMethod(Builder, from, env->NewStringUTF("HMCLPE <852468399@qq.com>"));
-    env->CallObjectMethod(Builder, subject, title);
-    env->CallObjectMethod(Builder, body, sbody);
-    env->CallObjectMethod(Builder, onCompleteCallback, callback);
-    env->CallVoidMethod(Builder, mail);
 }
 
 

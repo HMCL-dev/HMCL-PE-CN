@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
-import com.tungsten.hmclpe.miltiplayer.LocalServerDetector;
+import com.tungsten.hmclpe.multiplayer.LocalServerDetector;
 
 public class CreateCommunityDialog extends Dialog implements View.OnClickListener {
 

@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.miltiplayer;
+package com.tungsten.hmclpe.multiplayer;
 
 import static com.tungsten.hmclpe.utils.Logging.LOG;
 
