@@ -1024,6 +1024,7 @@
     <string name="dialog_join_community_alert">提示</string>
     <string name="dialog_join_community_alert_text">你需要向已经创建好房间的玩家索要邀请码以便加入多人联机房间</string>
     <string name="dialog_join_community_code">邀请码</string>
+    <string name="dialog_join_community_code_empty">邀请码不得为空</string>
     <string name="dialog_join_community_positive">确定</string>
     <string name="dialog_join_community_negative">取消</string>
 

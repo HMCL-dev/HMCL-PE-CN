@@ -13,10 +13,13 @@ public class Hin2nService extends N2NService {
     public static final int VPN_REQUEST_CODE_CREATE = 10000;
     public static final int VPN_REQUEST_CODE_JOIN = 10001;
 
+    public static ServerType SERVER_TYPE;
+
     public static String COMMUNITY_CODE;
     public static String IP_PORT;
 
     public static N2NSettingModel getCreatorModel() {
+        SERVER_TYPE = ServerType.SERVER;
         COMMUNITY_CODE = DigestUtils.encryptToMD5(Long.toString(System.currentTimeMillis()));
         return new N2NSettingModel(null,
                 1,
@@ -48,6 +51,7 @@ public class Hin2nService extends N2NService {
     }
 
     public static N2NSettingModel getPlayerModel() {
+        SERVER_TYPE = ServerType.CLIENT;
         Random random = new Random();
         String ip = random.nextInt(256) + "." + random.nextInt(256) + "." + random.nextInt(256) + "." + random.nextInt(256);
         return new N2NSettingModel(null,

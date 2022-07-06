@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,12 +18,14 @@ import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.multiplayer.Hin2nService;
+import com.tungsten.hmclpe.multiplayer.ServerType;
 
 public class Hin2nInfoDialog extends Dialog implements View.OnClickListener {
 
     private String inviteCode;
     private String ipPort;
 
+    private LinearLayout layout;
     private TextView inviteCodeText;
     private TextView ipPortText;
     private ImageButton copyInviteCode;
@@ -42,6 +45,7 @@ public class Hin2nInfoDialog extends Dialog implements View.OnClickListener {
         inviteCode = Hin2nService.COMMUNITY_CODE;
         ipPort = Hin2nService.IP_PORT;
 
+        layout = findViewById(R.id.ip_port_layout);
         inviteCodeText = findViewById(R.id.invite_code);
         ipPortText = findViewById(R.id.ip_port);
         copyInviteCode = findViewById(R.id.copy_invite_code);
@@ -55,7 +59,13 @@ public class Hin2nInfoDialog extends Dialog implements View.OnClickListener {
         positive.setOnClickListener(this);
 
         inviteCodeText.setText(inviteCode);
-        ipPortText.setText(ipPort);
+        if (Hin2nService.SERVER_TYPE == ServerType.SERVER) {
+            layout.setVisibility(View.VISIBLE);
+            ipPortText.setText(ipPort);
+        }
+        else {
+            layout.setVisibility(View.GONE);
+        }
     }
 
     @Override

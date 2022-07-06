@@ -55,7 +55,7 @@ public class Hin2nMenuDialog extends Dialog implements View.OnClickListener {
         }
         if (view == join) {
             if (Hin2nService.INSTANCE == null) {
-                JoinCommunityDialog dialog = new JoinCommunityDialog(getContext());
+                JoinCommunityDialog dialog = new JoinCommunityDialog(getContext(), menuHelper);
                 dialog.show();
                 dismiss();
             }
