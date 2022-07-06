@@ -12,5 +12,3 @@
 /captures
 .externalNativeBuild
 .cxx
-local.properties
-Boat/src/main/jni/security/security.cpp

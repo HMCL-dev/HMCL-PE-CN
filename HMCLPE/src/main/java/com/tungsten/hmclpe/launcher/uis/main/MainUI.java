@@ -98,10 +98,10 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         currentVersionText = activity.findViewById(R.id.current_version_name_text);
 
         //icon
-        versionListIcon=activity.findViewById(R.id.version_list_icon);
-        downlooadIcon=activity.findViewById(R.id.download_icon);
-        multiplayerIcon=activity.findViewById(R.id.multiplayer_icon);
-        settingIcon=activity.findViewById(R.id.setting_icon);
+        versionListIcon = activity.findViewById(R.id.version_list_icon);
+        downlooadIcon = activity.findViewById(R.id.download_icon);
+        multiplayerIcon = activity.findViewById(R.id.multiplayer_icon);
+        settingIcon = activity.findViewById(R.id.setting_icon);
 
         startAccountUI.setOnClickListener(this);
         startGameManagerUI.setOnClickListener(this);
@@ -288,25 +288,26 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
     public void customTheme(){
 //        versionListIcon;
 //        downlooadIcon;
 //        multiplayerIcon;
 //        settingIcon;
-        File themePath=activity.getExternalFilesDir("Theme");
+        File themePath = activity.getExternalFilesDir("Theme");
 
         if (!themePath.exists()){
             return;
         }
-        channgeIcon(versionListIcon,themePath,"versionListIcon");
-        channgeIcon(downlooadIcon,themePath,"downlooadIcon");
-        channgeIcon(multiplayerIcon,themePath,"multiplayerIcon");
-        channgeIcon(settingIcon,themePath,"settingIcon");
-        channgeIcon(activity.launcherLayout,themePath,"background");
+        changeIcon(versionListIcon, themePath, "versionListIcon");
+        changeIcon(downlooadIcon, themePath, "downloadIcon");
+        changeIcon(multiplayerIcon, themePath, "multiplayerIcon");
+        changeIcon(settingIcon, themePath, "settingIcon");
+        changeIcon(activity.launcherLayout, themePath, "background");
 
-        if (new File(themePath,"color.json").exists()){
+        if (new File(themePath,"color.json").exists()) {
             try {
-                JSONObject jsonObject=new JSONObject(FileUtils.readText(new File(themePath,"color.json")));
+                JSONObject jsonObject = new JSONObject(FileUtils.readText(new File(themePath,"color.json")));
                 activity.exteriorConfig.primaryColor(Color.parseColor(jsonObject.getString("primaryColor")));
                 activity.exteriorConfig.accentColor(Color.parseColor(jsonObject.getString("accentColor")));
                 activity.exteriorConfig.apply(activity);
@@ -317,11 +318,12 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
             }
         }
     }
-    private void channgeIcon(View view,File themePath,String iconName){
-        File path=new File(themePath,iconName+".png");
-        if (path.exists()){
+
+    private void changeIcon(View view, File themePath, String iconName) {
+        File path = new File(themePath, iconName + ".png");
+        if (path.exists()) {
             Bitmap bitmap = BitmapFactory.decodeFile(path.getAbsolutePath());
-            view.setBackground(new BitmapDrawable(activity.getResources(),bitmap));
+            view.setBackground(new BitmapDrawable(activity.getResources(), bitmap));
 //            if (view instanceof ImageView){
 //                Bitmap bitmap = BitmapFactory.decodeFile(path.getAbsolutePath());
 //                view.setBackground(new BitmapDrawable(activity.getResources(),bitmap));

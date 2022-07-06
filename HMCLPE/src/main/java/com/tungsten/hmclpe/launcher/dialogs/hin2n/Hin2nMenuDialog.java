@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
 
+import wang.switchy.hin2n.service.N2NService;
+
 public class Hin2nMenuDialog extends Dialog implements View.OnClickListener {
 
     private LinearLayout create;
@@ -35,14 +37,18 @@ public class Hin2nMenuDialog extends Dialog implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (view == create) {
-            CreateCommunityDialog dialog = new CreateCommunityDialog(getContext());
-            dialog.show();
-            dismiss();
+            if (N2NService.INSTANCE == null) {
+                CreateCommunityDialog dialog = new CreateCommunityDialog(getContext());
+                dialog.show();
+                dismiss();
+            }
         }
         if (view == join) {
-            JoinCommunityDialog dialog = new JoinCommunityDialog(getContext());
-            dialog.show();
-            dismiss();
+            if (N2NService.INSTANCE == null) {
+                JoinCommunityDialog dialog = new JoinCommunityDialog(getContext());
+                dialog.show();
+                dismiss();
+            }
         }
         if (view == help) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());

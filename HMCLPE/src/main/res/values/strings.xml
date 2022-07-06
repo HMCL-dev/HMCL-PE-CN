@@ -1010,8 +1010,10 @@
     <string name="dialog_create_community_title">创建房间</string>
     <string name="dialog_create_community_alert">提示</string>
     <string name="dialog_create_community_alert_text">创建联机房间前，你需要先在正在运行的游戏内的游戏菜单中选择 对局域网开放 选项，然后在下方确认端口号为游戏内提示的端口号（通常是 5 位数字）</string>
+    <string name="dialog_create_community_name">房间名称</string>
     <string name="dialog_create_community_port">端口号</string>
     <string name="dialog_create_community_getting">检测中…</string>
+    <string name="dialog_create_community_error">无法检测游戏端口号，你需启动游戏并在游戏内打开 对局域网开放 选项方能启动联机！</string>
     <string name="dialog_create_community_positive">确定</string>
     <string name="dialog_create_community_negative">取消</string>
 
