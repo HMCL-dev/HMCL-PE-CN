@@ -88,13 +88,14 @@ public class CreateCommunityDialog extends Dialog implements View.OnClickListene
         if (view == positive) {
             Hin2nService.IP_PORT = "1.1.1.1:" + portText.getText().toString();
             EdgeStatus.RunningStatus status = Hin2nService.INSTANCE == null ? EdgeStatus.RunningStatus.DISCONNECT : Hin2nService.INSTANCE.getCurrentStatus();
-            if (Hin2nService.INSTANCE == null || status == EdgeStatus.RunningStatus.DISCONNECT || status == EdgeStatus.RunningStatus.FAILED) {
-                Intent vpnPrepareIntent = VpnService.prepare(menuHelper.context);
-                if (vpnPrepareIntent != null) {
-                    menuHelper.activity.startActivityForResult(vpnPrepareIntent, Hin2nService.VPN_REQUEST_CODE_CREATE);
-                } else {
-                    menuHelper.onActivityResult(Hin2nService.VPN_REQUEST_CODE_CREATE, RESULT_OK, null);
-                }
+            if (Hin2nService.INSTANCE != null && status != EdgeStatus.RunningStatus.DISCONNECT && status != EdgeStatus.RunningStatus.FAILED) {
+                Hin2nService.INSTANCE.stop(null);
+            }
+            Intent vpnPrepareIntent = VpnService.prepare(menuHelper.context);
+            if (vpnPrepareIntent != null) {
+                menuHelper.activity.startActivityForResult(vpnPrepareIntent, Hin2nService.VPN_REQUEST_CODE_CREATE);
+            } else {
+                menuHelper.onActivityResult(Hin2nService.VPN_REQUEST_CODE_CREATE, RESULT_OK, null);
             }
             dismiss();
         }
