@@ -83,7 +83,7 @@ public class Hin2nService extends N2NService {
 
     private static int randomNumber() {
         Random random = new Random();
-        return random.nextInt(254) + 1;
+        return random.nextInt(253) + 2;
     }
 
 }
