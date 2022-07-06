@@ -20,8 +20,6 @@ import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.multiplayer.Hin2nService;
 import com.tungsten.hmclpe.multiplayer.LocalServerDetector;
 
-import wang.switchy.hin2n.model.EdgeStatus;
-
 public class CreateCommunityDialog extends Dialog implements View.OnClickListener {
 
     private final MenuHelper menuHelper;
@@ -87,8 +85,7 @@ public class CreateCommunityDialog extends Dialog implements View.OnClickListene
     public void onClick(View view) {
         if (view == positive) {
             Hin2nService.IP_PORT = "1.1.1.1:" + portText.getText().toString();
-            EdgeStatus.RunningStatus status = Hin2nService.INSTANCE == null ? EdgeStatus.RunningStatus.DISCONNECT : Hin2nService.INSTANCE.getCurrentStatus();
-            if (Hin2nService.INSTANCE != null && status != EdgeStatus.RunningStatus.DISCONNECT && status != EdgeStatus.RunningStatus.FAILED) {
+            if (Hin2nService.INSTANCE != null) {
                 Hin2nService.INSTANCE.stop(null);
             }
             Intent vpnPrepareIntent = VpnService.prepare(menuHelper.context);

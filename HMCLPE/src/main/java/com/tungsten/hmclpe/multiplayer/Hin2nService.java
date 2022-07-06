@@ -56,7 +56,7 @@ public class Hin2nService extends N2NService {
                 1,
                 "HMCL-PE-Local-Server-Setting",
                 0,
-                ip,
+                "1.1.1.2",
                 "255.255.255.0",
                 COMMUNITY_CODE,
                 "HMCL-PE-Password",

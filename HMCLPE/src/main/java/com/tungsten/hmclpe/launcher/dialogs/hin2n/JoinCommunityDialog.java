@@ -18,8 +18,6 @@ import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.multiplayer.Hin2nService;
 import com.tungsten.hmclpe.utils.string.StringUtils;
 
-import wang.switchy.hin2n.model.EdgeStatus;
-
 public class JoinCommunityDialog extends Dialog implements View.OnClickListener {
 
     private final MenuHelper menuHelper;
@@ -50,8 +48,7 @@ public class JoinCommunityDialog extends Dialog implements View.OnClickListener 
         if (view == positive) {
             if (StringUtils.isNotBlank(editText.getText().toString())) {
                 Hin2nService.COMMUNITY_CODE = editText.getText().toString();
-                EdgeStatus.RunningStatus status = Hin2nService.INSTANCE == null ? EdgeStatus.RunningStatus.DISCONNECT : Hin2nService.INSTANCE.getCurrentStatus();
-                if (Hin2nService.INSTANCE != null && status != EdgeStatus.RunningStatus.DISCONNECT && status != EdgeStatus.RunningStatus.FAILED) {
+                if (Hin2nService.INSTANCE != null) {
                     Hin2nService.INSTANCE.stop(null);
                 }
                 Intent vpnPrepareIntent = VpnService.prepare(menuHelper.context);
