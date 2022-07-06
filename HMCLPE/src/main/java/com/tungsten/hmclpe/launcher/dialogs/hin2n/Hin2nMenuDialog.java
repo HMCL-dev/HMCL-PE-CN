@@ -15,6 +15,8 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.multiplayer.Hin2nService;
 
+import wang.switchy.hin2n.model.EdgeStatus;
+
 public class Hin2nMenuDialog extends Dialog implements View.OnClickListener {
 
     private final MenuHelper menuHelper;
@@ -43,8 +45,10 @@ public class Hin2nMenuDialog extends Dialog implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        EdgeStatus.RunningStatus status = Hin2nService.INSTANCE == null ? EdgeStatus.RunningStatus.DISCONNECT : Hin2nService.INSTANCE.getCurrentStatus();
+        boolean isCreated = Hin2nService.INSTANCE != null && status != EdgeStatus.RunningStatus.DISCONNECT && status != EdgeStatus.RunningStatus.FAILED;
         if (view == create) {
-            if (Hin2nService.INSTANCE == null) {
+            if (!isCreated) {
                 CreateCommunityDialog dialog = new CreateCommunityDialog(getContext(), menuHelper);
                 dialog.show();
                 dismiss();
@@ -54,7 +58,7 @@ public class Hin2nMenuDialog extends Dialog implements View.OnClickListener {
             }
         }
         if (view == join) {
-            if (Hin2nService.INSTANCE == null) {
+            if (!isCreated) {
                 JoinCommunityDialog dialog = new JoinCommunityDialog(getContext(), menuHelper);
                 dialog.show();
                 dismiss();
@@ -64,7 +68,7 @@ public class Hin2nMenuDialog extends Dialog implements View.OnClickListener {
             }
         }
         if (view == info) {
-            if (Hin2nService.INSTANCE == null) {
+            if (!isCreated) {
                 Toast.makeText(getContext(), getContext().getString(R.string.dialog_hin2n_menu_out), Toast.LENGTH_SHORT).show();
             }
             else {

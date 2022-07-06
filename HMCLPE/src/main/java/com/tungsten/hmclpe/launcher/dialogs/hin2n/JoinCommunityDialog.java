@@ -51,13 +51,14 @@ public class JoinCommunityDialog extends Dialog implements View.OnClickListener 
             if (StringUtils.isNotBlank(editText.getText().toString())) {
                 Hin2nService.COMMUNITY_CODE = editText.getText().toString();
                 EdgeStatus.RunningStatus status = Hin2nService.INSTANCE == null ? EdgeStatus.RunningStatus.DISCONNECT : Hin2nService.INSTANCE.getCurrentStatus();
-                if (Hin2nService.INSTANCE == null || status == EdgeStatus.RunningStatus.DISCONNECT || status == EdgeStatus.RunningStatus.FAILED) {
-                    Intent vpnPrepareIntent = VpnService.prepare(menuHelper.context);
-                    if (vpnPrepareIntent != null) {
-                        menuHelper.activity.startActivityForResult(vpnPrepareIntent, Hin2nService.VPN_REQUEST_CODE_JOIN);
-                    } else {
-                        menuHelper.onActivityResult(Hin2nService.VPN_REQUEST_CODE_JOIN, RESULT_OK, null);
-                    }
+                if (Hin2nService.INSTANCE != null && status != EdgeStatus.RunningStatus.DISCONNECT && status != EdgeStatus.RunningStatus.FAILED) {
+                    Hin2nService.INSTANCE.stop(null);
+                }
+                Intent vpnPrepareIntent = VpnService.prepare(menuHelper.context);
+                if (vpnPrepareIntent != null) {
+                    menuHelper.activity.startActivityForResult(vpnPrepareIntent, Hin2nService.VPN_REQUEST_CODE_JOIN);
+                } else {
+                    menuHelper.onActivityResult(Hin2nService.VPN_REQUEST_CODE_JOIN, RESULT_OK, null);
                 }
                 dismiss();
             }

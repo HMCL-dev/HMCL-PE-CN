@@ -84,9 +84,6 @@ public class Hin2nInfoDialog extends Dialog implements View.OnClickListener {
         }
         if (view == exit) {
             Hin2nService.INSTANCE.stop(null);
-            Intent intent = new Intent(getContext(), Hin2nService.class);
-            getContext().stopService(intent);
-            Hin2nService.INSTANCE = null;
             dismiss();
         }
         if (view == positive) {
