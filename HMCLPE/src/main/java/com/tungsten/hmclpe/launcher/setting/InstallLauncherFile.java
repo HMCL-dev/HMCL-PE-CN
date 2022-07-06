@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
@@ -308,7 +307,6 @@ public class InstallLauncherFile {
 
     @SuppressLint("SetTextI18n")
     public static void enterLauncher (SplashActivity activity) {
-        Handler handler = new Handler();
         activity.loadingText.setText(activity.getString(R.string.loading_hint_ready));
         activity.loadingProgress.setProgress(100);
         activity.loadingProgressText.setText("100 %");
@@ -316,10 +314,8 @@ public class InstallLauncherFile {
         Bundle bundle = new Bundle();
         bundle.putBoolean("fullscreen",activity.launcherSetting.fullscreen);
         intent.putExtras(bundle);
-        handler.postDelayed(() -> {
-            activity.startActivity(intent);
-            activity.finish();
-        },1000);
+        activity.startActivity(intent);
+        activity.finish();
     }
 
 }

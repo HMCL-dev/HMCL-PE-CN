@@ -54,7 +54,7 @@ public class JoinCommunityDialog extends Dialog implements View.OnClickListener 
                 if (Hin2nService.INSTANCE == null || status == EdgeStatus.RunningStatus.DISCONNECT || status == EdgeStatus.RunningStatus.FAILED) {
                     Intent vpnPrepareIntent = VpnService.prepare(menuHelper.context);
                     if (vpnPrepareIntent != null) {
-                        menuHelper.activity.startActivityForResult(vpnPrepareIntent, Hin2nService.VPN_REQUEST_CODE_CREATE);
+                        menuHelper.activity.startActivityForResult(vpnPrepareIntent, Hin2nService.VPN_REQUEST_CODE_JOIN);
                     } else {
                         menuHelper.onActivityResult(Hin2nService.VPN_REQUEST_CODE_JOIN, RESULT_OK, null);
                     }

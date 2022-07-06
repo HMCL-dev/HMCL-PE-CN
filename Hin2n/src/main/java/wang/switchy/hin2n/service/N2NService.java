@@ -120,7 +120,7 @@ public class N2NService extends VpnService {
         }
 
         String session = getResources().getStringArray(R.array.vpn_session_name)[mN2nSettingInfo.getVersion()];
-        cmd = new EdgeCmd(mN2nSettingInfo, vpnServiceFd, getExternalFilesDir("log") + "/" + session + ".log");
+        cmd = new EdgeCmd(mN2nSettingInfo, vpnServiceFd, getExternalFilesDir("debug") + "/" + session + ".log");
         mFileObserver = new LogFileObserver(cmd.logPath);
         mFileObserver.stopWatching();
         IOUtils.clearLogTxt(cmd.logPath);
@@ -148,8 +148,8 @@ public class N2NService extends VpnService {
                 .setTicker("Nature")
                 .setSmallIcon(R.drawable.ic_craft_table)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_craft_table))
-                .setContentTitle("hin2n")
-                .setContentText("hin2n service is running");
+                .setContentTitle("Hin2n")
+                .setContentText("Hin2n service is running!");
         Notification notification = notificationBuilder.build();
         notification.flags |= Notification.FLAG_NO_CLEAR;
         startForeground(1, notification);
