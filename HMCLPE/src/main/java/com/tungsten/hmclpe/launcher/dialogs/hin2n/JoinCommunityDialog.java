@@ -52,6 +52,7 @@ public class JoinCommunityDialog extends Dialog implements View.OnClickListener 
                 Hin2nService.COMMUNITY_CODE = editText.getText().toString();
                 EdgeStatus.RunningStatus status = Hin2nService.INSTANCE == null ? EdgeStatus.RunningStatus.DISCONNECT : Hin2nService.INSTANCE.getCurrentStatus();
                 if (Hin2nService.INSTANCE != null && status != EdgeStatus.RunningStatus.DISCONNECT && status != EdgeStatus.RunningStatus.FAILED) {
+                    System.out.println("stop");
                     Hin2nService.INSTANCE.stop(null);
                 }
                 Intent vpnPrepareIntent = VpnService.prepare(menuHelper.context);
