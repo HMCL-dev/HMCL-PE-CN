@@ -282,19 +282,20 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
                 versionIcon.setBackground(context.getDrawable(R.drawable.ic_furnace));
             }
         }
+        changeIcon(versionIcon,themePath,"versionIcon");
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
+    File themePath;
     public void customTheme(){
 //        versionListIcon;
 //        downlooadIcon;
 //        multiplayerIcon;
 //        settingIcon;
-        File themePath = activity.getExternalFilesDir("Theme");
+        themePath = activity.getExternalFilesDir("Theme");
 
         if (!themePath.exists()){
             return;
@@ -304,7 +305,7 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         changeIcon(multiplayerIcon, themePath, "multiplayerIcon");
         changeIcon(settingIcon, themePath, "settingIcon");
         changeIcon(activity.launcherLayout, themePath, "background");
-
+        changeIcon(versionIcon,themePath,"versionIcon");
         if (new File(themePath,"color.json").exists()) {
             try {
                 JSONObject jsonObject = new JSONObject(FileUtils.readText(new File(themePath,"color.json")));
@@ -324,13 +325,6 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         if (path.exists()) {
             Bitmap bitmap = BitmapFactory.decodeFile(path.getAbsolutePath());
             view.setBackground(new BitmapDrawable(activity.getResources(), bitmap));
-//            if (view instanceof ImageView){
-//                Bitmap bitmap = BitmapFactory.decodeFile(path.getAbsolutePath());
-//                view.setBackground(new BitmapDrawable(activity.getResources(),bitmap));
-//            }else if (view instanceof LinearLayout){
-//                Bitmap bitmap = BitmapFactory.decodeFile(path.getAbsolutePath());
-//                view.setBackground(new BitmapDrawable(activity.getResources(),bitmap));
-//            }
         }
     }
 }

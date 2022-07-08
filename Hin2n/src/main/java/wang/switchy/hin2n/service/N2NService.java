@@ -6,12 +6,17 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkRequest;
 import android.net.VpnService;
 import android.os.*;
 
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import org.greenrobot.eventbus.EventBus;
@@ -69,6 +74,9 @@ public class N2NService extends VpnService {
                 .setMtu(mN2nSettingInfo.getMtu())
                 .addAddress(ip, mask)
                 .addRoute(getRoute(mN2nSettingInfo.getIp(), mask), mask);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            builder.setMetered(false);
+        }
 
         if (!mN2nSettingInfo.getGatewayIp().isEmpty()) {
             /* Route all the internet traffic via n2n. Most specific routes "win" over the system default gateway.
@@ -103,6 +111,33 @@ public class N2NService extends VpnService {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        ConnectivityManager connectivityManager=(ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        connectivityManager.registerNetworkCallback(new NetworkRequest.Builder().addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                .addCapability(NetworkCapabilities.NET_CAPABILITY_NOT_RESTRICTED)
+                .build(),new ConnectivityManager.NetworkCallback(){
+            @Override
+            public void onAvailable(@NonNull Network network) {
+                super.onAvailable(network);
+                Network[] networks=new Network[]{network};
+                setUnderlyingNetworks(networks);
+                Log.e("测试","onAvailable");
+            }
+
+            @Override
+            public void onLost(@NonNull Network network) {
+                super.onLost(network);
+                setUnderlyingNetworks(null);
+                Log.e("测试","onLost");
+            }
+
+            @Override
+            public void onCapabilitiesChanged(@NonNull Network network, @NonNull NetworkCapabilities networkCapabilities) {
+                super.onCapabilitiesChanged(network, networkCapabilities);
+                Network[] networks=new Network[]{network};
+                setUnderlyingNetworks(networks);
+                Log.e("测试","onCapabilitiesChanged");
+            }
+        });
         if (intent == null) {
             EventBus.getDefault().post(new ErrorEvent());
             return super.onStartCommand(intent, flags, startId);

@@ -32,7 +32,7 @@ public class Hin2nService extends N2NService {
                 "hin2n.wang:10086",
                 true,
                 "",
-                "",
+                getRandomMacAddress(),
                 1386,
                 "",
                 20,
@@ -56,7 +56,7 @@ public class Hin2nService extends N2NService {
                 1,
                 "HMCL-PE-Local-Server-Setting",
                 0,
-                "1.1.1.2",
+                "1.1.1."+randomNumber(),
                 "255.255.255.0",
                 COMMUNITY_CODE,
                 "HMCL-PE-Password",
@@ -64,7 +64,7 @@ public class Hin2nService extends N2NService {
                 "hin2n.wang:10086",
                 true,
                 "",
-                "",
+                getRandomMacAddress(),
                 1386,
                 "",
                 20,
@@ -84,6 +84,18 @@ public class Hin2nService extends N2NService {
     private static int randomNumber() {
         Random random = new Random();
         return random.nextInt(253) + 2;
+    }
+    public static String getRandomMacAddress() {
+        Random random = new Random();
+        String[] mac = {
+                String.format("%02x", 0x52),
+                String.format("%02x", 0x54),
+                String.format("%02x", 0x00),
+                String.format("%02x", random.nextInt(0xff)),
+                String.format("%02x", random.nextInt(0xff)),
+                String.format("%02x", random.nextInt(0xff))
+        };
+        return String.join(":", mac);
     }
 
 }
