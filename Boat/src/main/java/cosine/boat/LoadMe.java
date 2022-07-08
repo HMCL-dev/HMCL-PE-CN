@@ -39,7 +39,8 @@ public class LoadMe {
 			setenv("JAVA_HOME" , javaPath);
 			setenv("LIBGL_MIPMAP","3");
 			setenv("LIBGL_NORMALIZE","1");
-            setenv("LIBGL_NOINTOVLHACK", "1");
+            setenv("LIBGL_ES","2");
+            setenv("LIBGL_VSYNC","1");
 
 			if (renderer.equals("VirGL")) {
                 setenv("LIBGL_NAME","libGL.so.1");
@@ -54,12 +55,15 @@ public class LoadMe {
 			else {
                 if (isJava17) {
                     setenv("LIBGL_NAME","libgl4es_114.so");
+                    setenv("LIBGL_GL","32");
+                    setenv("LIBGL_NOINTOVLHACK", "1");
                 }
                 else {
-                    setenv("LIBGL_NAME","libvgpu.so");
+                    setenv("LIBGL_NAME","libgl4es_114514.so");
+                    setenv("LIBGL_GL","21");
                 }
                 setenv("LIBEGL_NAME","libEGL_wrapper.so");
-                setenv("LIBGL_GL","32");
+
             }
 
             // openjdk
@@ -103,8 +107,8 @@ public class LoadMe {
                     dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libEGL_wrapper.so");
                 }
                 else {
-                    dlopen(BOAT_LIB_DIR + "/renderer/vgpu/libvgpu.so");
-                    dlopen(BOAT_LIB_DIR + "/renderer/vgpu/libEGL_wrapper.so");
+                    dlopen(BOAT_LIB_DIR + "/renderer/gl4es114514/libgl4es_114514.so");
+                    dlopen(BOAT_LIB_DIR + "/renderer/gl4es114514/libEGL_wrapper.so");
                 }
             }
             else {

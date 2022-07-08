@@ -68,7 +68,7 @@ public class BoatLauncher {
                     args.add("-Dorg.lwjgl.opengl.libname=libgl4es_114.so");
                 }
                 else {
-                    args.add("-Dorg.lwjgl.opengl.libname=libvgpu.so");
+                    args.add("-Dorg.lwjgl.opengl.libname=libgl4es_114514.so");
                 }
             }
             args.add("-Dlwjgl.platform=Boat");
