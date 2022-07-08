@@ -745,10 +745,10 @@
     <string name="game_setting_ui_game_launcher_pojav" translatable="false">PojavLauncher</string>
     <string name="game_setting_ui_game_launcher_hint">推荐使用 Boat 启动器。</string>
     <string name="game_setting_ui_boat_renderer">Boat 渲染方式</string>
-    <string name="game_setting_ui_boat_renderer_gl4es_114" translatable="false">VGPU/GL4ES-1.1.4 (OpenGL 3.2)</string>
+    <string name="game_setting_ui_boat_renderer_gl4es_114" translatable="false">GL4ES-1.1.4 (OpenGL 2.1)</string>
     <string name="game_setting_ui_boat_renderer_virgl" translatable="false">VirGLRenderer (OpenGL 4.3)</string>
     <string name="game_setting_ui_pojav_renderer">PojavLauncher 渲染方式</string>
-    <string name="game_setting_ui_pojav_renderer_gl4es_114" translatable="false">VGPU/GL4ES-1.1.4 (OpenGL 3.2)</string>
+    <string name="game_setting_ui_pojav_renderer_gl4es_114" translatable="false">GL4ES-1.1.4 (OpenGL 2.1)</string>
     <string name="game_setting_ui_pojav_renderer_virgl" translatable="false">VirGLRenderer (OpenGL 4.3)</string>
 
     <string name="universal_setting_ui_declare">Hello Minecraft! Launcher Pocket Edition 是一个免费、自由、开放源代码的 Minecraft 启动器。您的赞助将帮助 Hello Minecraft! Launcher Pocket Edition 获得更好的发展，还可以获得 HMCL-PE 的开发进展。</string>
@@ -1036,7 +1036,7 @@
     <string name="dialog_community_positive">确定</string>
 
     <string name="dialog_hin2n_help_title">帮助</string>
-    <string name="dialog_hin2n_help_text">主机玩家（房主）：\n你需要在先启动游戏，并进入一个存档作为联机世界，然后在游戏内菜单中选择 对局域网开放 选项，记住你的端口号，接下来打开 HMCL-PE 控制面板，打开联机模块菜单，点击创建房间，确认显示的端口号与游戏提示的一致，然后确认并开房，房间开启后，你将可以点击房间信息以查看你的邀请码和 ip+端口，你需要将它们发送给你的联机伙伴。注意，请不要将 邀请码，ip，端口 告诉任何陌生人。\n\n成员玩家：\n你需要向主机玩家（房主）索要邀请码和 ip+端口，然后打开 HMCL-PE 控制面板，打开联机模块菜单，点击加入房间，输入你的邀请码，点击确定即可，接下来启动游戏，在游戏的多人游戏板块中添加服务器，服务器名称任意，服务器地址填写房主提供的 ip+端口，即可加入服务器。</string>
+    <string name="dialog_hin2n_help_text">主机玩家（房主）：\n你需要在先启动游戏，并进入一个存档作为联机世界，然后在游戏内菜单中选择 对局域网开放 选项，记住你的端口号，接下来打开 HMCL-PE 控制面板，打开联机模块菜单，点击创建房间，确认显示的端口号与游戏提示的一致，然后确认并开房，房间开启后，你将可以点击房间信息以查看你的邀请码和服务器地址，你需要将它们发送给你的联机伙伴。注意，请不要将 邀请码，ip，端口 告诉任何陌生人。\n\n成员玩家：\n你需要向主机玩家（房主）索要邀请码和 服务器地址，然后打开 HMCL-PE 控制面板，打开联机模块菜单，点击加入房间，输入你的邀请码，点击确定即可，接下来启动游戏，在游戏的多人游戏板块中添加服务器，服务器名称任意，服务器地址填写房主提供的服务器地址，即可加入服务器。</string>
     <string name="dialog_hin2n_help_positive">确定</string>
 
     <string name="dialog_force_exit_title">提示</string>
