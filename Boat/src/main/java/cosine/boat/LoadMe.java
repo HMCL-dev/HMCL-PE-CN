@@ -52,11 +52,14 @@ public class LoadMe {
                 setenv("MESA_GLSL_CACHE_DIR",context.getCacheDir().getAbsolutePath());
             }
 			else {
-                setenv("LIBGL_NAME","libgl4es_114.so");
-                setenv("LIBEGL_NAME","libEGL_wrapper.so");
-                if (highVersion) {
-                    setenv("LIBGL_GL","32");
+                if (isJava17) {
+                    setenv("LIBGL_NAME","libgl4es_114.so");
                 }
+                else {
+                    setenv("LIBGL_NAME","libvgpu.so");
+                }
+                setenv("LIBEGL_NAME","libEGL_wrapper.so");
+                setenv("LIBGL_GL","32");
             }
 
             // openjdk
@@ -95,8 +98,14 @@ public class LoadMe {
             dlopen(BOAT_LIB_DIR + "/libopenal.so.1");
 
             if (!renderer.equals("VirGL")) {
-                dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libgl4es_114.so");
-                dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libEGL_wrapper.so");
+                if (isJava17) {
+                    dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libgl4es_114.so");
+                    dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libEGL_wrapper.so");
+                }
+                else {
+                    dlopen(BOAT_LIB_DIR + "/renderer/vgpu/libvgpu.so");
+                    dlopen(BOAT_LIB_DIR + "/renderer/vgpu/libEGL_wrapper.so");
+                }
             }
             else {
                 dlopen(BOAT_LIB_DIR + "/renderer/virgl/libexpat.so.1");

@@ -225,7 +225,7 @@ public class JREUtils {
 
         setJavaEnvironment(activity,javaPath,home,renderer,glesVersion);
 
-        loadGraphicsLibrary(renderer);
+        loadGraphicsLibrary(renderer, javaPath);
 
         List<String> userArgs = new ArrayList<>();
 
@@ -283,15 +283,25 @@ public class JREUtils {
         return userArguments;
     }
 
-    public static String getGraphicsLibrary(String renderer) {
+    public static String getGraphicsLibrary(String renderer, String javaPath) {
+        boolean isJava17 = javaPath.endsWith("JRE17");
         String renderLibrary;
         switch (renderer){
             case "opengles2":
             case "opengles2_5":
             case "opengles3_vgpu" :
-            case "opengles3": renderLibrary = "libgl4es_114.so"; break;
+            case "opengles3":
+                if (isJava17) {
+                    renderLibrary = "libgl4es_114.so";
+                }
+                else {
+                    renderLibrary = "libvgpu.so";
+                }
+                break;
             case "opengles3_virgl":
-            case "vulkan_zink": renderLibrary = "libOSMesa_8.so"; break;
+            case "vulkan_zink":
+                renderLibrary = "libOSMesa_8.so";
+                break;
             default:
                 Log.w("RENDER_LIBRARY", "No renderer selected, defaulting to opengles2");
                 renderLibrary = "libgl4es_114.so";
@@ -305,16 +315,26 @@ public class JREUtils {
      * It will fallback if it fails to load the library.
      * @return The name of the loaded library
      */
-    public static String loadGraphicsLibrary(String renderer){
+    public static String loadGraphicsLibrary(String renderer, String javaPath) {
+        boolean isJava17 = javaPath.endsWith("JRE17");
         if(renderer == null) return null;
         String renderLibrary;
         switch (renderer){
             case "opengles2":
             case "opengles2_5":
             case "opengles3_vgpu" :
-            case "opengles3": renderLibrary = "libgl4es_114.so"; break;
+            case "opengles3":
+                if (isJava17) {
+                    renderLibrary = "libgl4es_114.so";
+                }
+                else {
+                    renderLibrary = "libvgpu.so";
+                }
+                break;
             case "opengles3_virgl":
-            case "vulkan_zink": renderLibrary = "libOSMesa_8.so"; break;
+            case "vulkan_zink":
+                renderLibrary = "libOSMesa_8.so";
+                break;
             default:
                 Log.w("RENDER_LIBRARY", "No renderer selected, defaulting to opengles2");
                 renderLibrary = "libgl4es_114.so";
