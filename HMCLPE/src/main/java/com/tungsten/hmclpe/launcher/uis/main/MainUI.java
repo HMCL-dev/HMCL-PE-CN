@@ -305,7 +305,7 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         changeIcon(multiplayerIcon, themePath, "multiplayerIcon");
         changeIcon(settingIcon, themePath, "settingIcon");
         changeIcon(activity.launcherLayout, themePath, "background");
-        changeIcon(versionIcon,themePath,"versionIcon");
+        changeIcon(versionIcon, themePath, "versionIcon");
         if (new File(themePath,"color.json").exists()) {
             try {
                 JSONObject jsonObject = new JSONObject(FileUtils.readText(new File(themePath,"color.json")));

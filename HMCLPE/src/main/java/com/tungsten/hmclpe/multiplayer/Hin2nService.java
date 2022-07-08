@@ -51,12 +51,11 @@ public class Hin2nService extends N2NService {
 
     public static N2NSettingModel getPlayerModel() {
         SERVER_TYPE = ServerType.CLIENT;
-        String ip = randomNumber() + "." + randomNumber() + "." + randomNumber() + "." + randomNumber();
         return new N2NSettingModel(1L,
                 1,
                 "HMCL-PE-Local-Server-Setting",
                 0,
-                "1.1.1."+randomNumber(),
+                "1.1.1." + randomNumber(),
                 "255.255.255.0",
                 COMMUNITY_CODE,
                 "HMCL-PE-Password",
