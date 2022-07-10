@@ -70,7 +70,7 @@ public class PojavLauncher {
                 String[] extraJavaFlags = gameLaunchSetting.extraJavaFlags.split(" ");
                 Collections.addAll(args, extraJavaFlags);
             }
-            args.add("-Dorg.lwjgl.opengl.libname=" + JREUtils.getGraphicsLibrary(gameLaunchSetting.pojavRenderer, javaPath));
+            args.add("-Dorg.lwjgl.opengl.libname=" + JREUtils.getGraphicsLibrary(gameLaunchSetting.pojavRenderer));
             args.add("-cp");
             args.add(classPath);
             args.add(version.mainClass);

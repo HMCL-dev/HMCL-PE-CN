@@ -283,20 +283,14 @@ public class JREUtils {
         return userArguments;
     }
 
-    public static String getGraphicsLibrary(String renderer, String javaPath) {
-        boolean isJava17 = javaPath.endsWith("JRE17");
+    public static String getGraphicsLibrary(String renderer) {
         String renderLibrary;
         switch (renderer){
             case "opengles2":
             case "opengles2_5":
             case "opengles3_vgpu" :
             case "opengles3":
-                if (isJava17) {
-                    renderLibrary = "libgl4es_114.so";
-                }
-                else {
-                    renderLibrary = "libvgpu.so";
-                }
+                renderLibrary = "libgl4es_114.so";
                 break;
             case "opengles3_virgl":
             case "vulkan_zink":
@@ -328,7 +322,7 @@ public class JREUtils {
                     renderLibrary = "libgl4es_114.so";
                 }
                 else {
-                    renderLibrary = "libvgpu.so";
+                    renderLibrary = "libgl4es_114514.so";
                 }
                 break;
             case "opengles3_virgl":
