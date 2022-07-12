@@ -1,13 +1,35 @@
 # HMCL-PE
- Hello Minecraft! Launcher for Android
- 
- not finished yet!
+not finished yet!
+
+[Discord](https://discord.gg/YUHRHAgh) [QQ](https://jq.qq.com/?_wv=1027&k=4r1lFLgc)
+
+## Introduction
+[Hello Minecraft! Launcher : Pocket Edition](http://tungstend.hmcl-pe.cn/)
+
+The software attempts to restore HMCL on Android devices, allowing players to manage games, mods, controls and more.
+
+## License
+The software is distributed under [GPL v3](https://www.gnu.org/licenses/gpl-3.0.html)
 
 ## Compilation
- Run link.bat first
+Run link.bat first
 
-正在开发中，勿催
+## Third party components
+[HMCL](https://github.com/huanghongxun/HMCL)
 
-注意，此软件永久免费，且仅在github/HMCL-PE QQ群发布，其他平台或其他QQ群发布的资源均属转载，安全性不能保证，为了确保各位不上当受骗，请认准正版。
+[Boat and related projects](https://github.com/AOF-Dev/Boat)
 
-注：HMCL-PE 公开QQ群 715191324 最新更新进度及资源请加内测群，在启动器设置-赞助页面前往爱发电赞助10元或以上即可加入内测群。
+[PojavLauncher and related projects](https://github.com/PojavLauncherTeam/PojavLauncher)
+
+[Hin2n](https://github.com/switch-iot/hin2n)
+
+[authlib-injector](https://github.com/yushijinhun/authlib-injector)
+
+[nide8auth](https://login.mc-user.com:233/account/login)
+
+[forge-install-bootstrapper](https://github.com/bangbang93/forge-install-bootstrapper)
+
+[TouchInjector](https://github.com/Tungstend/TouchInjector)
+
+## Sponsor
+[爱发电](https://afdian.net/@tungs)
