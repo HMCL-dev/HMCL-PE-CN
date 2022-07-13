@@ -28,7 +28,7 @@ string getSecretKey(const char *oaid);
 bool isPublic = false;
 bool isCracked = false;
 
-bool isInit = false;//判断是否调用过securityInit
+bool isInit = false;
 
 
 JNIEXPORT void JNICALL
@@ -120,9 +120,8 @@ Java_com_tungsten_hmclpe_launcher_MainActivity_isValid(JNIEnv *env, jobject obj_
     if (isCracked || strcmp(pw, c) == 0) {
         rmdir(dir.c_str());
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 
 

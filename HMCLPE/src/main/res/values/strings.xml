@@ -64,7 +64,7 @@
     <string name="launcher_scroll_setting">设置</string>
     <string name="launcher_button_launch">启动游戏</string>
     <string name="launcher_button_current_version">没有游戏版本</string>
-    <string name="launcher_spinner_text">▲</string>
+    <string name="launcher_spinner_text" translatable="false">▲</string>
 
     <string name="launch_check_dialog_title">启动游戏</string>
     <string name="launch_check_dialog_java">检测 Java 版本</string>
@@ -106,9 +106,9 @@
     <string name="dialog_add_offline_account_name">用户名</string>
     <string name="dialog_add_offline_account_purchase"><a href='https://www.minecraft.net/zh-hans/store/minecraft-java-edition'>购买 Minecraft</a></string>
     <string name="dialog_add_offline_account_advance">高级设置</string>
-    <string name="dialog_add_offline_account_uuid">UUID</string>
+    <string name="dialog_add_offline_account_uuid" translatable="false">UUID</string>
     <string name="dialog_add_offline_account_hint">警告</string>
-    <string name="dialog_add_offline_account_hint_text">UUID 是 Minecraft 对玩家角色的唯一标识符，每个启动器生成 UUID 的方式可能不同。通过修改 UUID 选项至原启动器所生成的 UUID，你可以保证在切换启动器后，游戏还能将你的游戏角色识别为给定 UUID 所对应的角色，从而保留原来角色的背包物品。UUID 选项为高级选项，除非你知道你在做什么，否则你不需要调整该选项。</string>
+    <string name="dialog_add_offline_account_hint_text">UUID 是 Minecraft 对玩家角色的唯一标识符，每个启动器生成 UUID 的方式可能不同。通过修改 UUID 选项至原启动器所生成的 UUID，你可以保证在切换启动器后，游戏还能将你的游戏角色识别为给定 UUID 所对应的角色，从而保留原来角色的背包物品。\\n\\nUUID 选项为高级选项，除非你知道你在做什么，否则你不需要调整该选项。</string>
     <string name="dialog_add_offline_account_login">登录</string>
     <string name="dialog_add_offline_account_cancel">取消</string>
     <string name="dialog_add_offline_account_empty_warn">用户名不得为空</string>
@@ -135,7 +135,7 @@
     <string name="dialog_add_microsoft_account_login">登录</string>
     <string name="dialog_add_microsoft_account_cancel">取消</string>
 
-    <string name="dialog_add_authlib_injector_account_title">添加外置登录账户 (authlib-injector)</string>
+    <string name="dialog_add_authlib_injector_account_title">添加外置登录账户</string>
     <string name="dialog_add_authlib_injector_account_server">认证服务器</string>
     <string name="dialog_add_authlib_injector_account_email">用户名</string>
     <string name="dialog_add_authlib_injector_account_password">密码</string>
