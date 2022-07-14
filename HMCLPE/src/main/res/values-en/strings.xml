@@ -167,4 +167,5 @@
     <string name="item_account_type_auth_lib">authlib-injector</string>
     <string name="item_account_type_nide_8_auth">nide8auth</string>
     <string name="item_account_login_server">Authentication Server:</string>
+    <string name="dialog_unknown_error_msg">The launcher encountered an error that it cannot handle, please contact the developer to resolve it.</string>
 </resources>
