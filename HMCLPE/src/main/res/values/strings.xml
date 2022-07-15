@@ -346,17 +346,15 @@
     <string name="dialog_copy_version_negative">取消</string>
 
     <string name="dialog_delete_version_title">警告</string>
-    <string name="dialog_delete_version_pri">真的要删除版本</string>
-    <string name="dialog_delete_version_sec">吗？你将无法找回被删除的文件！</string>
-    <string name="dialog_delete_version_isolate_pri">由于该游戏使用了版本隔离，所以删除该版本将导致该游戏的存档等数据一同被删除，真的要删除版本</string>
-    <string name="dialog_delete_version_isolate_sec">吗？</string>
+    <string name="dialog_delete_version_msg">真的要删除版本 %s 吗？你将无法找回被删除的文件！</string>
+    <string name="dialog_delete_version_isolate_msg">由于该游戏使用了版本隔离，所以删除该版本将导致该游戏的存档等数据一同被删除，真的要删除版本 %s 吗？</string>
     <string name="dialog_delete_version_positive">删除</string>
     <string name="dialog_delete_version_negative">取消</string>
     
     <string name="default_game_file_directory_list_pri">公有目录</string>
-    <string name="default_game_file_directory_list_pri_path">/storage/emulated/0/HMCLPE/.minecraft</string>
+    <string name="default_game_file_directory_list_pri_path" translatable="false">/storage/emulated/0/HMCLPE/.minecraft</string>
     <string name="default_game_file_directory_list_sec">私有目录</string>
-    <string name="default_game_file_directory_list_sec_path">/storage/emulated/0/Android/data/com.tungsten.hmclpe/files/.minecraft</string>
+    <string name="default_game_file_directory_list_sec_path" translatable="false">/storage/emulated/0/Android/data/com.tungsten.hmclpe/files/.minecraft</string>
     
     <string name="add_game_dir_ui_title">添加游戏目录</string>
     <string name="add_game_dir_ui_name">名称</string>
@@ -412,14 +410,13 @@
     <string name="export_package_type_ui_sub_title">请选择整合包类型（若无法决定，请选择我的世界中文论坛整合包标准）</string>
     <string name="export_package_type_ui_mcbbs">我的世界中文论坛整合包标准</string>
     <string name="export_package_type_ui_mcbbs_sub">可以被 HMCL/HMCL-PE 和 MultiMC 导入</string>
-    <string name="export_package_type_ui_multimc">MultiMC</string>
+    <string name="export_package_type_ui_multimc" translatable="false">MultiMC</string>
     <string name="export_package_type_ui_multimc_sub">可以被 HMCL/HMCL-PE 和 MultiMC 导入</string>
     <string name="export_package_type_ui_server">服务器自动更新整合包</string>
     <string name="export_package_type_ui_server_sub">允许服务器管理员远程更新游戏客户端</string>
 
     <string name="export_package_info_ui_title">导出整合包向导 - 设置整合包的主要信息</string>
     <string name="export_package_info_ui_alert">提示</string>
-    <string name="export_package_info_ui_alert_text"></string>
 
     <string name="export_package_file_ui_title">导出整合包向导 - 选中你想加到整合包中的文件或文件夹</string>
 
@@ -430,12 +427,12 @@
     <string name="install_game_ui_fabric_not_compatible">与 Fabric 不兼容</string>
     <string name="install_game_ui_optifine_not_compatible">与 Optifine 不兼容</string>
     <string name="install_game_ui_install">安装</string>
-    <string name="install_game_ui_minecraft">Minecraft</string>
-    <string name="install_game_ui_forge">Forge</string>
-    <string name="install_game_ui_liteloader">LiteLoader</string>
-    <string name="install_game_ui_optifine">OptiFine</string>
-    <string name="install_game_ui_fabric">Fabric</string>
-    <string name="install_game_ui_fabric_api">Fabric API</string>
+    <string name="install_game_ui_minecraft" translatable="false">Minecraft</string>
+    <string name="install_game_ui_forge" translatable="false">Forge</string>
+    <string name="install_game_ui_liteloader" translatable="false">LiteLoader</string>
+    <string name="install_game_ui_optifine" translatable="false">OptiFine</string>
+    <string name="install_game_ui_fabric" translatable="false">Fabric</string>
+    <string name="install_game_ui_fabric_api" translatable="false">Fabric API</string>
     <string name="install_game_ui_exist">此版本已经存在，请换一个名字</string>
 
     <string name="forge_list_ui_title">安装新游戏版本 - 选择 Forge 版本</string>
@@ -662,9 +659,9 @@
     <string name="download_mod_source_modrinth" translatable="false">Modrinth</string>
     
     <string name="download_resource_mcmod">MC 百科</string>
-    <string name="download_resource_mcbbs">MCBBS</string>
-    <string name="download_resource_curse_forge">CurseForge</string>
-    <string name="download_resource_modrinth">Modrinth</string>
+    <string name="download_resource_mcbbs" translatable="false">MCBBS</string>
+    <string name="download_resource_curse_forge" translatable="false">CurseForge</string>
+    <string name="download_resource_modrinth" translatable="false">Modrinth</string>
     <string name="download_resource_mod_dependency">前置 Mod</string>
     <string name="download_resource_load_fail">加载版本列表失败，点击此处重试。</string>
     <string name="download_resource_beta">测试版</string>

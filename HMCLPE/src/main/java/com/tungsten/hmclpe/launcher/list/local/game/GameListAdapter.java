@@ -250,10 +250,10 @@ public class GameListAdapter extends BaseAdapter {
                             s = activity.privateGameSetting;
                         }
                         if (s.gameDirSetting.type == 1){
-                            deleteAlertBuilder.setMessage(context.getString(R.string.dialog_delete_version_isolate_pri) + " " + list.get(position).name + " " + context.getString(R.string.dialog_delete_version_isolate_sec));
+                            deleteAlertBuilder.setMessage(context.getString(R.string.dialog_delete_version_isolate_msg).replace("%s", list.get(position).name));
                         }
                         else {
-                            deleteAlertBuilder.setMessage(context.getString(R.string.dialog_delete_version_pri) + " " + list.get(position).name + " " + context.getString(R.string.dialog_delete_version_sec));
+                            deleteAlertBuilder.setMessage(context.getString(R.string.dialog_delete_version_msg).replace("%s", list.get(position).name));
                         }
                         deleteAlertBuilder.create().show();
                         return true;
