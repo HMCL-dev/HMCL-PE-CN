@@ -397,7 +397,7 @@
     <string name="dialog_incorrect_version_msg">This library requires the game version %s1, but the installed one is %s2.</string>
     <string name="dialog_incorrect_version_positive">OK</string>
     <string name="dialog_incorrect_installer_title">Installation Failed</string>
-    <string name="dialog_incorrect_installer_msg">Unable to identify the provided file. If you are installing a mod, go to the \"Mods\" page.</string>
+    <string name="dialog_incorrect_installer_msg">Unable to identify the provided file. If you are installing a mod, go to the "Mods" page.</string>
     <string name="dialog_incorrect_installer_positive">OK</string>
     <string name="dialog_incorrect_fabric_title">Installation Failed</string>
     <string name="dialog_incorrect_fabric_msg">The current library is not compatible with Fabric, please uninstall Fabric first.</string>
@@ -864,11 +864,11 @@
     <string name="dialog_hin2n_menu_out">You have not created/joined a room</string>
     <string name="dialog_create_community_title">Create Session</string>
     <string name="dialog_create_community_alert">Information</string>
-    <string name="dialog_create_community_alert_text">Before creating a multiplayer session, you must click on \"Open to LAN\" first in the game\'s pause menu. Then enter the port number below.</string>
+    <string name="dialog_create_community_alert_text">Before creating a multiplayer session, you must click on "Open to LAN" first in the game\'s pause menu. Then enter the port number below.</string>
     <string name="dialog_create_community_name">Name</string>
     <string name="dialog_create_community_port">Port</string>
     <string name="dialog_create_community_getting">checking…</string>
-    <string name="dialog_create_community_error">Unable to detect the game port, you must click on \"Open to Lan\" in the game\'s pause menu to allow others to join your world.</string>
+    <string name="dialog_create_community_error">Unable to detect the game port, you must click on "Open to Lan" in the game\'s pause menu to allow others to join your world.</string>
     <string name="dialog_create_community_positive">OK</string>
     <string name="dialog_create_community_negative">Cancel</string>
     <string name="dialog_join_community_title">Join</string>
