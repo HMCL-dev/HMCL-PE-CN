@@ -157,7 +157,7 @@ public class LaunchVersion {
         int count = 0;
         String libraries_path = gameFileDir + "/libraries/";
         for (Library lib : this.libraries) {
-            if (lib.name == null || lib.name.equals("") || lib.name.contains("org.lwjgl") || (isJava17 && lib.name.contains("java-objc-bridge"))) {
+            if (lib.name == null || lib.name.equals("") || lib.name.contains("org.lwjgl") || lib.name.contains("natives") || (isJava17 && lib.name.contains("java-objc-bridge"))) {
                 continue;
             }
             Log.e("boat",lib.name);
@@ -174,6 +174,10 @@ public class LaunchVersion {
             path = path + "/";
             path = path + versionName;
             path = path + "/" + mainName + "-" + versionName + ".jar";
+            Log.e("路径",path);
+            if (!new File(path).exists()){
+                continue;
+            }
             if (count > 0) {
                 cp = cp + ":";
             }

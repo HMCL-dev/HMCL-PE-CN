@@ -3,9 +3,11 @@ package cosine.boat;
 import android.content.Context;
 import android.os.Handler;
 
+import java.io.File;
 import java.util.*;
 
 import cosine.boat.function.BoatLaunchCallback;
+import cosine.boat.utils.BoatUtils;
 
 public class LoadMe {
 
@@ -136,12 +138,15 @@ public class LoadMe {
             chdir(gameDir);
 
 			String finalArgs[] = new String[args.size()];
+            StringBuilder sb=new StringBuilder();
 			for (int i = 0; i < args.size(); i++) {
                 if (!args.get(i).equals(" ")) {
                     finalArgs[i] = args.get(i);
                     System.out.println("Minecraft Args:" + finalArgs[i]);
+                    sb.append(finalArgs[i]+"\n");
                 }
 			}
+            BoatUtils.writeFile(new File(home+"/params.txt"),sb.toString());
             int exitCode = dlexec(finalArgs);
             System.out.println("OpenJDK exited with code : " + exitCode);
         }

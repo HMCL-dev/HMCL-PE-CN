@@ -17,11 +17,6 @@
 extern "C" {
 using namespace std;
 string dir;
-void sendMail(JNIEnv *env,
-              jstring sto,
-              jstring title,
-              jstring sbody,
-              jobject callback);
 string getSecretKey(const char *oaid);
 
 

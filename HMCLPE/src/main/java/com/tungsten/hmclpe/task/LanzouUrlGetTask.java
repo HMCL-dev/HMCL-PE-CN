@@ -72,27 +72,32 @@ public class LanzouUrlGetTask extends AsyncTask<String, Integer, String> {
                 doc =Jsoup.parse(doc.toString().replaceAll("//[\\s\\S]*?\\n",""));
                 OkHttpClient client=new OkHttpClient().newBuilder().followRedirects(false).build();
                 Pattern p =null;
-                p=Pattern.compile("'sign':'(.*?)'");
+                p=Pattern.compile("vsign = '(.*?)'");
                 Matcher m = p.matcher(doc.toString());
                 m.find();
-                String sign=m.group(1);
+                String vsign=m.group(1);
 
-                p=Pattern.compile("websignkey = '(.*?)'");
+                p=Pattern.compile("cwebsignkeyc = '(.*?)'");
                 m = p.matcher(doc.toString());
                 m.find();
-                String websignkey=m.group(1);
+                String cwebsignkeyc=m.group(1);
+
+                p=Pattern.compile("awebsigna = '(.*?)'");
+                m = p.matcher(doc.toString());
+                m.find();
+                String awebsigna=m.group(1);
 
                 p =Pattern.compile("ajaxdata = '(.*?)'");
                 m = p.matcher(doc.toString());
                 m.find();
-                String signs=m.group(1);
+                String ajaxdata=m.group(1);
                 RequestBody body=new FormBody.Builder()
                         .add("action","downprocess")
-                        .add("signs",signs)
-                        .add("sign",sign)
+                        .add("signs",ajaxdata)
+                        .add("sign",vsign)
                         .add("ves","1")
-                        .add("websign","")
-                        .add("websignkey",websignkey)
+                        .add("websign",awebsigna)
+                        .add("websignkey",cwebsignkeyc)
                         .build();
                 Request request=new Request.Builder()
                         .url(postUrl)
