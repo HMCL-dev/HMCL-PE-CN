@@ -4,7 +4,7 @@
     <string name="dialog_unknown_error_title">Warning</string>
     <string name="dialog_unknown_error_positive">Confirm</string>
     <string name="dialog_verify_title">Development version test permission verification</string>
-    <string name="dialog_verify_msg">Your device code is:\\n%s\\nPlease fill in the authorization verification code that matches this device code.</string>
+    <string name="dialog_verify_msg">Your device code is:\n%s\nPlease fill in the authorization verification code that matches this device code.</string>
     <string name="dialog_verify_code">Authorization verification code</string>
     <string name="dialog_verify_donate">Get permission</string>
     <string name="dialog_verify_copy">Copy device code</string>
