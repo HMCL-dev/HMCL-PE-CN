@@ -225,7 +225,7 @@ public class JREUtils {
 
         setJavaEnvironment(activity,javaPath,home,renderer,glesVersion);
 
-        loadGraphicsLibrary(renderer, javaPath);
+        loadGraphicsLibrary(renderer);
 
         List<String> userArgs = new ArrayList<>();
 
@@ -309,8 +309,7 @@ public class JREUtils {
      * It will fallback if it fails to load the library.
      * @return The name of the loaded library
      */
-    public static String loadGraphicsLibrary(String renderer, String javaPath) {
-        boolean isJava17 = javaPath.endsWith("JRE17");
+    public static String loadGraphicsLibrary(String renderer) {
         if(renderer == null) return null;
         String renderLibrary;
         switch (renderer){
@@ -318,12 +317,7 @@ public class JREUtils {
             case "opengles2_5":
             case "opengles3_vgpu" :
             case "opengles3":
-                if (isJava17) {
-                    renderLibrary = "libgl4es_114.so";
-                }
-                else {
-                    renderLibrary = "libgl4es_114514.so";
-                }
+                renderLibrary = "libgl4es_114.so";
                 break;
             case "opengles3_virgl":
             case "vulkan_zink":

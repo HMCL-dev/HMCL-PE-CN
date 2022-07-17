@@ -264,10 +264,10 @@ public class GameManagerUI extends BaseUI implements View.OnClickListener {
                         });
                         deleteAlertBuilder.setNegativeButton(context.getString(R.string.dialog_delete_version_negative), (dialogInterface, i) -> {});
                         if (privateGameSetting.gameDirSetting.type == 1){
-                            deleteAlertBuilder.setMessage(context.getString(R.string.dialog_delete_version_isolate_pri) + " " + versionName + " " + context.getString(R.string.dialog_delete_version_isolate_sec));
+                            deleteAlertBuilder.setMessage(context.getString(R.string.dialog_delete_version_isolate_msg).replace("%s", versionName));
                         }
                         else {
-                            deleteAlertBuilder.setMessage(context.getString(R.string.dialog_delete_version_pri) + " " + versionName + " " + context.getString(R.string.dialog_delete_version_sec));
+                            deleteAlertBuilder.setMessage(context.getString(R.string.dialog_delete_version_msg).replace("%s", versionName));
                         }
                         deleteAlertBuilder.create().show();
                         return true;

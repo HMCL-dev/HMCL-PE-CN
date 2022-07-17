@@ -12,6 +12,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -36,6 +37,7 @@ import com.tungsten.hmclpe.utils.file.UriUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public class UniversalSettingUI extends BaseUI implements View.OnClickListener, AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener, TextWatcher {
 
@@ -123,6 +125,13 @@ public class UniversalSettingUI extends BaseUI implements View.OnClickListener, 
         checkCustom.setOnCheckedChangeListener(this);
         editCacheContent.addTextChangedListener(this);
         selectCachePath.setOnClickListener(this);
+
+        ArrayList<String> languages = new ArrayList<>();
+        languages.add(context.getString(R.string.universal_setting_ui_lang_sys));
+        languages.add("English");
+        languages.add("简体中文");
+        ArrayAdapter<String> langAdapter = new ArrayAdapter<>(context, R.layout.item_spinner, languages);
+        switchLang.setAdapter(langAdapter);
 
         updateSetting.post(() -> {
             updateSettingHeight = updateSetting.getHeight();

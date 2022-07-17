@@ -219,9 +219,6 @@
     <string name="world_manager_ui_download">存檔下載</string>
     <string name="world_manager_ui_info">%f。上一次遊戲時間：%t。遊戲版本：%v。</string>
     <string name="world_manager_ui_unknown_game_version">未知</string>
-    <string name="world_manager_ui_manage_assets">管理數據包</string>
-    <string name="world_manager_ui_export">導出此世界</string>
-    <string name="world_manager_ui_open_dir">打開文件夾</string>
     <string name="export_world_ui_title">導出世界</string>
     <string name="export_world_ui_sub_title">導出此世界</string>
     <string name="export_world_ui_save_to">保存到</string>
@@ -356,7 +353,7 @@
     <string name="install_game_ui_none">不安裝</string>
     <string name="install_game_ui_forge_not_compatible">與 Forge 不兼容</string>
     <string name="install_game_ui_fabric_not_compatible">與 Fabric 不兼容</string>
-    <string name="install_game_ui_optifine_not_compatible">與 Optifine 不兼容</string>
+    <string name="install_game_ui_optifine_not_compatible">與 OptiFine 不兼容</string>
     <string name="install_game_ui_install">安裝</string>
     <string name="install_game_ui_exist">此版本已經存在，請換一個名字</string>
     <string name="forge_list_ui_title">安裝新遊戲版本 - 選擇 Forge 版本</string>
@@ -566,4 +563,5 @@
     <string name="dialog_download_negative">取消</string>
     <string name="dialog_download_title">正在下載</string>
     <string name="dialog_update_mod_title">更新</string>
+    <string name="dialog_download_success">安裝成功</string>
 </resources>

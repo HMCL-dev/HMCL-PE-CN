@@ -65,7 +65,7 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
     private VersionSpinnerAdapter versionSpinnerAdapter;
 
     private ImageView versionListIcon;
-    private ImageView downlooadIcon;
+    private ImageView downloadIcon;
     private ImageView multiplayerIcon;
     private ImageView settingIcon;
 
@@ -99,7 +99,7 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
 
         //icon
         versionListIcon = activity.findViewById(R.id.version_list_icon);
-        downlooadIcon = activity.findViewById(R.id.download_icon);
+        downloadIcon = activity.findViewById(R.id.download_icon);
         multiplayerIcon = activity.findViewById(R.id.multiplayer_icon);
         settingIcon = activity.findViewById(R.id.setting_icon);
 
@@ -301,7 +301,7 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
             return;
         }
         changeIcon(versionListIcon, themePath, "versionListIcon");
-        changeIcon(downlooadIcon, themePath, "downloadIcon");
+        changeIcon(downloadIcon, themePath, "downloadIcon");
         changeIcon(multiplayerIcon, themePath, "multiplayerIcon");
         changeIcon(settingIcon, themePath, "settingIcon");
         changeIcon(activity.launcherLayout, themePath, "background");

@@ -256,9 +256,6 @@
     <string name="world_manager_ui_download">存档下载</string>
     <string name="world_manager_ui_info">%f。 上一次游戏时间：%t。 游戏版本：%v。</string>
     <string name="world_manager_ui_unknown_game_version">未知</string>
-    <string name="world_manager_ui_manage_assets">管理数据包</string>
-    <string name="world_manager_ui_export">导出此世界</string>
-    <string name="world_manager_ui_open_dir">打开文件夹</string>
     
     <string name="export_world_ui_title">导出世界</string>
     <string name="export_world_ui_sub_title">导出此世界</string>
@@ -425,7 +422,7 @@
     <string name="install_game_ui_none">不安装</string>
     <string name="install_game_ui_forge_not_compatible">与 Forge 不兼容</string>
     <string name="install_game_ui_fabric_not_compatible">与 Fabric 不兼容</string>
-    <string name="install_game_ui_optifine_not_compatible">与 Optifine 不兼容</string>
+    <string name="install_game_ui_optifine_not_compatible">与 OptiFine 不兼容</string>
     <string name="install_game_ui_install">安装</string>
     <string name="install_game_ui_minecraft" translatable="false">Minecraft</string>
     <string name="install_game_ui_forge" translatable="false">Forge</string>
@@ -713,11 +710,10 @@
     <string name="game_setting_ui_game_ram">游戏内存</string>
     <string name="game_setting_ui_auto_ram">自动分配</string>
     <string name="game_setting_ui_min_ram">最低分配</string>
-    <string name="game_setting_ui_ram">MB</string>
-    <string name="game_setting_ui_used_ram">已使用</string>
-    <string name="game_setting_ui_total_ram">总内存</string>
-    <string name="game_setting_ui_min_distribution">最低分配</string>
-    <string name="game_setting_ui_actual_distribution">实际分配</string>
+    <string name="game_setting_ui_ram" translatable="false">MB</string>
+    <string name="game_setting_ui_used_ram">已使用 %s GB</string>
+    <string name="game_setting_ui_min_distribution">最低分配 %s GB</string>
+    <string name="game_setting_ui_actual_distribution">实际分配 %s GB</string>
     <string name="game_setting_ui_resolution">游戏窗口分辨率</string>
     <string name="game_setting_ui_log">查看日志</string>
     <string name="game_setting_ui_server">服务器地址</string>
@@ -742,10 +738,10 @@
     <string name="game_setting_ui_game_launcher_pojav" translatable="false">PojavLauncher</string>
     <string name="game_setting_ui_game_launcher_hint">推荐使用 Boat 启动器。</string>
     <string name="game_setting_ui_boat_renderer">Boat 渲染方式</string>
-    <string name="game_setting_ui_boat_renderer_gl4es_114" translatable="false">GL4ES 114514/Holy (OpenGL 2.1/3.2)</string>
+    <string name="game_setting_ui_boat_renderer_gl4es_114" translatable="false">Holy GL4ES (OpenGL 2.1/3.2)</string>
     <string name="game_setting_ui_boat_renderer_virgl" translatable="false">VirGLRenderer (OpenGL 4.3)</string>
     <string name="game_setting_ui_pojav_renderer">PojavLauncher 渲染方式</string>
-    <string name="game_setting_ui_pojav_renderer_gl4es_114" translatable="false">GL4ES 114514/Holy (OpenGL 2.1/3.2)</string>
+    <string name="game_setting_ui_pojav_renderer_gl4es_114" translatable="false">Holy GL4ES (OpenGL 2.1/3.2)</string>
     <string name="game_setting_ui_pojav_renderer_virgl" translatable="false">VirGLRenderer (OpenGL 4.3)</string>
 
     <string name="universal_setting_ui_declare">Hello Minecraft! Launcher Pocket Edition 是一个免费、自由、开放源代码的 Minecraft 启动器。您的赞助将帮助 Hello Minecraft! Launcher Pocket Edition 获得更好的发展，还可以获得 HMCL-PE 的开发进展。</string>
@@ -802,7 +798,7 @@
     <string name="download_setting_ui_auto_official">尽量使用官方源（最新，但可能加载慢）</string>
     <string name="download_setting_ui_auto_mirror">尽量使用镜像源（加载快，但可能不是最新）</string>
     <string name="download_setting_ui_source_official">官方（Optifine 自动安装使用 BMCLAPI 下载源）</string>
-    <string name="download_setting_ui_source_bmclapi">BMCLAPI（bangbang93，https://bmclapi2.bangbang93.com/）</string>
+    <string name="download_setting_ui_source_bmclapi" translatable="false">BMCLAPI（bangbang93，https://bmclapi2.bangbang93.com/）</string>
     <string name="download_setting_ui_source_mcbbs">我的世界中文论坛（MCBBS，https://www.mcbbs.net/）</string>
     <string name="download_setting_ui_download">下载</string>
     <string name="download_setting_ui_auto_download">自动选择并发数</string>
@@ -1013,7 +1009,6 @@
     <string name="dialog_create_community_name">房间名称</string>
     <string name="dialog_create_community_port">端口号</string>
     <string name="dialog_create_community_getting">检测中…</string>
-    <string name="dialog_create_community_error">无法检测游戏端口号，你需启动游戏并在游戏内打开 对局域网开放 选项方能启动联机！</string>
     <string name="dialog_create_community_positive">确定</string>
     <string name="dialog_create_community_negative">取消</string>
 
@@ -1033,7 +1028,7 @@
     <string name="dialog_community_positive">确定</string>
 
     <string name="dialog_hin2n_help_title">帮助</string>
-    <string name="dialog_hin2n_help_text">主机玩家（房主）：\n你需要在先启动游戏，并进入一个存档作为联机世界，然后在游戏内菜单中选择 对局域网开放 选项，记住你的端口号，接下来打开 HMCL-PE 控制面板，打开联机模块菜单，点击创建房间，确认显示的端口号与游戏提示的一致，然后确认并开房，房间开启后，你将可以点击房间信息以查看你的邀请码和服务器地址，你需要将它们发送给你的联机伙伴。注意，请不要将 邀请码，ip，端口 告诉任何陌生人。\n\n成员玩家：\n你需要向主机玩家（房主）索要邀请码和 服务器地址，然后打开 HMCL-PE 控制面板，打开联机模块菜单，点击加入房间，输入你的邀请码，点击确定即可，接下来启动游戏，在游戏的多人游戏板块中添加服务器，服务器名称任意，服务器地址填写房主提供的服务器地址，即可加入服务器。</string>
+    <string name="dialog_hin2n_help_text">主机玩家（房主）： 你需要在先启动游戏，并进入一个存档作为联机世界，然后在游戏内菜单中选择 对局域网开放 选项，记住你的端口号，接下来打开 HMCL-PE 控制面板，打开联机模块菜单，点击创建房间，确认显示的端口号与游戏提示的一致，然后确认并开房，房间开启后，你将可以点击房间信息以查看你的邀请码和服务器地址，你需要将它们发送给你的联机伙伴。注意，请不要将 邀请码，ip，端口 告诉任何陌生人。  成员玩家： 你需要向主机玩家（房主）索要邀请码和 服务器地址，然后打开 HMCL-PE 控制面板，打开联机模块菜单，点击加入房间，输入你的邀请码，点击确定即可，接下来启动游戏，在游戏的多人游戏板块中添加服务器，服务器名称任意，服务器地址填写房主提供的服务器地址，即可加入服务器。</string>
     <string name="dialog_hin2n_help_positive">确定</string>
 
     <string name="dialog_force_exit_title">提示</string>
@@ -1113,5 +1108,6 @@
     <string name="ui_about_mcmod_sub">提供 Mod 中文名映射表与 Mod 百科</string>
     <string name="ui_about_github_main">所有通过 Issues、赞助等方式参与本项目的贡献者</string>
     <string name="ui_about_github_sub">感谢各位的建议、bug 反馈及赞助</string>
+    <string name="dialog_create_community_error">无法检测游戏端口号，你需启动游戏并在游戏内打开 对局域网开放 选项方能启动联机！</string>
 
 </resources>

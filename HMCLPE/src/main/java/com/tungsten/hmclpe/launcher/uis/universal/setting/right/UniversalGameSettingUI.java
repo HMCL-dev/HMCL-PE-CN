@@ -491,8 +491,8 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
         ramProgressBar.setProgress(MemoryUtils.getTotalDeviceMemory(context) - MemoryUtils.getFreeDeviceMemory(context));
         ramSeekBar.setProgress(activity.privateGameSetting.ramSetting.minRam);
         editRam.setText(activity.privateGameSetting.ramSetting.minRam + "");
-        usedRamText.setText(context.getText(R.string.game_setting_ui_used_ram) + " " + (float) Math.round(((MemoryUtils.getTotalDeviceMemory(context) - MemoryUtils.getFreeDeviceMemory(context)) / 1024F) * 10) / 10 + " GB / " + (float) Math.round((MemoryUtils.getTotalDeviceMemory(context) / 1024F) * 10) / 10 + " GB");
-        actualRamText.setText(context.getText(R.string.game_setting_ui_min_distribution) + " " + (float) Math.round(((activity.privateGameSetting.ramSetting.minRam) / 1024F) * 10) / 10 + " GB / " + context.getText(R.string.game_setting_ui_actual_distribution) + " " + (float) Math.round(((activity.privateGameSetting.ramSetting.minRam) / 1024F) * 10) / 10 + " GB");
+        usedRamText.setText(context.getString(R.string.game_setting_ui_used_ram).replace("%s", Float.toString((float) Math.round(((MemoryUtils.getTotalDeviceMemory(context) - MemoryUtils.getFreeDeviceMemory(context)) / 1024F) * 10) / 10)) + " / " + (float) Math.round((MemoryUtils.getTotalDeviceMemory(context) / 1024F) * 10) / 10 + " GB");
+        actualRamText.setText(context.getString(R.string.game_setting_ui_min_distribution).replace("%s", Float.toString((float) Math.round(((activity.privateGameSetting.ramSetting.minRam) / 1024F) * 10) / 10)) + " / " + context.getString(R.string.game_setting_ui_actual_distribution).replace("%s", Float.toString((float) Math.round(((activity.privateGameSetting.ramSetting.minRam) / 1024F) * 10) / 10)));
         scaleFactorSeekBar.setProgress((int) (activity.privateGameSetting.scaleFactor * 1000) - 250);
         editScaleFactor.setText(((int) (activity.privateGameSetting.scaleFactor * 100)) + "");
         checkLog.setChecked(activity.privateGameSetting.log);
