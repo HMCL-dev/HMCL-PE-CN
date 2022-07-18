@@ -1,7 +1,9 @@
 package com.tungsten.hmclpe.control;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.view.LayoutPanel;
+import com.tungsten.hmclpe.utils.LocaleUtils;
 
 public class ControlPatternActivity extends AppCompatActivity implements View.OnTouchListener {
 
@@ -66,6 +69,17 @@ public class ControlPatternActivity extends AppCompatActivity implements View.On
         data.setData(Uri.parse(pattern));
         setResult(Activity.RESULT_OK,data);
         super.onBackPressed();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleUtils.setLanguage(base));
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleUtils.setLanguage(this);
     }
 
     @Override

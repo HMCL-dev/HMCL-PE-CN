@@ -5,6 +5,7 @@ import static android.app.Activity.RESULT_OK;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
@@ -30,6 +31,7 @@ import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.update.UpdateChecker;
+import com.tungsten.hmclpe.utils.LocaleUtils;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.animation.HiddenAnimationUtils;
 import com.tungsten.hmclpe.utils.file.FileUtils;
@@ -132,6 +134,9 @@ public class UniversalSettingUI extends BaseUI implements View.OnClickListener, 
         languages.add("简体中文");
         ArrayAdapter<String> langAdapter = new ArrayAdapter<>(context, R.layout.item_spinner, languages);
         switchLang.setAdapter(langAdapter);
+        SharedPreferences sharedPreferences = context.getSharedPreferences("lang", Context.MODE_PRIVATE);
+        switchLang.setSelection(sharedPreferences.getInt("lang", 0));
+        switchLang.setOnItemSelectedListener(this);
 
         updateSetting.post(() -> {
             updateSettingHeight = updateSetting.getHeight();
@@ -214,7 +219,9 @@ public class UniversalSettingUI extends BaseUI implements View.OnClickListener, 
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        if (parent == switchLang) {
+            LocaleUtils.changeLanguage(context, position);
+        }
     }
 
     @Override

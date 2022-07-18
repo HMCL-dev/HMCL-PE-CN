@@ -3,7 +3,9 @@ package com.tungsten.hmclpe.launcher.launch.pojav;
 import static org.lwjgl.glfw.CallbackBridge.windowHeight;
 import static org.lwjgl.glfw.CallbackBridge.windowWidth;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import net.kdt.pojavlaunch.keyboard.LWJGLGLFWKeycode;
 import net.kdt.pojavlaunch.function.PojavCallback;
 import net.kdt.pojavlaunch.utils.JREUtils;
 import com.tungsten.hmclpe.launcher.launch.MCOptionUtils;
+import com.tungsten.hmclpe.utils.LocaleUtils;
 
 import org.lwjgl.glfw.CallbackBridge;
 
@@ -169,6 +172,17 @@ public class PojavMinecraftActivity extends BaseMainActivity {
         if (!mouse) {
             CallbackBridge.sendKeyPress(LWJGLGLFWKeycode.GLFW_KEY_ESCAPE);
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleUtils.setLanguage(base));
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleUtils.setLanguage(this);
     }
 
     @Override

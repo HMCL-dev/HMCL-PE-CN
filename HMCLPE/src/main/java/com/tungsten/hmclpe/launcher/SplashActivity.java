@@ -1,8 +1,11 @@
 package com.tungsten.hmclpe.launcher;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -33,6 +36,7 @@ import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.InstallLauncherFile;
 import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
 import com.tungsten.hmclpe.manifest.AppManifest;
+import com.tungsten.hmclpe.utils.LocaleUtils;
 import com.tungsten.hmclpe.utils.file.UriUtils;
 import com.tungsten.hmclpe.utils.io.FileUtils;
 
@@ -40,6 +44,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 
+@SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity implements View.OnClickListener {
 
     public TextView selectText;
@@ -68,10 +73,10 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
         loadingText = findViewById(R.id.loading_text);
         loadingProgressText = findViewById(R.id.loading_progress_text);
 
-        titleTextFirst=findViewById(R.id.title_text_first);
-        titleTextSecond=findViewById(R.id.title_text_second);
-        titleTextThird=findViewById(R.id.title_text_third);
-        background=findViewById(R.id.background);
+        titleTextFirst = findViewById(R.id.title_text_first);
+        titleTextSecond = findViewById(R.id.title_text_second);
+        titleTextThird = findViewById(R.id.title_text_third);
+        background = findViewById(R.id.background);
 
         download.setOnClickListener(this);
         local.setOnClickListener(this);
@@ -80,29 +85,40 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
         requestPermission();
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleUtils.setLanguage(base));
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleUtils.setLanguage(this);
+    }
+
     private void initTheme() {
-        File themePath=getExternalFilesDir("Theme");
-        if (!themePath.exists()){
+        File themePath = getExternalFilesDir("Theme");
+        if (!themePath.exists()) {
             return;
         }
-        changeIcon(background,themePath,"splashBackground");
-        if (new File(themePath,"text.json").exists()){
+        changeIcon(background, themePath, "splashBackground");
+        if (new File(themePath, "text.json").exists()) {
             try {
-                JSONObject jsonObject = new JSONObject(FileUtils.readText(new File(themePath,"text.json")));
-                String s1=jsonObject.getString("titleTextFirst");
-                String s2=jsonObject.getString("titleTextSecond");
-                String s3=jsonObject.getString("titleTextThird");
-                String s5=jsonObject.getString("textColor");
-                if (!s1.equals("")){
+                JSONObject jsonObject = new JSONObject(FileUtils.readText(new File(themePath, "text.json")));
+                String s1 = jsonObject.getString("titleTextFirst");
+                String s2 = jsonObject.getString("titleTextSecond");
+                String s3 = jsonObject.getString("titleTextThird");
+                String s5 = jsonObject.getString("textColor");
+                if (!s1.equals("")) {
                     titleTextFirst.setText(s1);
                 }
-                if (!s2.equals("")){
+                if (!s2.equals("")) {
                     titleTextSecond.setText(s2);
                 }
-                if (!s3.equals("")){
+                if (!s3.equals("")) {
                     titleTextThird.setText(s3);
                 }
-                if (!s5.equals("")){
+                if (!s5.equals("")) {
                     titleTextFirst.setTextColor(Color.parseColor(s5));
                     titleTextSecond.setTextColor(Color.parseColor(s5));
                     titleTextThird.setTextColor(Color.parseColor(s5));
@@ -113,6 +129,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
             }
         }
     }
+
     private void changeIcon(View view, File themePath, String iconName) {
         File path = new File(themePath, iconName + ".png");
         if (path.exists()) {
