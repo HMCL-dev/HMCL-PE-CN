@@ -64,12 +64,7 @@ public class BoatLauncher {
                 args.add("-Dorg.lwjgl.opengl.libname=libGL.so.1");
             }
             else {
-                if (javaPath.endsWith("JRE17")) {
-                    args.add("-Dorg.lwjgl.opengl.libname=libgl4es_114.so");
-                }
-                else {
-                    args.add("-Dorg.lwjgl.opengl.libname=libgl4es_114514.so");
-                }
+                args.add("-Dorg.lwjgl.opengl.libname=libgl4es_114.so");
             }
             args.add("-Dlwjgl.platform=Boat");
             args.add("-Dos.name=Linux");
