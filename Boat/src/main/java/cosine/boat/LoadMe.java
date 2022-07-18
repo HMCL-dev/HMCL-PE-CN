@@ -41,8 +41,9 @@ public class LoadMe {
 			setenv("JAVA_HOME" , javaPath);
 			setenv("LIBGL_MIPMAP","3");
 			setenv("LIBGL_NORMALIZE","1");
-            setenv("LIBGL_ES","2");
             setenv("LIBGL_VSYNC","1");
+            setenv("LIBGL_NOINTOVLHACK", "1");
+
 
 			if (renderer.equals("VirGL")) {
                 setenv("LIBGL_NAME","libGL.so.1");
@@ -59,7 +60,6 @@ public class LoadMe {
                 setenv("LIBEGL_NAME","libEGL_wrapper.so");
                 if (highVersion) {
                     setenv("LIBGL_GL", "32");
-                    setenv("LIBGL_NOINTOVLHACK", "1");
                 }
             }
 
