@@ -3,9 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/background"
     android:background="@drawable/ic_background">
 
     <TextView
+        android:id="@+id/title_text_first"
         android:textStyle="bold"
         android:textSize="20sp"
         android:layout_width="0dp"
@@ -27,6 +29,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/title_text_second"
         android:textStyle="bold"
         android:textSize="36sp"
         android:layout_width="0dp"
@@ -48,6 +51,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/title_text_third"
         android:textStyle="bold"
         android:textSize="32sp"
         android:layout_width="0dp"

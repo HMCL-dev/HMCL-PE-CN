@@ -15,6 +15,8 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.utils.convert.ConvertUtils;
 
+import java.io.File;
+
 public class MenuFloat extends View {
 
     private MenuHelper menuHelper;
@@ -65,7 +67,12 @@ public class MenuFloat extends View {
         outlinePaint.setStyle(Paint.Style.STROKE);
         outlinePaint.setStrokeWidth(3);
 
-        bitmap = BitmapFactory.decodeResource(getContext().getResources(),R.drawable.ic_craft_table);
+        File picPath=new File(context.getExternalFilesDir("Theme"),"floatIcon.png");
+        if (picPath.exists()){
+            bitmap=BitmapFactory.decodeFile(picPath.getAbsolutePath());
+        } else {
+            bitmap = BitmapFactory.decodeResource(getContext().getResources(),R.drawable.ic_craft_table);
+        }
     }
 
     @Override

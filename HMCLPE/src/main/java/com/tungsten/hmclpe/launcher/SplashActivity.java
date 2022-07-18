@@ -3,6 +3,10 @@ package com.tungsten.hmclpe.launcher;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,10 +17,12 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -28,6 +34,11 @@ import com.tungsten.hmclpe.launcher.setting.InstallLauncherFile;
 import com.tungsten.hmclpe.launcher.setting.launcher.LauncherSetting;
 import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.utils.file.UriUtils;
+import com.tungsten.hmclpe.utils.io.FileUtils;
+
+import org.json.JSONObject;
+
+import java.io.File;
 
 public class SplashActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,6 +48,11 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
     public ProgressBar loadingProgress;
     public TextView loadingText;
     public TextView loadingProgressText;
+
+    public TextView titleTextFirst;
+    public TextView titleTextSecond;
+    public TextView titleTextThird;
+    public ConstraintLayout background;
 
     public LauncherSetting launcherSetting;
 
@@ -52,10 +68,57 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
         loadingText = findViewById(R.id.loading_text);
         loadingProgressText = findViewById(R.id.loading_progress_text);
 
+        titleTextFirst=findViewById(R.id.title_text_first);
+        titleTextSecond=findViewById(R.id.title_text_second);
+        titleTextThird=findViewById(R.id.title_text_third);
+        background=findViewById(R.id.background);
+
         download.setOnClickListener(this);
         local.setOnClickListener(this);
 
+        initTheme();
         requestPermission();
+    }
+
+    private void initTheme() {
+        File themePath=getExternalFilesDir("Theme");
+        if (!themePath.exists()){
+            return;
+        }
+        changeIcon(background,themePath,"splashBackground");
+        if (new File(themePath,"text.json").exists()){
+            try {
+                JSONObject jsonObject = new JSONObject(FileUtils.readText(new File(themePath,"text.json")));
+                String s1=jsonObject.getString("titleTextFirst");
+                String s2=jsonObject.getString("titleTextSecond");
+                String s3=jsonObject.getString("titleTextThird");
+                String s5=jsonObject.getString("textColor");
+                if (!s1.equals("")){
+                    titleTextFirst.setText(s1);
+                }
+                if (!s2.equals("")){
+                    titleTextSecond.setText(s2);
+                }
+                if (!s3.equals("")){
+                    titleTextThird.setText(s3);
+                }
+                if (!s5.equals("")){
+                    titleTextFirst.setTextColor(Color.parseColor(s5));
+                    titleTextSecond.setTextColor(Color.parseColor(s5));
+                    titleTextThird.setTextColor(Color.parseColor(s5));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    private void changeIcon(View view, File themePath, String iconName) {
+        File path = new File(themePath, iconName + ".png");
+        if (path.exists()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(path.getAbsolutePath());
+            view.setBackground(new BitmapDrawable(getResources(), bitmap));
+        }
     }
 
     private void requestPermission() {

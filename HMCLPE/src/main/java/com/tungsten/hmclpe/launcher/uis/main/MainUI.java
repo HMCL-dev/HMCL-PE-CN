@@ -291,10 +291,6 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
     }
     File themePath;
     public void customTheme(){
-//        versionListIcon;
-//        downlooadIcon;
-//        multiplayerIcon;
-//        settingIcon;
         themePath = activity.getExternalFilesDir("Theme");
 
         if (!themePath.exists()){
