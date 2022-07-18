@@ -1,7 +1,9 @@
 package com.tungsten.hmclpe.launcher.launch.boat;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.SurfaceTexture;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import com.tungsten.hmclpe.control.view.LayoutPanel;
 import com.tungsten.hmclpe.launcher.setting.game.GameLaunchSetting;
 
 import com.tungsten.hmclpe.launcher.launch.MCOptionUtils;
+import com.tungsten.hmclpe.utils.LocaleUtils;
 
 import java.util.Vector;
 
@@ -173,6 +176,17 @@ public class BoatMinecraftActivity extends BoatActivity {
             BoatInput.setKey(BoatKeycodes.KEY_ESC, 0, true);
             BoatInput.setKey(BoatKeycodes.KEY_ESC, 0, false);
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleUtils.setLanguage(base));
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleUtils.setLanguage(this);
     }
 
     @Override

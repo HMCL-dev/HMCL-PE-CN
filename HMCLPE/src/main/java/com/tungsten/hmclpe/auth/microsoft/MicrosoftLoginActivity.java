@@ -2,7 +2,9 @@ package com.tungsten.hmclpe.auth.microsoft;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -17,6 +19,7 @@ import android.widget.ProgressBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.utils.LocaleUtils;
 import com.tungsten.hmclpe.utils.activity.ActivityUtils;
 
 public class MicrosoftLoginActivity extends AppCompatActivity {
@@ -82,6 +85,17 @@ public class MicrosoftLoginActivity extends AppCompatActivity {
         public void onPageFinished(WebView view, String url) {
             progressBar.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleUtils.setLanguage(base));
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleUtils.setLanguage(this);
     }
 
     @Override
