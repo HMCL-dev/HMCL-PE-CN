@@ -59,6 +59,7 @@ public class LoadMe {
                 setenv("LIBEGL_NAME","libEGL_wrapper.so");
                 if (highVersion) {
                     setenv("LIBGL_GL", "32");
+                    setenv("LIBGL_NOINTOVLHACK", "1");
                 }
             }
 
