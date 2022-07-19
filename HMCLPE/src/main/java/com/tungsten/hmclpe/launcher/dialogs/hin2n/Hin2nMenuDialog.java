@@ -49,7 +49,7 @@ public class Hin2nMenuDialog extends Dialog implements View.OnClickListener {
         boolean isCreated = Hin2nService.INSTANCE != null && status != EdgeStatus.RunningStatus.DISCONNECT && status != EdgeStatus.RunningStatus.FAILED;
         if (view == create) {
             if (!isCreated) {
-                CreateCommunityDialog dialog = new CreateCommunityDialog(getContext(), menuHelper);
+                CreateCommunityDialog dialog = new CreateCommunityDialog(getContext(), menuHelper, null);
                 dialog.show();
                 dismiss();
             }
@@ -59,7 +59,7 @@ public class Hin2nMenuDialog extends Dialog implements View.OnClickListener {
         }
         if (view == join) {
             if (!isCreated) {
-                JoinCommunityDialog dialog = new JoinCommunityDialog(getContext(), menuHelper);
+                JoinCommunityDialog dialog = new JoinCommunityDialog(getContext(), menuHelper, null);
                 dialog.show();
                 dismiss();
             }

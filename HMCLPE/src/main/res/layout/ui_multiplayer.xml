@@ -35,6 +35,7 @@
                     android:background="@drawable/ic_baseline_launch_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
@@ -46,6 +47,7 @@
             </LinearLayout>
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -80,6 +82,7 @@
                     android:background="@drawable/ic_outline_add_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
@@ -108,6 +111,7 @@
                     android:background="@drawable/ic_outline_join_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
@@ -119,6 +123,7 @@
             </LinearLayout>
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -153,6 +158,7 @@
                     android:background="@drawable/ic_outline_help_outline_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
@@ -181,6 +187,7 @@
                     android:background="@drawable/ic_outline_feedback_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"

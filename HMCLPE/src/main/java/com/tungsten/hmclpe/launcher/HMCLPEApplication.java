@@ -21,18 +21,6 @@ public class HMCLPEApplication extends Application {
         Hin2n.getInstance().setup(context);
     }
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(LocaleUtils.setLanguage(base));
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        LocaleUtils.setLanguage(context);
-    }
-
-
     public static Context getContext(){
         return context;
     }

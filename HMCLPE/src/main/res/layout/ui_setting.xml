@@ -35,6 +35,7 @@
                     android:background="@drawable/ic_baseline_game_pad_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
@@ -80,6 +81,7 @@
                     android:background="@drawable/ic_baseline_web_asset_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
@@ -108,6 +110,7 @@
                     android:background="@drawable/ic_baseline_exterior_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
@@ -136,6 +139,7 @@
                     android:background="@drawable/ic_outline_download_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
@@ -181,6 +185,7 @@
                     android:background="@drawable/ic_outline_help_outline_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
@@ -209,6 +214,7 @@
                     android:background="@drawable/ic_outline_feedback_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
@@ -237,6 +243,7 @@
                     android:background="@drawable/ic_baseline_donate_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
@@ -266,6 +273,7 @@
                     android:background="@drawable/ic_outline_about_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"

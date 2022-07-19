@@ -9,14 +9,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
+import com.tungsten.hmclpe.launcher.dialogs.hin2n.CreateCommunityDialog;
 import com.tungsten.hmclpe.launcher.dialogs.hin2n.JoinCommunityDialog;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.multiplayer.Hin2nService;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 
+import wang.switchy.hin2n.model.EdgeStatus;
 import wang.switchy.hin2n.model.N2NSettingInfo;
 
 public class MultiPlayerUI extends BaseUI implements View.OnClickListener {
@@ -95,6 +98,29 @@ public class MultiPlayerUI extends BaseUI implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        EdgeStatus.RunningStatus status = Hin2nService.INSTANCE == null ? EdgeStatus.RunningStatus.DISCONNECT : Hin2nService.INSTANCE.getCurrentStatus();
+        boolean isCreated = Hin2nService.INSTANCE != null && status != EdgeStatus.RunningStatus.DISCONNECT && status != EdgeStatus.RunningStatus.FAILED;
+        if (view == launch) {
+
+        }
+        if (view == create) {
+            if (!isCreated) {
+                CreateCommunityDialog dialog = new CreateCommunityDialog(context, null, this);
+                dialog.show();
+            }
+            else {
+                Toast.makeText(context, context.getString(R.string.dialog_hin2n_menu_in), Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (view == join) {
+            if (!isCreated) {
+                JoinCommunityDialog dialog = new JoinCommunityDialog(context, null, this);
+                dialog.show();
+            }
+            else {
+                Toast.makeText(context, context.getString(R.string.dialog_hin2n_menu_in), Toast.LENGTH_SHORT).show();
+            }
+        }
         if (view == help) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle(context.getString(R.string.dialog_hin2n_help_title));

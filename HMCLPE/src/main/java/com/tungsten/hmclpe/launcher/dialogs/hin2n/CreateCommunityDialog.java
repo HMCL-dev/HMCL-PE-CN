@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.MenuHelper;
+import com.tungsten.hmclpe.launcher.uis.universal.multiplayer.MultiPlayerUI;
 import com.tungsten.hmclpe.multiplayer.Hin2nService;
 import com.tungsten.hmclpe.multiplayer.LocalServerDetector;
 
@@ -27,6 +28,7 @@ public class CreateCommunityDialog extends Dialog implements View.OnClickListene
     public static CreateCommunityDialog INSTANCE;
 
     private final MenuHelper menuHelper;
+    private final MultiPlayerUI multiPlayerUI;
     private ProgressBar progressBar;
 
     private TextView nameText;
@@ -37,10 +39,11 @@ public class CreateCommunityDialog extends Dialog implements View.OnClickListene
 
     private LocalServerDetector lanServerDetectorThread;
 
-    public CreateCommunityDialog(@NonNull Context context, MenuHelper menuHelper) {
+    public CreateCommunityDialog(@NonNull Context context, MenuHelper menuHelper, MultiPlayerUI multiPlayerUI) {
         super(context);
         INSTANCE = this;
         this.menuHelper = menuHelper;
+        this.multiPlayerUI = multiPlayerUI;
         setContentView(R.layout.dialog_create_community);
         setCancelable(false);
         init();
@@ -98,11 +101,21 @@ public class CreateCommunityDialog extends Dialog implements View.OnClickListene
             if (Hin2nService.INSTANCE != null && status != EdgeStatus.RunningStatus.DISCONNECT && status != EdgeStatus.RunningStatus.FAILED) {
                 Hin2nService.INSTANCE.stop(null);
             }
-            Intent vpnPrepareIntent = VpnService.prepare(menuHelper.context);
+            Intent vpnPrepareIntent = menuHelper != null ? VpnService.prepare(menuHelper.context) : VpnService.prepare(multiPlayerUI.context);
             if (vpnPrepareIntent != null) {
-                menuHelper.activity.startActivityForResult(vpnPrepareIntent, Hin2nService.VPN_REQUEST_CODE_CREATE);
+                if (menuHelper != null) {
+                    menuHelper.activity.startActivityForResult(vpnPrepareIntent, Hin2nService.VPN_REQUEST_CODE_CREATE);
+                }
+                else {
+                    multiPlayerUI.activity.startActivityForResult(vpnPrepareIntent, Hin2nService.VPN_REQUEST_CODE_CREATE);
+                }
             } else {
-                menuHelper.onActivityResult(Hin2nService.VPN_REQUEST_CODE_CREATE, RESULT_OK, null);
+                if (menuHelper != null) {
+                    menuHelper.onActivityResult(Hin2nService.VPN_REQUEST_CODE_CREATE, RESULT_OK, null);
+                }
+                else {
+                    multiPlayerUI.onActivityResult(Hin2nService.VPN_REQUEST_CODE_CREATE, RESULT_OK, null);
+                }
             }
             dismiss();
         }

@@ -41,7 +41,12 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="80dp"
+            android:minWidth="0dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:singleLine="true"
+            android:textAllCaps="false"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:gravity="center"
             android:text="@string/dialog_verify_donate"
@@ -56,7 +61,12 @@
             android:layout_weight="1"/>
 
         <Button
-            android:layout_width="100dp"
+            android:minWidth="0dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:singleLine="true"
+            android:textAllCaps="false"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:gravity="center"
             android:text="@string/dialog_verify_copy"
@@ -66,7 +76,12 @@
             android:id="@+id/copy_oaid"/>
 
         <Button
-            android:layout_width="60dp"
+            android:minWidth="0dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:singleLine="true"
+            android:textAllCaps="false"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:gravity="center"
             android:text="@string/dialog_verify_verify"
@@ -76,7 +91,12 @@
             android:id="@+id/verify"/>
 
         <Button
-            android:layout_width="60dp"
+            android:minWidth="0dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:singleLine="true"
+            android:textAllCaps="false"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:gravity="center"
             android:text="@string/dialog_verify_cancel"

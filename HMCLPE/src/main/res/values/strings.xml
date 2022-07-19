@@ -932,7 +932,7 @@
     <string name="dialog_force_exit_positive">Yes</string>
     <string name="dialog_force_exit_negative">No</string>
     <string name="drawer_game_menu_title">HMCL-PE Control Panel</string>
-    <string name="drawer_game_menu_type">Control panel outgoing method</string>
+    <string name="drawer_game_menu_type">Control panel</string>
     <string name="drawer_game_menu_type_float">Floating window</string>
     <string name="drawer_game_menu_type_bar">Sidebar</string>
     <string name="drawer_game_menu_type_gesture">Swipe gesture</string>
