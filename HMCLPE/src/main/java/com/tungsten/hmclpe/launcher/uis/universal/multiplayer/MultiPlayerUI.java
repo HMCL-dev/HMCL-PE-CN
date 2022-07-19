@@ -15,9 +15,14 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.hin2n.CreateCommunityDialog;
 import com.tungsten.hmclpe.launcher.dialogs.hin2n.JoinCommunityDialog;
+import com.tungsten.hmclpe.launcher.launch.check.LaunchTools;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
+import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.multiplayer.Hin2nService;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
+import com.tungsten.hmclpe.utils.gson.GsonUtils;
+
+import java.io.File;
 
 import wang.switchy.hin2n.model.EdgeStatus;
 import wang.switchy.hin2n.model.N2NSettingInfo;
@@ -101,7 +106,18 @@ public class MultiPlayerUI extends BaseUI implements View.OnClickListener {
         EdgeStatus.RunningStatus status = Hin2nService.INSTANCE == null ? EdgeStatus.RunningStatus.DISCONNECT : Hin2nService.INSTANCE.getCurrentStatus();
         boolean isCreated = Hin2nService.INSTANCE != null && status != EdgeStatus.RunningStatus.DISCONNECT && status != EdgeStatus.RunningStatus.FAILED;
         if (view == launch) {
-
+            String settingPath = activity.publicGameSetting.currentVersion + "/hmclpe.cfg";
+            String finalPath;
+            if (new File(settingPath).exists() && GsonUtils.getPrivateGameSettingFromFile(settingPath) != null && (GsonUtils.getPrivateGameSettingFromFile(settingPath).forceEnable || GsonUtils.getPrivateGameSettingFromFile(settingPath).enable)) {
+                finalPath = settingPath;
+            }
+            else {
+                finalPath = AppManifest.SETTING_DIR + "/private_game_setting.json";
+            }
+            Bundle bundle = new Bundle();
+            bundle.putString("setting_path",finalPath);
+            bundle.putBoolean("test",false);
+            LaunchTools.launch(context, activity, activity.publicGameSetting.currentVersion, bundle);
         }
         if (view == create) {
             if (!isCreated) {
