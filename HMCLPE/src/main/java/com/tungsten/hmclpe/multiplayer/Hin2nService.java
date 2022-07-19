@@ -1,7 +1,9 @@
 package com.tungsten.hmclpe.multiplayer;
 
 import com.tungsten.hmclpe.utils.DigestUtils;
+import com.tungsten.hmclpe.utils.io.NetworkUtils;
 
+import java.io.IOException;
 import java.util.Random;
 
 import wang.switchy.hin2n.service.N2NService;
@@ -11,6 +13,8 @@ public class Hin2nService extends N2NService {
 
     public static final int VPN_REQUEST_CODE_CREATE = 10000;
     public static final int VPN_REQUEST_CODE_JOIN = 10001;
+
+    public static final String IP_VERIFICATION_URL = "http://101.43.66.4:8080/IPVerification/ipverification?room=";
 
     public static ServerType SERVER_TYPE;
 
@@ -51,11 +55,17 @@ public class Hin2nService extends N2NService {
 
     public static N2NSettingModel getPlayerModel() {
         SERVER_TYPE = ServerType.CLIENT;
+        String response = randomNumber() + "";
+        try {
+            response = NetworkUtils.doGet(NetworkUtils.toURL(IP_VERIFICATION_URL + COMMUNITY_CODE));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return new N2NSettingModel(1L,
                 1,
                 "HMCL-PE-Local-Server-Setting",
                 0,
-                "1.1.1." + randomNumber(),
+                "1.1.1." + response,
                 "255.255.255.0",
                 COMMUNITY_CODE,
                 "HMCL-PE-Password",
@@ -84,6 +94,7 @@ public class Hin2nService extends N2NService {
         Random random = new Random();
         return random.nextInt(253) + 2;
     }
+
     public static String getRandomMacAddress() {
         Random random = new Random();
         String[] mac = {

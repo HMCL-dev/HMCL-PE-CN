@@ -1,10 +1,10 @@
 # HMCL-PE
 not finished yet!
 
-[Discord](https://discord.gg/YUHRHAgh) [QQ](https://jq.qq.com/?_wv=1027&k=4r1lFLgc)
+[Discord](https://discord.gg/zeMNy8Wdgd) [QQ](https://jq.qq.com/?_wv=1027&k=4r1lFLgc)
 
 ## Introduction
-[Hello Minecraft! Launcher : Pocket Edition](http://tungstend.hmcl-pe.cn/)
+[Hello Minecraft! Launcher : Pocket Edition](https://tungstend.github.io/)
 
 The software attempts to restore HMCL on Android devices, allowing players to manage games, mods, controls and more.
 

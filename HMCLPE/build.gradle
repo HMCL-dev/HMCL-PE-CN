@@ -28,9 +28,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    lintOptions {
-        disable 'MissingTranslation'
-    }
 
     packagingOptions {
         pickFirst 'META-INF/LICENSE.md' // picks the JavaMail license file

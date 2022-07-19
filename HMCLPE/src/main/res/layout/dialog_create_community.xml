@@ -153,6 +153,8 @@
                 android:layout_weight="1"/>
 
             <Button
+                android:singleLine="true"
+                android:textAllCaps="false"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -163,6 +165,8 @@
                 android:id="@+id/create"/>
 
             <Button
+                android:singleLine="true"
+                android:textAllCaps="false"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:gravity="center"

@@ -495,6 +495,8 @@
                 android:id="@+id/login_progress"/>
 
             <Button
+                android:singleLine="true"
+                android:textAllCaps="false"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -507,6 +509,8 @@
         </RelativeLayout>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:gravity="center"

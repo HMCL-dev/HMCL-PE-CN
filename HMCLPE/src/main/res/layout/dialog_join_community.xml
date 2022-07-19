@@ -92,17 +92,34 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
 
-        <Button
+        <RelativeLayout
             android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:gravity="center"
-            android:text="@string/dialog_join_community_positive"
-            android:textSize="15sp"
-            android:textColor="@color/colorLinkBlue"
-            android:background="@drawable/launcher_button_parent"
-            android:id="@+id/join"/>
+            android:layout_height="40dp">
+
+            <ProgressBar
+                android:visibility="gone"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerInParent="true"
+                android:id="@+id/progress"/>
+
+            <Button
+                android:singleLine="true"
+                android:textAllCaps="false"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="@string/dialog_join_community_positive"
+                android:textSize="15sp"
+                android:textColor="@color/colorLinkBlue"
+                android:background="@drawable/launcher_button_parent"
+                android:id="@+id/join"/>
+
+        </RelativeLayout>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:gravity="center"

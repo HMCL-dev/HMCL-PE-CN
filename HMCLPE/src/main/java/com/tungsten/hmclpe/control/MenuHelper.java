@@ -31,6 +31,7 @@ import com.tungsten.hmclpe.launcher.dialogs.control.AddViewDialog;
 import com.tungsten.hmclpe.launcher.dialogs.control.ChildManagerDialog;
 import com.tungsten.hmclpe.launcher.dialogs.control.EditControlPatternDialog;
 import com.tungsten.hmclpe.launcher.dialogs.hin2n.Hin2nMenuDialog;
+import com.tungsten.hmclpe.launcher.dialogs.hin2n.JoinCommunityDialog;
 import com.tungsten.hmclpe.launcher.list.local.controller.ChildLayout;
 import com.tungsten.hmclpe.launcher.list.local.controller.ControlPattern;
 import com.tungsten.hmclpe.manifest.AppManifest;
@@ -362,10 +363,18 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         if (requestCode == Hin2nService.VPN_REQUEST_CODE_JOIN && resultCode == RESULT_OK) {
             Intent intent = new Intent(context, Hin2nService.class);
             Bundle bundle = new Bundle();
-            N2NSettingInfo n2NSettingInfo = new N2NSettingInfo(Hin2nService.getPlayerModel());
-            bundle.putParcelable("n2nSettingInfo", n2NSettingInfo);
-            intent.putExtra("Setting", bundle);
-            activity.startService(intent);
+            new Thread(() -> {
+                N2NSettingInfo n2NSettingInfo = new N2NSettingInfo(Hin2nService.getPlayerModel());
+                activity.runOnUiThread(() -> {
+                    bundle.putParcelable("n2nSettingInfo", n2NSettingInfo);
+                    intent.putExtra("Setting", bundle);
+                    activity.startService(intent);
+                    JoinCommunityDialog.getInstance().progressBar.setVisibility(View.GONE);
+                    JoinCommunityDialog.getInstance().positive.setVisibility(View.VISIBLE);
+                    JoinCommunityDialog.getInstance().negative.setEnabled(true);
+                    JoinCommunityDialog.getInstance().dismiss();
+                });
+            }).start();
         }
     }
 

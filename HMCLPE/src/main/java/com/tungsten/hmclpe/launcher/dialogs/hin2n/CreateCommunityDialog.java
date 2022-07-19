@@ -24,6 +24,8 @@ import wang.switchy.hin2n.model.EdgeStatus;
 
 public class CreateCommunityDialog extends Dialog implements View.OnClickListener {
 
+    public static CreateCommunityDialog INSTANCE;
+
     private final MenuHelper menuHelper;
     private ProgressBar progressBar;
 
@@ -37,10 +39,15 @@ public class CreateCommunityDialog extends Dialog implements View.OnClickListene
 
     public CreateCommunityDialog(@NonNull Context context, MenuHelper menuHelper) {
         super(context);
+        INSTANCE = this;
         this.menuHelper = menuHelper;
         setContentView(R.layout.dialog_create_community);
         setCancelable(false);
         init();
+    }
+
+    public static CreateCommunityDialog getInstance() {
+        return INSTANCE;
     }
 
     @SuppressLint("SetTextI18n")

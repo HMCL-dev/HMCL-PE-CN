@@ -31,7 +31,7 @@
     <string name="loading_hint_java_17">正在檢查 Java 17…</string>
     <string name="dialog_add_verify_server_name">服務器名稱</string>
     <string name="dialog_add_verify_server_nide_name">服務器名稱</string>
-    <string name="dialog_verify_msg">您的設備碼為：\\n%s\\n請填寫與此設備碼匹配的授權驗證碼。</string>
+    <string name="dialog_verify_msg">您的設備碼為：\n%s\n請填寫與此設備碼匹配的授權驗證碼。</string>
     <string name="loading_hint_java_17_select">請選擇…</string>
     <string name="loading_hint_java_17_check">正在檢查文件…</string>
     <string name="loading_hint_java_17_error">請選擇官方提供的 Java 17 文件，如果你沒有此文件，請加入官方群獲取</string>
@@ -89,7 +89,7 @@
     <string name="dialog_add_offline_account_purchase"><a href="https://www.minecraft.net/zh-hans/store/minecraft-java-edition">購買 Minecraft</a></string>
     <string name="dialog_add_offline_account_advance">高級設置</string>
     <string name="dialog_add_offline_account_hint">警告</string>
-    <string name="dialog_add_offline_account_hint_text">UUID 是 Minecraft 對玩家角色的唯一標識符，每個啟動器生成 UUID 的方式可能不同。通過修改 UUID 選項至原啟動器所生成的 UUID，你可以保證在切換啟動器後，遊戲還能將你的遊戲角色識別為給定 UUID 所對應的角色，從而保留原來角色的背包物品。 \\n\\nUUID 選項為高級選項，除非你知道你在做什麼，否則你不需要調整該選項。</string>
+    <string name="dialog_add_offline_account_hint_text">UUID 是 Minecraft 對玩家角色的唯一標識符，每個啟動器生成 UUID 的方式可能不同。通過修改 UUID 選項至原啟動器所生成的 UUID，你可以保證在切換啟動器後，遊戲還能將你的遊戲角色識別為給定 UUID 所對應的角色，從而保留原來角色的背包物品。 \n\nUUID 選項為高級選項，除非你知道你在做什麼，否則你不需要調整該選項。</string>
     <string name="dialog_add_offline_account_login">登錄</string>
     <string name="dialog_add_offline_account_cancel">取消</string>
     <string name="dialog_add_offline_account_empty_warn">用戶名不得為空</string>
