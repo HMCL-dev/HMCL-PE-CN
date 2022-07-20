@@ -792,7 +792,7 @@
     <string name="dialog_create_control_pattern_author">作者（选填）</string>
     <string name="dialog_create_control_pattern_version">版本（选填）</string>
     <string name="dialog_create_control_pattern_describe">描述（选填）</string>
-    <string name="dialog_create_control_pattern_warn">布局方案名称不得为空！</string>
+    <string name="dialog_create_control_pattern_warn">布局方案名称不合法！</string>
     <string name="dialog_create_control_pattern_warn_exist">布局方案名称重复</string>
     <string name="dialog_create_control_pattern_positive">创建</string>
     <string name="dialog_create_control_pattern_positive_sec">保存</string>

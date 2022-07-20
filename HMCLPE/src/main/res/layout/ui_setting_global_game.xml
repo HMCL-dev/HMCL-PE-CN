@@ -149,6 +149,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
@@ -191,6 +192,7 @@
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:singleLine="true"
                             android:tag="tint_accent_color"
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
@@ -210,6 +212,7 @@
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:singleLine="true"
                             android:tag="tint_accent_color"
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
@@ -243,6 +246,7 @@
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:singleLine="true"
                             android:tag="tint_accent_color"
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
@@ -297,6 +301,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
@@ -339,6 +344,7 @@
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:singleLine="true"
                             android:tag="tint_accent_color"
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
@@ -358,6 +364,7 @@
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:singleLine="true"
                             android:tag="tint_accent_color"
                             android:layout_gravity="center"
                             android:layout_width="wrap_content"
@@ -376,6 +383,7 @@
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:singleLine="true"
                             android:tag="tint_accent_color"
                             android:layout_gravity="center"
                             android:layout_marginStart="12dp"
@@ -423,6 +431,7 @@
                     android:background="@color/colorDarkGray"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/game_setting_ui_game_ram"
@@ -432,6 +441,7 @@
                     android:layout_marginStart="15dp"/>
 
                 <CheckBox
+                    android:singleLine="true"
                     android:tag="tint_accent_color"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -452,6 +462,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -481,6 +492,7 @@
                         android:id="@+id/edit_ram"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
                         android:layout_marginStart="10dp"
                         android:layout_width="wrap_content"
@@ -510,6 +522,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/used_ram_text"
@@ -522,6 +535,7 @@
                         android:layout_weight="1"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/actual_ram_text"
@@ -546,6 +560,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -574,6 +589,7 @@
                         android:id="@+id/edit_scale_factor_text"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_marginStart="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -599,6 +615,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -635,6 +652,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -643,6 +661,7 @@
                         android:textColor="@color/colorPureBlack"/>
 
                     <EditText
+                        android:singleLine="true"
                         android:layout_marginStart="20dp"
                         android:layout_weight="1"
                         android:layout_width="0dp"
@@ -659,6 +678,7 @@
             </LinearLayout>
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginTop="25dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -668,6 +688,7 @@
                 android:textSize="@dimen/text_size_middle"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginTop="25dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -703,6 +724,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
@@ -710,6 +732,7 @@
                             android:text="@string/game_setting_ui_control_layout" />
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
@@ -718,8 +741,13 @@
                     </LinearLayout>
 
                     <Button
+                        android:minWidth="0dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:singleLine="true"
+                        android:textAllCaps="false"
                         android:tag="text_primary_color"
-                        android:layout_width="50dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
                         android:gravity="center"
@@ -746,6 +774,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -770,6 +799,7 @@
             </LinearLayout>
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -806,6 +836,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
@@ -813,6 +844,7 @@
                             android:text="@string/game_setting_ui_game_launcher" />
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/game_setting_ui_game_launcher_pojav"
@@ -840,6 +872,7 @@
                     android:orientation="vertical">
 
                     <RadioButton
+                        android:singleLine="true"
                         android:tag="tint_accent_color"
                         android:layout_marginTop="3dp"
                         android:layout_marginStart="12dp"
@@ -851,6 +884,7 @@
                         android:id="@+id/launch_by_boat"/>
 
                     <RadioButton
+                        android:singleLine="true"
                         android:tag="tint_accent_color"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
@@ -897,6 +931,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
@@ -904,6 +939,7 @@
                             android:text="@string/game_setting_ui_boat_renderer" />
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
@@ -930,6 +966,7 @@
                     android:orientation="vertical">
 
                     <RadioButton
+                        android:singleLine="true"
                         android:tag="tint_accent_color"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
@@ -940,6 +977,7 @@
                         android:id="@+id/boat_renderer_gl4es_114"/>
 
                     <RadioButton
+                        android:singleLine="true"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -977,6 +1015,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="@dimen/text_size_middle"
@@ -984,6 +1023,7 @@
                             android:text="@string/game_setting_ui_pojav_renderer" />
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/game_setting_ui_pojav_renderer_gl4es_114"
@@ -1011,6 +1051,7 @@
                     android:orientation="vertical">
 
                     <RadioButton
+                        android:singleLine="true"
                         android:tag="tint_accent_color"
                         android:layout_marginTop="3dp"
                         android:layout_marginStart="12dp"
@@ -1022,6 +1063,7 @@
                         android:id="@+id/pojav_renderer_gl4es_114"/>
 
                     <RadioButton
+                        android:singleLine="true"
                         android:tag="tint_accent_color"
                         android:layout_marginStart="12dp"
                         android:layout_width="wrap_content"
@@ -1036,6 +1078,7 @@
             </LinearLayout>
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -1060,6 +1103,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -1068,6 +1112,7 @@
                         android:textColor="@color/colorPureBlack"/>
 
                     <EditText
+                        android:singleLine="true"
                         android:layout_marginStart="20dp"
                         android:layout_weight="1"
                         android:layout_width="0dp"
@@ -1084,6 +1129,7 @@
             </LinearLayout>
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginTop="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -1148,6 +1194,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -1184,6 +1231,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -1220,6 +1268,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

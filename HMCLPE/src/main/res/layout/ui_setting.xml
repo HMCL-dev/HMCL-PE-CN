@@ -47,6 +47,7 @@
             </LinearLayout>
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -151,6 +152,7 @@
             </LinearLayout>
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

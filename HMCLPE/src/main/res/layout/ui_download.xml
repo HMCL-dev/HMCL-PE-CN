@@ -17,7 +17,8 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_marginLeft="15dp"
+                android:singleLine="true"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
@@ -51,6 +52,7 @@
                     android:background="@drawable/ic_baseline_game_pad_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
@@ -79,8 +81,9 @@
                     android:background="@drawable/ic_baseline_pack_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="19dp"
+                    android:layout_marginStart="19dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/download_ui_package"
@@ -90,6 +93,7 @@
             </LinearLayout>
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -124,6 +128,7 @@
                     android:background="@drawable/ic_outline_extension_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="18dp"
                     android:layout_width="wrap_content"
@@ -154,6 +159,7 @@
                     android:background="@drawable/ic_baseline_texture_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="20dp"
                     android:layout_width="wrap_content"
@@ -182,6 +188,7 @@
                     android:layout_height="22dp" />
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="19dp"
                     android:layout_width="wrap_content"

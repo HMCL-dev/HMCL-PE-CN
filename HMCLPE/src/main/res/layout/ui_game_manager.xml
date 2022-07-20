@@ -24,15 +24,16 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_gravity="center"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/ic_outline_settings_black"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/game_manager_ui_game_setting"
@@ -52,15 +53,16 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_gravity="center"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/ic_outline_extension_black"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/game_manager_ui_mod_manage"
@@ -80,15 +82,16 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_gravity="center"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/ic_baseline_cube_black"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/game_manager_ui_auto_install"
@@ -108,15 +111,16 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_gravity="center"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/ic_baseline_earth_black"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/game_manager_ui_world"
@@ -143,15 +147,16 @@
             <ImageView
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_gravity="center"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/ic_baseline_launch_black"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/game_manager_ui_test_game"
@@ -171,15 +176,16 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_gravity="center"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/ic_outline_folder_open_black"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/game_manager_ui_browse"
@@ -200,15 +206,16 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_gravity="center"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/ic_outline_build_black"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/game_manager_ui_manage"

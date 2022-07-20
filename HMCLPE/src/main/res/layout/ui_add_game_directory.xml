@@ -20,6 +20,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -37,7 +38,8 @@
                 android:layout_width="300dp"
                 android:layout_height="38dp"
                 android:background="@color/colorLightGray"
-                android:paddingLeft="9dp"
+                android:paddingStart="9dp"
+                android:paddingEnd="9dp"
                 android:id="@+id/edit_content_name"
                 android:layout_gravity="center"
                 android:singleLine="true"/>
@@ -107,8 +109,10 @@
         android:layout_weight="1"/>
 
     <Button
+        android:singleLine="true"
+        android:textAllCaps="false"
         android:tag="tint_accent_color"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/launcher_button_blue"

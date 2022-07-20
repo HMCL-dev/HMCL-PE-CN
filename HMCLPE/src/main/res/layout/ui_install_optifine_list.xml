@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:text="@string/download_minecraft_ui_hint"
                 android:textSize="@dimen/text_size_middle"
                 android:textColor="@color/colorLinkBlueDark"/>
@@ -81,12 +81,14 @@
             android:background="@drawable/launcher_view_white">
 
             <LinearLayout
-                android:paddingLeft="15dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <CheckBox
+                    android:singleLine="true"
                     android:tag="tint_accent_color"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
@@ -97,6 +99,7 @@
                     android:id="@+id/optifine_checkbox_release"/>
 
                 <CheckBox
+                    android:singleLine="true"
                     android:tag="tint_accent_color"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
@@ -107,6 +110,7 @@
                     android:id="@+id/optifine_checkbox_snapshot"/>
 
                 <CheckBox
+                    android:singleLine="true"
                     android:tag="tint_accent_color"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
@@ -140,6 +144,7 @@
                         android:background="@drawable/ic_baseline_refresh_black"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_marginStart="2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"

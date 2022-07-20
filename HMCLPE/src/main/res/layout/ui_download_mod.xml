@@ -32,8 +32,9 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
-                        android:layout_width="wrap_content"
+                        android:layout_width="65dp"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"
@@ -43,7 +44,6 @@
                         android:layout_gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="36dp"
-                        android:layout_marginStart="12dp"
                         android:background="@drawable/launcher_view_white">
 
                         <Spinner
@@ -63,18 +63,19 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
-                        android:layout_width="wrap_content"
+                        android:layout_width="65dp"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"
                         android:text="@string/download_mod_ui_name"/>
 
                     <EditText
+                        android:singleLine="true"
                         android:layout_gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="36dp"
-                        android:layout_marginStart="12dp"
                         android:paddingStart="9dp"
                         android:paddingEnd="9dp"
                         android:textSize="@dimen/text_size_middle"
@@ -92,8 +93,9 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
-                        android:layout_width="wrap_content"
+                        android:layout_width="65dp"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"
@@ -103,7 +105,6 @@
                         android:layout_gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="36dp"
-                        android:layout_marginStart="12dp"
                         android:background="@drawable/launcher_view_white">
 
                         <Spinner
@@ -129,15 +130,15 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
-                        android:layout_width="52dp"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"
                         android:text="@string/download_mod_ui_source"/>
 
                     <RelativeLayout
-                        android:layout_marginStart="12dp"
                         android:layout_gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="36dp"
@@ -159,15 +160,15 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
-                        android:layout_width="52dp"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"
                         android:text="@string/download_mod_ui_version"/>
 
                     <RelativeLayout
-                        android:layout_marginStart="12dp"
                         android:layout_gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="36dp"
@@ -180,6 +181,7 @@
                             android:id="@+id/download_mod_arg_version"/>
 
                         <EditText
+                            android:singleLine="true"
                             android:background="@drawable/launcher_view_white"
                             android:layout_width="120dp"
                             android:layout_height="match_parent"
@@ -199,15 +201,15 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
-                        android:layout_width="52dp"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"
                         android:text="@string/download_mod_ui_sort"/>
 
                     <RelativeLayout
-                        android:layout_marginStart="12dp"
                         android:layout_gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="36dp"
@@ -238,8 +240,13 @@
                 android:layout_weight="1"/>
 
             <Button
+                android:minWidth="0dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:singleLine="true"
+                android:textAllCaps="false"
                 android:tag="tint_accent_color"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:background="@drawable/launcher_button_blue"
                 android:text="@string/download_mod_ui_search"

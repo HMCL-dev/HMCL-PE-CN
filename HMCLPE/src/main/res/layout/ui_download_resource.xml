@@ -36,6 +36,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
@@ -82,6 +83,7 @@
                 android:background="@drawable/ic_baseline_jump_black"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -110,6 +112,7 @@
                 android:background="@drawable/ic_baseline_jump_black"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -138,6 +141,7 @@
                 android:background="@drawable/ic_baseline_jump_black"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -166,6 +170,7 @@
                 android:background="@drawable/ic_baseline_jump_black"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -207,6 +212,7 @@
                     android:visibility="gone">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/download_resource_mod_dependency"

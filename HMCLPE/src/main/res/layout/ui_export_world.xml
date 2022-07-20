@@ -20,6 +20,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_middle"
@@ -100,6 +101,7 @@
                         android:text="@string/export_world_ui_world_name"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -134,6 +136,7 @@
                         android:text="@string/export_world_ui_game_version"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -147,6 +150,8 @@
             </LinearLayout>
 
             <Button
+                android:singleLine="true"
+                android:textAllCaps="false"
                 android:tag="tint_accent_color"
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"

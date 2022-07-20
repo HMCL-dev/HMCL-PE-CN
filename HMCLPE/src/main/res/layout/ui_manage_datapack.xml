@@ -31,6 +31,7 @@
                 android:background="@drawable/ic_baseline_refresh_white"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginStart="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,6 +60,7 @@
                 android:background="@drawable/ic_baseline_add_white"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginStart="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -87,6 +89,7 @@
                 android:background="@drawable/ic_baseline_delete_white"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginStart="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -115,6 +118,7 @@
                 android:background="@drawable/ic_baseline_done_white"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginStart="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -143,6 +147,7 @@
                 android:background="@drawable/ic_baseline_close_white"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginStart="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

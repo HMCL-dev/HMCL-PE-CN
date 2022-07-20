@@ -31,6 +31,7 @@
                 android:layout_gravity="center"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="5dp"
                 android:layout_gravity="center"
@@ -73,6 +74,7 @@
                         android:scaleType="centerInside" />
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_marginStart="12dp"
                         android:layout_gravity="center"
                         android:layout_width="100dp"
@@ -82,6 +84,7 @@
                         android:textColor="@color/colorPureBlack"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:id="@+id/current_minecraft_version_text"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
@@ -127,6 +130,7 @@
                         android:scaleType="centerInside" />
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_marginStart="12dp"
                         android:layout_gravity="center"
                         android:layout_width="100dp"
@@ -136,6 +140,7 @@
                         android:textColor="@color/colorPureBlack"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:id="@+id/current_forge_version_text"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
@@ -190,6 +195,7 @@
                         android:scaleType="centerInside" />
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_marginStart="12dp"
                         android:layout_gravity="center"
                         android:layout_width="100dp"
@@ -199,6 +205,7 @@
                         android:textColor="@color/colorPureBlack"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:id="@+id/current_liteloader_version_text"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
@@ -253,6 +260,7 @@
                         android:scaleType="centerInside" />
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_marginStart="12dp"
                         android:layout_gravity="center"
                         android:layout_width="100dp"
@@ -262,6 +270,7 @@
                         android:textColor="@color/colorPureBlack"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:id="@+id/current_optifine_version_text"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
@@ -316,6 +325,7 @@
                         android:scaleType="centerInside" />
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_marginStart="12dp"
                         android:layout_gravity="center"
                         android:layout_width="100dp"
@@ -325,6 +335,7 @@
                         android:textColor="@color/colorPureBlack"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:id="@+id/current_fabric_version_text"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
@@ -379,6 +390,7 @@
                         android:scaleType="centerInside" />
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_marginStart="12dp"
                         android:layout_gravity="center"
                         android:layout_width="100dp"
@@ -388,6 +400,7 @@
                         android:textColor="@color/colorPureBlack"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:id="@+id/current_fabric_api_version_text"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"

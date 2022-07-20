@@ -724,8 +724,8 @@
     <string name="dialog_manage_controller_create">Create new layout pattern</string>
     <string name="dialog_manage_controller_exit">OK</string>
     <string name="export_control_pattern_title">Export layout pattern</string>
-    <string name="dialog_manage_controller_export_dialog">Exporting...</string>
-    <string name="dialog_manage_controller_import_dialog">Importing...</string>
+    <string name="dialog_manage_controller_export_dialog">Exporting…</string>
+    <string name="dialog_manage_controller_import_dialog">Importing…</string>
     <string name="dialog_manage_controller_import_exist">Your imported layout pattern already exists!</string>
     <string name="dialog_manage_controller_import_error">Import failed, please check if the file is a HMCL-PE layout file</string>
     <string name="dialog_manage_controller_import_warn">The current version of the launcher does not support the layout pattern you imported. If you force the import, it may crash. Do you want to continue?</string>
@@ -735,7 +735,7 @@
     <string name="dialog_create_control_pattern_author">Author (Optional)</string>
     <string name="dialog_create_control_pattern_version">Version (Optional)</string>
     <string name="dialog_create_control_pattern_describe">Description (Optional)</string>
-    <string name="dialog_create_control_pattern_warn">Pattern name can not be empty</string>
+    <string name="dialog_create_control_pattern_warn">Illegal pattern name</string>
     <string name="dialog_create_control_pattern_warn_exist">The name already exists</string>
     <string name="dialog_create_control_pattern_positive">Create</string>
     <string name="dialog_create_control_pattern_positive_sec">Save</string>

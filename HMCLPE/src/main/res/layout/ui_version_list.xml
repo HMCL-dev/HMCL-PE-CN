@@ -38,15 +38,16 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:layout_gravity="center"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:background="@drawable/ic_outline_add_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/version_list_ui_add_dir"
@@ -68,15 +69,16 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_gravity="center"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/ic_outline_add_black"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/version_list_ui_download_new_version"
@@ -98,15 +100,16 @@
             <ImageView
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="1dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_gravity="center"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/ic_baseline_pack_black"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/version_list_ui_install_package"
@@ -126,15 +129,16 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_gravity="center"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/ic_baseline_refresh_black"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/version_list_ui_refresh"
@@ -155,15 +159,16 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_gravity="center"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/ic_outline_settings_black"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/version_list_ui_global_setting"

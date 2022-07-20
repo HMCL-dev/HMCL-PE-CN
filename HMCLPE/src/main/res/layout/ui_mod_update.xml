@@ -20,6 +20,7 @@
             android:layout_marginStart="50dp"/>
 
         <TextView
+            android:singleLine="true"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="@string/mod_update_ui_file"
@@ -35,6 +36,7 @@
             android:background="@color/colorDarkGray" />
 
         <TextView
+            android:singleLine="true"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="@string/mod_update_ui_current"
@@ -50,6 +52,7 @@
             android:background="@color/colorDarkGray" />
 
         <TextView
+            android:singleLine="true"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="@string/mod_update_ui_target"
@@ -65,6 +68,7 @@
             android:background="@color/colorDarkGray" />
 
         <TextView
+            android:singleLine="true"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:text="@string/mod_update_ui_source"
@@ -89,6 +93,7 @@
             android:dividerHeight="0dp"/>
         
         <TextView
+            android:singleLine="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/mod_update_ui_no_update"
@@ -111,6 +116,8 @@
             android:layout_weight="1"/>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:minWidth="0dp"
             android:minHeight="0dp"
             android:paddingStart="12dp"
@@ -128,6 +135,8 @@
             android:id="@+id/update_mods"/>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:minWidth="0dp"
             android:minHeight="0dp"
             android:paddingStart="12dp"

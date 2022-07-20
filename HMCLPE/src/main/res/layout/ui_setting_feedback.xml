@@ -15,6 +15,7 @@
         android:background="@drawable/launcher_view_light_gray">
 
         <TextView
+            android:singleLine="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -45,6 +46,7 @@
         android:background="@drawable/launcher_view_light_gray">
 
         <TextView
+            android:singleLine="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

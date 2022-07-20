@@ -18,6 +18,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,6 +40,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/exterior_setting_ui_theme"
@@ -69,6 +71,7 @@
                             android:id="@+id/theme_color_view"/>
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="match_parent"
                             android:layout_height="16dp"
                             android:id="@+id/theme_color_text"
@@ -92,6 +95,7 @@
                     android:padding="15dp">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/exterior_setting_ui_bar_trans"
@@ -132,6 +136,7 @@
                         android:padding="15dp">
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/exterior_setting_ui_full_screen"
@@ -168,8 +173,8 @@
 
             <LinearLayout
                 android:layout_marginTop="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="15dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="15dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:layout_width="match_parent"
@@ -178,6 +183,7 @@
                 android:background="@drawable/launcher_view_light_gray">
 
                 <RadioButton
+                    android:singleLine="true"
                     android:tag="tint_accent_color"
                     android:layout_margin="5dp"
                     android:layout_width="wrap_content"
@@ -188,6 +194,7 @@
                     android:id="@+id/select_bg_default"/>
 
                 <RadioButton
+                    android:singleLine="true"
                     android:tag="tint_accent_color"
                     android:layout_margin="5dp"
                     android:layout_width="wrap_content"
@@ -204,6 +211,7 @@
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:singleLine="true"
                         android:tag="tint_accent_color"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
@@ -225,7 +233,8 @@
                         android:layout_height="32dp"
                         android:id="@+id/edit_bg_path"
                         android:background="@color/colorLightGray"
-                        android:paddingLeft="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
                         android:textSize="@dimen/text_size_middle"/>
 
                     <ImageButton
@@ -245,6 +254,7 @@
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:singleLine="true"
                         android:tag="tint_accent_color"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
@@ -266,7 +276,8 @@
                         android:layout_height="32dp"
                         android:id="@+id/edit_bg_url"
                         android:background="@color/colorLightGray"
-                        android:paddingLeft="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
                         android:textSize="@dimen/text_size_middle"/>
 
                 </LinearLayout>

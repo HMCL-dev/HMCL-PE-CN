@@ -31,6 +31,7 @@
                 android:orientation="horizontal">
 
                 <CheckBox
+                    android:singleLine="true"
                     android:layout_marginStart="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -63,6 +64,7 @@
                         android:background="@drawable/ic_baseline_refresh_black"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_marginStart="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -94,6 +96,7 @@
                         android:background="@drawable/ic_baseline_add_black"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_marginStart="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -125,6 +128,7 @@
                         android:background="@drawable/ic_baseline_add_black"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_marginStart="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -17,6 +17,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,6 +33,7 @@
                 android:background="@drawable/launcher_view_light_gray">
 
                 <CheckBox
+                    android:singleLine="true"
                     android:tag="tint_accent_color"
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="20dp"
@@ -53,6 +55,7 @@
                     android:layout_marginTop="10dp">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -92,6 +95,7 @@
                     android:layout_marginBottom="20dp">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -123,6 +127,7 @@
             </LinearLayout>
 
             <TextView
+                android:singleLine="true"
                 android:layout_marginTop="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -139,6 +144,7 @@
                 android:background="@drawable/launcher_view_light_gray">
 
                 <CheckBox
+                    android:singleLine="true"
                     android:tag="tint_accent_color"
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="20dp"
@@ -160,6 +166,7 @@
                     android:layout_marginTop="10dp">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -179,6 +186,7 @@
                         android:layout_weight="1"/>
 
                     <EditText
+                        android:singleLine="true"
                         android:padding="8dp"
                         android:background="@drawable/launcher_view_gray"
                         android:layout_width="60dp"
@@ -216,7 +224,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
                             android:text="@string/download_setting_ui_download_alert"
                             android:textSize="@dimen/text_size_middle"
                             android:textColor="@color/colorLinkBlueDark"/>

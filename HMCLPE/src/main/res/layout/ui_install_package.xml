@@ -19,6 +19,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_middle"
@@ -320,6 +321,7 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:textAllCaps="false"
                     android:singleLine="true"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
@@ -342,6 +344,7 @@
                     android:layout_weight="1"/>
 
                 <Button
+                    android:textAllCaps="false"
                     android:singleLine="true"
                     android:layout_gravity="center"
                     android:tag="tint_accent_color"
