@@ -95,6 +95,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:singleLine="true"
+        android:textAllCaps="false"
         android:visibility="gone"
         android:id="@+id/install_by_download"
         android:layout_width="0dp"
@@ -117,6 +119,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:singleLine="true"
+        android:textAllCaps="false"
         android:visibility="gone"
         android:id="@+id/install_by_local"
         android:layout_width="0dp"

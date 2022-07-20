@@ -78,7 +78,8 @@
 
                     <EditText
                         android:textSize="@dimen/text_size_middle"
-                        android:paddingLeft="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
                         android:background="@color/colorLightGray"
                         android:singleLine="true"
                         android:layout_width="390dp"
@@ -95,20 +96,21 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_marginLeft="7dp"
+                        android:layout_marginStart="7dp"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
                         android:background="@drawable/ic_baseline_jump_black"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:textColorLink="@color/colorLinkBlue"
                         android:id="@+id/purchase_link"
                         android:text="@string/dialog_add_offline_account_purchase"
-                        android:layout_marginLeft="7dp"
+                        android:layout_marginStart="7dp"
                         android:textSize="@dimen/text_size_middle"/>
 
                 </LinearLayout>
@@ -124,7 +126,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:text="@string/dialog_add_offline_account_advance"
                         android:textColor="@color/colorPureBlack"
                         android:textSize="15sp"
@@ -137,7 +139,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
                         android:background="@drawable/ic_baseline_arrow_drop_down_black"/>
 
                 </LinearLayout>
@@ -202,7 +204,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
                             android:text="@string/dialog_add_offline_account_hint"
                             android:textSize="@dimen/text_size_middle"
                             android:textColor="@color/colorBrown"/>
@@ -251,7 +253,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
                             android:text="@string/dialog_add_microsoft_account_hint"
                             android:textSize="@dimen/text_size_middle"
                             android:textColor="@color/colorLinkBlueDark"/>
@@ -275,54 +277,60 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_marginLeft="7dp"
+                        android:layout_marginStart="7dp"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
                         android:background="@drawable/ic_baseline_jump_black"/>
 
                     <TextView
+                        android:layout_weight="1"
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:textColorLink="@color/colorLinkBlue"
                         android:id="@+id/setting_link"
                         android:text="@string/dialog_add_microsoft_account_setting"
-                        android:layout_marginLeft="7dp"
+                        android:layout_marginStart="7dp"
                         android:textSize="@dimen/text_size_middle"/>
 
                     <ImageView
-                        android:layout_marginLeft="7dp"
+                        android:layout_marginStart="7dp"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
                         android:background="@drawable/ic_baseline_jump_black"/>
 
                     <TextView
+                        android:layout_weight="1"
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:textColorLink="@color/colorLinkBlue"
                         android:id="@+id/help_link"
                         android:text="@string/dialog_add_microsoft_account_help"
-                        android:layout_marginLeft="7dp"
+                        android:layout_marginStart="7dp"
                         android:textSize="@dimen/text_size_middle"/>
 
                     <ImageView
-                        android:layout_marginLeft="7dp"
+                        android:layout_marginStart="7dp"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
                         android:background="@drawable/ic_baseline_jump_black"/>
 
                     <TextView
+                        android:layout_weight="1"
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:textColorLink="@color/colorLinkBlue"
                         android:id="@+id/m_purchase_link"
                         android:text="@string/dialog_add_microsoft_account_purchase"
-                        android:layout_marginLeft="7dp"
+                        android:layout_marginStart="7dp"
                         android:textSize="@dimen/text_size_middle"/>
 
                 </LinearLayout>
@@ -343,17 +351,14 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:singleLine="true"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="@string/dialog_add_authlib_injector_account_server"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"/>
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
 
                     <LinearLayout
                         android:layout_gravity="center"
@@ -380,6 +385,7 @@
                         </RelativeLayout>
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_marginStart="10dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -410,21 +416,19 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:singleLine="true"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="@string/dialog_add_authlib_injector_account_email"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"/>
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
                     <EditText
                         android:textSize="@dimen/text_size_middle"
-                        android:paddingLeft="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
                         android:background="@color/colorLightGray"
                         android:singleLine="true"
                         android:layout_width="360dp"
@@ -441,21 +445,19 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:singleLine="true"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="@string/dialog_add_authlib_injector_account_password"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorPureBlack"/>
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-
                     <EditText
                         android:textSize="@dimen/text_size_middle"
-                        android:paddingLeft="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
                         android:inputType="textPassword"
                         android:background="@color/colorLightGray"
                         android:singleLine="true"

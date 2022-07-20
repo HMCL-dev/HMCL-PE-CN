@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:singleLine="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/account_server_type"
@@ -22,6 +23,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:singleLine="true"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:layout_width="0dp"
@@ -48,6 +50,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:singleLine="true"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:layout_width="0dp"

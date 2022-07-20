@@ -22,17 +22,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:singleLine="true"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/dialog_add_authlib_injector_account_server"
             android:textSize="@dimen/text_size_middle"
             android:textColor="@color/colorPureBlack"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
 
         <LinearLayout
             android:layout_gravity="center"
@@ -52,9 +49,9 @@
                     android:background="@color/colorLightGray"/>
 
                 <Spinner
+                    android:id="@+id/edit_server"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/edit_server" />
+                    android:layout_height="match_parent" />
 
             </RelativeLayout>
 
@@ -89,21 +86,19 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:singleLine="true"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/dialog_add_authlib_injector_account_email"
             android:textSize="@dimen/text_size_middle"
             android:textColor="@color/colorPureBlack"/>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
         <EditText
             android:textSize="@dimen/text_size_middle"
-            android:paddingLeft="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:background="@color/colorLightGray"
             android:singleLine="true"
             android:layout_width="360dp"
@@ -120,21 +115,19 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:singleLine="true"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/dialog_add_authlib_injector_account_password"
             android:textSize="@dimen/text_size_middle"
             android:textColor="@color/colorPureBlack"/>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
         <EditText
             android:textSize="@dimen/text_size_middle"
-            android:paddingLeft="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:inputType="textPassword"
             android:background="@color/colorLightGray"
             android:singleLine="true"
@@ -168,6 +161,8 @@
                 android:id="@+id/login_progress"/>
 
             <Button
+                android:singleLine="true"
+                android:textAllCaps="false"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -180,6 +175,8 @@
         </RelativeLayout>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:gravity="center"

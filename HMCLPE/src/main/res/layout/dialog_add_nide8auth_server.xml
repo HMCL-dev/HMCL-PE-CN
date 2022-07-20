@@ -9,6 +9,7 @@
     android:layout_height="wrap_content">
 
     <TextView
+        android:singleLine="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorPureBlack"
@@ -49,6 +50,8 @@
                     android:layout_weight="1"/>
 
                 <Button
+                    android:singleLine="true"
+                    android:textAllCaps="false"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:gravity="center"
@@ -70,6 +73,8 @@
                         android:id="@+id/verify_progress"/>
 
                     <Button
+                        android:singleLine="true"
+                        android:textAllCaps="false"
                         android:id="@+id/next"
                         android:layout_width="80dp"
                         android:layout_height="40dp"
@@ -99,7 +104,9 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_verify_server_nide_url"
                     android:textSize="@dimen/text_size_middle"
@@ -109,7 +116,7 @@
                     android:singleLine="true"
                     android:id="@+id/server_url"
                     android:layout_marginStart="15dp"
-                    android:layout_width="match_parent"
+                    android:layout_width="350dp"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_middle"
                     android:textColor="@color/colorPureBlack"/>
@@ -123,7 +130,9 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_verify_server_nide_name"
                     android:textSize="@dimen/text_size_middle"
@@ -133,7 +142,7 @@
                     android:singleLine="true"
                     android:id="@+id/server_name"
                     android:layout_marginStart="15dp"
-                    android:layout_width="match_parent"
+                    android:layout_width="350dp"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/text_size_middle"
                     android:textColor="@color/colorPureBlack"/>
@@ -152,6 +161,8 @@
                     android:layout_weight="1"/>
 
                 <Button
+                    android:singleLine="true"
+                    android:textAllCaps="false"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:gravity="center"
@@ -162,6 +173,8 @@
                     android:id="@+id/back"/>
 
                 <Button
+                    android:singleLine="true"
+                    android:textAllCaps="false"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:gravity="center"
@@ -172,6 +185,8 @@
                     android:id="@+id/cancel_sec"/>
 
                 <Button
+                    android:singleLine="true"
+                    android:textAllCaps="false"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:gravity="center"

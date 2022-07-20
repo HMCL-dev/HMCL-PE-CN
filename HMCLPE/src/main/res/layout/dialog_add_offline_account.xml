@@ -46,7 +46,8 @@
 
                 <EditText
                     android:textSize="@dimen/text_size_middle"
-                    android:paddingLeft="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:background="@color/colorLightGray"
                     android:singleLine="true"
                     android:layout_width="390dp"
@@ -63,20 +64,21 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_marginLeft="7dp"
+                    android:layout_marginStart="7dp"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center"
                     android:background="@drawable/ic_baseline_jump_black"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textColorLink="@color/colorLinkBlue"
                     android:id="@+id/purchase_link"
                     android:text="@string/dialog_add_offline_account_purchase"
-                    android:layout_marginLeft="7dp"
+                    android:layout_marginStart="7dp"
                     android:textSize="@dimen/text_size_middle"/>
 
             </LinearLayout>
@@ -92,7 +94,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
                     android:text="@string/dialog_add_offline_account_advance"
                     android:textColor="@color/colorPureBlack"
                     android:textSize="15sp"
@@ -105,7 +107,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
                     android:background="@drawable/ic_baseline_arrow_drop_down_black"/>
 
             </LinearLayout>
@@ -132,7 +134,8 @@
                     android:layout_weight="1"/>
 
                 <EditText
-                    android:paddingLeft="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:hint="fc5bc365-aedf-30a8-8b89-04e462e29bde"
                     android:textSize="@dimen/text_size_middle"
                     android:background="@color/colorLightGray"
@@ -169,7 +172,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:text="@string/dialog_add_offline_account_hint"
                         android:textSize="@dimen/text_size_middle"
                         android:textColor="@color/colorBrown"/>
@@ -202,6 +205,8 @@
             android:layout_weight="1"/>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:gravity="center"
@@ -212,6 +217,8 @@
             android:id="@+id/login_offline"/>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:gravity="center"

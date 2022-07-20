@@ -73,18 +73,19 @@
 
         <com.jaredrummler.android.colorpicker.ColorPickerView
             android:id="@+id/color_picker"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_width="245dp"
             android:layout_height="230dp"
             app:cpv_alphaChannelVisible="true"/>
 
         <LinearLayout
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_width="120dp"
             android:layout_height="230dp"
             android:orientation="vertical">
 
             <LinearLayout
+                android:layout_marginTop="6dp"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="30dp">
@@ -121,6 +122,8 @@
                 android:layout_weight="1"/>
 
             <Button
+                android:singleLine="true"
+                android:textAllCaps="false"
                 android:id="@+id/color_picker_positive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -129,6 +132,8 @@
                 android:textColor="@color/colorPureBlack"/>
 
             <Button
+                android:singleLine="true"
+                android:textAllCaps="false"
                 android:id="@+id/color_picker_negative"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

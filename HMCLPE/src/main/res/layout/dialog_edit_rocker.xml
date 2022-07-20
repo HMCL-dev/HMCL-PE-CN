@@ -24,6 +24,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_button_basic_setting"
@@ -41,6 +42,7 @@
                     android:layout_marginTop="15dp">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dialog_add_view_show"
@@ -68,6 +70,7 @@
                     android:layout_marginTop="15dp">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dialog_add_view_size_type"
@@ -95,6 +98,7 @@
                     android:layout_marginTop="15dp">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dialog_add_view_position_type"
@@ -123,6 +127,7 @@
                     android:layout_marginTop="15dp">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dialog_add_view_size_type_percent_object"
@@ -150,7 +155,9 @@
                     android:layout_marginTop="15dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:singleLine="true"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/dialog_add_view_size"
                         android:textSize="@dimen/text_size_middle"
@@ -158,11 +165,9 @@
                         android:layout_gravity="center"/>
 
                     <LinearLayout
-                        android:layout_marginStart="108dp"
                         android:layout_gravity="center"
-                        android:layout_width="0dp"
+                        android:layout_width="400dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:orientation="horizontal">
 
                         <ImageButton
@@ -205,7 +210,9 @@
                     android:layout_marginTop="15dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:singleLine="true"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/dialog_add_view_x"
                         android:textSize="@dimen/text_size_middle"
@@ -213,11 +220,9 @@
                         android:layout_gravity="center"/>
 
                     <LinearLayout
-                        android:layout_marginStart="98dp"
                         android:layout_gravity="center"
-                        android:layout_width="0dp"
+                        android:layout_width="400dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:orientation="horizontal">
 
                         <ImageButton
@@ -260,7 +265,9 @@
                     android:layout_marginTop="15dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:singleLine="true"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="@string/dialog_add_view_y"
                         android:textSize="@dimen/text_size_middle"
@@ -268,11 +275,9 @@
                         android:layout_gravity="center"/>
 
                     <LinearLayout
-                        android:layout_marginStart="98dp"
                         android:layout_gravity="center"
-                        android:layout_width="0dp"
+                        android:layout_width="400dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:orientation="horizontal">
 
                         <ImageButton
@@ -310,6 +315,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_marginTop="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -328,6 +334,7 @@
                     android:layout_marginTop="15dp">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dialog_add_view_rocker_function_follow"
@@ -355,6 +362,7 @@
                     android:layout_marginTop="15dp">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dialog_add_view_rocker_function_shift"
@@ -377,6 +385,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_marginTop="15dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -395,6 +404,7 @@
                     android:layout_marginTop="15dp">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dialog_add_view_button_exterior_use_exist"
@@ -429,6 +439,7 @@
                     android:layout_marginTop="15dp">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dialog_add_view_rocker_exterior_add_style"
@@ -442,6 +453,8 @@
                         android:layout_weight="1"/>
 
                     <Button
+                        android:singleLine="true"
+                        android:textAllCaps="false"
                         android:layout_width="45dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
@@ -466,7 +479,9 @@
                         android:layout_marginTop="15dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:singleLine="true"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="@string/dialog_add_view_rocker_exterior_setting_corner_radius"
                             android:textSize="@dimen/text_size_middle"
@@ -474,11 +489,9 @@
                             android:layout_gravity="center"/>
 
                         <LinearLayout
-                            android:layout_marginStart="82dp"
                             android:layout_gravity="center"
-                            android:layout_width="0dp"
+                            android:layout_width="400dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:orientation="horizontal">
 
                             <ImageButton
@@ -521,7 +534,9 @@
                         android:layout_marginTop="15dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:singleLine="true"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="@string/dialog_add_view_rocker_exterior_setting_stroke_width"
                             android:textSize="@dimen/text_size_middle"
@@ -529,11 +544,9 @@
                             android:layout_gravity="center"/>
 
                         <LinearLayout
-                            android:layout_marginStart="82dp"
                             android:layout_gravity="center"
-                            android:layout_width="0dp"
+                            android:layout_width="400dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:orientation="horizontal">
 
                             <ImageButton
@@ -576,7 +589,9 @@
                         android:layout_marginTop="15dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:singleLine="true"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="@string/dialog_add_view_rocker_exterior_setting_corner_radius_pressed"
                             android:textSize="@dimen/text_size_middle"
@@ -584,11 +599,9 @@
                             android:layout_gravity="center"/>
 
                         <LinearLayout
-                            android:layout_marginStart="30dp"
                             android:layout_gravity="center"
-                            android:layout_width="0dp"
+                            android:layout_width="400dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:orientation="horizontal">
 
                             <ImageButton
@@ -631,7 +644,9 @@
                         android:layout_marginTop="15dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:singleLine="true"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:text="@string/dialog_add_view_rocker_exterior_setting_stroke_width_pressed"
                             android:textSize="@dimen/text_size_middle"
@@ -639,11 +654,9 @@
                             android:layout_gravity="center"/>
 
                         <LinearLayout
-                            android:layout_marginStart="30dp"
                             android:layout_gravity="center"
-                            android:layout_width="0dp"
+                            android:layout_width="400dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:orientation="horizontal">
 
                             <ImageButton
@@ -686,6 +699,7 @@
                         android:layout_marginTop="15dp">
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/dialog_add_view_rocker_exterior_setting_pointer_color"
@@ -717,6 +731,8 @@
                             android:id="@+id/pointer_color_text"/>
 
                         <Button
+                            android:singleLine="true"
+                            android:textAllCaps="false"
                             android:layout_marginStart="30dp"
                             android:layout_width="45dp"
                             android:layout_height="30dp"
@@ -736,6 +752,7 @@
                         android:layout_marginTop="15dp">
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/dialog_add_view_rocker_exterior_setting_fill_color"
@@ -767,6 +784,8 @@
                             android:id="@+id/rocker_fill_color_text"/>
 
                         <Button
+                            android:singleLine="true"
+                            android:textAllCaps="false"
                             android:layout_marginStart="30dp"
                             android:layout_width="45dp"
                             android:layout_height="30dp"
@@ -786,6 +805,7 @@
                         android:layout_marginTop="15dp">
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/dialog_add_view_rocker_exterior_setting_stroke_color"
@@ -817,6 +837,8 @@
                             android:id="@+id/rocker_stroke_color_text"/>
 
                         <Button
+                            android:singleLine="true"
+                            android:textAllCaps="false"
                             android:layout_marginStart="30dp"
                             android:layout_width="45dp"
                             android:layout_height="30dp"
@@ -836,6 +858,7 @@
                         android:layout_marginTop="15dp">
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/dialog_add_view_rocker_exterior_setting_pointer_color_pressed"
@@ -867,6 +890,8 @@
                             android:id="@+id/pointer_pressed_color_text"/>
 
                         <Button
+                            android:singleLine="true"
+                            android:textAllCaps="false"
                             android:layout_marginStart="30dp"
                             android:layout_width="45dp"
                             android:layout_height="30dp"
@@ -886,6 +911,7 @@
                         android:layout_marginTop="15dp">
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/dialog_add_view_rocker_exterior_setting_fill_color_pressed"
@@ -917,6 +943,8 @@
                             android:id="@+id/rocker_fill_pressed_color_text"/>
 
                         <Button
+                            android:singleLine="true"
+                            android:textAllCaps="false"
                             android:layout_marginStart="30dp"
                             android:layout_width="45dp"
                             android:layout_height="30dp"
@@ -936,6 +964,7 @@
                         android:layout_marginTop="15dp">
 
                         <TextView
+                            android:singleLine="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/dialog_add_view_rocker_exterior_setting_stroke_color_pressed"
@@ -967,6 +996,8 @@
                             android:id="@+id/rocker_stroke_pressed_color_text"/>
 
                         <Button
+                            android:singleLine="true"
+                            android:textAllCaps="false"
                             android:layout_marginStart="30dp"
                             android:layout_width="45dp"
                             android:layout_height="30dp"
@@ -996,7 +1027,12 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="100dp"
+            android:minWidth="0dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:singleLine="true"
+            android:textAllCaps="false"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:gravity="center"
             android:text="@string/dialog_edit_view_copy"
@@ -1011,6 +1047,8 @@
             android:layout_weight="1"/>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:gravity="center"
@@ -1021,6 +1059,8 @@
             android:id="@+id/apply_rocker_change"/>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:gravity="center"

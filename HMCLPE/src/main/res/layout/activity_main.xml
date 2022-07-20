@@ -40,6 +40,7 @@
                         android:background="@drawable/ic_craft_table"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:textStyle="bold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -78,6 +79,7 @@
                     android:background="@drawable/ic_baseline_home_white"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:textStyle="bold"
                     android:visibility="gone"
                     android:layout_width="wrap_content"

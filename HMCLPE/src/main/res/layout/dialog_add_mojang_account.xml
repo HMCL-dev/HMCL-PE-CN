@@ -22,24 +22,22 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/dialog_add_mojang_account_email"
             android:textSize="@dimen/text_size_middle"
             android:textColor="@color/colorPureBlack"/>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
         <EditText
             android:textSize="@dimen/text_size_middle"
-            android:paddingLeft="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:background="@color/colorLightGray"
             android:singleLine="true"
-            android:layout_width="390dp"
+            android:layout_width="360dp"
             android:layout_height="36dp"
             android:layout_gravity="center"
             android:id="@+id/edit_email" />
@@ -53,25 +51,23 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/dialog_add_mojang_account_password"
             android:textSize="@dimen/text_size_middle"
             android:textColor="@color/colorPureBlack"/>
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
         <EditText
             android:textSize="@dimen/text_size_middle"
-            android:paddingLeft="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:inputType="textPassword"
             android:background="@color/colorLightGray"
             android:singleLine="true"
-            android:layout_width="390dp"
+            android:layout_width="360dp"
             android:layout_height="36dp"
             android:layout_gravity="center"
             android:id="@+id/edit_password" />
@@ -85,54 +81,60 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center"
             android:background="@drawable/ic_baseline_jump_black"/>
 
         <TextView
+            android:singleLine="true"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColorLink="@color/colorLinkBlue"
             android:id="@+id/migrate_link"
             android:text="@string/dialog_add_mojang_account_migrate"
-            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
             android:textSize="@dimen/text_size_middle"/>
 
         <ImageView
-            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center"
             android:background="@drawable/ic_baseline_jump_black"/>
 
         <TextView
+            android:singleLine="true"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColorLink="@color/colorLinkBlue"
             android:id="@+id/help_link"
             android:text="@string/dialog_add_mojang_account_help"
-            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
             android:textSize="@dimen/text_size_middle"/>
 
         <ImageView
-            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center"
             android:background="@drawable/ic_baseline_jump_black"/>
 
         <TextView
+            android:singleLine="true"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColorLink="@color/colorLinkBlue"
             android:id="@+id/purchase_link"
             android:text="@string/dialog_add_mojang_account_purchase"
-            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
             android:textSize="@dimen/text_size_middle"/>
 
     </LinearLayout>
@@ -149,6 +151,8 @@
             android:layout_weight="1"/>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:gravity="center"
@@ -159,6 +163,8 @@
             android:id="@+id/login_mojang"/>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:gravity="center"
