@@ -6,6 +6,7 @@
     android:layout_height="280dp">
 
     <TextView
+        android:singleLine="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dialog_create_control_pattern_title_sec"
@@ -31,6 +32,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -45,7 +47,8 @@
 
                 <EditText
                     android:textSize="@dimen/text_size_middle"
-                    android:paddingLeft="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:background="@color/colorLightGray"
                     android:singleLine="true"
                     android:layout_width="320dp"
@@ -61,6 +64,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -75,7 +79,8 @@
 
                 <EditText
                     android:textSize="@dimen/text_size_middle"
-                    android:paddingLeft="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:background="@color/colorLightGray"
                     android:singleLine="true"
                     android:layout_width="320dp"
@@ -92,6 +97,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -106,7 +112,8 @@
 
                 <EditText
                     android:textSize="@dimen/text_size_middle"
-                    android:paddingLeft="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:background="@color/colorLightGray"
                     android:singleLine="true"
                     android:layout_width="320dp"
@@ -123,6 +130,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -137,7 +145,8 @@
 
                 <EditText
                     android:textSize="@dimen/text_size_middle"
-                    android:paddingLeft="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:background="@color/colorLightGray"
                     android:singleLine="true"
                     android:layout_width="320dp"
@@ -163,6 +172,8 @@
             android:layout_weight="1"/>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:gravity="center"
@@ -173,6 +184,8 @@
             android:id="@+id/create_pattern"/>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:gravity="center"

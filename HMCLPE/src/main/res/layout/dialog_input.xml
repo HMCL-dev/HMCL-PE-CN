@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:singleLine="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dialog_input_title"
@@ -33,6 +34,8 @@
             android:orientation="vertical">
 
             <Button
+                android:singleLine="true"
+                android:textAllCaps="false"
                 android:id="@+id/add_fast_text"
                 android:layout_width="200dp"
                 android:layout_height="40dp"
@@ -78,6 +81,8 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:singleLine="true"
+                    android:textAllCaps="false"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -88,6 +93,8 @@
                     android:id="@+id/send_text"/>
 
                 <Button
+                    android:singleLine="true"
+                    android:textAllCaps="false"
                     android:layout_marginStart="4dp"
                     android:layout_weight="1"
                     android:layout_width="0dp"

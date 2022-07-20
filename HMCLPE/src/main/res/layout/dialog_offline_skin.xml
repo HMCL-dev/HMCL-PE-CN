@@ -16,6 +16,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:singleLine="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dialog_offline_skin_title"
@@ -67,6 +68,7 @@
                         android:id="@+id/check_skin_default"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_marginStart="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -90,6 +92,7 @@
                         android:id="@+id/check_skin_steve"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_marginStart="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -113,6 +116,7 @@
                         android:id="@+id/check_skin_alex"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_marginStart="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -136,6 +140,7 @@
                         android:id="@+id/check_skin_local"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_marginStart="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -159,6 +164,7 @@
                         android:id="@+id/check_skin_little"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_marginStart="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -182,6 +188,7 @@
                         android:id="@+id/check_skin_blessing"/>
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_marginStart="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -206,8 +213,10 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:singleLine="true"
+                            android:layout_weight="1"
                             android:layout_marginStart="5dp"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="@string/dialog_offline_skin_local_skin"
@@ -219,14 +228,12 @@
                             android:paddingRight="8dp"
                             android:singleLine="true"
                             android:background="@color/colorLightGray"
-                            android:layout_width="0dp"
+                            android:layout_width="180dp"
                             android:layout_height="32dp"
                             android:textSize="@dimen/text_size_middle"
                             android:textColor="@color/colorPureBlack"
                             android:id="@+id/edit_skin_path"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="10dp"
-                            android:layout_weight="1"/>
+                            android:layout_gravity="center" />
 
                         <ImageButton
                             android:layout_marginEnd="15dp"
@@ -246,8 +253,10 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:singleLine="true"
+                            android:layout_weight="1"
                             android:layout_marginStart="5dp"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="@string/dialog_offline_skin_local_cape"
@@ -259,14 +268,12 @@
                             android:paddingRight="8dp"
                             android:singleLine="true"
                             android:background="@color/colorLightGray"
-                            android:layout_width="0dp"
+                            android:layout_width="180dp"
                             android:layout_height="32dp"
                             android:textSize="@dimen/text_size_middle"
                             android:textColor="@color/colorPureBlack"
                             android:id="@+id/edit_cape_path"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="10dp"
-                            android:layout_weight="1"/>
+                            android:layout_gravity="center" />
 
                         <ImageButton
                             android:layout_marginEnd="15dp"
@@ -392,6 +399,7 @@
                 android:layout_gravity="center"/>
 
             <TextView
+                android:singleLine="true"
                 android:id="@+id/little_skin_url"
                 android:layout_marginStart="5dp"
                 android:layout_width="wrap_content"
@@ -402,6 +410,8 @@
                 android:textSize="@dimen/text_size_middle" />
 
             <Button
+                android:singleLine="true"
+                android:textAllCaps="false"
                 android:layout_marginStart="12dp"
                 android:layout_width="60dp"
                 android:layout_height="36dp"
@@ -414,6 +424,8 @@
                 android:id="@+id/edit_skin_positive"/>
 
             <Button
+                android:singleLine="true"
+                android:textAllCaps="false"
                 android:layout_width="60dp"
                 android:layout_height="36dp"
                 android:layout_gravity="center"

@@ -53,27 +53,48 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:singleLine="true"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_rocker_exterior_setting_corner_radius"
                     android:textSize="@dimen/text_size_middle"
                     android:textColor="@color/colorPureBlack"
                     android:layout_gravity="center"/>
 
-                <SeekBar
-                    android:id="@+id/rocker_exterior_corner_radius_seekbar"
-                    android:max="300"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_marginStart="82dp"
+                <LinearLayout
                     android:layout_gravity="center"
-                    android:layout_width="0dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_horizontal_black"
+                        android:id="@+id/reduce_rocker_corner_radius"/>
+
+                    <SeekBar
+                        android:id="@+id/rocker_exterior_corner_radius_seekbar"
+                        android:max="100"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_add_black"
+                        android:id="@+id/add_rocker_corner_radius"/>
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="60dp"
@@ -92,22 +113,43 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:singleLine="true"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_rocker_exterior_setting_stroke_width"
                     android:textSize="@dimen/text_size_middle"
                     android:textColor="@color/colorPureBlack"
                     android:layout_gravity="center"/>
 
-                <SeekBar
-                    android:id="@+id/rocker_exterior_stroke_width_seekbar"
-                    android:max="50"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_marginStart="82dp"
+                <LinearLayout
                     android:layout_gravity="center"
-                    android:layout_width="0dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_horizontal_black"
+                        android:id="@+id/reduce_rocker_stroke_width"/>
+
+                    <SeekBar
+                        android:id="@+id/rocker_exterior_stroke_width_seekbar"
+                        android:max="100"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_add_black"
+                        android:id="@+id/add_rocker_stroke_width"/>
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="60dp"
@@ -126,22 +168,43 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:singleLine="true"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_rocker_exterior_setting_corner_radius_pressed"
                     android:textSize="@dimen/text_size_middle"
                     android:textColor="@color/colorPureBlack"
                     android:layout_gravity="center"/>
 
-                <SeekBar
-                    android:id="@+id/rocker_exterior_corner_radius_seekbar_pressed"
-                    android:max="300"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_marginStart="30dp"
+                <LinearLayout
                     android:layout_gravity="center"
-                    android:layout_width="0dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_horizontal_black"
+                        android:id="@+id/reduce_rocker_corner_radius_pressed"/>
+
+                    <SeekBar
+                        android:id="@+id/rocker_exterior_corner_radius_seekbar_pressed"
+                        android:max="100"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_add_black"
+                        android:id="@+id/add_rocker_corner_radius_pressed"/>
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="60dp"
@@ -160,22 +223,43 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:singleLine="true"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_rocker_exterior_setting_stroke_width_pressed"
                     android:textSize="@dimen/text_size_middle"
                     android:textColor="@color/colorPureBlack"
                     android:layout_gravity="center"/>
 
-                <SeekBar
-                    android:id="@+id/rocker_exterior_stroke_width_seekbar_pressed"
-                    android:max="50"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_marginStart="30dp"
+                <LinearLayout
                     android:layout_gravity="center"
-                    android:layout_width="0dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_horizontal_black"
+                        android:id="@+id/reduce_rocker_stroke_width_pressed"/>
+
+                    <SeekBar
+                        android:id="@+id/rocker_exterior_stroke_width_seekbar_pressed"
+                        android:max="100"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_add_black"
+                        android:id="@+id/add_rocker_stroke_width_pressed"/>
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="60dp"
@@ -194,6 +278,7 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_rocker_exterior_setting_pointer_color"
@@ -225,6 +310,8 @@
                     android:id="@+id/pointer_color_text"/>
 
                 <Button
+                    android:singleLine="true"
+                    android:textAllCaps="false"
                     android:layout_marginStart="30dp"
                     android:layout_width="45dp"
                     android:layout_height="30dp"
@@ -244,6 +331,7 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_rocker_exterior_setting_fill_color"
@@ -275,6 +363,8 @@
                     android:id="@+id/rocker_fill_color_text"/>
 
                 <Button
+                    android:singleLine="true"
+                    android:textAllCaps="false"
                     android:layout_marginStart="30dp"
                     android:layout_width="45dp"
                     android:layout_height="30dp"
@@ -294,6 +384,7 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_rocker_exterior_setting_stroke_color"
@@ -325,6 +416,8 @@
                     android:id="@+id/rocker_stroke_color_text"/>
 
                 <Button
+                    android:singleLine="true"
+                    android:textAllCaps="false"
                     android:layout_marginStart="30dp"
                     android:layout_width="45dp"
                     android:layout_height="30dp"
@@ -344,6 +437,7 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_rocker_exterior_setting_pointer_color_pressed"
@@ -375,6 +469,8 @@
                     android:id="@+id/pointer_pressed_color_text"/>
 
                 <Button
+                    android:singleLine="true"
+                    android:textAllCaps="false"
                     android:layout_marginStart="30dp"
                     android:layout_width="45dp"
                     android:layout_height="30dp"
@@ -394,6 +490,7 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_rocker_exterior_setting_fill_color_pressed"
@@ -425,6 +522,8 @@
                     android:id="@+id/rocker_fill_pressed_color_text"/>
 
                 <Button
+                    android:singleLine="true"
+                    android:textAllCaps="false"
                     android:layout_marginStart="30dp"
                     android:layout_width="45dp"
                     android:layout_height="30dp"
@@ -444,6 +543,7 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_rocker_exterior_setting_stroke_color_pressed"
@@ -475,6 +575,8 @@
                     android:id="@+id/rocker_stroke_pressed_color_text"/>
 
                 <Button
+                    android:singleLine="true"
+                    android:textAllCaps="false"
                     android:layout_marginStart="30dp"
                     android:layout_width="45dp"
                     android:layout_height="30dp"
@@ -504,6 +606,8 @@
             android:layout_weight="1"/>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:gravity="center"
@@ -514,6 +618,8 @@
             android:id="@+id/create_rocker_style"/>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:gravity="center"

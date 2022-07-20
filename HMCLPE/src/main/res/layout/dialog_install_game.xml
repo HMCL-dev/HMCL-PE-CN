@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
     
     <TextView
+        android:singleLine="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/dialog_install_game_title"
@@ -26,6 +27,7 @@
         android:orientation="horizontal">
         
         <TextView
+            android:singleLine="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -39,6 +41,8 @@
             android:layout_weight="1"/>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:layout_width="50dp"
             android:layout_height="32dp"
             android:gravity="center"

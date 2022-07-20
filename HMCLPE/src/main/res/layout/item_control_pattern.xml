@@ -92,6 +92,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/item_control_pattern_author"
@@ -119,6 +120,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:singleLine="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/item_control_pattern_version"
@@ -146,6 +148,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/item_control_pattern_describe"

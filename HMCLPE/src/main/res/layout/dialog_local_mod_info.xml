@@ -27,6 +27,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -36,6 +37,7 @@
                     android:id="@+id/name"/>
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_marginStart="10dp"
                     android:layout_gravity="center"
                     android:layout_width="match_parent"
@@ -47,6 +49,7 @@
             </LinearLayout>
 
             <TextView
+                android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="11sp"
@@ -91,6 +94,7 @@
                 android:background="@drawable/ic_baseline_jump_black"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -118,6 +122,7 @@
                 android:background="@drawable/ic_baseline_jump_black"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -145,6 +150,7 @@
                 android:background="@drawable/ic_baseline_jump_black"/>
 
             <TextView
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -156,6 +162,8 @@
         </LinearLayout>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:layout_width="50dp"
             android:layout_height="32dp"
             android:gravity="center"

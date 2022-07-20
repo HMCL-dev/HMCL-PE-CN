@@ -9,6 +9,7 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:singleLine="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorPureBlack"
@@ -16,6 +17,7 @@
         android:text="@string/dialog_relogin_title"/>
 
     <TextView
+        android:singleLine="true"
         android:id="@+id/relogin_email"
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
@@ -59,6 +61,8 @@
                 android:id="@+id/login_progress"/>
 
             <Button
+                android:singleLine="true"
+                android:textAllCaps="false"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:gravity="center"
@@ -71,6 +75,8 @@
         </RelativeLayout>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:gravity="center"

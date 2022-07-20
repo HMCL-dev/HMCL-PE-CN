@@ -14,7 +14,7 @@
     <string name="dialog_verify_verify_fail">Verification failed</string>
     <string name="dialog_verify_cancel">Cancel</string>
     <string name="dialog_obtain_permission_title">Information</string>
-    <string name="dialog_obtain_permission_msg">You need to sponsor $1 to get this permission.</string>
+    <string name="dialog_obtain_permission_msg">You need to sponsor $2 to get this permission.</string>
     <string name="dialog_obtain_permission_positive">Go to sponsor</string>
     <string name="dialog_obtain_permission_negative">Cancel</string>
     <string name="import_control_label">Import control pattern</string>

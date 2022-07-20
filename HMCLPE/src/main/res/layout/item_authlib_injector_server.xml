@@ -15,7 +15,7 @@
         android:background="@drawable/ic_baseline_server_black"/>
 
     <LinearLayout
-        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
         android:layout_width="0dp"
         android:layout_height="35dp"
         android:layout_weight="1"
@@ -29,7 +29,6 @@
             android:id="@+id/server_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:textSize="@dimen/text_size_middle"/>
 
         <TextView
@@ -37,7 +36,6 @@
             android:id="@+id/server_url"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:textSize="@dimen/text_size_small"/>
 
     </LinearLayout>

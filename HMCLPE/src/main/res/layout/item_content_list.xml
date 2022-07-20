@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:clickable="true"
-    android:paddingLeft="15dp"
+    android:paddingStart="15dp"
     android:paddingTop="8dp"
     android:paddingBottom="8dp"
-    android:paddingRight="5dp"
+    android:paddingEnd="5dp"
     android:id="@+id/switch_content"
     android:background="@drawable/launcher_button_parent"
     android:layout_width="match_parent"
@@ -31,8 +31,7 @@
             android:id="@+id/content_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:layout_weight="1"
+            android:layout_marginStart="5dp"
             android:textSize="@dimen/text_size_middle"/>
 
         <TextView
@@ -40,8 +39,7 @@
             android:id="@+id/content_path"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:layout_weight="1"
+            android:layout_marginStart="5dp"
             android:textSize="@dimen/text_size_small"/>
 
     </LinearLayout>

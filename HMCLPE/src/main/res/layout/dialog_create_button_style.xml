@@ -53,27 +53,48 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:singleLine="true"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_button_exterior_setting_text_size"
                     android:textSize="@dimen/text_size_middle"
                     android:textColor="@color/colorPureBlack"
                     android:layout_gravity="center"/>
 
-                <SeekBar
-                    android:id="@+id/exterior_text_size_seekbar"
-                    android:max="50"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_marginStart="82dp"
+                <LinearLayout
                     android:layout_gravity="center"
-                    android:layout_width="0dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_horizontal_black"
+                        android:id="@+id/reduce_text_size"/>
+
+                    <SeekBar
+                        android:id="@+id/exterior_text_size_seekbar"
+                        android:max="100"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_add_black"
+                        android:id="@+id/add_text_size"/>
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="60dp"
@@ -92,22 +113,43 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:singleLine="true"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_button_exterior_setting_corner_radius"
                     android:textSize="@dimen/text_size_middle"
                     android:textColor="@color/colorPureBlack"
                     android:layout_gravity="center"/>
 
-                <SeekBar
-                    android:id="@+id/exterior_corner_radius_seekbar"
-                    android:max="50"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_marginStart="82dp"
+                <LinearLayout
                     android:layout_gravity="center"
-                    android:layout_width="0dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_horizontal_black"
+                        android:id="@+id/reduce_corner_radius"/>
+
+                    <SeekBar
+                        android:id="@+id/exterior_corner_radius_seekbar"
+                        android:max="100"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_add_black"
+                        android:id="@+id/add_corner_radius"/>
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="60dp"
@@ -126,22 +168,43 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:singleLine="true"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_button_exterior_setting_stroke_width"
                     android:textSize="@dimen/text_size_middle"
                     android:textColor="@color/colorPureBlack"
                     android:layout_gravity="center"/>
 
-                <SeekBar
-                    android:id="@+id/exterior_stroke_width_seekbar"
-                    android:max="50"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_marginStart="82dp"
+                <LinearLayout
                     android:layout_gravity="center"
-                    android:layout_width="0dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_horizontal_black"
+                        android:id="@+id/reduce_stroke_width"/>
+
+                    <SeekBar
+                        android:id="@+id/exterior_stroke_width_seekbar"
+                        android:max="100"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_add_black"
+                        android:id="@+id/add_stroke_width"/>
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="60dp"
@@ -160,22 +223,43 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:singleLine="true"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_button_exterior_setting_text_size_pressed"
                     android:textSize="@dimen/text_size_middle"
                     android:textColor="@color/colorPureBlack"
                     android:layout_gravity="center"/>
 
-                <SeekBar
-                    android:id="@+id/exterior_text_size_seekbar_pressed"
-                    android:max="50"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_marginStart="30dp"
+                <LinearLayout
                     android:layout_gravity="center"
-                    android:layout_width="0dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_horizontal_black"
+                        android:id="@+id/reduce_text_size_pressed"/>
+
+                    <SeekBar
+                        android:id="@+id/exterior_text_size_seekbar_pressed"
+                        android:max="100"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_add_black"
+                        android:id="@+id/add_text_size_pressed"/>
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="60dp"
@@ -194,22 +278,43 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:singleLine="true"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_button_exterior_setting_corner_radius_pressed"
                     android:textSize="@dimen/text_size_middle"
                     android:textColor="@color/colorPureBlack"
                     android:layout_gravity="center"/>
 
-                <SeekBar
-                    android:id="@+id/exterior_corner_radius_seekbar_pressed"
-                    android:max="50"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_marginStart="30dp"
+                <LinearLayout
                     android:layout_gravity="center"
-                    android:layout_width="0dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_horizontal_black"
+                        android:id="@+id/reduce_corner_radius_pressed"/>
+
+                    <SeekBar
+                        android:id="@+id/exterior_corner_radius_seekbar_pressed"
+                        android:max="100"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_add_black"
+                        android:id="@+id/add_corner_radius_pressed"/>
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="60dp"
@@ -228,22 +333,43 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:singleLine="true"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_button_exterior_setting_stroke_width_pressed"
                     android:textSize="@dimen/text_size_middle"
                     android:textColor="@color/colorPureBlack"
                     android:layout_gravity="center"/>
 
-                <SeekBar
-                    android:id="@+id/exterior_stroke_width_seekbar_pressed"
-                    android:max="50"
-                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                    android:layout_marginStart="30dp"
+                <LinearLayout
                     android:layout_gravity="center"
-                    android:layout_width="0dp"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_horizontal_black"
+                        android:id="@+id/reduce_stroke_width_pressed"/>
+
+                    <SeekBar
+                        android:id="@+id/exterior_stroke_width_seekbar_pressed"
+                        android:max="100"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"/>
+
+                    <ImageButton
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_baseline_add_black"
+                        android:id="@+id/add_stroke_width_pressed"/>
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="60dp"
@@ -262,6 +388,7 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_button_exterior_setting_text_color"
@@ -293,6 +420,8 @@
                     android:id="@+id/text_color_text"/>
 
                 <Button
+                    android:singleLine="true"
+                    android:textAllCaps="false"
                     android:layout_marginStart="30dp"
                     android:layout_width="45dp"
                     android:layout_height="30dp"
@@ -312,6 +441,7 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_button_exterior_setting_stroke_color"
@@ -343,6 +473,8 @@
                     android:id="@+id/stroke_color_text"/>
 
                 <Button
+                    android:singleLine="true"
+                    android:textAllCaps="false"
                     android:layout_marginStart="30dp"
                     android:layout_width="45dp"
                     android:layout_height="30dp"
@@ -362,6 +494,7 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_button_exterior_setting_fill_color"
@@ -393,6 +526,8 @@
                     android:id="@+id/fill_color_text"/>
 
                 <Button
+                    android:singleLine="true"
+                    android:textAllCaps="false"
                     android:layout_marginStart="30dp"
                     android:layout_width="45dp"
                     android:layout_height="30dp"
@@ -412,6 +547,7 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_button_exterior_setting_text_color_pressed"
@@ -443,6 +579,8 @@
                     android:id="@+id/text_color_pressed_text"/>
 
                 <Button
+                    android:singleLine="true"
+                    android:textAllCaps="false"
                     android:layout_marginStart="30dp"
                     android:layout_width="45dp"
                     android:layout_height="30dp"
@@ -462,6 +600,7 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_button_exterior_setting_stroke_color_pressed"
@@ -493,6 +632,8 @@
                     android:id="@+id/stroke_color_pressed_text"/>
 
                 <Button
+                    android:singleLine="true"
+                    android:textAllCaps="false"
                     android:layout_marginStart="30dp"
                     android:layout_width="45dp"
                     android:layout_height="30dp"
@@ -512,6 +653,7 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
+                    android:singleLine="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/dialog_add_view_button_exterior_setting_fill_color_pressed"
@@ -543,6 +685,8 @@
                     android:id="@+id/fill_color_pressed_text"/>
 
                 <Button
+                    android:singleLine="true"
+                    android:textAllCaps="false"
                     android:layout_marginStart="30dp"
                     android:layout_width="45dp"
                     android:layout_height="30dp"
@@ -572,6 +716,8 @@
             android:layout_weight="1"/>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:gravity="center"
@@ -582,6 +728,8 @@
             android:id="@+id/create_button_style"/>
 
         <Button
+            android:singleLine="true"
+            android:textAllCaps="false"
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:gravity="center"
