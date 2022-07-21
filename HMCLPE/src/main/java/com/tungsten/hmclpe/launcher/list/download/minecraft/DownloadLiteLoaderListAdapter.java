@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.launcher.list.download.minecraft.fabric;
+package com.tungsten.hmclpe.launcher.list.download.minecraft;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -14,19 +14,19 @@ import android.widget.TextView;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.GameUpdateDialog;
-import com.tungsten.hmclpe.launcher.download.fabric.FabricLoaderVersion;
+import com.tungsten.hmclpe.launcher.download.liteloader.LiteLoaderVersion;
 
 import java.util.ArrayList;
 
-public class DownloadFabricListAdapter extends BaseAdapter {
+public class DownloadLiteLoaderListAdapter extends BaseAdapter {
 
     private Context context;
     private MainActivity activity;
     private String mcVersion;
-    private ArrayList<FabricLoaderVersion> versions;
+    private ArrayList<LiteLoaderVersion> versions;
     private boolean install;
 
-    public DownloadFabricListAdapter(Context context,MainActivity activity,String mcVersion,ArrayList<FabricLoaderVersion> versions,boolean install){
+    public DownloadLiteLoaderListAdapter(Context context,MainActivity activity,String mcVersion,ArrayList<LiteLoaderVersion> versions,boolean install){
         this.context = context;
         this.activity = activity;
         this.mcVersion = mcVersion;
@@ -37,7 +37,7 @@ public class DownloadFabricListAdapter extends BaseAdapter {
     private class ViewHolder{
         LinearLayout item;
         ImageView icon;
-        TextView fabricId;
+        TextView liteLoaderId;
         TextView mcVersion;
     }
 
@@ -65,23 +65,23 @@ public class DownloadFabricListAdapter extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.item_download_game_list,null);
             viewHolder.item = view.findViewById(R.id.item);
             viewHolder.icon = view.findViewById(R.id.icon);
-            viewHolder.fabricId = view.findViewById(R.id.id);
+            viewHolder.liteLoaderId = view.findViewById(R.id.id);
             viewHolder.mcVersion = view.findViewById(R.id.release_time);
             view.setTag(viewHolder);
         }
         else {
             viewHolder = (ViewHolder)view.getTag();
         }
-        FabricLoaderVersion version = versions.get(i);
-        viewHolder.icon.setImageDrawable(context.getDrawable(R.drawable.ic_fabric));
-        viewHolder.fabricId.setText(version.version);
+        LiteLoaderVersion version = versions.get(i);
+        viewHolder.icon.setImageDrawable(context.getDrawable(R.drawable.ic_chicken));
+        viewHolder.liteLoaderId.setText(version.getVersion());
         viewHolder.mcVersion.setText(mcVersion);
         viewHolder.item.setOnClickListener(v -> {
             if (install) {
-                if (activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.fabricVersion != null) {
+                if (activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.liteLoaderVersion != null) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle(context.getString(R.string.dialog_change_version_title));
-                    builder.setMessage(context.getString(R.string.dialog_change_version_msg).replace("%s","Fabric").replace("%v1",activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.fabricVersion).replace("%v2",version.version));
+                    builder.setMessage(context.getString(R.string.dialog_change_version_msg).replace("%s","LiteLoader").replace("%v1",activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.liteLoaderVersion).replace("%v2",version.getVersion()));
                     builder.setPositiveButton(context.getString(R.string.dialog_change_version_positive), (dialogInterface, i1) -> {
                         update(version);
                     });
@@ -95,15 +95,15 @@ public class DownloadFabricListAdapter extends BaseAdapter {
                 }
             }
             else {
-                activity.uiManager.installGameUI.fabricVersion = version;
+                activity.uiManager.installGameUI.liteLoaderVersion = version;
                 activity.backToLastUI();
             }
         });
         return view;
     }
 
-    private void update(FabricLoaderVersion fabricLoaderVersion) {
-        GameUpdateDialog dialog = new GameUpdateDialog(context,activity,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.versionName,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.gameVersion,3,fabricLoaderVersion);
+    private void update(LiteLoaderVersion liteLoaderVersion) {
+        GameUpdateDialog dialog = new GameUpdateDialog(context,activity,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.versionName,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.gameVersion,1,liteLoaderVersion);
         dialog.show();
     }
 }

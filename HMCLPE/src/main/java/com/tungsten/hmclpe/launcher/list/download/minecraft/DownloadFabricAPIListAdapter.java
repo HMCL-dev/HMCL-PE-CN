@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.launcher.list.download.minecraft.fabric;
+package com.tungsten.hmclpe.launcher.list.download.minecraft;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

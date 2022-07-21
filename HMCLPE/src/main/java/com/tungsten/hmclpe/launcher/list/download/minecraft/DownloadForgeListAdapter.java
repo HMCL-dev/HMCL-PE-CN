@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.launcher.list.download.minecraft.liteloader;
+package com.tungsten.hmclpe.launcher.list.download.minecraft;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -14,22 +14,23 @@ import android.widget.TextView;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.GameUpdateDialog;
-import com.tungsten.hmclpe.launcher.download.liteloader.LiteLoaderVersion;
+import com.tungsten.hmclpe.launcher.download.forge.ForgeVersion;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class DownloadLiteLoaderListAdapter extends BaseAdapter {
+public class DownloadForgeListAdapter extends BaseAdapter {
 
     private Context context;
     private MainActivity activity;
-    private String mcVersion;
-    private ArrayList<LiteLoaderVersion> versions;
+    private ArrayList<ForgeVersion> versions;
     private boolean install;
 
-    public DownloadLiteLoaderListAdapter(Context context,MainActivity activity,String mcVersion,ArrayList<LiteLoaderVersion> versions,boolean install){
+    public DownloadForgeListAdapter(Context context,MainActivity activity,ArrayList<ForgeVersion> versions,boolean install){
         this.context = context;
         this.activity = activity;
-        this.mcVersion = mcVersion;
         this.versions = versions;
         this.install = install;
     }
@@ -37,8 +38,9 @@ public class DownloadLiteLoaderListAdapter extends BaseAdapter {
     private class ViewHolder{
         LinearLayout item;
         ImageView icon;
-        TextView liteLoaderId;
+        TextView forgeId;
         TextView mcVersion;
+        TextView releaseTime;
     }
 
     @Override
@@ -65,23 +67,26 @@ public class DownloadLiteLoaderListAdapter extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.item_download_game_list,null);
             viewHolder.item = view.findViewById(R.id.item);
             viewHolder.icon = view.findViewById(R.id.icon);
-            viewHolder.liteLoaderId = view.findViewById(R.id.id);
-            viewHolder.mcVersion = view.findViewById(R.id.release_time);
+            viewHolder.forgeId = view.findViewById(R.id.id);
+            viewHolder.mcVersion = view.findViewById(R.id.type);
+            viewHolder.releaseTime = view.findViewById(R.id.release_time);
+            activity.exteriorConfig.apply(viewHolder.mcVersion);
             view.setTag(viewHolder);
         }
         else {
             viewHolder = (ViewHolder)view.getTag();
         }
-        LiteLoaderVersion version = versions.get(i);
-        viewHolder.icon.setImageDrawable(context.getDrawable(R.drawable.ic_chicken));
-        viewHolder.liteLoaderId.setText(version.getVersion());
-        viewHolder.mcVersion.setText(mcVersion);
+        ForgeVersion version = versions.get(i);
+        viewHolder.icon.setImageDrawable(context.getDrawable(R.drawable.ic_forge));
+        viewHolder.forgeId.setText(version.getVersion());
+        viewHolder.mcVersion.setText(version.getGameVersion());
+        viewHolder.releaseTime.setText(DateTimeFormatter.ofPattern(context.getString(R.string.time_pattern)).withZone(ZoneId.systemDefault()).format(Instant.parse(version.getModified())));
         viewHolder.item.setOnClickListener(v -> {
             if (install) {
-                if (activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.liteLoaderVersion != null) {
+                if (activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.forgeVersion != null) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle(context.getString(R.string.dialog_change_version_title));
-                    builder.setMessage(context.getString(R.string.dialog_change_version_msg).replace("%s","LiteLoader").replace("%v1",activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.liteLoaderVersion).replace("%v2",version.getVersion()));
+                    builder.setMessage(context.getString(R.string.dialog_change_version_msg).replace("%s","Forge").replace("%v1",activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.forgeVersion).replace("%v2",version.getVersion()));
                     builder.setPositiveButton(context.getString(R.string.dialog_change_version_positive), (dialogInterface, i1) -> {
                         update(version);
                     });
@@ -95,15 +100,15 @@ public class DownloadLiteLoaderListAdapter extends BaseAdapter {
                 }
             }
             else {
-                activity.uiManager.installGameUI.liteLoaderVersion = version;
+                activity.uiManager.installGameUI.forgeVersion = version;
                 activity.backToLastUI();
             }
         });
         return view;
     }
 
-    private void update(LiteLoaderVersion liteLoaderVersion) {
-        GameUpdateDialog dialog = new GameUpdateDialog(context,activity,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.versionName,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.gameVersion,1,liteLoaderVersion);
+    private void update(ForgeVersion forgeVersion) {
+        GameUpdateDialog dialog = new GameUpdateDialog(context,activity,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.versionName,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.gameVersion,0,forgeVersion);
         dialog.show();
     }
 }

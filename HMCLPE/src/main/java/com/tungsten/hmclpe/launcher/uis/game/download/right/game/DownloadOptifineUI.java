@@ -20,7 +20,7 @@ import com.google.gson.Gson;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.optifine.OptifineVersion;
-import com.tungsten.hmclpe.launcher.list.download.minecraft.optifine.DownloadOptifineListAdapter;
+import com.tungsten.hmclpe.launcher.list.download.minecraft.DownloadOptifineListAdapter;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.io.NetworkUtils;

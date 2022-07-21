@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.launcher.list.download.minecraft.game;
+package com.tungsten.hmclpe.launcher.list.download.minecraft;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

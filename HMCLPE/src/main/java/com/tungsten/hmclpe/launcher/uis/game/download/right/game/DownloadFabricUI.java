@@ -19,7 +19,7 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.fabric.FabricGameVersion;
 import com.tungsten.hmclpe.launcher.download.fabric.FabricLoaderVersion;
-import com.tungsten.hmclpe.launcher.list.download.minecraft.fabric.DownloadFabricListAdapter;
+import com.tungsten.hmclpe.launcher.list.download.minecraft.DownloadFabricListAdapter;
 import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;

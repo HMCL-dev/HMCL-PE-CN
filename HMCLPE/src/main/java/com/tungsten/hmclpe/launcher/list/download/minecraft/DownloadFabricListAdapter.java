@@ -1,4 +1,4 @@
-package com.tungsten.hmclpe.launcher.list.download.minecraft.optifine;
+package com.tungsten.hmclpe.launcher.list.download.minecraft;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -14,20 +14,22 @@ import android.widget.TextView;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.download.GameUpdateDialog;
-import com.tungsten.hmclpe.launcher.download.optifine.OptifineVersion;
+import com.tungsten.hmclpe.launcher.download.fabric.FabricLoaderVersion;
 
 import java.util.ArrayList;
 
-public class DownloadOptifineListAdapter extends BaseAdapter {
+public class DownloadFabricListAdapter extends BaseAdapter {
 
     private Context context;
     private MainActivity activity;
-    private ArrayList<OptifineVersion> versions;
+    private String mcVersion;
+    private ArrayList<FabricLoaderVersion> versions;
     private boolean install;
 
-    public DownloadOptifineListAdapter(Context context,MainActivity activity,ArrayList<OptifineVersion> versions,boolean install){
+    public DownloadFabricListAdapter(Context context,MainActivity activity,String mcVersion,ArrayList<FabricLoaderVersion> versions,boolean install){
         this.context = context;
         this.activity = activity;
+        this.mcVersion = mcVersion;
         this.versions = versions;
         this.install = install;
     }
@@ -35,7 +37,7 @@ public class DownloadOptifineListAdapter extends BaseAdapter {
     private class ViewHolder{
         LinearLayout item;
         ImageView icon;
-        TextView optifineId;
+        TextView fabricId;
         TextView mcVersion;
     }
 
@@ -54,7 +56,7 @@ public class DownloadOptifineListAdapter extends BaseAdapter {
         return 0;
     }
 
-    @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
+    @SuppressLint("UseCompatLoadingForDrawables")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         final ViewHolder viewHolder;
@@ -63,23 +65,23 @@ public class DownloadOptifineListAdapter extends BaseAdapter {
             view = LayoutInflater.from(context).inflate(R.layout.item_download_game_list,null);
             viewHolder.item = view.findViewById(R.id.item);
             viewHolder.icon = view.findViewById(R.id.icon);
-            viewHolder.optifineId = view.findViewById(R.id.id);
+            viewHolder.fabricId = view.findViewById(R.id.id);
             viewHolder.mcVersion = view.findViewById(R.id.release_time);
             view.setTag(viewHolder);
         }
         else {
             viewHolder = (ViewHolder)view.getTag();
         }
-        OptifineVersion version = versions.get(i);
-        viewHolder.icon.setImageDrawable(context.getDrawable(R.drawable.ic_command));
-        viewHolder.optifineId.setText(version.type + "_" + version.patch);
-        viewHolder.mcVersion.setText(version.mcVersion);
+        FabricLoaderVersion version = versions.get(i);
+        viewHolder.icon.setImageDrawable(context.getDrawable(R.drawable.ic_fabric));
+        viewHolder.fabricId.setText(version.version);
+        viewHolder.mcVersion.setText(mcVersion);
         viewHolder.item.setOnClickListener(v -> {
             if (install) {
-                if (activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.optifineVersion != null) {
+                if (activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.fabricVersion != null) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle(context.getString(R.string.dialog_change_version_title));
-                    builder.setMessage(context.getString(R.string.dialog_change_version_msg).replace("%s","OptiFine").replace("%v1",activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.optifineVersion).replace("%v2",version.type + "_" + version.patch));
+                    builder.setMessage(context.getString(R.string.dialog_change_version_msg).replace("%s","Fabric").replace("%v1",activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.fabricVersion).replace("%v2",version.version));
                     builder.setPositiveButton(context.getString(R.string.dialog_change_version_positive), (dialogInterface, i1) -> {
                         update(version);
                     });
@@ -93,15 +95,15 @@ public class DownloadOptifineListAdapter extends BaseAdapter {
                 }
             }
             else {
-                activity.uiManager.installGameUI.optifineVersion = version;
+                activity.uiManager.installGameUI.fabricVersion = version;
                 activity.backToLastUI();
             }
         });
         return view;
     }
 
-    private void update(OptifineVersion optifineVersion) {
-        GameUpdateDialog dialog = new GameUpdateDialog(context,activity,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.versionName,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.gameVersion,2,optifineVersion);
+    private void update(FabricLoaderVersion fabricLoaderVersion) {
+        GameUpdateDialog dialog = new GameUpdateDialog(context,activity,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.versionName,activity.uiManager.gameManagerUI.gameManagerUIManager.autoInstallUI.gameVersion,3,fabricLoaderVersion);
         dialog.show();
     }
 }

@@ -21,7 +21,7 @@ import com.tungsten.hmclpe.launcher.download.liteloader.LiteLoaderGameVersions;
 import com.tungsten.hmclpe.launcher.download.liteloader.LiteLoaderVersion;
 import com.tungsten.hmclpe.launcher.download.liteloader.LiteLoaderVersionsRoot;
 import com.tungsten.hmclpe.launcher.game.Artifact;
-import com.tungsten.hmclpe.launcher.list.download.minecraft.liteloader.DownloadLiteLoaderListAdapter;
+import com.tungsten.hmclpe.launcher.list.download.minecraft.DownloadLiteLoaderListAdapter;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
 import com.tungsten.hmclpe.utils.gson.JsonUtils;

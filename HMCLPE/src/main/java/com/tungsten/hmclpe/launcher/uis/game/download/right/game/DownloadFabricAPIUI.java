@@ -19,7 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
-import com.tungsten.hmclpe.launcher.list.download.minecraft.fabric.DownloadFabricAPIListAdapter;
+import com.tungsten.hmclpe.launcher.list.download.minecraft.DownloadFabricAPIListAdapter;
 import com.tungsten.hmclpe.launcher.mod.RemoteMod;
 import com.tungsten.hmclpe.launcher.mod.modrinth.ModrinthRemoteModRepository;
 import com.tungsten.hmclpe.launcher.uis.tools.BaseUI;
