@@ -27,6 +27,7 @@ import com.tungsten.hmclpe.launcher.list.download.ModGameVersionAdapter;
 import com.tungsten.hmclpe.launcher.mod.RemoteMod;
 import com.tungsten.hmclpe.launcher.mod.RemoteModRepository;
 import com.tungsten.hmclpe.launcher.mod.curse.CurseForgeRemoteModRepository;
+import com.tungsten.hmclpe.utils.LocaleUtils;
 import com.tungsten.hmclpe.utils.SimpleMultimap;
 import com.tungsten.hmclpe.utils.file.UriUtils;
 import com.tungsten.hmclpe.utils.io.NetworkUtils;
@@ -111,7 +112,10 @@ public class DownloadResourceUI extends BaseDownloadUI implements View.OnClickLi
                 e.printStackTrace();
             }
         }).start();
-        name.setText(modTranslation != null ? modTranslation.getDisplayName() : bean.getTitle());
+        name.setText(bean.getTitle());
+        if (LocaleUtils.isChinese(context)) {
+            name.setText(modTranslation != null ? modTranslation.getDisplayName() : bean.getTitle());
+        }
         StringBuilder categories = new StringBuilder();
         for (String category : bean.getCategories()) {
             boolean isCurse = bean.getPageUrl() != null && bean.getPageUrl().contains("curseforge");

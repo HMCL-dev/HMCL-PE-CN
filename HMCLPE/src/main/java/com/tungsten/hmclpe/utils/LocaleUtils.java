@@ -16,6 +16,12 @@ public class LocaleUtils {
      * 2: Simplified Chinese
      */
 
+    public static boolean isChinese(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("lang", Context.MODE_PRIVATE);
+        int lang = sharedPreferences.getInt("lang", 0);
+        return lang == 2 || (lang == 0 && getSystemLocale() == Locale.CHINA);
+    }
+
     public static Context setLanguage(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences("lang", Context.MODE_PRIVATE);
         return updateResources(context, sharedPreferences.getInt("lang", 0));

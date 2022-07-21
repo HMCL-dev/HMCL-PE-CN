@@ -30,6 +30,7 @@ import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.dialogs.ModInfoDialog;
 import com.tungsten.hmclpe.launcher.mod.LocalModFile;
 import com.tungsten.hmclpe.launcher.uis.game.manager.right.ModManagerUI;
+import com.tungsten.hmclpe.utils.LocaleUtils;
 import com.tungsten.hmclpe.utils.string.ModTranslations;
 import com.tungsten.hmclpe.utils.string.StringUtils;
 
@@ -106,7 +107,10 @@ public class LocalModListAdapter extends BaseAdapter {
         viewHolder.checkBox.setChecked(localModFile.isActive());
         viewHolder.name.setText(localModFile.getFileName());
         String displayName = ModTranslations.MOD.getModById(localModFile.getId()) == null ? "" : Objects.requireNonNull(ModTranslations.MOD.getModById(localModFile.getId())).getDisplayName();
-        viewHolder.category.setText(displayName);
+        viewHolder.category.setText("");
+        if (LocaleUtils.isChinese(context)) {
+            viewHolder.category.setText(displayName);
+        }
         String unknown = context.getString(R.string.mod_manager_ui_unknown_info);
         String name = StringUtils.isBlank(localModFile.getName()) ? unknown : localModFile.getName();
         String version = StringUtils.isBlank(localModFile.getVersion()) ? unknown : localModFile.getVersion();

@@ -22,6 +22,7 @@ import com.tungsten.hmclpe.launcher.mod.RemoteMod;
 import com.tungsten.hmclpe.launcher.mod.RemoteModRepository;
 import com.tungsten.hmclpe.launcher.mod.curse.CurseForgeRemoteModRepository;
 import com.tungsten.hmclpe.launcher.uis.game.download.right.resource.DownloadResourceUI;
+import com.tungsten.hmclpe.utils.LocaleUtils;
 import com.tungsten.hmclpe.utils.string.ModTranslations;
 
 import java.io.IOException;
@@ -129,7 +130,10 @@ public class DownloadResourceAdapter extends BaseAdapter {
         else {
             modTranslations = ModTranslations.EMPTY;
         }
-        viewHolder.name.setText((modTranslations.getModByCurseForgeId(modList.get(position).getSlug()) != null && Objects.requireNonNull(modTranslations.getModByCurseForgeId(modList.get(position).getSlug())).getDisplayName() != null) ? Objects.requireNonNull(modTranslations.getModByCurseForgeId(modList.get(position).getSlug())).getDisplayName() : modList.get(position).getTitle());
+        viewHolder.name.setText(modList.get(position).getTitle());
+        if (LocaleUtils.isChinese(context)) {
+            viewHolder.name.setText((modTranslations.getModByCurseForgeId(modList.get(position).getSlug()) != null && Objects.requireNonNull(modTranslations.getModByCurseForgeId(modList.get(position).getSlug())).getDisplayName() != null) ? Objects.requireNonNull(modTranslations.getModByCurseForgeId(modList.get(position).getSlug())).getDisplayName() : modList.get(position).getTitle());
+        }
         viewHolder.introduction.setText(modList.get(position).getDescription());
         viewHolder.item.setOnClickListener(view -> {
             DownloadResourceUI downloadResourceUI = new DownloadResourceUI(context,activity,repository,modList.get(position),type);
