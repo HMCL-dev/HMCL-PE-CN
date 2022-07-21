@@ -99,8 +99,9 @@ public class AssetsUtils {
         return this;
     }
 
-    public void setProgressCallback(ProgressCallback callback) {
+    public AssetsUtils setProgressCallback(ProgressCallback callback) {
         this.progressCallback = callback;
+        return instance;
     }
 
     public void setFileOperateCallback(FileOperateCallback callback) {

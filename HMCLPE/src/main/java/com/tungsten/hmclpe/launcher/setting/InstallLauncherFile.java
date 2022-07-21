@@ -44,28 +44,28 @@ public class InstallLauncherFile {
         });
         if (!new File(AppManifest.PLUGIN_DIR + "/installer").exists() || !new File(AppManifest.PLUGIN_DIR + "/installer/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.PLUGIN_DIR + "/installer/version"))) < Integer.parseInt(Objects.requireNonNull(AssetsUtils.readAssetsTxt(activity, "plugin/installer/version")))) {
             FileUtils.deleteDirectory(AppManifest.PLUGIN_DIR + "/installer");
-            AssetsUtils.getInstance(activity).copyOnMainThread("plugin/installer",AppManifest.PLUGIN_DIR + "/installer").setProgressCallback(progressCallback);
+            AssetsUtils.getInstance(activity).setProgressCallback(progressCallback).copyOnMainThread("plugin/installer",AppManifest.PLUGIN_DIR + "/installer");
         }
         /*
          *检查TouchInjector.jar
          */
         if (!new File(AppManifest.PLUGIN_DIR + "/touch").exists() || !new File(AppManifest.PLUGIN_DIR + "/touch/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.PLUGIN_DIR + "/touch/version"))) < Integer.parseInt(Objects.requireNonNull(AssetsUtils.readAssetsTxt(activity, "plugin/touch/version")))) {
             FileUtils.deleteDirectory(AppManifest.PLUGIN_DIR + "/touch");
-            AssetsUtils.getInstance(activity).copyOnMainThread("plugin/touch",AppManifest.PLUGIN_DIR + "/touch").setProgressCallback(progressCallback);
+            AssetsUtils.getInstance(activity).setProgressCallback(progressCallback).copyOnMainThread("plugin/touch",AppManifest.PLUGIN_DIR + "/touch");
         }
         /*
          *检查authlib-injector.jar
          */
         if (!new File(AppManifest.PLUGIN_DIR + "/login/authlib-injector").exists() || !new File(AppManifest.PLUGIN_DIR + "/login/authlib-injector/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.PLUGIN_DIR + "/login/authlib-injector/version"))) < Integer.parseInt(Objects.requireNonNull(AssetsUtils.readAssetsTxt(activity, "plugin/login/authlib-injector/version")))) {
             FileUtils.deleteDirectory(AppManifest.PLUGIN_DIR + "/login/authlib-injector");
-            AssetsUtils.getInstance(activity).copyOnMainThread("plugin/login/authlib-injector",AppManifest.PLUGIN_DIR + "/login/authlib-injector").setProgressCallback(progressCallback);
+            AssetsUtils.getInstance(activity).setProgressCallback(progressCallback).copyOnMainThread("plugin/login/authlib-injector",AppManifest.PLUGIN_DIR + "/login/authlib-injector");
         }
         /*
          *检查nide8auth.jar
          */
         if (!new File(AppManifest.PLUGIN_DIR + "/login/nide8auth").exists() || !new File(AppManifest.PLUGIN_DIR + "/login/nide8auth/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.PLUGIN_DIR + "/login/nide8auth/version"))) < Integer.parseInt(Objects.requireNonNull(AssetsUtils.readAssetsTxt(activity, "plugin/login/nide8auth/version")))) {
             FileUtils.deleteDirectory(AppManifest.PLUGIN_DIR + "/login/nide8auth");
-            AssetsUtils.getInstance(activity).copyOnMainThread("plugin/login/nide8auth",AppManifest.PLUGIN_DIR + "/login/nide8auth").setProgressCallback(progressCallback);
+            AssetsUtils.getInstance(activity).setProgressCallback(progressCallback).copyOnMainThread("plugin/login/nide8auth",AppManifest.PLUGIN_DIR + "/login/nide8auth");
         }
         /*
          *检查布局方案，如果没有，就生产一个默认布局
@@ -74,7 +74,7 @@ public class InstallLauncherFile {
             activity.loadingText.setText(activity.getString(R.string.loading_hint_control));
         });
         if (SettingUtils.getControlPatternList().size() == 0) {
-            AssetsUtils.getInstance(activity.getApplicationContext()).copyOnMainThread("control", AppManifest.CONTROLLER_DIR).setProgressCallback(progressCallback);
+            AssetsUtils.getInstance(activity.getApplicationContext()).setProgressCallback(progressCallback).copyOnMainThread("control", AppManifest.CONTROLLER_DIR);
         }
         /*
          *检查除Java外的运行环境，这些文件一定会被内置进启动器，所以进行统一处理
@@ -89,30 +89,26 @@ public class InstallLauncherFile {
             if (new File(AppManifest.DEFAULT_RUNTIME_DIR + "/version").exists()) {
                 new File(AppManifest.DEFAULT_RUNTIME_DIR + "/version").delete();
             }
-            AssetsUtils.getInstance(activity).copyOnMainThread("app_runtime/boat",AppManifest.BOAT_LIB_DIR).setProgressCallback(progressCallback);
-            AssetsUtils.getInstance(activity).copyOnMainThread("app_runtime/pojav",AppManifest.POJAV_LIB_DIR).setProgressCallback(progressCallback);
-            AssetsUtils.getInstance(activity).copyOnMainThread("app_runtime/caciocavallo",AppManifest.CACIOCAVALLO_DIR).setProgressCallback(progressCallback);
-            AssetsUtils.getInstance(activity).copyOnMainThread("app_runtime/version",AppManifest.DEFAULT_RUNTIME_DIR + "/version").setProgressCallback(progressCallback);
+            AssetsUtils.getInstance(activity).setProgressCallback(progressCallback).copyOnMainThread("app_runtime/boat",AppManifest.BOAT_LIB_DIR);
+            AssetsUtils.getInstance(activity).setProgressCallback(progressCallback).copyOnMainThread("app_runtime/pojav",AppManifest.POJAV_LIB_DIR);
+            AssetsUtils.getInstance(activity).setProgressCallback(progressCallback).copyOnMainThread("app_runtime/caciocavallo",AppManifest.CACIOCAVALLO_DIR);
+            AssetsUtils.getInstance(activity).setProgressCallback(progressCallback).copyOnMainThread("app_runtime/version",AppManifest.DEFAULT_RUNTIME_DIR + "/version");
         }
         /*
          *检查Java运行时，Java可能内置在启动器也可能需要下载，因此单独处理
          */
-        checkJava8(activity);
+        checkJava8(activity, progressCallback);
         checkJava17(activity);
     }
 
     @SuppressLint("SetTextI18n")
-    public static void checkJava8(SplashActivity activity){
-        AssetsUtils.ProgressCallback progressCallback = progress -> activity.runOnUiThread(() -> {
-            activity.loadingProgress.setProgress(progress);
-            activity.loadingProgressText.setText(progress + " %");
-        });
+    public static void checkJava8(SplashActivity activity, AssetsUtils.ProgressCallback callback){
         activity.runOnUiThread(() -> {
             activity.loadingText.setText(activity.getString(R.string.loading_hint_java_8));
         });
         if (!new File(AppManifest.JAVA_DIR + "/default").exists() || !new File(AppManifest.JAVA_DIR + "/default/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.JAVA_DIR + "/default/version"))) < Integer.parseInt(Objects.requireNonNull(AssetsUtils.readAssetsTxt(activity, "app_runtime/java/default/version")))) {
             FileUtils.deleteDirectory(AppManifest.JAVA_DIR + "/default");
-            AssetsUtils.getInstance(activity).copyOnMainThread("app_runtime/java/default",AppManifest.JAVA_DIR + "/default").setProgressCallback(progressCallback);
+            AssetsUtils.getInstance(activity).setProgressCallback(callback).copyOnMainThread("app_runtime/java/default",AppManifest.JAVA_DIR + "/default");
         }
     }
 
