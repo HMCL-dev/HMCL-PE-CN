@@ -61,7 +61,7 @@ public class CreateControlPatternDialog extends Dialog implements View.OnClickLi
                 names.add(controlPattern.name);
             }
             boolean exist = names.contains(editName.getText().toString());
-            if (editName.getText().toString().equals("") && editName.getText().toString().contains("/")){
+            if (editName.getText().toString().equals("") || editName.getText().toString().contains("/")){
                 Toast.makeText(getContext(),getContext().getString(R.string.dialog_create_control_pattern_warn),Toast.LENGTH_SHORT).show();
             }
             else if (exist){
