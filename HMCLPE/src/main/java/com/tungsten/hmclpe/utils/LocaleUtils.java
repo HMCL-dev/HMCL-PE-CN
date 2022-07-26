@@ -14,6 +14,7 @@ public class LocaleUtils {
      * 0: System
      * 1: English
      * 2: Simplified Chinese
+     * 3: Traditional Chinese
      */
 
     public static boolean isChinese(Context context) {
@@ -48,6 +49,8 @@ public class LocaleUtils {
                 return Locale.ENGLISH;
             case 2:
                 return Locale.CHINA;
+            case 3:
+                return Locale.TAIWAN;
             default:
                 return getSystemLocale();
         }

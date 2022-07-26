@@ -132,6 +132,7 @@ public class UniversalSettingUI extends BaseUI implements View.OnClickListener, 
         languages.add(context.getString(R.string.universal_setting_ui_lang_sys));
         languages.add("English");
         languages.add("简体中文");
+        languages.add("繁體中文");
         ArrayAdapter<String> langAdapter = new ArrayAdapter<>(context, R.layout.item_spinner, languages);
         switchLang.setAdapter(langAdapter);
         SharedPreferences sharedPreferences = context.getSharedPreferences("lang", Context.MODE_PRIVATE);
