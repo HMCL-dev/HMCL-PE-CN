@@ -783,477 +783,162 @@
     <string name="dialog_delete_rocker_positive">刪除</string>
     <string name="dialog_delete_rocker_content">確定要刪除該方向控制盤嗎？</string>
     <string name="dialog_delete_rocker_title">提示</string>
-
-    <string name="dialog_manage_controller_import">
- 從本地導入布局方案
-</string>
-    <string name="dialog_manage_controller_create">
- 創建新的布局方案
-</string>
-    <string name="dialog_manage_controller_exit">
- 完成
-</string>
-    <string name="export_control_pattern_title">
- 導出布局方案
-</string>
-    <string name="dialog_manage_controller_export_dialog">
- 正在導出本地布局方案…
-</string>
-    <string name="dialog_manage_controller_import_dialog">
- 正在導入觸控布局方案…
-</string>
-    <string name="dialog_manage_controller_import_exist">
- 您導入的布局方案已存在！
-</string>
-    <string name="dialog_manage_controller_import_error">
- 導入失敗，請檢查文件是否為HMCL-PE布局文件
-</string>
-    <string name="dialog_manage_controller_import_warn">
- 當前版本啟動器不支持您導入的布局方案，如果強行導入，可能會造成崩潰，是否繼續？
-</string>
-    <string name="dialog_create_control_pattern_title">
- 創建新的布局方案
-</string>
-    <string name="dialog_create_control_pattern_title_sec">
- 編輯布局方案信息
-</string>
-    <string name="dialog_create_control_pattern_name">
- 布局方案名稱（必填）
-</string>
-    <string name="dialog_create_control_pattern_author">
- 作者（選填）
-</string>
-    <string name="dialog_create_control_pattern_version">
- 版本（選填）
-</string>
-    <string name="dialog_create_control_pattern_describe">
- 描述（選填）
-</string>
-    <string name="dialog_create_control_pattern_warn">
- 布局方案名稱不合法！
-</string>
-    <string name="dialog_create_control_pattern_warn_exist">
- 布局方案名稱重複
-</string>
-    <string name="dialog_create_control_pattern_positive">
- 創建
-</string>
-    <string name="dialog_create_control_pattern_positive_sec">
- 保存
-</string>
-    <string name="dialog_manage_child_title">
- 管理子布局
-</string>
-    <string name="dialog_manage_child_create">
- 創建新的子布局
-</string>
-    <string name="dialog_manage_child_exit">
- 完成
-</string>
-    <string name="dialog_create_child_title">
- 創建新的子布局
-</string>
-    <string name="dialog_create_child_title_sec">
- 編輯子布局信息
-</string>
-    <string name="dialog_create_child_name">
- 子布局名稱
-</string>
-    <string name="dialog_create_child_visibility">
- 初始可視性
-</string>
-    <string name="dialog_create_child_visibility_visible">
- 顯示
-</string>
-    <string name="dialog_create_child_visibility_invisible">
- 隱藏
-</string>
-    <string name="dialog_create_child_positive">
- 創建
-</string>
-    <string name="dialog_create_child_positive_sec">
- 保存
-</string>
-    <string name="dialog_create_child_warn">
- 子布局名稱不得為空
-</string>
-    <string name="dialog_create_child_warn_info">
- 不合法的字符！
-</string>
-    <string name="dialog_create_child_warn_exist">
- 子布局名稱重複
-</string>
-    <string name="dialog_delete_control_pattern_title">
- 提示
-</string>
-    <string name="dialog_delete_control_pattern_content">
- 確定要永久刪除此布局方案嗎？
-</string>
-    <string name="dialog_delete_child_title">
- 提示
-</string>
-    <string name="dialog_delete_child_content">
- 確定要永久刪除該子布局嗎？
-</string>
-    <string name="item_control_pattern_author">
- 作者：
-</string>
-    <string name="item_control_pattern_version">
- 版本：
-</string>
-    <string name="item_control_pattern_describe">
- 描述：
-</string>
-    <string name="dialog_add_view_type_button">
- 按鍵
-</string>
-    <string name="dialog_add_view_type_rocker">
- 方向控製盤
-</string>
-    <string name="dialog_add_view_show">
- 顯示選項
-</string>
-    <string name="dialog_add_view_always">
- 總顯示
-</string>
-    <string name="dialog_add_view_only_in_game">
- 僅遊戲內顯示
-</string>
-    <string name="dialog_add_view_only_out_game">
- 僅遊戲外顯示
-</string>
-    <string name="dialog_add_view_size_type">
- 控件大小度量方式
-</string>
-    <string name="dialog_add_view_size_type_absolute">
- 絕對尺寸
-</string>
-    <string name="dialog_add_view_size_type_percent">
- 百分比尺寸
-</string>
-    <string name="dialog_add_view_width">
- 寬度
-</string>
-    <string name="dialog_add_view_height">
- 高度
-</string>
-    <string name="dialog_add_view_size">
- 邊長
-</string>
-    <string name="dialog_add_view_width_type_percent_object">
- 寬度參考對象
-</string>
-    <string name="dialog_add_view_height_type_percent_object">
- 高度參考對象
-</string>
-    <string name="dialog_add_view_size_type_percent_object">
- 邊長參考對象
-</string>
-    <string name="dialog_add_view_size_type_percent_object_width">
- 屏幕寬度
-</string>
-    <string name="dialog_add_view_size_type_percent_object_height">
- 屏幕高度
-</string>
-    <string name="dialog_add_view_position_type">
- 控件坐標類型
-</string>
-    <string name="dialog_add_view_position_type_absolute">
- 絕對坐標
-</string>
-    <string name="dialog_add_view_position_type_percent">
- 百分比坐標
-</string>
-    <string name="dialog_add_view_x">
- x 坐標
-</string>
-    <string name="dialog_add_view_y">
- y 坐標
-</string>
-    <string name="dialog_add_view_button_basic_setting">
- 基本設置
-</string>
-    <string name="dialog_add_view_button_text">
- 文本
-</string>
-    <string name="dialog_add_view_button_function_setting">
- 功能設置
-</string>
-    <string name="dialog_add_view_button_function_type">
- 功能觸發方式
-</string>
-    <string name="dialog_add_view_button_function_type_click">
- 按壓
-</string>
-    <string name="dialog_add_view_button_function_type_double_click">
- 雙擊
-</string>
-    <string name="dialog_add_view_button_function_extra_perspective">
- 視角跟隨
-</string>
-    <string name="dialog_add_view_button_function_extra_keep">
- 自動保持
-</string>
-    <string name="dialog_add_view_button_function_extra_auto_click">
- 自動連點
-</string>
-    <string name="dialog_add_view_button_function_open_menu">
- 呼出控製麵板
-</string>
-    <string name="dialog_add_view_button_function_movable">
- 可拖動
-</string>
-    <string name="dialog_add_view_button_function_touch_mode">
- 切換觸控模式
-</string>
-    <string name="dialog_add_view_button_function_sensor">
- 開/關陀螺儀
-</string>
-    <string name="dialog_add_view_button_function_left_touch">
- 啟用/禁用左半屏觸控
-</string>
-    <string name="dialog_add_view_button_function_open_input">
- 呼出文本輸入框
-</string>
-    <string name="dialog_add_view_button_function_child_visibility">
- 控製子布局顯示/隱藏
-</string>
-    <string name="dialog_add_view_button_function_child_visibility_button">
- 設置
-</string>
-    <string name="dialog_add_view_button_function_output_keychar">
- 輸出文本
-</string>
-    <string name="dialog_add_view_button_function_output_keycode">
- 輸出鍵值
-</string>
-    <string name="dialog_add_view_button_function_output_keycode_button">
- 選擇
-</string>
-    <string name="dialog_add_view_rocker_function_shift">
- 雙擊中心位置潛行
-</string>
-    <string name="dialog_add_view_rocker_function_follow">
- 跟隨設置
-</string>
-    <string name="dialog_add_view_rocker_function_follow_none">
- 不跟隨
-</string>
-    <string name="dialog_add_view_rocker_function_follow_part">
- 中心部分跟隨
-</string>
-    <string name="dialog_add_view_rocker_function_follow_all">
- 完全跟隨
-</string>
-    <string name="dialog_add_view_button_exterior_setting">
- 外觀設置
-</string>
-    <string name="dialog_add_view_button_exterior_use_exist">
- 使用保存的樣式
-</string>
-    <string name="dialog_add_view_button_exterior_add_style">
- 管理本地按鍵樣式
-</string>
-    <string name="dialog_add_view_button_exterior_add_style_button">
- 管理
-</string>
-    <string name="dialog_add_view_button_exterior_setting_text_size">
- 字體大小
-</string>
-    <string name="dialog_add_view_button_exterior_setting_text_color">
- 文本顏色
-</string>
-    <string name="dialog_add_view_button_exterior_setting_corner_radius">
- 圓角半徑
-</string>
-    <string name="dialog_add_view_button_exterior_setting_stroke_width">
- 邊框寬度
-</string>
-    <string name="dialog_add_view_button_exterior_setting_stroke_color">
- 邊框顏色
-</string>
-    <string name="dialog_add_view_button_exterior_setting_fill_color">
- 填充色
-</string>
-    <string name="dialog_add_view_button_exterior_setting_text_size_pressed">
- 字體大小（按壓）
-</string>
-    <string name="dialog_add_view_button_exterior_setting_text_color_pressed">
- 文本顏色（按壓）
-</string>
-    <string name="dialog_add_view_button_exterior_setting_corner_radius_pressed">
- 圓角半徑（按壓）
-</string>
-    <string name="dialog_add_view_button_exterior_setting_stroke_width_pressed">
- 邊框寬度（按壓）
-</string>
-    <string name="dialog_add_view_button_exterior_setting_stroke_color_pressed">
- 邊框顏色（按壓）
-</string>
-    <string name="dialog_add_view_button_exterior_setting_fill_color_pressed">
- 填充色（按壓）
-</string>
-    <string name="dialog_add_view_rocker_exterior_add_style">
- 管理本地方向控製盤樣式
-</string>
-    <string name="dialog_add_view_rocker_exterior_setting_pointer_color">
- 指示器顏色
-</string>
-    <string name="dialog_add_view_rocker_exterior_setting_fill_color">
- 填充色
-</string>
-    <string name="dialog_add_view_rocker_exterior_setting_corner_radius">
- 圓角半徑
-</string>
-    <string name="dialog_add_view_rocker_exterior_setting_stroke_width">
- 邊框寬度
-</string>
-    <string name="dialog_add_view_rocker_exterior_setting_stroke_color">
- 邊框顏色
-</string>
-    <string name="dialog_add_view_rocker_exterior_setting_pointer_color_pressed">
- 指示器顏色（按壓）
-</string>
-    <string name="dialog_add_view_rocker_exterior_setting_fill_color_pressed">
- 填充色（按壓）
-</string>
-    <string name="dialog_add_view_rocker_exterior_setting_corner_radius_pressed">
- 圓角半徑（按壓）
-</string>
-    <string name="dialog_add_view_rocker_exterior_setting_stroke_width_pressed">
- 邊框寬度（按壓）
-</string>
-    <string name="dialog_add_view_rocker_exterior_setting_stroke_color_pressed">
- 邊框顏色（按壓）
-</string>
-    <string name="dialog_add_view_exterior_setting_choose_color">
- 選擇
-</string>
-    <string name="dialog_edit_view_copy">
- 複製此控件
-</string>
-    <string name="dialog_edit_view_positive">
- 完成
-</string>
-    <string name="dialog_add_view_positive">
- 添加
-</string>
-    <string name="dialog_add_view_negative">
- 取消
-</string>
-    <string name="dialog_manage_button_style_title">
- 管理按鍵樣式
-</string>
-    <string name="dialog_manage_button_style_create">
- 創建新的樣式
-</string>
-    <string name="dialog_manage_button_style_positive">
- 完成
-</string>
-    <string name="dialog_manage_rocker_style_title">
- 管理方向控製盤樣式
-</string>
-    <string name="dialog_manage_rocker_style_create">
- 創建新的樣式
-</string>
-    <string name="dialog_manage_rocker_style_positive">
- 完成
-</string>
-    <string name="dialog_create_button_style_title">
- 創建新的按鍵樣式
-</string>
-    <string name="dialog_create_button_style_name">
- 名稱
-</string>
-    <string name="dialog_create_button_style_name_empty">
- 樣式名稱不得為空
-</string>
-    <string name="dialog_create_button_style_name_exist">
- 名稱已存在
-</string>
-    <string name="dialog_create_button_style_positive">
- 創建
-</string>
-    <string name="dialog_create_button_style_negative">
- 取消
-</string>
-    <string name="dialog_create_rocker_style_title">
- 創建新的方向控製盤樣式
-</string>
-    <string name="dialog_create_rocker_style_name">
- 名稱
-</string>
-    <string name="dialog_create_rocker_style_name_empty">
- 樣式名稱不得為空
-</string>
-    <string name="dialog_create_rocker_style_name_exist">
- 名稱已存在
-</string>
-    <string name="dialog_create_rocker_style_positive">
- 創建
-</string>
-    <string name="dialog_create_rocker_style_negative">
- 取消
-</string>
-    <string name="dialog_child_visibility_title">
- 控製子布局顯示/隱藏
-</string>
-    <string name="dialog_child_visibility_positive">
- 完成
-</string>
-    <string name="dialog_select_keycode_keyboard">
- 鍵盤
-</string>
-    <string name="dialog_select_keycode_mouse">
- 鼠標
-</string>
-    <string name="dialog_select_keycode_positive">
- 完成
-</string>
-    <string name="dialog_delete_button_title">
- 提示
-</string>
-    <string name="dialog_delete_button_content">
- 確定要刪除該按鍵嗎？
-</string>
-    <string name="dialog_delete_button_positive">
- 刪除
-</string>
-    <string name="ui_about_thank">
- 鳴謝
-</string>
-    <string name="ui_about_cosine_sub">
- 提供大量技術支持
-</string>
-    <string name="ui_about_tsaltedfishking_sub">
- 提供 HMCL-PE 官網模板
-</string>
-    <string name="ui_about_hmcl_main">
- HMCL 開發團隊及所有貢獻者
-</string>
-    <string name="ui_about_hmcl_sub">
- 本項目大量借鑒 HMCL
-</string>
-    <string name="ui_about_bangbang93_sub">
- 提供 BMCLAPI 下載源，請讚助支持 BMCLAPI！
-</string>
-    <string name="ui_about_mcbbs_main">
- MCBBS 我的世界中文論壇
-</string>
-    <string name="ui_about_mcbbs_sub">
- 提供 MCBBS 下載源
-</string>
-    <string name="ui_about_mcmod_main">
- MC 百科
-</string>
-    <string name="ui_about_mcmod_sub">
- 提供 Mod 中文名映射表與 Mod 百科
-</string>
-    <string name="ui_about_github_main">
- 所有通過 Issues、讚助等方式參與本項目的貢獻者
-</string>
-    <string name="ui_about_github_sub">
- 感謝各位的建議、bug 反饋及讚助
-</string>
+    <string name="dialog_manage_controller_import">從本地導入布局方案</string>
+    <string name="dialog_manage_controller_create">創建新的布局方案</string>
+    <string name="dialog_manage_controller_exit">完成</string>
+    <string name="export_control_pattern_title">導出布局方案</string>
+    <string name="dialog_manage_controller_export_dialog">正在導出本地布局方案…</string>
+    <string name="dialog_manage_controller_import_dialog">正在導入觸控布局方案…</string>
+    <string name="dialog_manage_controller_import_exist">您導入的布局方案已存在！</string>
+    <string name="dialog_manage_controller_import_error">導入失敗，請檢查文件是否為HMCL-PE布局文件</string>
+    <string name="dialog_manage_controller_import_warn">當前版本啟動器不支持您導入的布局方案，如果強行導入，可能會造成崩潰，是否繼續？</string>
+    <string name="dialog_create_control_pattern_title">創建新的布局方案</string>
+    <string name="dialog_create_control_pattern_title_sec">編輯布局方案信息</string>
+    <string name="dialog_create_control_pattern_name">布局方案名稱（必填）</string>
+    <string name="dialog_create_control_pattern_author">作者（選填）</string>
+    <string name="dialog_create_control_pattern_version">版本（選填）</string>
+    <string name="dialog_create_control_pattern_describe">描述（選填）</string>
+    <string name="dialog_create_control_pattern_warn">布局方案名稱不合法！</string>
+    <string name="dialog_create_control_pattern_warn_exist">布局方案名稱重複</string>
+    <string name="dialog_create_control_pattern_positive">創建</string>
+    <string name="dialog_create_control_pattern_positive_sec">保存</string>
+    <string name="dialog_manage_child_title">管理子布局</string>
+    <string name="dialog_manage_child_create">創建新的子布局</string>
+    <string name="dialog_manage_child_exit">完成</string>
+    <string name="dialog_create_child_title">創建新的子布局</string>
+    <string name="dialog_create_child_title_sec">編輯子布局信息</string>
+    <string name="dialog_create_child_name">子布局名稱</string>
+    <string name="dialog_create_child_visibility">初始可視性</string>
+    <string name="dialog_create_child_visibility_visible">顯示</string>
+    <string name="dialog_create_child_visibility_invisible">隱藏</string>
+    <string name="dialog_create_child_positive">創建</string>
+    <string name="dialog_create_child_positive_sec">保存</string>
+    <string name="dialog_create_child_warn">子布局名稱不得為空</string>
+    <string name="dialog_create_child_warn_info">不合法的字符！</string>
+    <string name="dialog_create_child_warn_exist">子布局名稱重複</string>
+    <string name="dialog_delete_control_pattern_title">提示</string>
+    <string name="dialog_delete_control_pattern_content">確定要永久刪除此布局方案嗎？</string>
+    <string name="dialog_delete_child_title">提示</string>
+    <string name="dialog_delete_child_content">確定要永久刪除該子布局嗎？</string>
+    <string name="item_control_pattern_author">作者：</string>
+    <string name="item_control_pattern_version">版本：</string>
+    <string name="item_control_pattern_describe">描述：</string>
+    <string name="dialog_add_view_type_button">按鍵</string>
+    <string name="dialog_add_view_type_rocker">方向控製盤</string>
+    <string name="dialog_add_view_show">顯示選項</string>
+    <string name="dialog_add_view_always">總顯示</string>
+    <string name="dialog_add_view_only_in_game">僅遊戲內顯示</string>
+    <string name="dialog_add_view_only_out_game">僅遊戲外顯示</string>
+    <string name="dialog_add_view_size_type">控件大小度量方式</string>
+    <string name="dialog_add_view_size_type_absolute">絕對尺寸</string>
+    <string name="dialog_add_view_size_type_percent">百分比尺寸</string>
+    <string name="dialog_add_view_width">寬度</string>
+    <string name="dialog_add_view_height">高度</string>
+    <string name="dialog_add_view_size">邊長</string>
+    <string name="dialog_add_view_width_type_percent_object">寬度參考對象</string>
+    <string name="dialog_add_view_height_type_percent_object">高度參考對象</string>
+    <string name="dialog_add_view_size_type_percent_object">邊長參考對象</string>
+    <string name="dialog_add_view_size_type_percent_object_width">屏幕寬度</string>
+    <string name="dialog_add_view_size_type_percent_object_height">屏幕高度</string>
+    <string name="dialog_add_view_position_type">控件坐標類型</string>
+    <string name="dialog_add_view_position_type_absolute">絕對坐標</string>
+    <string name="dialog_add_view_position_type_percent">百分比坐標</string>
+    <string name="dialog_add_view_x">x 坐標</string>
+    <string name="dialog_add_view_y">y 坐標</string>
+    <string name="dialog_add_view_button_basic_setting">基本設置</string>
+    <string name="dialog_add_view_button_text">文本</string>
+    <string name="dialog_add_view_button_function_setting">功能設置</string>
+    <string name="dialog_add_view_button_function_type">功能觸發方式</string>
+    <string name="dialog_add_view_button_function_type_click">按壓</string>
+    <string name="dialog_add_view_button_function_type_double_click">雙擊</string>
+    <string name="dialog_add_view_button_function_extra_perspective">視角跟隨</string>
+    <string name="dialog_add_view_button_function_extra_keep">自動保持</string>
+    <string name="dialog_add_view_button_function_extra_auto_click">自動連點</string>
+    <string name="dialog_add_view_button_function_open_menu">呼出控製麵板</string>
+    <string name="dialog_add_view_button_function_movable">可拖動</string>
+    <string name="dialog_add_view_button_function_touch_mode">切換觸控模式</string>
+    <string name="dialog_add_view_button_function_sensor">開/關陀螺儀</string>
+    <string name="dialog_add_view_button_function_left_touch">啟用/禁用左半屏觸控</string>
+    <string name="dialog_add_view_button_function_open_input">呼出文本輸入框</string>
+    <string name="dialog_add_view_button_function_child_visibility">控製子布局顯示/隱藏</string>
+    <string name="dialog_add_view_button_function_child_visibility_button">設置</string>
+    <string name="dialog_add_view_button_function_output_keychar">輸出文本</string>
+    <string name="dialog_add_view_button_function_output_keycode">輸出鍵值</string>
+    <string name="dialog_add_view_button_function_output_keycode_button">選擇</string>
+    <string name="dialog_add_view_rocker_function_shift">雙擊中心位置潛行</string>
+    <string name="dialog_add_view_rocker_function_follow">跟隨設置</string>
+    <string name="dialog_add_view_rocker_function_follow_none">不跟隨</string>
+    <string name="dialog_add_view_rocker_function_follow_part">中心部分跟隨</string>
+    <string name="dialog_add_view_rocker_function_follow_all">完全跟隨</string>
+    <string name="dialog_add_view_button_exterior_setting">外觀設置</string>
+    <string name="dialog_add_view_button_exterior_use_exist">使用保存的樣式</string>
+    <string name="dialog_add_view_button_exterior_add_style">管理本地按鍵樣式</string>
+    <string name="dialog_add_view_button_exterior_add_style_button">管理</string>
+    <string name="dialog_add_view_button_exterior_setting_text_size">字體大小</string>
+    <string name="dialog_add_view_button_exterior_setting_text_color">文本顏色</string>
+    <string name="dialog_add_view_button_exterior_setting_corner_radius">圓角半徑</string>
+    <string name="dialog_add_view_button_exterior_setting_stroke_width">邊框寬度</string>
+    <string name="dialog_add_view_button_exterior_setting_stroke_color">邊框顏色</string>
+    <string name="dialog_add_view_button_exterior_setting_fill_color">填充色</string>
+    <string name="dialog_add_view_button_exterior_setting_text_size_pressed">字體大小（按壓）</string>
+    <string name="dialog_add_view_button_exterior_setting_text_color_pressed">文本顏色（按壓）</string>
+    <string name="dialog_add_view_button_exterior_setting_corner_radius_pressed">圓角半徑（按壓）</string>
+    <string name="dialog_add_view_button_exterior_setting_stroke_width_pressed">邊框寬度（按壓）</string>
+    <string name="dialog_add_view_button_exterior_setting_stroke_color_pressed">邊框顏色（按壓）</string>
+    <string name="dialog_add_view_button_exterior_setting_fill_color_pressed">填充色（按壓）</string>
+    <string name="dialog_add_view_rocker_exterior_add_style">管理本地方向控製盤樣式</string>
+    <string name="dialog_add_view_rocker_exterior_setting_pointer_color">指示器顏色</string>
+    <string name="dialog_add_view_rocker_exterior_setting_fill_color">填充色</string>
+    <string name="dialog_add_view_rocker_exterior_setting_corner_radius">圓角半徑</string>
+    <string name="dialog_add_view_rocker_exterior_setting_stroke_width">邊框寬度</string>
+    <string name="dialog_add_view_rocker_exterior_setting_stroke_color">邊框顏色</string>
+    <string name="dialog_add_view_rocker_exterior_setting_pointer_color_pressed">指示器顏色（按壓）</string>
+    <string name="dialog_add_view_rocker_exterior_setting_fill_color_pressed">填充色（按壓）</string>
+    <string name="dialog_add_view_rocker_exterior_setting_corner_radius_pressed">圓角半徑（按壓）</string>
+    <string name="dialog_add_view_rocker_exterior_setting_stroke_width_pressed">邊框寬度（按壓）</string>
+    <string name="dialog_add_view_rocker_exterior_setting_stroke_color_pressed">邊框顏色（按壓）</string>
+    <string name="dialog_add_view_exterior_setting_choose_color">選擇</string>
+    <string name="dialog_edit_view_copy">複製此控件</string>
+    <string name="dialog_edit_view_positive">完成</string>
+    <string name="dialog_add_view_positive">添加</string>
+    <string name="dialog_add_view_negative">取消</string>
+    <string name="dialog_manage_button_style_title">管理按鍵樣式</string>
+    <string name="dialog_manage_button_style_create">創建新的樣式</string>
+    <string name="dialog_manage_button_style_positive">完成</string>
+    <string name="dialog_manage_rocker_style_title">管理方向控製盤樣式</string>
+    <string name="dialog_manage_rocker_style_create">創建新的樣式</string>
+    <string name="dialog_manage_rocker_style_positive">完成</string>
+    <string name="dialog_create_button_style_title">創建新的按鍵樣式</string>
+    <string name="dialog_create_button_style_name">名稱</string>
+    <string name="dialog_create_button_style_name_empty">樣式名稱不得為空</string>
+    <string name="dialog_create_button_style_name_exist">名稱已存在</string>
+    <string name="dialog_create_button_style_positive">創建</string>
+    <string name="dialog_create_button_style_negative">取消</string>
+    <string name="dialog_create_rocker_style_title">創建新的方向控製盤樣式</string>
+    <string name="dialog_create_rocker_style_name">名稱</string>
+    <string name="dialog_create_rocker_style_name_empty">樣式名稱不得為空</string>
+    <string name="dialog_create_rocker_style_name_exist">名稱已存在</string>
+    <string name="dialog_create_rocker_style_positive">創建</string>
+    <string name="dialog_create_rocker_style_negative">取消</string>
+    <string name="dialog_child_visibility_title">控製子布局顯示/隱藏</string>
+    <string name="dialog_child_visibility_positive">完成</string>
+    <string name="dialog_select_keycode_keyboard">鍵盤</string>
+    <string name="dialog_select_keycode_mouse">鼠標</string>
+    <string name="dialog_select_keycode_positive">完成</string>
+    <string name="dialog_delete_button_title">提示</string>
+    <string name="dialog_delete_button_content">確定要刪除該按鍵嗎？</string>
+    <string name="dialog_delete_button_positive">刪除</string>
+    <string name="ui_about_thank">鳴謝</string>
+    <string name="ui_about_cosine_sub">提供大量技術支持</string>
+    <string name="ui_about_tsaltedfishking_sub">提供 HMCL-PE 官網模板</string>
+    <string name="ui_about_hmcl_main">HMCL 開發團隊及所有貢獻者</string>
+    <string name="ui_about_hmcl_sub">本項目大量借鑒 HMCL</string>
+    <string name="ui_about_bangbang93_sub">提供 BMCLAPI 下載源，請讚助支持 BMCLAPI！</string>
+    <string name="ui_about_mcbbs_main">MCBBS 我的世界中文論壇</string>
+    <string name="ui_about_mcbbs_sub">提供 MCBBS 下載源</string>
+    <string name="ui_about_mcmod_main">MC 百科</string>
+    <string name="ui_about_mcmod_sub">提供 Mod 中文名映射表與 Mod 百科</string>
+    <string name="ui_about_github_main">所有通過 Issues、讚助等方式參與本項目的貢獻者</string>
+    <string name="ui_about_github_sub">感謝各位的建議、bug 反饋及讚助</string>
 
 </resources>
