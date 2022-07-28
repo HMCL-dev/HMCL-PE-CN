@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -377,9 +378,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    public void startVerify(VerifyInterface verifyInterface){
+    public void startVerify(VerifyInterface verifyInterface) {
         SharedPreferences msh = getSharedPreferences("Security", Context.MODE_PRIVATE);
         SharedPreferences.Editor mshe = msh.edit();
+        Log.e("verified", Boolean.toString(msh.getBoolean("verified",false)));
+        Log.e("valid", Boolean.toString(isValid(msh.getString("code",null))));
         if (msh.getBoolean("verified",false) && isValid(msh.getString("code",null))) {
             verifyInterface.onSuccess();
             return;

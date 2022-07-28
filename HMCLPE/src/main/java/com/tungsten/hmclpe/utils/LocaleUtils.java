@@ -15,6 +15,7 @@ public class LocaleUtils {
      * 1: English
      * 2: Simplified Chinese
      * 3: Traditional Chinese
+     * 4: Vietnamese
      */
 
     public static boolean isChinese(Context context) {

@@ -32,7 +32,7 @@
     <string name="delete_dialog_message">你确定要删除 %d 吗？</string>
     <string name="delete_progress">正在删除，请稍候</string>
     <string name="delete_error">删除时发生了一个错误</string>
-    <string name="no_items_selected">没有选中xiang</string>
+    <string name="no_items_selected">没有选中</string>
     <string name="wait">请稍候</string>
     <string name="copying">正在复制 %s</string>
     <string name="moving">正在移动 %s</string>
