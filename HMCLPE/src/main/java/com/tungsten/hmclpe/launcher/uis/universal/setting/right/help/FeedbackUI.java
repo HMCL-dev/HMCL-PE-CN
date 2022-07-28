@@ -17,6 +17,8 @@ public class FeedbackUI extends BaseUI implements View.OnClickListener {
 
     public LinearLayout feedbackUI;
 
+    private ImageButton joinDiscord;
+    private ImageButton joinQQChannel;
     private ImageButton joinQQ;
     private ImageButton jumpToGit;
 
@@ -29,9 +31,13 @@ public class FeedbackUI extends BaseUI implements View.OnClickListener {
         super.onCreate();
         feedbackUI = activity.findViewById(R.id.ui_feedback);
 
+        joinDiscord = activity.findViewById(R.id.join_discord);
+        joinQQChannel = activity.findViewById(R.id.join_qq_channel);
         joinQQ = activity.findViewById(R.id.join_qq_group);
         jumpToGit = activity.findViewById(R.id.jump_to_git_issues);
 
+        joinDiscord.setOnClickListener(this);
+        joinQQChannel.setOnClickListener(this);
         joinQQ.setOnClickListener(this);
         jumpToGit.setOnClickListener(this);
     }
@@ -79,6 +85,16 @@ public class FeedbackUI extends BaseUI implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        if (v == joinDiscord) {
+            Uri uri = Uri.parse("https://discord.gg/zeMNy8Wdgd");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            context.startActivity(intent);
+        }
+        if (v == joinQQChannel) {
+            Uri uri = Uri.parse("https://qun.qq.com/qqweb/qunpro/share?_wv=3&_wwv=128&appChannel=share&inviteCode=1izjNP&businessType=9&from=246610&biz=ka");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            context.startActivity(intent);
+        }
         if (v == joinQQ){
             joinQQGroup("7rX0cr37hu_jNPaGIlqAEf4Ndv1BG-WU");
         }
