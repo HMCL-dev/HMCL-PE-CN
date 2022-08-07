@@ -451,23 +451,7 @@ public class UniversalGameSettingUI extends BaseUI implements View.OnClickListen
             activity.privateGameSetting.notCheckJvm = isChecked;
         }
         if (buttonView == checkTouchInjector) {
-            if (isChecked) {
-                activity.startVerify(new VerifyInterface() {
-                    @Override
-                    public void onSuccess() {
-                        activity.privateGameSetting.touchInjector = true;
-                        GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        checkTouchInjector.setChecked(false);
-                    }
-                });
-            }
-            else {
-                activity.privateGameSetting.touchInjector = false;
-            }
+            activity.privateGameSetting.touchInjector = isChecked;
         }
         GsonUtils.savePrivateGameSetting(activity.privateGameSetting, AppManifest.SETTING_DIR + "/private_game_setting.json");
     }

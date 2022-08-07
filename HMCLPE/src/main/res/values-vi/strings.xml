@@ -715,7 +715,7 @@
     <string name="game_setting_ui_server_hint">Tham gia tự động sau khi khởi chạy trò chơi.</string>
     <string name="game_setting_ui_skin_alert">Thông tin</string>
     <string name="game_setting_ui_skin_alert_text">Giao diện cho các tài khoản ngoại tuyến hiện đã được hỗ trợ. Bạn có thể vào cài đặt tài khoản để thay đổi da và áo choàng của mình, nhưng những người chơi khác không thể nhìn thấy nó trong nhiều người chơi.</string>
-    <string name="game_setting_ui_touch_injector">BE Touch (Yêu cầu quyền kiểm tra phiên bản phát triển)</string>
+    <string name="game_setting_ui_touch_injector">BE Gesture</string>
     <string name="game_setting_ui_used_ram">Đã sử dụng %s GB</string>
     <string name="game_setting_ui_version_isolation">Thư mục làm việc</string>
     <string name="game_setting_ui_version_isolation_custom">Phong tục</string>

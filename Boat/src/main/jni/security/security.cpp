@@ -20,7 +20,7 @@ string dir;
 string getSecretKey(const char *oaid);
 
 
-bool isPublic = false;
+bool isPublic = true;
 bool isCracked = false;
 
 bool isInit = false;

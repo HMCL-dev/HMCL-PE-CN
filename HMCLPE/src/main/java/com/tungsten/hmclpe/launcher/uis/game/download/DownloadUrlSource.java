@@ -22,7 +22,7 @@ public class DownloadUrlSource {
     public static String[] OFFICIAL_URLS = {
             "https://piston-meta.mojang.com/mc/game/version_manifest.json",
             "https://piston-meta.mojang.com",
-            "https://launcher.mojang.com",
+            "https://piston-data.mojang.com",
             "https://piston-meta.mojang.com",
             "https://resources.download.minecraft.net",
             "https://libraries.minecraft.net",

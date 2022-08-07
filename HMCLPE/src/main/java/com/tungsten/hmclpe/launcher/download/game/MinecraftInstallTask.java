@@ -90,7 +90,7 @@ public class MinecraftInstallTask extends AsyncTask<VersionManifest.Version,Inte
 
         ArrayList<DownloadTaskListBean> libList = new ArrayList<>();
         libList.add(new DownloadTaskListBean(name + ".jar",
-                DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.VERSION_JAR) + rawPatch.getDownloadInfo().getUrl().replace("https://launcher.mojang.com",""),
+                DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.VERSION_JAR) + rawPatch.getDownloadInfo().getUrl().replace("https://launcher.mojang.com","").replace("https://piston-data.mojang.com", ""),
                 activity.launcherSetting.gameFileDirectory + "/versions/" + name + "/" + name + ".jar",
                 rawPatch.getDownloadInfo().getSha1()));
         for (Library library : rawPatch.getLibraries()){
@@ -153,7 +153,7 @@ public class MinecraftInstallTask extends AsyncTask<VersionManifest.Version,Inte
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("The following files failed to download:");
             for (DownloadTaskListBean bean : failedLibs) {
-                stringBuilder.append("\n\n  ").append(bean.name);
+                stringBuilder.append("\n\n  ").append(bean.name).append("\n\n").append(bean.url);
             }
             Exception e = new Exception(stringBuilder.toString());
             e.printStackTrace();

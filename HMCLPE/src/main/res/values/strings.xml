@@ -658,7 +658,7 @@
     <string name="game_setting_ui_jvm_setting_arg">Java VM arguments</string>
     <string name="game_setting_ui_jvm_setting_arg_hint">Enter here to override default options</string>
     <string name="game_setting_ui_control_setting">Control options</string>
-    <string name="game_setting_ui_touch_injector">BE Touch (Requires development version testing permissions)</string>
+    <string name="game_setting_ui_touch_injector">BE Gesture</string>
     <string name="game_setting_ui_control_layout">Control Layout Pattern</string>
     <string name="game_setting_ui_control_layout_manage">Manage</string>
     <string name="game_setting_ui_launch_setting">Launch options</string>

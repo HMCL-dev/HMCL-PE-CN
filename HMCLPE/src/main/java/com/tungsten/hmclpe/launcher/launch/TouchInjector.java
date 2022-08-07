@@ -1,6 +1,5 @@
 package com.tungsten.hmclpe.launcher.launch;
 
-import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.setting.game.GameLaunchSetting;
 import com.tungsten.hmclpe.manifest.AppManifest;
 
@@ -12,7 +11,6 @@ public class TouchInjector {
         if (!gameLaunchSetting.touchInjector) {
             return args;
         }
-        MainActivity.verifyFunc();
         Vector<String> newArgs = new Vector<>();
         if (args.contains("Forge") || args.contains("cpw.mods.fml.common.launcher.FMLTweaker") || args.contains("fmlclient") || args.contains("forgeclient")) {
             if (args.contains("cpw.mods.bootstraplauncher.BootstrapLauncher")) {

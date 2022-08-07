@@ -850,23 +850,7 @@ public class VersionSettingUI extends BaseUI implements View.OnClickListener, Co
                 privateGameSetting.notCheckJvm = b;
             }
             if (compoundButton == checkTouchInjector && privateGameSetting != null) {
-                if (b) {
-                    activity.startVerify(new VerifyInterface() {
-                        @Override
-                        public void onSuccess() {
-                            privateGameSetting.touchInjector = true;
-                            GsonUtils.savePrivateGameSetting(privateGameSetting, activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/hmclpe.cfg");
-                        }
-
-                        @Override
-                        public void onCancel() {
-                            checkTouchInjector.setChecked(false);
-                        }
-                    });
-                }
-                else {
-                    privateGameSetting.touchInjector = false;
-                }
+                privateGameSetting.touchInjector = b;
             }
             GsonUtils.savePrivateGameSetting(privateGameSetting, activity.launcherSetting.gameFileDirectory + "/versions/" + versionName + "/hmclpe.cfg");
         }

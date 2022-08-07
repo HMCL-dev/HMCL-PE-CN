@@ -705,7 +705,7 @@
     <string name="game_setting_ui_jvm_setting_arg">Java 虚拟机参数</string>
     <string name="game_setting_ui_jvm_setting_arg_hint">填写此处可以覆盖默认设置</string>
     <string name="game_setting_ui_control_setting">控制选项</string>
-    <string name="game_setting_ui_touch_injector">仿基岩版触控（需要开发版测试权限）</string>
+    <string name="game_setting_ui_touch_injector">仿基岩版触控</string>
     <string name="game_setting_ui_control_layout">触控布局方案</string>
     <string name="game_setting_ui_control_layout_manage">管理</string>
     <string name="game_setting_ui_launch_setting">启动选项</string>
