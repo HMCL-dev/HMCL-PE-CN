@@ -24,6 +24,7 @@ import com.tungsten.hmclpe.utils.io.DownloadUtil;
 import com.tungsten.hmclpe.utils.io.SocketServer;
 import com.tungsten.hmclpe.utils.io.ZipTools;
 import com.tungsten.hmclpe.utils.platform.Bits;
+import com.tungsten.hmclpe.utils.string.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -131,7 +132,9 @@ public class ForgeInstallTask extends AsyncTask<ForgeVersion,Integer, Version> {
                         url,
                         activity.launcherSetting.gameFileDirectory + "/libraries/" + library.getPath(),
                         library.getDownload().getSha1());
-                list.add(bean);
+                if (StringUtils.isNotBlank(library.getDownload().getUrl())) {
+                    list.add(bean);
+                }
             }
             for (Library library : installProfile.getLibraries()){
                 String url;
@@ -145,7 +148,9 @@ public class ForgeInstallTask extends AsyncTask<ForgeVersion,Integer, Version> {
                         url,
                         activity.launcherSetting.gameFileDirectory + "/libraries/" +library.getPath(),
                         library.getDownload().getSha1());
-                list.add(bean);
+                if (StringUtils.isNotBlank(library.getDownload().getUrl())) {
+                    list.add(bean);
+                }
             }
         }
         else {
@@ -166,7 +171,9 @@ public class ForgeInstallTask extends AsyncTask<ForgeVersion,Integer, Version> {
                             url,
                             activity.launcherSetting.gameFileDirectory + "/libraries/" + library.getPath(),
                             library.getDownload().getSha1());
-                    list.add(bean);
+                    if (StringUtils.isNotBlank(library.getDownload().getUrl())) {
+                        list.add(bean);
+                    }
                 }
             }
         }
