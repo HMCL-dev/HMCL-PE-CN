@@ -289,10 +289,10 @@ public class TouchPad extends View {
                 case MotionEvent.ACTION_POINTER_UP:
                 case MotionEvent.ACTION_UP:
                 case MotionEvent.ACTION_CANCEL:
+                    if (menuHelper.gameMenuSetting.mouseMode == 0 && menuHelper.gameCursorMode == 0){
+                        InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);
+                    }
                     if (event.getPointerId(event.getActionIndex()) == pointerID) {
-                        if (menuHelper.gameMenuSetting.mouseMode == 0 && menuHelper.gameCursorMode == 0){
-                            InputBridge.sendMouseEvent(launcher,InputBridge.MOUSE_LEFT,false);
-                        }
                         if (menuHelper.gameCursorMode == 1 && event.getPointerId(event.getActionIndex()) == pointerID && (!menuHelper.gameMenuSetting.disableHalfScreen || initialX > (screenWidth >> 1))){
                             menuHelper.viewManager.setGamePointer("1",false,event.getX() - initialX,event.getY() - initialY);
                             handler.removeCallbacks(runnable);

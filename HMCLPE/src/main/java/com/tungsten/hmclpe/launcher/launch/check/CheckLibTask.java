@@ -96,12 +96,6 @@ public class CheckLibTask extends AsyncTask<RecyclerView,Integer,Exception> {
             }
         }
         AssetIndex assetIndex = gson.fromJson(assetIndexString,AssetIndex.class);
-        if (!isRightFile(launchVersion + "/" + new File(launchVersion).getName() + ".jar",version.getDownloadInfo().getSha1())) {
-            list.add(new DownloadTaskListBean(new File(launchVersion).getName() + ".jar",
-                    DownloadUrlSource.getSubUrl(DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource),DownloadUrlSource.VERSION_JAR) + version.getDownloadInfo().getUrl().replace("https://launcher.mojang.com",""),
-                    launchVersion + "/" + new File(launchVersion).getName() + ".jar",
-                    version.getDownloadInfo().getSha1()));
-        }
         for (Library library : version.getLibraries()) {
             if (!isRightFile(activity.launcherSetting.gameFileDirectory + "/libraries/" + library.getPath(),library.getDownload().getSha1()) && !library.getPath().contains("tv/twitch") && !library.getPath().contains("lwjgl-platform-2.9.1-nightly")) {
                 String libUrl;

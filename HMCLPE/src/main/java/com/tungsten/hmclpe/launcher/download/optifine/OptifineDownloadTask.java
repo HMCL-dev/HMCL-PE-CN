@@ -6,7 +6,6 @@ import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListAdapter;
 import com.tungsten.hmclpe.launcher.list.install.DownloadTaskListBean;
-import com.tungsten.hmclpe.launcher.uis.game.download.DownloadUrlSource;
 import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.task.DownloadTask;
 import com.tungsten.hmclpe.utils.file.FileUtils;
@@ -40,14 +39,7 @@ public class OptifineDownloadTask extends AsyncTask<OptifineVersion,Integer,Exce
     @Override
     protected Exception doInBackground(OptifineVersion... optifineVersions) {
         OptifineVersion optifineVersion = optifineVersions[0];
-        int source = DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource);
-        String start;
-        if (source == 2) {
-            start = "https://download.mcbbs.net";
-        }
-        else {
-            start = "https://bmclapi2.bangbang93.com";
-        }
+        String start = "https://bmclapi2.bangbang93.com";
         String mirror = start + "/optifine/" + optifineVersion.mcVersion + "/" + optifineVersion.type + "/" + optifineVersion.patch;
         String path = AppManifest.INSTALL_DIR + "/optifine/" + optifineVersion.fileName;
         FileUtils.deleteDirectory(AppManifest.INSTALL_DIR);

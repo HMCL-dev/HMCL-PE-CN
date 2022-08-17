@@ -159,7 +159,7 @@ public class ForgeInstallTask extends AsyncTask<ForgeVersion,Integer, Version> {
             oldProfile = installProfile;
             patch = installProfile.getVersionInfo();
             for (Library library : patch.getLibraries()){
-                if (!library.getPath().equals(installProfile.getInstall().getPath().getPath())) {
+                if (!library.getPath().equals(installProfile.getInstall().getPath().getPath()) && !library.getPath().contains("lwjgl-platform-2.9.1-nightly-20130708-debug3")) {
                     String url;
                     if (DownloadUrlSource.getSource(activity.launcherSetting.downloadUrlSource) == 0) {
                         url = library.getDownload().getUrl();
