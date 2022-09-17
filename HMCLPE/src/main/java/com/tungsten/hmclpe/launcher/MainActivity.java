@@ -1,11 +1,13 @@
 package com.tungsten.hmclpe.launcher;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -14,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageButton;
@@ -23,6 +26,11 @@ import android.widget.TextView;
 
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.Config;
+import com.tencent.connect.common.Constants;
+import com.tencent.tauth.DefaultUiListener;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.dialogs.VerifyDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.SkinPreviewDialog;
@@ -37,6 +45,9 @@ import com.tungsten.hmclpe.launcher.uis.universal.setting.right.launcher.Exterio
 import com.tungsten.hmclpe.update.UpdateChecker;
 import com.tungsten.hmclpe.utils.LocaleUtils;
 import com.tungsten.hmclpe.utils.animation.CustomAnimationUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -75,6 +86,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public UIManager uiManager;
 
     public Config exteriorConfig;
+
+    private Tencent mTencent;
+    private IUiListener iUiListener;
 
     public void init(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -275,6 +289,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (SkinPreviewDialog.getInstance() != null) {
             SkinPreviewDialog.getInstance().onActivityResult(requestCode,resultCode,data);
         }
+//        if (requestCode == Constants.REQUEST_LOGIN) {
+//            Tencent.onActivityResultData(requestCode,resultCode,data,iUiListener);
+//        }
+        if(resultCode == Constants.ACTIVITY_OK) {
+            Tencent.handleResultData(data, iUiListener);
+        }
     }
 
     @Override
@@ -360,19 +380,98 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
     }
-
+    AlertDialog alertDialog;
     public void startVerify() {
-        startVerify(new VerifyInterface() {
+        SharedPreferences msh;
+        SharedPreferences.Editor mshe;
+        msh = getSharedPreferences("Mio", MODE_PRIVATE);
+        mshe = msh.edit();
+        mTencent=Tencent.createInstance("102019361",this,"com.tungsten.filepicker.provider");
+        String openid=msh.getString("openid","");
+        String token=msh.getString("token","");
+        String expires_in=msh.getString("expires_in","");
+        if (!openid.equals("")&&!token.equals("")&&!expires_in.equals("")){
+            mTencent.setOpenId(openid);
+            mTencent.setAccessToken(token,expires_in);
+        }
+        Tencent.setIsPermissionGranted(true);
+        iUiListener=new IUiListener() {
             @Override
-            public void onSuccess() {
+            public void onComplete(Object o) {
+                try {
+                    Log.e("测试","成功");
+                    JSONObject result=(JSONObject) o;
+                    Log.e("测试",result.toString());
+                    String openid=result.getString("openid");//openid作为设备码
+                    String accessToken=result.getString("access_token");//token
+                    String expires_in=result.getString("expires_in");//过期时间
+                    mTencent.setOpenId(openid);
+                    mTencent.setAccessToken(token,expires_in);
+                    mshe.putString("openid",openid);
+                    mshe.putString("token",accessToken);
+                    mshe.putString("expires_in",expires_in);
+                    mshe.commit();
+                    alertDialog.dismiss();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
 
+            @Override
+            public void onError(UiError uiError) {
+                Log.e("测试",uiError.errorDetail);
             }
 
             @Override
             public void onCancel() {
-                finish();
+                Log.e("测试","取消");
             }
-        });
+
+            @Override
+            public void onWarning(int i) {
+                Log.e("测试","onWarning"+i);
+            }
+        };
+        if (mTencent.isSessionValid()){
+            //登录状态正常
+            Log.e("测试","isSessionValid");
+        } else {
+            //登录状态失效
+            alertDialog=new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("登录")
+                    .setMessage("")
+                    .setPositiveButton("登录", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mTencent.login(MainActivity.this, "get_simple_userinfo", iUiListener);
+                                }
+                            }).start();
+                        }
+                    })
+                    .setNegativeButton("退出", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    }).create();
+//        alertDialog.setCancelable(false);
+            alertDialog.setCanceledOnTouchOutside(false);
+            alertDialog.show();
+        }
+//        startVerify(new VerifyInterface() {
+//            @Override
+//            public void onSuccess() {
+//
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//                finish();
+//            }
+//        });
     }
 
     public void startVerify(VerifyInterface verifyInterface) {
