@@ -50,6 +50,8 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public static final boolean IS_PUBLIC_VERSION = false;
+
     public LinearLayout launcherLayout;
 
     public boolean isLoaded = false;
@@ -89,7 +91,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         init();
 
-        startVerify();
+        if (!IS_PUBLIC_VERSION) {
+            startVerify();
+        }
     }
 
     public void init(){
