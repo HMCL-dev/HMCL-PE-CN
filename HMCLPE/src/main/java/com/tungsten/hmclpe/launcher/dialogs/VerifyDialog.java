@@ -8,40 +8,47 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.VerifyInterface;
-import com.tungsten.hmclpe.utils.DigestUtils;
+import com.tungsten.hmclpe.utils.io.NetworkUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 public class VerifyDialog extends Dialog implements View.OnClickListener {
 
     private MainActivity activity;
-    private SharedPreferences.Editor editor;
+    private final Tencent mTencent;
+    private final IUiListener iUiListener;
     private VerifyInterface verifyInterface;
 
     private String code;
 
     private TextView textView;
-    private EditText editText;
     private Button obtainPermission;
     private Button cancel;
     private Button copy;
+    private Button login;
     private Button verify;
 
-    public VerifyDialog(@NonNull Context context, MainActivity activity, SharedPreferences.Editor editor, VerifyInterface verifyInterface) {
+    public VerifyDialog(@NonNull Context context, MainActivity activity, Tencent mTencent, IUiListener iUiListener, VerifyInterface verifyInterface) {
         super(context);
         this.activity = activity;
-        this.editor = editor;
+        this.mTencent = mTencent;
+        this.iUiListener = iUiListener;
         this.verifyInterface = verifyInterface;
         setContentView(R.layout.dialog_verify);
         setCancelable(false);
@@ -49,20 +56,58 @@ public class VerifyDialog extends Dialog implements View.OnClickListener {
     }
 
     private void init() {
-        code = DigestUtils.getDeviceCode(getContext());
-
-        textView = findViewById(R.id.oaid_text);
-        editText = findViewById(R.id.edit_verify_code);
+        textView = findViewById(R.id.id_text);
         obtainPermission = findViewById(R.id.obtain_permission);
         cancel = findViewById(R.id.cancel);
-        copy = findViewById(R.id.copy_oaid);
+        login = findViewById(R.id.login);
+        copy = findViewById(R.id.copy);
         verify = findViewById(R.id.verify);
 
-        textView.setText(getContext().getString(R.string.dialog_verify_msg).replace("%s", code));
+        textView.setText(getContext().getString(R.string.dialog_verify_msg));
         obtainPermission.setOnClickListener(this);
         cancel.setOnClickListener(this);
+        login.setOnClickListener(this);
         copy.setOnClickListener(this);
         verify.setOnClickListener(this);
+    }
+
+    public void onLoginSuccess(String id) {
+        code = id;
+        textView.setText(getContext().getString(R.string.dialog_verify_msg_sec).replace("%s", code));
+        copy.setVisibility(View.VISIBLE);
+        login.setVisibility(View.GONE);
+        verify.setVisibility(View.VISIBLE);
+    }
+
+    public void verify() {
+        String url = "http://101.43.66.4:8080/verify/idverify?id=" + code;
+        verify.setEnabled(false);
+        Toast.makeText(getContext(), "Please wait", Toast.LENGTH_SHORT).show();
+        new Thread(() -> {
+            try {
+                String result = NetworkUtils.doGet(NetworkUtils.toURL(url));
+                JSONObject object = new JSONObject(result);
+                if (object.getBoolean("isValid")) {
+                    activity.runOnUiThread(() -> {
+                        Toast.makeText(getContext(), getContext().getString(R.string.dialog_verify_verify_success), Toast.LENGTH_SHORT).show();
+                        verifyInterface.onSuccess();
+                        dismiss();
+                    });
+                }
+                else {
+                    activity.runOnUiThread(() -> {
+                        verify.setEnabled(true);
+                        try {
+                            Toast.makeText(getContext(), object.getString("errorMsg"), Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     @Override
@@ -83,6 +128,10 @@ public class VerifyDialog extends Dialog implements View.OnClickListener {
             verifyInterface.onCancel();
             dismiss();
         }
+        if (view == login) {
+            textView.setText(getContext().getString(R.string.dialog_verify_logging));
+            new Thread(() -> mTencent.login(activity, "get_simple_userinfo", iUiListener)).start();
+        }
         if (view == copy) {
             ClipboardManager clip = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
             ClipData data = ClipData.newPlainText(null, code);
@@ -90,17 +139,7 @@ public class VerifyDialog extends Dialog implements View.OnClickListener {
             Toast.makeText(getContext(), getContext().getString(R.string.dialog_verify_copy_success), Toast.LENGTH_SHORT).show();
         }
         if (view == verify) {
-            if (activity.isValid(editText.getText().toString())){
-                editor.putString("code",editText.getText().toString());
-                editor.putBoolean("verified",true);
-                editor.commit();
-                Toast.makeText(getContext(), getContext().getString(R.string.dialog_verify_verify_success), Toast.LENGTH_SHORT).show();
-                dismiss();
-                verifyInterface.onSuccess();
-            }
-            else {
-                Toast.makeText(getContext(), getContext().getString(R.string.dialog_verify_verify_fail), Toast.LENGTH_SHORT).show();
-            }
+            verify();
         }
     }
 

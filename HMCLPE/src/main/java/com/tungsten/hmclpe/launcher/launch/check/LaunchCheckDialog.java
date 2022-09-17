@@ -233,7 +233,7 @@ public class LaunchCheckDialog extends Dialog implements View.OnClickListener, H
                     }
                     intent.putExtras(bundle);
                     dismiss();
-                    activity.launch(intent);
+                    activity.startActivity(intent);
                 }
             });
             launchTask.execute(activity.publicGameSetting.account);

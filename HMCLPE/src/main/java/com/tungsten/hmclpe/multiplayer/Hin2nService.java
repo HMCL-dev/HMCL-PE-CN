@@ -14,7 +14,7 @@ public class Hin2nService extends N2NService {
     public static final int VPN_REQUEST_CODE_CREATE = 10000;
     public static final int VPN_REQUEST_CODE_JOIN = 10001;
 
-    public static final String IP_VERIFICATION_URL = "http://101.43.66.4:8080/IPVerification/ipverification?room=";
+    public static final String IP_VERIFICATION_URL = "http://101.43.66.4:8080/verify/portverify?room=";
 
     public static ServerType SERVER_TYPE;
 

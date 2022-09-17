@@ -2,13 +2,11 @@ package com.tungsten.hmclpe.launcher;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -24,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.Config;
@@ -76,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public Config exteriorConfig;
 
+    VerifyDialog verifyDialog;
     private Tencent mTencent;
     private IUiListener iUiListener;
 
@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         launcherLayout = findViewById(R.id.launcher_layout);
 
         init();
+
+        startVerify();
     }
 
     public void init(){
@@ -378,38 +380,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onDestroy();
     }
 
-    AlertDialog alertDialog;
+    @SuppressLint("CommitPrefEdits")
     public void startVerify() {
-        SharedPreferences msh;
-        SharedPreferences.Editor mshe;
-        msh = getSharedPreferences("Mio", MODE_PRIVATE);
-        mshe = msh.edit();
-        mTencent=Tencent.createInstance("102019361",this,"com.tungsten.filepicker.provider");
-        String openid=msh.getString("openid","");
-        String token=msh.getString("token","");
-        String expires_in=msh.getString("expires_in","");
-        if (!openid.equals("")&&!token.equals("")&&!expires_in.equals("")){
+        SharedPreferences sharedPreferences;
+        SharedPreferences.Editor editor;
+        sharedPreferences = getSharedPreferences("verify", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        mTencent = Tencent.createInstance("102019361", this, "com.tungsten.filepicker.provider");
+        String openid = sharedPreferences.getString("openid", "");
+        String token = sharedPreferences.getString("token", "");
+        String expires_in = sharedPreferences.getString("expires_in", "");
+        if (!openid.equals("") && !token.equals("") && !expires_in.equals("")) {
             mTencent.setOpenId(openid);
             mTencent.setAccessToken(token,expires_in);
         }
         Tencent.setIsPermissionGranted(true);
-        iUiListener=new IUiListener() {
+        iUiListener = new IUiListener() {
             @Override
             public void onComplete(Object o) {
                 try {
-                    Log.e("测试","成功");
-                    JSONObject result=(JSONObject) o;
-                    Log.e("测试",result.toString());
-                    String openid=result.getString("openid");//openid作为设备码
-                    String accessToken=result.getString("access_token");//token
-                    String expires_in=result.getString("expires_in");//过期时间
+                    JSONObject result = (JSONObject) o;
+                    String openid = result.getString("openid");//openid作为设备码
+                    String accessToken = result.getString("access_token");//token
+                    String expires_in = result.getString("expires_in");//过期时间
                     mTencent.setOpenId(openid);
-                    mTencent.setAccessToken(token,expires_in);
-                    mshe.putString("openid",openid);
-                    mshe.putString("token",accessToken);
-                    mshe.putString("expires_in",expires_in);
-                    mshe.commit();
-                    alertDialog.dismiss();
+                    mTencent.setAccessToken(token, expires_in);
+                    editor.putString("openid", openid);
+                    editor.putString("token", accessToken);
+                    editor.putString("expires_in", expires_in);
+                    editor.commit();
+                    verifyDialog.onLoginSuccess(openid);
+                    Toast.makeText(MainActivity.this, getString(R.string.dialog_verify_login_success), Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -417,46 +418,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onError(UiError uiError) {
-                Log.e("测试",uiError.errorDetail);
+                Log.e("QQ login failed",uiError.errorDetail);
+                Toast.makeText(MainActivity.this, getString(R.string.dialog_verify_login_fail), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCancel() {
-                Log.e("测试","取消");
+                Log.e("QQ login canceled","login canceled");
+                Toast.makeText(MainActivity.this, getString(R.string.dialog_verify_login_fail), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onWarning(int i) {
-                Log.e("测试","onWarning"+i);
+                Log.e("Warning","onWarning" + i);
             }
         };
-        if (mTencent.isSessionValid()){
-            //登录状态正常
-            Log.e("测试","isSessionValid");
-        } else {
-            //登录状态失效
-            alertDialog=new AlertDialog.Builder(MainActivity.this)
-                    .setTitle("登录")
-                    .setMessage("")
-                    .setPositiveButton("登录", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mTencent.login(MainActivity.this, "get_simple_userinfo", iUiListener);
-                                }
-                            }).start();
-                        }
-                    })
-                    .setNegativeButton("退出", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            System.exit(0);
-                        }
-                    }).create();
-            alertDialog.setCanceledOnTouchOutside(false);
-            alertDialog.show();
+        verifyDialog = new VerifyDialog(this, this, mTencent, iUiListener, new VerifyInterface() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onCancel() {
+                System.exit(0);
+            }
+        });
+        verifyDialog.show();
+        if (mTencent.isSessionValid()) {
+            Log.e("login","isSessionValid");
+            verifyDialog.onLoginSuccess(openid);
+            verifyDialog.verify();
         }
     }
 

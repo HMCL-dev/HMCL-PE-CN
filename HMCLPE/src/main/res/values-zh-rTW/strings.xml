@@ -4,10 +4,15 @@
     <string name="dialog_unknown_error_title">警告</string>
     <string name="dialog_unknown_error_positive">確定</string>
     <string name="dialog_verify_title">開發版測試權限驗證</string>
-    <string name="dialog_verify_code">授權驗證碼</string>
+    <string name="dialog_verify_msg">請先登入。</string>
+    <string name="dialog_verify_logging">正在登入…</string>
+    <string name="dialog_verify_msg_sec">您的設備碼為：\n%s</string>
     <string name="dialog_verify_donate">獲取權限</string>
+    <string name="dialog_verify_login">登入</string>
     <string name="dialog_verify_copy">複製設備碼</string>
     <string name="dialog_verify_copy_success">複製成功</string>
+    <string name="dialog_verify_login_success">登入成功</string>
+    <string name="dialog_verify_login_fail">登入失敗</string>
     <string name="dialog_verify_verify">驗證</string>
     <string name="dialog_verify_verify_success">驗證成功</string>
     <string name="dialog_verify_verify_fail">驗證失敗</string>
@@ -31,7 +36,6 @@
     <string name="loading_hint_java_17">正在檢查 Java 17…</string>
     <string name="dialog_add_verify_server_name">服務器名稱</string>
     <string name="dialog_add_verify_server_nide_name">服務器名稱</string>
-    <string name="dialog_verify_msg">您的設備碼為：\n%s\n請填寫與此設備碼匹配的授權驗證碼。</string>
     <string name="loading_hint_java_17_select">請選擇…</string>
     <string name="loading_hint_java_17_check">正在檢查文件…</string>
     <string name="loading_hint_java_17_error">請選擇官方提供的 Java 17 文件，如果你沒有此文件，請加入官方群獲取</string>
