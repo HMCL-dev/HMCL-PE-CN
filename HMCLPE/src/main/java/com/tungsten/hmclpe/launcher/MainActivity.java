@@ -1,6 +1,7 @@
 package com.tungsten.hmclpe.launcher;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -27,7 +28,6 @@ import android.widget.TextView;
 import com.afollestad.appthemeengine.ATE;
 import com.afollestad.appthemeengine.Config;
 import com.tencent.connect.common.Constants;
-import com.tencent.tauth.DefaultUiListener;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
@@ -50,17 +50,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    static {
-        System.loadLibrary("security");
-    }
-    public native boolean isValid(String str);
-    public static native void verify();
-    public static native void verifyFunc();
-    public native void launch(Intent intent);
-    @SuppressLint("MissingSuperCall")
-    @Override
-    public native void onCreate(Bundle savedInstanceState);
 
     public LinearLayout launcherLayout;
 
@@ -89,6 +78,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Tencent mTencent;
     private IUiListener iUiListener;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_main);
+
+        launcherLayout = findViewById(R.id.launcher_layout);
+
+        init();
+    }
 
     public void init(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -289,10 +289,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (SkinPreviewDialog.getInstance() != null) {
             SkinPreviewDialog.getInstance().onActivityResult(requestCode,resultCode,data);
         }
-//        if (requestCode == Constants.REQUEST_LOGIN) {
-//            Tencent.onActivityResultData(requestCode,resultCode,data,iUiListener);
-//        }
-        if(resultCode == Constants.ACTIVITY_OK) {
+        if(requestCode == Constants.REQUEST_LOGIN && resultCode == Constants.ACTIVITY_OK) {
             Tencent.handleResultData(data, iUiListener);
         }
     }
@@ -380,6 +377,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
     }
+
     AlertDialog alertDialog;
     public void startVerify() {
         SharedPreferences msh;
@@ -457,32 +455,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             System.exit(0);
                         }
                     }).create();
-//        alertDialog.setCancelable(false);
             alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
         }
-//        startVerify(new VerifyInterface() {
-//            @Override
-//            public void onSuccess() {
-//
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//                finish();
-//            }
-//        });
-    }
-
-    public void startVerify(VerifyInterface verifyInterface) {
-        SharedPreferences msh = getSharedPreferences("Security", Context.MODE_PRIVATE);
-        SharedPreferences.Editor mshe = msh.edit();
-        if (msh.getBoolean("verified",false) && isValid(msh.getString("code",null))) {
-            verifyInterface.onSuccess();
-            return;
-        }
-        VerifyDialog dialog = new VerifyDialog(this, this, mshe, verifyInterface);
-        dialog.show();
     }
 
 }
