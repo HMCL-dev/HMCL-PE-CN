@@ -30,10 +30,10 @@ import java.io.IOException;
 
 public class VerifyDialog extends Dialog implements View.OnClickListener {
 
-    private MainActivity activity;
+    private final MainActivity activity;
     private final Tencent mTencent;
     private final IUiListener iUiListener;
-    private VerifyInterface verifyInterface;
+    private final VerifyInterface verifyInterface;
 
     private String code;
 
@@ -80,9 +80,9 @@ public class VerifyDialog extends Dialog implements View.OnClickListener {
     }
 
     public void verify() {
+        textView.setText(getContext().getString(R.string.dialog_verify_verifying));
         String url = "http://101.43.66.4:8080/verify/idverify?id=" + code;
         verify.setEnabled(false);
-        Toast.makeText(getContext(), "Please wait", Toast.LENGTH_SHORT).show();
         new Thread(() -> {
             try {
                 String result = NetworkUtils.doGet(NetworkUtils.toURL(url));
@@ -107,6 +107,9 @@ public class VerifyDialog extends Dialog implements View.OnClickListener {
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
+            activity.runOnUiThread(() -> {
+                textView.setText(getContext().getString(R.string.dialog_verify_msg_sec).replace("%s", code));
+            });
         }).start();
     }
 

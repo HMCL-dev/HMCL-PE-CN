@@ -16,7 +16,7 @@
         android:text="@string/dialog_verify_title"/>
 
     <TextView
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_middle"
@@ -25,7 +25,7 @@
         android:id="@+id/id_text"/>
 
     <LinearLayout
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

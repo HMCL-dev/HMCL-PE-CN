@@ -14,6 +14,7 @@
     <string name="dialog_verify_login_success">登入成功</string>
     <string name="dialog_verify_login_fail">登入失敗</string>
     <string name="dialog_verify_verify">驗證</string>
+    <string name="dialog_verify_verifying">正在驗證…</string>
     <string name="dialog_verify_verify_success">驗證成功</string>
     <string name="dialog_verify_verify_fail">驗證失敗</string>
     <string name="dialog_verify_cancel">取消</string>
