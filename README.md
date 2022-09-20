@@ -14,6 +14,7 @@ The software is distributed under [GPL v3](https://www.gnu.org/licenses/gpl-3.0.
 
 ## Compilation
 Run link.bat first
+Apply for QQ API at [QQ互联](https://connect.qq.com/index.html)
 
 ## Third party components
 [HMCL](https://github.com/huanghongxun/HMCL)
