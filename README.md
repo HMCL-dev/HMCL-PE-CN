@@ -6,7 +6,7 @@
 
 <div align="center">
 
-![MainScreen](/.github/images/hmcl-pe-main-screen.jpg)
+![MainScreen](/.github/images/main.jpg)
 
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 [![Discord](https://img.shields.io/badge/Discord-4903FC?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/c79XjKHy4S)
@@ -38,9 +38,8 @@ The software attempts to restore HMCL on Android devices, allowing players to ma
 
 <h1 align="center">Screenshots</h1>
 
-![GameScreen1](/.github/images/hmcl-pe-in-game-1.jpg)
-![GameScreen2](/.github/images/hmcl-pe-in-game-2.jpg)
-![ModScreen](/.github/images/hmcl-pe-mods-menu.jpg)
+![GameScreen1](/.github/images/mod.jpg)
+![GameScreen2](/.github/images/game.jpg)
 
 <h1 align="center">Compilation</h1>
 
