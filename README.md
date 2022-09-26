@@ -12,7 +12,7 @@
 [![Discord](https://img.shields.io/badge/Discord-4903FC?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/c79XjKHy4S)
 ![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)
 ![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
-[![QQ](https://img.shields.io/badge/QQ-4903FC?style=for-the-badge&logoColor=white)](https://jq.qq.com/?_wv=1027&k=4r1lFLgc)
+[![QQ](https://img.shields.io/badge/QQ-4903FC?style=for-the-badge&logoColor=white)](https://jq.qq.com/?_wv=1027&k=PomNnDJW)
 ![Downloads](https://img.shields.io/github/downloads/Tungstend/HMCL-PE/total?color=green&style=for-the-badge)
 
 [![Sponsor](https://img.shields.io/badge/sponsor-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=#EA4AAA)](https://afdian.net/@tungs)
