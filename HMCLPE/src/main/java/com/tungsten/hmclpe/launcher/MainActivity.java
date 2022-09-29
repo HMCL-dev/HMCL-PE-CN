@@ -1,5 +1,7 @@
 package com.tungsten.hmclpe.launcher;
 
+import static com.tungsten.hmclpe.manifest.info.AppInfo.IS_PUBLIC_VERSION;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +33,7 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 import com.tungsten.hmclpe.R;
+import com.tungsten.hmclpe.launcher.dialogs.FirstLaunchDialog;
 import com.tungsten.hmclpe.launcher.dialogs.VerifyDialog;
 import com.tungsten.hmclpe.launcher.dialogs.account.SkinPreviewDialog;
 import com.tungsten.hmclpe.manifest.AppManifest;
@@ -49,8 +52,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    public static final boolean IS_PUBLIC_VERSION = false;
 
     public LinearLayout launcherLayout;
 
@@ -91,9 +92,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         init();
 
-        if (!IS_PUBLIC_VERSION) {
-            startVerify();
-        }
+        startVerify();
+
+        showEula();
     }
 
     public void init(){
@@ -392,75 +393,86 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onDestroy();
     }
 
+    public void showEula() {
+        SharedPreferences sharedPreferences;
+        sharedPreferences = getSharedPreferences("global", MODE_PRIVATE);
+        if (sharedPreferences.getInt("first_launch", 0) == 0) {
+            FirstLaunchDialog dialog = new FirstLaunchDialog(this);
+            dialog.show();
+        }
+    }
+
     @SuppressLint("CommitPrefEdits")
     public void startVerify() {
-        SharedPreferences sharedPreferences;
-        SharedPreferences.Editor editor;
-        sharedPreferences = getSharedPreferences("verify", MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        mTencent = Tencent.createInstance("102019361", this, "com.tungsten.filepicker.provider");
-        String openid = sharedPreferences.getString("openid", "");
-        String token = sharedPreferences.getString("token", "");
-        String expires_in = sharedPreferences.getString("expires_in", "");
-        if (!openid.equals("") && !token.equals("") && !expires_in.equals("")) {
-            mTencent.setOpenId(openid);
-            mTencent.setAccessToken(token,expires_in);
-        }
-        Tencent.setIsPermissionGranted(true);
-        iUiListener = new IUiListener() {
-            @Override
-            public void onComplete(Object o) {
-                try {
-                    JSONObject result = (JSONObject) o;
-                    String openid = result.getString("openid");//openid作为设备码
-                    String accessToken = result.getString("access_token");//token
-                    String expires_in = result.getString("expires_in");//过期时间
-                    mTencent.setOpenId(openid);
-                    mTencent.setAccessToken(token, expires_in);
-                    editor.putString("openid", openid);
-                    editor.putString("token", accessToken);
-                    editor.putString("expires_in", expires_in);
-                    editor.commit();
-                    verifyDialog.onLoginSuccess(openid);
-                    Toast.makeText(MainActivity.this, getString(R.string.dialog_verify_login_success), Toast.LENGTH_SHORT).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        if (!IS_PUBLIC_VERSION) {
+            SharedPreferences sharedPreferences;
+            SharedPreferences.Editor editor;
+            sharedPreferences = getSharedPreferences("verify", MODE_PRIVATE);
+            editor = sharedPreferences.edit();
+            mTencent = Tencent.createInstance("102019361", this, "com.tungsten.filepicker.provider");
+            String openid = sharedPreferences.getString("openid", "");
+            String token = sharedPreferences.getString("token", "");
+            String expires_in = sharedPreferences.getString("expires_in", "");
+            if (!openid.equals("") && !token.equals("") && !expires_in.equals("")) {
+                mTencent.setOpenId(openid);
+                mTencent.setAccessToken(token,expires_in);
+            }
+            Tencent.setIsPermissionGranted(true);
+            iUiListener = new IUiListener() {
+                @Override
+                public void onComplete(Object o) {
+                    try {
+                        JSONObject result = (JSONObject) o;
+                        String openid = result.getString("openid");//openid作为设备码
+                        String accessToken = result.getString("access_token");//token
+                        String expires_in = result.getString("expires_in");//过期时间
+                        mTencent.setOpenId(openid);
+                        mTencent.setAccessToken(token, expires_in);
+                        editor.putString("openid", openid);
+                        editor.putString("token", accessToken);
+                        editor.putString("expires_in", expires_in);
+                        editor.apply();
+                        verifyDialog.onLoginSuccess(openid);
+                        Toast.makeText(MainActivity.this, getString(R.string.dialog_verify_login_success), Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void onError(UiError uiError) {
-                Log.e("QQ login failed",uiError.errorDetail);
-                Toast.makeText(MainActivity.this, getString(R.string.dialog_verify_login_fail), Toast.LENGTH_SHORT).show();
-            }
+                @Override
+                public void onError(UiError uiError) {
+                    Log.e("QQ login failed",uiError.errorDetail);
+                    Toast.makeText(MainActivity.this, getString(R.string.dialog_verify_login_fail), Toast.LENGTH_SHORT).show();
+                }
 
-            @Override
-            public void onCancel() {
-                Log.e("QQ login canceled","login canceled");
-                Toast.makeText(MainActivity.this, getString(R.string.dialog_verify_login_fail), Toast.LENGTH_SHORT).show();
-            }
+                @Override
+                public void onCancel() {
+                    Log.e("QQ login canceled","login canceled");
+                    Toast.makeText(MainActivity.this, getString(R.string.dialog_verify_login_fail), Toast.LENGTH_SHORT).show();
+                }
 
-            @Override
-            public void onWarning(int i) {
-                Log.e("Warning","onWarning" + i);
-            }
-        };
-        verifyDialog = new VerifyDialog(this, this, mTencent, iUiListener, new VerifyInterface() {
-            @Override
-            public void onSuccess() {
+                @Override
+                public void onWarning(int i) {
+                    Log.e("Warning","onWarning" + i);
+                }
+            };
+            verifyDialog = new VerifyDialog(this, this, mTencent, iUiListener, new VerifyInterface() {
+                @Override
+                public void onSuccess() {
 
-            }
+                }
 
-            @Override
-            public void onCancel() {
-                System.exit(0);
+                @Override
+                public void onCancel() {
+                    System.exit(0);
+                }
+            });
+            verifyDialog.show();
+            if (mTencent.isSessionValid()) {
+                Log.e("login","isSessionValid");
+                verifyDialog.onLoginSuccess(openid);
+                verifyDialog.verify();
             }
-        });
-        verifyDialog.show();
-        if (mTencent.isSessionValid()) {
-            Log.e("login","isSessionValid");
-            verifyDialog.onLoginSuccess(openid);
-            verifyDialog.verify();
         }
     }
 

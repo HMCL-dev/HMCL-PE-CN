@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="dialog_first_start_title">Welcome</string>
+    <string name="dialog_first_start_msg">Welcome to HMCL-PE, this application attempts to implement the UI and features of HMCL on Android devices, but is not a fork of HMCL.\n\nBefore using, you need to read and agree to the User Agreement.</string>
+    <string name="dialog_first_start_eula">EULA</string>
+    <string name="dialog_first_start_positive">Agree and continue</string>
     <string name="storage_permissions_remind">Please grant read and write permissions to the launcher, otherwise it may not operate normally</string>
     <string name="dialog_unknown_error_title">Warning</string>
     <string name="dialog_unknown_error_positive">Confirm</string>

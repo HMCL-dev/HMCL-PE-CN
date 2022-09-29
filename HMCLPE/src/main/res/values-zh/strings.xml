@@ -50,6 +50,11 @@
     <string name="loading_hint_ready">准备就绪，即将进入启动器…</string>
     <string name="loading_hint_failed">核心资源安装/更新失败，请检查网络并重启应用，如果无效，请联系开发者</string>
 
+    <string name="dialog_first_start_title">欢迎使用</string>
+    <string name="dialog_first_start_msg">欢迎使用 HMCL-PE，本应用尝试在 Android 设备上实现 HMCL 的 UI 和功能，但并非是 HMCL 的分支。\n\n在使用前，您需要先阅读并同意用户协议。</string>
+    <string name="dialog_first_start_eula">用户协议</string>
+    <string name="dialog_first_start_positive">同意并继续</string>
+
     <string name="launcher_scroll_text_account">账户</string>
     <string name="launcher_scroll_account_name">没有游戏账户</string>
     <string name="launcher_scroll_account_state">点击此处添加账户</string>

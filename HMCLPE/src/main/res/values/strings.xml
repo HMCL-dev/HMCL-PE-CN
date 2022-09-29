@@ -140,6 +140,10 @@
     <string name="loading_hint_java_17_unzip">Decompressing Java 17…</string>
     <string name="loading_hint_ready">Ready, about to enter the launcher…</string>
     <string name="loading_hint_failed">Core file install/update failed, please check your network, if invalid, please contact the developer</string>
+    <string name="dialog_first_start_title">Welcome</string>
+    <string name="dialog_first_start_msg">Welcome to HMCL-PE, this application attempts to implement the UI and features of HMCL on Android devices, but is not a fork of HMCL.\n\nBefore using, you need to read and agree to the User Agreement.</string>
+    <string name="dialog_first_start_eula">EULA</string>
+    <string name="dialog_first_start_positive">Agree and continue</string>
     <string name="launcher_scroll_text_account">ACCOUNTS</string>
     <string name="launcher_scroll_account_name">No Accounts</string>
     <string name="launcher_scroll_account_state">Click here to add one</string>

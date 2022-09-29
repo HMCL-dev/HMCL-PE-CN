@@ -46,6 +46,10 @@
     <string name="loading_hint_java_17_unzip">正在解壓 Java 17…</string>
     <string name="loading_hint_ready">準備就緒，即將進入啟動器…</string>
     <string name="loading_hint_failed">核心資源安裝/更新失敗，請檢查網絡並重啟應用，如果無效，請聯繫開發者</string>
+    <string name="dialog_first_start_title">歡迎使用</string>
+    <string name="dialog_first_start_msg">歡迎使用 HMCL-PE，本應用嘗試在 Android 設備上實現 HMCL 的 UI 和功能，但並非是 HMCL 的分支。 \n\n在使用前，您需要先閱讀並同意用戶協議。</string>
+    <string name="dialog_first_start_eula">用戶協議</string>
+    <string name="dialog_first_start_positive">同意並繼續</string>
     <string name="launcher_scroll_text_account">賬戶</string>
     <string name="launcher_scroll_account_name">沒有遊戲賬戶</string>
     <string name="launcher_scroll_account_state">點擊此處添加賬戶</string>
