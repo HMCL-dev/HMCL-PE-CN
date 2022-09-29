@@ -680,11 +680,12 @@
     <string name="dialog_download_success">Installed successfully.</string>
     <string name="multi_player_ui_title">Multiplayer</string>
     <string name="multi_player_ui_launch">Launch Game</string>
-    <string name="multi_player_ui_community">Session</string>
     <string name="multi_player_ui_create">Create Session</string>
     <string name="multi_player_ui_join">Join</string>
     <string name="multi_player_ui_help">Help</string>
     <string name="multi_player_ui_feedback">Feedback</string>
+    <string name="multi_player_ui_create_btn">Create</string>
+    <string name="multi_player_ui_join_btn">Join</string>
     <string name="setting_ui_title">Settings</string>
     <string name="setting_ui_public_game_setting">Global Game Settings</string>
     <string name="setting_ui_launcher">Launcher</string>

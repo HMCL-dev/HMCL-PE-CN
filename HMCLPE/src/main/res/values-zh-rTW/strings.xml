@@ -583,11 +583,12 @@
     <string name="dialog_download_success">安裝成功</string>
     <string name="multi_player_ui_title">多人聯機</string>
     <string name="multi_player_ui_launch">啟動遊戲</string>
-    <string name="multi_player_ui_community">房間</string>
     <string name="multi_player_ui_create">創建房間</string>
     <string name="multi_player_ui_join">加入房間</string>
     <string name="multi_player_ui_help">幫助</string>
     <string name="multi_player_ui_feedback">反饋</string>
+    <string name="multi_player_ui_create_btn">創建</string>
+    <string name="multi_player_ui_join_btn">加入</string>
     <string name="setting_ui_title">設置</string>
     <string name="setting_ui_public_game_setting">全局遊戲設置</string>
     <string name="setting_ui_launcher">啟動器</string>

@@ -2,12 +2,12 @@ package com.tungsten.hmclpe.launcher.uis.universal.multiplayer;
 
 import static android.app.Activity.RESULT_OK;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -32,10 +32,11 @@ public class MultiPlayerUI extends BaseUI implements View.OnClickListener {
     public LinearLayout multiPlayerUI;
 
     private LinearLayout launch;
-    private LinearLayout create;
-    private LinearLayout join;
     private LinearLayout help;
     private LinearLayout feedback;
+
+    private Button create;
+    private Button join;
 
     public MultiPlayerUI(Context context, MainActivity activity) {
         super(context, activity);
@@ -138,11 +139,9 @@ public class MultiPlayerUI extends BaseUI implements View.OnClickListener {
             }
         }
         if (view == help) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle(context.getString(R.string.dialog_hin2n_help_title));
-            builder.setMessage(context.getString(R.string.dialog_hin2n_help_text));
-            builder.setPositiveButton(context.getString(R.string.dialog_hin2n_help_positive), null);
-            builder.create().show();
+            Uri uri = Uri.parse("https://tungstend.github.io/pages/documentation.html?path=/_multiplayer/multiplayer.md");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            context.startActivity(intent);
         }
         if (view == feedback) {
             Uri uri = Uri.parse("https://github.com/Tungstend/HMCL-PE-CN/issues");
