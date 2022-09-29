@@ -945,6 +945,9 @@
     <string name="dialog_delete_button_positive">刪除</string>
     <string name="ui_about_tungsten_sub">Bilibili ID：@念小六</string>
     <string name="ui_about_shirosakimio_sub">Bilibili ID：@ShirosakiMio</string>
+    <string name="ui_help_doc">Hello Minecraft! Launcher 幫助文檔</string>
+    <string name="ui_help_doc_sub">可查閱各類指南。</string>
+    <string name="doc_list_load_fail">無法獲取文檔列表，請點擊這裡重試。</string>
     <string name="dialog_contributor_list_title">貢獻者列表</string>
     <string name="ui_about_thank">鳴謝</string>
     <string name="ui_about_community">社區</string>

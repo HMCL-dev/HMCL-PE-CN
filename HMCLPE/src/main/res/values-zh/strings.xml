@@ -1068,6 +1068,10 @@
     <string name="drawer_custom_menu_add_view">添加</string>
     <string name="drawer_custom_menu_warn">你需要先创建或选择一个子布局</string>
 
+    <string name="ui_help_doc">Hello Minecraft! Launcher 帮助文档</string>
+    <string name="ui_help_doc_sub">可查阅各类指南。</string>
+    <string name="doc_list_load_fail">无法获取文档列表，请点击这里重试。</string>
+
     <string name="dialog_contributor_list_title">贡献者列表</string>
 
     <string name="ui_about_about">关于</string>

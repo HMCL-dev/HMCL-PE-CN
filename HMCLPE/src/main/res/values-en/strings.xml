@@ -832,6 +832,9 @@
     <string name="dialog_create_rocker_style_name_exist">The name already exists</string>
     <string name="dialog_create_rocker_style_positive">Create</string>
     <string name="dialog_create_rocker_style_negative">Cancel</string>
+    <string name="ui_help_doc">Hello Minecraft! Launcher Documentation</string>
+    <string name="ui_help_doc_sub">Various guides are available.</string>
+    <string name="doc_list_load_fail">Unable to fetch documentation list. Please click here to retry.</string>
     <string name="ui_about_tungsten_sub">\@念小六 on Bilibili</string>
     <string name="ui_about_shirosakimio_sub">\@ShirosakiMio on Bilibili</string>
     <string name="dialog_contributor_list_title">Contributor list</string>
