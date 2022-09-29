@@ -145,7 +145,7 @@ public class MultiPlayerUI extends BaseUI implements View.OnClickListener {
             builder.create().show();
         }
         if (view == feedback) {
-            Uri uri = Uri.parse("https://github.com/Tungstend/HMCL-PE/issues");
+            Uri uri = Uri.parse("https://github.com/Tungstend/HMCL-PE-CN/issues");
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             context.startActivity(intent);
         }
