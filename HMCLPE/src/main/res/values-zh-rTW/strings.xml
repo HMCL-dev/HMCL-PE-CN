@@ -610,6 +610,7 @@
     <string name="hiper_ui_start_participant_alert_text">1.要求創建方按照上方的 創建方提示 操作\n2.啟動遊戲\n3.選擇多人遊戲模式，選擇添加服務器\n4.遊戲會要求你輸入服務器地址，你只需要向創建方索要服務器地址並輸入，並進入服務器即可。 \n- 注意：\n1.一般情況下，參與者的遊戲賬戶必須是 微軟賬戶 或 外置登錄賬戶（如 Little Skin），否則你需要將服務器地址輸入至下方的輸入框中並點擊“加入”，在遊戲中選擇多人遊戲模式，進入局域網世界方可加入\n2.一般情況下，參與者的遊戲版本、模組要必須與創建方的一致，否則加入失敗。</string>
     <string name="hiper_ui_start_address">創建方服務器地址</string>
     <string name="hiper_ui_start_join">加入</string>
+    <string name="hiper_ui_start_exit">退出</string>
     <string name="hiper_ui_about">關於</string>
     <string name="hiper_ui_sujv">本服務由速聚授權提供</string>
     <string name="hiper_ui_eula">授權協議</string>

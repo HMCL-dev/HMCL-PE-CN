@@ -10,6 +10,7 @@ import net.matrix.mobile_hiper.utils.StringUtils;
 
 import org.yaml.snakeyaml.Yaml;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -92,7 +93,7 @@ public class Sites {
 
         private final String name;
         private final String id;
-        private final HashMap<String, StaticHosts> point;
+        private HashMap<String, StaticHosts> point;
         private final ArrayList<UnsafeRoute> unsafeRoutes;
         private final String cert;
         private final String ca;
@@ -181,7 +182,22 @@ public class Sites {
             StringUtils.writeFile(keyPath, key);
         }
 
-        public static IncomingSite parse(String conf) {
+        public void update(String conf) {
+            Yaml yaml = new Yaml();
+            Map object = yaml.load(conf);
+            HashMap<String, ArrayList<String>> rawPoint = (HashMap<String, ArrayList<String>>) object.get("point");
+            HashMap<String, ArrayList<String>> tower = (HashMap<String, ArrayList<String>>) object.get("tower");
+            ArrayList<String> hosts = tower.get("hosts");
+            HashMap<String, StaticHosts> point = new HashMap<>();
+            for (String pointKey : rawPoint.keySet()) {
+                boolean isTower = hosts.contains(pointKey);
+                StaticHosts staticHosts = new StaticHosts(isTower, rawPoint.get(pointKey));
+                point.put(pointKey, staticHosts);
+            }
+            this.point = point;
+        }
+
+        public static IncomingSite parse(String conf, String id) {
             Yaml yaml = new Yaml();
             Map object = yaml.load(conf);
             HashMap<String, String> pki = (HashMap<String, String>) object.get("pki");
@@ -199,7 +215,7 @@ public class Sites {
             }
             return new IncomingSite(
                     "HMCL-PE-Multiplayer-Sesson",
-                    "HMCL-PE-Multiplayer-Sesson",
+                    id,
                     point,
                     new ArrayList<>(),
                     cert,
@@ -338,6 +354,9 @@ public class Sites {
 
         public static Site fromFile(Context context) {
             String path = context.getFilesDir().getAbsolutePath() + "/hiper/hiper_config.json";
+            if (!new File(path).exists()) {
+                return null;
+            }
             String s = StringUtils.getStringFromFile(path);
             IncomingSite incomingSite = new Gson().fromJson(s, IncomingSite.class);
             ArrayList<String> errors = new ArrayList<>();

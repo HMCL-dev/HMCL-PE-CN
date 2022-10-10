@@ -1,13 +1,13 @@
 package net.matrix.mobile_hiper;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -20,7 +20,6 @@ import android.system.OsConstants;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -31,13 +30,15 @@ public class HiPerVpnService extends VpnService {
 
     private static String TAG = "HiPerVpnService";
 
+    private static final int FOREGROUND_ID = 1008;
+    private static final String CHANNEL_ID = "HIPER_CHANNEL";
+
     private static boolean running = false;
     private static Sites.Site site = null;
     private static mobileHiPer.HiPer hiper = null;
     private static ParcelFileDescriptor vpnInterface = null;
     private NetworkCallback networkCallback = new NetworkCallback();
     private boolean didSleep = false;
-    private NotificationManager notificationManager;
 
     private static HiPerCallback callback;
 
@@ -70,31 +71,18 @@ public class HiPerVpnService extends VpnService {
         // Link active site config in Main to avoid this
         site = Sites.Site.fromFile(getApplicationContext());
 
+        if (site == null) {
+            return super.onStartCommand(intent, flags, startId);
+        }
+
         if (site.getCert() == null) {
             announceExit("Site is missing a certificate");
             //TODO: can we signal failure?
             return super.onStartCommand(intent, flags, startId);
         }
 
+        startForeground(this, "HiPer", "HiPer service is running!", "HiPer", "HiPer service is running!");
         startVpn();
-
-        if (notificationManager == null) {
-            notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        }
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "default")
-                .setSmallIcon(R.drawable.ic_craft_table)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_craft_table))
-                .setContentTitle("HiPer")
-                .setContentText("HiPer service is running!")
-                .setFullScreenIntent(null, false)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setAutoCancel(false);
-
-        Notification notification = builder.build();
-        if (notificationManager == null) {
-            notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        }
-        notificationManager.notify(1, notification);
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -103,6 +91,32 @@ public class HiPerVpnService extends VpnService {
     public void onDestroy() {
         stopVpn();
         super.onDestroy();
+    }
+
+    public static void startForeground(Service service, String channelName, String channelDesc, String contentTitle, String contentText) {
+        NotificationManager manager = (NotificationManager) service.getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification notification;
+        notification = getNotification(service, manager, channelName, channelDesc, contentTitle, contentText);
+        notification.flags = Notification.FLAG_ONGOING_EVENT;
+        notification.flags |= Notification.FLAG_NO_CLEAR;
+        notification.flags |= Notification.FLAG_FOREGROUND_SERVICE;
+        service.startForeground(FOREGROUND_ID, notification);
+    }
+
+    private static Notification getNotification(Context context, NotificationManager manager, String name, String desc, String contentTitle, String contentText) {
+        Notification.Builder builder;
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name,
+                NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription(desc);
+
+        manager.createNotificationChannel(channel);
+        builder = new Notification.Builder(context, CHANNEL_ID);
+        builder.setCategory(Notification.CATEGORY_RECOMMENDATION)
+                .setContentTitle(contentTitle)
+                .setContentText(contentText)
+                .setSmallIcon(R.drawable.ic_craft_table);
+
+        return builder.build();
     }
 
     private void startVpn() {

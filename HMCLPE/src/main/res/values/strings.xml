@@ -708,6 +708,7 @@
     <string name="hiper_ui_start_participant_alert_text">1. Ask the creator to follow the creator prompts above\n2. Enter the server address sent to you by the creator in the "Creator Server Address" below, and click "Join"\n3. Start Game\n4. Select the multiplayer game mode, no accident, you will find the HMCL-PE room (HMCL-PE Multiplayer Session) in the "local area network detection" and enter the server.</string>
     <string name="hiper_ui_start_address">Creator server address</string>
     <string name="hiper_ui_start_join">Join</string>
+    <string name="hiper_ui_start_exit">Exit</string>
     <string name="hiper_ui_about">About</string>
     <string name="hiper_ui_sujv">The service is provided under the license of Matrix Lab</string>
     <string name="hiper_ui_eula">License Agreement</string>

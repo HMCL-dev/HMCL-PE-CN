@@ -701,6 +701,7 @@
     <string name="hiper_ui_start_participant_alert_text">1.要求创建方按照上方的 创建方提示 操作\n2.启动游戏\n3.选择多人游戏模式，选择添加服务器\n4.游戏会要求你输入服务器地址，你只需要向创建方索要服务器地址并输入，并进入服务器即可。\n- 注意：\n1.一般情况下，参与者的游戏账户必须是 微软账户 或 外置登录账户（如 Little Skin），否则你需要将服务器地址输入至下方的输入框中并点击“加入”，在游戏中选择多人游戏模式，进入局域网世界方可加入，具体操作方法详见左侧的 帮助 \n2.一般情况下，参与者的游戏版本、模组要必须与创建方的一致，否则加入失败。</string>
     <string name="hiper_ui_start_address">创建方服务器地址</string>
     <string name="hiper_ui_start_join">加入</string>
+    <string name="hiper_ui_start_exit">退出</string>
 
     <string name="hiper_ui_about">关于</string>
     <string name="hiper_ui_sujv">本服务由速聚授权提供</string>
