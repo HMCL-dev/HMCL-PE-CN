@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.MenuHelper;
-import com.tungsten.hmclpe.multiplayer.Hin2nService;
+import com.tungsten.hmclpe.multiplayer.hin2n.Hin2nService;
 
 import wang.switchy.hin2n.model.EdgeStatus;
 

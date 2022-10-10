@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -17,8 +16,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.tungsten.hmclpe.R;
-import com.tungsten.hmclpe.multiplayer.Hin2nService;
-import com.tungsten.hmclpe.multiplayer.ServerType;
+import com.tungsten.hmclpe.multiplayer.hin2n.Hin2nService;
+import com.tungsten.hmclpe.multiplayer.hin2n.ServerType;
 
 public class Hin2nInfoDialog extends Dialog implements View.OnClickListener {
 

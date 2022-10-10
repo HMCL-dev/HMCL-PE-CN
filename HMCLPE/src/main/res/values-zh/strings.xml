@@ -671,12 +671,40 @@
 
     <string name="multi_player_ui_title">多人联机</string>
     <string name="multi_player_ui_launch">启动游戏</string>
+    <string name="multi_player_ui_pattern">联机方案</string>
+    <string name="multi_player_ui_hiper">HiPer</string>
+    <string name="multi_player_ui_hin2n">Hin2n</string>
     <string name="multi_player_ui_help">帮助</string>
     <string name="multi_player_ui_feedback">反馈</string>
-    <string name="multi_player_ui_create">创建房间</string>
-    <string name="multi_player_ui_join">加入房间</string>
-    <string name="multi_player_ui_create_btn">创建</string>
-    <string name="multi_player_ui_join_btn">加入</string>
+
+    <string name="hin2n_ui_create">创建房间</string>
+    <string name="hin2n_ui_join">加入房间</string>
+    <string name="hin2n_ui_create_btn">创建</string>
+    <string name="hin2n_ui_join_btn">加入</string>
+
+    <string name="hiper_ui_verify_launch">启动 Hiper</string>
+    <string name="hiper_ui_verify_alert">提示</string>
+    <string name="hiper_ui_verify_alert_text">该方案由 HiPer 提供，你需要先授予 HMCL-PE 开启 VPN 权限，然后输入凭证启动 HiPer 以使用该方案。</string>
+    <string name="hiper_ui_verify_code">凭证</string>
+    <string name="hiper_ui_verify_apply">申请凭证</string>
+
+    <string name="hiper_ui_start_title">HiPer</string>
+    <string name="hiper_ui_start_creator_title">创建方提示</string>
+    <string name="hiper_ui_start_tutorial">教学视频</string>
+    <string name="hiper_ui_start_creator_alert">提示</string>
+    <string name="hiper_ui_start_creator_alert_text">1.启动游戏\n2.选择单人游戏模式进入一个存档\n3.在游戏选项菜单内选择 对局域网开放 选项，之后你可以在游戏聊天框内看到游戏提示的端口号（通常是 4~5 位数字）\n4.点击下方的生成服务器地址按钮，输入端口号，你就可以获得你的服务器地址了\n5.该地址需要提供给其他需要加入服务器的玩家用于添加服务器。</string>
+    <string name="hiper_ui_start_port">端口号</string>
+    <string name="hiper_ui_start_gen">生成服务器地址</string>
+    <string name="hiper_ui_start_copy">拷贝</string>
+    <string name="hiper_ui_start_participant_title">参与者提示</string>
+    <string name="hiper_ui_start_participant_alert">提示</string>
+    <string name="hiper_ui_start_participant_alert_text">1.要求创建方按照上方的 创建方提示 操作\n2.启动游戏\n3.选择多人游戏模式，选择添加服务器\n4.游戏会要求你输入服务器地址，你只需要向创建方索要服务器地址并输入，并进入服务器即可。\n- 注意：\n1.一般情况下，参与者的游戏账户必须是 微软账户 或 外置登录账户（如 Little Skin），否则你需要将服务器地址输入至下方的输入框中并点击“加入”，在游戏中选择多人游戏模式，进入局域网世界方可加入，具体操作方法详见左侧的 帮助 \n2.一般情况下，参与者的游戏版本、模组要必须与创建方的一致，否则加入失败。</string>
+    <string name="hiper_ui_start_address">创建方服务器地址</string>
+    <string name="hiper_ui_start_join">加入</string>
+
+    <string name="hiper_ui_about">关于</string>
+    <string name="hiper_ui_sujv">本服务由速聚授权提供</string>
+    <string name="hiper_ui_eula">授权协议</string>
 
     <string name="setting_ui_title">设置</string>
     <string name="setting_ui_public_game_setting">全局游戏设置</string>

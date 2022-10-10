@@ -142,11 +142,18 @@
             android:enabled="true"
             android:exported="true" />
         <service
-            android:name=".multiplayer.Hin2nService"
+            android:name=".multiplayer.hin2n.Hin2nService"
             android:exported="true"
             android:permission="android.permission.BIND_VPN_SERVICE">
             <intent-filter>
                 <action android:name="android.net.VpnService" />
+            </intent-filter>
+        </service>
+        <service android:name=".multiplayer.hiper.HiPerService"
+            android:permission="android.permission.BIND_VPN_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.VpnService"/>
             </intent-filter>
         </service>
     </application>

@@ -33,6 +33,7 @@
     <string name="game_setting_ui_pojav_renderer_virgl" translatable="false">VirGLRenderer (OpenGL 4.3)</string>
     <string name="dialog_color_selector_arrow" translatable="false">→</string>
     <string name="download_setting_ui_source_bmclapi" translatable="false">BMCLAPI（bangbang93，https://bmclapi2.bangbang93.com/）</string>
+    <string name="hiper_ui_about_base" translatable="false">Based on HiPer</string>
     <string name="ui_about_hmclpe_main" translatable="false">Hello Minecraft! Launcher : Pocket Edition</string>
     <string name="ui_about_hmclpe_sub" translatable="false">1.0.0</string>
     <string name="ui_about_tungsten_main" translatable="false">Tungsten</string>
@@ -680,12 +681,36 @@
     <string name="dialog_download_success">Installed successfully.</string>
     <string name="multi_player_ui_title">Multiplayer</string>
     <string name="multi_player_ui_launch">Launch Game</string>
-    <string name="multi_player_ui_create">Create Session</string>
-    <string name="multi_player_ui_join">Join</string>
+    <string name="multi_player_ui_pattern">Pattern</string>
+    <string name="multi_player_ui_hiper">HiPer</string>
+    <string name="multi_player_ui_hin2n">Hin2n</string>
     <string name="multi_player_ui_help">Help</string>
     <string name="multi_player_ui_feedback">Feedback</string>
-    <string name="multi_player_ui_create_btn">Create</string>
-    <string name="multi_player_ui_join_btn">Join</string>
+    <string name="hin2n_ui_create">Create Session</string>
+    <string name="hin2n_ui_join">Join</string>
+    <string name="hin2n_ui_create_btn">Create</string>
+    <string name="hin2n_ui_join_btn">Join</string>
+    <string name="hiper_ui_verify_launch">Start Hiper</string>
+    <string name="hiper_ui_verify_alert">Information</string>
+    <string name="hiper_ui_verify_alert_text">The service is provided by HiPer, you need to start HiPer to use the service.</string>
+    <string name="hiper_ui_verify_code">Token</string>
+    <string name="hiper_ui_verify_apply">Apply for a token</string>
+    <string name="hiper_ui_start_title">HiPer</string>
+    <string name="hiper_ui_start_creator_title">Prompt for creator</string>
+    <string name="hiper_ui_start_tutorial">Video Tutorial</string>
+    <string name="hiper_ui_start_creator_alert">Information</string>
+    <string name="hiper_ui_start_creator_alert_text">Multiplayer online requires one player to start the game first, select the single player mode to enter a save, and select the "Open to LAN" option in the game options menu. After that you can see the port number (usually 5 digits) indicated by the game in the game chat box. Click the Generate Server Address button below, enter the port number, and you can get your server address. This address needs to be provided to other players who need to join the server to add the server.</string>
+    <string name="hiper_ui_start_port">Port number</string>
+    <string name="hiper_ui_start_gen">Generate server address</string>
+    <string name="hiper_ui_start_copy">Copy</string>
+    <string name="hiper_ui_start_participant_title">Participant Prompt</string>
+    <string name="hiper_ui_start_participant_alert">Information</string>
+    <string name="hiper_ui_start_participant_alert_text">1. Ask the creator to follow the creator prompts above\n2. Enter the server address sent to you by the creator in the "Creator Server Address" below, and click "Join"\n3. Start Game\n4. Select the multiplayer game mode, no accident, you will find the HMCL-PE room (HMCL-PE Multiplayer Session) in the "local area network detection" and enter the server.</string>
+    <string name="hiper_ui_start_address">Creator server address</string>
+    <string name="hiper_ui_start_join">Join</string>
+    <string name="hiper_ui_about">About</string>
+    <string name="hiper_ui_sujv">The service is provided under the license of Matrix Lab</string>
+    <string name="hiper_ui_eula">License Agreement</string>
     <string name="setting_ui_title">Settings</string>
     <string name="setting_ui_public_game_setting">Global Game Settings</string>
     <string name="setting_ui_launcher">Launcher</string>

@@ -17,7 +17,8 @@ import androidx.annotation.NonNull;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.control.MenuHelper;
 import com.tungsten.hmclpe.launcher.uis.universal.multiplayer.MultiPlayerUI;
-import com.tungsten.hmclpe.multiplayer.Hin2nService;
+import com.tungsten.hmclpe.launcher.uis.universal.multiplayer.right.Hin2nUI;
+import com.tungsten.hmclpe.multiplayer.hin2n.Hin2nService;
 import com.tungsten.hmclpe.utils.string.StringUtils;
 
 import wang.switchy.hin2n.model.EdgeStatus;
@@ -27,7 +28,7 @@ public class JoinCommunityDialog extends Dialog implements View.OnClickListener 
     public static JoinCommunityDialog INSTANCE;
 
     private final MenuHelper menuHelper;
-    private final MultiPlayerUI multiPlayerUI;
+    private final Hin2nUI hin2nUI;
 
     private EditText editText;
     public Button positive;
@@ -35,11 +36,11 @@ public class JoinCommunityDialog extends Dialog implements View.OnClickListener 
 
     public ProgressBar progressBar;
 
-    public JoinCommunityDialog(@NonNull Context context, MenuHelper menuHelper, MultiPlayerUI multiPlayerUI) {
+    public JoinCommunityDialog(@NonNull Context context, MenuHelper menuHelper, Hin2nUI hin2nUI) {
         super(context);
         INSTANCE = this;
         this.menuHelper = menuHelper;
-        this.multiPlayerUI = multiPlayerUI;
+        this.hin2nUI = hin2nUI;
         setContentView(R.layout.dialog_join_community);
         setCancelable(false);
         init();
@@ -72,20 +73,20 @@ public class JoinCommunityDialog extends Dialog implements View.OnClickListener 
                     System.out.println("stop");
                     Hin2nService.INSTANCE.stop(null);
                 }
-                Intent vpnPrepareIntent = menuHelper != null ? VpnService.prepare(menuHelper.context) : VpnService.prepare(multiPlayerUI.context);
+                Intent vpnPrepareIntent = menuHelper != null ? VpnService.prepare(menuHelper.context) : VpnService.prepare(hin2nUI.context);
                 if (vpnPrepareIntent != null) {
                     if (menuHelper != null) {
                         menuHelper.activity.startActivityForResult(vpnPrepareIntent, Hin2nService.VPN_REQUEST_CODE_JOIN);
                     }
                     else {
-                        multiPlayerUI.activity.startActivityForResult(vpnPrepareIntent, Hin2nService.VPN_REQUEST_CODE_JOIN);
+                        hin2nUI.activity.startActivityForResult(vpnPrepareIntent, Hin2nService.VPN_REQUEST_CODE_JOIN);
                     }
                 } else {
                     if (menuHelper != null) {
                         menuHelper.onActivityResult(Hin2nService.VPN_REQUEST_CODE_JOIN, RESULT_OK, null);
                     }
                     else {
-                        multiPlayerUI.onActivityResult(Hin2nService.VPN_REQUEST_CODE_JOIN, RESULT_OK, null);
+                        hin2nUI.onActivityResult(Hin2nService.VPN_REQUEST_CODE_JOIN, RESULT_OK, null);
                     }
                 }
             }

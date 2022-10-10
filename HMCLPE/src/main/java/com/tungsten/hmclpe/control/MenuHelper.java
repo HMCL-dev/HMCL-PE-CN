@@ -38,7 +38,7 @@ import com.tungsten.hmclpe.manifest.AppManifest;
 import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.setting.game.GameMenuSetting;
-import com.tungsten.hmclpe.multiplayer.Hin2nService;
+import com.tungsten.hmclpe.multiplayer.hin2n.Hin2nService;
 import com.tungsten.hmclpe.utils.file.AssetsUtils;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
 import com.tungsten.hmclpe.utils.file.FileUtils;

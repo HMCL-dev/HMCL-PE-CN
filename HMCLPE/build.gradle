@@ -50,6 +50,7 @@ dependencies {
     implementation project(path: ':FilePicker')
     implementation project(path: ':ZipTools')
     implementation project(path: ':Hin2n')
+    implementation project(path: ':HiPer')
     implementation project(path: ':Boat')
     implementation project(path: ':PojavLauncher')
     implementation 'androidx.appcompat:appcompat:1.5.1'
