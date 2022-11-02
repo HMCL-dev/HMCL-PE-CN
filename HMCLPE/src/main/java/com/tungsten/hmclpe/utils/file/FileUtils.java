@@ -148,6 +148,7 @@ public class FileUtils {
                 //该对象通过使用 update()方法处理数据
                 messagedigest.update(buffer, 0, len);
             }
+            in.close();
             //对于给定数量的更新数据，digest 方法只能被调用一次。在调用 digest 之后，MessageDigest 对象被重新设置成其初始状态。
             return bytesToHex(messagedigest.digest()).toLowerCase();
         }catch(Exception e){
