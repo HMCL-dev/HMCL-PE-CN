@@ -145,31 +145,7 @@ public class InstallLauncherFile {
         });
         FileUtils.deleteDirectory(AppManifest.JAVA_DIR + "/JRE17");
         FileUtils.deleteDirectory(AppManifest.DEFAULT_CACHE_DIR + "/java");
-        LanzouUrlGetTask task = new LanzouUrlGetTask(activity, new LanzouUrlGetTask.Callback() {
-            @Override
-            public void onStart() {
-
-            }
-
-            @Override
-            public void onError(Exception e) {
-                FileStringUtils.writeFile(AppManifest.DEBUG_DIR + "/lanzou_exception.txt",e.toString());
-                downloadJava17(activity,AppInfo.JAVA_17_DOWNLOAD_URL_FASTGIT);
-            }
-
-            @Override
-            public void onFinish(String url) {
-                if (url == null){
-                    downloadJava17(activity,AppInfo.JAVA_17_DOWNLOAD_URL_FASTGIT);
-                }
-                else {
-                    downloadJava17(activity,url);
-                }
-            }
-        });
-        activity.runOnUiThread(() -> {
-            task.execute(AppInfo.JAVA_17_DOWNLOAD_URL);
-        });
+        downloadJava17(activity,AppInfo.JAVA_17_DOWNLOAD_URL_GITCODE);
     }
 
     public static void downloadJava17(SplashActivity activity,String url) {

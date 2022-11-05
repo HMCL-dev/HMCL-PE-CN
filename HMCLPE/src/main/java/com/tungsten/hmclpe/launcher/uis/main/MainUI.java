@@ -320,7 +320,8 @@ public class MainUI extends BaseUI implements View.OnClickListener, AdapterView.
         File path = new File(themePath, iconName + ".png");
         if (path.exists()) {
             Bitmap bitmap = BitmapFactory.decodeFile(path.getAbsolutePath());
-            view.setBackground(new BitmapDrawable(activity.getResources(), bitmap));
+            view.post(()->{view.setBackground(new BitmapDrawable(activity.getResources(), bitmap));});
+
         }
     }
 }
