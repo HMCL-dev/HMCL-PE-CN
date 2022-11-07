@@ -64,6 +64,7 @@
                 android:background="@color/colorPureBlack"/>
 
             <LinearLayout
+                android:visibility="gone"
                 android:layout_marginTop="8dp"
                 android:padding="10dp"
                 android:background="@drawable/launcher_button_parent"
@@ -94,6 +95,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginTop="8dp"
                 android:padding="10dp"
                 android:background="@drawable/launcher_button_parent"
                 android:focusable="true"

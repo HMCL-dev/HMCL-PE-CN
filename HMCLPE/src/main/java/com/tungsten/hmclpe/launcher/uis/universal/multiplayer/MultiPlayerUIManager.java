@@ -26,7 +26,7 @@ public class MultiPlayerUIManager {
                 hiPerUI,
                 hin2nUI
         };
-        switchMultiPlayerUIs(hiPerUI);
+        switchMultiPlayerUIs(hin2nUI);
     }
 
     public void switchMultiPlayerUIs(BaseUI ui){
