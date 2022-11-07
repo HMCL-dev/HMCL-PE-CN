@@ -11,6 +11,6 @@ public class AppInfo {
     public final static String JAVA_17_DOWNLOAD_URL_FASTGIT = "https://gitee.com/Tungstend/HMCL-PE/attach_files/1093114/download/JRE17.zip";
     public final static String JAVA_17_DOWNLOAD_URL_GITCODE = "https://gitcode.net/ShirosakiMio/hmcl-pe-runtime/-/raw/master/JRE17.zip?inline=false";
     public final static String JAVA_17_SHA1 = "3b89732c972d1b4907447103c9dd7c819260e0d4";
-    public final static boolean IS_PUBLIC_VERSION = false;
+    public final static boolean IS_PUBLIC_VERSION = true;
 
 }

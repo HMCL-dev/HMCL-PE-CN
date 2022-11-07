@@ -66,8 +66,6 @@ public class BoatLauncher {
             else {
                 args.add("-Dorg.lwjgl.opengl.libname=libgl4es_114.so");
             }
-            args.add("-Dlwjgl.platform=Boat");
-            args.add("-Dos.name=Linux");
             args.add("-Djava.io.tmpdir=" + AppManifest.DEFAULT_CACHE_DIR);
             String[] accountArgs;
             accountArgs = AccountPatch.getAccountArgs(context,gameLaunchSetting.account);

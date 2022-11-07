@@ -260,7 +260,7 @@ public class Version implements Comparable<Version>, Validation {
                 type == null ? parent.type : type,
                 time == null ? parent.time : time,
                 releaseTime == null ? parent.releaseTime : releaseTime,
-                Lang.merge(minimumLauncherVersion, parent.minimumLauncherVersion, (BinaryOperator<Integer>) Math::max),
+                Lang.merge(minimumLauncherVersion, parent.minimumLauncherVersion, Math::max),
                 hidden,
                 true,
                 isPatch ? parent.patches : Lang.merge(Lang.merge(parent.patches, Collections.singleton(toPatch())), patches));
