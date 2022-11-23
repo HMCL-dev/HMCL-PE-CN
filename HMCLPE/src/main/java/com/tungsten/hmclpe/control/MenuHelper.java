@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,12 +40,21 @@ import com.tungsten.hmclpe.launcher.setting.InitializeSetting;
 import com.tungsten.hmclpe.launcher.setting.SettingUtils;
 import com.tungsten.hmclpe.launcher.setting.game.GameMenuSetting;
 import com.tungsten.hmclpe.multiplayer.hin2n.Hin2nService;
+import com.tungsten.hmclpe.skin.utils.Utils;
 import com.tungsten.hmclpe.utils.file.AssetsUtils;
 import com.tungsten.hmclpe.utils.file.FileStringUtils;
 import com.tungsten.hmclpe.utils.file.FileUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.ref.WeakReference;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+import cosine.boat.LoadMe;
+import cosine.boat.LogView;
 import wang.switchy.hin2n.model.N2NSettingInfo;
 
 public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.OnClickListener, AdapterView.OnItemSelectedListener, SeekBar.OnSeekBarChangeListener {
@@ -66,6 +76,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     public TouchCharInput touchCharInput;
 
     public SwitchCompat switchMenuFloat;
+    public SwitchCompat switchMenuLog;
     public SwitchCompat switchMenuView;
     public SwitchCompat switchMenuSlide;
     public SwitchCompat switchFloatMovable;
@@ -118,6 +129,10 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     public float currentX;
     public float currentY;
 
+    public LogView logView;
+    public LoadMe.LogReceiver mLogReceiver;
+    public boolean isLogShow=false;
+
     public MenuHelper(Context context, AppCompatActivity activity,boolean fullscreen,String gameDir, DrawerLayout drawerLayout, LayoutPanel baseLayout,boolean editMode,String currentPattern,int launcher,float scaleFactor){
         this.context = context;
         this.activity = activity;
@@ -147,6 +162,24 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         }
         else {
             preInit(baseLayout,editMode,currentPattern);
+        }
+        logView = activity.findViewById(R.id.logView);
+        if (LoadMe.mReceiver == null || LoadMe.mReceiver.get() == null) {
+            mLogReceiver = new LoadMe.LogReceiver() {
+                @Override
+                public void pushLog(String log) {
+                    if (isLogShow) {
+                        logView.appendLog(log);
+                    }
+                    writeLog(log);
+                }
+
+                @Override
+                public String getLogs() {
+                    return null;
+                }
+            };
+            LoadMe.mReceiver = new WeakReference<>(mLogReceiver);
         }
     }
 
@@ -194,6 +227,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         touchCharInput.setCharacterSender(this, new LwjglCharSender());
 
         switchMenuFloat = activity.findViewById(R.id.switch_float_button);
+        switchMenuLog = activity.findViewById(R.id.switch_log);
         switchMenuView = activity.findViewById(R.id.switch_bar);
         switchMenuSlide = activity.findViewById(R.id.switch_gesture);
         switchFloatMovable = activity.findViewById(R.id.switch_float_movable);
@@ -215,6 +249,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         forceExit = activity.findViewById(R.id.force_exit);
 
         switchMenuFloat.setChecked(gameMenuSetting.menuFloatSetting.enable);
+        switchMenuLog.setChecked(false);
         switchMenuView.setChecked(gameMenuSetting.menuViewSetting.enable);
         switchMenuSlide.setChecked(gameMenuSetting.menuSlideSetting);
         switchFloatMovable.setChecked(gameMenuSetting.menuFloatSetting.movable);
@@ -226,6 +261,7 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
         switchHideUI.setChecked(gameMenuSetting.hideUI);
 
         switchMenuFloat.setOnCheckedChangeListener(this);
+        switchMenuLog.setOnCheckedChangeListener(this);
         switchMenuView.setOnCheckedChangeListener(this);
         switchMenuSlide.setOnCheckedChangeListener(this);
         switchFloatMovable.setOnCheckedChangeListener(this);
@@ -388,6 +424,15 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        if (compoundButton == switchMenuLog) {
+            isLogShow=b;
+            logView.cleanLog();
+            if(b){
+                logView.setVisibility(View.VISIBLE);
+            } else {
+                logView.setVisibility(View.GONE);
+            }
+        }
         if (compoundButton == switchMenuFloat) {
             gameMenuSetting.menuFloatSetting.enable = b;
             if (b){
@@ -613,5 +658,58 @@ public class MenuHelper implements CompoundButton.OnCheckedChangeListener, View.
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+    private boolean firstWrite = true;
+    private boolean isWrite = true;
+
+    private void writeLog(String log) {
+        if (!isWrite){
+            return;
+        }
+        File logFile = new File(AppManifest.DEBUG_DIR + "/boat_latest_log.txt");
+        if (!logFile.exists()) {
+            try {
+                if (!logFile.createNewFile()) {
+                    isWrite = false;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (firstWrite) {
+            writeData(logFile.getAbsolutePath(), log);
+            firstWrite = false;
+        } else {
+            addStringLineToFile(log, logFile);
+        }
+
+
+    }
+    /**
+     * 【重写数据到文件】
+     **/
+    public static void writeData(String path, String fileData) {
+        try {
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                File file = new File(path);
+                try (FileOutputStream out = new FileOutputStream(file, false)) {
+                    out.write(fileData.getBytes(StandardCharsets.UTF_8));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * [给文本文件添加一行字符串]
+     **/
+    public static boolean addStringLineToFile(String content, File file) {
+        try (FileWriter fw = new FileWriter(file, true)) {
+            fw.write(content);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

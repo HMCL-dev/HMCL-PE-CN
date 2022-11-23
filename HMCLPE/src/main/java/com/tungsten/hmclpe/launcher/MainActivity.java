@@ -325,6 +325,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (v == closeApp){
             finish();
+            System.exit(0);
         }
     }
 

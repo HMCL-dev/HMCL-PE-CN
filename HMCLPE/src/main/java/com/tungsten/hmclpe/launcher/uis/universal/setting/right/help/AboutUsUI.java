@@ -268,7 +268,7 @@ public class AboutUsUI extends BaseUI implements View.OnClickListener {
             uri = Uri.parse("https://tungstend.github.io/pages/eula.html");
         }
         if (view == openSource) {
-            uri = Uri.parse("https://github.com/Tungstend/HMCL-PE-CN");
+            uri = Uri.parse("https://github.com/huanghongxun/HMCL-PE-CN");
         }
 
         if (uri != null) {

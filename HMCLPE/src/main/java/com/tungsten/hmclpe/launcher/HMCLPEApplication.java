@@ -3,6 +3,8 @@ package com.tungsten.hmclpe.launcher;
 import android.app.Application;
 import android.content.Context;
 
+import com.tungsten.hmclpe.utils.file.FileUtils;
+
 import wang.switchy.hin2n.Hin2n;
 
 public class HMCLPEApplication extends Application {
@@ -14,6 +16,9 @@ public class HMCLPEApplication extends Application {
         super.onCreate();
         context = this.getApplicationContext();
         Hin2n.getInstance().setup(context);
+        FileUtils.deleteDirectory(getCacheDir().getAbsolutePath());
+        FileUtils.deleteDirectory(getCodeCacheDir().getAbsolutePath());
+        FileUtils.deleteDirectory(getExternalCacheDir().getAbsolutePath());
     }
 
     public static Context getContext(){

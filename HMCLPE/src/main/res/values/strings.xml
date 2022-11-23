@@ -3,8 +3,8 @@
     <string name="app_full_name" translatable="false">Hello Minecraft! Launcher : Pocket Edition</string>
     <string name="app_name_pri" translatable="false">Hello Minecraft! Launcher</string>
     <string name="app_name_sec" translatable="false">Pocket Edition</string>
-    <string name="version_name" translatable="false">v1.0.0</string>
-    <string name="app_bar_title" translatable="false">Hello Minecraft! Launcher Pocket Edition v1.0.0</string>
+    <string name="version_name" translatable="false">v2.0</string>
+    <string name="app_bar_title" translatable="false">Hello Minecraft! Launcher Pocket Edition v2.0</string>
 
     <string name="launcher_spinner_text" translatable="false">▲</string>
     <string name="dialog_add_offline_account_uuid" translatable="false">UUID</string>
@@ -43,7 +43,7 @@
     <string name="ui_about_tsaltedfishking_main" translatable="false">TSaltedfishKing</string>
     <string name="ui_about_bangbang93_main" translatable="false">bangbang93</string>
     <string name="ui_about_community_discord" translatable="false">Discord</string>
-    <string name="ui_about_open_source_statement" translatable="false">GPL v3 (https://github.com/Tungstend/HMCL-PE-CN)</string>
+    <string name="ui_about_open_source_statement" translatable="false">GPL v3 (https://github.com/huanghongxun/HMCL-PE-CN)</string>
 
     <string name="ui_about_libs_hmcl" translatable="false">HMCL</string>
     <string name="ui_about_libs_hmcl_sec" translatable="false">Copyright (c) 2022 huangyuhui.</string>
@@ -1057,6 +1057,7 @@
     <string name="dialog_force_exit_negative">No</string>
     <string name="drawer_game_menu_title">HMCL-PE Control Panel</string>
     <string name="drawer_game_menu_type">Control panel</string>
+    <string name="drawer_game_menu_type_log" translatable="false">Log</string>
     <string name="drawer_game_menu_type_float">Floating window</string>
     <string name="drawer_game_menu_type_bar">Sidebar</string>
     <string name="drawer_game_menu_type_gesture">Swipe gesture</string>

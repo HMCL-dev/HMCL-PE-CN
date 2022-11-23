@@ -2,8 +2,10 @@ package cosine.boat;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.*;
 
 import cosine.boat.function.BoatLaunchCallback;
@@ -20,9 +22,35 @@ public class LoadMe {
     public static native void patchLinker();
     public static native void setupExitTrap(Context context);
     public static native int dlexec(String[] args);
+    public static WeakReference<LogReceiver> mReceiver;
 
     static {
         System.loadLibrary("loadme");
+    }
+
+    public static void receiveLog(String str){
+        if (mReceiver == null || mReceiver.get() == null) {
+            mReceiver = new WeakReference<>(new LogReceiver() {
+                final StringBuilder builder = new StringBuilder();
+                @Override
+                public void pushLog(String log) {
+                    Log.e("HMCL-PE", log);
+                    builder.append(log);
+                }
+
+                @Override
+                public String getLogs() {
+                    return builder.toString();
+                }
+            });
+        } else {
+            mReceiver.get().pushLog(str);
+        }
+    }
+
+    public interface LogReceiver{
+        void pushLog(String log);
+        String getLogs();
     }
 
     public static int launchMinecraft(Handler handler,Context context, String javaPath, String home, boolean highVersion, Vector<String> args, String renderer, String gameDir, BoatLaunchCallback callback) {
@@ -122,7 +150,7 @@ public class LoadMe {
 
             setupExitTrap(context);
 
-            redirectStdio(home + "/boat_latest_log.txt");
+            new Thread(()->redirectStdio(home + "/boat_latest_log.txt")).start();
             chdir(gameDir);
 
 			String finalArgs[] = new String[args.size()];
