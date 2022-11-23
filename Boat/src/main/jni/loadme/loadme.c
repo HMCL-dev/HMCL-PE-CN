@@ -35,16 +35,16 @@ jstring CStr2Jstring(JNIEnv *env, char *buffer) {
     (*env)->SetByteArrayRegion(env, bytes, 0, len, (jbyte *) buffer);
     return (jstring) (*env)->NewObject(env, strClass, ctorID, bytes, encoding);
 }
-//JNIEXPORT void JNICALL Java_cosine_boat_LoadMe_redirectStdio(JNIEnv* env, jclass clazz, jstring path) {
-//    char const* file = (*env)->GetStringUTFChars(env, path, 0);
-//
-//    int fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-//    dup2(fd, 1);
-//    dup2(fd, 2);
-//
-//    (*env)->ReleaseStringUTFChars(env, path, file);
-//}
-JNIEXPORT void JNICALL Java_cosine_boat_LoadMe_redirectStdio(JNIEnv* env, jclass clazz, jstring path){
+JNIEXPORT void JNICALL Java_cosine_boat_LoadMe_redirectStdio(JNIEnv* env, jclass clazz, jstring path) {
+    char const* file = (*env)->GetStringUTFChars(env, path, 0);
+
+    int fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+    dup2(fd, 1);
+    dup2(fd, 2);
+
+    (*env)->ReleaseStringUTFChars(env, path, file);
+}
+JNIEXPORT void JNICALL Java_cosine_boat_LoadMe_reRedirectStdio(JNIEnv* env, jclass clazz){
 
 
     int boatPipe[2];

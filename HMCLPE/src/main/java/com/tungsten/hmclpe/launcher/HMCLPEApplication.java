@@ -16,9 +16,6 @@ public class HMCLPEApplication extends Application {
         super.onCreate();
         context = this.getApplicationContext();
         Hin2n.getInstance().setup(context);
-        FileUtils.deleteDirectory(getCacheDir().getAbsolutePath());
-        FileUtils.deleteDirectory(getCodeCacheDir().getAbsolutePath());
-        FileUtils.deleteDirectory(getExternalCacheDir().getAbsolutePath());
     }
 
     public static Context getContext(){
