@@ -29,6 +29,7 @@ import com.tungsten.hmclpe.launcher.launch.pojav.PojavMinecraftActivity;
 import com.tungsten.hmclpe.launcher.setting.game.PrivateGameSetting;
 import com.tungsten.hmclpe.launcher.view.list.MaxHeightRecyclerView;
 import com.tungsten.hmclpe.manifest.AppManifest;
+import com.tungsten.hmclpe.utils.file.FileUtils;
 import com.tungsten.hmclpe.utils.gson.GsonUtils;
 import com.tungsten.hmclpe.utils.io.NetSpeed;
 import com.tungsten.hmclpe.utils.io.NetSpeedTimer;
@@ -220,6 +221,7 @@ public class LaunchCheckDialog extends Dialog implements View.OnClickListener, H
                         privateGameSetting = activity.privateGameSetting;
                     }
                     Intent intent;
+                    FileUtils.deleteDirectory("/data/user_de/0/com.tungsten.hmclpe/code_cache/");
                     if (privateGameSetting.boatLauncherSetting.enable){
                         intent = new Intent(getContext(), BoatMinecraftActivity.class);
                         if (privateGameSetting.boatLauncherSetting.renderer.equals("VirGL")) {
