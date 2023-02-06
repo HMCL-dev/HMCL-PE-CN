@@ -1131,7 +1131,7 @@
     <string name="ui_about_github_main">所有通过 Issues、赞助等方式参与本项目的贡献者</string>
     <string name="ui_about_github_sub">感谢各位的建议、bug 反馈及赞助</string>
     <string name="ui_about_copy_right">版权</string>
-    <string name="ui_about_copy_right_statement">版权所有 © 2022 Tungsten</string>
+    <string name="ui_about_copy_right_statement">版权所有 © 2022 Huanghongxun</string>
     <string name="ui_about_eula">用户协议</string>
     <string name="ui_about_eula_statement">点击链接以查看全文</string>
     <string name="ui_about_open_source">开源</string>

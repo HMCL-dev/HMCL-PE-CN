@@ -892,7 +892,7 @@
     <string name="ui_about_github_main">All contributors who participated in this project through Issues, sponsorship, etc.</string>
     <string name="ui_about_github_sub">Thank you for your suggestions, bug feedback and sponsorship.</string>
     <string name="ui_about_copy_right">Copyright</string>
-    <string name="ui_about_copy_right_statement">Copyright © 2022 Tungsten</string>
+    <string name="ui_about_copy_right_statement">Copyright © 2022 Huanghongxun</string>
     <string name="ui_about_eula">EULA</string>
     <string name="ui_about_eula_statement">Click on this link for full text.</string>
     <string name="ui_about_open_source">Open Source</string>

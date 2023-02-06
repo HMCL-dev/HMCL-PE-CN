@@ -134,6 +134,62 @@ JNIEXPORT void JNICALL Java_cosine_boat_LoadMe_setupExitTrap(JNIEnv *env, jclass
     xhook_refresh(1);
 }
 
+int
+(*JLI_Launch)(int argc, char ** argv,              /* main argc, argc */
+              int jargc, const char** jargv,          /* java args */
+              int appclassc, const char** appclassv,  /* app classpath */
+              const char* fullversion,                /* full version defined */
+              const char* dotversion,                 /* dot version defined */
+              const char* pname,                      /* program name */
+              const char* lname,                      /* launcher name */
+              jboolean javaargs,                      /* JAVA_ARGS */
+              jboolean cpwildcard,                    /* classpath wildcard */
+              jboolean javaw,                         /* windows-only javaw */
+              jint     ergo_class                     /* ergnomics policy */
+);
+#define FULL_VERSION "1.8.0-internal"
+#define DOT_VERSION "1.8"
+#define PROGNAME "java"
+#define LAUNCHER_NAME "openjdk"
+static char* const_progname = PROGNAME;
+static const char* const_launcher = LAUNCHER_NAME;
+static const char** const_jargs = NULL;
+static const char** const_appclasspath = NULL;
+static const jboolean const_cpwildcard = JNI_TRUE;
+static const jboolean const_javaw = JNI_FALSE;
+static const jint const_ergo_class = 0;
+JNIEXPORT void JNICALL Java_com_tungsten_fclauncher_bridge_FCLBridge_setupJLI(JNIEnv* env, jobject jobject){
+
+    void* handle;
+    handle = dlopen("libjli.so", RTLD_LAZY);
+    JLI_Launch = (int (*)(int, char **, int, const char**, int, const char**, const char*, const char*, const char*, const char*, jboolean, jboolean, jboolean, jint))dlsym(handle, "JLI_Launch");
+
+}
+
+JNIEXPORT jint JNICALL Java_com_tungsten_fclauncher_bridge_FCLBridge_jliLaunch(JNIEnv *env, jobject jobject, jobjectArray argsArray){
+    int argc = (*env)->GetArrayLength(env, argsArray);
+    char* argv[argc];
+    for (int i = 0; i < argc; i++) {
+        jstring str = (*env)->GetObjectArrayElement(env, argsArray, i);
+        int len = (*env)->GetStringUTFLength(env, str);
+        char* buf = malloc(len + 1);
+        int characterLen = (*env)->GetStringLength(env, str);
+        (*env)->GetStringUTFRegion(env, str, 0, characterLen, buf);
+        buf[len] = 0;
+        argv[i] = buf;
+    }
+
+    return JLI_Launch(argc, argv,
+                      sizeof(const_jargs) / sizeof(char *), const_jargs,
+                      sizeof(const_appclasspath) / sizeof(char *), const_appclasspath,
+                      FULL_VERSION,
+                      DOT_VERSION,
+                      (const_progname != NULL) ? const_progname : *argv,
+                      (const_launcher != NULL) ? const_launcher : *argv,
+                      (const_jargs != NULL) ? JNI_TRUE : JNI_FALSE,
+                      const_cpwildcard, const_javaw, const_ergo_class);
+
+}
 extern char** environ;
 JNIEXPORT int JNICALL Java_cosine_boat_LoadMe_dlexec(JNIEnv* env, jclass clazz, jobjectArray argsArray){
     dlerror();
