@@ -54,6 +54,7 @@ public class RockerView extends View {
 
     public RockerView(Context context) {
         super(context);
+        setClickable(true);
     }
 
     @Override

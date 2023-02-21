@@ -6,7 +6,8 @@ import android.util.Log;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Vector;
 
 import cosine.boat.function.BoatLaunchCallback;
 import cosine.boat.utils.BoatUtils;
@@ -16,23 +17,32 @@ public class LoadMe {
     public static String BOAT_LIB_DIR;
 
     public static native int chdir(String path);
+
     public static native void redirectStdio(String file);
+
     public static native void reRedirectStdio();
+
     public static native void setenv(String name, String value);
+
     public static native int dlopen(String name);
+
     public static native void patchLinker();
+
     public static native void setupExitTrap(Context context);
+
     public static native int dlexec(String[] args);
+
     public static WeakReference<LogReceiver> mReceiver;
 
     static {
         System.loadLibrary("loadme");
     }
 
-    public static void receiveLog(String str){
+    public static void receiveLog(String str) {
         if (mReceiver == null || mReceiver.get() == null) {
             mReceiver = new WeakReference<>(new LogReceiver() {
                 final StringBuilder builder = new StringBuilder();
+
                 @Override
                 public void pushLog(String log) {
                     Log.e("HMCL-PE", log);
@@ -49,44 +59,43 @@ public class LoadMe {
         }
     }
 
-    public interface LogReceiver{
+    public interface LogReceiver {
         void pushLog(String log);
+
         String getLogs();
     }
 
-    public static int launchMinecraft(Handler handler,Context context, String javaPath, String home, boolean highVersion, Vector<String> args, String renderer, String gameDir, BoatLaunchCallback callback) {
+    public static int launchMinecraft(Handler handler, Context context, String javaPath, String home, boolean highVersion, Vector<String> args, String renderer, String gameDir, BoatLaunchCallback callback) {
 
         handler.post(callback::onStart);
 
-        BOAT_LIB_DIR = context.getDir("runtime",0).getAbsolutePath() + "/boat";
+        BOAT_LIB_DIR = context.getDir("runtime", 0).getAbsolutePath() + "/boat";
 
         boolean isJava17 = javaPath.endsWith("JRE17");
 
-		patchLinker();
-
+//		patchLinker();
         try {
 
-			setenv("HOME", home);
-			setenv("JAVA_HOME" , javaPath);
-			setenv("LIBGL_MIPMAP","3");
-			setenv("LIBGL_NORMALIZE","1");
-            setenv("LIBGL_VSYNC","1");
+            setenv("HOME", home);
+            setenv("JAVA_HOME", javaPath);
+            setenv("LIBGL_MIPMAP", "3");
+            setenv("LIBGL_NORMALIZE", "1");
+            setenv("LIBGL_VSYNC", "1");
             setenv("LIBGL_NOINTOVLHACK", "1");
 
 
-			if (renderer.equals("VirGL")) {
-                setenv("LIBGL_NAME","libGL.so.1");
-                setenv("LIBEGL_NAME","libEGL.so.1");
-                setenv("LIBGL_DRIVERS_PATH",BOAT_LIB_DIR + "/renderer/virgl/");
-                setenv("MESA_GL_VERSION_OVERRIDE","4.3");
-                setenv("MESA_GLSL_VERSION_OVERRIDE","430");
+            if (renderer.equals("VirGL")) {
+                setenv("LIBGL_NAME", "libGL.so.1");
+                setenv("LIBEGL_NAME", "libEGL.so.1");
+                setenv("LIBGL_DRIVERS_PATH", BOAT_LIB_DIR + "/renderer/virgl/");
+                setenv("MESA_GL_VERSION_OVERRIDE", "4.3");
+                setenv("MESA_GLSL_VERSION_OVERRIDE", "430");
                 setenv("VIRGL_VTEST_SOCKET_NAME", context.getCacheDir().getAbsolutePath() + "/.virgl_test");
-                setenv("GALLIUM_DRIVER","virpipe");
-                setenv("MESA_GLSL_CACHE_DIR",context.getCacheDir().getAbsolutePath());
-            }
-			else {
-                setenv("LIBGL_NAME","libgl4es_114.so");
-                setenv("LIBEGL_NAME","libEGL_wrapper.so");
+                setenv("GALLIUM_DRIVER", "virpipe");
+                setenv("MESA_GLSL_CACHE_DIR", context.getCacheDir().getAbsolutePath());
+            } else {
+                setenv("LIBGL_NAME", "libgl4es_114.so");
+                setenv("LIBEGL_NAME", "libEGL_wrapper.so");
                 if (highVersion) {
                     setenv("LIBGL_GL", "32");
                 }
@@ -108,8 +117,7 @@ public class LoadMe {
                 dlopen(javaPath + "/lib/libfontmanager.so");
                 dlopen(javaPath + "/lib/libtinyiconv.so");
                 dlopen(javaPath + "/lib/libinstrument.so");
-            }
-            else {
+            } else {
                 dlopen(javaPath + "/lib/aarch64/libpng16.so.16");
                 dlopen(javaPath + "/lib/aarch64/libpng16.so");
                 dlopen(javaPath + "/lib/aarch64/libfreetype.so");
@@ -130,8 +138,7 @@ public class LoadMe {
             if (!renderer.equals("VirGL")) {
                 dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libgl4es_114.so");
                 dlopen(BOAT_LIB_DIR + "/renderer/gl4es/libEGL_wrapper.so");
-            }
-            else {
+            } else {
                 dlopen(BOAT_LIB_DIR + "/renderer/virgl/libexpat.so.1");
                 dlopen(BOAT_LIB_DIR + "/renderer/virgl/libglapi.so.0");
                 dlopen(BOAT_LIB_DIR + "/renderer/virgl/libGL.so.1");
@@ -141,9 +148,8 @@ public class LoadMe {
 
             if (!highVersion) {
                 dlopen(BOAT_LIB_DIR + "/lwjgl-2/liblwjgl.so");
-            }
-            else {
-                dlopen(BOAT_LIB_DIR + "/libglfw.so");
+            } else {
+                dlopen(context.getApplicationInfo().nativeLibraryDir + "/libglfw.so");
                 dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl.so");
                 dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl_stb.so");
                 dlopen(BOAT_LIB_DIR + "/lwjgl-3/liblwjgl_opengl.so");
@@ -151,44 +157,43 @@ public class LoadMe {
 
             setupExitTrap(context);
 
-            new Thread(()->reRedirectStdio()).start();
+            new Thread(() -> reRedirectStdio()).start();
             chdir(gameDir);
 
-			String finalArgs[] = new String[args.size()];
-            StringBuilder sb=new StringBuilder();
-			for (int i = 0; i < args.size(); i++) {
+            String finalArgs[] = new String[args.size()];
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < args.size(); i++) {
                 if (!args.get(i).equals(" ")) {
                     finalArgs[i] = args.get(i);
                     System.out.println("Minecraft Args:" + finalArgs[i]);
-                    sb.append(finalArgs[i]+"\n");
+                    sb.append(finalArgs[i] + "\n");
                 }
-			}
-            BoatUtils.writeFile(new File(home+"/params.txt"),sb.toString());
+            }
+            BoatUtils.writeFile(new File(home + "/params.txt"), sb.toString());
             int exitCode = dlexec(finalArgs);
             System.out.println("OpenJDK exited with code : " + exitCode);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             handler.post(() -> {
                 callback.onError(e);
             });
-			return 1;
+            return 1;
         }
-		return 0;
+        return 0;
     }
 
-    public static int startVirGLService (Context context,String home,String tmpdir) {
+    public static int startVirGLService(Context context, String home, String tmpdir) {
 
-        BOAT_LIB_DIR = context.getDir("runtime",0).getAbsolutePath() + "/boat";
+        BOAT_LIB_DIR = context.getDir("runtime", 0).getAbsolutePath() + "/boat";
 
-        patchLinker();
+//        patchLinker();
 
         try {
             redirectStdio(home + "/boat_service_log.txt");
 
             setenv("HOME", home);
             setenv("TMPDIR", tmpdir);
-            setenv("VIRGL_VTEST_SOCKET_NAME",context.getCacheDir().getAbsolutePath() + "/.virgl_test");
+            setenv("VIRGL_VTEST_SOCKET_NAME", context.getCacheDir().getAbsolutePath() + "/.virgl_test");
 
             dlopen(BOAT_LIB_DIR + "/renderer/virgl/libepoxy.so.0");
             dlopen(BOAT_LIB_DIR + "/renderer/virgl/libvirglrenderer.so");
@@ -200,21 +205,20 @@ public class LoadMe {
                     "--socket-name",
                     context.getCacheDir().getAbsolutePath() + "/.virgl_test"};
             System.out.println("Exited with code : " + dlexec(finalArgs));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return 1;
         }
         return 0;
     }
 
-    public static int launchJVM (String javaPath, ArrayList<String> args, String home) {
+    public static int launchJVM(String javaPath, ArrayList<String> args, String home) {
 
-        patchLinker();
+//        patchLinker();
 
         try {
             setenv("HOME", home);
-            setenv("JAVA_HOME" , javaPath);
+            setenv("JAVA_HOME", javaPath);
 
             dlopen(javaPath + "/lib/aarch64/libfreetype.so");
             dlopen(javaPath + "/lib/aarch64/jli/libjli.so");
@@ -238,8 +242,7 @@ public class LoadMe {
                 }
             }
             System.out.println("ApiInstaller exited with code : " + dlexec(finalArgs));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return 1;
         }

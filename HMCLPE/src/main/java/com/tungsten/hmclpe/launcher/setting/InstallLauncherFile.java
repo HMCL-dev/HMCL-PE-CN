@@ -22,7 +22,9 @@ import com.tungsten.hmclpe.utils.file.FileStringUtils;
 import com.tungsten.hmclpe.utils.file.FileUtils;
 import com.tungsten.hmclpe.utils.io.DownloadUtil;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -98,7 +100,20 @@ public class InstallLauncherFile {
          *检查Java运行时，Java可能内置在启动器也可能需要下载，因此单独处理
          */
         checkJava8(activity, progressCallback);
-        checkJava17(activity);
+        checkJava17(activity, progressCallback);
+        if (!new File(AppManifest.DEFAULT_RUNTIME_DIR + "/resolv.conf").exists()){
+            try(BufferedWriter bfw=new BufferedWriter(new FileWriter(AppManifest.DEFAULT_RUNTIME_DIR + "/resolv.conf"))) {
+                bfw.write("nameserver 8.8.8.8");
+                bfw.newLine();
+                bfw.write("nameserver 8.8.4.4");
+                bfw.flush();
+            }catch (Exception e){
+
+            }
+        }
+        activity.runOnUiThread(() -> {
+            enterLauncher(activity);
+        });
     }
 
     @SuppressLint("SetTextI18n")
@@ -112,169 +127,14 @@ public class InstallLauncherFile {
         }
     }
 
-    public static void checkJava17(SplashActivity activity){
+    public static void checkJava17(SplashActivity activity, AssetsUtils.ProgressCallback callback){
         activity.runOnUiThread(() -> {
             activity.loadingText.setText(activity.getString(R.string.loading_hint_java_17));
         });
-        if (!new File(AppManifest.JAVA_DIR + "/JRE17").exists() || !new File(AppManifest.JAVA_DIR + "/JRE17/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.JAVA_DIR + "/JRE17/version"))) < AppInfo.JAVA_17_VERSION_CODE) {
-            /*
-             *选择 Java 17 安装方式
-             */
-            activity.runOnUiThread(() -> {
-                activity.loadingProgress.setProgress(0);
-                activity.loadingProgressText.setText("0 %");
-                activity.loadingText.setText(activity.getString(R.string.loading_hint_java_17_select));
-                activity.selectText.setVisibility(View.VISIBLE);
-                activity.download.setVisibility(View.VISIBLE);
-                activity.local.setVisibility(View.VISIBLE);
-            });
+        if (!new File(AppManifest.JAVA_DIR + "/JRE17").exists() || !new File(AppManifest.JAVA_DIR + "/JRE17/version").exists() || Integer.parseInt(Objects.requireNonNull(FileStringUtils.getStringFromFile(AppManifest.JAVA_DIR + "/JRE17/version"))) < Integer.parseInt(Objects.requireNonNull(AssetsUtils.readAssetsTxt(activity, "app_runtime/java/JRE17/version")))) {
+            FileUtils.deleteDirectory(AppManifest.JAVA_DIR + "/JRE17");
+            AssetsUtils.getInstance(activity).setProgressCallback(callback).copyOnMainThread("app_runtime/java/JRE17",AppManifest.JAVA_DIR + "/JRE17");
         }
-        else {
-            /*
-             *检查完成，进入启动器
-             */
-            activity.runOnUiThread(() -> {
-                enterLauncher(activity);
-            });
-        }
-    }
-
-    public static void getJRE17Url(SplashActivity activity) {
-        activity.runOnUiThread(() -> {
-            activity.loadingText.setText(activity.getString(R.string.loading_hint_java_17_get));
-        });
-        FileUtils.deleteDirectory(AppManifest.JAVA_DIR + "/JRE17");
-        FileUtils.deleteDirectory(AppManifest.DEFAULT_CACHE_DIR + "/java");
-        downloadJava17(activity,AppInfo.JAVA_17_DOWNLOAD_URL_GITCODE);
-    }
-
-    public static void downloadJava17(SplashActivity activity,String url) {
-        activity.runOnUiThread(() -> {
-            activity.loadingText.setText(activity.getString(R.string.loading_hint_java_17_install));
-        });
-        DownloadUtil.downloadSingleFile(activity, new DownloadTaskListBean("", url, AppManifest.DEFAULT_CACHE_DIR + "/java/JRE17.zip",AppInfo.JAVA_17_SHA1), new DownloadTask.Feedback() {
-            @Override
-            public void addTask(DownloadTaskListBean bean) {
-                System.out.println(bean.url);
-                System.out.println(bean.path);
-            }
-
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void updateProgress(DownloadTaskListBean bean) {
-                activity.runOnUiThread(() -> {
-                    activity.loadingProgress.setProgress(bean.progress);
-                    activity.loadingProgressText.setText(bean.progress + " %");
-                });
-            }
-
-            @Override
-            public void updateSpeed(String speed) {
-
-            }
-
-            @Override
-            public void removeTask(DownloadTaskListBean bean) {
-
-            }
-
-            @Override
-            public void onFinished(ArrayList<DownloadTaskListBean> failedFile) {
-                if (failedFile.size() > 0) {
-                    if (url.equals(AppInfo.JAVA_17_DOWNLOAD_URL_GITHUB)) {
-                        activity.runOnUiThread(() -> {
-                            activity.loadingProgress.setProgress(0);
-                            activity.loadingProgressText.setText("0 %");
-                            activity.loadingText.setText(activity.getString(R.string.loading_hint_java_17_select));
-                            activity.selectText.setVisibility(View.VISIBLE);
-                            activity.download.setVisibility(View.VISIBLE);
-                            activity.local.setVisibility(View.VISIBLE);
-                            Toast.makeText(activity, activity.getString(R.string.loading_hint_java_17_download_failed), Toast.LENGTH_SHORT).show();
-                        });
-                    }
-                    else if (url.equals(AppInfo.JAVA_17_DOWNLOAD_URL_FASTGIT)) {
-                        activity.runOnUiThread(() -> {
-                            activity.loadingProgress.setProgress(0);
-                            activity.loadingProgressText.setText("0 %");
-                            downloadJava17(activity,AppInfo.JAVA_17_DOWNLOAD_URL_GITHUB);
-                        });
-                    }
-                    else {
-                        activity.runOnUiThread(() -> {
-                            activity.loadingProgress.setProgress(0);
-                            activity.loadingProgressText.setText("0 %");
-                            downloadJava17(activity,AppInfo.JAVA_17_DOWNLOAD_URL_FASTGIT);
-                        });
-                    }
-                }
-                else {
-                    activity.runOnUiThread(() -> {
-                        activity.loadingProgress.setProgress(0);
-                        activity.loadingProgressText.setText("0 %");
-                        unZipJava(activity,AppManifest.DEFAULT_CACHE_DIR + "/java/JRE17.zip");
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled() {
-
-            }
-        });
-    }
-
-    public static void checkJava17File(SplashActivity activity,String path) {
-        activity.runOnUiThread(() -> {
-            activity.loadingText.setText(activity.getString(R.string.loading_hint_java_17_check));
-        });
-        String sha1 = FileUtils.getFileSha1(path);
-        if (Objects.equals(sha1, AppInfo.JAVA_17_SHA1)) {
-            activity.runOnUiThread(() -> {
-                unZipJava(activity,path);
-            });
-        }
-        else {
-            activity.runOnUiThread(() -> {
-                activity.loadingProgress.setProgress(0);
-                activity.loadingProgressText.setText("0 %");
-                activity.loadingText.setText(activity.getString(R.string.loading_hint_java_17_select));
-                activity.selectText.setVisibility(View.VISIBLE);
-                activity.download.setVisibility(View.VISIBLE);
-                activity.local.setVisibility(View.VISIBLE);
-                Toast.makeText(activity, activity.getString(R.string.loading_hint_java_17_error), Toast.LENGTH_SHORT).show();
-            });
-        }
-    }
-
-    public static void unZipJava(SplashActivity activity,String path){
-        activity.loadingText.setText(activity.getString(R.string.loading_hint_java_17_unzip));
-        ZipManager.unzip(path, AppManifest.JAVA_DIR, new IZipCallback() {
-            @Override
-            public void onStart() {
-
-            }
-
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onProgress(int percentDone) {
-                activity.loadingProgress.setProgress(percentDone);
-                activity.loadingProgressText.setText(percentDone + " %");
-            }
-
-            @Override
-            public void onFinish(boolean success) {
-                if (success) {
-                    /*
-                     *检查完成，进入启动器
-                     */
-                    enterLauncher(activity);
-                }
-                else {
-                    activity.loadingText.setText(activity.getString(R.string.loading_hint_failed));
-                    activity.loadingText.setTextColor(Color.RED);
-                }
-            }
-        });
     }
 
     @SuppressLint("SetTextI18n")

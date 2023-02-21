@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
@@ -14,8 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.tungsten.filepicker.Constants;
-import com.tungsten.filepicker.FileChooser;
 import com.tungsten.hmclpe.R;
 import com.tungsten.hmclpe.launcher.MainActivity;
 import com.tungsten.hmclpe.launcher.mod.ManuallyCreatedModpackException;
@@ -56,6 +53,8 @@ public class InstallPackageUI extends BaseUI implements View.OnClickListener {
 
     public Modpack modpack;
 
+    private int clickCount = 0;
+
     public InstallPackageUI(Context context, MainActivity activity) {
         super(context, activity);
     }
@@ -89,8 +88,8 @@ public class InstallPackageUI extends BaseUI implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        activity.showBarTitle(context.getResources().getString(R.string.install_package_ui_title),false,true);
-        CustomAnimationUtils.showViewFromLeft(installPackageUI,activity,context,true);
+        activity.showBarTitle(context.getResources().getString(R.string.install_package_ui_title), false, true);
+        CustomAnimationUtils.showViewFromLeft(installPackageUI, activity, context, true);
         selectLayout.setVisibility(View.VISIBLE);
         installLayout.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
@@ -99,7 +98,7 @@ public class InstallPackageUI extends BaseUI implements View.OnClickListener {
     @Override
     public void onStop() {
         super.onStop();
-        CustomAnimationUtils.hideViewToLeft(installPackageUI,activity,context,true);
+        CustomAnimationUtils.hideViewToLeft(installPackageUI, activity, context, true);
     }
 
     @Override
@@ -110,7 +109,7 @@ public class InstallPackageUI extends BaseUI implements View.OnClickListener {
         }
         if (requestCode == SELECT_PACKAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             Uri uri = data.getData();
-            String path = UriUtils.getRealPathFromUri_AboveApi19(context,uri);
+            String path = UriUtils.getRealPathFromUri_AboveApi19(context, uri);
             selectLayout.setVisibility(View.GONE);
             installLayout.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
@@ -164,17 +163,39 @@ public class InstallPackageUI extends BaseUI implements View.OnClickListener {
         }
     }
 
+    private void makeAlert(String msg) {
+        clickCount++;
+        if (clickCount == 10) {
+            new AlertDialog.Builder(context)
+                    .setTitle("警告")
+                    .setMessage("憋点了,再点也装不了整合包的.")
+                    .setPositiveButton("确定", null)
+                    .create()
+                    .show();
+            clickCount = 0;
+            return;
+        }
+        new AlertDialog.Builder(context)
+                .setTitle("警告")
+                .setMessage(msg)
+                .setPositiveButton("取消", null)
+                .setNegativeButton("确定", (dialog, which) -> makeAlert("你真的确定要使用这个功能吗?"))
+                .create()
+                .show();
+    }
+
     @Override
     public void onClick(View view) {
         if (view == installLocal) {
-            Intent intent = new Intent(context, FileChooser.class);
-            intent.putExtra(Constants.SELECTION_MODE, Constants.SELECTION_MODES.SINGLE_SELECTION.ordinal());
-            intent.putExtra(Constants.ALLOWED_FILE_EXTENSIONS, "zip;mrpack");
-            intent.putExtra(Constants.INITIAL_DIRECTORY, new File(Environment.getExternalStorageDirectory().getAbsolutePath()).getAbsolutePath());
-            activity.startActivityForResult(intent, SELECT_PACKAGE_REQUEST);
+            makeAlert("你确定要使用这个功能吗?");
+//            Intent intent = new Intent(context, FileChooser.class);
+//            intent.putExtra(Constants.SELECTION_MODE, Constants.SELECTION_MODES.SINGLE_SELECTION.ordinal());
+//            intent.putExtra(Constants.ALLOWED_FILE_EXTENSIONS, "zip;mrpack");
+//            intent.putExtra(Constants.INITIAL_DIRECTORY, new File(Environment.getExternalStorageDirectory().getAbsolutePath()).getAbsolutePath());
+//            activity.startActivityForResult(intent, SELECT_PACKAGE_REQUEST);
         }
         if (view == installOnline) {
-
+            makeAlert("你确定要使用这个功能吗?");
         }
 
         if (view == showDescription) {
