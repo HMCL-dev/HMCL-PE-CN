@@ -73,7 +73,7 @@ public class LoadMe {
 
         boolean isJava17 = javaPath.endsWith("JRE17");
 
-//		patchLinker();
+		patchLinker();
         try {
 
             setenv("HOME", home);
@@ -186,7 +186,7 @@ public class LoadMe {
 
         BOAT_LIB_DIR = context.getDir("runtime", 0).getAbsolutePath() + "/boat";
 
-//        patchLinker();
+        patchLinker();
 
         try {
             redirectStdio(home + "/boat_service_log.txt");
@@ -214,7 +214,7 @@ public class LoadMe {
 
     public static int launchJVM(String javaPath, ArrayList<String> args, String home) {
 
-//        patchLinker();
+        patchLinker();
 
         try {
             setenv("HOME", home);
